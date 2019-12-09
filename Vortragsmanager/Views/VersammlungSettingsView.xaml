@@ -1,0 +1,271 @@
+﻿<UserControl x:Class="Vortragsmanager.Views.VersammlungSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
+             xmlns:local="clr-namespace:Vortragsmanager.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <local:ConregationsViewModelCollection />
+    </UserControl.DataContext>
+    <dxwui:PageAdornerControl Header="Einstellungen">
+        <dxwui:PageAdornerControl.HeaderTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ContentPresenter Content="{Binding}" />
+                    <Navi:NavigatorView HorizontalAlignment="Right" Grid.Column="1" />
+                </Grid>
+            </DataTemplate>
+        </dxwui:PageAdornerControl.HeaderTemplate>
+        <Grid>
+            <dxlc:FlowLayoutControl Name="lc" ItemsSource="{Binding}" 
+                                Orientation="Horizontal" 
+                                ItemSpace="12" 
+                                LayerSpace="12" 
+                                Background="Transparent"
+                                    MaximizedElement="{Binding SelectedConregation}">
+                <dxlc:FlowLayoutControl.ItemTemplate>
+                    <DataTemplate>
+                        <dxlc:GroupBox Header="{Binding}"
+                               Content="{Binding}"
+                                   Visibility="{Binding Sichtbar}"
+                                       
+                               Width="200"
+                               Height="250"
+                               Padding="0"
+                               MaximizeElementVisibility="Visible"
+                               FontFamily="Segoe UI Light"
+                               FontSize="14"
+                               Cursor="Hand"
+                               MouseLeftButtonUp="GroupBox_MouseLeftButtonUp">
+                            <dxlc:GroupBox.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="1">Kreis <Run Text="{Binding Versammlung.Kreis}" /></TextBlock>
+                                </DataTemplate>
+                            </dxlc:GroupBox.HeaderTemplate>
+                            <dxlc:GroupBox.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Versammlung.Name}" 
+                                               Foreground="{Binding EigeneVersammlungTextInOrange}"
+                                               TextWrapping="Wrap"
+                                               FontFamily="Segoe UI" 
+                                               HorizontalAlignment="Center" 
+                                               FontSize="28" />
+                                        <TextBlock Text="{Binding Versammlung.Koordinator}" HorizontalAlignment="Center" FontSize="18"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </dxlc:GroupBox.ContentTemplate>
+                            <dxlc:GroupBox.MaximizedContentTemplate>
+                                <DataTemplate>
+                                    <dxlc:LayoutControl ItemSpace="12">
+                                        <dxlc:LayoutControl.GroupBoxStyle>
+                                            <Style TargetType="dxlc:GroupBox">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="dxlc:GroupBox">
+                                                            <GroupBox Header="{TemplateBinding Header}" Content="{TemplateBinding Content}" />
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </dxlc:LayoutControl.GroupBoxStyle>
+                                        <dxlc:LayoutGroup Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                            <dxlc:LayoutGroup Header="Daten der Versammlung" View="GroupBox" Orientation="Vertical">
+                                                <dxlc:LayoutItem Label="Eigene Versammlung:">
+                                                    <dxe:ToggleSwitch ContentPlacement="Near" 
+                                                                  CheckedStateContent="Ja" 
+                                                                  UncheckedStateContent="Nein" 
+                                                                  IsChecked="{Binding EigeneVersammlung}"
+                                                                  />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="Name:">
+                                                    <TextBox Text="{Binding Versammlung.Name}" />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="Straße:">
+                                                    <TextBox Text="{Binding Versammlung.Anschrift1}" />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="Plz Ort:">
+                                                    <TextBox Text="{Binding Versammlung.Anschrift2}" />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="Anreise:">
+                                                    <TextBox Text="{Binding Versammlung.Anreise}" />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="Telefon Saal:">
+                                                    <TextBox Text="{Binding Versammlung.Telefon}" />
+                                                </dxlc:LayoutItem>
+                                            </dxlc:LayoutGroup>
+                                            <dxlc:LayoutGroup Header="Koordinator" View="GroupBox" Orientation="Vertical">
+                                                <dxlc:LayoutItem Label="Name:">
+                                                    <TextBox Text="{Binding Versammlung.Koordinator}" />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="Telefon:">
+                                                    <TextBox Text="{Binding Versammlung.KoordinatorTelefon}" />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="Handy:">
+                                                    <TextBox Text="{Binding Versammlung.KoordinatorMobil}" />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="Mail:">
+                                                    <TextBox Text="{Binding Versammlung.KoordinatorMail}" />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="JwPub:">
+                                                    <TextBox Text="{Binding Versammlung.KoordinatorJw}" />
+                                                </dxlc:LayoutItem>
+                                            </dxlc:LayoutGroup>
+                                            <dxlc:LayoutGroup  Header="Zusammenkunftszeit" View="GroupBox" Orientation="Vertical">
+                                                <dxlc:LayoutItem Label="{Binding Jahr1}">
+                                                    <TextBox Text="{Binding ZusammenkunftszeitJahr1}" />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="{Binding Jahr2}">
+                                                    <TextBox Text="{Binding ZusammenkunftszeitJahr2}" />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="{Binding Jahr3}">
+                                                    <TextBox Text="{Binding ZusammenkunftszeitJahr3}" />
+                                                </dxlc:LayoutItem>
+                                            </dxlc:LayoutGroup>
+                                            <dxlc:LayoutGroup View="GroupBox" Header="Versammlungsübergreifende Rednereinstellungen" Orientation="Vertical">
+                                                <dxlc:LayoutItem>
+                                                    <TextBlock Text="Under Construction" Foreground="Orange" />
+                                                </dxlc:LayoutItem>
+                                            </dxlc:LayoutGroup>
+                                            <dxlc:LayoutItem>
+                                                <Button Content="Versammlung löschen" Command="{Binding DeleteCommand}"></Button>
+                                            </dxlc:LayoutItem>
+                                        </dxlc:LayoutGroup>
+                                        <dxlc:LayoutGroup>
+                                            <dxlc:LayoutGroup Header="Redner" View="GroupBox" Orientation="Horizontal">
+                                                <dxlc:FlowLayoutControl Orientation="Vertical" ItemsSource="{Binding RednerListe}" MaximizedElementPosition="Bottom">
+                                                    <dxlc:FlowLayoutControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <dxlc:GroupBox Header="{Binding}"
+                                                                       Content="{Binding}"
+                                                                       Width="200"
+                                                                       Height="100"
+                                                                       Padding="0" MaximizeElementVisibility="Visible"
+                                                                       MouseLeftButtonUp="GroupBox_MouseLeftButtonUp">
+                                                                <dxlc:GroupBox.HeaderTemplate>
+                                                                    <DataTemplate>
+                                                                        <Label Content="{Binding Redner.Name}"/>
+                                                                    </DataTemplate>
+                                                                </dxlc:GroupBox.HeaderTemplate>
+                                                                <dxlc:GroupBox.ContentTemplate>
+                                                                    <DataTemplate>
+                                                                        <dxlc:LayoutGroup Orientation="Vertical" Margin="0">
+                                                                            <dxlc:LayoutGroup Orientation="Horizontal"  Height="24">
+                                                                                <Border Background="{Binding AktivBrush}" >
+                                                                                    <Label Content="{Binding AktivText}"/>
+                                                                                </Border>
+                                                                                <Border Background="{Binding ÄltesterBrush}">
+                                                                                    <Label Content="{Binding ÄltesterText}"/>
+                                                                                </Border>
+                                                                            </dxlc:LayoutGroup>
+                                                                            <TextBlock Text="{Binding Overview}" Width="190"
+                                                                        TextWrapping="Wrap" HorizontalAlignment="Center" />
+                                                                        </dxlc:LayoutGroup>
+                                                                    </DataTemplate>
+                                                                </dxlc:GroupBox.ContentTemplate>
+                                                                <dxlc:GroupBox.MaximizedContentTemplate>
+                                                                    <DataTemplate>
+                                                                        <dxlc:LayoutControl ItemSpace="6">
+                                                                            <dxlc:LayoutControl.GroupBoxStyle>
+                                                                                <Style TargetType="dxlc:GroupBox">
+                                                                                    <Setter Property="Template">
+                                                                                        <Setter.Value>
+                                                                                            <ControlTemplate TargetType="dxlc:GroupBox">
+                                                                                                <GroupBox Header="{TemplateBinding Header}" Content="{TemplateBinding Content}" />
+                                                                                            </ControlTemplate>
+                                                                                        </Setter.Value>
+                                                                                    </Setter>
+                                                                                </Style>
+                                                                            </dxlc:LayoutControl.GroupBoxStyle>
+                                                                            <dxlc:LayoutGroup Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                                                <dxlc:LayoutGroup Header="Daten des Redner" View="GroupBox" Orientation="Vertical">
+                                                                                    <dxlc:LayoutItem Label="Typ:">
+                                                                                        <dxe:ToggleSwitch ContentPlacement="Near" 
+                                                                                                      CheckedStateContent="Ältester" UncheckedStateContent="DAG" 
+                                                                                                      IsChecked="{Binding Ältester}" />
+                                                                                    </dxlc:LayoutItem>
+                                                                                    <dxlc:LayoutItem Label="Aktiv:">
+                                                                                        <dxe:ToggleSwitch ContentPlacement="Near" 
+                                                                                                      CheckedStateContent="Ja" UncheckedStateContent="Nein" 
+                                                                                                      IsChecked="{Binding Redner.Aktiv}"/>
+                                                                                    </dxlc:LayoutItem>
+                                                                                    <dxlc:LayoutItem Label="Name:">
+                                                                                        <TextBox Text="{Binding Redner.Name}" />
+                                                                                    </dxlc:LayoutItem>
+                                                                                    <dxlc:LayoutItem Label="E-Mail:">
+                                                                                        <TextBox Text="{Binding Redner.Mail}" />
+                                                                                    </dxlc:LayoutItem>
+                                                                                    <dxlc:LayoutItem Label="Telefon:">
+                                                                                        <TextBox Text="{Binding Redner.Telefon}" />
+                                                                                    </dxlc:LayoutItem>
+                                                                                    <dxlc:LayoutItem Label="Handy">
+                                                                                        <TextBox Text="{Binding Redner.Mobil}" />
+                                                                                    </dxlc:LayoutItem>
+                                                                                    <dxlc:LayoutItem Label="Vertrauliche Notiz">
+                                                                                        <TextBox Text="{Binding Redner.InfoPrivate}" />
+                                                                                    </dxlc:LayoutItem>
+                                                                                    <dxlc:LayoutItem Label="Öffentlicher Hinweis">
+                                                                                        <TextBox Text="{Binding Redner.InfoPublic}" />
+                                                                                    </dxlc:LayoutItem>
+                                                                                    <dxlc:LayoutItem Label="Terminabstand:">
+                                                                                        <TextBox Text="Under Construction" Foreground="Orange" />
+                                                                                    </dxlc:LayoutItem>
+                                                                                </dxlc:LayoutGroup>
+                                                                                <dxlc:LayoutGroup Header="Vorträge" View="GroupBox" Orientation="Vertical">
+                                                                                    <ListBox ItemsSource="{Binding Vorträge}" SelectedItem="{Binding GewählterVortrag}"/>
+                                                                                    <dxlc:LayoutGroup Orientation="Vertical">
+                                                                                        <Button Content="gewählten Vortrag löschen" Command="{Binding VortragLöschenCommand}"/>
+                                                                                        <dxlc:LayoutItem Label="Neuen Vortrag hinzufügen:" LabelPosition="Top"  Margin="0,10,0,0">
+                                                                                            <ComboBox ItemsSource="{Binding Vortragsliste}"
+                                                                                                  SelectedItem="{Binding NeuerVortrag}"/>
+                                                                                        </dxlc:LayoutItem>
+                                                                                        <Button Content="Hinzufügen" Command="{Binding NeuerVortragCommand}"/>
+                                                                                    </dxlc:LayoutGroup>
+                                                                                </dxlc:LayoutGroup>
+                                                                                <dxlc:LayoutGroup Header="Abwesenheiten" View="GroupBox" Orientation="Vertical">
+                                                                                    <Label Content="Under Construction" Foreground="Orange"/>
+                                                                                </dxlc:LayoutGroup>
+                                                                            </dxlc:LayoutGroup>
+                                                                        </dxlc:LayoutControl>
+                                                                    </DataTemplate>
+                                                                </dxlc:GroupBox.MaximizedContentTemplate>
+                                                            </dxlc:GroupBox>
+                                                        </DataTemplate>
+                                                    </dxlc:FlowLayoutControl.ItemTemplate>
+                                                </dxlc:FlowLayoutControl>
+                                            </dxlc:LayoutGroup>
+                                        </dxlc:LayoutGroup>
+                                    </dxlc:LayoutControl>
+                                </DataTemplate>
+                            </dxlc:GroupBox.MaximizedContentTemplate>
+                        </dxlc:GroupBox>
+                    </DataTemplate>
+                </dxlc:FlowLayoutControl.ItemTemplate>
+            </dxlc:FlowLayoutControl>
+            <Button Width="40" Height="40" Margin="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding AddConregationCommand}">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Stroke="#e0d7b6" StrokeThickness="1" Fill="ForestGreen" />
+                            <Label Content="+" FontSize="32" Margin="0,-6,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+        </Grid>
+    </dxwui:PageAdornerControl>
+</UserControl>

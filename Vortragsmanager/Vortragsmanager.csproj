@@ -1,0 +1,333 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.3\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.3\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" />
+  <Import Project="..\packages\Microsoft.NetFramework.Analyzers.2.9.3\build\Microsoft.NetFramework.Analyzers.props" Condition="Exists('..\packages\Microsoft.NetFramework.Analyzers.2.9.3\build\Microsoft.NetFramework.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.NetCore.Analyzers.2.9.3\build\Microsoft.NetCore.Analyzers.props" Condition="Exists('..\packages\Microsoft.NetCore.Analyzers.2.9.3\build\Microsoft.NetCore.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.CodeQuality.Analyzers.2.9.3\build\Microsoft.CodeQuality.Analyzers.props" Condition="Exists('..\packages\Microsoft.CodeQuality.Analyzers.2.9.3\build\Microsoft.CodeQuality.Analyzers.props')" />
+  <Import Project="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.3\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.3\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{144670CB-6396-488C-A76D-2E03A3B69E78}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Vortragsmanager</RootNamespace>
+    <AssemblyName>Vortragsmanager</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Vortragsmanager.App</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Images.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Mvvm.v19.2" />
+    <Reference Include="DevExpress.Data.v19.2" />
+    <Reference Include="DevExpress.Printing.v19.2.Core" />
+    <Reference Include="DevExpress.RichEdit.v19.2.Core, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Accordion.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Controls.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Core.v19.2" />
+    <Reference Include="DevExpress.Xpf.Docking.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Grid.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Grid.v19.2.Core, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Layout.v19.2.Core, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.LayoutControl.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.RichEdit.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Themes.MetropolisDark.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Themes.Office2019Black.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Themes.Office2019Colorful.v19.2" />
+    <Reference Include="DevExpress.Xpo.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="EPPlus, Version=4.5.3.2, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.2\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Core\Templates.cs" />
+    <Compile Include="Models\ICloseable.cs" />
+    <Compile Include="Views\BuchungLöschenDialog.xaml.cs">
+      <DependentUpon>BuchungLöschenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BuchungLöschenViewModel.cs">
+      <DependentUpon>BuchungLöschenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\leerDialog.xaml.cs">
+      <DependentUpon>leerDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ListCreateViewModel.cs">
+      <DependentUpon>ListCreateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ListeRednerTermineSendenDialog.xaml.cs">
+      <DependentUpon>ListeRednerTermineSendenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AnfrageBestätigenDialog.xaml.cs">
+      <DependentUpon>AnfrageBestätigenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\leerViewModel.cs">
+      <DependentUpon>leerDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ListeRednerTermineSendenViewModel.cs">
+      <DependentUpon>ListeRednerTermineSendenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AnfrageBestätigenViewModel.cs">
+      <DependentUpon>AnfrageBestätigenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExternalQuestionViewModel.cs">
+      <DependentUpon>ExternalQuestionEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MeineRednerViewModel.cs">
+      <DependentUpon>MeineRednerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MeinPlanViewModel.cs">
+      <DependentUpon>MeinPlanView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlaningEdit.xaml.cs">
+      <DependentUpon>PlaningEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExternalQuestionEdit.xaml.cs">
+      <DependentUpon>ExternalQuestionEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Navigation\NavigationView.xaml.cs">
+      <DependentUpon>NavigationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Navigation\NavigatorView.xaml.cs">
+      <DependentUpon>NavigatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlaningEditViewModel.cs">
+      <DependentUpon>PlaningEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Test1View.xaml.cs">
+      <DependentUpon>Test1View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VersammlungSettingsView.xaml.cs">
+      <DependentUpon>VersammlungSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ListCreateView.cs">
+      <DependentUpon>ListCreateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VersammlungSettingsViewModel.cs">
+      <DependentUpon>VersammlungSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VorlagenView.xaml.cs">
+      <DependentUpon>VorlagenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VorlagenViewModel.cs">
+      <DependentUpon>VorlagenView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\DataContainer.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Conregation.cs" />
+    <Compile Include="Models\Invitation.cs" />
+    <Compile Include="Models\Outside.cs" />
+    <Compile Include="Models\Talk.cs" />
+    <Compile Include="Models\Speaker.cs" />
+    <Compile Include="Models\Messages.cs" />
+    <Compile Include="Navigation\DashboardView.xaml.cs">
+      <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MeineRednerView.cs">
+      <DependentUpon>MeineRednerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MeinPlanView.xaml.cs">
+      <DependentUpon>MeinPlanView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\BuchungLöschenDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\leerDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ListeRednerTermineSendenDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AnfrageBestätigenDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Navigation\DashboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlaningEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ExternalQuestionEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MeineRednerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MeinPlanView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Navigation\NavigationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Navigation\NavigatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Test1View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VersammlungSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ListCreateView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\VorlagenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Person_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Kalender_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TextSettings_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Zwischenablage_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Search_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\IncommingMail_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Versammlung_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Liste2_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.3\analyzers\dotnet\Microsoft.CodeAnalysis.VersionCheckAnalyzer.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.9.3\analyzers\dotnet\cs\Humanizer.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.CodeQuality.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeQuality.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.CodeQuality.CSharp.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetCore.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.NetCore.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetCore.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.NetCore.CSharp.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.NetFramework.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.NetFramework.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.3\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.3\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeQuality.Analyzers.2.9.3\build\Microsoft.CodeQuality.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeQuality.Analyzers.2.9.3\build\Microsoft.CodeQuality.Analyzers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.NetCore.Analyzers.2.9.3\build\Microsoft.NetCore.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NetCore.Analyzers.2.9.3\build\Microsoft.NetCore.Analyzers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.NetFramework.Analyzers.2.9.3\build\Microsoft.NetFramework.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NetFramework.Analyzers.2.9.3\build\Microsoft.NetFramework.Analyzers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.3\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.3\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
