@@ -40,7 +40,6 @@ namespace Vortragsmanager.Core
             Versammlungen.Add(new Conregation() { Kreis = -1, Name = "Unbekannt" });
             ReadSpeakers();
             ReadInvitations();
-            //ToDo: einlesen von ExternerPlan
             ReadExternalInvitations();
             UpdateTalkDate();
         }

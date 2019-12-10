@@ -20,7 +20,6 @@ namespace Vortragsmanager.Views
     /// </summary>
     public partial class VorlagenView : UserControl
     {
-        //ToDo: VorlagenView: Anschauen und bearbeiten meiner Vorlagen
         public VorlagenView()
         {
             InitializeComponent();

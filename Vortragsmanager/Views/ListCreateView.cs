@@ -20,7 +20,6 @@ namespace Vortragsmanager.Views
     /// </summary>
     public partial class ListCreateView : UserControl
     {
-        //ToDo: Verwalten meiner Redner
         public ListCreateView()
         {
             InitializeComponent();
