@@ -67,6 +67,7 @@ namespace Vortragsmanager.Core
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets["Koordinatoren"];
                 var row = 2;
+                var id = 1;
                 while (true)
                 {
                     var kreis = worksheet.Cells[row, 1].Value;
@@ -85,6 +86,7 @@ namespace Vortragsmanager.Core
 
                     var v = new Models.Conregation
                     {
+                        Id = id,
                         Kreis = int.Parse(kreis.ToString(), DataContainer.German),
                         Name = vers.ToString(),
                         Koordinator = koord.ToString(),
@@ -112,6 +114,7 @@ namespace Vortragsmanager.Core
                     DataContainer.Versammlungen.Add(v);
 
                     row++;
+                    id++;
                 }
 
             } // the using statement automatically calls Dispose() which closes the package.
@@ -124,6 +127,7 @@ namespace Vortragsmanager.Core
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets["Redner"];
                 var row = 2;
+                var id = 1;
                 while (true)
                 {
                     var vers = worksheet.Cells[row, 1].Value;
@@ -135,7 +139,8 @@ namespace Vortragsmanager.Core
 
                     var s = new Models.Speaker
                     {
-                        Name = name.ToString()
+                        Name = name.ToString(),
+                        Id = id,
                     };
 
                     //Versammlung
@@ -154,6 +159,7 @@ namespace Vortragsmanager.Core
                     DataContainer.Redner.Add(s);
 
                     row++;
+                    id++;
                 }
 
             } // the using statement automatically calls Dispose() which closes the package.
