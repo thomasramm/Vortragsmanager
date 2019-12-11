@@ -1,5 +1,6 @@
 ﻿using System;
 using DevExpress.Xpf.Core;
+using Vortragsmanager.Core;
 
 namespace Vortragsmanager
 {
@@ -10,9 +11,11 @@ namespace Vortragsmanager
     {
         public MainWindow()
         {
-            Core.DataContainer.ReadData(@"C:\Daten\Thomas\Projekte\Vortragsmanager\Rohdaten\Data.xlsx");
+            IoExcel.ReadContainer(@"C:\Daten\Thomas\Projekte\Vortragsmanager\Rohdaten\Data.xlsx");
             Core.Templates.LoadTemplates();
             Console.WriteLine($"{Core.DataContainer.Vorträge.Count} Vorträge, {Core.DataContainer.Versammlungen.Count} Versammlungen, {Core.DataContainer.Redner.Count} Redner geladen");
+            IoSqlite.SaveContainer(@"C:\Daten\Thomas\Projekte\Vortragsmanager\Rohdaten\vortragsmanager.vmf");
+            
             InitializeComponent();
         }
     }
