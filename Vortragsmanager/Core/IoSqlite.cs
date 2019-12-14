@@ -259,7 +259,7 @@ namespace Vortragsmanager.Core
         private static void ReadTemplates(SQLiteConnection db)
         {
             using (var cmd = new SQLiteCommand("SELECT Id, Inhalt, Beschreibung FROM Templates", db))
-            using (var cmd2 = new SQLiteCommand("SELECT Name, Beschreibung FROM Templates_Parameter WHERE IdTemplate = @Id"))
+            using (var cmd2 = new SQLiteCommand("SELECT Name, Beschreibung FROM Templates_Parameter WHERE IdTemplate = @Id", db))
             { 
                 cmd2.Parameters.Add("@Id", System.Data.DbType.Int32);
                 
@@ -271,11 +271,11 @@ namespace Vortragsmanager.Core
                     var v = new Template();
                     v.Id = rdr.GetInt32(0);
                     v.Inhalt = rdr.GetString(1);
-                    v.Beschreibung = rdr.GetString(2);
+                    v.Beschreibung = rdr.IsDBNull(2)? null : rdr.GetString(2);
                     v.Name = (Templates.TemplateName)v.Id;
 
                     cmd2.Parameters[0].Value = v.Id;
-                    SQLiteDataReader rdr2 = cmd.ExecuteReader();
+                    SQLiteDataReader rdr2 = cmd2.ExecuteReader();
                     while (rdr2.Read())
                     {
                         var k = rdr2.GetString(0);
@@ -287,7 +287,6 @@ namespace Vortragsmanager.Core
                 }
 
                 rdr.Close();
-                cmd.Dispose();
             }
         }
 

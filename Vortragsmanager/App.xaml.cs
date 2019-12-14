@@ -15,7 +15,7 @@ namespace Vortragsmanager
             //speichern unter neuem Dateiname
             string file = Settings.Default.sqlite;
             FileInfo fi = new FileInfo(file);
-            file = fi.DirectoryName + fi.Name.Replace(fi.Extension, "_anonymisiert" + fi.Extension);
+            file = fi.DirectoryName + @"\" + fi.Name.Replace(fi.Extension, "_anonymisiert" + fi.Extension);
             IoSqlite.SaveContainer(file);
         }
     }

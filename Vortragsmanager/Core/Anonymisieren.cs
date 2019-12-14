@@ -26,7 +26,7 @@ namespace Vortragsmanager.Core
 
         public void LoadNamen()
         {
-            Namen = new List<string>(100);
+            Namen = new List<string>(160);
             Namen.Add("Aaron Müller");
             Namen.Add("Alexander Schmidt");
             Namen.Add("Andreas Schneider");
@@ -127,11 +127,72 @@ namespace Vortragsmanager.Core
             Namen.Add("Jan Arnold");
             Namen.Add("Jonas Wolff");
             Namen.Add("Jonathan Pfeiffer");
+            Namen.Add("Joris Müller");
+            Namen.Add("Julian Schmidt");
+            Namen.Add("Leo Schneider");
+            Namen.Add("Leon Fischer");
+            Namen.Add("Levi Weber");
+            Namen.Add("Liam Meyer");
+            Namen.Add("Linus Wagner");
+            Namen.Add("Lio Becker");
+            Namen.Add("Lorenz Schulz");
+            Namen.Add("Luca Hoffmann");
+            Namen.Add("Lukas Schäfer");
+            Namen.Add("Marcel Koch");
+            Namen.Add("Markus Bauer");
+            Namen.Add("Marvin Richter");
+            Namen.Add("Matteo Klein");
+            Namen.Add("Maximilian Wolf");
+            Namen.Add("Michael Schröder (Schneider)");
+            Namen.Add("Milan Neumann");
+            Namen.Add("Milo Schwarz");
+            Namen.Add("Moritz Zimmermann");
+            Namen.Add("Niklas Braun");
+            Namen.Add("Noah Krüger");
+            Namen.Add("Paul Hofmann");
+            Namen.Add("Philipp Hartmann");
+            Namen.Add("Samuel Lange");
+            Namen.Add("Simon Schmitt");
+            Namen.Add("Theo Werner");
+            Namen.Add("Thomas Schmitz");
+            Namen.Add("Tim Krause");
+            Namen.Add("Valentin Meier");
+            Namen.Add("Lucas Lehmann");
+            Namen.Add("Timm Schmid");
+            Namen.Add("Kevin Schulze");
+            Namen.Add("Tobias Maier");
+            Namen.Add("Denis Köhler");
+            Namen.Add("Niclas Herrmann");
+            Namen.Add("Patrik König");
+            Namen.Add("Sebastian Walter");
+            Namen.Add("Yannik Mayer");
+            Namen.Add("Timo Huber");
+            Namen.Add("Marwin Kaiser");
+            Namen.Add("Niko Fuchs");
+            Namen.Add("Mark Peters");
+            Namen.Add("Lennart Lang");
+            Namen.Add("Tom Scholz");
+            Namen.Add("Max Möller");
+            Namen.Add("Pascal Weiß");
+            Namen.Add("Nils Jung");
+            Namen.Add("Dominik Hahn");
+            Namen.Add("Christopher Schubert");
+            Namen.Add("Lars Vogel");
+            Namen.Add("Marko Friedrich");
+            Namen.Add("Robin Keller");
+            Namen.Add("Swen Günther");
+            Namen.Add("Christoph Frank");
+            Namen.Add("Thorben Berger");
+            Namen.Add("Malte Winkler");
+            Namen.Add("Johannes Roth");
+            Namen.Add("Jacob Beck");
+            Namen.Add("Mike Lorenz");
+
         }
 
         public void LoadCity()
         {
-            Städte = new List<string>(100);
+            Städte = new List<string>(152);
             Städte.Add("Frankfurt am Main");
             Städte.Add("Wiesbaden");
             Städte.Add("Kassel");
@@ -224,6 +285,67 @@ namespace Vortragsmanager.Core
             Städte.Add("Hofgeismar");
             Städte.Add("Witzenhausen");
             Städte.Add("Ober-Ramstadt");
+            Städte.Add("Köln");
+            Städte.Add("Düsseldorf");
+            Städte.Add("Dortmund");
+            Städte.Add("Essen");
+            Städte.Add("Duisburg");
+            Städte.Add("Bochum");
+            Städte.Add("Wuppertal");
+            Städte.Add("Bielefeld");
+            Städte.Add("Bonn");
+            Städte.Add("Münster");
+            Städte.Add("Mönchengladbach");
+            Städte.Add("Gelsenkirchen");
+            Städte.Add("Aachen");
+            Städte.Add("Krefeld");
+            Städte.Add("Oberhausen");
+            Städte.Add("Hagen");
+            Städte.Add("Hamm");
+            Städte.Add("Mülheim an der Ruhr");
+            Städte.Add("Leverkusen");
+            Städte.Add("Solingen");
+            Städte.Add("Herne");
+            Städte.Add("Neuss");
+            Städte.Add("Paderborn");
+            Städte.Add("Bottrop");
+            Städte.Add("Recklinghausen");
+            Städte.Add("Bergisch Gladbach");
+            Städte.Add("Remscheid");
+            Städte.Add("Moers");
+            Städte.Add("Siegen");
+            Städte.Add("Gütersloh");
+            Städte.Add("Witten");
+            Städte.Add("Iserlohn");
+            Städte.Add("Düren");
+            Städte.Add("Ratingen");
+            Städte.Add("Lünen");
+            Städte.Add("Marl");
+            Städte.Add("Velbert");
+            Städte.Add("Minden");
+            Städte.Add("Viersen");
+            Städte.Add("Rheine");
+            Städte.Add("Gladbeck");
+            Städte.Add("Troisdorf");
+            Städte.Add("Dorsten");
+            Städte.Add("Detmold");
+            Städte.Add("Arnsberg");
+            Städte.Add("Castrop-Rauxel");
+            Städte.Add("Lüdenscheid");
+            Städte.Add("Bocholt");
+            Städte.Add("Lippstadt");
+            Städte.Add("Dinslaken");
+            Städte.Add("Herford");
+            Städte.Add("Kerpen");
+            Städte.Add("Dormagen");
+            Städte.Add("Grevenbroich");
+            Städte.Add("Herten");
+            Städte.Add("Bergheim");
+            Städte.Add("Wesel");
+            Städte.Add("Hürth");
+            Städte.Add("Langenfeld (Rheinland)");
+            Städte.Add("Unna");
+
 
         }
 
