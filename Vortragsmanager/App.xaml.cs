@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using Vortragsmanager.Core;
 using Vortragsmanager.Properties;
 
@@ -11,7 +12,11 @@ namespace Vortragsmanager
     {
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            IoSqlite.SaveContainer(Settings.Default.sqlite);
+            //speichern unter neuem Dateiname
+            string file = Settings.Default.sqlite;
+            FileInfo fi = new FileInfo(file);
+            file = fi.DirectoryName + fi.Name.Replace(fi.Extension, "_anonymisiert" + fi.Extension);
+            IoSqlite.SaveContainer(file);
         }
     }
 }

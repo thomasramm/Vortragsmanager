@@ -12,6 +12,7 @@ namespace Vortragsmanager
         public MainWindow()
         {
             IoSqlite.ReadContainer(Settings.Default.sqlite);
+            Anonymisieren.Start();
 
             InitializeComponent();
         }
