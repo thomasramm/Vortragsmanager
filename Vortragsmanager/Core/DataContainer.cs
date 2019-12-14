@@ -15,6 +15,8 @@ namespace Vortragsmanager.Core
 
         public static bool IsInitialized { get; set; }
 
+        public static int Version { get; set; }
+
         public static ObservableCollection<Talk> Vorträge { get; } = new ObservableCollection<Talk>();
 
         public static Conregation MeineVersammlung { get; set; }
