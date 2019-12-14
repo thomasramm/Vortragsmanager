@@ -1,9 +1,9 @@
-﻿using System;
+﻿using DevExpress.Mvvm;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
-using DevExpress.Mvvm;
-
+using Vortragsmanager.Models;
 
 namespace Vortragsmanager.Views
 {
@@ -37,9 +37,9 @@ namespace Vortragsmanager.Views
 
         public static int CurrentYear
         {
-            get 
-            { 
-                return Core.DataContainer.DisplayedYear; 
+            get
+            {
+                return Core.DataContainer.DisplayedYear;
             }
         }
 
@@ -52,7 +52,7 @@ namespace Vortragsmanager.Views
             }
         }
 
-        void OnMessage(Messages message)
+        private void OnMessage(Messages message)
         {
             switch (message)
             {
@@ -60,6 +60,7 @@ namespace Vortragsmanager.Views
                     RaisePropertyChanged(nameof(CurrentYear));
                     UpdateMonate();
                     break;
+
                 default:
                     break;
             }
@@ -69,7 +70,6 @@ namespace Vortragsmanager.Views
         {
             Core.DataContainer.DisplayedYear += step;
         }
-
     }
 
     public class MonthViewModel : ViewModelBase
@@ -102,8 +102,8 @@ namespace Vortragsmanager.Views
                 startDate = startDate.AddDays(1);
             }
         }
-
     }
+
     //ToDo: Detailansicht bei Klick/Doppelklick zur Vortragsbuchung
     public class WeekViewModel : ViewModelBase
     {
@@ -111,6 +111,10 @@ namespace Vortragsmanager.Views
         {
             Jahr = jahr;
             Monat = monat;
+            if (Monat.Nr == 4)
+            {
+                var x = 1;
+            }
             Tag = tag;
             Zuteilung = Core.DataContainer.MeinPlan?.FirstOrDefault(x => x.Datum == tag) ?? null;
             AnzahlAuswärtigeRedner = Core.DataContainer.ExternerPlan?.Count(x => x.Datum == tag) ?? 0;
@@ -118,19 +122,54 @@ namespace Vortragsmanager.Views
             AnfrageLöschen = new DelegateCommand(EintragLöschen);
             BuchungLöschen = new DelegateCommand(EintragLöschen);
             RednerSuchen = new DelegateCommand(RednerFinden);
+            EreignisEintragen = new DelegateCommand(EreignisBearbeiten);
         }
 
         public DelegateCommand AnfrageLöschen { get; private set; }
+
+        public DelegateCommand EreignisEintragen { get; private set; }
 
         public DelegateCommand BuchungLöschen { get; private set; }
 
         public DelegateCommand RednerSuchen { get; private set; }
 
+        private void EreignisBearbeiten()
+        {
+            var ev = (Zuteilung as SpecialEvent);
+            var neu = false;
+            if (ev == null)
+            {
+                ev = new SpecialEvent() { Datum = Tag };
+                neu = true;
+            }
+            var dialog = new EreignisEintragenDialog();
+            var data = (EreignisEintragenDialogView)(dialog.DataContext);
+            data.Event = ev;
+
+            dialog.ShowDialog();
+            //var data = (AnfrageBestätigenViewModel)dialog.DataContext;
+            if (data.Speichern)
+            {
+                if (neu)
+                    Core.DataContainer.MeinPlan.Add(ev);
+                Zuteilung = ev;
+                Monat.GetWeeks(Jahr);
+            }
+        }
+
         public void EintragLöschen()
         {
+            if (Zuteilung.Status == InvitationStatus.Ereignis)
+            {
+                Core.DataContainer.MeinPlan.Remove(Zuteilung);
+                Monat.GetWeeks(Jahr);
+                return;
+            }
+
+            var zuteilung = (Zuteilung as Invitation);
             var w = new BuchungLöschenDialog
             {
-                DataContext = new BuchungLöschenViewModel(Zuteilung)
+                DataContext = new BuchungLöschenViewModel(zuteilung)
             };
             w.ShowDialog();
             var data = (BuchungLöschenViewModel)w.DataContext;
@@ -147,24 +186,26 @@ namespace Vortragsmanager.Views
             throw new NotImplementedException();
         }
 
-        public Models.Invitation Zuteilung { get; set; }
+        public IEvent Zuteilung { get; set; }
 
         public int Jahr { get; }
         public MonthViewModel Monat { get; }
 
         public DateTime Tag { get; set; }
 
-        public SolidColorBrush Background 
-        { 
+        public SolidColorBrush Background
+        {
             get
             {
-                var color = Color.FromRgb(51,51,51);
+                var color = Color.FromRgb(51, 51, 51);
                 if (Zuteilung == null)
                     color = Colors.Tomato;
-                else if (Zuteilung.Status == Models.InvitationStatus.Anfrage)
+                else if (Zuteilung.Status == InvitationStatus.Anfrage)
                     color = Colors.Orange;
-                    return new SolidColorBrush(color);
-            } 
+                else if (Zuteilung.Status == InvitationStatus.Ereignis)
+                    color = Colors.SlateGray;
+                return new SolidColorBrush(color);
+            }
         }
 
         public int AnzahlAuswärtigeRedner
@@ -175,20 +216,19 @@ namespace Vortragsmanager.Views
 
         public string Anzeigetext
         {
-            get {
+            get
+            {
                 if (Zuteilung == null)
                     return "offen";
-                if (Zuteilung.Status == Models.InvitationStatus.Anfrage)
-                    return Zuteilung.AnfrageVersammlung.Name;
-                if (Zuteilung.Status == Models.InvitationStatus.Zugesagt)
-                    return Zuteilung.Ältester?.Name ?? "unbekannt";
-                return "FEHLER";
+                return Zuteilung.Anzeigetext;
             }
         }
 
-        public bool IsAnfrage => Zuteilung?.Status == Models.InvitationStatus.Anfrage;
+        public bool IsAnfrage => Zuteilung?.Status == InvitationStatus.Anfrage;
 
-        public bool IsBuchung => Zuteilung?.Status == Models.InvitationStatus.Zugesagt;
+        public bool IsBuchung => Zuteilung?.Status == InvitationStatus.Zugesagt || Zuteilung?.Status == InvitationStatus.Ereignis;
+
+        public bool IsEreignis => Zuteilung?.Status == InvitationStatus.Ereignis;
 
         public bool IsOffen => (Zuteilung == null);
 
@@ -196,6 +236,5 @@ namespace Vortragsmanager.Views
         {
             return $"{Tag.Day:00}";
         }
-
     }
 }

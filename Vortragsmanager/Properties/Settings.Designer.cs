@@ -34,5 +34,17 @@ namespace Vortragsmanager.Properties {
                 this["sqlite"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Name des Kreisaufseher")]
+        public string NameKreisaufseher {
+            get {
+                return ((string)(this["NameKreisaufseher"]));
+            }
+            set {
+                this["NameKreisaufseher"] = value;
+            }
+        }
     }
 }

@@ -82,6 +82,7 @@ namespace Vortragsmanager.Views
         }
 
         public DelegateCommand<View> ChangeView { get; private set; }
+
         public void ChangeCurrentView(View view)
         {
             switch (view)
@@ -90,11 +91,13 @@ namespace Vortragsmanager.Views
                     ViewStateYear = true;
                     ViewStateAgenda = false;
                     break;
+
                 case View.Agenda:
                     ViewStateYear = false;
                     ViewStateAgenda = true;
                     LoadAgendaView();
                     break;
+
                 default:
                     break;
             }
@@ -111,14 +114,15 @@ namespace Vortragsmanager.Views
                 return Core.DataContainer.DisplayedYear;
             }
         }
-               
-        void OnMessage(Messages message)
+
+        private void OnMessage(Messages message)
         {
             switch (message)
             {
                 case Messages.DisplayYearChanged:
                     RaisePropertyChanged(nameof(CurrentYear));
                     break;
+
                 default:
                     break;
             }
@@ -128,7 +132,7 @@ namespace Vortragsmanager.Views
 
         public ObservableCollection<Outside> Talks { get; private set; }
 
-        public bool History 
+        public bool History
         {
             get { return GetProperty(() => History); }
             set { SetProperty(() => History, value, ApplyFilter); }
@@ -149,7 +153,6 @@ namespace Vortragsmanager.Views
             };
             w.ShowDialog();
         }
-
     }
 
     public enum View

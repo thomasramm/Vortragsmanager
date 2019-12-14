@@ -17,7 +17,7 @@ namespace Vortragsmanager.Views
         public BuchungLöschenViewModel(Models.Invitation Zuteilung) : this()
         {
             _zuteilung = Zuteilung;
-            GetMailText();  
+            GetMailText();
         }
 
         public DelegateCommand CopyCommand { get; private set; }
@@ -46,8 +46,8 @@ namespace Vortragsmanager.Views
         private void GetMailText()
         {
             var mt = Core.Templates.GetTemplate(Core.Templates.TemplateName.ExterneAnfrageAblehnenInfoAnKoordinatorMailText).Inhalt;
-            
-            var vers = _zuteilung.Ältester?.Versammlung  ?? Core.DataContainer.FindConregation("Unbekannt");
+
+            var vers = _zuteilung.Ältester?.Versammlung ?? Core.DataContainer.FindConregation("Unbekannt");
 
             mt = mt
                 .Replace("{Datum}", $"{_zuteilung.Datum:dd.MM.yyyy}, ")
@@ -69,4 +69,3 @@ namespace Vortragsmanager.Views
         }
     }
 }
-

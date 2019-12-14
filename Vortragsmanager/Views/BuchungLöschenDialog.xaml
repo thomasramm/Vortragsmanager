@@ -11,12 +11,12 @@
         x:Name="BuchungLöschenWindow">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <TextBox Text="{Binding MailText}"/>
-        <Button Grid.Row="1" Grid.Column="1" Content="Kopieen" Command="{Binding CopyCommand, Mode=OneWay}" CommandParameter="2" HorizontalAlignment="Left" Width="100" Margin="10" ToolTip="Kopiert den Text an den Koordinator in die Zwischenablage"/>
-        <Button Grid.Row="1" Content="Löschen" Command="{Binding DeleteCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=BuchungLöschenWindow}" HorizontalAlignment="Right" Width="100" Margin="10,10,120,10"/>
-        <Button Grid.Row="1" Content="Abbrechen" Command="{Binding CloseCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=BuchungLöschenWindow}" HorizontalAlignment="Right" Width="100" Margin="10"/>
+        <TextBox Text="{Binding MailText}" />
+        <Button Grid.Row="1" Grid.Column="1" Content="Kopieen" Command="{Binding CopyCommand, Mode=OneWay}" CommandParameter="2" HorizontalAlignment="Left" Width="100" Margin="10" ToolTip="Kopiert den Text an den Koordinator in die Zwischenablage" />
+        <Button Grid.Row="1" Content="Löschen" Command="{Binding DeleteCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=BuchungLöschenWindow}" HorizontalAlignment="Right" Width="100" Margin="10,10,120,10" />
+        <Button Grid.Row="1" Content="Abbrechen" Command="{Binding CloseCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=BuchungLöschenWindow}" HorizontalAlignment="Right" Width="100" Margin="10" />
     </Grid>
 </Window>

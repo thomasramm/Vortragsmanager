@@ -11,6 +11,8 @@ namespace Vortragsmanager
     {
         public MainWindow()
         {
+            //IoExcel.ReadContainer(@"C:\Daten\Thomas\Projekte\Vortragsmanager\Rohdaten\Data.xlsx");
+            //Templates.LoadTemplates();
             IoSqlite.ReadContainer(Settings.Default.sqlite);
             Anonymisieren.Start();
 

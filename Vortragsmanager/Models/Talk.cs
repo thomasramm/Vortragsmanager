@@ -9,6 +9,7 @@ namespace Vortragsmanager.Models
             Nummer = Number;
             Thema = Title;
         }
+
         public int Nummer { get; set; }
 
         public string Thema { get; set; }

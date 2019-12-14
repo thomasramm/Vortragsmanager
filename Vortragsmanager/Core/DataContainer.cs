@@ -1,9 +1,9 @@
-﻿using System;
-using Vortragsmanager.Models;
+﻿using DevExpress.Mvvm;
+using System;
 using System.Collections.ObjectModel;
-using DevExpress.Mvvm;
-using Vortragsmanager.Views;
 using System.Globalization;
+using Vortragsmanager.Models;
+using Vortragsmanager.Views;
 
 namespace Vortragsmanager.Core
 {
@@ -25,10 +25,10 @@ namespace Vortragsmanager.Core
 
         public static ObservableCollection<Speaker> Redner { get; } = new ObservableCollection<Speaker>();
 
-        public static ObservableCollection<Invitation> MeinPlan { get; } = new ObservableCollection<Invitation>();
+        public static ObservableCollection<IEvent> MeinPlan { get; } = new ObservableCollection<IEvent>();
 
         public static ObservableCollection<Outside> ExternerPlan { get; } = new ObservableCollection<Outside>();
-                       
+
         public static Conregation FindConregation(string name)
         {
             foreach (var c in Versammlungen)
@@ -38,6 +38,21 @@ namespace Vortragsmanager.Core
             }
 
             return null;
+        }
+
+        public static Conregation FindOrAddConregation(string name)
+        {
+            var c = FindConregation(name);
+
+            if (c == null)
+            {
+                c = new Conregation();
+                c.Name = name;
+                c.Kreis = MeineVersammlung.Kreis;
+                Versammlungen.Add(c);
+            }
+
+            return c;
         }
 
         public static Talk FindTalk(int Nummer)
@@ -62,11 +77,28 @@ namespace Vortragsmanager.Core
             return null;
         }
 
-        public static int DisplayedYear 
+        public static Speaker FindOrAddSpeaker(string name, Conregation versammlung)
+        {
+            var s = FindSpeaker(name, versammlung);
+
+            if (s == null)
+            {
+
+                s = new Speaker
+                {
+                    Name = name,
+                    Versammlung = versammlung
+                };
+                Redner.Add(s);
+            }
+            return s;
+        }
+
+        public static int DisplayedYear
         {
             get => displayedYear;
-            set 
-            { 
+            set
+            {
                 displayedYear = value;
                 Messenger.Default.Send(Messages.DisplayYearChanged);
             }

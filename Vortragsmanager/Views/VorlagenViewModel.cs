@@ -1,9 +1,5 @@
 ﻿using DevExpress.Mvvm;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Vortragsmanager.Core;
 using static Vortragsmanager.Core.Templates;
 
@@ -30,7 +26,7 @@ namespace Vortragsmanager.Views
                 SelectedVorlageInhalt = SelectedVorlage.Value.Inhalt;
         }
 
-        public KeyValuePair<TemplateName, Template> SelectedVorlage 
+        public KeyValuePair<TemplateName, Template> SelectedVorlage
         {
             get { return GetProperty(() => SelectedVorlage); }
             set { SetProperty(() => SelectedVorlage, value, ChangeParameterList); }
@@ -72,7 +68,7 @@ namespace Vortragsmanager.Views
             ParameterBeschreibung = SelectedParameter.Value;
         }
 
-        public string ParameterBeschreibung 
+        public string ParameterBeschreibung
         {
             get { return GetProperty(() => ParameterBeschreibung); }
             set { SetProperty(() => ParameterBeschreibung, value); }

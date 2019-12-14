@@ -12,32 +12,32 @@
         x:Name="ListeRednerTermineSendenWindow">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <TextBox Text="{Binding MailText}"/>
-        <dx:SimpleButton Grid.Row="1" Content="Speichern" 
-                             Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}" 
-                             GlyphAlignment="Left" 
+        <TextBox Text="{Binding MailText}" />
+        <dx:SimpleButton Grid.Row="1" Content="Speichern"
+                             Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}"
+                             GlyphAlignment="Left"
                              Command="{Binding Speichern}"
                              CommandParameter="True"
-                             HorizontalAlignment="Right" Width="150" Margin="5,5,160,5"/>
-        <dx:SimpleButton Grid.Row="1" Content="Ablehnen" 
-                             Glyph="{dx:DXImage SvgImages/Outlook Inspired/Cancel.svg}" 
-                             GlyphAlignment="Left" 
+                             HorizontalAlignment="Right" Width="150" Margin="5,5,160,5" />
+        <dx:SimpleButton Grid.Row="1" Content="Ablehnen"
+                             Glyph="{dx:DXImage SvgImages/Outlook Inspired/Cancel.svg}"
+                             GlyphAlignment="Left"
                              Command="{Binding Speichern}"
                              CommandParameter="False"
-                             HorizontalAlignment="Right" Width="150" Margin="5"/>
+                             HorizontalAlignment="Right" Width="150" Margin="5" />
 
-        <dx:SimpleButton Grid.Row="1" 
-                                                 Content="Kopieren" 
-                                                 Glyph="/Images/Zwischenablage_32x32.png" 
-                                                 GlyphAlignment="Left" 
+        <dx:SimpleButton Grid.Row="1"
+                                                 Content="Kopieren"
+                                                 Glyph="/Images/Zwischenablage_32x32.png"
+                                                 GlyphAlignment="Left"
                                                  Command="{Binding CopyToClipboard}"
                                                  CommandParameter="True"
-                                                 HorizontalAlignment="Left" 
-                                                 Width="150" 
-                                                 ToolTip="Den Text in die Zwischenablage kopieren"      
-                                                 Margin="5"/>
+                                                 HorizontalAlignment="Left"
+                                                 Width="150"
+                                                 ToolTip="Den Text in die Zwischenablage kopieren"
+                                                 Margin="5" />
     </Grid>
 </Window>

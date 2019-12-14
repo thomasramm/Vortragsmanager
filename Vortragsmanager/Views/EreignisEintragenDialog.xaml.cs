@@ -5,9 +5,9 @@ namespace Vortragsmanager.Views
     /// <summary>
     /// Interaktionslogik für BuchungLöschenDialog.xaml
     /// </summary>
-    public partial class ListeRednerTermineSendenDialog : Window, ICloseable
+    public partial class EreignisEintragenDialog : Window, ICloseable
     {
-        public ListeRednerTermineSendenDialog()
+        public EreignisEintragenDialog()
         {
             InitializeComponent();
         }

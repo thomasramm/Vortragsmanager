@@ -1,14 +1,11 @@
 ﻿using OfficeOpenXml;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Vortragsmanager.Core
 {
-    class IoExcel
+    internal class IoExcel
     {
         private static FileInfo file;
 
@@ -28,8 +25,9 @@ namespace Vortragsmanager.Core
 
         public static void UpdateTalkDate()
         {
-            foreach (var m in DataContainer.MeinPlan)
+            foreach (var evt in DataContainer.MeinPlan.Where(x => x.Status != Models.InvitationStatus.Ereignis))
             {
+                var m = (evt as Models.Invitation);
                 if (m.Vortrag is null)
                     continue;
                 if (m.Datum > m.Vortrag.zuletztGehalten || m.Vortrag.zuletztGehalten == null)
@@ -56,7 +54,6 @@ namespace Vortragsmanager.Core
 
                     row++;
                 }
-
             } // the using statement automatically calls Dispose() which closes the package.
         }
 
@@ -116,7 +113,6 @@ namespace Vortragsmanager.Core
                     row++;
                     id++;
                 }
-
             } // the using statement automatically calls Dispose() which closes the package.
         }
 
@@ -144,8 +140,8 @@ namespace Vortragsmanager.Core
                     };
 
                     //Versammlung
-                    var meineVersammlung = DataContainer.FindConregation(vers.ToString());
-                    s.Versammlung = meineVersammlung;
+                    var rednerVersammlung = DataContainer.FindOrAddConregation(vers.ToString());
+                    s.Versammlung = rednerVersammlung;
 
                     //Vorträge
                     var meineVotrgäge = vort.ToString().Split(new[] { ';', ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -161,7 +157,6 @@ namespace Vortragsmanager.Core
                     row++;
                     id++;
                 }
-
             } // the using statement automatically calls Dispose() which closes the package.
         }
 
@@ -180,7 +175,6 @@ namespace Vortragsmanager.Core
                     var versammlung = worksheet.Cells[row, 4].Value;
                     var kommentar = worksheet.Cells[row, 5].Value;
 
-
                     if (datum == null)
                         break;
 
@@ -197,8 +191,8 @@ namespace Vortragsmanager.Core
 
                     //Versammlung
                     var v1 = versammlung?.ToString() ?? "Unbekannt";
-                    var v = DataContainer.FindConregation(v1);
-                    var r = DataContainer.FindSpeaker(redner.ToString(), v);
+                    var v = DataContainer.FindOrAddConregation(v1);
+                    var r = DataContainer.FindOrAddSpeaker(redner.ToString(), v);
                     i.Ältester = r;
 
                     //Vortrag
@@ -210,7 +204,6 @@ namespace Vortragsmanager.Core
 
                     row++;
                 }
-
             } // the using statement automatically calls Dispose() which closes the package.
         }
 
@@ -228,7 +221,6 @@ namespace Vortragsmanager.Core
                     var vortrag = worksheet.Cells[row, 3].Value;
                     var versammlung = worksheet.Cells[row, 4].Value;
                     var kommentar = worksheet.Cells[row, 5].Value;
-
 
                     if (datum == null)
                         break;
@@ -252,7 +244,7 @@ namespace Vortragsmanager.Core
                     i.Versammlung = v;
 
                     //Redner
-                    var r = DataContainer.FindSpeaker(redner.ToString(), DataContainer.MeineVersammlung);
+                    var r = DataContainer.FindOrAddSpeaker(redner.ToString(), DataContainer.MeineVersammlung);
                     if (r == null)
                     {
                         row++;
@@ -270,7 +262,6 @@ namespace Vortragsmanager.Core
 
                     row++;
                 }
-
             } // the using statement automatically calls Dispose() which closes the package.
         }
     }
