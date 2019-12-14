@@ -20,6 +20,7 @@ namespace Vortragsmanager.Core
                 ReadRedner(db);
                 ReadMeinPlan(db);
                 ReadExternerPlan(db);
+                ReadTemplates(db);
 
                 db.Close();
             }
