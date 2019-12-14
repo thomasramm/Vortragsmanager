@@ -1,7 +1,7 @@
-﻿using System;
+﻿using DevExpress.Mvvm;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using DevExpress.Mvvm;
 using Vortragsmanager.Models;
 
 namespace Vortragsmanager.Views
@@ -56,7 +56,7 @@ namespace Vortragsmanager.Views
             set { SetProperty(() => SelectedVersammlung, value); }
         }
 
-        public DateTime SelectedDatum 
+        public DateTime SelectedDatum
         {
             get { return GetProperty(() => SelectedDatum); }
             set { SetProperty(() => SelectedDatum, value, CorrectDate); }
@@ -74,7 +74,7 @@ namespace Vortragsmanager.Views
             SelectedDatumTalks = new ObservableCollection<Outside>(Core.DataContainer.ExternerPlan.Where(x => x.Datum == SelectedDatum));
         }
 
-        public Speaker SelectedRedner 
+        public Speaker SelectedRedner
         {
             get { return GetProperty(() => SelectedRedner); }
             set { SetProperty(() => SelectedRedner, value, SelectedRednerChanged); }
@@ -98,9 +98,8 @@ namespace Vortragsmanager.Views
             RaisePropertyChanged(nameof(SelectedRednerTalks));
         }
 
-        public ObservableCollection<Outside> SelectedRednerTalks { get; private set; } 
+        public ObservableCollection<Outside> SelectedRednerTalks { get; private set; }
 
         public ObservableCollection<Outside> SelectedDatumTalks { get; private set; }
-
     }
 }

@@ -19,7 +19,7 @@ namespace Vortragsmanager.Views
         public ListeRednerTermineSendenViewModel(ObservableCollection<Outside> Talks) : this()
         {
             _talks = Talks;
-            GetMailText();  
+            GetMailText();
         }
 
         public DelegateCommand<ICloseable> CloseCommand { get; private set; }
@@ -58,11 +58,9 @@ namespace Vortragsmanager.Views
                     termine += $"\tVortrag:\t{einladung.Vortrag}" + Environment.NewLine;
                     termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Versammlung.GetZusammenkunftszeit(einladung.Datum.Year)}" + Environment.NewLine;
                     termine += Environment.NewLine;
-
                 }
                 termine += Environment.NewLine;
             }
-
 
             mails = mails.Substring(0, mails.Length - 2);
 
@@ -81,4 +79,3 @@ namespace Vortragsmanager.Views
         }
     }
 }
-

@@ -19,7 +19,6 @@ namespace Vortragsmanager.Models
         public string Kommentar { get; set; }
 
         public override string ToString() => $"{Ältester}\n{Vortrag}";
-
     }
 
     public enum InvitationStatus

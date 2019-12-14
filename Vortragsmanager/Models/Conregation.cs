@@ -35,10 +35,12 @@ namespace Vortragsmanager.Models
             var letztesJahr = Zusammenkunftszeiten.Where(x => x.Key <= Jahr).Max(y => y.Key);
             return letztesJahr == null ? "unbekannt" : Zusammenkunftszeiten[letztesJahr];
         }
+
         public string GetZusammenkunftszeit(DateTime Datum)
         {
             return GetZusammenkunftszeit(Datum.Year);
         }
+
         public void SetZusammenkunftszeit(int Jahr, string Zeit)
         {
             if (Zusammenkunftszeiten.ContainsKey(Jahr))

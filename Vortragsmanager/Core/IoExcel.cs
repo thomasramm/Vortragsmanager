@@ -1,14 +1,10 @@
 ﻿using OfficeOpenXml;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Vortragsmanager.Core
 {
-    class IoExcel
+    internal class IoExcel
     {
         private static FileInfo file;
 
@@ -56,7 +52,6 @@ namespace Vortragsmanager.Core
 
                     row++;
                 }
-
             } // the using statement automatically calls Dispose() which closes the package.
         }
 
@@ -116,7 +111,6 @@ namespace Vortragsmanager.Core
                     row++;
                     id++;
                 }
-
             } // the using statement automatically calls Dispose() which closes the package.
         }
 
@@ -161,7 +155,6 @@ namespace Vortragsmanager.Core
                     row++;
                     id++;
                 }
-
             } // the using statement automatically calls Dispose() which closes the package.
         }
 
@@ -179,7 +172,6 @@ namespace Vortragsmanager.Core
                     var vortrag = worksheet.Cells[row, 3].Value;
                     var versammlung = worksheet.Cells[row, 4].Value;
                     var kommentar = worksheet.Cells[row, 5].Value;
-
 
                     if (datum == null)
                         break;
@@ -210,7 +202,6 @@ namespace Vortragsmanager.Core
 
                     row++;
                 }
-
             } // the using statement automatically calls Dispose() which closes the package.
         }
 
@@ -228,7 +219,6 @@ namespace Vortragsmanager.Core
                     var vortrag = worksheet.Cells[row, 3].Value;
                     var versammlung = worksheet.Cells[row, 4].Value;
                     var kommentar = worksheet.Cells[row, 5].Value;
-
 
                     if (datum == null)
                         break;
@@ -270,7 +260,6 @@ namespace Vortragsmanager.Core
 
                     row++;
                 }
-
             } // the using statement automatically calls Dispose() which closes the package.
         }
     }

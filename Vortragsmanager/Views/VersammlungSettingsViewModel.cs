@@ -19,7 +19,6 @@ namespace Vortragsmanager.Views
             DeleteCommand = new DelegateCommand(Delete);
         }
 
-        
         public DelegateCommand DeleteCommand { get; private set; }
 
         public void Delete()
@@ -35,7 +34,7 @@ namespace Vortragsmanager.Views
         public int Jahr1 { get; } = DateTime.Today.Year;
 
         public int Jahr2 => Jahr1 + 1;
-        
+
         public int Jahr3 => Jahr1 + 2;
 
         public string ZusammenkunftszeitJahr1
@@ -46,7 +45,7 @@ namespace Vortragsmanager.Views
             }
             set
             {
-                if (value != ZusammenkunftszeitJahr1) 
+                if (value != ZusammenkunftszeitJahr1)
                     Versammlung.SetZusammenkunftszeit(Jahr1, value);
                 RaisePropertyChanged(ZusammenkunftszeitJahr1);
             }
@@ -89,8 +88,8 @@ namespace Vortragsmanager.Views
             set
             {
                 if ((value == true) && (ThemedMessageBox.Show(
-                    "Willst du diese Versammlung wirklich als deine eigene Versammlung setzen?", 
-                    "Achtung!", 
+                    "Willst du diese Versammlung wirklich als deine eigene Versammlung setzen?",
+                    "Achtung!",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning) == MessageBoxResult.Yes))
                     Core.DataContainer.MeineVersammlung = Versammlung;
@@ -110,7 +109,6 @@ namespace Vortragsmanager.Views
         public SpeakersViewModelCollection RednerListe { get; private set; }
 
         public bool IsMaximized { get; set; }
-
     }
 
     public class SpeakerViewModel : ViewModelBase
@@ -139,14 +137,13 @@ namespace Vortragsmanager.Views
             RaisePropertyChanged(nameof(Vorträge));
         }
 
-        public SolidColorBrush AktivBrush => Redner.Aktiv? new SolidColorBrush(Colors.Green): new SolidColorBrush(Colors.Red);
+        public SolidColorBrush AktivBrush => Redner.Aktiv ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
 
         public string AktivText => Redner.Aktiv ? "Aktiv" : "Inaktiv";
 
         public SolidColorBrush ÄltesterBrush => Redner.Ältester ? new SolidColorBrush(Colors.DodgerBlue) : new SolidColorBrush(Colors.Brown);
 
-        public string ÄltesterText => Redner.Ältester? "Ältester" : "DAG";
-
+        public string ÄltesterText => Redner.Ältester ? "Ältester" : "DAG";
 
         public string Overview
         {
@@ -197,7 +194,6 @@ namespace Vortragsmanager.Views
 
         private int CompareByName(SpeakerViewModel x, SpeakerViewModel y)
         {
-
             string value1 = x.Redner.Name;
             string value2 = y.Redner.Name;
             return string.Compare(value1, value2, StringComparison.InvariantCultureIgnoreCase);
@@ -206,7 +202,10 @@ namespace Vortragsmanager.Views
 
     public class ConregationsViewModelCollection : List<ConregationViewModel>
     {
-        public ConregationsViewModelCollection() : this(Core.DataContainer.Versammlungen) { }
+        public ConregationsViewModelCollection() : this(Core.DataContainer.Versammlungen)
+        {
+        }
+
         public ConregationsViewModelCollection(IEnumerable<Conregation> versammlungen)
         {
             if (versammlungen is null)

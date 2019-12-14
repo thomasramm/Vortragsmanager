@@ -33,7 +33,7 @@ namespace Vortragsmanager.Views
         }
 
         public DelegateCommand<ICloseable> CloseCommand { get; private set; }
-        
+
         public DelegateCommand<ICloseable> SaveCommand { get; private set; }
 
         public DelegateCommand<int> CopyCommand { get; private set; }
@@ -71,7 +71,7 @@ namespace Vortragsmanager.Views
                 .Replace("{Vortrag}", Buchung.Vortrag.ToString())
                 .Replace("{Koordinator Mail}", $"{Buchung.Versammlung.KoordinatorJw}; {Buchung.Versammlung.KoordinatorMail}")
                 .Replace("{Koordinator Name}", Buchung.Versammlung.Koordinator);
-        
+
             MailTextKoordinator = mt;
             Clipboard.SetText(mt);
 
@@ -131,6 +131,7 @@ namespace Vortragsmanager.Views
             get { return GetProperty(() => MailTextKoordinator); }
             set { SetProperty(() => MailTextKoordinator, value); }
         }
+
         public string MailTextRedner
         {
             get { return GetProperty(() => MailTextRedner); }
@@ -138,4 +139,3 @@ namespace Vortragsmanager.Views
         }
     }
 }
-

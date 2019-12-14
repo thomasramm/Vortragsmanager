@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Vortragsmanager.Models
 {
-
     public class Speaker
     {
         public int Id { get; set; }
@@ -28,7 +26,5 @@ namespace Vortragsmanager.Models
         public string InfoPublic { get; set; }
 
         public override string ToString() => $"{Name}";
-
     }
-
 }

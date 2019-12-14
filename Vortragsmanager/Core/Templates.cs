@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static Vortragsmanager.Core.Templates;
 
 namespace Vortragsmanager.Core
 {
     public static class Templates
     {
-        public static Dictionary<TemplateName,Template> Vorlagen { get; } = new Dictionary<TemplateName, Template>();
+        public static Dictionary<TemplateName, Template> Vorlagen { get; } = new Dictionary<TemplateName, Template>();
 
         public static Template GetTemplate(TemplateName name)
         {
@@ -61,7 +58,7 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn
             x.Parameter.Add("{Liste Redner}", "Liste der angefragten Redner mit deren Vortrag");
             x.Parameter.Add("{Freie Termine}", "Liste der Angefragten Termine");
             Vorlagen.Add(x.Name, x);
-        }    
+        }
 
         private static void LoadRednerTermineMailText()
         {
@@ -257,6 +254,4 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn"
             return Name.ToString();
         }
     }
-
-
 }

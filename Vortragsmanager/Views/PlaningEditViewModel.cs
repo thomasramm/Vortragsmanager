@@ -1,10 +1,10 @@
-﻿using System;
+﻿using DevExpress.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
-using DevExpress.Mvvm;
 using Vortragsmanager.Models;
 
 namespace Vortragsmanager.Views
@@ -21,28 +21,29 @@ namespace Vortragsmanager.Views
             LoadModul(1);
         }
 
-        void OnMessage(Messages message)
+        private void OnMessage(Messages message)
         {
             switch (message)
             {
                 case Messages.DisplayModuleAskForSpeaker:
                     LoadModul(2);
                     break;
+
                 default:
                     break;
             }
         }
 
-        void LoadModul(int i)
+        private void LoadModul(int i)
         {
-            var visible = new GridLength(1, GridUnitType.Star); 
+            var visible = new GridLength(1, GridUnitType.Star);
             var hidden = new GridLength(0);
             if (i == 1)
             {
                 Modul1Visible = visible;
                 Modul2Visible = hidden;
             }
-            else if (i ==2)
+            else if (i == 2)
             {
                 Modul1Visible = hidden;
                 Modul2Visible = visible;
@@ -66,7 +67,8 @@ namespace Vortragsmanager.Views
 
         public ObservableCollection<int> Kreise { get; private set; }
 
-        List<object> selectedKreise;
+        private List<object> selectedKreise;
+
         public object SelectedKreise
         {
             get
@@ -85,6 +87,7 @@ namespace Vortragsmanager.Views
                 RaisePropertyChanged();
             }
         }
+
         private static List<object> FillMyKreis()
         {
             return new List<object>() {
@@ -103,7 +106,8 @@ namespace Vortragsmanager.Views
             SelectedVersammlungen = Versammlungen.Cast<object>().ToList();
         }
 
-        List<object> selectedVersammlungen;
+        private List<object> selectedVersammlungen;
+
         public object SelectedVersammlungen
         {
             get
@@ -117,7 +121,6 @@ namespace Vortragsmanager.Views
                 selectedVersammlungen = (List<object>)value;
                 RaisePropertyChanged();
                 ReadData();
-
             }
         }
 
@@ -193,7 +196,6 @@ namespace Vortragsmanager.Views
                     gt.InZukunft = gehalten.Where(x => x.Datum > DateTime.Today).Any();
                     gt.InVergangenheit = gehalten.Where(x => x.Datum > DateTime.Today.AddYears(-1) && x.Datum <= DateTime.Today).Any();
 
-
                     if (VortragCheckFuture && gt.InZukunft)
                         continue;
 
@@ -234,7 +236,7 @@ namespace Vortragsmanager.Views
             }
         }
 
-        public int SelectedTermine 
+        public int SelectedTermine
         {
             get { return GetProperty(() => SelectedTermine); }
             set { SetProperty(() => SelectedTermine, value, ChangeSelectedTermine); }
@@ -257,18 +259,21 @@ namespace Vortragsmanager.Views
                 case 1:
                     maxTermin = maxTermin.AddMonths(1);
                     break;
+
                 case 2:
                     maxTermin = maxTermin.AddMonths(3);
                     break;
+
                 case 3:
                     maxTermin = maxTermin.AddMonths(6);
                     break;
+
                 case 0:
                 case 4:
                     maxTermin = maxTermin.AddMonths(12);
                     break;
             }
-            foreach(var t in FreieTermine)
+            foreach (var t in FreieTermine)
             {
                 //t.Aktiv = (t.Datum <= maxTermin);
                 t.IsChecked = (t.Datum <= maxTermin);
@@ -277,9 +282,10 @@ namespace Vortragsmanager.Views
             }
         }
 
-        #endregion
+        #endregion Freie Termine & Redner suchen
 
         #region Mail versenden
+
         private void ConstructorModul2()
         {
             AnfrageSpeichernCommand = new DelegateCommand(AnfrageSpeichern);
@@ -328,7 +334,7 @@ namespace Vortragsmanager.Views
 
             var stringFreieTermine = "\t";
             var anzahl = 1;
-            foreach(var ft in FreieTermine.Where(x => x.Aktiv))
+            foreach (var ft in FreieTermine.Where(x => x.Aktiv))
             {
                 stringFreieTermine += $"{ft.Datum:dd.MM.yyyy}, ";
                 if (anzahl == 4)
@@ -355,16 +361,16 @@ namespace Vortragsmanager.Views
                 .Replace("{Versammlung}", inhalt.Versammlung.Name);
 
             MailText = mt;
-         }
+        }
 
-        public GridLength Modul2Visible 
+        public GridLength Modul2Visible
         {
             get { return GetProperty(() => Modul2Visible); }
             set { SetProperty(() => Modul2Visible, value); }
         }
 
-    #endregion
-}
+        #endregion Mail versenden
+    }
 
     /// <summary>
     /// Freie Termine meiner Planung
@@ -401,11 +407,11 @@ namespace Vortragsmanager.Views
             {
                 IsChecked = value;
                 RaisePropertyChanged();
-                RaisePropertiesChanged(new string[] { "Aktiv", "IsChecked" } );
+                RaisePropertiesChanged(new string[] { "Aktiv", "IsChecked" });
             }
         }
     }
-    
+
     /// <summary>
     /// Liste der Versammlungen
     /// </summary>
@@ -460,7 +466,7 @@ namespace Vortragsmanager.Views
         public bool Gewählt
         {
             get { return GetProperty(() => Gewählt); }
-            set { SetProperty(() => Gewählt, value); } 
+            set { SetProperty(() => Gewählt, value); }
         }
     }
 

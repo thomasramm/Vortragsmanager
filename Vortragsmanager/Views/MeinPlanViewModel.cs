@@ -1,9 +1,8 @@
-﻿using System;
+﻿using DevExpress.Mvvm;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
-using DevExpress.Mvvm;
-
 
 namespace Vortragsmanager.Views
 {
@@ -37,9 +36,9 @@ namespace Vortragsmanager.Views
 
         public static int CurrentYear
         {
-            get 
-            { 
-                return Core.DataContainer.DisplayedYear; 
+            get
+            {
+                return Core.DataContainer.DisplayedYear;
             }
         }
 
@@ -52,7 +51,7 @@ namespace Vortragsmanager.Views
             }
         }
 
-        void OnMessage(Messages message)
+        private void OnMessage(Messages message)
         {
             switch (message)
             {
@@ -60,6 +59,7 @@ namespace Vortragsmanager.Views
                     RaisePropertyChanged(nameof(CurrentYear));
                     UpdateMonate();
                     break;
+
                 default:
                     break;
             }
@@ -69,7 +69,6 @@ namespace Vortragsmanager.Views
         {
             Core.DataContainer.DisplayedYear += step;
         }
-
     }
 
     public class MonthViewModel : ViewModelBase
@@ -102,8 +101,8 @@ namespace Vortragsmanager.Views
                 startDate = startDate.AddDays(1);
             }
         }
-
     }
+
     //ToDo: Detailansicht bei Klick/Doppelklick zur Vortragsbuchung
     public class WeekViewModel : ViewModelBase
     {
@@ -154,17 +153,17 @@ namespace Vortragsmanager.Views
 
         public DateTime Tag { get; set; }
 
-        public SolidColorBrush Background 
-        { 
+        public SolidColorBrush Background
+        {
             get
             {
-                var color = Color.FromRgb(51,51,51);
+                var color = Color.FromRgb(51, 51, 51);
                 if (Zuteilung == null)
                     color = Colors.Tomato;
                 else if (Zuteilung.Status == Models.InvitationStatus.Anfrage)
                     color = Colors.Orange;
-                    return new SolidColorBrush(color);
-            } 
+                return new SolidColorBrush(color);
+            }
         }
 
         public int AnzahlAuswärtigeRedner
@@ -175,7 +174,8 @@ namespace Vortragsmanager.Views
 
         public string Anzeigetext
         {
-            get {
+            get
+            {
                 if (Zuteilung == null)
                     return "offen";
                 if (Zuteilung.Status == Models.InvitationStatus.Anfrage)
@@ -196,6 +196,5 @@ namespace Vortragsmanager.Views
         {
             return $"{Tag.Day:00}";
         }
-
     }
 }

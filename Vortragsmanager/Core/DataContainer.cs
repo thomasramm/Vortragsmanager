@@ -1,9 +1,9 @@
-﻿using System;
-using Vortragsmanager.Models;
+﻿using DevExpress.Mvvm;
+using System;
 using System.Collections.ObjectModel;
-using DevExpress.Mvvm;
-using Vortragsmanager.Views;
 using System.Globalization;
+using Vortragsmanager.Models;
+using Vortragsmanager.Views;
 
 namespace Vortragsmanager.Core
 {
@@ -28,7 +28,7 @@ namespace Vortragsmanager.Core
         public static ObservableCollection<Invitation> MeinPlan { get; } = new ObservableCollection<Invitation>();
 
         public static ObservableCollection<Outside> ExternerPlan { get; } = new ObservableCollection<Outside>();
-                       
+
         public static Conregation FindConregation(string name)
         {
             foreach (var c in Versammlungen)
@@ -62,11 +62,11 @@ namespace Vortragsmanager.Core
             return null;
         }
 
-        public static int DisplayedYear 
+        public static int DisplayedYear
         {
             get => displayedYear;
-            set 
-            { 
+            set
+            {
                 displayedYear = value;
                 Messenger.Default.Send(Messages.DisplayYearChanged);
             }
