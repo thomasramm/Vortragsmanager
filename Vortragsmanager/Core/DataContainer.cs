@@ -40,6 +40,21 @@ namespace Vortragsmanager.Core
             return null;
         }
 
+        public static Conregation FindOrAddConregation(string name)
+        {
+            var c = FindConregation(name);
+
+            if (c == null)
+            {
+                c = new Conregation();
+                c.Name = name;
+                c.Kreis = MeineVersammlung.Kreis;
+                Versammlungen.Add(c);
+            }
+
+            return c;
+        }
+
         public static Talk FindTalk(int Nummer)
         {
             foreach (var t in Vorträge)
@@ -60,6 +75,23 @@ namespace Vortragsmanager.Core
             }
 
             return null;
+        }
+
+        public static Speaker FindOrAddSpeaker(string name, Conregation versammlung)
+        {
+            var s = FindSpeaker(name, versammlung);
+
+            if (s == null)
+            {
+
+                s = new Speaker
+                {
+                    Name = name,
+                    Versammlung = versammlung
+                };
+                Redner.Add(s);
+            }
+            return s;
         }
 
         public static int DisplayedYear

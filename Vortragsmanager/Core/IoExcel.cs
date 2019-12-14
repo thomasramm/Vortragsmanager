@@ -138,8 +138,8 @@ namespace Vortragsmanager.Core
                     };
 
                     //Versammlung
-                    var meineVersammlung = DataContainer.FindConregation(vers.ToString());
-                    s.Versammlung = meineVersammlung;
+                    var rednerVersammlung = DataContainer.FindOrAddConregation(vers.ToString());
+                    s.Versammlung = rednerVersammlung;
 
                     //Vorträge
                     var meineVotrgäge = vort.ToString().Split(new[] { ';', ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -189,8 +189,8 @@ namespace Vortragsmanager.Core
 
                     //Versammlung
                     var v1 = versammlung?.ToString() ?? "Unbekannt";
-                    var v = DataContainer.FindConregation(v1);
-                    var r = DataContainer.FindSpeaker(redner.ToString(), v);
+                    var v = DataContainer.FindOrAddConregation(v1);
+                    var r = DataContainer.FindOrAddSpeaker(redner.ToString(), v);
                     i.Ältester = r;
 
                     //Vortrag
@@ -242,7 +242,7 @@ namespace Vortragsmanager.Core
                     i.Versammlung = v;
 
                     //Redner
-                    var r = DataContainer.FindSpeaker(redner.ToString(), DataContainer.MeineVersammlung);
+                    var r = DataContainer.FindOrAddSpeaker(redner.ToString(), DataContainer.MeineVersammlung);
                     if (r == null)
                     {
                         row++;
