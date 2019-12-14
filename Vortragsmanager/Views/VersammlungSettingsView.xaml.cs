@@ -10,7 +10,6 @@ namespace Vortragsmanager.Views
     /// </summary>
     public partial class VersammlungSettingsView : UserControl
     {
-        //ToDo: Anzeigen und Einstellen meiner Versammlungsoptionen
         public VersammlungSettingsView()
         {
             InitializeComponent();

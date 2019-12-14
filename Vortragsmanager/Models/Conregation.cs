@@ -6,6 +6,8 @@ namespace Vortragsmanager.Models
 {
     public class Conregation
     {
+        public int Id { get; set; }
+
         public int Kreis { get; set; }
 
         public string Name { get; set; }
@@ -30,8 +32,8 @@ namespace Vortragsmanager.Models
 
         public string GetZusammenkunftszeit(int Jahr)
         {
-            var letztesJahr = zusammenkunftszeiten.Where(x => x.Key <= Jahr).Max(y => y.Key);
-            return letztesJahr == null ? "unbekannt" : zusammenkunftszeiten[letztesJahr];
+            var letztesJahr = Zusammenkunftszeiten.Where(x => x.Key <= Jahr).Max(y => y.Key);
+            return letztesJahr == null ? "unbekannt" : Zusammenkunftszeiten[letztesJahr];
         }
         public string GetZusammenkunftszeit(DateTime Datum)
         {
@@ -39,14 +41,14 @@ namespace Vortragsmanager.Models
         }
         public void SetZusammenkunftszeit(int Jahr, string Zeit)
         {
-            if (zusammenkunftszeiten.ContainsKey(Jahr))
-                zusammenkunftszeiten[Jahr] = Zeit;
+            if (Zusammenkunftszeiten.ContainsKey(Jahr))
+                Zusammenkunftszeiten[Jahr] = Zeit;
             else
-                zusammenkunftszeiten.Add(Jahr, Zeit);
+                Zusammenkunftszeiten.Add(Jahr, Zeit);
         }
 
         public override string ToString() => $"Versammlung {Name}";
 
-        private readonly Dictionary<int, string> zusammenkunftszeiten = new Dictionary<int, string>(1);
+        public readonly Dictionary<int, string> Zusammenkunftszeiten = new Dictionary<int, string>(1);
     }
 }
