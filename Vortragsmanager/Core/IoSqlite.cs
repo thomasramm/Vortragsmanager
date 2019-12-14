@@ -31,16 +31,21 @@ namespace Vortragsmanager.Core
             //Speichern der DB in einer tmp-Datei
             var tempFile = Path.GetTempFileName();
             SQLiteConnection.CreateFile($"{tempFile}");
+            //using (SQLiteConnection db = new SQLiteConnection($"Data Source = {tempFile}; Version = 3;PRAGMA locking_mode = EXCLUSIVE;"))
             using (SQLiteConnection db = new SQLiteConnection($"Data Source = {tempFile}; Version = 3;"))
             {
                 db.Open();
-                SaveParameter(db);
-                SaveVorträge(db);
-                SaveVersammlungen(db);
-                SaveRedner(db);
-                SaveMeinPlan(db);
-                SaveExternerPlan(db);
-                SaveTemplates(db);
+                using (var transaction = db.BeginTransaction())
+                {
+                    SaveParameter(db);
+                    SaveVorträge(db);
+                    SaveVersammlungen(db);
+                    SaveRedner(db);
+                    SaveMeinPlan(db);
+                    SaveExternerPlan(db);
+                    SaveTemplates(db);
+                    transaction.Commit();
+                }
                 db.Close();
             }
 
