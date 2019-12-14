@@ -26,6 +26,48 @@ namespace Vortragsmanager.Core
             }
         }
 
+        public static string SaveContainer(string file)
+        {
+            //Speichern der DB in einer tmp-Datei
+            var tempFile = Path.GetTempFileName();
+            SQLiteConnection.CreateFile($"{tempFile}");
+            using (SQLiteConnection db = new SQLiteConnection($"Data Source = {tempFile}; Version = 3;"))
+            {
+                db.Open();
+                SaveParameter(db);
+                SaveVorträge(db);
+                SaveVersammlungen(db);
+                SaveRedner(db);
+                SaveMeinPlan(db);
+                SaveExternerPlan(db);
+                SaveTemplates(db);
+                db.Close();
+            }
+
+            //letzte DB mit neuer tmp-Datei überschreiben,
+            //bei einem Fehler neuen Dateinamen kreieren
+            var newfile = file;
+            try
+            {
+                File.Delete(file);
+            }
+            catch (Exception e)
+            {
+                var i = 1;
+                newfile = file;
+                while (File.Exists(newfile))
+                {
+                    FileInfo fi = new FileInfo(file);
+                    newfile = Path.Combine(fi.DirectoryName, fi.Name.Replace(fi.Extension, "") + i + fi.Extension);
+                    i++;
+                }
+            }
+            File.Move(tempFile, newfile);
+
+            //Rückgabe des (neuen) Speichernamen
+            return newfile;
+        }
+
         private static void ReadParameter(SQLiteConnection db)
         {
             using (var cmd = new SQLiteCommand("SELECT Name, Wert FROM Parameter", db))
@@ -68,9 +110,12 @@ namespace Vortragsmanager.Core
         private static void ReadVersammlungen(SQLiteConnection db)
         {
             var vers = int.Parse(ReadParameter(Parameter.MeineVersammlung, db), DataContainer.German);
-            using (var cmd = new SQLiteCommand("SELECT Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw FROM Conregation", db))
+            using(var cmd1 = new SQLiteCommand("SELECT Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw FROM Conregation", db))
+            using(var cmd2 = new SQLiteCommand("SELECT Jahr, Zeit FROM Conregation_Zusammenkunftszeiten WHERE IdConregation = @Id", db))
             {
-                SQLiteDataReader rdr = cmd.ExecuteReader();
+                cmd2.Parameters.Add("@Id", System.Data.DbType.Int32);
+
+                SQLiteDataReader rdr = cmd1.ExecuteReader();
 
                 DataContainer.Versammlungen.Clear();
                 while (rdr.Read())
@@ -90,12 +135,24 @@ namespace Vortragsmanager.Core
                     c.KoordinatorJw = rdr.IsDBNull(11) ? null : rdr.GetString(11);
                     DataContainer.Versammlungen.Add(c);
 
+                    //Vorträge zuordnen
+                    cmd2.Parameters[0].Value = c.Id;
+                    SQLiteDataReader rdr2 = cmd2.ExecuteReader();
+                    while (rdr2.Read())
+                    {
+                        var jahr = rdr2.GetInt32(0);
+                        var zeit = rdr2.GetString(1);
+                        c.SetZusammenkunftszeit(jahr, zeit);
+                    }
+                    rdr2.Close();
+
                     if (c.Id == vers)
                         DataContainer.MeineVersammlung = c;
                 }
 
                 rdr.Close();
-                cmd.Dispose();
+                cmd1.Dispose();
+                cmd2.Dispose();
             }
         }
 
@@ -259,10 +316,10 @@ namespace Vortragsmanager.Core
         private static void ReadTemplates(SQLiteConnection db)
         {
             using (var cmd = new SQLiteCommand("SELECT Id, Inhalt, Beschreibung FROM Templates", db))
-            using (var cmd2 = new SQLiteCommand("SELECT Name, Beschreibung FROM Templates_Parameter WHERE IdTemplate = @Id"))
-            { 
+            using (var cmd2 = new SQLiteCommand("SELECT Name, Beschreibung FROM Templates_Parameter WHERE IdTemplate = @Id", db))
+            {
                 cmd2.Parameters.Add("@Id", System.Data.DbType.Int32);
-                
+
                 SQLiteDataReader rdr = cmd.ExecuteReader();
 
                 Templates.Vorlagen.Clear();
@@ -271,11 +328,11 @@ namespace Vortragsmanager.Core
                     var v = new Template();
                     v.Id = rdr.GetInt32(0);
                     v.Inhalt = rdr.GetString(1);
-                    v.Beschreibung = rdr.GetString(2);
+                    v.Beschreibung = rdr.IsDBNull(2) ? null : rdr.GetString(2);
                     v.Name = (Templates.TemplateName)v.Id;
 
                     cmd2.Parameters[0].Value = v.Id;
-                    SQLiteDataReader rdr2 = cmd.ExecuteReader();
+                    SQLiteDataReader rdr2 = cmd2.ExecuteReader();
                     while (rdr2.Read())
                     {
                         var k = rdr2.GetString(0);
@@ -287,52 +344,9 @@ namespace Vortragsmanager.Core
                 }
 
                 rdr.Close();
-                cmd.Dispose();
             }
         }
-
-        public static string SaveContainer(string file)
-        {
-            //Speichern der DB in einer tmp-Datei
-            var tempFile = Path.GetTempFileName();         
-            SQLiteConnection.CreateFile($"{tempFile}");
-            using(SQLiteConnection db = new SQLiteConnection($"Data Source = {tempFile}; Version = 3;"))
-            {
-                db.Open();
-                SaveParameter(db);
-                SaveVorträge(db);
-                SaveVersammlungen(db);
-                SaveRedner(db);
-                SaveMeinPlan(db);
-                SaveExternerPlan(db);
-                SaveTemplates(db);
-                db.Close();
-            }
-            
-            //letzte DB mit neuer tmp-Datei überschreiben,
-            //bei einem Fehler neuen Dateinamen kreieren
-            var newfile = file;
-            try
-            {
-                File.Delete(file);
-            }
-            catch(Exception e)
-            {
-                var i = 1;
-                newfile = file;
-                while (File.Exists(newfile))
-                {
-                    FileInfo fi = new FileInfo(file);
-                    newfile = Path.Combine(fi.DirectoryName, fi.Name.Replace(fi.Extension, "") + i + fi.Extension);
-                    i++;
-                }
-            }
-            File.Move(tempFile, newfile);
-
-            //Rückgabe des (neuen) Speichernamen
-            return newfile;
-        }
-
+       
         private static void SaveVersammlungen(SQLiteConnection db)
         {
             var cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Conregation (
