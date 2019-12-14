@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
+using Vortragsmanager.Core;
+using Vortragsmanager.Properties;
 
 namespace Vortragsmanager
 {
@@ -12,6 +9,9 @@ namespace Vortragsmanager
     /// </summary>
     public partial class App : Application
     {
-        
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            IoSqlite.SaveContainer(Settings.Default.sqlite);
+        }
     }
 }

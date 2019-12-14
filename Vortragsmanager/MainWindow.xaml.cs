@@ -1,4 +1,6 @@
 ﻿using DevExpress.Xpf.Core;
+using Vortragsmanager.Core;
+using Vortragsmanager.Properties;
 
 namespace Vortragsmanager
 {
