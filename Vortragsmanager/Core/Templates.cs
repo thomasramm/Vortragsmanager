@@ -19,6 +19,7 @@ namespace Vortragsmanager.Core
         //ToDo: Einlesen von Templates aus Ordner oder Datei
         public static void LoadTemplates()
         {
+            Vorlagen.Clear();
             LoadRednerAnfragenMailText();
             LoadRednerTermineMailText();
             LoadExterneAnfrageAblehnenText();
@@ -29,7 +30,6 @@ namespace Vortragsmanager.Core
         {
             var x = new Template
             {
-Id=1,
                 Name = TemplateName.RednerAnfragenMailText,
                 Beschreibung = "Diese Vorlage wird verwendet wenn Redner aus einer anderen Versammlung eingeladen werden",
                 Inhalt =
@@ -67,7 +67,6 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn
         {
             var x = new Template
             {
-                Id=2,
                 Name = TemplateName.RednerTermineMailText,
                 Inhalt =
 @"
@@ -95,7 +94,6 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn
         {
             var x = new Template
             {
-                Id=3,
                 Name = TemplateName.ExterneAnfrageAnnehmenInfoAnKoordinatorMailText,
                 Inhalt = @"
 Empfänger = {Koordinator Mail}
@@ -126,7 +124,6 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn"
 
             x = new Template
             {
-                Id=6,
                 Name = TemplateName.ExterneAnfrageAnnehmenInfoAnRednerMailText,
                 Inhalt = @"
 Empfänger = {Redner Mail}
@@ -170,7 +167,6 @@ Versammlung Hofgeismar
         {
             var x = new Template
             {
-                Id=4,
                 Name = TemplateName.ExterneAnfrageAblehnenInfoAnKoordinatorMailText,
                 Inhalt = @"
 Empfänger = {Koordinator Mail}
@@ -201,7 +197,6 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn"
 
             x = new Template
             {
-                Id=5,
                 Name = TemplateName.ExterneAnfrageAblehnenInfoAnRednerMailText,
                 Inhalt = @"
 Empfänger = {Redner Mail}
@@ -236,19 +231,17 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn"
 
         public enum TemplateName
         {
-            RednerAnfragenMailText,
-            RednerTermineMailText,
-            ExterneAnfrageAblehnenInfoAnKoordinatorMailText,
-            ExterneAnfrageAblehnenInfoAnRednerMailText,
-            ExterneAnfrageAnnehmenInfoAnKoordinatorMailText,
-            ExterneAnfrageAnnehmenInfoAnRednerMailText,
+            RednerAnfragenMailText = 1,
+            RednerTermineMailText = 2,
+            ExterneAnfrageAblehnenInfoAnKoordinatorMailText = 3,
+            ExterneAnfrageAblehnenInfoAnRednerMailText = 4,
+            ExterneAnfrageAnnehmenInfoAnKoordinatorMailText = 5,
+            ExterneAnfrageAnnehmenInfoAnRednerMailText = 6,
         }
     }
 
     public class Template
     {
-        public int Id { get; set; }
-
         public TemplateName Name { get; set; }
 
         public string Titel => Name.ToString();

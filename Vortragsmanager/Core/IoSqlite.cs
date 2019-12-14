@@ -331,12 +331,12 @@ namespace Vortragsmanager.Core
                 while (rdr.Read())
                 {
                     var v = new Template();
-                    v.Id = rdr.GetInt32(0);
+                    var id = rdr.GetInt32(0);
                     v.Inhalt = rdr.GetString(1);
                     v.Beschreibung = rdr.IsDBNull(2) ? null : rdr.GetString(2);
-                    v.Name = (Templates.TemplateName)v.Id;
+                    v.Name = (Templates.TemplateName)id;
 
-                    cmd2.Parameters[0].Value = v.Id;
+                    cmd2.Parameters[0].Value = id;
                     SQLiteDataReader rdr2 = cmd2.ExecuteReader();
                     while (rdr2.Read())
                     {
@@ -345,6 +345,8 @@ namespace Vortragsmanager.Core
                         v.Parameter.Add(k, w);
                     }
                     rdr2.Close();
+
+                    Templates.Vorlagen.Add(v.Name, v);
 
                 }
 
@@ -669,14 +671,14 @@ namespace Vortragsmanager.Core
 
             foreach (var t in Templates.Vorlagen)
             {
-                cmd1.Parameters[0].Value = t.Value.Id;
-                cmd1.Parameters[1].Value = t.Value.Name.ToString();
+                cmd1.Parameters[0].Value = (int)t.Value.Name;
+                cmd1.Parameters[1].Value = t.Value.Inhalt;
                 cmd1.Parameters[2].Value = t.Value.Beschreibung;
                 cmd1.ExecuteNonQuery();
 
                 foreach(var p in t.Value.Parameter)
                 {
-                    cmd2.Parameters[0].Value = t.Value.Id;
+                    cmd2.Parameters[0].Value = (int)t.Value.Name;
                     cmd2.Parameters[1].Value = p.Key;
                     cmd2.Parameters[2].Value = p.Value;
                     cmd2.ExecuteNonQuery();
