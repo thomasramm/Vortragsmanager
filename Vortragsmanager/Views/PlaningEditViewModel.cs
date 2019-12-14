@@ -163,6 +163,7 @@ namespace Vortragsmanager.Views
                 list.Add(gC);
             }
             var redner = Core.DataContainer.Redner.Where(x => vers.Contains(x.Versammlung)).ToList();
+            var einladungen = Core.DataContainer.MeinPlan.Where(x => x.Status != InvitationStatus.Ereignis).Cast<Invitation>();
 
             foreach (var r in redner)
             {
@@ -171,8 +172,7 @@ namespace Vortragsmanager.Views
                 {
                     Redner = r
                 };
-
-                var vorträge = Core.DataContainer.MeinPlan.Where(x => x.Ältester == r).ToList();
+                var vorträge = einladungen.Where(x => x.Ältester == r).ToList();
                 if (vorträge.Count == 0)
                     continue;
 

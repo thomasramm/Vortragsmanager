@@ -86,7 +86,9 @@
                                                     <Border Background="{Binding Background}" Height="24" Margin="0" Width="185">
                                                         <Border.ContextMenu>
                                                             <ContextMenu>
-                                                                <MenuItem Header="Redner suchen"   Command="{Binding RednerSuchen}"   Visibility="{Binding IsOffen, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                <MenuItem Header="Redner suchen" Command="{Binding RednerSuchen}"   Visibility="{Binding IsOffen, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                <MenuItem Header="Ereignis eintragen" Command="{Binding EreignisEintragen}"   Visibility="{Binding IsOffen, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                <MenuItem Header="Ereignis bearbeiten" Command="{Binding EreignisEintragen}"   Visibility="{Binding IsEreignis, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <MenuItem Header="Anfrage löschen" Command="{Binding AnfrageLöschen}" Visibility="{Binding IsAnfrage, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <MenuItem Header="Buchung löschen" Command="{Binding BuchungLöschen}" Visibility="{Binding IsBuchung, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                             </ContextMenu>

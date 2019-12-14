@@ -101,15 +101,23 @@
     <Compile Include="Core\IoExcel.cs" />
     <Compile Include="Core\IoSqlite.cs" />
     <Compile Include="Core\Templates.cs" />
+    <Compile Include="Models\Event.cs" />
     <Compile Include="Models\ICloseable.cs" />
+    <Compile Include="Models\IEvent.cs" />
     <Compile Include="Views\BuchungLöschenDialog.xaml.cs">
       <DependentUpon>BuchungLöschenDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BuchungLöschenViewModel.cs">
       <DependentUpon>BuchungLöschenDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\EreignisEintragenDialog.xaml.cs">
+      <DependentUpon>EreignisEintragenDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\leerDialog.xaml.cs">
       <DependentUpon>leerDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EreignisEintragenDialogView.cs">
+      <DependentUpon>EreignisEintragenDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ListCreateViewModel.cs">
       <DependentUpon>ListCreateView.xaml</DependentUpon>
@@ -203,6 +211,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\EreignisEintragenDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\leerDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -274,6 +286,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\Licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

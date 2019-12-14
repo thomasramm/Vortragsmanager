@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Vortragsmanager.Core
 {
@@ -24,8 +25,9 @@ namespace Vortragsmanager.Core
 
         public static void UpdateTalkDate()
         {
-            foreach (var m in DataContainer.MeinPlan)
+            foreach (var evt in DataContainer.MeinPlan.Where(x => x.Status != Models.InvitationStatus.Ereignis))
             {
+                var m = (evt as Models.Invitation);
                 if (m.Vortrag is null)
                     continue;
                 if (m.Datum > m.Vortrag.zuletztGehalten || m.Vortrag.zuletztGehalten == null)

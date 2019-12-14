@@ -86,7 +86,7 @@ namespace Vortragsmanager.Views
             set { SetProperty(() => SelectedVortrag, value); }
         }
 
-        public Invitation MeineVersammlung
+        public IEvent MeineVersammlung
         {
             get { return GetProperty(() => MeineVersammlung); }
             set { SetProperty(() => MeineVersammlung, value); }

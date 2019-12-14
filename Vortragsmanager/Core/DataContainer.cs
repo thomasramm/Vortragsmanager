@@ -25,7 +25,7 @@ namespace Vortragsmanager.Core
 
         public static ObservableCollection<Speaker> Redner { get; } = new ObservableCollection<Speaker>();
 
-        public static ObservableCollection<Invitation> MeinPlan { get; } = new ObservableCollection<Invitation>();
+        public static ObservableCollection<IEvent> MeinPlan { get; } = new ObservableCollection<IEvent>();
 
         public static ObservableCollection<Outside> ExternerPlan { get; } = new ObservableCollection<Outside>();
 

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Vortragsmanager.Models;
 
 namespace Vortragsmanager.Views
 {
@@ -48,19 +49,38 @@ namespace Vortragsmanager.Views
                 worksheet.Cells[1, 1].Value = titel;
                 var row = 3;
                 var next10 = DataContainer.MeinPlan.Where(x => x.Datum > DateTime.Today).OrderBy(x => x.Datum).Take(10).ToList();
-                foreach (var sonntag in next10)
+                foreach (var evt in next10)
                 {
-                    worksheet.Cells[row, 1].Value = sonntag.Datum; //Datum
-                    worksheet.Cells[row, 2].Value = sonntag.Vortrag.Thema; //Vortragsthema
-                    //worksheet.Cells[row, 6].Value = vorsitz;
-                    row++;
-                    worksheet.Cells[row, 3].Value = sonntag.Ältester?.Name; //Vortragsredner
-                    worksheet.Cells[row, 4].Value = sonntag.Ältester?.Versammlung?.Name; //Vortragsredner, Versammlung
-                    //worksheet.Cells[row, 6].Value = wt-leser;
-                    row++;
-                    worksheet.Cells[row, 2].Value = GetRednerAuswärts(sonntag.Datum);//auswärts
-                    row++;
-                    row++;
+                    worksheet.Cells[row, 1].Value = evt.Datum; //Datum
+
+                    if (evt.Status == InvitationStatus.Ereignis)
+                    {
+                        var sonntag = (evt as SpecialEvent);
+                        worksheet.Cells[row, 2].Value = sonntag.Name; //EventName
+                        row++;
+                        worksheet.Cells[row, 3].Value = sonntag.Vortragender; //Vortragsredner
+                        worksheet.Cells[row, 4].Value = sonntag.Thema; //Vortragsredner, Versammlung
+                                                                                             //worksheet.Cells[row, 6].Value = wt-leser;
+                        row++;
+                        worksheet.Cells[row, 2].Value = GetRednerAuswärts(sonntag.Datum);//auswärts
+                        row++;
+                        row++;
+                    }
+                    else
+                    {
+                        var sonntag = (evt as Invitation);
+                        worksheet.Cells[row, 2].Value = sonntag.Vortrag.Thema; //Vortragsthema
+                                                                               //worksheet.Cells[row, 6].Value = vorsitz;
+                        row++;
+                        worksheet.Cells[row, 3].Value = sonntag.Ältester?.Name; //Vortragsredner
+                        worksheet.Cells[row, 4].Value = sonntag.Ältester?.Versammlung?.Name; //Vortragsredner, Versammlung
+                                                                                             //worksheet.Cells[row, 6].Value = wt-leser;
+                        row++;
+                        worksheet.Cells[row, 2].Value = GetRednerAuswärts(sonntag.Datum);//auswärts
+                        row++;
+                        row++;
+                    }
+
                 }
                 package.Save();
             }

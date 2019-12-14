@@ -2,16 +2,32 @@
 
 namespace Vortragsmanager.Models
 {
-    public class Invitation
+    public class Invitation : IEvent
     {
-        public Speaker Ältester { get; set; }
-
-        public Talk Vortrag { get; set; }
+        #region Interface
 
         public DateTime Datum { get; set; }
 
         public InvitationStatus Status { get; set; } = InvitationStatus.Zugesagt;
 
+        public string Anzeigetext
+        {
+            get
+            {
+                if (Status == InvitationStatus.Anfrage)
+                    return AnfrageVersammlung.Name;
+                if (Status == InvitationStatus.Zugesagt)
+                    return Ältester?.Name ?? "unbekannt";
+                return "FEHLER";
+            }
+        }
+
+        #endregion
+
+        public Speaker Ältester { get; set; }
+
+        public Talk Vortrag { get; set; }
+               
         public Conregation AnfrageVersammlung { get; set; }
 
         public DateTime LetzteAktion { get; set; }
@@ -25,6 +41,7 @@ namespace Vortragsmanager.Models
     {
         Anfrage,
         Zugesagt,
-        Abgesagt
+        Abgesagt,
+        Ereignis
     }
 }

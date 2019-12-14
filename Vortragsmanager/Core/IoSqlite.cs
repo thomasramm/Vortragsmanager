@@ -21,6 +21,7 @@ namespace Vortragsmanager.Core
                 ReadMeinPlan(db);
                 ReadExternerPlan(db);
                 ReadTemplates(db);
+                ReadEvents(db);
 
                 db.Close();
             }
@@ -357,6 +358,31 @@ namespace Vortragsmanager.Core
             }
         }
 
+        private static void ReadEvents(SQLiteConnection db)
+        {
+            using (var cmd = new SQLiteCommand("SELECT Typ, Name, Thema, Vortragender, Datum FROM Events", db))
+            {
+                SQLiteDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    var v = new SpecialEvent
+                    {
+                        Typ = (EventTyp)rdr.GetInt32(0),
+                        Name = rdr.GetString(1),
+                        Thema = rdr.IsDBNull(2) ? null : rdr.GetString(2),
+                        Vortragender = rdr.IsDBNull(3) ? null : rdr.GetString(3),
+                        Datum = rdr.GetDateTime(4)
+                    };
+
+                    DataContainer.MeinPlan.Add(v);
+                }
+
+                rdr.Close();
+            }
+
+        }
+
         private static void SaveVersammlungen(SQLiteConnection db)
         {
             var cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Conregation (
@@ -461,8 +487,9 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@LetzteAktion", System.Data.DbType.Date);
             cmd.Parameters.Add("@Kommentar", System.Data.DbType.String);
 
-            foreach (var con in DataContainer.MeinPlan)
+            foreach (var er in DataContainer.MeinPlan.Where(x => x.Status != InvitationStatus.Ereignis))
             {
+                var con = (er as Invitation);
                 cmd.Parameters[0].Value = con.Ältester?.Id;
                 cmd.Parameters[1].Value = con.Vortrag?.Nummer;
                 cmd.Parameters[2].Value = con.Ältester?.Versammlung?.Id;
@@ -470,6 +497,37 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[4].Value = (int)con.Status;
                 cmd.Parameters[5].Value = con.LetzteAktion;
                 cmd.Parameters[6].Value = con.Kommentar;
+                cmd.ExecuteNonQuery();
+            }
+
+            cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Events (
+                Typ INTEGER,
+                Name TEXT,
+                Thema TEXT,
+                VORTRAGENDER TEXT,
+                Datum INTEGER)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            cmd = new SQLiteCommand("INSERT INTO Events(Typ, Name, Thema, Vortragender, Datum)" +
+                "VALUES (@Typ, @Name, @Thema, @Vortragender, @Datum)", db);
+
+            cmd.Parameters.Add("@Typ", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@Name", System.Data.DbType.String);
+            cmd.Parameters.Add("@Thema", System.Data.DbType.String);
+            cmd.Parameters.Add("@Vortragender", System.Data.DbType.String);
+            cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
+
+            foreach (var er in DataContainer.MeinPlan.Where(x => x.Status == InvitationStatus.Ereignis))
+            {
+                var evt = (er as SpecialEvent);
+                cmd.Parameters[0].Value = (int)evt.Typ;
+                cmd.Parameters[1].Value = evt.Name;
+                cmd.Parameters[2].Value = evt.Thema;
+                cmd.Parameters[3].Value = evt.Vortragender;
+                cmd.Parameters[4].Value = evt.Datum;
                 cmd.ExecuteNonQuery();
             }
 
