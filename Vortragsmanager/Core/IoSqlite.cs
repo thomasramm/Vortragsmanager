@@ -20,7 +20,6 @@ namespace Vortragsmanager.Core
                 ReadRedner(db);
                 ReadMeinPlan(db);
                 ReadExternerPlan(db);
-                //ReadTemplates(file);
 
                 db.Close();
             }
@@ -296,7 +295,7 @@ namespace Vortragsmanager.Core
             //Speichern der DB in einer tmp-Datei
             var tempFile = Path.GetTempFileName();         
             SQLiteConnection.CreateFile($"{tempFile}");
-            using(SQLiteConnection db = new SQLiteConnection($"Data Source = {file}; Version = 3;"))
+            using(SQLiteConnection db = new SQLiteConnection($"Data Source = {tempFile}; Version = 3;"))
             {
                 db.Open();
                 SaveParameter(db);
