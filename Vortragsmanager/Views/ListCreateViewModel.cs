@@ -18,6 +18,21 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand CreateAushangCommand { get; private set; }
 
+        private string GetRednerAuswärts(DateTime datum)
+        {
+            var e = DataContainer.ExternerPlan.Where(x => x.Datum == datum).ToList();
+            if (e.Count == 0)
+                return "";
+
+            var ausgabe = "Redner Auswärts: ";
+            foreach(var r in e)
+            {
+                ausgabe += $"{r.Ältester.Name} in {r.Versammlung.Name}, ";
+            }
+
+            return ausgabe.Substring(0,ausgabe.Length-2);
+        }
+
         public void CreateAushang()
         {
             //laden der Excel-Datei
@@ -43,7 +58,7 @@ namespace Vortragsmanager.Views
                     worksheet.Cells[row, 4].Value = sonntag.Ältester?.Versammlung?.Name; //Vortragsredner, Versammlung
                     //worksheet.Cells[row, 6].Value = wt-leser;
                     row++;
-                    //auswärts
+                    worksheet.Cells[row, 2].Value = GetRednerAuswärts(sonntag.Datum);//auswärts
                     row++;
                     row++;
                 }
@@ -59,6 +74,7 @@ namespace Vortragsmanager.Views
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                File.Delete(saveFileDialog1.FileName);
                 File.Move(tempFile, saveFileDialog1.FileName);
             }
 
