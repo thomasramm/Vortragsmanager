@@ -57,7 +57,7 @@ namespace Vortragsmanager.Core
             {
                 File.Delete(file);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 var i = 1;
                 newfile = file;

@@ -15,6 +15,7 @@ namespace Vortragsmanager
             //Templates.LoadTemplates();
             IoSqlite.ReadContainer(Settings.Default.sqlite);
             InitializeComponent();
+            Updater.CheckForUpdates();
         }
     }
 }

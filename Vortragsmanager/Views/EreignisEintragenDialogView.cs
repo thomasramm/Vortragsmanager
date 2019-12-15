@@ -3,6 +3,7 @@ using DevExpress.Xpf.Editors;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows;
 using Vortragsmanager.Models;
 
@@ -141,7 +142,7 @@ namespace Vortragsmanager.Views
 
         public void ChangeKreisaufseher()
         {
-            if (SelectedEreignis.ToString() == "Dienstwoche")
+            if (SelectedEreignis.ToString(CultureInfo.InvariantCulture) == "Dienstwoche")
             {
                 if (VortragName != Properties.Settings.Default.NameKreisaufseher)
                 {

@@ -8,5 +8,8 @@
     <Setting Name="NameKreisaufseher" Type="System.String" Scope="User">
       <Value Profile="(Default)">Name des Kreisaufseher</Value>
     </Setting>
+    <Setting Name="NextUpdateSearch" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">2000-01-01</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

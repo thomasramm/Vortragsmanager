@@ -1,0 +1,40 @@
+﻿<Window x:Class="Vortragsmanager.Views.UpdateDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Vortragsmanager.Views"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        mc:Ignorable="d"
+        Title="Auf Updates prüfen" Height="450" Width="800"
+        Background="#333"
+        DataContext="{dxmvvm:ViewModelSource local:UpdateDialogViewModel}"
+        x:Name="UpdateWindow">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Margin="10">
+            <Label Content="{Binding NeueVersion}" 
+                   HorizontalContentAlignment="Center" 
+                   FontSize="20" 
+                   Foreground="Orange"
+                   />
+            <Label Content="{Binding CurrentVersion}" 
+                   HorizontalContentAlignment="Center"
+                   FontSize="16"/>
+            <TextBlock HorizontalAlignment="Center" FontSize="16" Margin="10">
+                <Hyperlink NavigateUri="https://github.com/thomasramm/Vortragsmanager#Installation">Neueste Version herunterladen.</Hyperlink>
+            </TextBlock>
+            <TextBox Text="{Binding Changelog, Mode=OneWay}" Height="235" />
+        </StackPanel>
+        <dx:SimpleButton Grid.Row="1" Content="Schließen"
+                         Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}"
+                         GlyphAlignment="Left"
+                         Command="{Binding CloseCommand, Mode=OneWay}" 
+                         CommandParameter="{Binding ElementName=UpdateWindow}" 
+                         HorizontalAlignment="Right" Width="150" Margin="5,5,10,10" />
+    </Grid>
+</Window>
