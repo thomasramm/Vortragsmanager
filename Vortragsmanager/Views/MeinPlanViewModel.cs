@@ -111,10 +111,6 @@ namespace Vortragsmanager.Views
         {
             Jahr = jahr;
             Monat = monat;
-            if (Monat.Nr == 4)
-            {
-                var x = 1;
-            }
             Tag = tag;
             Zuteilung = Core.DataContainer.MeinPlan?.FirstOrDefault(x => x.Datum == tag) ?? null;
             AnzahlAuswärtigeRedner = Core.DataContainer.ExternerPlan?.Count(x => x.Datum == tag) ?? 0;

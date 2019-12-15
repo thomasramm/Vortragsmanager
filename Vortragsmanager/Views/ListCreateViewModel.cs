@@ -98,7 +98,7 @@ namespace Vortragsmanager.Views
                 File.Move(tempFile, saveFileDialog1.FileName);
             }
 
-            
+            saveFileDialog1.Dispose();
         }
     }
 }
