@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Core;
+using System.IO;
 using Vortragsmanager.Core;
 using Vortragsmanager.Properties;
 
@@ -13,7 +14,11 @@ namespace Vortragsmanager
         {
             //IoExcel.ReadContainer(@"C:\Daten\Thomas\Projekte\Vortragsmanager\Rohdaten\Data.xlsx");
             //Templates.LoadTemplates();
-            IoSqlite.ReadContainer(Settings.Default.sqlite);
+            var filename = Settings.Default.sqlite;
+            if (File.Exists(filename))
+                IoSqlite.ReadContainer(Settings.Default.sqlite);
+            else
+                IoSqlite.CreateEmptyDatabase(filename);
             InitializeComponent();
             Updater.CheckForUpdates();
         }
