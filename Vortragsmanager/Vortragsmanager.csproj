@@ -112,6 +112,12 @@
     <Compile Include="Views\BuchungLöschenViewModel.cs">
       <DependentUpon>BuchungLöschenDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\EinstellungenView.xaml.cs">
+      <DependentUpon>EinstellungenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EinstellungenViewModel.cs">
+      <DependentUpon>EinstellungenView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EreignisEintragenDialog.xaml.cs">
       <DependentUpon>EreignisEintragenDialog.xaml</DependentUpon>
     </Compile>
@@ -218,6 +224,10 @@
     <Page Include="Views\BuchungLöschenDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EinstellungenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EreignisEintragenDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -347,6 +357,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Logo1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Laptop_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Laptop2_64x64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -125,6 +125,13 @@
                        dxwuin:Navigation.NavigateTo="VorlagenView">
                 <Image Source="/Images/TextSettings_64x64.png" Margin="10,0,10,10" />
             </dxlc:Tile>
+            <dxlc:Tile Size="Small"
+                       Header="Programm"
+                       Background="DodgerBlue"
+                       Foreground="White"
+                       dxwuin:Navigation.NavigateTo="EinstellungenView">
+                <Image Source="/Images/Laptop2_64x64.png" Margin="10,0,10,10" />
+            </dxlc:Tile>
         </dxlc:TileLayoutControl>
     </Grid>
 </UserControl>

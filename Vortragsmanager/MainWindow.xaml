@@ -6,6 +6,7 @@
     xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
     xmlns:Views="clr-namespace:Vortragsmanager.Views"
     xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
+    Width="1200"
 >
     <Navi:NavigationView />
 </dxc:ThemedWindow>

@@ -23,10 +23,18 @@ namespace Vortragsmanager.Core
 
         public static void CheckForUpdates()
         {
+            if (!Properties.Settings.Default.SearchForUpdates)
+                return;
+
             var nextSearch = Properties.Settings.Default.NextUpdateSearch;
             if (nextSearch > DateTime.Today)
                 return;
 
+            CheckForUpdatesForce();
+        }
+        public static void CheckForUpdatesForce()
+        {
+            var nextSearch = Properties.Settings.Default.NextUpdateSearch;
             nextSearch = DateTime.Today.AddDays(1);
             Properties.Settings.Default.NextUpdateSearch = nextSearch;
             Properties.Settings.Default.Save();
