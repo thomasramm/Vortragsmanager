@@ -35,11 +35,9 @@ namespace Vortragsmanager
                 Initialize.NewDatabase();
 
             if (!DataContainer.IsInitialized)
-            {
-               // this.Close();
-            }
+               Close();
 
-                InitializeComponent();
+            InitializeComponent();
             Updater.CheckForUpdates();
         }
     }

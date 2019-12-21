@@ -362,161 +362,186 @@ namespace Vortragsmanager.Core
 
             public static List<Models.Outside> ExternerPlan { get; } = new List<Models.Outside>();
 
-            public static void ImportEigenePlanungen(string filename)
+            public static bool ImportEigenePlanungen(string filename)
             {
-                file = new FileInfo(filename);
-
-                using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                using (ExcelPackage package = new ExcelPackage(fs))
+                try
                 {
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets[2];
+                    file = new FileInfo(filename);
 
-                    var row = 2;
-                    while (true)
+                    using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    using (ExcelPackage package = new ExcelPackage(fs))
                     {
-                        var datum = worksheet.Cells[row, 1].Value;
-                        var redner = worksheet.Cells[row, 2].Value;
-                        var vortrag = worksheet.Cells[row, 3].Value;
-                        var thema = worksheet.Cells[row, 4].Value;
-                        var versammlung = worksheet.Cells[row, 5].Value;
-                        var rednerTelefon = worksheet.Cells[row, 6].Value?.ToString();
-                        var rednerHandy = worksheet.Cells[row, 7].Value?.ToString();
-                        row++;
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[2];
 
-                        if (datum.ToString() == "Datum")
-                            continue;
-
-                        if (datum == null) //Die Liste ist zu Ende
-                            break;
-
-                        if (redner == null && vortrag == null) //Keine Planung eingetragen
-                            continue;
-
-                        if (redner == null) //Special Event eintragen
+                        var row = 2;
+                        while (true)
                         {
-                            var se = new Models.SpecialEvent();
-                            se.Datum = DateTime.Parse(datum.ToString(), DataContainer.German);
-                            var typ = thema.ToString();
-                            se.Typ = Models.EventTyp.Sonstiges;
-                            if (typ.Contains("Weltzentrale"))
+                            var datum = worksheet.Cells[row, 1].Value;
+                            var redner = worksheet.Cells[row, 2].Value;
+                            var vortrag = worksheet.Cells[row, 3].Value;
+                            var thema = worksheet.Cells[row, 4].Value;
+                            var versammlung = worksheet.Cells[row, 5].Value;
+                            var rednerTelefon = worksheet.Cells[row, 6].Value?.ToString();
+                            var rednerHandy = worksheet.Cells[row, 7].Value?.ToString();
+                            row++;
+
+                            if (datum == null) //Die Liste ist zu Ende
+                                break;
+
+                            if (datum.ToString() == "Datum")
+                                continue;
+
+                            if (redner == null && thema == null) //Keine Planung eingetragen
+                                continue;
+
+                            if (redner == null) //Special Event eintragen
                             {
-                                se.Typ = Models.EventTyp.Streaming;
-                                se.Name = typ;
-                             }
-                            else if (typ.Contains("Kreiskongress"))
-                            {
-                                se.Typ = Models.EventTyp.Kreiskongress;
+                                var se = new Models.SpecialEvent();
+                                se.Datum = DateTime.Parse(datum.ToString(), DataContainer.German);
+                                var typ = thema.ToString();
+                                se.Typ = Models.EventTyp.Sonstiges;
+                                if (typ.Contains("Weltzentrale"))
+                                {
+                                    se.Typ = Models.EventTyp.Streaming;
+                                    se.Name = typ;
+                                }
+                                else if (typ.Contains("Kreiskongress"))
+                                {
+                                    se.Typ = Models.EventTyp.Kreiskongress;
+                                }
+                                else if (typ.Contains("Sondervortrag"))
+                                {
+                                    se.Typ = Models.EventTyp.Streaming;
+                                    se.Name = typ;
+                                }
+                                else if (typ.Contains("Regionaler Kongress"))
+                                {
+                                    se.Typ = Models.EventTyp.RegionalerKongress;
+                                }
+                                MeinPlan.Add(se);
+                                continue;
                             }
-                            else if (typ.Contains("Sondervortrag"))
+
+                            var i = new Models.Invitation
                             {
-                                se.Typ = Models.EventTyp.Streaming;
-                                se.Name = typ;
-                            }
-                            else if (typ.Contains("Regionaler Kongress"))
+                                Datum = DateTime.Parse(datum.ToString(), DataContainer.German)
+                            };
+
+                            //Versammlung
+                            var v1 = versammlung?.ToString() ?? "Unbekannt";
+
+                            if (v1 == "Kreisaufseher")
                             {
-                                se.Typ = Models.EventTyp.RegionalerKongress;
+                                var se = new Models.SpecialEvent();
+                                se.Datum = i.Datum;
+                                se.Typ = Models.EventTyp.Dienstwoche;
+                                se.Vortragender = redner?.ToString() ?? "Kreisaufseher";
+                                se.Thema = thema?.ToString();
+                                MeinPlan.Add(se);
+                                continue;
                             }
-                            MeinPlan.Add(se);
-                            continue;
+
+                            var v = DataContainer.FindOrAddConregation(v1);
+                            var r = DataContainer.FindOrAddSpeaker(redner.ToString(), v);
+                            i.Ältester = r;
+
+                            if (string.IsNullOrEmpty(i.Ältester.Telefon) && !string.IsNullOrEmpty(rednerTelefon))
+                                i.Ältester.Telefon = rednerTelefon;
+                            if (string.IsNullOrEmpty(i.Ältester.Mobil) && !string.IsNullOrEmpty(rednerHandy))
+                                i.Ältester.Mobil = rednerHandy;
+
+                            //Vortrag
+                            var vn = int.Parse(vortrag.ToString(), DataContainer.German);
+                            var t = DataContainer.FindTalk(vn);
+                            i.Vortrag = t;
+                            if (!i.Ältester.Vorträge.Contains(t))
+                                i.Ältester.Vorträge.Add(t);
+
+                            MeinPlan.Add(i);
                         }
-
-                        var i = new Models.Invitation
-                        {
-                            Datum = DateTime.Parse(datum.ToString(), DataContainer.German)
-                        };
-
-                        //Versammlung
-                        var v1 = versammlung?.ToString() ?? "Unbekannt";
-
-                        if (v1 == "Kreisaufseher")
-                        {
-                            var se = new Models.SpecialEvent();
-                            se.Datum = i.Datum;
-                            se.Typ = Models.EventTyp.Dienstwoche;
-                            se.Vortragender = redner?.ToString() ?? "Kreisaufseher";
-                            se.Thema = thema?.ToString();
-                            continue;
-                        }
-
-                        var v = DataContainer.FindOrAddConregation(v1);
-                        var r = DataContainer.FindOrAddSpeaker(redner.ToString(), v);
-                        i.Ältester = r;
-
-                        if (string.IsNullOrEmpty(i.Ältester.Telefon) && !string.IsNullOrEmpty(rednerTelefon))
-                            i.Ältester.Telefon = rednerTelefon;
-                        if (string.IsNullOrEmpty(i.Ältester.Mobil) && !string.IsNullOrEmpty(rednerHandy))
-                            i.Ältester.Mobil = rednerHandy;
-
-                        //Vortrag
-                        var vn = int.Parse(vortrag.ToString(), DataContainer.German);
-                        var t = DataContainer.FindTalk(vn);
-                        i.Vortrag = t;
-
-                        MeinPlan.Add(i);
                     }
                 }
+                catch (Exception e)
+                {
+                    ThemedMessageBox.Show("Fehler",
+                        $"Beim Einlesen der Excel-Datei ist es zu folgendem Fehler gekommen\n:{e.Message}",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Error);
+                    return false;
+                }
+                return true;
             }
 
-            public static void ImportRednerPlanungen(string filename)
+            public static bool ImportRednerPlanungen(string filename)
             {
-                file = new FileInfo(filename);
-                Conregations = new List<Models.Conregation>();
-
-                using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                using (ExcelPackage package = new ExcelPackage(fs))
+                try
                 {
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
-                    var pos = worksheet.Name.LastIndexOf(' ');
-                    var kreisString = worksheet.Name.Substring(pos + 1, worksheet.Name.Length - pos);
-                    Kreis = int.Parse(kreisString, DataContainer.German);
+                    file = new FileInfo(filename);
+                    Conregations = new List<Models.Conregation>();
 
-                    var row = 2;
-                    var id = DataContainer.Versammlungen?.Max(x => x.Id) + 1 ?? 1;
-                    while (true)
+                    using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    using (ExcelPackage package = new ExcelPackage(fs))
                     {
-                        var datum = worksheet.Cells[row, 1].Value;
-                        var redner = worksheet.Cells[row, 2].Value;
-                        var vortrag = worksheet.Cells[row, 3].Value;
-                        var thema = worksheet.Cells[row, 4].Value;
-                        var versammlung = worksheet.Cells[row, 5].Value;
-                        row++;
-
-                        if (datum.ToString() == "Datum")
-                            continue;
-
-                        if (datum == null)
-                            break;
-
-                        if (redner == null)
-                            continue;
-
-                        var i = new Models.Outside
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
+                        var row = 2;
+                        while (true)
                         {
-                            Datum = DateTime.Parse(datum.ToString(), DataContainer.German)
-                        };
+                            var datum = worksheet.Cells[row, 1].Value;
+                            var redner = worksheet.Cells[row, 2].Value;
+                            var vortrag = worksheet.Cells[row, 3].Value;
+                            var thema = worksheet.Cells[row, 4].Value;
+                            var versammlung = worksheet.Cells[row, 5].Value;
+                            row++;
 
-                        //Redner
-                        var r = DataContainer.FindOrAddSpeaker(redner.ToString(), DataContainer.MeineVersammlung);
-                        if (r == null)
-                            continue;
 
-                        i.Ältester = r;
+                            if (datum == null)
+                                break;
 
-                        //Gast-Versammlung
-                        var v1 = versammlung?.ToString() ?? "Unbekannt";
-                        if (v1 == "Urlaub")
-                            i.Reason = Models.OutsideReason.NotAvailable;
-                        var v = DataContainer.FindConregation(v1);
-                        i.Versammlung = v;
+                            if (datum.ToString() == "Datum")
+                                continue;
 
-                        //Vortrag
-                        var vn = int.Parse(vortrag.ToString(), DataContainer.German);
-                        var t = DataContainer.FindTalk(vn);
-                        i.Vortrag = t;
+                            if (redner == null)
+                                continue;
 
-                        ExternerPlan.Add(i);
+                            var i = new Models.Outside
+                            {
+                                Datum = DateTime.Parse(datum.ToString(), DataContainer.German)
+                            };
+
+                            //Redner
+                            var r = DataContainer.FindOrAddSpeaker(redner.ToString(), DataContainer.MeineVersammlung);
+                            if (r == null)
+                                continue;
+
+                            i.Ältester = r;
+
+                            //Gast-Versammlung
+                            var v1 = versammlung?.ToString() ?? "Unbekannt";
+                            if (v1 == "Urlaub")
+                                i.Reason = Models.OutsideReason.NotAvailable;
+                            var v = DataContainer.FindOrAddConregation(v1);
+                            i.Versammlung = v;
+
+                            //Vortrag
+                            var vn = int.Parse(vortrag.ToString(), DataContainer.German);
+                            var t = DataContainer.FindTalk(vn);
+                            i.Vortrag = t;
+                            if (!i.Ältester.Vorträge.Contains(t))
+                                i.Ältester.Vorträge.Add(t);
+
+                            ExternerPlan.Add(i);
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    ThemedMessageBox.Show("Fehler",
+                        $"Beim Einlesen der Excel-Datei ist es zu folgendem Fehler gekommen\n:{e.Message}",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Error);
+                    return false;
+                }
+                return true;
             }
         }
     }

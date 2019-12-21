@@ -200,7 +200,7 @@ namespace Vortragsmanager.Views
                 _deineVersammlung = value;
                 CanGoNext = (_deineVersammlung != null);
                 if (value != null)
-                    Core.DataContainer.MeineVersammlung = _deineVersammlung;
+                   Core.DataContainer.MeineVersammlung = _deineVersammlung;
             }
         }
 
@@ -208,7 +208,7 @@ namespace Vortragsmanager.Views
 
         #region Planungen importieren
 
-        public List<string> ImportierteJahreliste { get; } = new List<string>();
+        public ObservableCollection<string> ImportierteJahreliste { get; } = new ObservableCollection<string>();
 
         public void ExcelImportierenPlannung()
         {
@@ -223,8 +223,9 @@ namespace Vortragsmanager.Views
             }
 
             //einlesen der Excel-Datei
-            Core.IoExcel.Vplanung.ImportEigenePlanungen(ImportExcelFile);
-            Core.IoExcel.Vplanung.ImportRednerPlanungen(ImportExcelFile);
+            if (!Core.IoExcel.Vplanung.ImportEigenePlanungen(ImportExcelFile) ||
+                !Core.IoExcel.Vplanung.ImportRednerPlanungen(ImportExcelFile) )
+                return;
 
             var jahr = Core.IoExcel.Vplanung.MeinPlan.Select(x => x.Datum.Year);
 

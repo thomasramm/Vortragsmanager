@@ -67,6 +67,7 @@
                              Foreground="White"
                              SideContent="{StaticResource ResourceKey=side}">
                 <dxlc:LayoutControl Grid.Column="1">
+                    <dxlc:LayoutGroup Orientation="Vertical">
                         <dxlc:LayoutGroup Header="Excel Datei auswählen" View="GroupBox" Orientation="Vertical">
                             <dxlc:LayoutItem>
                                 <Grid>
@@ -82,6 +83,11 @@
                                 <Button Content="Importieren" Command="{Binding ExcelImportierenKoordinatorenCommand}"/>
                             </dxlc:LayoutItem>
                         </dxlc:LayoutGroup>
+                        <dxlc:LayoutItem>
+                            <TextBlock Text="Importieren der Koordinatoren und Versammlungen. Importiere hier die Dateien 'Liste der Vortragskoordinatoren im Kreis NNN.xlsx'"
+                                       TextWrapping="Wrap"/>
+                        </dxlc:LayoutItem>
+                    </dxlc:LayoutGroup>
                     <dxlc:LayoutGroup Header="importierte Versammlungen" View="GroupBox" Width="200">
                         <ListBox ItemsSource="{Binding ImportierteKoordinatorenliste}"></ListBox>
                     </dxlc:LayoutGroup>
@@ -95,7 +101,11 @@
                 <Grid Margin="6">
                 <TextBlock Text="Tipp: Du kannst die Anfangsbuchstaben deiner Versammlung eingeben, um deine Versammlung in der Liste schneller zu finden." TextWrapping="Wrap"
                            Margin="10"/>
-                <dxe:ListBoxEdit ItemsSource="{Binding VersammlungsListe}" SelectedItem="{Binding DeineVersammlung}" ShowCustomItems="True" Margin="10,50,10,10">
+                <dxe:ListBoxEdit ItemsSource="{Binding VersammlungsListe}" 
+                                 SelectedItem="{Binding DeineVersammlung}" 
+                                 ShowCustomItems="True" 
+                                 Margin="10,50,10,10"
+                                 DisplayMember="Name">
                     <dxe:ListBoxEdit.StyleSettings>
                         <dxe:RadioListBoxEditStyleSettings />
                     </dxe:ListBoxEdit.StyleSettings>
@@ -109,7 +119,8 @@
                              SideContent="{StaticResource ResourceKey=side}">
 
             <dxlc:LayoutControl Grid.Column="1">
-                <dxlc:LayoutGroup Header="Excel Datei auswählen" View="GroupBox" Orientation="Vertical">
+                    <dxlc:LayoutGroup Orientation="Vertical">
+                        <dxlc:LayoutGroup Header="Excel Datei auswählen" View="GroupBox" Orientation="Vertical">
                     <dxlc:LayoutItem>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -124,7 +135,12 @@
                         <Button Content="Importieren" Command="{Binding ExcelImportierenPlannungCommand}"/>
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
-                <dxlc:LayoutGroup Header="importierte Jahre" View="GroupBox" Width="200">
+                        <dxlc:LayoutItem>
+                            <TextBlock Text="Importieren deiner Planung. Importiere hier die Dateien 'Deine Vortragsplanung 20NN.xlsx'"
+                                       TextWrapping="Wrap"/>
+                        </dxlc:LayoutItem>
+                    </dxlc:LayoutGroup>
+                    <dxlc:LayoutGroup Header="importierte Jahre" View="GroupBox" Width="200">
                     <ListBox ItemsSource="{Binding ImportierteJahreliste}"></ListBox>
                 </dxlc:LayoutGroup>
             </dxlc:LayoutControl>
