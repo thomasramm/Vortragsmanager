@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Vortragsmanager.Views"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxco="http://schemas.devexpress.com/winfx/2008/xaml/controls"
-        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
         mc:Ignorable="d"
         Title="Einrichtungsassistent" Height="450" Width="800"
         x:Name="SetupWizardWindow" 
@@ -22,6 +23,7 @@
             AnimationType="SlideHorizontal"  
             dx:ThemeManager.Theme="MetropolisDark"
             BorderThickness="1"
+            AllowNext="{Binding CanGoNext}"
             SelectedIndex="{Binding SelectedIndex}">
             <dxco:WelcomeWizardPage Title="Willkommen beim Vortragsmanager DeLuxe" Header="Datenbank einrichten">
                 <dxco:WelcomeWizardPage.SideContent>
@@ -34,25 +36,122 @@
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Border Grid.Row="0" BorderBrush="White" BorderThickness="1">
-                        <TextBlock Margin="10" 
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Margin="10" 
+                                   Grid.Row="0"
+                                   Grid.Column="0"
                                FontSize="12"
                                TextWrapping="Wrap"
                                Text="Dieser Assistent soll dir dabei helfen, deine Daten in den Vortragsmanager DeLuxe einzufügen.
-&#13;Basis sind die Exportlisten von vplanung.net, einem Online System das eingestellt wurde." 
-                               />
-                    </Border>
-                    <DockPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="16,0,16,12">
+&#13;Basis sind die Exportlisten von vplanung.net, einem Online System das eingestellt wurde. 
+&#13;Falls noch nicht geschehen, gehe bitte noch vor dem 31.12. auf vplanung.net in den Bereich Listen und lade dir folgende Dateien herunter.
+&#13;
+&#13; 1. Achte darauf das oben im Dateiformat folgendes                               
+&#13; gewählt ist: 'Ausgabe als Excel Version 2007 (xlsx)'
+&#13;
+&#13; 2. Deine Vortragsplaung [2019] (und alle weiteren Jahre die du importieren willst)
+&#13;
+&#13; 3. Koordinatoren mit Kontaktdaten
+&#13;
+&#13; 4. Koordinatoren mit Kontaktdaten (Nachbarkreise) [KreisNr]"
+                                   />
+                    <Image Grid.Row="0" Grid.Column="1" Source="/Images/Screenshot Downloadseite mit Hinweisen.png" VerticalAlignment="Top"/>
+                    <DockPanel Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="16,0,16,12">
                         <TextBlock DockPanel.Dock="Left" FontSize="12" Text="Um zu starten, klicke auf Weiter." />
                         <TextBlock DockPanel.Dock="Right" FontSize="12" Text="Schritt 1 of 3" HorizontalAlignment="Right" />
                     </DockPanel>
                 </Grid>
             </dxco:WelcomeWizardPage>
-            <dxco:WizardPage>
-                <TextBlock Text="Some page" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <dxco:WizardPage Title="Import deiner Daten von www.vplanung.net" Header="Liste der Koordinatoren" ShowSideContent="True">
+                <dxco:WizardPage.SideContent>
+                    <Border Background="Orange" BorderBrush="White" BorderThickness="1">
+                        <Image Source="/Images/Logo1_128x128.png" Margin="3" Width="150"/>
+                    </Border>
+                </dxco:WizardPage.SideContent>
+                <dxlc:LayoutControl Grid.Column="1">
+                        <dxlc:LayoutGroup Header="Excel Datei auswählen" View="GroupBox" Orientation="Vertical">
+                            <dxlc:LayoutItem>
+                                <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding ImportKoordinatorenExcelFile}"/>
+                                    <Button Grid.Column="1" Content="Durchsuchen..." Command="{Binding ExcelFileDialogKoordinatorCommand}" Width="100"/>
+                                </Grid>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="Gewählte Datei importieren">
+                                <Button Content="Importieren" Command="{Binding ExcelImportierenKoordinatorenCommand}"/>
+                            </dxlc:LayoutItem>
+                        </dxlc:LayoutGroup>
+                    <dxlc:LayoutGroup Header="importierte Koordinatoren" View="GroupBox" Width="200">
+                        <ListBox ItemsSource="{Binding ImportierteKoordinatorenliste}"></ListBox>
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutControl>
             </dxco:WizardPage>
-            <dxco:CompletionWizardPage ShowBack="False" ShowCancel="False">
-                <TextBlock Text="Finish" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <dxco:WizardPage Title="Import deiner Daten von www.vplanung.net" Header="Wähle deine Versammlung" ShowSideContent="True">
+                <dxco:WizardPage.SideContent>
+                    <Border Background="Orange" BorderBrush="White" BorderThickness="1">
+                        <Image Source="/Images/Logo1_128x128.png" Margin="3" Width="150"/>
+                    </Border>
+                </dxco:WizardPage.SideContent>
+                <Grid>
+                <TextBlock Text="Tipp: Du kannst die Anfangsbuchstaben deiner Versammlung eingeben, um deine Versammlung in der Liste schneller zu finden." TextWrapping="Wrap"
+                           Margin="10"/>
+                <dxe:ListBoxEdit ItemsSource="{Binding VersammlungsListe}" SelectedItem="{Binding DeineVersammlung}" ShowCustomItems="True" Margin="10,50,10,10">
+                    <dxe:ListBoxEdit.StyleSettings>
+                        <dxe:RadioListBoxEditStyleSettings />
+                    </dxe:ListBoxEdit.StyleSettings>
+                </dxe:ListBoxEdit>
+                </Grid>
+            </dxco:WizardPage>
+                <dxco:WizardPage Title="Import deiner Daten von www.vplanung.net" Header="Import deiner Vortragsplanung" ShowSideContent="True">
+                    <dxco:WizardPage.SideContent>
+                        <Border Background="Orange" BorderBrush="White" BorderThickness="1">
+                            <Image Source="/Images/Logo1_128x128.png" Margin="3" Width="150"/>
+                        </Border>
+                    </dxco:WizardPage.SideContent>
+                <dxlc:LayoutControl Grid.Column="1">
+                    <dxlc:LayoutGroup Header="Excel Datei auswählen" View="GroupBox" Orientation="Vertical">
+                        <dxlc:LayoutItem>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" Text="{Binding ImportExcelFile}"/>
+                                <Button Grid.Column="1" Content="Durchsuchen..." Command="{Binding ExcelFileDialogCommand}" Width="100"/>
+                            </Grid>
+                        </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="Gewählte Datei importieren">
+                            <Button Content="Importieren" Command="{Binding ExcelImportierenPlannungCommand}"/>
+                        </dxlc:LayoutItem>
+                    </dxlc:LayoutGroup>
+                    <dxlc:LayoutGroup Header="importierte Jahre" View="GroupBox" Width="200">
+                        <ListBox ItemsSource="{Binding ImportierteJahreliste}"></ListBox>
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutControl>
+            </dxco:WizardPage>
+            <dxco:CompletionWizardPage ShowBack="False" ShowCancel="False" Title="Import deiner Daten von www.vplanung.net" Header="Fertig">
+                <dxco:WizardPage.SideContent>
+                    <Border Background="Orange" BorderBrush="White" BorderThickness="1">
+                        <Image Source="/Images/Logo1_128x128.png" Margin="3" Width="150"/>
+                    </Border>
+                </dxco:WizardPage.SideContent>
+                <TextBlock Text="Die Daten von www.vplanung.net wurden in dieses Programm importiert.
+                           &#13;
+                           &#13;Beachte bitte, das die Daten nicht komplett sind!
+                           &#13;Es wurden alle Redner mit den Vorträgen importiert, die in deiner Planung enthalten waren.
+                           &#13;Das bedeutet, das die sowohl alle Redner fehlen, die du bisher noch nie eingeladen hattest.
+                           &#13;Bei den Eingeladenen Rednern wurden nur die Vorträge angelegt, die sie bereits bei dir gehalten haben.
+                           &#13;
+                           &#13;Du musst deshalb unbedingt noch die Rednerlisten der anderen Versammlungen anfordern und in diesem Programm aktualisieren!" 
+                           Margin="10"
+                           TextWrapping="Wrap"/>
             </dxco:CompletionWizardPage>
         </dxco:Wizard>
     </Grid>

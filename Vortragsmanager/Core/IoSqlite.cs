@@ -766,9 +766,7 @@ namespace Vortragsmanager.Core
             cmd1.Dispose();
             cmd2.Dispose();
         }
-
-
-
+               
         public enum Parameter
         {
             Version,

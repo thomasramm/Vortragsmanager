@@ -377,6 +377,9 @@
   <ItemGroup>
     <Resource Include="Images\Logo1_128x128.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Screenshot Downloadseite mit Hinweisen.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

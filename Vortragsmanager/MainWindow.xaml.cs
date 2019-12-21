@@ -18,10 +18,11 @@ namespace Vortragsmanager
         public MainWindow()
         {
             Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.GetCultureInfo("de-DE");
-            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
-             new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
-
-
+            LanguageProperty.OverrideMetadata(
+                typeof(FrameworkElement),
+                new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+            
+            //ToDo: wizard nur bei leerer DB aufrufen, zum Entwickeln aber hier immer aufrufen...
             var wizard = new SetupWizardDialog();
             wizard.ShowDialog();
 
