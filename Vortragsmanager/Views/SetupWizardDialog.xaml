@@ -70,22 +70,26 @@
                     <dxlc:LayoutGroup Orientation="Vertical">
                         <dxlc:LayoutGroup Header="Excel Datei auswählen" View="GroupBox" Orientation="Vertical">
                             <dxlc:LayoutItem>
-                                <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="100"/>
-                                </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" Text="{Binding ImportExcelFile}"/>
-                                    <Button Grid.Column="1" Content="Durchsuchen..." Command="{Binding ExcelFileDialogCommand}" Width="100"/>
-                                </Grid>
+                                <dxe:ButtonEdit Text="{Binding ImportExcelFile}" 
+                                                AllowDefaultButton="False"
+                                                ValidateOnTextInput="True"
+                                                Validate="ExcelFile_ValidateExists"
+                                                >
+                                    <dxe:ButtonInfo GlyphKind="Regular" 
+                                                    Command="{Binding ExcelFileDialogCommand}"
+                                                    ToolTip="Nach Dateien suchen..."/>
+                                </dxe:ButtonEdit>
                             </dxlc:LayoutItem>
                             <dxlc:LayoutItem Label="Gewählte Datei importieren">
                                 <Button Content="Importieren" Command="{Binding ExcelImportierenKoordinatorenCommand}"/>
                             </dxlc:LayoutItem>
                         </dxlc:LayoutGroup>
                         <dxlc:LayoutItem>
-                            <TextBlock Text="Importieren der Koordinatoren und Versammlungen. Importiere hier die Dateien 'Liste der Vortragskoordinatoren im Kreis NNN.xlsx'"
-                                       TextWrapping="Wrap"/>
+                            <TextBlock TextWrapping="Wrap">
+                                <Run Text="Importieren der Koordinatoren und Versammlungen. Importiere hier die Dateien '"/>
+                                <Run Text="Liste der Vortragskoordinatoren im Kreis NNN.xlsx" Foreground="Orange"/>
+                                <Run Text="'"/>
+                            </TextBlock>
                         </dxlc:LayoutItem>
                     </dxlc:LayoutGroup>
                     <dxlc:LayoutGroup Header="importierte Versammlungen" View="GroupBox" Width="200">
@@ -122,22 +126,26 @@
                     <dxlc:LayoutGroup Orientation="Vertical">
                         <dxlc:LayoutGroup Header="Excel Datei auswählen" View="GroupBox" Orientation="Vertical">
                     <dxlc:LayoutItem>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="100"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" Text="{Binding ImportExcelFile}"/>
-                            <Button Grid.Column="1" Content="Durchsuchen..." Command="{Binding ExcelFileDialogCommand}" Width="100"/>
-                        </Grid>
+                                <dxe:ButtonEdit Text="{Binding ImportExcelFile}" 
+                                                AllowDefaultButton="False"
+                                                ValidateOnTextInput="True"
+                                                Validate="ExcelFile_ValidateExists"
+                                                >
+                                    <dxe:ButtonInfo GlyphKind="Regular" 
+                                                    Command="{Binding ExcelFileDialogCommand}"
+                                                    ToolTip="Nach Dateien suchen..."/>
+                                </dxe:ButtonEdit>
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Gewählte Datei importieren">
                         <Button Content="Importieren" Command="{Binding ExcelImportierenPlannungCommand}"/>
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
                         <dxlc:LayoutItem>
-                            <TextBlock Text="Importieren deiner Planung. Importiere hier die Dateien 'Deine Vortragsplanung 20NN.xlsx'"
-                                       TextWrapping="Wrap"/>
+                            <TextBlock TextWrapping="Wrap">
+                                <Run Text="Importieren deiner Planung. Importiere hier die Dateien '"/>
+                                <Run Text="Deine Vortragsplanung 20NN.xlsx" Foreground="Orange"/>
+                                <Run Text="'"/>
+                            </TextBlock>
                         </dxlc:LayoutItem>
                     </dxlc:LayoutGroup>
                     <dxlc:LayoutGroup Header="importierte Jahre" View="GroupBox" Width="200">
