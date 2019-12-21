@@ -725,7 +725,7 @@ namespace Vortragsmanager.Core
             cmd.ExecuteNonQuery();
 
             cmd.Parameters[0].Value = "MeineVersammlung";
-            cmd.Parameters[1].Value = DataContainer.MeineVersammlung.Id;
+            cmd.Parameters[1].Value = DataContainer.MeineVersammlung?.Id;
             cmd.ExecuteNonQuery();
 
             cmd.Parameters[0].Value = "DisplayedYear";

@@ -21,19 +21,25 @@ namespace Vortragsmanager
             LanguageProperty.OverrideMetadata(
                 typeof(FrameworkElement),
                 new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
-            
-            //ToDo: wizard nur bei leerer DB aufrufen, zum Entwickeln aber hier immer aufrufen...
-            var wizard = new SetupWizardDialog();
-            wizard.ShowDialog();
 
             //IoExcel.ReadContainer(@"C:\Daten\Thomas\Projekte\Vortragsmanager\Rohdaten\Data.xlsx");
             //Templates.LoadTemplates();
             var filename = Settings.Default.sqlite;
+
+            //ToDo: wizard nur bei leerer DB aufrufen, zum Entwickeln aber hier immer aufrufen...
+            filename = @"C:\IchExistiere.Nicht";
+
             if (File.Exists(filename))
                 IoSqlite.ReadContainer(Settings.Default.sqlite);
             else
-                IoSqlite.CreateEmptyDatabase(filename);
-            InitializeComponent();
+                Initialize.NewDatabase();
+
+            if (!DataContainer.IsInitialized)
+            {
+               // this.Close();
+            }
+
+                InitializeComponent();
             Updater.CheckForUpdates();
         }
     }

@@ -11,7 +11,8 @@ namespace Vortragsmanager
     {
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            IoSqlite.SaveContainer(Settings.Default.sqlite);
+            if (DataContainer.IsInitialized)
+                IoSqlite.SaveContainer(Settings.Default.sqlite);
         }
     }
 }
