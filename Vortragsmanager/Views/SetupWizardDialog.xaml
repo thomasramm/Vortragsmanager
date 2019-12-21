@@ -82,7 +82,7 @@
                                 <Button Content="Importieren" Command="{Binding ExcelImportierenKoordinatorenCommand}"/>
                             </dxlc:LayoutItem>
                         </dxlc:LayoutGroup>
-                    <dxlc:LayoutGroup Header="importierte Koordinatoren" View="GroupBox" Width="200">
+                    <dxlc:LayoutGroup Header="importierte Versammlungen" View="GroupBox" Width="200">
                         <ListBox ItemsSource="{Binding ImportierteKoordinatorenliste}"></ListBox>
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutControl>

@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml;
+﻿using DevExpress.Xpf.Core;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -272,73 +273,89 @@ namespace Vortragsmanager.Core
 
             public static List<Models.Conregation> Conregations = new List<Models.Conregation>();
 
-            public static void ImportKoordinatoren(string filename)
+            public static bool ImportKoordinatoren(string filename)
             {
                 file = new FileInfo(filename);
                 Conregations = new List<Models.Conregation>();
 
-                using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                using (ExcelPackage package = new ExcelPackage(fs))
+                try
                 {
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-                    var pos = worksheet.Name.LastIndexOf(' ');
-                    var kreisString = worksheet.Name.Substring(pos + 1, worksheet.Name.Length - pos);
-                    Kreis = int.Parse(kreisString, DataContainer.German);                 
 
-                    var row = 2;
-                    var id = DataContainer.Versammlungen?.Max(x => x.Id) + 1 ?? 1;
-                    while (true)
+                    using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    using (ExcelPackage package = new ExcelPackage(fs))
                     {
-                        var vers = worksheet.Cells[row, 1].Value;
-                        var saal = worksheet.Cells[row, 2].Value;
-                        var zeit2019 = worksheet.Cells[row, 3].Value;
-                        var zeit2020 = worksheet.Cells[row, 4].Value;
-                        var koord = worksheet.Cells[row, 5].Value;
-                        var tel = worksheet.Cells[row, 6].Value;
-                        var handy = worksheet.Cells[row, 7].Value;
-                        var mail = worksheet.Cells[row, 8].Value;
-                        var jw = worksheet.Cells[row, 9].Value;
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
+                        var pos = worksheet.Name.LastIndexOf(' ');
+                        var kreisString = worksheet.Name.Substring(pos + 1, worksheet.Name.Length - pos -1);
+                        Kreis = int.Parse(kreisString, DataContainer.German);
 
-                        if (vers is null)
-                            break;
-
-                        if (vers.ToString().Substring(0,23) == "Hinweis zum Datenschutz")
-                            break;
-
-                        var v = new Models.Conregation
+                        var row = 2;
+                        var id = 1;
+                        if (DataContainer.Versammlungen.Count > 0)
+                            id = DataContainer.Versammlungen.Max(x => x.Id) + 1;
+                        while (true)
                         {
-                            Id = id,
-                            Kreis = Kreis,
-                            Name = vers.ToString(),
-                            Koordinator = koord.ToString(),
-                            KoordinatorTelefon = tel?.ToString(),
-                            KoordinatorMobil = handy?.ToString(),
-                            KoordinatorMail = mail?.ToString(),
-                            KoordinatorJw = jw?.ToString(),
-                        };
+                            var vers = worksheet.Cells[row, 1].Value;
+                            var saal = worksheet.Cells[row, 2].Value;
+                            var zeit2019 = worksheet.Cells[row, 3].Value;
+                            var zeit2020 = worksheet.Cells[row, 4].Value;
+                            var koord = worksheet.Cells[row, 5].Value;
+                            var tel = worksheet.Cells[row, 6].Value;
+                            var handy = worksheet.Cells[row, 7].Value;
+                            var mail = worksheet.Cells[row, 8].Value;
+                            var jw = worksheet.Cells[row, 9].Value;
 
-                        // Anschrift
-                        var adr = saal.ToString().Split(Environment.NewLine.ToCharArray());
-                        v.Anschrift1 = adr[0];
-                        v.Anschrift2 = adr[1];
-                        v.Telefon = adr[2];
+                            if (vers is null)
+                                break;
 
-                        // Zusammenkunftszeiten
-                        var z19 = zeit2019.ToString();
-                        var z20 = zeit2020.ToString();
-                        if (z20 == "liegt nicht vor")
-                            z20 = z19;
-                        v.SetZusammenkunftszeit(2019, z19);
-                        if (z20 != z19)
-                            v.SetZusammenkunftszeit(2020, z19);
+                            var verString = vers.ToString();
+                            if (verString.Length > 23 && verString.Substring(0, 23) == "Hinweis zum Datenschutz")
+                                break;
 
-                        Conregations.Add(v);
+                            var v = new Models.Conregation
+                            {
+                                Id = id,
+                                Kreis = Kreis,
+                                Name = vers.ToString(),
+                                Koordinator = koord.ToString(),
+                                KoordinatorTelefon = tel?.ToString(),
+                                KoordinatorMobil = handy?.ToString(),
+                                KoordinatorMail = mail?.ToString(),
+                                KoordinatorJw = jw?.ToString(),
+                            };
 
-                        row++;
-                        id++;
+                            // Anschrift
+                            var adr = saal.ToString().Split(Environment.NewLine.ToCharArray());
+                            v.Anschrift1 = adr[0];
+                            v.Anschrift2 = adr[1];
+                            v.Telefon = adr[2];
+
+                            // Zusammenkunftszeiten
+                            var z19 = zeit2019.ToString();
+                            var z20 = zeit2020.ToString();
+                            if (z20 == "liegt nicht vor")
+                                z20 = z19;
+                            v.SetZusammenkunftszeit(2019, z19);
+                            if (z20 != z19)
+                                v.SetZusammenkunftszeit(2020, z19);
+
+                            Conregations.Add(v);
+
+                            row++;
+                            id++;
+                        }
+
                     }
-
                 }
+                catch(Exception e)
+                {
+                    ThemedMessageBox.Show("Fehler",
+                        $"Beim Einlesen der Excel-Datei ist es zu folgendem Fehler gekommen\n:{e.Message}",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Error);
+                    return false;
+                }
+                return true;
             }
 
             public static List<Models.IEvent> MeinPlan { get; } = new List<Models.IEvent>();
@@ -352,7 +369,7 @@ namespace Vortragsmanager.Core
                 using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 using (ExcelPackage package = new ExcelPackage(fs))
                 {
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[2];
 
                     var row = 2;
                     while (true)
@@ -448,7 +465,7 @@ namespace Vortragsmanager.Core
                 using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 using (ExcelPackage package = new ExcelPackage(fs))
                 {
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
                     var pos = worksheet.Name.LastIndexOf(' ');
                     var kreisString = worksheet.Name.Substring(pos + 1, worksheet.Name.Length - pos);
                     Kreis = int.Parse(kreisString, DataContainer.German);

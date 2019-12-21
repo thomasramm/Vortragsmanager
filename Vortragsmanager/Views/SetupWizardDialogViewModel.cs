@@ -57,10 +57,13 @@ namespace Vortragsmanager.Views
                 case 1:
                     foreach (var vers in Core.DataContainer.Versammlungen)
                     {
-                        if (ImportierteKoordinatorenliste.ContainsKey(vers.Kreis))
-                            ImportierteKoordinatorenliste[vers.Kreis] += 1;
+                        if (ImportierteKoordinatorenliste.Any(x => x.Nr == vers.Kreis))
+                        {
+                            var item = ImportierteKoordinatorenliste.First(x => x.Nr == vers.Kreis);
+                            item.Anzahl += 1;
+                        }
                         else
-                            ImportierteKoordinatorenliste.Add(vers.Kreis, 1);
+                            ImportierteKoordinatorenliste.Add(new Kreis(vers.Kreis));
                     }
                     CanGoNext = ImportierteKoordinatorenliste.Count > 0;
                     break;
@@ -108,7 +111,7 @@ namespace Vortragsmanager.Views
             }
         }
 
-        public Dictionary<int, int> ImportierteKoordinatorenliste { get; } = new Dictionary<int, int>();
+        public ObservableCollection<Kreis> ImportierteKoordinatorenliste { get; } = new ObservableCollection<Kreis>();
 
         public void ExcelImportierenKoordinatoren()
         {
@@ -123,14 +126,15 @@ namespace Vortragsmanager.Views
             }
 
             //einlesen der Excel-Datei
-            Core.IoExcel.Vplanung.ImportKoordinatoren(ImportExcelFile);
+            if (!Core.IoExcel.Vplanung.ImportKoordinatoren(ImportExcelFile))
+                return;
 
             //prüfen ob Kreis bereits importiert wurde
-            if (ImportierteKoordinatorenliste.ContainsKey(Core.IoExcel.Vplanung.Kreis))
+            if (ImportierteKoordinatorenliste.Any(x => x.Nr == Core.IoExcel.Vplanung.Kreis))
             {
                 if (ThemedMessageBox.Show(
-                    $"Der Kreis '{Core.IoExcel.Vplanung.Kreis}' wurde bereits importiert. Bestehende Daten löschen und neu importieren?",
                     "Achtung!",
+                    $"Der Kreis '{Core.IoExcel.Vplanung.Kreis}' wurde bereits importiert. Bestehende Daten löschen und neu importieren?",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning) != MessageBoxResult.Yes)
                     return;
@@ -142,14 +146,15 @@ namespace Vortragsmanager.Views
                     if (Core.DataContainer.Versammlungen[i].Kreis == Core.IoExcel.Vplanung.Kreis)
                         Core.DataContainer.Versammlungen.RemoveAt(i);
                 }
+                ImportierteKoordinatorenliste.Remove(new Kreis(Core.IoExcel.Vplanung.Kreis));
                 
             }
             foreach (var item in Core.IoExcel.Vplanung.Conregations)
             {
                 Core.DataContainer.Versammlungen.Add(item);
             }
-            ImportierteKoordinatorenliste.Add(Core.IoExcel.Vplanung.Kreis, Core.IoExcel.Vplanung.Conregations.Count);
-            RaisePropertyChanged(nameof(ImportierteKoordinatorenliste));
+            ImportierteKoordinatorenliste.Add(new Kreis(Core.IoExcel.Vplanung.Kreis, Core.IoExcel.Vplanung.Conregations.Count));
+            CanGoNext = true;
         }
 
         public void ExcelFileDialog()
@@ -273,5 +278,39 @@ namespace Vortragsmanager.Views
         #endregion
 
         public bool IsFinished { get; set; }
+
+        public class Kreis
+        {
+            public Kreis(int nr)
+            {
+                Nr = nr;
+                Anzahl = 1;
+            }
+
+            public Kreis(int nr, int anzahl)
+            {
+                Nr = nr;
+                Anzahl = anzahl;
+            }
+
+            public int Nr { get; set; }
+
+            public int Anzahl { get; set; }
+
+            public override string ToString()
+            {
+                return $"Kreis {Nr} ({Anzahl} Versammlungen)";
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj == null)
+                    return false;
+                if (Nr != (obj as Kreis).Nr)
+                    return false;
+
+                return true;
+            }
+        }
     }
 }
