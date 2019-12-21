@@ -19,10 +19,11 @@ namespace Vortragsmanager.Views
             ExcelFileDialogCommand = new DelegateCommand(ExcelFileDialog);
             ExcelImportierenKoordinatorenCommand = new DelegateCommand(ExcelImportierenKoordinatoren);
             ExcelImportierenPlannungCommand = new DelegateCommand(ExcelImportierenPlannung);
+            CanGoNext = true;
         }
 
         private int _selectedIndex;
-        private string _importKoordinatorenExcelFile;
+        private string _importExcelFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Liste der Vortragskoordinatoren.xlsx";
         private bool _canGoNext;
 
         public int SelectedIndex
@@ -98,11 +99,11 @@ namespace Vortragsmanager.Views
         {
             get
             {
-                return _importKoordinatorenExcelFile;
+                return _importExcelFile;
             }
             set
             {
-                _importKoordinatorenExcelFile = value;
+                _importExcelFile = value;
                 RaisePropertyChanged();
             }
         }
@@ -266,8 +267,11 @@ namespace Vortragsmanager.Views
             
             RaisePropertyChanged(nameof(ImportierteJahreliste));
             CanGoNext = true;
+            IsFinished = true;
         }
 
         #endregion
+
+        public bool IsFinished { get; set; }
     }
 }
