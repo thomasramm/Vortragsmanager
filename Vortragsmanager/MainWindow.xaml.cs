@@ -37,6 +37,8 @@ namespace Vortragsmanager
             if (!DataContainer.IsInitialized)
                Close();
 
+
+
             InitializeComponent();
             Updater.CheckForUpdates();
         }

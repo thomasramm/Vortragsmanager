@@ -38,17 +38,17 @@
                 <dxlc:FlowLayoutControl.ItemTemplate>
                     <DataTemplate>
                         <dxlc:GroupBox Header="{Binding}"
-                               Content="{Binding}"
-                                   Visibility="{Binding Sichtbar}"
-
-                               Width="200"
-                               Height="250"
-                               Padding="0"
-                               MaximizeElementVisibility="Visible"
-                               FontFamily="Segoe UI Light"
-                               FontSize="14"
-                               Cursor="Hand"
-                               MouseLeftButtonUp="GroupBox_MouseLeftButtonUp">
+                                       Content="{Binding}"
+                                       Visibility="{Binding Sichtbar}"
+                                       State="{Binding IsSelected}"
+                                       Width="200"
+                                       Height="250"
+                                       Padding="0"
+                                       MaximizeElementVisibility="Visible"
+                                       FontFamily="Segoe UI Light"
+                                       FontSize="14"
+                                       Cursor="Hand"
+                                       MouseLeftButtonUp="GroupBox_MouseLeftButtonUp">
                             <dxlc:GroupBox.HeaderTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="1">Kreis <Run Text="{Binding Versammlung.Kreis}" /></TextBlock>
@@ -88,6 +88,9 @@
                                                                   CheckedStateContent="Ja"
                                                                   UncheckedStateContent="Nein"
                                                                   IsChecked="{Binding EigeneVersammlung}" />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="Kreis:">
+                                                    <TextBox Text="{Binding Versammlung.Kreis}" />
                                                 </dxlc:LayoutItem>
                                                 <dxlc:LayoutItem Label="Name:">
                                                     <TextBox Text="{Binding Versammlung.Name}" />
@@ -139,19 +142,32 @@
                                                 </dxlc:LayoutItem>
                                             </dxlc:LayoutGroup>
                                             <dxlc:LayoutItem>
-                                                <Button Content="Versammlung löschen" Command="{Binding DeleteCommand}"></Button>
+                                                <dx:SimpleButton Content="Neuen Redner anlegen" 
+                                                                 Command="{Binding NewPersonCommand}"
+                                                                 Glyph="{dx:DXImage 'SvgImages/Outlook Inspired/NewEmployee.svg'}"></dx:SimpleButton>
+                                            </dxlc:LayoutItem>
+                                            <dxlc:LayoutItem>
+                                            <dx:SimpleButton Content="Versammlung löschen" 
+                                                                 Command="{Binding DeleteCommand}"
+                                                                 Glyph="{dx:DXImage 'SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg'}"/>
+
                                             </dxlc:LayoutItem>
                                         </dxlc:LayoutGroup>
-                                        <dxlc:LayoutGroup>
-                                            <dxlc:LayoutGroup Header="Redner" View="GroupBox" Orientation="Horizontal">
-                                                <dxlc:FlowLayoutControl Orientation="Vertical" ItemsSource="{Binding RednerListe}" MaximizedElementPosition="Bottom">
+                                        <dxlc:LayoutGroup Header="Redner" View="GroupBox" Orientation="Horizontal">
+                                                <dxlc:FlowLayoutControl Orientation="Vertical" 
+                                                                        ItemsSource="{Binding RednerListe}" 
+                                                                        MaximizedElementPosition="Top"
+                                                                        >
                                                     <dxlc:FlowLayoutControl.ItemTemplate>
                                                         <DataTemplate>
                                                             <dxlc:GroupBox Header="{Binding}"
                                                                        Content="{Binding}"
                                                                        Width="200"
                                                                        Height="100"
-                                                                       Padding="0" MaximizeElementVisibility="Visible"
+                                                                       Padding="0" 
+                                                                       State="{Binding IsSelected}"
+                                                                       Visibility="{Binding Sichtbar}"
+                                                                       MaximizeElementVisibility="Visible"
                                                                        MouseLeftButtonUp="GroupBox_MouseLeftButtonUp">
                                                                 <dxlc:GroupBox.HeaderTemplate>
                                                                     <DataTemplate>
@@ -188,6 +204,7 @@
                                                                                     </Setter>
                                                                                 </Style>
                                                                             </dxlc:LayoutControl.GroupBoxStyle>
+                                                                            <dxlc:LayoutGroup Orientation="Vertical">
                                                                             <dxlc:LayoutGroup Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                                                                                 <dxlc:LayoutGroup Header="Daten des Redner" View="GroupBox" Orientation="Vertical">
                                                                                     <dxlc:LayoutItem Label="Typ:">
@@ -237,6 +254,12 @@
                                                                                     <Label Content="Under Construction" Foreground="Orange" />
                                                                                 </dxlc:LayoutGroup>
                                                                             </dxlc:LayoutGroup>
+                                                                                <dxlc:LayoutItem>
+                                                                                    <dx:SimpleButton Content="Redner löschen"
+                                                                                                     Glyph="{dx:DXImage 'SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg'}"
+                                                                                                     Command="{Binding DeleteCommand}"/>
+                                                                                </dxlc:LayoutItem>
+                                                                            </dxlc:LayoutGroup>
                                                                         </dxlc:LayoutControl>
                                                                     </DataTemplate>
                                                                 </dxlc:GroupBox.MaximizedContentTemplate>
@@ -245,7 +268,6 @@
                                                     </dxlc:FlowLayoutControl.ItemTemplate>
                                                 </dxlc:FlowLayoutControl>
                                             </dxlc:LayoutGroup>
-                                        </dxlc:LayoutGroup>
                                     </dxlc:LayoutControl>
                                 </DataTemplate>
                             </dxlc:GroupBox.MaximizedContentTemplate>

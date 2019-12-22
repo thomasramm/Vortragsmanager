@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using Vortragsmanager.Models;
 using Vortragsmanager.Views;
+using System.Linq;
 
 namespace Vortragsmanager.Core
 {
@@ -47,9 +48,12 @@ namespace Vortragsmanager.Core
 
             if (c == null)
             {
-                c = new Conregation();
-                c.Name = name;
-                c.Kreis = MeineVersammlung.Kreis;
+                c = new Conregation
+                {
+                    Name = name,
+                    Kreis = MeineVersammlung.Kreis,
+                    Id = Versammlungen.Count > 0 ? Versammlungen.Select(x => x.Id).Max() + 1 : 1
+                };
                 Versammlungen.Add(c);
             }
 
@@ -88,7 +92,9 @@ namespace Vortragsmanager.Core
                 s = new Speaker
                 {
                     Name = name,
-                    Versammlung = versammlung
+                    Versammlung = versammlung,
+                    Id = Redner.Count > 0 ? Redner.Select(x => x.Id).Max() + 1 : 1
+                    
                 };
                 Redner.Add(s);
             }
@@ -118,8 +124,7 @@ namespace Vortragsmanager.Core
             var wizardData = (SetupWizardDialogViewModel)wizard.DataContext;
             DataContainer.IsInitialized = wizardData.IsFinished;
         }
-
-
+        
         public static void LoadTalks()
         {
             DataContainer.Vorträge.Clear();

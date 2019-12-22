@@ -17,16 +17,27 @@ namespace Vortragsmanager.Views
             Versammlung = versammlung;
             RednerListe = new SpeakersViewModelCollection(versammlung);
             DeleteCommand = new DelegateCommand(Delete);
+            NewPersonCommand = new DelegateCommand(NewPerson);
         }
 
         public DelegateCommand DeleteCommand { get; private set; }
 
+        public DelegateCommand NewPersonCommand { get; private set; }
+
         public void Delete()
         {
-            //ToDO: Versammlung löschen: Redner löschen, im Vortragsplan die Zuteilungen ersetzen gegen "unbekannt"
+            //ToDo: Versammlung löschen: Redner löschen, im Vortragsplan die Zuteilungen ersetzen gegen "unbekannt"
             Core.DataContainer.Versammlungen.Remove(Versammlung);
             Sichtbar = Visibility.Collapsed;
             RaisePropertyChanged(nameof(Sichtbar));
+        }
+
+        public void NewPerson()
+        {
+            var redner = Core.DataContainer.FindOrAddSpeaker("Neuer Redner", Versammlung);
+            var rednerModel = new SpeakerViewModel(redner);
+            RednerListe.Add(rednerModel);
+            rednerModel.Select();
         }
 
         public Visibility Sichtbar { get; set; } = Visibility.Visible;
@@ -108,7 +119,13 @@ namespace Vortragsmanager.Views
 
         public SpeakersViewModelCollection RednerListe { get; private set; }
 
-        public bool IsMaximized { get; set; }
+        public DevExpress.Xpf.LayoutControl.GroupBoxState IsSelected { get; set; }
+
+        public void Select()
+        {
+            IsSelected = DevExpress.Xpf.LayoutControl.GroupBoxState.Maximized;
+            RaisePropertyChanged(nameof(IsSelected));
+        }
     }
 
     public class SpeakerViewModel : ViewModelBase
@@ -118,11 +135,24 @@ namespace Vortragsmanager.Views
             Redner = redner;
             NeuerVortragCommand = new DelegateCommand(NeuenVortragSpeichern);
             VortragLöschenCommand = new DelegateCommand(VortragLöschen);
+            DeleteCommand = new DelegateCommand(RednerLöschen);
         }
+
+        public DelegateCommand DeleteCommand { get; set; }
 
         public DelegateCommand NeuerVortragCommand { get; private set; }
 
         public DelegateCommand VortragLöschenCommand { get; private set; }
+
+        public void RednerLöschen()
+        {
+            //ToDo: Redner löschen: im Vortragsplan die Zuteilungen ersetzen gegen "unbekannt"
+            Core.DataContainer.Redner.Remove(Redner);
+            Sichtbar = Visibility.Collapsed;
+            RaisePropertyChanged(nameof(Sichtbar));
+        }
+
+        public Visibility Sichtbar { get; set; }
 
         public void VortragLöschen()
         {
@@ -178,29 +208,28 @@ namespace Vortragsmanager.Views
             }
         }
 
+        public DevExpress.Xpf.LayoutControl.GroupBoxState IsSelected { get; set; }
+
+        public void Select()
+        {
+            IsSelected = DevExpress.Xpf.LayoutControl.GroupBoxState.Maximized;
+            RaisePropertyChanged(nameof(IsSelected));
+        }
+
         public Speaker Redner { get; private set; }
     }
 
-    public class SpeakersViewModelCollection : List<SpeakerViewModel>
+    public class SpeakersViewModelCollection : ObservableCollection<SpeakerViewModel>
     {
         public SpeakersViewModelCollection(Conregation versammlung)
         {
-            var redner = Core.DataContainer.Redner.Where(x => x.Versammlung == versammlung);
+            var redner = Core.DataContainer.Redner.Where(x => x.Versammlung == versammlung).OrderBy(x => x.Name);
             foreach (Speaker r in redner)
                 Add(new SpeakerViewModel(r));
-
-            Sort(CompareByName);
-        }
-
-        private int CompareByName(SpeakerViewModel x, SpeakerViewModel y)
-        {
-            string value1 = x.Redner.Name;
-            string value2 = y.Redner.Name;
-            return string.Compare(value1, value2, StringComparison.InvariantCultureIgnoreCase);
         }
     }
 
-    public class ConregationsViewModelCollection : List<ConregationViewModel>
+    public class ConregationsViewModelCollection : ObservableCollection<ConregationViewModel>
     {
         public ConregationsViewModelCollection() : this(Core.DataContainer.Versammlungen)
         {
@@ -211,35 +240,34 @@ namespace Vortragsmanager.Views
             if (versammlungen is null)
                 throw new NullReferenceException();
 
-            foreach (Conregation versammlung in versammlungen)
-                Add(new ConregationViewModel(versammlung));
+            var v = versammlungen.OrderBy(x => x, new EigeneKreisNameComparer());
 
-            Sort(CompareByEigeneKreisName);
+            foreach (Conregation versammlung in v)
+                Add(new ConregationViewModel(versammlung));
 
             AddConregationCommand = new DelegateCommand(AddConregation);
         }
 
-        private int CompareByEigeneKreisName(ConregationViewModel x, ConregationViewModel y)
+        public class EigeneKreisNameComparer : IComparer<Conregation>
         {
-            var eigene = Core.DataContainer.MeineVersammlung;
-            var eigenerKreis = eigene.Kreis;
-            string value1 = ((x.Versammlung.Kreis == eigenerKreis) ? "0" : "1") + ((x.Versammlung == eigene) ? "0" : "1") + x.Versammlung.Kreis + x.Versammlung.Name;
-            string value2 = ((y.Versammlung.Kreis == eigenerKreis) ? "0" : "1") + ((y.Versammlung == eigene) ? "0" : "1") + y.Versammlung.Kreis + y.Versammlung.Name;
-            return string.Compare(value1, value2, StringComparison.InvariantCulture);
+            public int Compare(Conregation x, Conregation y)
+            {
+                var eigene = Core.DataContainer.MeineVersammlung;
+                var eigenerKreis = eigene.Kreis;
+                string value1 = ((x.Kreis == eigenerKreis) ? "0" : "1") + ((x == eigene) ? "0" : "1") + x.Kreis + x.Name;
+                string value2 = ((y.Kreis == eigenerKreis) ? "0" : "1") + ((y == eigene) ? "0" : "1") + y.Kreis + y.Name;
+                return string.Compare(value1, value2, StringComparison.InvariantCulture);
+            }
         }
-
         public DelegateCommand AddConregationCommand { get; private set; }
 
         public void AddConregation()
         {
             //ToDo: Versammlung hinzufügen, Oberfläche aktualisieren + Selektieren/Maximieren
-            var vers = new Conregation() { Name = "Neue Versammlung" };
-            Core.DataContainer.Versammlungen.Add(vers);
+            var vers = Core.DataContainer.FindOrAddConregation("Neue Versammlung");
             var model = new ConregationViewModel(vers);
             Add(model);
-            SelectedConregation = model;
+            model.Select();
         }
-
-        public ConregationViewModel SelectedConregation { get; set; }
     }
 }

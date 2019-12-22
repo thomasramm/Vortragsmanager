@@ -72,7 +72,7 @@ namespace Vortragsmanager.Views
                     CanGoNext = (DeineVersammlung != null);
                     break;
                 case 3:
-                    CanGoNext = true;
+                    CanGoNext = ImportierteJahreliste.Count > 0;
                     break;
                 default:
                     CanGoNext = true;
