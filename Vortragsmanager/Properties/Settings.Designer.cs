@@ -46,5 +46,29 @@ namespace Vortragsmanager.Properties {
                 this["NameKreisaufseher"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2000-01-01")]
+        public global::System.DateTime NextUpdateSearch {
+            get {
+                return ((global::System.DateTime)(this["NextUpdateSearch"]));
+            }
+            set {
+                this["NextUpdateSearch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SearchForUpdates {
+            get {
+                return ((bool)(this["SearchForUpdates"]));
+            }
+            set {
+                this["SearchForUpdates"] = value;
+            }
+        }
     }
 }

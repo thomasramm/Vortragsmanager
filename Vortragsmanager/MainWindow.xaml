@@ -2,10 +2,9 @@
     x:Class="Vortragsmanager.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
     xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
-    xmlns:Views="clr-namespace:Vortragsmanager.Views"
     xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
+    Width="1200"
 >
     <Navi:NavigationView />
 </dxc:ThemedWindow>

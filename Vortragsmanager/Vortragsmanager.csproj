@@ -98,9 +98,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\Anonymisieren.cs" />
+    <Compile Include="Core\ini.cs" />
     <Compile Include="Core\IoExcel.cs" />
     <Compile Include="Core\IoSqlite.cs" />
     <Compile Include="Core\Templates.cs" />
+    <Compile Include="Core\Updater.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\ICloseable.cs" />
     <Compile Include="Models\IEvent.cs" />
@@ -110,14 +113,32 @@
     <Compile Include="Views\BuchungLöschenViewModel.cs">
       <DependentUpon>BuchungLöschenDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\EinstellungenView.xaml.cs">
+      <DependentUpon>EinstellungenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EinstellungenViewModel.cs">
+      <DependentUpon>EinstellungenView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EreignisEintragenDialog.xaml.cs">
       <DependentUpon>EreignisEintragenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SetupWizardDialog.xaml.cs">
+      <DependentUpon>SetupWizardDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SetupWizardDialogViewModel.cs">
+      <DependentUpon>SetupWizardDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpdateDialog.xaml.cs">
+      <DependentUpon>UpdateDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\leerDialog.xaml.cs">
       <DependentUpon>leerDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EreignisEintragenDialogView.cs">
       <DependentUpon>EreignisEintragenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpdateDialogViewModel.cs">
+      <DependentUpon>UpdateDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ListCreateViewModel.cs">
       <DependentUpon>ListCreateView.xaml</DependentUpon>
@@ -211,7 +232,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\EinstellungenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\EreignisEintragenDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SetupWizardDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UpdateDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -335,6 +368,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Logo1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Laptop_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Laptop2_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Logo1_128x128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Screenshot Downloadseite mit Hinweisen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Logo2_128x128.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
