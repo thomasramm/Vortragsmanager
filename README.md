@@ -30,6 +30,8 @@ Under Construction (kommt noch)
 
 ## Handbuch
 
+Einen ersten Überblick über das Programm gebe ich in folgendem 15min Video: https://youtu.be/nd0oVwxhB70
+
 Under Construction (kommt noch)
 
 ## Copyright & Lizenz
