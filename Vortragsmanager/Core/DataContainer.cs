@@ -509,6 +509,7 @@ folgende Vortragsanfrage wurde gelöscht:
 Datum: {Datum}
 Redner: {Redner}
 Vortrag: {Vortrag}
+Versammlung: {Versammlung}
 
 Liebe Grüße
 Thomas Ramm
