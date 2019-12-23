@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Markup;
 using Vortragsmanager.Core;
 using Vortragsmanager.Properties;
-using Vortragsmanager.Views;
 
 namespace Vortragsmanager
 {
@@ -35,9 +34,7 @@ namespace Vortragsmanager
                 Initialize.NewDatabase();
 
             if (!DataContainer.IsInitialized)
-               Close();
-
-
+                Close();
 
             InitializeComponent();
             Updater.CheckForUpdates();

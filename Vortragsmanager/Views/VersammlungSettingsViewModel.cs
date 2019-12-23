@@ -259,6 +259,7 @@ namespace Vortragsmanager.Views
                 return string.Compare(value1, value2, StringComparison.InvariantCulture);
             }
         }
+
         public DelegateCommand AddConregationCommand { get; private set; }
 
         public void AddConregation()

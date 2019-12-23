@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,11 @@ namespace Vortragsmanager.Views
         public EinstellungenView()
         {
             InitializeComponent();
+        }
+
+        private void ExcelFile_ValidateExists(object sender, DevExpress.Xpf.Editors.ValidationEventArgs e)
+        {
+            e.IsValid = File.Exists(e.Value.ToString());
         }
     }
 }

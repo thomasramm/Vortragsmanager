@@ -19,7 +19,7 @@ namespace Vortragsmanager.Core
             ReadConregations();
             DataContainer.MeineVersammlung = DataContainer.FindConregation("Hofgeismar");
             DataContainer.Versammlungen.Add(new Models.Conregation() { Kreis = -1, Name = "Unbekannt" });
-            ReadSpeakers();
+            ReadSpeakers(false, file);
             ReadInvitations();
             ReadExternalInvitations();
             UpdateTalkDate();
@@ -118,14 +118,22 @@ namespace Vortragsmanager.Core
             } // the using statement automatically calls Dispose() which closes the package.
         }
 
-        private static void ReadSpeakers()
+        public static void UpdateSpeakers(string File)
         {
-            DataContainer.Redner.Clear();
-            using (ExcelPackage package = new ExcelPackage(file))
+            var fi = new FileInfo(File);
+            ReadSpeakers(true, fi);
+        }
+
+        private static void ReadSpeakers(bool add, FileInfo fi)
+        {
+            if (!add)
+                DataContainer.Redner.Clear();
+
+            using (ExcelPackage package = new ExcelPackage(fi))
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets["Redner"];
                 var row = 2;
-                var id = 1;
+                var id = DataContainer.Redner.Select(x => x.Id).Max() + 1;
                 while (true)
                 {
                     var vers = worksheet.Cells[row, 1].Value;
@@ -135,29 +143,34 @@ namespace Vortragsmanager.Core
                     if (vers == null)
                         break;
 
-                    var s = new Models.Speaker
-                    {
-                        Name = name.ToString(),
-                        Id = id,
-                    };
-
                     //Versammlung
                     var rednerVersammlung = DataContainer.FindOrAddConregation(vers.ToString());
-                    s.Versammlung = rednerVersammlung;
 
+
+                    var s = DataContainer.FindSpeaker(name.ToString(), rednerVersammlung);
+                    if (s == null)
+                    {
+                        s = new Models.Speaker
+                        {
+                            Name = name.ToString(),
+                            Id = id,
+                            Versammlung = rednerVersammlung,
+                        };
+                        DataContainer.Redner.Add(s);
+                        id++;
+                    }
+                    
                     //Vorträge
                     var meineVotrgäge = vort.ToString().Split(new[] { ';', ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var v in meineVotrgäge)
                     {
                         var nr = int.Parse(v, DataContainer.German);
                         var t = DataContainer.FindTalk(nr);
-                        s.Vorträge.Add(t);
+                        if (!s.Vorträge.Contains(t))
+                            s.Vorträge.Add(t);
                     }
 
-                    DataContainer.Redner.Add(s);
-
                     row++;
-                    id++;
                 }
             } // the using statement automatically calls Dispose() which closes the package.
         }

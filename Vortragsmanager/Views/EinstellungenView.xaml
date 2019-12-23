@@ -13,7 +13,7 @@
     x:Class="Vortragsmanager.Views.EinstellungenView"
     DataContext="{dxmvvm:ViewModelSource local:EinstellungenViewModel}"         
     mc:Ignorable="d" 
-    d:DesignHeight="450" d:DesignWidth="800">
+    d:DesignHeight="600" d:DesignWidth="800">
     <dxwui:PageAdornerControl Header="Einstellungen">
         <dxwui:PageAdornerControl.HeaderTemplate>
             <DataTemplate>
@@ -27,7 +27,7 @@
                 </Grid>
             </DataTemplate>
         </dxwui:PageAdornerControl.HeaderTemplate>
-        <dxlc:LayoutControl Orientation="Horizontal">
+        <dxlc:LayoutControl Orientation="Horizontal" Margin="0,0,0,-33">
         <dxlc:LayoutGroup Orientation="Vertical">
             <dxlc:LayoutGroup Header="Datenbank" View="GroupBox" Orientation="Vertical">
                 <dxlc:LayoutItem Label="Pfad zur Datenbank">
@@ -64,8 +64,34 @@
                                  Command="{Binding SearchUpdateCommand}"/>
                 </StackPanel>
             </dxlc:LayoutGroup>
-                
-        </dxlc:LayoutGroup>
+                <dxlc:LayoutGroup Header="Import von Rednerlisten"
+                                  View="GroupBox"
+                                  Orientation="Vertical">
+                    <dxlc:LayoutItem Label="Vortragsmanager kompatible Excel Datei" LabelPosition="Top">
+                        <dxe:ButtonEdit Text="{Binding ImportExcelFile}" 
+                                                AllowDefaultButton="False"
+                                                ValidateOnTextInput="True"
+                                                Validate="ExcelFile_ValidateExists">
+                            <dxe:ButtonInfo GlyphKind="Regular" 
+                                                    Command="{Binding ExcelFileDialogCommand}"
+                                                    ToolTip="Nach Dateien suchen..."/>
+                        </dxe:ButtonEdit>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem>
+                        <dx:SimpleButton Content="Importieren"
+                                         Command="{Binding UpdateSpeakerFromExcelCommand}"/>
+                    </dxlc:LayoutItem>
+                    
+                </dxlc:LayoutGroup>
+                <dxlc:LayoutGroup Header="Mail an alle Koordinatoren im Kreis"
+                                  View="GroupBox"
+                                  Orientation="Vertical">
+                    <dxlc:LayoutItem Label="Mailadressen abrufen">
+                        <dx:SimpleButton Content="Öffnen"
+                                         Command="{Binding EmergencyMailCommand}"/>
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+            </dxlc:LayoutGroup>
             <dxlc:LayoutGroup Header="Under Construction" View="GroupBox">
                 <Label Content="Under Construction" Foreground="Orange" HorizontalContentAlignment="Center" FontSize="16"/>
             </dxlc:LayoutGroup>
