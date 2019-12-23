@@ -14,8 +14,6 @@ namespace Vortragsmanager.Core
         public static void ReadContainer(string filename)
         {
             file = new FileInfo(filename);
-
-            ReadTalks();
             ReadConregations();
             DataContainer.MeineVersammlung = DataContainer.FindConregation("Hofgeismar");
             DataContainer.Versammlungen.Add(new Models.Conregation() { Kreis = -1, Name = "Unbekannt" });
@@ -23,6 +21,7 @@ namespace Vortragsmanager.Core
             ReadInvitations();
             ReadExternalInvitations();
             UpdateTalkDate();
+            DataContainer.IsInitialized = true;
         }
 
         public static void UpdateTalkDate()
@@ -133,7 +132,7 @@ namespace Vortragsmanager.Core
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets["Redner"];
                 var row = 2;
-                var id = DataContainer.Redner.Select(x => x.Id).Max() + 1;
+                var id = DataContainer.Redner.Count > 0 ? DataContainer.Redner.Select(x => x.Id).Max() + 1 : 1;
                 while (true)
                 {
                     var vers = worksheet.Cells[row, 1].Value;
@@ -145,7 +144,6 @@ namespace Vortragsmanager.Core
 
                     //Versammlung
                     var rednerVersammlung = DataContainer.FindOrAddConregation(vers.ToString());
-
 
                     var s = DataContainer.FindSpeaker(name.ToString(), rednerVersammlung);
                     if (s == null)
@@ -166,7 +164,7 @@ namespace Vortragsmanager.Core
                     {
                         var nr = int.Parse(v, DataContainer.German);
                         var t = DataContainer.FindTalk(nr);
-                        if (!s.Vorträge.Contains(t))
+                        if (!(t is null) && (!s.Vorträge.Contains(t)))
                             s.Vorträge.Add(t);
                     }
 
@@ -204,6 +202,54 @@ namespace Vortragsmanager.Core
                         Datum = DateTime.Parse(datum.ToString(), DataContainer.German)
                     };
 
+                    if (redner.ToString() == "Regionaler Kongress")
+                    {
+                        var se = new Models.SpecialEvent();
+                        se.Datum = i.Datum;
+                        se.Typ = Models.EventTyp.RegionalerKongress;
+                        DataContainer.MeinPlan.Add(se);
+                        row++;
+                        continue;
+                    }
+                    if (redner.ToString() == "Streaming Bethel")
+                    {
+                        var se = new Models.SpecialEvent();
+                        se.Datum = i.Datum;
+                        se.Typ = Models.EventTyp.Streaming;
+                        DataContainer.MeinPlan.Add(se);
+                        row++;
+                        continue;
+                    }
+                    if (redner.ToString() == "Sondervortrag")
+                    {
+                        var se = new Models.SpecialEvent();
+                        se.Datum = i.Datum;
+                        se.Typ = Models.EventTyp.Sonstiges;
+                        se.Name = "Sondervortrag";
+                        DataContainer.MeinPlan.Add(se);
+                        row++;
+                        continue;
+                    }
+                    if (redner.ToString() == "Kreiskongress")
+                    {
+                        var se = new Models.SpecialEvent();
+                        se.Datum = i.Datum;
+                        se.Typ = Models.EventTyp.Kreiskongress;
+                        DataContainer.MeinPlan.Add(se);
+                        row++;
+                        continue;
+                    }
+                    if (versammlung != null && versammlung.ToString() == "Kreisaufseher")
+                    {
+                        var se = new Models.SpecialEvent();
+                        se.Datum = i.Datum;
+                        se.Typ = Models.EventTyp.Dienstwoche;
+                        se.Vortragender = redner.ToString();
+                        DataContainer.MeinPlan.Add(se);
+                        row++;
+                        continue;
+                    }
+
                     //Versammlung
                     var v1 = versammlung?.ToString() ?? "Unbekannt";
                     var v = DataContainer.FindOrAddConregation(v1);
@@ -214,6 +260,8 @@ namespace Vortragsmanager.Core
                     var vn = int.Parse(vortrag.ToString(), DataContainer.German);
                     var t = DataContainer.FindTalk(vn);
                     i.Vortrag = t;
+                    if (!(t is null) && !i.Ältester.Vorträge.Contains(t))
+                        i.Ältester.Vorträge.Add(t);
 
                     DataContainer.MeinPlan.Add(i);
 
