@@ -106,12 +106,6 @@
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\ICloseable.cs" />
     <Compile Include="Models\IEvent.cs" />
-    <Compile Include="Views\BuchungLöschenDialog.xaml.cs">
-      <DependentUpon>BuchungLöschenDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\BuchungLöschenViewModel.cs">
-      <DependentUpon>BuchungLöschenDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\EinstellungenView.xaml.cs">
       <DependentUpon>EinstellungenView.xaml</DependentUpon>
     </Compile>
@@ -142,20 +136,14 @@
     <Compile Include="Views\ListCreateViewModel.cs">
       <DependentUpon>ListCreateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ListeRednerTermineSendenDialog.xaml.cs">
-      <DependentUpon>ListeRednerTermineSendenDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AnfrageBestätigenDialog.xaml.cs">
-      <DependentUpon>AnfrageBestätigenDialog.xaml</DependentUpon>
+    <Compile Include="Views\InfoAnRednerUndKoordinatorWindow.cs">
+      <DependentUpon>InfoAnRednerUndKoordinatorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\leerViewModel.cs">
       <DependentUpon>leerDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ListeRednerTermineSendenViewModel.cs">
-      <DependentUpon>ListeRednerTermineSendenDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AnfrageBestätigenViewModel.cs">
-      <DependentUpon>AnfrageBestätigenDialog.xaml</DependentUpon>
+    <Compile Include="Views\InfoAnRednerUndKoordinatorViewModel.cs">
+      <DependentUpon>InfoAnRednerUndKoordinatorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExternalQuestionViewModel.cs">
       <DependentUpon>ExternalQuestionEdit.xaml</DependentUpon>
@@ -227,10 +215,6 @@
     <Compile Include="Views\MeinPlanView.xaml.cs">
       <DependentUpon>MeinPlanView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\BuchungLöschenDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\EinstellungenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -251,11 +235,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ListeRednerTermineSendenDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\AnfrageBestätigenDialog.xaml">
+    <Page Include="Views\InfoAnRednerUndKoordinatorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -164,13 +164,14 @@ namespace Vortragsmanager.Views
             }
 
             var zuteilung = (Zuteilung as Invitation);
-            var w = new BuchungLöschenDialog
-            {
-                DataContext = new BuchungLöschenViewModel(zuteilung)
-            };
+
+            var w = new InfoAnRednerUndKoordinatorWindow();
+            var data = (InfoAnRednerUndKoordinatorViewModel)w.DataContext;
+            data.MailTextKoordinator = Core.Templates.GetMailTextAblehnenKoordinator(zuteilung);
+            data.MailTextRedner = Core.Templates.GetMailTextAblehnenRedner(zuteilung);
+
             w.ShowDialog();
-            var data = (BuchungLöschenViewModel)w.DataContext;
-            if (data.Gelöscht)
+            if (data.Speichern)
             {
                 Core.DataContainer.MeinPlan.Remove(Zuteilung);
                 Monat.GetWeeks(Jahr);

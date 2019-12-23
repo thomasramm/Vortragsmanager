@@ -16,6 +16,7 @@ namespace Vortragsmanager.Views
             ChangeYear = new DelegateCommand<int>(ChangeCurrentYear);
             ChangeView = new DelegateCommand<View>(ChangeCurrentView);
             ListeSenden = new DelegateCommand(ListeVersenden);
+            VortragAbsagen = new DelegateCommand(Absagen);
 
             var z = Core.DataContainer.Redner.Where(x => x.Versammlung == Core.DataContainer.MeineVersammlung);
             Redner = new List<CheckBox>(z.Count());
@@ -52,6 +53,8 @@ namespace Vortragsmanager.Views
         }
 
         public DelegateCommand<int> ChangeYear { get; private set; }
+
+        public DelegateCommand VortragAbsagen { get; private set; }
 
         public void ChangeCurrentYear(int step)
         {
@@ -133,6 +136,21 @@ namespace Vortragsmanager.Views
 
         public ObservableCollection<Outside> Talks { get; private set; }
 
+        private Outside _selectedTalk;
+
+        public Outside SelectedTalk
+        {
+            get
+            {
+                return _selectedTalk;
+            }
+            set
+            {
+                _selectedTalk = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public bool History
         {
             get { return GetProperty(() => History); }
@@ -146,13 +164,72 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand ListeSenden { get; private set; }
 
+        private string GetListeMailText()
+        {
+            var mt = Core.Templates.GetTemplate(Core.Templates.TemplateName.RednerTermineMailText).Inhalt;
+            var listeRedner = new List<Speaker>();
+            var mails = "";
+            var termine = "";
+
+            foreach (var einladung in Talks)
+            {
+                if (!listeRedner.Contains(einladung.Ältester))
+                    listeRedner.Add(einladung.Ältester);
+            }
+
+            foreach (var ä in listeRedner)
+            {
+                mails += $"{ä.Mail}; ";
+                termine += "-----------------------------------------------------" + Environment.NewLine;
+                termine += ä.Name + Environment.NewLine;
+
+                foreach (var einladung in Talks)
+                {
+                    if (einladung.Ältester != ä)
+                        continue;
+
+                    termine += $"\tDatum:\t{einladung.Datum:dd.MM.yyyy}" + Environment.NewLine;
+                    termine += $"\tVortrag:\t{einladung.Vortrag}" + Environment.NewLine;
+                    termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Versammlung.GetZusammenkunftszeit(einladung.Datum.Year)}" + Environment.NewLine;
+                    termine += Environment.NewLine;
+                }
+                termine += Environment.NewLine;
+            }
+
+            mails = mails.Substring(0, mails.Length - 2);
+
+            mt = mt
+                .Replace("{Redner Mail}", mails)
+                .Replace("{Redner Termine}", termine);
+
+            return mt;
+        }
+
         public void ListeVersenden()
         {
-            var w = new ListeRednerTermineSendenDialog
-            {
-                DataContext = new ListeRednerTermineSendenViewModel(Talks)
-            };
+            var w = new InfoAnRednerUndKoordinatorWindow();
+            var data = (InfoAnRednerUndKoordinatorViewModel)w.DataContext;
+            data.Titel = "Liste der Vortragseinladungen versenden";
+            data.MailTextRedner = GetListeMailText();
+
             w.ShowDialog();
+        }
+
+        public void Absagen()
+        {
+            //ToDo
+            var w = new InfoAnRednerUndKoordinatorWindow();
+            var data = (InfoAnRednerUndKoordinatorViewModel)w.DataContext;
+            data.Titel = "Vortrag absagen";
+            data.MailTextKoordinator = Core.Templates.GetMailTextAblehnenKoordinator(SelectedTalk);
+            data.MailTextRedner = Core.Templates.GetMailTextAblehnenRedner(SelectedTalk);
+            w.ShowDialog();
+
+            if (data.Speichern)
+            {
+                Core.DataContainer.ExternerPlan.Remove(SelectedTalk);
+                Talks.Remove(SelectedTalk);
+            }
         }
     }
 
