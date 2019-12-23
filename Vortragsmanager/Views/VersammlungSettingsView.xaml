@@ -34,7 +34,8 @@
                                 ItemSpace="12"
                                 LayerSpace="12"
                                 Background="Transparent"
-                                    MaximizedElement="{Binding SelectedConregation}">
+                                    MaximizedElement="{Binding SelectedConregation}"
+                                    MaximizedElementChanged="lc_MaximizedElementChanged">
                 <dxlc:FlowLayoutControl.ItemTemplate>
                     <DataTemplate>
                         <dxlc:GroupBox Header="{Binding}"
@@ -243,9 +244,12 @@
                                                                                     <ListBox ItemsSource="{Binding Vorträge}" SelectedItem="{Binding GewählterVortrag}" />
                                                                                     <dxlc:LayoutGroup Orientation="Vertical">
                                                                                         <Button Content="gewählten Vortrag löschen" Command="{Binding VortragLöschenCommand}" />
-                                                                                        <dxlc:LayoutItem Label="Neuen Vortrag hinzufügen:" LabelPosition="Top"  Margin="0,10,0,0">
-                                                                                            <ComboBox ItemsSource="{Binding Vortragsliste}"
-                                                                                                  SelectedItem="{Binding NeuerVortrag}" />
+                                                                                        <dxlc:LayoutItem Label="Neuen Vortrag hinzufügen:" LabelPosition="Top" Margin="0,10,0,0">
+                                                                                            <dxe:ComboBoxEdit ItemsSource="{Binding Vortragsliste}"
+                                                                                                              SelectedItem="{Binding NeuerVortrag}" 
+                                                                                                              IsTextEditable="False"
+                                                                                                              AutoComplete="True"
+                                                                                                              IsPopupOpen="True"/>
                                                                                         </dxlc:LayoutItem>
                                                                                         <Button Content="Hinzufügen" Command="{Binding NeuerVortragCommand}" />
                                                                                     </dxlc:LayoutGroup>

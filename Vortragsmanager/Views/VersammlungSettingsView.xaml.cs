@@ -21,5 +21,21 @@ namespace Vortragsmanager.Views
             if (groupBox.State == GroupBoxState.Normal)
                 groupBox.State = GroupBoxState.Maximized;
         }
+
+        //wenn eine Versammlung maximiert wird, dann alle anderen ausblenden.
+        private void lc_MaximizedElementChanged(object sender, DevExpress.Xpf.Core.ValueChangedEventArgs<System.Windows.FrameworkElement> e)
+        {
+            var boxList = ((FlowLayoutControl)sender).Children;
+            var vis = (e.NewValue == null) ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+            var maximizedBox = (e.NewValue as GroupBox);
+            foreach (var box in boxList)
+            {
+                var gBox = (box as GroupBox);
+                if (gBox is null)
+                    continue;
+                if (gBox != maximizedBox)
+                    gBox.Visibility = vis;
+            }
+        }
     }
 }
