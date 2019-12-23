@@ -327,7 +327,7 @@ namespace Vortragsmanager.Core
                     var r = new Speaker();
                     r.Id = rdr.GetInt32(0);
                     r.Name = rdr.GetString(1);
-                    var idConregation = rdr.IsDBNull(3) ? 0 : rdr.GetInt32(2); //Id 0 = Versammlung "unbekannt"
+                    var idConregation = rdr.IsDBNull(2) ? 0 : rdr.GetInt32(2); //Id 0 = Versammlung "unbekannt"
                     r.Mail = rdr.IsDBNull(3) ? null : rdr.GetString(3);
                     r.Telefon = rdr.IsDBNull(4) ? null : rdr.GetString(4);
                     r.Mobil = rdr.IsDBNull(5) ? null : rdr.GetString(5);
@@ -489,7 +489,7 @@ namespace Vortragsmanager.Core
                     var v = new SpecialEvent
                     {
                         Typ = (EventTyp)rdr.GetInt32(0),
-                        Name = rdr.GetString(1),
+                        Name = rdr.IsDBNull(1) ? null : rdr.GetString(1),
                         Thema = rdr.IsDBNull(2) ? null : rdr.GetString(2),
                         Vortragender = rdr.IsDBNull(3) ? null : rdr.GetString(3),
                         Datum = rdr.GetDateTime(4)
@@ -678,6 +678,8 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[0].Value = red.Id;
                 foreach (var t in red.Vorträge)
                 {
+                    if (t is null)
+                        continue;
                     cmd.Parameters[1].Value = t.Nummer;
                     cmd.ExecuteNonQuery();
                 }
