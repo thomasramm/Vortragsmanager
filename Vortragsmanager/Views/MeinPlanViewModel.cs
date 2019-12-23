@@ -35,7 +35,7 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand<int> ChangeYear { get; private set; }
 
-        public static int CurrentYear
+        public int CurrentYear
         {
             get
             {
@@ -66,14 +66,15 @@ namespace Vortragsmanager.Views
             }
         }
 
-        public static void ChangeCurrentYear(int step)
+        public void ChangeCurrentYear(int step)
         {
             Core.DataContainer.DisplayedYear += step;
+            RaisePropertyChanged(nameof(CurrentYear));
         }
     }
 
     public class MonthViewModel : ViewModelBase
-    {
+    {   
         public MonthViewModel(int nr, string name)
         {
             Nr = nr;

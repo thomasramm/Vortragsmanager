@@ -16,8 +16,8 @@ namespace Vortragsmanager.Views
             ChangeYear = new DelegateCommand<int>(ChangeCurrentYear);
             ChangeView = new DelegateCommand<View>(ChangeCurrentView);
             ListeSenden = new DelegateCommand(ListeVersenden);
-            var vers = Core.DataContainer.Versammlungen.FirstOrDefault(x => x.Name == "Hofgeismar");
-            var z = Core.DataContainer.Redner.Where(x => x.Versammlung == vers);
+
+            var z = Core.DataContainer.Redner.Where(x => x.Versammlung == Core.DataContainer.MeineVersammlung);
             Redner = new List<CheckBox>(z.Count());
             var box = new CheckBox() { Content = "Alle", IsChecked = true };
             box.Checked += CheckAll;
@@ -56,6 +56,7 @@ namespace Vortragsmanager.Views
         public void ChangeCurrentYear(int step)
         {
             Core.DataContainer.DisplayedYear += step;
+            RaisePropertyChanged(nameof(CurrentYear));
             ApplyFilter();
         }
 
@@ -107,7 +108,7 @@ namespace Vortragsmanager.Views
         public bool ViewStateYear { get; set; }
         public bool ViewStateAgenda { get; set; }
 
-        public static int CurrentYear
+        public int CurrentYear
         {
             get
             {

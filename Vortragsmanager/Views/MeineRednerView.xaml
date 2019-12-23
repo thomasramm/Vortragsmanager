@@ -54,10 +54,10 @@
                                 <dxa:AccordionItem Header="Jahr">
                                     <StackPanel  Grid.Row="0" Orientation="Horizontal" Height="30">
                                         <dx:SimpleButton Glyph="pack://application:,,,/DevExpress.Images.v19.2;component/Office2013/Arrows/Prev_32x32.png" Width="20" Command="{Binding ChangeYear}" CommandParameter="-1" />
-                                        <Label Content="{Binding CurrentYear}" FontWeight="Black" Margin="10,0" />
+                                        <Label Content="{Binding CurrentYear}" FontWeight="Bold" Margin="10,0" FontSize="14" VerticalContentAlignment="Center"/>
                                         <dx:SimpleButton Glyph="pack://application:,,,/DevExpress.Images.v19.2;component/Office2013/Arrows/Next_32x32.png" Width="20"  Command="{Binding ChangeYear}" CommandParameter="1" />
                                     </StackPanel>
-                                    <CheckBox Content="Historische Einträge" IsChecked="{Binding History, Mode=TwoWay}" />
+                                    <CheckBox Content="Historische Einträge" FontWeight="Regular" IsChecked="{Binding History, Mode=TwoWay}" />
                                 </dxa:AccordionItem>
                                 <dxa:AccordionItem Header="Ansicht">
                                     <StackPanel>
