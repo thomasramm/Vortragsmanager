@@ -110,6 +110,18 @@ namespace Vortragsmanager.Core
                 Messenger.Default.Send(Messages.DisplayYearChanged);
             }
         }
+
+        public static void UpdateTalkDate()
+        {
+            foreach (var evt in MeinPlan.Where(x => x.Status != InvitationStatus.Ereignis))
+            {
+                var m = (evt as Invitation);
+                if (m.Vortrag is null)
+                    continue;
+                if (m.Datum > m.Vortrag.zuletztGehalten || m.Vortrag.zuletztGehalten == null)
+                    m.Vortrag.zuletztGehalten = m.Datum;
+            }
+        }
     }
 
     public static class Initialize

@@ -25,6 +25,8 @@ namespace Vortragsmanager.Core
 
                 db.Close();
             }
+
+            DataContainer.UpdateTalkDate();
         }
 
         public static string SaveContainer(string file)
