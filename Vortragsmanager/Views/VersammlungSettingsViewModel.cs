@@ -26,12 +26,13 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand NewPersonCommand { get; private set; }
 
+        private bool _deleted = false;
         public void Delete()
         {
             //ToDo: Versammlung löschen: Redner löschen, im Vortragsplan die Zuteilungen ersetzen gegen "unbekannt"
             Core.DataContainer.Versammlungen.Remove(Versammlung);
-            Sichtbar = Visibility.Collapsed;
-            RaisePropertyChanged(nameof(Sichtbar));
+            Sichtbarkeit = Visibility.Collapsed;
+            RaisePropertyChanged(nameof(Sichtbarkeit));
         }
 
         public void NewPerson()
@@ -41,8 +42,6 @@ namespace Vortragsmanager.Views
             RednerListe.Add(rednerModel);
             rednerModel.Select();
         }
-
-        public Visibility Sichtbar { get; set; } = Visibility.Visible;
 
         public int Jahr1 { get; } = DateTime.Today.Year;
 
@@ -123,11 +122,78 @@ namespace Vortragsmanager.Views
 
         public DevExpress.Xpf.LayoutControl.GroupBoxState IsSelected { get; set; }
 
-        public void Select()
+        public void Select(bool isSelected)
         {
-            IsSelected = DevExpress.Xpf.LayoutControl.GroupBoxState.Maximized;
+            if (isSelected)
+            {
+                IsSelected = DevExpress.Xpf.LayoutControl.GroupBoxState.Maximized;
+            }
+            else
+            {
+                IsSelected = DevExpress.Xpf.LayoutControl.GroupBoxState.Normal;
+            }
             RaisePropertyChanged(nameof(IsSelected));
+            RefreshVisibility();
         }
+
+        private bool _matchFilter = true;
+        public bool MatchFilter 
+        { 
+            get
+            {
+                return _matchFilter;
+            }
+            set
+            {
+                _matchFilter = value;
+                RaisePropertyChanged();
+                RefreshVisibility();
+            }
+        }
+
+        private void RefreshVisibility()
+        {
+            if (_deleted)
+                Sichtbarkeit = Visibility.Collapsed;
+            else if (IsSelected == DevExpress.Xpf.LayoutControl.GroupBoxState.Maximized)
+                Sichtbarkeit = Visibility.Visible;
+            else if (EditMode)
+                Sichtbarkeit = Visibility.Collapsed;
+            else if (MatchFilter)
+                Sichtbarkeit = Visibility.Visible;
+            else
+                Sichtbarkeit = Visibility.Collapsed;
+        }
+
+        private Visibility _sichtbarkeit = Visibility.Visible;
+        public Visibility Sichtbarkeit
+        {
+            get
+            {
+                return _sichtbarkeit;
+            }
+            set
+            {
+                _sichtbarkeit = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _editMode;
+        public bool EditMode 
+        {
+            get
+            {
+                return _editMode;
+            }
+            set
+            {
+                _editMode = value;
+                RaisePropertyChanged();
+                RefreshVisibility();
+            }
+        }
+
     }
 
     public class SpeakerViewModel : ViewModelBase
@@ -269,7 +335,7 @@ namespace Vortragsmanager.Views
             var vers = Core.DataContainer.FindOrAddConregation("Neue Versammlung");
             var model = new ConregationViewModel(vers);
             Add(model);
-            model.Select();
+            model.Select(true);
         }
     }
 }

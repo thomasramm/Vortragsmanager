@@ -29,18 +29,31 @@
             </DataTemplate>
         </dxwui:PageAdornerControl.HeaderTemplate>
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <dxe:ButtonEdit NullText="&#128270; Versammlungen filtern"
+                            ShowNullTextIfFocused="True"
+                            NullValueButtonPlacement="EditBox"
+                            Grid.Row="0"
+                            HorizontalAlignment="Right"
+                            Width="200"
+                            AllowDefaultButton="False"
+                            EditValueChanged="SearchBox_ValueChanged">
+            </dxe:ButtonEdit>
             <dxlc:FlowLayoutControl Name="lc" ItemsSource="{Binding}"
-                                Orientation="Horizontal"
-                                ItemSpace="12"
-                                LayerSpace="12"
-                                Background="Transparent"
-                                    MaximizedElement="{Binding SelectedConregation}"
+                                    Grid.Row="1"
+                                    Orientation="Horizontal"
+                                    ItemSpace="12"
+                                    LayerSpace="12"
+                                    Background="Transparent"
                                     MaximizedElementChanged="lc_MaximizedElementChanged">
                 <dxlc:FlowLayoutControl.ItemTemplate>
                     <DataTemplate>
                         <dxlc:GroupBox Header="{Binding}"
                                        Content="{Binding}"
-                                       Visibility="{Binding Sichtbar}"
+                                       Visibility="{Binding Sichtbarkeit}"
                                        State="{Binding IsSelected}"
                                        Width="200"
                                        Height="250"
@@ -277,7 +290,10 @@
                     </DataTemplate>
                 </dxlc:FlowLayoutControl.ItemTemplate>
             </dxlc:FlowLayoutControl>
-            <Button Width="40" Height="40" Margin="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding AddConregationCommand}">
+            <Button Width="40" Height="40" 
+                    Margin="30" 
+                    Grid.Row="1"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding AddConregationCommand}">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Grid>

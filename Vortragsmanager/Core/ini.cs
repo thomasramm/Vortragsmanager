@@ -205,7 +205,7 @@ public class Ini
     public string[] GetKeys(string section)
     {
         if (!ini.ContainsKey(section))
-            return new string[0];
+            return Array.Empty<string>();
 
         return ini[section].Keys.ToArray();
     }

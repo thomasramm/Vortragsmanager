@@ -19,7 +19,7 @@ namespace Vortragsmanager
 
                 //Aktuell wird jedes mal eine Sicherheitskopie erstellt
                 var fi = new FileInfo(file);
-                var backup = fi.DirectoryName + "\\" + fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length) + $"_{DateTime.Today:yyyy-MM-dd-hh-mm}" + fi.Extension;
+                var backup = fi.DirectoryName + "\\" + fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length) + $"_{DateTime.Now:yyyy-MM-dd-hh-mm}" + fi.Extension;
                 File.Copy(file, backup, true);
             }
         }
