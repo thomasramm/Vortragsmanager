@@ -66,7 +66,7 @@ namespace Vortragsmanager.Core
 
             public static bool ImportKoordinatoren(string filename)
             {
-                file = new FileInfo(filename);
+                var file = new FileInfo(filename);
                 Conregations = new List<Models.Conregation>();
 
                 try
@@ -157,7 +157,7 @@ namespace Vortragsmanager.Core
             {
                 try
                 {
-                    file = new FileInfo(filename);
+                    var file = new FileInfo(filename);
 
                     using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     using (ExcelPackage package = new ExcelPackage(fs))
@@ -267,7 +267,7 @@ namespace Vortragsmanager.Core
             {
                 try
                 {
-                    file = new FileInfo(filename);
+                    var file = new FileInfo(filename);
                     Conregations = new List<Models.Conregation>();
 
                     using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
