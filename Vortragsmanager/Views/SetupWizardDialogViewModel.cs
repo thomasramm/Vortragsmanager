@@ -1,13 +1,12 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using Vortragsmanager.Models;
-using System.Linq;
 
 namespace Vortragsmanager.Views
 {
@@ -67,22 +66,25 @@ namespace Vortragsmanager.Views
                     }
                     CanGoNext = ImportierteKoordinatorenliste.Count > 0;
                     break;
+
                 case 2:
                     //VersammlungsListe = Core.DataContainer.Versammlungen;
                     CanGoNext = (DeineVersammlung != null);
                     break;
+
                 case 3:
                     CanGoNext = ImportierteJahreliste.Count > 0;
                     break;
+
                 default:
                     CanGoNext = true;
                     break;
             }
         }
-        
+
         public bool CanGoNext
         {
-            get 
+            get
             {
                 return _canGoNext;
             }
@@ -94,11 +96,12 @@ namespace Vortragsmanager.Views
         }
 
         #region Koordinatoren
+
         public DelegateCommand ExcelImportierenKoordinatorenCommand { get; private set; }
 
         public DelegateCommand ExcelFileDialogCommand { get; private set; }
 
-        public string ImportExcelFile 
+        public string ImportExcelFile
         {
             get
             {
@@ -138,16 +141,15 @@ namespace Vortragsmanager.Views
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning) != MessageBoxResult.Yes)
                     return;
-                
+
                 //löschen des bereits erfolgten imports für den Kreis
                 var anzahlVersammlungen = Core.DataContainer.Versammlungen.Count;
-                for (int i = anzahlVersammlungen-1; i >0; i--)
+                for (int i = anzahlVersammlungen - 1; i > 0; i--)
                 {
                     if (Core.DataContainer.Versammlungen[i].Kreis == Core.IoExcel.Vplanung.Kreis)
                         Core.DataContainer.Versammlungen.RemoveAt(i);
                 }
                 ImportierteKoordinatorenliste.Remove(new Kreis(Core.IoExcel.Vplanung.Kreis));
-                
             }
             foreach (var item in Core.IoExcel.Vplanung.Conregations)
             {
@@ -179,8 +181,8 @@ namespace Vortragsmanager.Views
 
             openDialog.Dispose();
         }
-               
-        #endregion
+
+        #endregion Koordinatoren
 
         #region DeineVersammlung
 
@@ -189,7 +191,8 @@ namespace Vortragsmanager.Views
         public ObservableCollection<Conregation> VersammlungsListe => Core.DataContainer.Versammlungen;
 
         private Conregation _deineVersammlung;
-        public Conregation DeineVersammlung 
+
+        public Conregation DeineVersammlung
         {
             get
             {
@@ -200,11 +203,11 @@ namespace Vortragsmanager.Views
                 _deineVersammlung = value;
                 CanGoNext = (_deineVersammlung != null);
                 if (value != null)
-                   Core.DataContainer.MeineVersammlung = _deineVersammlung;
+                    Core.DataContainer.MeineVersammlung = _deineVersammlung;
             }
         }
 
-        #endregion
+        #endregion DeineVersammlung
 
         #region Planungen importieren
 
@@ -224,7 +227,7 @@ namespace Vortragsmanager.Views
 
             //einlesen der Excel-Datei
             if (!Core.IoExcel.Vplanung.ImportEigenePlanungen(ImportExcelFile) ||
-                !Core.IoExcel.Vplanung.ImportRednerPlanungen(ImportExcelFile) )
+                !Core.IoExcel.Vplanung.ImportRednerPlanungen(ImportExcelFile))
                 return;
 
             var jahr = Core.IoExcel.Vplanung.MeinPlan.Select(x => x.Datum.Year);
@@ -240,7 +243,6 @@ namespace Vortragsmanager.Views
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning) != MessageBoxResult.Yes)
                     return;
-
             }
 
             foreach (var item in Core.IoExcel.Vplanung.ExternerPlan)
@@ -270,13 +272,13 @@ namespace Vortragsmanager.Views
                 if (!ImportierteJahreliste.Contains(neu))
                     ImportierteJahreliste.Add(neu);
             }
-            
+
             RaisePropertyChanged(nameof(ImportierteJahreliste));
             CanGoNext = true;
             IsFinished = true;
         }
 
-        #endregion
+        #endregion Planungen importieren
 
         public bool IsFinished { get; set; }
 

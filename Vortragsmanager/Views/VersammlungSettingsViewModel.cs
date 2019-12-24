@@ -12,6 +12,8 @@ namespace Vortragsmanager.Views
 {
     public class ConregationViewModel : ViewModelBase
     {
+        private const string Text = "Achtung!";
+
         public ConregationViewModel(Conregation versammlung)
         {
             Versammlung = versammlung;
@@ -100,7 +102,7 @@ namespace Vortragsmanager.Views
             {
                 if ((value == true) && (ThemedMessageBox.Show(
                     "Willst du diese Versammlung wirklich als deine eigene Versammlung setzen?",
-                    "Achtung!",
+                    Text,
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning) == MessageBoxResult.Yes))
                     Core.DataContainer.MeineVersammlung = Versammlung;
@@ -248,7 +250,7 @@ namespace Vortragsmanager.Views
             AddConregationCommand = new DelegateCommand(AddConregation);
         }
 
-        public class EigeneKreisNameComparer : IComparer<Conregation>
+        internal class EigeneKreisNameComparer : IComparer<Conregation>
         {
             public int Compare(Conregation x, Conregation y)
             {
@@ -264,7 +266,6 @@ namespace Vortragsmanager.Views
 
         public void AddConregation()
         {
-            //ToDo: Versammlung hinzufügen, Oberfläche aktualisieren + Selektieren/Maximieren
             var vers = Core.DataContainer.FindOrAddConregation("Neue Versammlung");
             var model = new ConregationViewModel(vers);
             Add(model);

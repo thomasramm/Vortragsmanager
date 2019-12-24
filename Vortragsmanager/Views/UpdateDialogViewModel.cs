@@ -1,10 +1,5 @@
 ﻿using DevExpress.Mvvm;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
-using Vortragsmanager.Models;
-using System.Linq;
 
 namespace Vortragsmanager.Views
 {
@@ -24,15 +19,16 @@ namespace Vortragsmanager.Views
         }
 
         private Version _localVersion;
+
         public Version LocalVersion
         {
-            get 
-            { 
-                return _localVersion; 
+            get
+            {
+                return _localVersion;
             }
 
-            set 
-            { 
+            set
+            {
                 _localVersion = value;
                 RaisePropertyChanged(nameof(CurrentVersion));
             }
@@ -45,17 +41,18 @@ namespace Vortragsmanager.Views
         }
 
         private Ini _serverIni = new Ini();
+
         public Ini ServerIni
         {
             get { return _serverIni; }
-            set { 
+            set
+            {
                 _serverIni = value;
                 if (_serverIni == null)
                     return;
 
                 RaisePropertyChanged(nameof(Changelog));
                 RaisePropertyChanged(nameof(NeueVersion));
-                
             }
         }
 
@@ -65,7 +62,7 @@ namespace Vortragsmanager.Views
 
         public string Changelog
         {
-            get 
+            get
             {
                 var changeLog = string.Empty;
                 var versionen = ServerIni.GetSections();
@@ -77,7 +74,7 @@ namespace Vortragsmanager.Views
 
                     changeLog += $"Version {version}\n--------------------\n\n";
                     var keys = ServerIni.GetKeys(version);
-                    foreach(var k in keys)
+                    foreach (var k in keys)
                     {
                         var value = ServerIni.GetValue(k, version);
                         changeLog += $"{k}: {value}\n";
@@ -87,6 +84,5 @@ namespace Vortragsmanager.Views
                 return changeLog;
             }
         }
-
     }
 }

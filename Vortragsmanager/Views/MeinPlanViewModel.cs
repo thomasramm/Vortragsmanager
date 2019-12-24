@@ -74,7 +74,7 @@ namespace Vortragsmanager.Views
     }
 
     public class MonthViewModel : ViewModelBase
-    {   
+    {
         public MonthViewModel(int nr, string name)
         {
             Nr = nr;

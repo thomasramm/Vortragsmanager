@@ -1,9 +1,5 @@
 ﻿using DevExpress.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
-using Vortragsmanager.Models;
 
 namespace Vortragsmanager.Views
 {
@@ -36,12 +32,14 @@ namespace Vortragsmanager.Views
             if (window != null)
                 window.Close();
         }
+
         public void Save(ICloseable window)
         {
             Speichern = true;
             if (window != null)
                 window.Close();
         }
+
         public void Copy()
         {
             Clipboard.SetText(Text);
@@ -50,6 +48,7 @@ namespace Vortragsmanager.Views
         public bool Speichern { get; set; }
 
         private string _titel;
+
         public string Titel
         {
             get
@@ -64,6 +63,7 @@ namespace Vortragsmanager.Views
         }
 
         private bool _showCloseButton;
+
         public bool ShowCloseButton
         {
             get
@@ -80,6 +80,7 @@ namespace Vortragsmanager.Views
         public string CloseButtonText => _showSaveButton ? "Abbrechen" : "Schließen";
 
         private bool _showSaveButton;
+
         public bool ShowSaveButton
         {
             get
@@ -94,6 +95,7 @@ namespace Vortragsmanager.Views
         }
 
         private bool _showCopyButton;
+
         public bool ShowCopyButton
         {
             get
@@ -107,6 +109,7 @@ namespace Vortragsmanager.Views
         }
 
         private string _text;
+
         public string Text
         {
             get

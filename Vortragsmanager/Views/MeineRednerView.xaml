@@ -54,7 +54,7 @@
                                 <dxa:AccordionItem Header="Jahr">
                                     <StackPanel  Grid.Row="0" Orientation="Horizontal" Height="30">
                                         <dx:SimpleButton Glyph="pack://application:,,,/DevExpress.Images.v19.2;component/Office2013/Arrows/Prev_32x32.png" Width="20" Command="{Binding ChangeYear}" CommandParameter="-1" />
-                                        <Label Content="{Binding CurrentYear}" FontWeight="Bold" Margin="10,0" FontSize="14" VerticalContentAlignment="Center"/>
+                                        <Label Content="{Binding CurrentYear}" FontWeight="Bold" Margin="10,0" FontSize="14" VerticalContentAlignment="Center" />
                                         <dx:SimpleButton Glyph="pack://application:,,,/DevExpress.Images.v19.2;component/Office2013/Arrows/Next_32x32.png" Width="20"  Command="{Binding ChangeYear}" CommandParameter="1" />
                                     </StackPanel>
                                     <CheckBox Content="Historische Einträge" FontWeight="Regular" IsChecked="{Binding History, Mode=TwoWay}" />
@@ -77,8 +77,8 @@
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="50" />
                             </Grid.RowDefinitions>
-                        <dxg:GridControl Grid.Row="0" 
-                                         AutoGenerateColumns="None" 
+                        <dxg:GridControl Grid.Row="0"
+                                         AutoGenerateColumns="None"
                                          ItemsSource="{Binding Talks}"
                                          SelectedItem="{Binding SelectedTalk}"
                                          SelectionMode="Row">
@@ -97,14 +97,14 @@
                                              HorizontalAlignment="Left"
                                              Margin="5"
                                              Grid.Row="1"
-                                             Width="150"/>
+                                             Width="150" />
                             <dx:SimpleButton Content="Liste senden"
                                              Grid.Row="1"
                                              Width="150"
                                              HorizontalAlignment="Right"
                                              Margin="5"
                                              Glyph="{dx:DXImage 'SvgImages/Icon Builder/Actions_Send.svg'}"
-                                             ToolTip="Die angezeigten Termine versenden" 
+                                             ToolTip="Die angezeigten Termine versenden"
                                              Command="{Binding ListeSenden}" />
                         </Grid>
                 </dxdo:LayoutPanel>

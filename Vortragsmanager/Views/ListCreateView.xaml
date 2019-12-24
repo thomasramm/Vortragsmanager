@@ -25,7 +25,7 @@
         </dxwui:PageAdornerControl.HeaderTemplate>
         <Grid>
             <Button Content="Aushang für die Versammlung (Excel)" Width="250" Height="40" Margin="0,0,0,100"
-                    Command="{Binding CreateAushangCommand}"/>
+                    Command="{Binding CreateAushangCommand}" />
             <Label Content="Under Construction" FontSize="40" Foreground="Orange" FontFamily="Segoe UI Light" VerticalAlignment="Center" HorizontalAlignment="Center" />
         </Grid>
     </dxwui:PageAdornerControl>

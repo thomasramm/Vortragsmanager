@@ -36,7 +36,7 @@ namespace Vortragsmanager.Views
 
             //Anfrage akzeptieren
             if (annehmen)
-            { 
+            {
                 data.Titel = "Buchung bestätigen";
                 data.MailTextKoordinator = Core.Templates.GetMailTextAnnehmenKoordinator(buchung);
                 data.MailTextRedner = Core.Templates.GetMailTextAnnehmenRedner(buchung);
@@ -54,7 +54,7 @@ namespace Vortragsmanager.Views
                 data.MailTextKoordinator = Core.Templates.GetMailTextAblehnenKoordinator(buchung);
                 data.MailTextRedner = null;
                 w.ShowDialog();
-            }        
+            }
         }
 
         public ObservableCollection<Speaker> Redner { get; }

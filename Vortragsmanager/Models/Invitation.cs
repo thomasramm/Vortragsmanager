@@ -22,12 +22,12 @@ namespace Vortragsmanager.Models
             }
         }
 
-        #endregion
+        #endregion Interface
 
         public Speaker Ältester { get; set; }
 
         public Talk Vortrag { get; set; }
-               
+
         public Conregation AnfrageVersammlung { get; set; }
 
         public DateTime LetzteAktion { get; set; }

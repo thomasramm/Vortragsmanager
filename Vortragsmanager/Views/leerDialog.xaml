@@ -11,7 +11,7 @@
         DataContext="{dxmvvm:ViewModelSource local:LeerViewModel}"
         x:Name="LeerWindow">
     <Window.Resources>
-        <dxmvvm:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <dxmvvm:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>

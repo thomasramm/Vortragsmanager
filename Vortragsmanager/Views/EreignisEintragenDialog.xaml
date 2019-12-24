@@ -23,23 +23,22 @@
         <dxlc:LayoutControl Orientation="Vertical" Margin="50,30">
             <dxlc:LayoutItem Label="Ereignis">
                 <dxe:ComboBoxEdit SelectedIndex="{Binding SelectedEreignis}">
-                    <dxe:ComboBoxEditItem Content="Dienstwoche"/>
-                    <dxe:ComboBoxEditItem Content="Regionaler Kongress"/>
-                    <dxe:ComboBoxEditItem Content="Kreiskongress"/>
-                    <dxe:ComboBoxEditItem Content="Streaming"/>
-                    <dxe:ComboBoxEditItem Content="Sonstiges"/>
+                    <dxe:ComboBoxEditItem Content="Dienstwoche" />
+                    <dxe:ComboBoxEditItem Content="Regionaler Kongress" />
+                    <dxe:ComboBoxEditItem Content="Kreiskongress" />
+                    <dxe:ComboBoxEditItem Content="Streaming" />
+                    <dxe:ComboBoxEditItem Content="Sonstiges" />
                 </dxe:ComboBoxEdit>
             </dxlc:LayoutItem>
             <dxlc:LayoutItem Label="Name des Ereignis" Visibility="{Binding ShowEreignisName, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <dxe:TextEdit Text="{Binding EreignisName, Mode=TwoWay}"/>
+                <dxe:TextEdit Text="{Binding EreignisName, Mode=TwoWay}" />
             </dxlc:LayoutItem>
             <dxlc:LayoutItem Label="Ältester / KA" Visibility="{Binding ShowVortrag, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <dxe:TextEdit Text="{Binding VortragName, Mode=TwoWay}"/>
+                <dxe:TextEdit Text="{Binding VortragName, Mode=TwoWay}" />
             </dxlc:LayoutItem>
             <dxlc:LayoutItem Label="Vortragsthema">
-                <dxe:TextEdit Text="{Binding VortragThema, Mode=TwoWay}"/>
+                <dxe:TextEdit Text="{Binding VortragThema, Mode=TwoWay}" />
             </dxlc:LayoutItem>
-
         </dxlc:LayoutControl>
         <dx:SimpleButton Grid.Row="1" Content="Speichern"
                              Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}"

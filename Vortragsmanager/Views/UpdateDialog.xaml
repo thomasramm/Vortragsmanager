@@ -17,14 +17,13 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Margin="10">
-            <Label Content="{Binding NeueVersion}" 
-                   HorizontalContentAlignment="Center" 
-                   FontSize="20" 
-                   Foreground="Orange"
-                   />
-            <Label Content="{Binding CurrentVersion}" 
+            <Label Content="{Binding NeueVersion}"
                    HorizontalContentAlignment="Center"
-                   FontSize="16"/>
+                   FontSize="20"
+                   Foreground="Orange" />
+            <Label Content="{Binding CurrentVersion}"
+                   HorizontalContentAlignment="Center"
+                   FontSize="16" />
             <TextBlock HorizontalAlignment="Center" FontSize="16" Margin="10">
                 <Hyperlink NavigateUri="https://github.com/thomasramm/Vortragsmanager#Installation">Neueste Version herunterladen.</Hyperlink>
             </TextBlock>
@@ -33,8 +32,8 @@
         <dx:SimpleButton Grid.Row="1" Content="Schließen"
                          Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}"
                          GlyphAlignment="Left"
-                         Command="{Binding CloseCommand, Mode=OneWay}" 
-                         CommandParameter="{Binding ElementName=UpdateWindow}" 
+                         Command="{Binding CloseCommand, Mode=OneWay}"
+                         CommandParameter="{Binding ElementName=UpdateWindow}"
                          HorizontalAlignment="Right" Width="150" Margin="5,5,10,10" />
     </Grid>
 </Window>

@@ -217,7 +217,6 @@ namespace Vortragsmanager.Views
 
         public void Absagen()
         {
-            //ToDo
             var w = new InfoAnRednerUndKoordinatorWindow();
             var data = (InfoAnRednerUndKoordinatorViewModel)w.DataContext;
             data.Titel = "Vortrag absagen";

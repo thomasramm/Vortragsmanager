@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Vortragsmanager.Models
 {
@@ -22,7 +18,7 @@ namespace Vortragsmanager.Models
             }
         }
 
-        #endregion
+        #endregion Interface
 
         public EventTyp Typ { get; set; }
 
@@ -30,8 +26,8 @@ namespace Vortragsmanager.Models
 
         public string Thema { get; set; }
 
-        public string Vortragender { get; set; }    
-        
+        public string Vortragender { get; set; }
+
         public Talk Vortrag { get; set; }
 
         public SpecialEvent Clone()

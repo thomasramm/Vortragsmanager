@@ -1,9 +1,9 @@
 ﻿/*
- 
+
  Code von https://gist.github.com/Larry57/5725301
  NuGet PAket nicht benutzt um Codeänderungen vornehmen zu können,
  so will ich die ini nicht aus einer Datei sondern aus einem string auslesen
- 
+
   */
 
 using System;
@@ -15,8 +15,8 @@ using System.Text;
 
 public class Ini
 {
-    Dictionary<string, Dictionary<string, string>> ini = new Dictionary<string, Dictionary<string, string>>(StringComparer.InvariantCultureIgnoreCase);
-    string file;
+    private Dictionary<string, Dictionary<string, string>> ini = new Dictionary<string, Dictionary<string, string>>(StringComparer.InvariantCultureIgnoreCase);
+    private string file;
 
     /// <summary>
     /// Initialize an INI file
@@ -34,7 +34,9 @@ public class Ini
         Load(content);
     }
 
-    public Ini() { }
+    public Ini()
+    {
+    }
 
     /// <summary>
     /// Load the INI file content
@@ -153,7 +155,7 @@ public class Ini
         File.WriteAllText(file, sb.ToString());
     }
 
-    static bool endWithCRLF(StringBuilder sb)
+    private static bool endWithCRLF(StringBuilder sb)
     {
         if (sb.Length < 4)
             return sb[sb.Length - 2] == '\r' &&

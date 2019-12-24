@@ -1,11 +1,10 @@
 ﻿using DevExpress.Mvvm;
 using OfficeOpenXml;
-using System.IO;
-using Vortragsmanager.Core;
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Vortragsmanager.Core;
 using Vortragsmanager.Models;
 
 namespace Vortragsmanager.Views
@@ -26,12 +25,12 @@ namespace Vortragsmanager.Views
                 return "";
 
             var ausgabe = "Redner Auswärts: ";
-            foreach(var r in e)
+            foreach (var r in e)
             {
                 ausgabe += $"{r.Ältester.Name} in {r.Versammlung.Name}, ";
             }
 
-            return ausgabe.Substring(0,ausgabe.Length-2);
+            return ausgabe.Substring(0, ausgabe.Length - 2);
         }
 
         public void CreateAushang()
@@ -60,7 +59,7 @@ namespace Vortragsmanager.Views
                         row++;
                         worksheet.Cells[row, 3].Value = sonntag.Vortragender; //Vortragsredner
                         worksheet.Cells[row, 4].Value = sonntag.Thema; //Vortragsredner, Versammlung
-                                                                                             //worksheet.Cells[row, 6].Value = wt-leser;
+                                                                       //worksheet.Cells[row, 6].Value = wt-leser;
                         row++;
                         worksheet.Cells[row, 2].Value = GetRednerAuswärts(sonntag.Datum);//auswärts
                         row++;
@@ -80,7 +79,6 @@ namespace Vortragsmanager.Views
                         row++;
                         row++;
                     }
-
                 }
                 package.Save();
             }

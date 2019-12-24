@@ -1,11 +1,10 @@
 ﻿using DevExpress.Mvvm;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using Vortragsmanager.Models;
 using Vortragsmanager.Views;
-using System.Linq;
 
 namespace Vortragsmanager.Core
 {
@@ -88,13 +87,11 @@ namespace Vortragsmanager.Core
 
             if (s == null)
             {
-
                 s = new Speaker
                 {
                     Name = name,
                     Versammlung = versammlung,
                     Id = Redner.Count > 0 ? Redner.Select(x => x.Id).Max() + 1 : 1
-                    
                 };
                 Redner.Add(s);
             }
@@ -136,7 +133,7 @@ namespace Vortragsmanager.Core
             var wizardData = (SetupWizardDialogViewModel)wizard.DataContext;
             DataContainer.IsInitialized = wizardData.IsFinished;
         }
-        
+
         public static void LoadTalks()
         {
             DataContainer.Vorträge.Clear();
@@ -537,6 +534,5 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn"
             x.Parameter.Add("{Vortrag}", "Angefragter Vortrag, z.B. '123 Vortragsthema'");
             Templates.Vorlagen.Add(x.Name, x);
         }
-
     }
 }

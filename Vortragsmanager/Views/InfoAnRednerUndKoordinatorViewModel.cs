@@ -1,6 +1,5 @@
 ﻿using DevExpress.Mvvm;
 using System.Windows;
-using Vortragsmanager.Models;
 
 namespace Vortragsmanager.Views
 {
@@ -20,6 +19,7 @@ namespace Vortragsmanager.Views
         public DelegateCommand<int> CopyCommand { get; private set; }
 
         private string _titel;
+
         public string Titel
         {
             get
@@ -62,14 +62,15 @@ namespace Vortragsmanager.Views
         public GridLength ShowKoordinatorInfoWidth => string.IsNullOrEmpty(MailTextKoordinator) ? new GridLength(0) : new GridLength(1, GridUnitType.Star);
 
         private string _mailTextKoordinator;
+
         public string MailTextKoordinator
         {
-            get 
-            { 
-                return _mailTextKoordinator; 
+            get
+            {
+                return _mailTextKoordinator;
             }
-            set 
-            { 
+            set
+            {
                 _mailTextKoordinator = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(ShowKoordinatorInfoWidth));
@@ -79,11 +80,12 @@ namespace Vortragsmanager.Views
         }
 
         private string _mailTextRedner;
+
         public string MailTextRedner
         {
             get { return _mailTextRedner; }
-            set 
-            { 
+            set
+            {
                 _mailTextRedner = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(ShowRednerInfoWidth));

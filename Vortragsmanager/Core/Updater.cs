@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
-using System.Reflection;
 using System.Net;
-using System.IO;
+using System.Reflection;
 using Vortragsmanager.Views;
 
 namespace Vortragsmanager.Core
 {
-    static class Updater
+    internal static class Updater
     {
         private static readonly BackgroundWorker _updateWorker = new BackgroundWorker();
 
@@ -32,6 +27,7 @@ namespace Vortragsmanager.Core
 
             CheckForUpdatesForce();
         }
+
         public static void CheckForUpdatesForce()
         {
             var nextSearch = Properties.Settings.Default.NextUpdateSearch;
@@ -83,7 +79,7 @@ namespace Vortragsmanager.Core
 
             var versionen = ServerVersions.GetSections();
             ServerVersion = new Version("0.0.0.0");
-            foreach(var version in versionen)
+            foreach (var version in versionen)
             {
                 var v = new Version(version);
                 if (v > ServerVersion)

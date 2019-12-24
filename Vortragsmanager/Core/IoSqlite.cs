@@ -160,7 +160,6 @@ namespace Vortragsmanager.Core
             cmd.ExecuteNonQuery();
             cmd.Dispose();
 
-
             cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Speaker_Vortrag (
                 IdSpeaker INTEGER,
                 IdTalk INTEGER)", db);
@@ -218,8 +217,8 @@ namespace Vortragsmanager.Core
                             break;
 
                         case "MeineVersammlung":
-                            //ToDo: Die VErsammmlungen müssen bereits eingelsen sein, hier muss eine Objektzuordnung statt finden
-                            //DataContainer.MeineVersammlung.Id = rdr.GetInt32(1);
+                            //Die VErsammmlungen müssen bereits eingelsen sein, hier muss eine Objektzuordnung statt finden
+                            //deshalb nochmaliger Aufruf unter ReadVersammlungen
                             break;
 
                         case "DisplayedYear":
@@ -502,7 +501,6 @@ namespace Vortragsmanager.Core
 
                 rdr.Close();
             }
-
         }
 
         private static void SaveVersammlungen(SQLiteConnection db)
@@ -589,7 +587,7 @@ namespace Vortragsmanager.Core
             }
 
             cmd.Dispose();
-                       
+
             cmd = new SQLiteCommand("INSERT INTO Events(Typ, Name, Thema, Vortragender, Datum)" +
                 "VALUES (@Typ, @Name, @Thema, @Vortragender, @Datum)", db);
 
@@ -770,7 +768,7 @@ namespace Vortragsmanager.Core
             cmd1.Dispose();
             cmd2.Dispose();
         }
-               
+
         public enum Parameter
         {
             Version,

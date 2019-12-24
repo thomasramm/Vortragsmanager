@@ -143,29 +143,27 @@
                                                 </dxlc:LayoutItem>
                                             </dxlc:LayoutGroup>
                                             <dxlc:LayoutItem>
-                                                <dx:SimpleButton Content="Neuen Redner anlegen" 
+                                                <dx:SimpleButton Content="Neuen Redner anlegen"
                                                                  Command="{Binding NewPersonCommand}"
                                                                  Glyph="{dx:DXImage 'SvgImages/Outlook Inspired/NewEmployee.svg'}"></dx:SimpleButton>
                                             </dxlc:LayoutItem>
                                             <dxlc:LayoutItem>
-                                            <dx:SimpleButton Content="Versammlung löschen" 
+                                            <dx:SimpleButton Content="Versammlung löschen"
                                                                  Command="{Binding DeleteCommand}"
-                                                                 Glyph="{dx:DXImage 'SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg'}"/>
-
+                                                                 Glyph="{dx:DXImage 'SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg'}" />
                                             </dxlc:LayoutItem>
                                         </dxlc:LayoutGroup>
                                         <dxlc:LayoutGroup Header="Redner" View="GroupBox" Orientation="Horizontal">
-                                                <dxlc:FlowLayoutControl Orientation="Vertical" 
-                                                                        ItemsSource="{Binding RednerListe}" 
-                                                                        MaximizedElementPosition="Top"
-                                                                        >
+                                                <dxlc:FlowLayoutControl Orientation="Vertical"
+                                                                        ItemsSource="{Binding RednerListe}"
+                                                                        MaximizedElementPosition="Top">
                                                     <dxlc:FlowLayoutControl.ItemTemplate>
                                                         <DataTemplate>
                                                             <dxlc:GroupBox Header="{Binding}"
                                                                        Content="{Binding}"
                                                                        Width="200"
                                                                        Height="100"
-                                                                       Padding="0" 
+                                                                       Padding="0"
                                                                        State="{Binding IsSelected}"
                                                                        Visibility="{Binding Sichtbar}"
                                                                        MaximizeElementVisibility="Visible"
@@ -246,10 +244,10 @@
                                                                                         <Button Content="gewählten Vortrag löschen" Command="{Binding VortragLöschenCommand}" />
                                                                                         <dxlc:LayoutItem Label="Neuen Vortrag hinzufügen:" LabelPosition="Top" Margin="0,10,0,0">
                                                                                             <dxe:ComboBoxEdit ItemsSource="{Binding Vortragsliste}"
-                                                                                                              SelectedItem="{Binding NeuerVortrag}" 
+                                                                                                              SelectedItem="{Binding NeuerVortrag}"
                                                                                                               IsTextEditable="False"
                                                                                                               AutoComplete="True"
-                                                                                                              IsPopupOpen="True"/>
+                                                                                                              IsPopupOpen="True" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <Button Content="Hinzufügen" Command="{Binding NeuerVortragCommand}" />
                                                                                     </dxlc:LayoutGroup>
@@ -261,7 +259,7 @@
                                                                                 <dxlc:LayoutItem>
                                                                                     <dx:SimpleButton Content="Redner löschen"
                                                                                                      Glyph="{dx:DXImage 'SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg'}"
-                                                                                                     Command="{Binding DeleteCommand}"/>
+                                                                                                     Command="{Binding DeleteCommand}" />
                                                                                 </dxlc:LayoutItem>
                                                                             </dxlc:LayoutGroup>
                                                                         </dxlc:LayoutControl>

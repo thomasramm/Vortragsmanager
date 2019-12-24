@@ -1,10 +1,5 @@
 ﻿using DevExpress.Mvvm;
-using DevExpress.Xpf.Editors;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Windows;
 using Vortragsmanager.Models;
 
 namespace Vortragsmanager.Views
@@ -12,13 +7,14 @@ namespace Vortragsmanager.Views
     public class EreignisEintragenDialogView : ViewModelBase
     {
         private SpecialEvent _event;
-        public SpecialEvent Event 
+
+        public SpecialEvent Event
         {
             get
             {
                 return _event;
             }
-            set 
+            set
             {
                 _eventOriginal = value;
                 _event = _eventOriginal.Clone();
@@ -33,6 +29,7 @@ namespace Vortragsmanager.Views
                 RaisePropertyChanged(nameof(VortragThema));
             }
         }
+
         private SpecialEvent _eventOriginal;
 
         public EreignisEintragenDialogView()
@@ -71,8 +68,8 @@ namespace Vortragsmanager.Views
         }
 
         private void SetEreignisTyp()
-        {        
-            switch(SelectedEreignis)
+        {
+            switch (SelectedEreignis)
             {
                 case 0: //Alles Sichtbar
                     _event.Typ = EventTyp.Dienstwoche;
@@ -80,24 +77,28 @@ namespace Vortragsmanager.Views
                     ShowEreignisName = false;
                     EreignisName = "Dienstwoche";
                     break;
+
                 case 4://Alles Sichtbar
                     _event.Typ = EventTyp.Sonstiges;
                     ShowVortrag = true;
                     ShowEreignisName = true;
                     EreignisName = "Sonstiges";
                     break;
+
                 case 1: //Name nicht sichtbar
                     _event.Typ = EventTyp.RegionalerKongress;
                     EreignisName = "Regionaler Kongress";
                     ShowVortrag = false;
                     ShowEreignisName = false;
                     break;
+
                 case 2: //Name nicht sichtbar
                     _event.Typ = EventTyp.Kreiskongress;
                     EreignisName = "Kreiskongress";
                     ShowVortrag = false;
                     ShowEreignisName = false;
                     break;
+
                 case 3: //Name nicht sichtbar
                     _event.Typ = EventTyp.Streaming;
                     EreignisName = "Streaming";
@@ -119,11 +120,11 @@ namespace Vortragsmanager.Views
             set { SetProperty(() => ShowEreignisName, value); }
         }
 
-        public string EreignisName 
+        public string EreignisName
         {
             get { return _event?.Name; }
-            set 
-            { 
+            set
+            {
                 _event.Name = value;
                 RaisePropertyChanged();
             }
@@ -132,10 +133,10 @@ namespace Vortragsmanager.Views
         public string VortragName
         {
             get { return _event?.Vortragender; }
-            set 
+            set
             {
                 _event.Vortragender = value;
-                 ChangeKreisaufseher();
+                ChangeKreisaufseher();
                 RaisePropertyChanged();
             }
         }
@@ -155,7 +156,7 @@ namespace Vortragsmanager.Views
         public string VortragThema
         {
             get { return _event?.Thema; }
-            set 
+            set
             {
                 _event.Thema = value;
                 RaisePropertyChanged();

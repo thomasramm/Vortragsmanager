@@ -42,7 +42,7 @@ namespace Vortragsmanager.Core
                         DataContainer.Redner.Add(s);
                         id++;
                     }
-                    
+
                     //Vorträge
                     var meineVotrgäge = vort.ToString().Split(new[] { ';', ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var v in meineVotrgäge)
@@ -71,13 +71,12 @@ namespace Vortragsmanager.Core
 
                 try
                 {
-
                     using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     using (ExcelPackage package = new ExcelPackage(fs))
                     {
                         ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
                         var pos = worksheet.Name.LastIndexOf(' ');
-                        var kreisString = worksheet.Name.Substring(pos + 1, worksheet.Name.Length - pos -1);
+                        var kreisString = worksheet.Name.Substring(pos + 1, worksheet.Name.Length - pos - 1);
                         Kreis = int.Parse(kreisString, DataContainer.German);
 
                         var row = 2;
@@ -135,10 +134,9 @@ namespace Vortragsmanager.Core
                             row++;
                             id++;
                         }
-
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     ThemedMessageBox.Show("Fehler",
                         $"Beim Einlesen der Excel-Datei ist es zu folgendem Fehler gekommen\n:{e.Message}",
@@ -284,7 +282,6 @@ namespace Vortragsmanager.Core
                             var versammlung = worksheet.Cells[row, 5].Value;
                             row++;
 
-
                             if (datum == null)
                                 break;
 
@@ -336,4 +333,4 @@ namespace Vortragsmanager.Core
             }
         }
     }
- }
+}

@@ -54,7 +54,7 @@
                     <dxc:SimpleButton Glyph="pack://application:,,,/DevExpress.Images.v19.2;component/Office2013/Arrows/Prev_32x32.png" Width="40" Command="{Binding ChangeYear}" CommandParameter="-1" />
                     <Grid>
                         <Label Content="Jahr:" Height="24" VerticalAlignment="Top" Margin="10,0,10,0" HorizontalAlignment="Center" FontSize="14" />
-                        <Label Content="{Binding CurrentYear, Mode=OneWay}" Height="26" FontWeight="Bold" Margin="10,0,10,0" VerticalAlignment="Bottom"  FontSize="16"/>
+                        <Label Content="{Binding CurrentYear, Mode=OneWay}" Height="26" FontWeight="Bold" Margin="10,0,10,0" VerticalAlignment="Bottom"  FontSize="16" />
                     </Grid>
                     <dxc:SimpleButton Glyph="pack://application:,,,/DevExpress.Images.v19.2;component/Office2013/Arrows/Next_32x32.png" Width="40"  Command="{Binding ChangeYear}" CommandParameter="1" />
                 </StackPanel>
