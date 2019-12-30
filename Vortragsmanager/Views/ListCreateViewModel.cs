@@ -11,10 +11,13 @@ namespace Vortragsmanager.Views
 {
     public class ListCreateViewModel : ViewModelBase
     {
+        private static string templateFolder;
+
         public ListCreateViewModel()
         {
             CreateAushangCommand = new DelegateCommand(CreateAushang);
             CreateContactListCommand = new DelegateCommand(CreateContactList);
+            templateFolder = AppDomain.CurrentDomain.BaseDirectory + @"Templates\";
         }
 
         public DelegateCommand CreateAushangCommand { get; private set; }
@@ -39,7 +42,7 @@ namespace Vortragsmanager.Views
         public void CreateAushang()
         {
             //laden der Excel-Datei
-            var template = @"C:\Daten\Thomas\Projekte\Vortragsmanager\Rohdaten\TemplateAushangExcel.xlsx";
+            var template = $"{templateFolder}AushangExcel.xlsx";
             var tempFile = Path.GetTempFileName();
             File.Copy(template, tempFile, true);
             var excel = new FileInfo(tempFile);

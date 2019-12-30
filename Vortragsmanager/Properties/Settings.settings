@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="sqlite" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Daten\Thomas\Projekte\Vortragsmanager\Rohdaten\vortragsmanager.vmf</Value>
+      <Value Profile="(Default)">vortragsmanager.sqlite3</Value>
     </Setting>
     <Setting Name="NameKreisaufseher" Type="System.String" Scope="User">
       <Value Profile="(Default)">Name des Kreisaufseher</Value>

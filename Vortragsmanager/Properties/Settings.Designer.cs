@@ -25,7 +25,7 @@ namespace Vortragsmanager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Daten\\Thomas\\Projekte\\Vortragsmanager\\Rohdaten\\vortragsmanager.vmf")]
+        [global::System.Configuration.DefaultSettingValueAttribute("vortragsmanager.sqlite3")]
         public string sqlite {
             get {
                 return ((string)(this["sqlite"]));
