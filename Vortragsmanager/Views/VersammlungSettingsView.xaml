@@ -219,20 +219,21 @@
                                                                 </dxlc:GroupBox.ContentTemplate>
                                                                 <dxlc:GroupBox.MaximizedContentTemplate>
                                                                     <DataTemplate>
-                                                                        <dxlc:LayoutControl ItemSpace="6">
-                                                                            <dxlc:LayoutControl.GroupBoxStyle>
-                                                                                <Style TargetType="dxlc:GroupBox">
-                                                                                    <Setter Property="Template">
-                                                                                        <Setter.Value>
-                                                                                            <ControlTemplate TargetType="dxlc:GroupBox">
-                                                                                                <GroupBox Header="{TemplateBinding Header}" Content="{TemplateBinding Content}" />
-                                                                                            </ControlTemplate>
-                                                                                        </Setter.Value>
-                                                                                    </Setter>
-                                                                                </Style>
-                                                                            </dxlc:LayoutControl.GroupBoxStyle>
-                                                                            <dxlc:LayoutGroup Orientation="Vertical">
+                                                                    <dxlc:LayoutControl ItemSpace="6">
+                                                                        <dxlc:LayoutControl.GroupBoxStyle>
+                                                                            <Style TargetType="dxlc:GroupBox">
+                                                                                <Setter Property="Template">
+                                                                                    <Setter.Value>
+                                                                                        <ControlTemplate TargetType="dxlc:GroupBox">
+                                                                                            <GroupBox Header="{TemplateBinding Header}" Content="{TemplateBinding Content}" />
+                                                                                        </ControlTemplate>
+                                                                                    </Setter.Value>
+                                                                                </Setter>
+                                                                            </Style>
+                                                                        </dxlc:LayoutControl.GroupBoxStyle>
+                                                                        <dxlc:LayoutGroup Orientation="Vertical">
                                                                             <dxlc:LayoutGroup Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                                                <dxlc:LayoutGroup Orientation="Vertical">
                                                                                 <dxlc:LayoutGroup Header="Daten des Redner" View="GroupBox" Orientation="Vertical">
                                                                                     <dxlc:LayoutItem Label="Typ:">
                                                                                         <dxe:ToggleSwitch ContentPlacement="Near"
@@ -266,6 +267,27 @@
                                                                                         <TextBox Text="Under Construction" Foreground="Orange" />
                                                                                     </dxlc:LayoutItem>
                                                                                 </dxlc:LayoutGroup>
+                                                                                <dxlc:LayoutGroup Header="Redner Aktionen" Orientation="Vertical" View="GroupBox">
+                                                                                    <dxlc:LayoutItem Label="Redner löschen">
+                                                                                        <dx:SimpleButton Content="Löschen"
+                                                                                                        Glyph="{dx:DXImage 'SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg'}"
+                                                                                                        Command="{Binding DeleteCommand}" 
+                                                                                                     Height="23"/>
+                                                                                    </dxlc:LayoutItem>
+                                                                                    <dxlc:LayoutItem Label="Redner verschieben">
+                                                                                        <dxe:ComboBoxEdit ItemsSource="{Binding Versammlungen}"
+                                                                                                      DisplayMember="Name"
+                                                                                                      IsTextEditable="False"
+                                                                                                      SelectedItem="{Binding SelectedVersammlung, Mode=TwoWay}"
+                                                                                                      IsPopupOpen="{Binding VersammlungenPopUp, Mode=TwoWay}"
+                                                                                                      PopupFooterButtons="OkCancel">
+                                                                                            <dxe:ComboBoxEdit.StyleSettings>
+                                                                                                <dxe:RadioComboBoxStyleSettings />
+                                                                                            </dxe:ComboBoxEdit.StyleSettings>
+                                                                                        </dxe:ComboBoxEdit>
+                                                                                    </dxlc:LayoutItem>
+                                                                                </dxlc:LayoutGroup>
+                                                                                </dxlc:LayoutGroup>
                                                                                 <dxlc:LayoutGroup Header="Vorträge" View="GroupBox" Orientation="Vertical">
                                                                                     <ListBox ItemsSource="{Binding Vorträge}" SelectedItem="{Binding GewählterVortrag}" />
                                                                                     <dxlc:LayoutGroup Orientation="Vertical">
@@ -284,13 +306,8 @@
                                                                                     <Label Content="Under Construction" Foreground="Orange" />
                                                                                 </dxlc:LayoutGroup>
                                                                             </dxlc:LayoutGroup>
-                                                                                <dxlc:LayoutItem>
-                                                                                    <dx:SimpleButton Content="Redner löschen"
-                                                                                                     Glyph="{dx:DXImage 'SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg'}"
-                                                                                                     Command="{Binding DeleteCommand}" />
-                                                                                </dxlc:LayoutItem>
                                                                             </dxlc:LayoutGroup>
-                                                                        </dxlc:LayoutControl>
+                                                                    </dxlc:LayoutControl>
                                                                     </DataTemplate>
                                                                 </dxlc:GroupBox.MaximizedContentTemplate>
                                                             </dxlc:GroupBox>

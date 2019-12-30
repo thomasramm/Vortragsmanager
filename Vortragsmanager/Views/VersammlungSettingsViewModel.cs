@@ -230,6 +230,7 @@ namespace Vortragsmanager.Views
             NeuerVortragCommand = new DelegateCommand(NeuenVortragSpeichern);
             VortragLöschenCommand = new DelegateCommand(VortragLöschen);
             DeleteCommand = new DelegateCommand(RednerLöschen);
+            _selectedVersammlung = Redner.Versammlung;
         }
 
         public DelegateCommand DeleteCommand { get; set; }
@@ -311,6 +312,49 @@ namespace Vortragsmanager.Views
         }
 
         public Speaker Redner { get; private set; }
+
+        public ObservableCollection<Conregation> Versammlungen
+        {
+            get => new ObservableCollection<Conregation>(Core.DataContainer.Versammlungen);
+        }
+
+        private bool _versammlungenPopUpIsOpen;
+        public bool VersammlungenPopUp
+        {
+            get
+            {
+                return _versammlungenPopUpIsOpen;
+            }
+            set
+            {
+                _versammlungenPopUpIsOpen = value;
+                //RaisePropertyChanged();
+            }
+        }
+
+        private Conregation _selectedVersammlung;
+        public Conregation SelectedVersammlung
+        {
+            get
+            {
+                return _selectedVersammlung;
+            }
+            set
+            {
+                if (!_versammlungenPopUpIsOpen && value != null && value != Redner?.Versammlung)
+                {
+                    if (ThemedMessageBox.Show("Achtung", $"Soll der Redner {Redner.Name} wirklich in die Versammlung {value.Name} verschoben werden?") == MessageBoxResult.OK)
+                    {
+                        Redner.Versammlung = value;
+                        _selectedVersammlung = value;
+                        Sichtbar = Visibility.Collapsed;
+                        RaisePropertyChanged(nameof(Sichtbar));
+                        //ToDo: UI der übernehmenden Versammlung aktualisieren
+                    }
+                }
+                RaisePropertyChanged();
+            }
+        }
     }
 
     public class SpeakersViewModelCollection : ObservableCollection<SpeakerViewModel>
