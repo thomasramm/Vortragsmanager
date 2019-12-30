@@ -28,14 +28,11 @@ namespace Vortragsmanager.Core
             if (Buchung is null)
                 return "Fehler beim verarbeiten der Vorlage";
             var mt = GetTemplate(TemplateName.ExterneAnfrageAnnehmenInfoAnKoordinatorMailText).Inhalt;
+            mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
             mt = mt
                 .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
                 .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
-                .Replace("{Versammlung}", Buchung.Versammlung.Name ?? "unbekannt")
-                .Replace("{Vortrag}", Buchung.Vortrag.ToString())
-                .Replace("{Koordinator Mail}", $"{Buchung.Versammlung.KoordinatorJw}; {Buchung.Versammlung.KoordinatorMail}")
-                .Replace("{Koordinator Name}", Buchung.Versammlung.Koordinator);
-
+                .Replace("{Vortrag}", Buchung.Vortrag.ToString());
             return mt;
         }
 
@@ -45,7 +42,7 @@ namespace Vortragsmanager.Core
                 return "Fehler beim verarbeiten der Vorlage";
 
             var mt = GetTemplate(TemplateName.ExterneAnfrageAnnehmenInfoAnRednerMailText).Inhalt;
-
+            mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
             mt = mt
                 .Replace("{Redner Name}", Buchung.Ältester?.Name ?? "unbekannt")
                 .Replace("{Redner Mail}", Buchung.Ältester?.Mail ?? "unbekannt")
@@ -53,10 +50,6 @@ namespace Vortragsmanager.Core
                 .Replace("{Vortrag}", Buchung.Vortrag.ToString())
                 .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
 
-                .Replace("{Versammlung}", Buchung.Versammlung.Name)
-                .Replace("{Versammlung Anschrift1}", Buchung.Versammlung.Anschrift1)
-                .Replace("{Versammlung Anschrift2}", Buchung.Versammlung.Anschrift2)
-                .Replace("{Versammlung Telefon}", Buchung.Versammlung.Telefon)
                 .Replace("{Versammlung Zusammenkunftszeit}", Buchung.Versammlung.GetZusammenkunftszeit(Buchung.Datum));
 
             return mt;
@@ -68,13 +61,11 @@ namespace Vortragsmanager.Core
                 return "Fehler beim verarbeiten der Vorlage";
 
             var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnKoordinatorMailText).Inhalt;
+            mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
             mt = mt
                 .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
                 .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
-                .Replace("{Vortrag}", Buchung.Vortrag.ToString())
-                .Replace("{Koordinator Mail}", $"{Buchung.Versammlung.KoordinatorJw}; {Buchung.Versammlung.KoordinatorMail}")
-                .Replace("{Koordinator Name}", Buchung.Versammlung.Koordinator)
-                .Replace("{Versammlung}", Buchung.Versammlung.Name);
+                .Replace("{Vortrag}", Buchung.Vortrag.ToString());
 
             return mt;
         }
@@ -85,12 +76,12 @@ namespace Vortragsmanager.Core
                 return "Fehler beim verarbeiten der Vorlage";
 
             var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnRednerMailText).Inhalt;
+            mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
             mt = mt
                 .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
                 .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
                 .Replace("{Vortrag}", Buchung.Vortrag.ToString())
-                .Replace("{Redner Mail}", $"{Buchung.Ältester?.Mail ?? "unbekannt"}")
-                .Replace("{Versammlung}", $"{Buchung.Versammlung?.Name ?? "unbekannt"}");
+                .Replace("{Redner Mail}", $"{Buchung.Ältester?.Mail ?? "unbekannt"}");
 
             return mt;
         }
@@ -103,14 +94,32 @@ namespace Vortragsmanager.Core
             var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnKoordinatorMailText).Inhalt;
             var vers = Zuteilung.Ältester?.Versammlung ?? DataContainer.FindConregation("Unbekannt");
 
+            mt = ReplaceVersammlungsparameter(mt, vers);
             mt = mt
                 .Replace("{Datum}", $"{Zuteilung.Datum:dd.MM.yyyy}, ")
-                .Replace("{Redner Name}", Zuteilung.Ältester?.Name ?? "unbekannt")
-                .Replace("{Koordinator Mail}", $"{vers.KoordinatorJw}; {vers.KoordinatorMail}")
-                .Replace("{Koordinator Name}", vers.Koordinator)
-                .Replace("{Versammlung}", vers.Name);
+                .Replace("{Redner}", Zuteilung.Ältester?.Name ?? "unbekannt")
+                .Replace("{Vortrag}", Zuteilung.Vortrag?.ToString() ?? "unbekannt");
 
             return mt;
+        }
+
+        public static string ReplaceVersammlungsparameter(string Mailtext, Conregation Versammlung)
+        {
+            if (string.IsNullOrEmpty(Mailtext))
+                return string.Empty;
+
+            if (Versammlung is null)
+                Versammlung = DataContainer.FindConregation("Unbekannt");
+
+            return Mailtext
+                .Replace("{Versammlung", Versammlung.Name)
+                .Replace("{Koordinator Mail}", $"{Versammlung.KoordinatorJw}; {Versammlung.KoordinatorMail}")
+                .Replace("{Koordinator Name}", Versammlung.Koordinator)
+                .Replace("{Kreis}", Versammlung.Kreis.ToString(DataContainer.German))
+                .Replace("{Versammlung Telefon}", Versammlung.Telefon)
+                .Replace("{Versammlung Anreise}", Versammlung.Anreise)
+                .Replace("{Versammlung Anschrift1}", Versammlung.Anschrift1)
+                .Replace("{Versammlung Anschrift2}", Versammlung.Anschrift2);
         }
 
         public static string GetMailTextAblehnenRedner(Invitation Zuteilung)
@@ -119,6 +128,7 @@ namespace Vortragsmanager.Core
                 return "Fehler beim verarbeiten der Vorlage";
 
             var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnRednerMailText).Inhalt;
+            mt = ReplaceVersammlungsparameter(mt, Zuteilung.Ältester?.Versammlung);
             mt = mt
                 .Replace("{Datum}", $"{Zuteilung.Datum:dd.MM.yyyy}, ")
                 .Replace("{Redner}", Zuteilung.Ältester?.Name ?? "unbekannt")
