@@ -129,6 +129,10 @@ namespace Vortragsmanager.Core
         {
             LoadTalks();
             LoadTemplates();
+            DataContainer.Versammlungen.Clear();
+            var unbConr = DataContainer.FindOrAddConregation("unbekannt");
+            unbConr.Kreis = -1;
+            DataContainer.FindOrAddSpeaker("unbekannt", unbConr);
             var wizard = new SetupWizardDialog();
             wizard.ShowDialog();
 

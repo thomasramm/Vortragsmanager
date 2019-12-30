@@ -103,6 +103,7 @@ namespace Vortragsmanager.Core
                 Anschrift1 TEXT,
                 Anschrift2 TEXT,
                 Anreise TEXT,
+                Entfernung INTEGER,
                 Telefon TEXT,
                 Koordinator TEXT,
                 KoordinatorTelefon TEXT,
@@ -267,7 +268,7 @@ namespace Vortragsmanager.Core
         private static void ReadVersammlungen(SQLiteConnection db)
         {
             var vers = int.Parse(ReadParameter(Parameter.MeineVersammlung, db), DataContainer.German);
-            using (var cmd1 = new SQLiteCommand("SELECT Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw FROM Conregation", db))
+            using (var cmd1 = new SQLiteCommand("SELECT Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Entfernung, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw FROM Conregation", db))
             using (var cmd2 = new SQLiteCommand("SELECT Jahr, Zeit FROM Conregation_Zusammenkunftszeiten WHERE IdConregation = @Id", db))
             {
                 cmd2.Parameters.Add("@Id", System.Data.DbType.Int32);
@@ -284,12 +285,13 @@ namespace Vortragsmanager.Core
                     c.Anschrift1 = rdr.IsDBNull(3) ? null : rdr.GetString(3);
                     c.Anschrift2 = rdr.IsDBNull(4) ? null : rdr.GetString(4);
                     c.Anreise = rdr.IsDBNull(5) ? null : rdr.GetString(5);
-                    c.Telefon = rdr.IsDBNull(6) ? null : rdr.GetString(6);
-                    c.Koordinator = rdr.IsDBNull(7) ? null : rdr.GetString(7);
-                    c.KoordinatorTelefon = rdr.IsDBNull(8) ? null : rdr.GetString(8);
-                    c.KoordinatorMobil = rdr.IsDBNull(9) ? null : rdr.GetString(9);
-                    c.KoordinatorMail = rdr.IsDBNull(10) ? null : rdr.GetString(10);
-                    c.KoordinatorJw = rdr.IsDBNull(11) ? null : rdr.GetString(11);
+                    c.Entfernung = rdr.IsDBNull(6) ? 0 : rdr.GetInt32(6);
+                    c.Telefon = rdr.IsDBNull(7) ? null : rdr.GetString(7);
+                    c.Koordinator = rdr.IsDBNull(8) ? null : rdr.GetString(8);
+                    c.KoordinatorTelefon = rdr.IsDBNull(9) ? null : rdr.GetString(9);
+                    c.KoordinatorMobil = rdr.IsDBNull(10) ? null : rdr.GetString(10);
+                    c.KoordinatorMail = rdr.IsDBNull(11) ? null : rdr.GetString(11);
+                    c.KoordinatorJw = rdr.IsDBNull(12) ? null : rdr.GetString(12);
                     DataContainer.Versammlungen.Add(c);
 
                     //Vorträge zuordnen
@@ -591,8 +593,8 @@ namespace Vortragsmanager.Core
 
         private static void SaveVersammlungen(SQLiteConnection db)
         {
-            SQLiteCommand conregationInsertCommand = new SQLiteCommand("INSERT INTO Conregation(Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw) " +
-                "VALUES (@Id, @Kreis, @Name, @Anschrift1, @Anschrift2, @Anreise, @Telefon, @Koordinator, @KoordinatorTelefon, @KoordinatorMobil, @KoordinatorMail, @KoordinatorJw)", db);
+            SQLiteCommand conregationInsertCommand = new SQLiteCommand("INSERT INTO Conregation(Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Entfernung, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw) " +
+                "VALUES (@Id, @Kreis, @Name, @Anschrift1, @Anschrift2, @Anreise, @Entfernung, @Telefon, @Koordinator, @KoordinatorTelefon, @KoordinatorMobil, @KoordinatorMail, @KoordinatorJw)", db);
 
             conregationInsertCommand.Parameters.Add("@Id", System.Data.DbType.Int32);
             conregationInsertCommand.Parameters.Add("@Kreis", System.Data.DbType.Int32);
@@ -600,6 +602,7 @@ namespace Vortragsmanager.Core
             conregationInsertCommand.Parameters.Add("@Anschrift1", System.Data.DbType.String);
             conregationInsertCommand.Parameters.Add("@Anschrift2", System.Data.DbType.String);
             conregationInsertCommand.Parameters.Add("@Anreise", System.Data.DbType.String);
+            conregationInsertCommand.Parameters.Add("@Entfernung", System.Data.DbType.Int32);
             conregationInsertCommand.Parameters.Add("@Telefon", System.Data.DbType.String);
             conregationInsertCommand.Parameters.Add("@Koordinator", System.Data.DbType.String);
             conregationInsertCommand.Parameters.Add("@KoordinatorTelefon", System.Data.DbType.String);
@@ -615,12 +618,13 @@ namespace Vortragsmanager.Core
                 conregationInsertCommand.Parameters[3].Value = vers.Anschrift1;
                 conregationInsertCommand.Parameters[4].Value = vers.Anschrift2;
                 conregationInsertCommand.Parameters[5].Value = vers.Anreise;
-                conregationInsertCommand.Parameters[6].Value = vers.Telefon;
-                conregationInsertCommand.Parameters[7].Value = vers.Koordinator;
-                conregationInsertCommand.Parameters[8].Value = vers.KoordinatorTelefon;
-                conregationInsertCommand.Parameters[9].Value = vers.KoordinatorMobil;
-                conregationInsertCommand.Parameters[10].Value = vers.KoordinatorMail;
-                conregationInsertCommand.Parameters[11].Value = vers.KoordinatorJw;
+                conregationInsertCommand.Parameters[6].Value = vers.Entfernung;
+                conregationInsertCommand.Parameters[7].Value = vers.Telefon;
+                conregationInsertCommand.Parameters[8].Value = vers.Koordinator;
+                conregationInsertCommand.Parameters[9].Value = vers.KoordinatorTelefon;
+                conregationInsertCommand.Parameters[10].Value = vers.KoordinatorMobil;
+                conregationInsertCommand.Parameters[11].Value = vers.KoordinatorMail;
+                conregationInsertCommand.Parameters[12].Value = vers.KoordinatorJw;
                 conregationInsertCommand.ExecuteNonQuery();
             }
             conregationInsertCommand.Dispose();

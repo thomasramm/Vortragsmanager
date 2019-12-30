@@ -18,6 +18,8 @@ namespace Vortragsmanager.Models
 
         public string Anreise { get; set; }
 
+        public int Entfernung { get; set; } = 0;
+
         public string Telefon { get; set; }
 
         public string Koordinator { get; set; }

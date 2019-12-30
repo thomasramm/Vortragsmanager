@@ -122,6 +122,20 @@
                                                 <dxlc:LayoutItem Label="Telefon Saal:">
                                                     <TextBox Text="{Binding Versammlung.Telefon}" />
                                                 </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="Entfernung (km):">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="1*"/>
+                                                            <ColumnDefinition Width="110"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBox Text="{Binding Versammlung.Entfernung}" Grid.Column="0"/>
+                                                        <dx:SimpleButton Content="Berechnen"
+                                                                         Glyph="{dx:DXImage 'SvgImages/Icon Builder/Travel_MapPointer.svg'}"
+                                                                         Command="{Binding CalculateDistanceCommand}"
+                                                                         Grid.Column="1"
+                                                                         Height="24"/>
+                                                    </Grid>
+                                                </dxlc:LayoutItem>
                                             </dxlc:LayoutGroup>
                                             <dxlc:LayoutGroup Header="Koordinator" View="GroupBox" Orientation="Vertical">
                                                 <dxlc:LayoutItem Label="Name:">

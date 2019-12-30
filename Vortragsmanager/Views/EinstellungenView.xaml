@@ -62,7 +62,7 @@
                                  Command="{Binding SearchUpdateCommand}" />
                 </StackPanel>
             </dxlc:LayoutGroup>
-                <dxlc:LayoutGroup Header="Import von Rednerlisten"
+            <dxlc:LayoutGroup Header="Import von Rednerlisten"
                                   View="GroupBox"
                                   Orientation="Vertical">
                     <dxlc:LayoutItem Label="Vortragsmanager kompatible Excel Datei" LabelPosition="Top">
@@ -80,7 +80,7 @@
                                          Command="{Binding UpdateSpeakerFromExcelCommand}" />
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
-                <dxlc:LayoutGroup Header="Mail an alle Koordinatoren im Kreis"
+            <dxlc:LayoutGroup Header="Mail an alle Koordinatoren im Kreis"
                                   View="GroupBox"
                                   Orientation="Vertical">
                     <dxlc:LayoutItem Label="Mailadressen abrufen">
@@ -88,9 +88,23 @@
                                          Command="{Binding EmergencyMailCommand}" />
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
-            </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup Header="Under Construction" View="GroupBox">
-                <Label Content="Under Construction" Foreground="Orange" HorizontalContentAlignment="Center" FontSize="16" />
+        </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup Orientation="Vertical">
+                <dxlc:LayoutGroup Header="Entfernungen der Versammlungen zu meiner berechnen" View="GroupBox" Orientation="Horizontal">
+                    <dxlc:LayoutItem Label="nur fehlende Entfernungen berechnen" LabelPosition="Top">
+                        <dx:SimpleButton Content="Aktualisieren"
+                                         Glyph="{dx:DXImage 'SvgImages/Icon Builder/Travel_MapPointer.svg'}" 
+                                         Command="{Binding CalculateRouteCommand}" CommandParameter="False"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Alle Entfernungen löschen und neu berechnen" LabelPosition="Top">
+                        <dx:SimpleButton Content="Neu Berechnen"
+                                         Glyph="{dx:DXImage 'SvgImages/Icon Builder/Travel_MapPointer.svg'}"
+                                         Command="{Binding CalculateRouteCommand}" CommandParameter="True"/>
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+                <dxlc:LayoutGroup Header="Under Construction" View="GroupBox">
+                    <Label Content="Under Construction" Foreground="Orange" HorizontalContentAlignment="Center" FontSize="16" />
+                </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>
         </dxlc:LayoutControl>
     </dxwui:PageAdornerControl>

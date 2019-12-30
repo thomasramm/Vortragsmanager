@@ -20,11 +20,14 @@ namespace Vortragsmanager.Views
             RednerListe = new SpeakersViewModelCollection(versammlung);
             DeleteCommand = new DelegateCommand(Delete);
             NewPersonCommand = new DelegateCommand(NewPerson);
-        }
+            CalculateDistanceCommand = new DelegateCommand(CalculateDistance);
+    }
 
         public DelegateCommand DeleteCommand { get; private set; }
 
         public DelegateCommand NewPersonCommand { get; private set; }
+
+        public DelegateCommand CalculateDistanceCommand { get; private set; }
 
         private bool _deleted = false;
         public void Delete()
@@ -41,6 +44,29 @@ namespace Vortragsmanager.Views
             var rednerModel = new SpeakerViewModel(redner);
             RednerListe.Add(rednerModel);
             rednerModel.Select();
+        }
+
+        public void CalculateDistance()
+        {
+            var start = Core.DataContainer.MeineVersammlung;
+            var end = Versammlung;
+            Entfernung = Core.GeoApi.GetDistance(start, end);
+        }
+
+        public int? Entfernung
+        {
+            get
+            {
+                return Versammlung.Entfernung;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    Versammlung.Entfernung = (int)value;
+                }
+                RaisePropertyChanged();
+            }
         }
 
         public int Jahr1 { get; } = DateTime.Today.Year;

@@ -1,4 +1,5 @@
 ﻿using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
 using System;
 using System.IO;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace Vortragsmanager.Views
             SearchUpdateCommand = new DelegateCommand(SearchUpdate);
             UpdateSpeakerFromExcelCommand = new DelegateCommand(UpdateSpeakerFromExcel);
             EmergencyMailCommand = new DelegateCommand(EmergencyMail);
+            CalculateRouteCommand = new DelegateCommand<bool>(CalculateRoute);
             Datenbank = Properties.Settings.Default.sqlite;
         }
 
@@ -29,6 +31,8 @@ namespace Vortragsmanager.Views
         public DelegateCommand UpdateSpeakerFromExcelCommand { get; private set; }
 
         public DelegateCommand EmergencyMailCommand { get; private set; }
+
+        public DelegateCommand<bool> CalculateRouteCommand { get; private set; }
 
         public string ImportExcelFile
         {
@@ -177,6 +181,28 @@ namespace Vortragsmanager.Views
             data.Text = jwpubadressen + Environment.NewLine + Environment.NewLine + mailadressen;
 
             dialog.ShowDialog();
+        }
+
+        public void CalculateRoute(bool alle)
+        {
+            var start = DataContainer.MeineVersammlung;
+            var end = DataContainer.Versammlungen.Where(x => x != start);
+            if (!alle)
+                end = end.Where(x => x.Entfernung == 0);
+            var erfolgreich = 0;
+            var fehler = 0;
+            foreach(var ziel in end)
+            {
+                var km = GeoApi.GetDistance(start, ziel);
+                if (km != null)
+                {
+                    ziel.Entfernung = (int)km;
+                    erfolgreich++;
+                }
+                else
+                    fehler++;  
+            }
+            ThemedMessageBox.Show("Entfernungsberechnung", $"Es wurden {erfolgreich} Entfernungen berechnet und eingetragen. {fehler} Berechnungen haben nicht geklappt, es wurde die Entfernung 0km eingetragen.");
         }
     }
 }
