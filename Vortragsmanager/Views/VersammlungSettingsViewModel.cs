@@ -239,12 +239,49 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand VortragLöschenCommand { get; private set; }
 
-        public void RednerLöschen()
+        public void RednerLöschen(bool silent)
         {
             //ToDo: Redner löschen: im Vortragsplan die Zuteilungen ersetzen gegen "unbekannt"
-            Core.DataContainer.Redner.Remove(Redner);
-            Sichtbar = Visibility.Collapsed;
-            RaisePropertyChanged(nameof(Sichtbar));
+            if (silent || ThemedMessageBox.Show("Redner löschen",
+                $"Wirklich Redner {Redner.Name} löschen?" + Environment.NewLine+
+                "Alle vergangenen Einladungen werden durch 'unbekannt' ersetzt," + Environment.NewLine +
+                "alle zukünftigen Einladungen werden gelöscht.",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                //Einladungen
+                var einladungen = Core.DataContainer.MeinPlan
+                    .Where(x => x.Status == EventStatus.Zugesagt)
+                    .Cast<Invitation>()
+                    .Where(x => x.Ältester == Redner)
+                    .ToList();
+                foreach(var einladung in einladungen)
+                {
+                    if (einladung.Datum < DateTime.Today)
+                        einladung.Ältester = null;
+                    else
+                        Core.DataContainer.MeinPlan.Remove(einladung);
+                }
+                //Offene Anfragen
+                var anfragen = Core.DataContainer.OffeneAnfragen
+                    .Where(x => x.RednerVortrag.ContainsKey(Redner))
+                    .ToList();
+                foreach(var anfrage in anfragen)
+                {
+                    anfrage.RednerVortrag.Remove(Redner);
+                    if (anfrage.RednerVortrag.Count == 0)
+                        Core.DataContainer.OffeneAnfragen.Remove(anfrage);
+                }
+
+                Core.DataContainer.Redner.Remove(Redner);
+                Sichtbar = Visibility.Collapsed;
+                RaisePropertyChanged(nameof(Sichtbar));
+            }
+        }
+
+        public void RednerLöschen()
+        {
+            RednerLöschen(false);
         }
 
         public Visibility Sichtbar { get; set; }

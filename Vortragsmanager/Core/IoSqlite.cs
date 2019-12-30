@@ -668,7 +668,7 @@ namespace Vortragsmanager.Core
                 var con = (er as Invitation);
                 cmd.Parameters[0].Value = con.Ältester?.Id;
                 cmd.Parameters[1].Value = con.Vortrag?.Nummer;
-                cmd.Parameters[2].Value = con.Ältester?.Versammlung?.Id;
+                cmd.Parameters[2].Value = con.Ältester?.Versammlung?.Id ?? con.AnfrageVersammlung?.Id;
                 cmd.Parameters[3].Value = con.Datum;
                 cmd.Parameters[4].Value = (int)con.Status;
                 cmd.Parameters[5].Value = con.LetzteAktion;
