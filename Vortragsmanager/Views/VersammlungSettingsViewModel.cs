@@ -32,7 +32,40 @@ namespace Vortragsmanager.Views
         private bool _deleted = false;
         public void Delete()
         {
-            //ToDo: Versammlung löschen: Redner löschen, im Vortragsplan die Zuteilungen ersetzen gegen "unbekannt"
+            if (ThemedMessageBox.Show("Versammlung löschen",
+                $"Soll die Versammlung {Versammlung.Name} mit allen {RednerListe.Count} Rednern gelöscht werden?" + Environment.NewLine +
+                "Alle vergangenen Einladungen werden durch 'unbekannt' ersetzt," + Environment.NewLine + 
+                "alle zukünftigen Einladungen und Anfragen werden gelöscht!",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning) == MessageBoxResult.No)
+                return;
+
+            while(RednerListe.Count > 0)
+            {
+                RednerListe[0].RednerLöschen(true);
+                RednerListe.RemoveAt(0);
+            }
+            //Einladungen
+            var einladungen = Core.DataContainer.MeinPlan
+                .Where(x => x.Status == EventStatus.Zugesagt)
+                .Cast<Invitation>()
+                .Where(x => x.AnfrageVersammlung == Versammlung)
+                .ToList();
+            foreach (var einladung in einladungen)
+                Core.DataContainer.MeinPlan.Remove(einladung);
+
+            //Anfragen
+            var anfragen = Core.DataContainer.OffeneAnfragen.Where(x => x.Versammlung == Versammlung).ToList();
+            foreach (var anfrage in anfragen)
+                Core.DataContainer.OffeneAnfragen.Remove(anfrage);
+
+            //Externe Vorträge in dieser Versammlung
+            var externeE = Core.DataContainer.ExternerPlan.Where(x => x.Versammlung == Versammlung);
+            foreach (var outside in externeE)
+            {
+                outside.Versammlung = null;
+            }
+
             Core.DataContainer.Versammlungen.Remove(Versammlung);
             Sichtbarkeit = Visibility.Collapsed;
             RaisePropertyChanged(nameof(Sichtbarkeit));
@@ -271,6 +304,14 @@ namespace Vortragsmanager.Views
                     anfrage.RednerVortrag.Remove(Redner);
                     if (anfrage.RednerVortrag.Count == 0)
                         Core.DataContainer.OffeneAnfragen.Remove(anfrage);
+                }
+
+                //Externe Einladungen
+                if (Redner.Versammlung == Core.DataContainer.MeineVersammlung)
+                {
+                    var externeE = Core.DataContainer.ExternerPlan.Where(x => x.Ältester == Redner).ToList();
+                    foreach (var einladung in externeE)
+                        Core.DataContainer.ExternerPlan.Remove(einladung);
                 }
 
                 Core.DataContainer.Redner.Remove(Redner);

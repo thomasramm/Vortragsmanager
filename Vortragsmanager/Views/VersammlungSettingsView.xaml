@@ -15,6 +15,9 @@
     <UserControl.DataContext>
         <local:ConregationsViewModelCollection />
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <dxmvvm:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
+    </UserControl.Resources>
     <dxwui:PageAdornerControl Header="Einstellungen">
         <dxwui:PageAdornerControl.HeaderTemplate>
             <DataTemplate>
@@ -178,6 +181,7 @@
                                             <dxlc:LayoutItem>
                                             <dx:SimpleButton Content="Versammlung löschen"
                                                                  Command="{Binding DeleteCommand}"
+                                                                IsEnabled="{Binding EigeneVersammlung, Converter={StaticResource BooleanNegationConverter}}"
                                                                  Glyph="{dx:DXImage 'SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg'}" />
                                             </dxlc:LayoutItem>
                                         </dxlc:LayoutGroup>

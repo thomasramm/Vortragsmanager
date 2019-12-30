@@ -43,6 +43,17 @@ namespace Vortragsmanager.Core
             return null;
         }
 
+        public static Conregation FindConregation(string name, int kreis)
+        {
+            foreach (var c in Versammlungen)
+            {
+                if (c.Name == name && c.Kreis == kreis)
+                    return c;
+            }
+
+            return null;
+        }
+
         public static Conregation FindOrAddConregation(string name)
         {
             var c = FindConregation(name);
@@ -53,6 +64,24 @@ namespace Vortragsmanager.Core
                 {
                     Name = name,
                     Kreis = MeineVersammlung.Kreis,
+                    Id = Versammlungen.Count > 0 ? Versammlungen.Select(x => x.Id).Max() + 1 : 1
+                };
+                Versammlungen.Add(c);
+            }
+
+            return c;
+        }
+
+        public static Conregation FindOrAddConregation(string name, int kreis)
+        {
+            var c = FindConregation(name, kreis);
+
+            if (c == null)
+            {
+                c = new Conregation
+                {
+                    Name = name,
+                    Kreis = kreis,
                     Id = Versammlungen.Count > 0 ? Versammlungen.Select(x => x.Id).Max() + 1 : 1
                 };
                 Versammlungen.Add(c);
@@ -130,9 +159,7 @@ namespace Vortragsmanager.Core
             LoadTalks();
             LoadTemplates();
             DataContainer.Versammlungen.Clear();
-            var unbConr = DataContainer.FindOrAddConregation("unbekannt");
-            unbConr.Kreis = -1;
-            DataContainer.FindOrAddSpeaker("unbekannt", unbConr);
+            var unbConr = DataContainer.FindOrAddConregation("unbekannt", -1);
             var wizard = new SetupWizardDialog();
             wizard.ShowDialog();
 

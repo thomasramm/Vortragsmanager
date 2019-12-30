@@ -443,13 +443,14 @@ namespace Vortragsmanager.Core
                 {
                     var o = new Outside();
                     var IdSpeaker = rdr.GetInt32(0);
-                    var IdConregation = rdr.GetInt32(1);
+                    var IdConregation = rdr.IsDBNull(1) ? (int?)null : rdr.GetInt32(1);
                     o.Datum = rdr.GetDateTime(2);
                     o.Reason = (OutsideReason)rdr.GetInt32(3);
                     var IdTalk = rdr.GetInt32(4);
 
                     o.Ältester = DataContainer.Redner.First(x => x.Id == IdSpeaker);
-                    o.Versammlung = DataContainer.Versammlungen.First(x => x.Id == IdConregation);
+                    if (IdConregation != null)
+                        o.Versammlung = DataContainer.Versammlungen.First(x => x.Id == IdConregation);
                     o.Vortrag = DataContainer.Vorträge.First(x => x.Nummer == IdTalk);
 
                     DataContainer.ExternerPlan.Add(o);
@@ -764,7 +765,7 @@ namespace Vortragsmanager.Core
             foreach (var plan in DataContainer.ExternerPlan)
             {
                 cmd.Parameters[0].Value = plan.Ältester.Id;
-                cmd.Parameters[1].Value = plan.Versammlung.Id;
+                cmd.Parameters[1].Value = plan.Versammlung?.Id;
                 cmd.Parameters[2].Value = plan.Datum;
                 cmd.Parameters[3].Value = (int)plan.Reason;
                 cmd.Parameters[4].Value = plan.Vortrag.Nummer;
