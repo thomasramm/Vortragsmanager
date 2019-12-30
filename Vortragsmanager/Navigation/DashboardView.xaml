@@ -93,9 +93,16 @@
             <dxlc:Tile Size="Small"
                        Header="Redner suchen"
                        Background="#EA6A47"
-                       dxwuin:Navigation.NavigateTo="PlaningEdit"
+                       dxwuin:Navigation.NavigateTo="SearchSpeaker"
                        dxlc:TileLayoutControl.GroupHeader="Aktionen"
                        dxlc:FlowLayoutControl.IsFlowBreak="True">
+                <Image Source="/Images/Search_64x64.png" Margin="10" />
+            </dxlc:Tile>
+            <dxlc:Tile Size="Small"
+                       Header="Antwort eintragen"
+                       Background="#FFAF7A"
+                       dxwuin:Navigation.NavigateTo="AntwortEintragenView"
+                       dxlc:TileLayoutControl.GroupHeader="Aktionen">
                 <Image Source="/Images/Search_64x64.png" Margin="10" />
             </dxlc:Tile>
             <dxlc:Tile Header="Anfrage bearbeiten"
