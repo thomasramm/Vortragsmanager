@@ -22,6 +22,7 @@ namespace Vortragsmanager.Core
                 ReadExternerPlan(db);
                 ReadTemplates(db);
                 ReadEvents(db);
+                ReadAnfragen(db);
 
                 db.Close();
             }
@@ -46,6 +47,7 @@ namespace Vortragsmanager.Core
                     SaveVersammlungen(db);
                     SaveRedner(db);
                     SaveMeinPlan(db);
+                    SaveAnfragen(db);
                     SaveExternerPlan(db);
                     SaveTemplates(db);
                     transaction.Commit();
@@ -193,7 +195,31 @@ namespace Vortragsmanager.Core
                 Beschreibung STRING)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Inquiry (
+                Id INTEGER,
+                IdConregation INTEGER,
+                Status INTEGER,
+                AnfrageDatum INTEGER,
+                Kommentar STRING)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Inquiry_Dates (
+                IdInquiry INTEGER,
+                Datum INTEGER)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Inquiry_SpeakerTalk (
+                IdInquiry INTEGER,
+                IdSpeaker INTEGER,
+                IdTalk INTEGER)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
         }
+
+        #region READ
 
         private static void ReadParameter(SQLiteConnection db)
         {
@@ -379,7 +405,7 @@ namespace Vortragsmanager.Core
                     var IdVortrag = rdr.IsDBNull(1) ? (int?)null : rdr.GetInt32(1);
                     var IdConregation = rdr.IsDBNull(2) ? (int?)null : rdr.GetInt32(2);
                     i.Datum = rdr.GetDateTime(3);
-                    i.Status = (InvitationStatus)rdr.GetInt32(4);
+                    i.Status = (EventStatus)rdr.GetInt32(4);
                     i.LetzteAktion = rdr.GetDateTime(5);
                     i.Kommentar = rdr.IsDBNull(6) ? null : rdr.GetString(6);
 
@@ -489,7 +515,7 @@ namespace Vortragsmanager.Core
                 {
                     var v = new SpecialEvent
                     {
-                        Typ = (EventTyp)rdr.GetInt32(0),
+                        Typ = (SpecialEventTyp)rdr.GetInt32(0),
                         Name = rdr.IsDBNull(1) ? null : rdr.GetString(1),
                         Thema = rdr.IsDBNull(2) ? null : rdr.GetString(2),
                         Vortragender = rdr.IsDBNull(3) ? null : rdr.GetString(3),
@@ -502,6 +528,66 @@ namespace Vortragsmanager.Core
                 rdr.Close();
             }
         }
+
+        private static void ReadAnfragen(SQLiteConnection db)
+        {
+            using (var cmd1 = new SQLiteCommand("SELECT Id, IdConregation, Status, AnfrageDatum, Kommentar FROM Inquiry", db))
+            using (var cmd2 = new SQLiteCommand("SELECT Datum FROM Inquiry_Dates WHERE IdInquiry = @Id", db))
+            using (var cmd3 = new SQLiteCommand("SELECT IdSpeaker, IdTalk FROM Inquiry_SpeakerTalk WHERE IdInquiry = @Id", db))
+            {
+                cmd2.Parameters.Add("@Id", System.Data.DbType.Int32);
+                cmd3.Parameters.Add("@Id", System.Data.DbType.Int32);
+
+                SQLiteDataReader rdr1 = cmd1.ExecuteReader();
+                while (rdr1.Read())
+                {
+                    var id = rdr1.GetInt32(0);
+                    var idConregation = rdr1.GetInt32(1);
+                    var status = rdr1.GetInt32(2);
+                    var anfrage = rdr1.GetDateTime(3);
+                    var kommentar = rdr1.GetString(4);
+
+                    var v = new Inquiry
+                    {
+                        Id = id,
+                        Versammlung = DataContainer.Versammlungen.First(x => x.Id == idConregation),
+                        //Status = (EventStatus)status,
+                        AnfrageDatum = anfrage,
+                        Kommentar = kommentar,
+                    };
+
+                    cmd2.Parameters[0].Value = id;
+                    SQLiteDataReader rdr2 = cmd2.ExecuteReader();
+                    while (rdr2.Read())
+                    {
+                        var datum = rdr2.GetDateTime(0);
+                        v.Wochen.Add(datum);
+                    }
+                    rdr2.Close();
+
+                    cmd3.Parameters[0].Value = id;
+                    SQLiteDataReader rdr3 = cmd3.ExecuteReader();
+                    while (rdr3.Read())
+                    {
+                        var idSpeaker = rdr3.GetInt32(0);
+                        var idTalk = rdr3.GetInt32(1);
+
+                        var s = DataContainer.Redner.First(x => x.Id == idSpeaker);
+                        var t = DataContainer.Vorträge.First(x => x.Nummer == idTalk);
+                        v.RednerVortrag.Add(s, t);
+                    }
+                    rdr3.Close();
+
+                    DataContainer.OffeneAnfragen.Add(v);
+                }
+
+                rdr1.Close();
+            }
+        }
+
+        #endregion
+
+        #region SAVE
 
         private static void SaveVersammlungen(SQLiteConnection db)
         {
@@ -573,7 +659,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@LetzteAktion", System.Data.DbType.Date);
             cmd.Parameters.Add("@Kommentar", System.Data.DbType.String);
 
-            foreach (var er in DataContainer.MeinPlan.Where(x => x.Status != InvitationStatus.Ereignis))
+            foreach (var er in DataContainer.MeinPlan.Where(x => x.Status != EventStatus.Ereignis))
             {
                 var con = (er as Invitation);
                 cmd.Parameters[0].Value = con.Ältester?.Id;
@@ -597,7 +683,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@Vortragender", System.Data.DbType.String);
             cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
 
-            foreach (var er in DataContainer.MeinPlan.Where(x => x.Status == InvitationStatus.Ereignis))
+            foreach (var er in DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Ereignis))
             {
                 var evt = (er as SpecialEvent);
                 cmd.Parameters[0].Value = (int)evt.Typ;
@@ -609,6 +695,55 @@ namespace Vortragsmanager.Core
             }
 
             cmd.Dispose();
+        }
+
+        private static void SaveAnfragen(SQLiteConnection db)
+        {
+            var cmd1 = new SQLiteCommand("INSERT INTO Inquiry(Id, IdConregation, Status, AnfrageDatum, Kommentar) VALUES (@Id, @IdConregation, @Status, @AnfrageDatum, @Kommentar)", db);
+            var cmd2 = new SQLiteCommand("INSERT INTO Inquiry_Dates(IdInquiry, Datum) VALUES (@IdInquiry, @Datum)", db);
+            var cmd3 = new SQLiteCommand("INSERT INTO Inquiry_SpeakerTalk(IdInquiry, IdSpeaker, IdTalk) VALUES (@IdInquiry, @IdSpeaker, @IdTalk)", db);
+
+            cmd1.Parameters.Add("@Id", System.Data.DbType.Int32);
+            cmd1.Parameters.Add("@IdConregation", System.Data.DbType.Int32);
+            cmd1.Parameters.Add("@Status", System.Data.DbType.Int32);
+            cmd1.Parameters.Add("@AnfrageDatum", System.Data.DbType.Date);
+            cmd1.Parameters.Add("@Kommentar", System.Data.DbType.String);
+
+            cmd2.Parameters.Add("@IdInquiry", System.Data.DbType.Int32);
+            cmd2.Parameters.Add("@Datum", System.Data.DbType.Date);
+
+            cmd3.Parameters.Add("@IdInquiry", System.Data.DbType.Int32);
+            cmd3.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
+            cmd3.Parameters.Add("@IdTalk", System.Data.DbType.Int32);
+
+            foreach (var con in DataContainer.OffeneAnfragen)
+            {
+                cmd1.Parameters[0].Value = con.Id;
+                cmd1.Parameters[1].Value = con.Versammlung.Id;
+                cmd1.Parameters[2].Value = (int)con.Status;
+                cmd1.Parameters[3].Value = con.AnfrageDatum;
+                cmd1.Parameters[4].Value = con.Kommentar;
+                cmd1.ExecuteNonQuery();
+
+                cmd2.Parameters[0].Value = con.Id;
+                foreach (var d in con.Wochen)
+                {
+                    cmd2.Parameters[1].Value = d;
+                    cmd2.ExecuteNonQuery();
+                }
+                
+                cmd3.Parameters[0].Value = con.Id;
+                foreach (var person in con.RednerVortrag)
+                {
+                    cmd3.Parameters[1].Value = person.Key.Id;
+                    cmd3.Parameters[2].Value = person.Value.Nummer;
+                    cmd3.ExecuteNonQuery();
+                }
+            }
+
+            cmd1.Dispose();
+            cmd2.Dispose();
+            cmd3.Dispose();
         }
 
         private static void SaveExternerPlan(SQLiteConnection db)
@@ -768,6 +903,8 @@ namespace Vortragsmanager.Core
             cmd1.Dispose();
             cmd2.Dispose();
         }
+
+        #endregion
 
         public enum Parameter
         {

@@ -188,24 +188,24 @@ namespace Vortragsmanager.Core
                                 var se = new Models.SpecialEvent();
                                 se.Datum = DateTime.Parse(datum.ToString(), DataContainer.German);
                                 var typ = thema.ToString();
-                                se.Typ = Models.EventTyp.Sonstiges;
+                                se.Typ = Models.SpecialEventTyp.Sonstiges;
                                 if (typ.Contains("Weltzentrale"))
                                 {
-                                    se.Typ = Models.EventTyp.Streaming;
+                                    se.Typ = Models.SpecialEventTyp.Streaming;
                                     se.Name = typ;
                                 }
                                 else if (typ.Contains("Kreiskongress"))
                                 {
-                                    se.Typ = Models.EventTyp.Kreiskongress;
+                                    se.Typ = Models.SpecialEventTyp.Kreiskongress;
                                 }
                                 else if (typ.Contains("Sondervortrag"))
                                 {
-                                    se.Typ = Models.EventTyp.Streaming;
+                                    se.Typ = Models.SpecialEventTyp.Streaming;
                                     se.Name = typ;
                                 }
                                 else if (typ.Contains("Regionaler Kongress"))
                                 {
-                                    se.Typ = Models.EventTyp.RegionalerKongress;
+                                    se.Typ = Models.SpecialEventTyp.RegionalerKongress;
                                 }
                                 MeinPlan.Add(se);
                                 continue;
@@ -223,7 +223,7 @@ namespace Vortragsmanager.Core
                             {
                                 var se = new Models.SpecialEvent();
                                 se.Datum = i.Datum;
-                                se.Typ = Models.EventTyp.Dienstwoche;
+                                se.Typ = Models.SpecialEventTyp.Dienstwoche;
                                 se.Vortragender = redner?.ToString() ?? "Kreisaufseher";
                                 se.Thema = thema?.ToString();
                                 MeinPlan.Add(se);

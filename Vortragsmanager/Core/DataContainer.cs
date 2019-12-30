@@ -28,6 +28,8 @@ namespace Vortragsmanager.Core
 
         public static ObservableCollection<IEvent> MeinPlan { get; } = new ObservableCollection<IEvent>();
 
+        public static ObservableCollection<Inquiry> OffeneAnfragen { get; } = new ObservableCollection<Inquiry>();
+
         public static ObservableCollection<Outside> ExternerPlan { get; } = new ObservableCollection<Outside>();
 
         public static Conregation FindConregation(string name)
@@ -110,7 +112,7 @@ namespace Vortragsmanager.Core
 
         public static void UpdateTalkDate()
         {
-            foreach (var evt in MeinPlan.Where(x => x.Status != InvitationStatus.Ereignis))
+            foreach (var evt in MeinPlan.Where(x => x.Status != EventStatus.Ereignis))
             {
                 var m = (evt as Invitation);
                 if (m.Vortrag is null)
