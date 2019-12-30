@@ -70,5 +70,53 @@ namespace Vortragsmanager.Properties {
                 this["SearchForUpdates"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SearchSpeaker_RednerCheckHistory {
+            get {
+                return ((bool)(this["SearchSpeaker_RednerCheckHistory"]));
+            }
+            set {
+                this["SearchSpeaker_RednerCheckHistory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SearchSpeaker_RednerCheckFuture {
+            get {
+                return ((bool)(this["SearchSpeaker_RednerCheckFuture"]));
+            }
+            set {
+                this["SearchSpeaker_RednerCheckFuture"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SearchSpeaker_VortragCheckFuture {
+            get {
+                return ((bool)(this["SearchSpeaker_VortragCheckFuture"]));
+            }
+            set {
+                this["SearchSpeaker_VortragCheckFuture"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SearchSpeaker_VortragCheckHistory {
+            get {
+                return ((bool)(this["SearchSpeaker_VortragCheckHistory"]));
+            }
+            set {
+                this["SearchSpeaker_VortragCheckHistory"] = value;
+            }
+        }
     }
 }
