@@ -4,7 +4,7 @@ using System.Windows;
 namespace Vortragsmanager.Views
 {
     /// <summary>
-    /// Interaktionslogik für BuchungLöschenDialog.xaml
+    /// Interaktionslogik für BuchungLöschenCommandDialog.xaml
     /// </summary>
     public partial class SetupWizardDialog : Window, ICloseable
     {

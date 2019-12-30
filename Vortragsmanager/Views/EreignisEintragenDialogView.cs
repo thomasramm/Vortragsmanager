@@ -4,7 +4,7 @@ using Vortragsmanager.Models;
 
 namespace Vortragsmanager.Views
 {
-    public class EreignisEintragenDialogView : ViewModelBase
+    public class EreignisEintragenCommandDialogView : ViewModelBase
     {
         private SpecialEvent _event;
 
@@ -32,7 +32,7 @@ namespace Vortragsmanager.Views
 
         private SpecialEvent _eventOriginal;
 
-        public EreignisEintragenDialogView()
+        public EreignisEintragenCommandDialogView()
         {
             CloseCommand = new DelegateCommand<ICloseable>(Schließen);
             SaveCommand = new DelegateCommand<ICloseable>(Save);
@@ -72,35 +72,35 @@ namespace Vortragsmanager.Views
             switch (SelectedEreignis)
             {
                 case 0: //Alles Sichtbar
-                    _event.Typ = EventTyp.Dienstwoche;
+                    _event.Typ = SpecialEventTyp.Dienstwoche;
                     ShowVortrag = true;
                     ShowEreignisName = false;
                     EreignisName = "Dienstwoche";
                     break;
 
                 case 4://Alles Sichtbar
-                    _event.Typ = EventTyp.Sonstiges;
+                    _event.Typ = SpecialEventTyp.Sonstiges;
                     ShowVortrag = true;
                     ShowEreignisName = true;
                     EreignisName = "Sonstiges";
                     break;
 
                 case 1: //Name nicht sichtbar
-                    _event.Typ = EventTyp.RegionalerKongress;
+                    _event.Typ = SpecialEventTyp.RegionalerKongress;
                     EreignisName = "Regionaler Kongress";
                     ShowVortrag = false;
                     ShowEreignisName = false;
                     break;
 
                 case 2: //Name nicht sichtbar
-                    _event.Typ = EventTyp.Kreiskongress;
+                    _event.Typ = SpecialEventTyp.Kreiskongress;
                     EreignisName = "Kreiskongress";
                     ShowVortrag = false;
                     ShowEreignisName = false;
                     break;
 
                 case 3: //Name nicht sichtbar
-                    _event.Typ = EventTyp.Streaming;
+                    _event.Typ = SpecialEventTyp.Streaming;
                     EreignisName = "Streaming";
                     ShowVortrag = false;
                     ShowEreignisName = true;

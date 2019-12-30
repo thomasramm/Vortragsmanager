@@ -105,7 +105,18 @@
     <Compile Include="Core\Updater.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\ICloseable.cs" />
-    <Compile Include="Models\IEvent.cs" />
+    <Compile Include="Views\AntwortEintragenControl.cs">
+      <DependentUpon>AntwortEintragenControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AntwortEintragenDialog.xaml.cs">
+      <DependentUpon>AntwortEintragenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AntwortEintragenView.xaml.cs">
+      <DependentUpon>AntwortEintragenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AntwortEintragenViewModel.cs">
+      <DependentUpon>AntwortEintragenControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EinstellungenView.xaml.cs">
       <DependentUpon>EinstellungenView.xaml</DependentUpon>
     </Compile>
@@ -154,8 +165,8 @@
     <Compile Include="Views\MeinPlanViewModel.cs">
       <DependentUpon>MeinPlanView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PlaningEdit.xaml.cs">
-      <DependentUpon>PlaningEdit.xaml</DependentUpon>
+    <Compile Include="Views\SearchSpeaker.cs">
+      <DependentUpon>SearchSpeaker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExternalQuestionEdit.xaml.cs">
       <DependentUpon>ExternalQuestionEdit.xaml</DependentUpon>
@@ -166,8 +177,8 @@
     <Compile Include="Navigation\NavigatorView.xaml.cs">
       <DependentUpon>NavigatorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PlaningEditViewModel.cs">
-      <DependentUpon>PlaningEdit.xaml</DependentUpon>
+    <Compile Include="Views\SearchSpeakerViewModel.cs">
+      <DependentUpon>SearchSpeaker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Test1View.xaml.cs">
       <DependentUpon>Test1View.xaml</DependentUpon>
@@ -201,7 +212,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Conregation.cs" />
-    <Compile Include="Models\Invitation.cs" />
     <Compile Include="Models\Outside.cs" />
     <Compile Include="Models\Talk.cs" />
     <Compile Include="Models\Speaker.cs" />
@@ -215,6 +225,18 @@
     <Compile Include="Views\MeinPlanView.xaml.cs">
       <DependentUpon>MeinPlanView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AntwortEintragenControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AntwortEintragenDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AntwortEintragenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\EinstellungenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -243,7 +265,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PlaningEdit.xaml">
+    <Page Include="Views\SearchSpeaker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -310,6 +332,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Templates\AushangExcel.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Person_64x64.png" />
@@ -362,12 +387,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Logo2_128x128.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Search2_32x32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Search3_32x32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

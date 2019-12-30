@@ -7,10 +7,10 @@
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
-        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" x:Class="Vortragsmanager.Views.EreignisEintragenDialog"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" x:Class="Vortragsmanager.Views.EreignisEintragenCommandDialog"
         mc:Ignorable="d"
         Title="Ereignis eintragen" Height="300" Width="500"
-        DataContext="{dxmvvm:ViewModelSource {x:Type local:EreignisEintragenDialogView}}"
+        DataContext="{dxmvvm:ViewModelSource {x:Type local:EreignisEintragenCommandDialogView}}"
         x:Name="EreignisBearbeitenWindow">
     <Window.Resources>
         <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />

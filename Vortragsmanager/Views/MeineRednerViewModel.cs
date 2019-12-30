@@ -77,11 +77,13 @@ namespace Vortragsmanager.Views
                 var list2 = list.Join(Redner,
                     li => li.Ältester.Name,
                     fi => fi.Content.ToString(),
-                    (li, fi) => new { Redner = li, fi.IsChecked }).Where(x => x.IsChecked == true).Select(x => x.Redner);
+                    (li, fi) => new { Redner = li, fi.IsChecked }).Where(x => x.IsChecked == true).Select(x => x.Redner).OrderBy(x => x.Datum);
                 Talks = new ObservableCollection<Outside>(list2);
             }
             else
-                Talks = new ObservableCollection<Outside>(list);
+            {
+                Talks = new ObservableCollection<Outside>(list.OrderBy(x => x.Datum));
+            }
             RaisePropertyChanged(nameof(Talks));
         }
 

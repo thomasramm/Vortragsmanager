@@ -58,7 +58,12 @@
                     </Grid>
                     <dxc:SimpleButton Glyph="pack://application:,,,/DevExpress.Images.v19.2;component/Office2013/Arrows/Next_32x32.png" Width="40"  Command="{Binding ChangeYear}" CommandParameter="1" />
                 </StackPanel>
-                <dxlc:FlowLayoutControl Orientation="Horizontal" BreakFlowToFit="True" MaximizedElementPosition="Right" Grid.Row="1" ItemsSource="{Binding Monate}">
+                <dxlc:FlowLayoutControl Orientation="Horizontal" 
+                                        BreakFlowToFit="True" 
+                                        MaximizedElementPosition="Right" 
+                                        Grid.Row="1" 
+                                        ItemsSource="{Binding Monate}"
+                                        Margin="0">
                     <dxlc:FlowLayoutControl.ItemTemplate>
                         <DataTemplate>
                             <dxlc:GroupBox
@@ -86,11 +91,12 @@
                                                     <Border Background="{Binding Background}" Height="24" Margin="0" Width="185">
                                                         <Border.ContextMenu>
                                                             <ContextMenu>
-                                                                <MenuItem Header="Redner suchen" Command="{Binding RednerSuchen}"   Visibility="{Binding IsOffen, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                                                <MenuItem Header="Ereignis eintragen" Command="{Binding EreignisEintragen}"   Visibility="{Binding IsOffen, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                                                <MenuItem Header="Ereignis bearbeiten" Command="{Binding EreignisEintragen}"   Visibility="{Binding IsEreignis, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                                                <MenuItem Header="Anfrage löschen" Command="{Binding AnfrageLöschen}" Visibility="{Binding IsAnfrage, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                                                <MenuItem Header="Buchung löschen" Command="{Binding BuchungLöschen}" Visibility="{Binding IsBuchung, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                <MenuItem Header="Redner suchen" Command="{Binding RednerSuchenCommand}" Visibility="{Binding IsOffen, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                <MenuItem Header="Ereignis eintragen" Command="{Binding EreignisEintragenCommand}"   Visibility="{Binding IsOffen, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                <MenuItem Header="Ereignis bearbeiten" Command="{Binding EreignisEintragenCommand}"   Visibility="{Binding IsEreignis, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                <MenuItem Header="Anfrage bearbeiten" Command="{Binding AnfrageBearbeitenCommand}" Visibility="{Binding IsAnfrage, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                <MenuItem Header="Buchung löschen" Command="{Binding BuchungLöschenCommand}" Visibility="{Binding IsBuchung, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                <MenuItem Header="Test" Click="MenuItem_Click"></MenuItem>
                                                             </ContextMenu>
                                                         </Border.ContextMenu>
                                                         <StackPanel Orientation="Horizontal">

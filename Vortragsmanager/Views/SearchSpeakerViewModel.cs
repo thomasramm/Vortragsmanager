@@ -18,7 +18,6 @@ namespace Vortragsmanager.Views
             AnfrageSpeichernCommand = new DelegateCommand(AnfrageSpeichern);
 
             LoadModul1();
-
         }
 
         private void LoadModul1()

@@ -40,7 +40,8 @@
                             HorizontalAlignment="Right"
                             Width="200"
                             AllowDefaultButton="False"
-                            EditValueChanged="SearchBox_ValueChanged">
+                            EditValueChanged="SearchBox_ValueChanged"
+                            Margin="0,0,0,0">
             </dxe:ButtonEdit>
             <dxlc:FlowLayoutControl Name="lc" ItemsSource="{Binding}"
                                     Grid.Row="1"
