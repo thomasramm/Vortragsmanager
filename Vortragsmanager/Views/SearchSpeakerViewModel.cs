@@ -31,6 +31,7 @@ namespace Vortragsmanager.Views
             RednerCheckFuture = Settings.Default.SearchSpeaker_RednerCheckFuture;
             VortragCheckFuture = Settings.Default.SearchSpeaker_VortragCheckFuture;
             VortragCheckHistory = Settings.Default.SearchSpeaker_VortragCheckHistory;
+            MaxEntfernung = Settings.Default.SearchSpeaker_MaxEntfernung;
         }
 
         #region Freie Termine & Redner suchen
@@ -77,7 +78,9 @@ namespace Vortragsmanager.Views
         {
             if (selectedKreise == null)
                 Versammlungen = new ObservableCollection<Conregation>();
-            Versammlungen = new ObservableCollection<Conregation>(Core.DataContainer.Versammlungen.Where(x => selectedKreise.Contains(x.Kreis)));
+            else
+                Versammlungen = new ObservableCollection<Conregation>(Core.DataContainer.Versammlungen
+                    .Where(x => selectedKreise.Contains(x.Kreis) && x.Entfernung <= MaxEntfernung));
             RaisePropertyChanged(nameof(Versammlungen));
             SelectedVersammlungen = Versammlungen.Cast<object>().ToList();
         }
@@ -122,6 +125,18 @@ namespace Vortragsmanager.Views
         {
             get { return GetProperty(() => VortragCheckHistory); }
             set { SetProperty(() => VortragCheckHistory, value, ReadData); }
+        }
+
+        private int _maxEntfernung;
+        public int MaxEntfernung
+        {
+            get { return _maxEntfernung; }
+            set 
+            { 
+                _maxEntfernung = value; 
+                RaisePropertyChanged(); 
+                FillVersammlungen(); 
+            }
         }
 
         public List<GroupConregation> Redner { get; private set; }
@@ -305,6 +320,7 @@ namespace Vortragsmanager.Views
             Settings.Default.SearchSpeaker_RednerCheckFuture = RednerCheckFuture;
             Settings.Default.SearchSpeaker_VortragCheckFuture = VortragCheckFuture;
             Settings.Default.SearchSpeaker_VortragCheckHistory = VortragCheckHistory;
+            Settings.Default.SearchSpeaker_MaxEntfernung = MaxEntfernung;
 
             Modul2Visible = new GridLength(1, GridUnitType.Star);
 

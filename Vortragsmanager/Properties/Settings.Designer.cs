@@ -118,5 +118,17 @@ namespace Vortragsmanager.Properties {
                 this["SearchSpeaker_VortragCheckHistory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int SearchSpeaker_MaxEntfernung {
+            get {
+                return ((int)(this["SearchSpeaker_MaxEntfernung"]));
+            }
+            set {
+                this["SearchSpeaker_MaxEntfernung"] = value;
+            }
+        }
     }
 }
