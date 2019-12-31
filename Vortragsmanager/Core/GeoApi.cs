@@ -1,12 +1,7 @@
 ﻿using DevExpress.Xpf.Core;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using Vortragsmanager.Models;
 
@@ -15,12 +10,15 @@ namespace Vortragsmanager.Core
     public static class GeoApi
     {
 
-        private const string url = "https://maps.googleapis.com/maps/api/directions/json?origin={START}&destination={ZIEL}&key=AIzaSyAY-l7RDLM27Cgdb5M8w-l0724yJ0p9TeU";
+        private const string url = "https://maps.googleapis.com/maps/api/directions/json?origin={START}&destination={ZIEL}&key={KEY}";
         public static int? GetDistance(string startAdress, string endAdress)
         {
             startAdress = startAdress.Replace(" ", "+");
             endAdress = endAdress.Replace(" ", "+");
-            var myUrl = url.Replace("{START}", startAdress).Replace("{ZIEL", endAdress);
+            var myUrl = url
+                .Replace("{START}", startAdress)
+                .Replace("{ZIEL}", endAdress)
+                .Replace("{KEY}", Security.GoogleApiKey);
             var gString = string.Empty;
 
             using (WebClient client = new WebClient())
