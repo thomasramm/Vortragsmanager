@@ -96,7 +96,6 @@
                                                                 <MenuItem Header="Ereignis bearbeiten" Command="{Binding EreignisEintragenCommand}"   Visibility="{Binding IsEreignis, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <MenuItem Header="Anfrage bearbeiten" Command="{Binding AnfrageBearbeitenCommand}" Visibility="{Binding IsAnfrage, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <MenuItem Header="Buchung löschen" Command="{Binding BuchungLöschenCommand}" Visibility="{Binding IsBuchung, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                                                <MenuItem Header="Test" Click="MenuItem_Click"></MenuItem>
                                                             </ContextMenu>
                                                         </Border.ContextMenu>
                                                         <StackPanel Orientation="Horizontal">
