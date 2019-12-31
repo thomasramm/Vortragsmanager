@@ -16,7 +16,7 @@
         <local:ConregationsViewModelCollection />
     </UserControl.DataContext>
     <UserControl.Resources>
-        <dxmvvm:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
+        <dxmvvm:BooleanNegationConverter x:Key="BooleanNegationConverter" />
     </UserControl.Resources>
     <dxwui:PageAdornerControl Header="Einstellungen">
         <dxwui:PageAdornerControl.HeaderTemplate>
@@ -33,8 +33,8 @@
         </dxwui:PageAdornerControl.HeaderTemplate>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition/>
+                <RowDefinition Height="30" />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <dxe:ButtonEdit NullText="&#128270; Versammlungen filtern"
                             ShowNullTextIfFocused="True"
@@ -128,15 +128,15 @@
                                                 <dxlc:LayoutItem Label="Entfernung (km):">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="1*"/>
-                                                            <ColumnDefinition Width="110"/>
+                                                            <ColumnDefinition Width="1*" />
+                                                            <ColumnDefinition Width="110" />
                                                         </Grid.ColumnDefinitions>
-                                                        <TextBox Text="{Binding Versammlung.Entfernung}" Grid.Column="0"/>
+                                                        <TextBox Text="{Binding Versammlung.Entfernung}" Grid.Column="0" />
                                                         <dx:SimpleButton Content="Berechnen"
                                                                          Glyph="{dx:DXImage 'SvgImages/Icon Builder/Travel_MapPointer.svg'}"
                                                                          Command="{Binding CalculateDistanceCommand}"
                                                                          Grid.Column="1"
-                                                                         Height="24"/>
+                                                                         Height="24" />
                                                     </Grid>
                                                 </dxlc:LayoutItem>
                                             </dxlc:LayoutGroup>
@@ -275,8 +275,8 @@
                                                                                     <dxlc:LayoutItem Label="Redner löschen">
                                                                                         <dx:SimpleButton Content="Löschen"
                                                                                                         Glyph="{dx:DXImage 'SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg'}"
-                                                                                                        Command="{Binding DeleteCommand}" 
-                                                                                                     Height="23"/>
+                                                                                                        Command="{Binding DeleteCommand}"
+                                                                                                     Height="23" />
                                                                                     </dxlc:LayoutItem>
                                                                                     <dxlc:LayoutItem Label="Redner verschieben">
                                                                                         <dxe:ComboBoxEdit ItemsSource="{Binding Versammlungen}"
@@ -326,8 +326,8 @@
                     </DataTemplate>
                 </dxlc:FlowLayoutControl.ItemTemplate>
             </dxlc:FlowLayoutControl>
-            <Button Width="40" Height="40" 
-                    Margin="30" 
+            <Button Width="40" Height="40"
+                    Margin="30"
                     Grid.Row="1"
                     VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding AddConregationCommand}">
                 <Button.Template>

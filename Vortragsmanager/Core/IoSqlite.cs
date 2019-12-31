@@ -588,7 +588,7 @@ namespace Vortragsmanager.Core
             }
         }
 
-        #endregion
+        #endregion READ
 
         #region SAVE
 
@@ -736,7 +736,7 @@ namespace Vortragsmanager.Core
                     cmd2.Parameters[1].Value = d;
                     cmd2.ExecuteNonQuery();
                 }
-                
+
                 cmd3.Parameters[0].Value = con.Id;
                 foreach (var person in con.RednerVortrag)
                 {
@@ -909,7 +909,7 @@ namespace Vortragsmanager.Core
             cmd2.Dispose();
         }
 
-        #endregion
+        #endregion SAVE
 
         public enum Parameter
         {

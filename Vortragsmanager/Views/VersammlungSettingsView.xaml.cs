@@ -48,7 +48,7 @@ namespace Vortragsmanager.Views
                 if (gBox is null)
                     continue;
                 var data = (ConregationViewModel)gBox.DataContext;
-                
+
                 var filterValue = $"{data.Versammlung.Kreis} {data.Versammlung.Name} {data.Versammlung.Koordinator}".ToLower(Core.DataContainer.German);
                 if (string.IsNullOrEmpty(filter))
                     data.MatchFilter = true;

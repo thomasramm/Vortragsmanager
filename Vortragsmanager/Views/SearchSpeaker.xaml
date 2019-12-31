@@ -13,7 +13,7 @@
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"  
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     x:Class="Vortragsmanager.Views.SearchSpeaker"
     mc:Ignorable="d"
     d:DesignHeight="450" d:DesignWidth="800">
@@ -96,7 +96,7 @@
                                                               IsFloatValue="False"
                                                               Increment="10"
                                                               EditValueType="{x:Type sys:Int32}"
-                                                              DisplayFormatString="0 km"/>
+                                                              DisplayFormatString="0 km" />
                                             </dxlc:LayoutItem>
                                             <dxlc:LayoutItem Label="Versammlungen" FontWeight="Regular">
                                                 <dxe:ComboBoxEdit ItemsSource="{Binding Versammlungen}"

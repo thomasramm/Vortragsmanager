@@ -58,10 +58,10 @@
                     </Grid>
                     <dxc:SimpleButton Glyph="pack://application:,,,/DevExpress.Images.v19.2;component/Office2013/Arrows/Next_32x32.png" Width="40"  Command="{Binding ChangeYear}" CommandParameter="1" />
                 </StackPanel>
-                <dxlc:FlowLayoutControl Orientation="Horizontal" 
-                                        BreakFlowToFit="True" 
-                                        MaximizedElementPosition="Right" 
-                                        Grid.Row="1" 
+                <dxlc:FlowLayoutControl Orientation="Horizontal"
+                                        BreakFlowToFit="True"
+                                        MaximizedElementPosition="Right"
+                                        Grid.Row="1"
                                         ItemsSource="{Binding Monate}"
                                         Margin="0">
                     <dxlc:FlowLayoutControl.ItemTemplate>

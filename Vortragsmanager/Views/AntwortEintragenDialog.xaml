@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"           
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:local="clr-namespace:Vortragsmanager.Views"
         x:Class="Vortragsmanager.Views.AntwortEintragenDialog"
         mc:Ignorable="d"
@@ -20,7 +20,7 @@
         <dx:SimpleButton Content="Schließen"
                          Click="CloseButton_Click"
                          Grid.Row="2"
-                         HorizontalAlignment="Right" Width="100" Margin="10"/>
-        <local:AntwortEintragenControl Grid.Row="1" x:Name="Control"/>
+                         HorizontalAlignment="Right" Width="100" Margin="10" />
+        <local:AntwortEintragenControl Grid.Row="1" x:Name="Control" />
     </Grid>
 </Window>

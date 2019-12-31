@@ -177,7 +177,6 @@ namespace Vortragsmanager.Views
                 data.MailTextRedner = Core.Templates.GetMailTextAblehnenRedner(zuteilung);
             else
                 data.MailTextKoordinator = Core.Templates.GetMailTextAblehnenKoordinator(zuteilung);
-            
 
             w.ShowDialog();
             if (data.Speichern)

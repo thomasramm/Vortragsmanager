@@ -21,7 +21,7 @@ namespace Vortragsmanager.Views
             DeleteCommand = new DelegateCommand(Delete);
             NewPersonCommand = new DelegateCommand(NewPerson);
             CalculateDistanceCommand = new DelegateCommand(CalculateDistance);
-    }
+        }
 
         public DelegateCommand DeleteCommand { get; private set; }
 
@@ -30,17 +30,18 @@ namespace Vortragsmanager.Views
         public DelegateCommand CalculateDistanceCommand { get; private set; }
 
         private bool _deleted = false;
+
         public void Delete()
         {
             if (ThemedMessageBox.Show("Versammlung löschen",
                 $"Soll die Versammlung {Versammlung.Name} mit allen {RednerListe.Count} Rednern gelöscht werden?" + Environment.NewLine +
-                "Alle vergangenen Einladungen werden durch 'unbekannt' ersetzt," + Environment.NewLine + 
+                "Alle vergangenen Einladungen werden durch 'unbekannt' ersetzt," + Environment.NewLine +
                 "alle zukünftigen Einladungen und Anfragen werden gelöscht!",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning) == MessageBoxResult.No)
                 return;
 
-            while(RednerListe.Count > 0)
+            while (RednerListe.Count > 0)
             {
                 RednerListe[0].RednerLöschen(true);
                 RednerListe.RemoveAt(0);
@@ -196,8 +197,9 @@ namespace Vortragsmanager.Views
         }
 
         private bool _matchFilter = true;
-        public bool MatchFilter 
-        { 
+
+        public bool MatchFilter
+        {
             get
             {
                 return _matchFilter;
@@ -225,6 +227,7 @@ namespace Vortragsmanager.Views
         }
 
         private Visibility _sichtbarkeit = Visibility.Visible;
+
         public Visibility Sichtbarkeit
         {
             get
@@ -239,7 +242,8 @@ namespace Vortragsmanager.Views
         }
 
         private bool _editMode;
-        public bool EditMode 
+
+        public bool EditMode
         {
             get
             {
@@ -252,7 +256,6 @@ namespace Vortragsmanager.Views
                 RefreshVisibility();
             }
         }
-
     }
 
     public class SpeakerViewModel : ViewModelBase
@@ -276,7 +279,7 @@ namespace Vortragsmanager.Views
         {
             //ToDo: Redner löschen: im Vortragsplan die Zuteilungen ersetzen gegen "unbekannt"
             if (silent || ThemedMessageBox.Show("Redner löschen",
-                $"Wirklich Redner {Redner.Name} löschen?" + Environment.NewLine+
+                $"Wirklich Redner {Redner.Name} löschen?" + Environment.NewLine +
                 "Alle vergangenen Einladungen werden durch 'unbekannt' ersetzt," + Environment.NewLine +
                 "alle zukünftigen Einladungen werden gelöscht.",
                 MessageBoxButton.YesNo,
@@ -288,7 +291,7 @@ namespace Vortragsmanager.Views
                     .Cast<Invitation>()
                     .Where(x => x.Ältester == Redner)
                     .ToList();
-                foreach(var einladung in einladungen)
+                foreach (var einladung in einladungen)
                 {
                     if (einladung.Datum < DateTime.Today)
                         einladung.Ältester = null;
@@ -299,7 +302,7 @@ namespace Vortragsmanager.Views
                 var anfragen = Core.DataContainer.OffeneAnfragen
                     .Where(x => x.RednerVortrag.ContainsKey(Redner))
                     .ToList();
-                foreach(var anfrage in anfragen)
+                foreach (var anfrage in anfragen)
                 {
                     anfrage.RednerVortrag.Remove(Redner);
                     if (anfrage.RednerVortrag.Count == 0)
@@ -397,6 +400,7 @@ namespace Vortragsmanager.Views
         }
 
         private bool _versammlungenPopUpIsOpen;
+
         public bool VersammlungenPopUp
         {
             get
@@ -411,6 +415,7 @@ namespace Vortragsmanager.Views
         }
 
         private Conregation _selectedVersammlung;
+
         public Conregation SelectedVersammlung
         {
             get

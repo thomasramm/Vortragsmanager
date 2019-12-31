@@ -128,14 +128,15 @@ namespace Vortragsmanager.Views
         }
 
         private int _maxEntfernung;
+
         public int MaxEntfernung
         {
             get { return _maxEntfernung; }
-            set 
-            { 
-                _maxEntfernung = value; 
-                RaisePropertyChanged(); 
-                FillVersammlungen(); 
+            set
+            {
+                _maxEntfernung = value;
+                RaisePropertyChanged();
+                FillVersammlungen();
             }
         }
 
@@ -286,9 +287,9 @@ namespace Vortragsmanager.Views
         {
             var anfrage = new Inquiry();
             anfrage.AnfrageDatum = DateTime.Today;
-            anfrage.Versammlung = AktuelleAnfrage.Versammlung;       
+            anfrage.Versammlung = AktuelleAnfrage.Versammlung;
             anfrage.Id = Core.DataContainer.OffeneAnfragen.Select(x => x.Id).DefaultIfEmpty(0).Max() + 1;
-                       
+
             var Kommentar = $"Anfrage an Versammlung {AktuelleAnfrage.Versammlung.Name} am {DateTime.Today:dd.MM.yyyy}";
 
             foreach (var r in AktuelleAnfrage.Redner.Where(x => x.Gewählt))
@@ -298,7 +299,7 @@ namespace Vortragsmanager.Views
                 Kommentar += $"\t{r.Name}, Vortrag Nr. {v.Nummer} ({v.Thema})" + Environment.NewLine;
             }
             anfrage.Wochen.Clear();
-            foreach(var d in FreieTermine.Where(x => x.Aktiv).Select(x => x.Datum))
+            foreach (var d in FreieTermine.Where(x => x.Aktiv).Select(x => x.Datum))
             {
                 anfrage.Wochen.Add(d);
             }

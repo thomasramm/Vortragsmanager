@@ -9,8 +9,8 @@ namespace Vortragsmanager.Core
 {
     public static class GeoApi
     {
-
         private const string url = "https://maps.googleapis.com/maps/api/directions/json?origin={START}&destination={ZIEL}&key={KEY}";
+
         public static int? GetDistance(string startAdress, string endAdress)
         {
             startAdress = startAdress.Replace(" ", "+");
@@ -25,7 +25,6 @@ namespace Vortragsmanager.Core
             {
                 gString = client.DownloadString(myUrl);
             }
-            //gString = File.ReadAllText(@"C:\Daten\Thomas\Projekte\Vortragsmanager\Rohdaten\googleResponse.txt");
 
             var json = JObject.Parse(gString);
 
@@ -44,7 +43,7 @@ namespace Vortragsmanager.Core
                     "Fehler bei der Routenberechnung",
                     "Es konnte keine Route berechnet werden. " + Environment.NewLine +
                     $"von: {startAdress}" + Environment.NewLine +
-                    $"nach: {endAdress}" + Environment.NewLine + 
+                    $"nach: {endAdress}" + Environment.NewLine +
                     "Bitte später nochmal versuchen",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
@@ -52,7 +51,7 @@ namespace Vortragsmanager.Core
             }
         }
 
-        public static  int? GetDistance(Conregation start, Conregation end)
+        public static int? GetDistance(Conregation start, Conregation end)
         {
             if (start == null || end == null)
                 return null;

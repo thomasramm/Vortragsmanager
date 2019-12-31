@@ -93,13 +93,13 @@
                 <dxlc:LayoutGroup Header="Entfernungen der Versammlungen zu meiner berechnen" View="GroupBox" Orientation="Horizontal">
                     <dxlc:LayoutItem Label="nur fehlende Entfernungen berechnen" LabelPosition="Top">
                         <dx:SimpleButton Content="Aktualisieren"
-                                         Glyph="{dx:DXImage 'SvgImages/Icon Builder/Travel_MapPointer.svg'}" 
-                                         Command="{Binding CalculateRouteCommand}" CommandParameter="False"/>
+                                         Glyph="{dx:DXImage 'SvgImages/Icon Builder/Travel_MapPointer.svg'}"
+                                         Command="{Binding CalculateRouteCommand}" CommandParameter="False" />
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Alle Entfernungen löschen und neu berechnen" LabelPosition="Top">
                         <dx:SimpleButton Content="Neu Berechnen"
                                          Glyph="{dx:DXImage 'SvgImages/Icon Builder/Travel_MapPointer.svg'}"
-                                         Command="{Binding CalculateRouteCommand}" CommandParameter="True"/>
+                                         Command="{Binding CalculateRouteCommand}" CommandParameter="True" />
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
                 <dxlc:LayoutGroup Header="Under Construction" View="GroupBox">

@@ -101,6 +101,7 @@ namespace Vortragsmanager.Models
     public class Inquiry : IEvent
     {
         public int Id { get; set; }
+
         //Ich habe eine Gruppe Redner + Vortrag
         //Ich habe eine Gruppe Daten
         public Dictionary<Speaker, Talk> RednerVortrag { get; set; } = new Dictionary<Speaker, Talk>();
@@ -115,14 +116,15 @@ namespace Vortragsmanager.Models
 
         public string Anzeigetext => Versammlung.Name;
 
-        public Talk Vortrag 
-        { 
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
+        public Talk Vortrag
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
         }
 
         private DateTime _datum = new DateTime(1);
-        public DateTime Datum 
+
+        public DateTime Datum
         {
             get { return _datum; }
             set { _datum = new DateTime(1); }

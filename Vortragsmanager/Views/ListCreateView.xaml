@@ -27,7 +27,7 @@
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Button Content="Aushang für die Versammlung (Excel)"  Width="250" Height="40"
                     Command="{Binding CreateAushangCommand}" />
-                <Button Content="Kontaktliste der Vortragsplanung (Excel)"  Width="250" Height="40" 
+                <Button Content="Kontaktliste der Vortragsplanung (Excel)"  Width="250" Height="40"
                     Command="{Binding CreateContactListCommand}" />
             <Label Content="Under Construction" FontSize="40" Foreground="Orange" FontFamily="Segoe UI Light" />
             </StackPanel>

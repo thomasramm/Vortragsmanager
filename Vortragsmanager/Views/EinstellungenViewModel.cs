@@ -191,7 +191,7 @@ namespace Vortragsmanager.Views
                 end = end.Where(x => x.Entfernung == 0);
             var erfolgreich = 0;
             var fehler = 0;
-            foreach(var ziel in end)
+            foreach (var ziel in end)
             {
                 var km = GeoApi.GetDistance(start, ziel);
                 if (km != null)
@@ -200,7 +200,7 @@ namespace Vortragsmanager.Views
                     erfolgreich++;
                 }
                 else
-                    fehler++;  
+                    fehler++;
             }
             ThemedMessageBox.Show("Entfernungsberechnung", $"Es wurden {erfolgreich} Entfernungen berechnet und eingetragen. {fehler} Berechnungen haben nicht geklappt, es wurde die Entfernung 0km eingetragen.");
         }

@@ -145,7 +145,7 @@ namespace Vortragsmanager.Views
                         }
                         else
                         {
-                            var details = (einladung as Invitation);                         
+                            var details = (einladung as Invitation);
                             sheet.Cells[row, 2].Value = details.Vortrag.Thema;
                             sheet.Cells[row, 3].Value = details.Ältester.Name;
                             sheet.Cells[row, 4].Value = details.Ältester.Versammlung.Name;
@@ -163,7 +163,6 @@ namespace Vortragsmanager.Views
                     }
                     sheet.Cells[$"A1:A{row}"].Style.Numberformat.Format = "dd.MM.yyyy";
                     sheet.Cells[$"A1:L{row}"].AutoFitColumns(20);
-
                 }
                 package.SaveAs(excel);
             }

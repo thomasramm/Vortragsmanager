@@ -1,10 +1,6 @@
 ﻿using DevExpress.Mvvm;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Vortragsmanager.Models;
 
 namespace Vortragsmanager.Views
@@ -89,6 +85,7 @@ namespace Vortragsmanager.Views
             public ObservableCollection<DateTime> Wochen => _base.Wochen;
 
             private bool _sichtbar = true;
+
             public bool Sichtbar
             {
                 get
@@ -103,6 +100,7 @@ namespace Vortragsmanager.Views
             }
 
             private bool _aktiv = true;
+
             public bool Aktiv
             {
                 get
@@ -117,6 +115,7 @@ namespace Vortragsmanager.Views
             }
 
             private DateTime _selectedDatum;
+
             public DateTime SelectedDatum
             {
                 get

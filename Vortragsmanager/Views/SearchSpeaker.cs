@@ -14,8 +14,6 @@ namespace Vortragsmanager.Views
             InitializeComponent();
         }
 
-
-
         public void NavigatedTo(NavigationEventArgs e)
         {
             //if (e.Parameter != null)
