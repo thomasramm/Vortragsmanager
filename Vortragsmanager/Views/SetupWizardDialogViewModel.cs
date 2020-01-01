@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
+using Vortragsmanager.Core;
 using Vortragsmanager.Models;
 
 namespace Vortragsmanager.Views
@@ -18,7 +19,10 @@ namespace Vortragsmanager.Views
             ExcelFileDialogCommand = new DelegateCommand(ExcelFileDialog);
             ExcelImportierenKoordinatorenCommand = new DelegateCommand(ExcelImportierenKoordinatoren);
             ExcelImportierenPlannungCommand = new DelegateCommand(ExcelImportierenPlannung);
+            VortragsmanagerdateiLadenCommand = new DelegateCommand<ICloseable>(VortragsmanagerdateiLaden);
+            DatabaseFileDialogCommand = new DelegateCommand(DatabaseFileDialog);
             CanGoNext = true;
+            DatenbankÖffnenHeight = new GridLength(0, GridUnitType.Pixel);
         }
 
         private int _selectedIndex;
@@ -54,17 +58,24 @@ namespace Vortragsmanager.Views
             switch (SelectedIndex)
             {
                 case 1:
-                    foreach (var vers in Core.DataContainer.Versammlungen)
+                    if (VplanungChecked)
                     {
-                        if (ImportierteKoordinatorenliste.Any(x => x.Nr == vers.Kreis))
+                        foreach (var vers in Core.DataContainer.Versammlungen)
                         {
-                            var item = ImportierteKoordinatorenliste.First(x => x.Nr == vers.Kreis);
-                            item.Anzahl += 1;
+                            if (ImportierteKoordinatorenliste.Any(x => x.Nr == vers.Kreis))
+                            {
+                                var item = ImportierteKoordinatorenliste.First(x => x.Nr == vers.Kreis);
+                                item.Anzahl += 1;
+                            }
+                            else
+                                ImportierteKoordinatorenliste.Add(new Kreis(vers.Kreis));
                         }
-                        else
-                            ImportierteKoordinatorenliste.Add(new Kreis(vers.Kreis));
+                        CanGoNext = ImportierteKoordinatorenliste.Count > 0;
                     }
-                    CanGoNext = ImportierteKoordinatorenliste.Count > 0;
+                    else if (DatenbankÖffnenChecked)
+                    {
+                        CanGoNext = false;
+                    }
                     break;
 
                 case 2:
@@ -94,6 +105,101 @@ namespace Vortragsmanager.Views
                 RaisePropertyChanged();
             }
         }
+
+        private bool _datenbankÖffnenChecked = false;
+
+        public bool DatenbankÖffnenChecked
+        {
+            get { return _datenbankÖffnenChecked; }
+            set
+            {
+                _datenbankÖffnenChecked = value;
+                DatenbankÖffnenHeight = value ? new GridLength(1, GridUnitType.Star) : new GridLength(0, GridUnitType.Pixel);
+                RaisePropertyChanged(nameof(DatenbankÖffnenHeight));
+            }
+        }
+
+        private bool _vplanungChecked = true;
+
+        public bool VplanungChecked
+        {
+            get { return _vplanungChecked; }
+            set
+            {
+                _vplanungChecked = value;
+                VplanungCheckedHeight = value ? new GridLength(1, GridUnitType.Star) : new GridLength(0, GridUnitType.Pixel);
+                RaisePropertyChanged(nameof(VplanungCheckedHeight));
+            }
+        }
+
+        //new GridLength(0, GridUnitType.Auto)
+        public GridLength DatenbankÖffnenHeight
+        {
+            get;
+            set;
+        }
+
+        public GridLength VplanungCheckedHeight
+        {
+            get;
+            set;
+        }
+
+        #region Datenbankdatei öffnen
+
+        public DelegateCommand<ICloseable> VortragsmanagerdateiLadenCommand { get; private set; }
+
+        public DelegateCommand DatabaseFileDialogCommand { get; private set; }
+
+        public void VortragsmanagerdateiLaden(ICloseable window)
+        {
+            IoSqlite.ReadContainer(ImportFile);
+            Properties.Settings.Default.sqlite = ImportFile;
+            IsFinished = true;
+            Schließen(window);
+        }
+
+        public void DatabaseFileDialog()
+        {
+            if (string.IsNullOrEmpty(ImportFile))
+                ImportFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "Planungsdatei.sqlite3";
+
+            var fi = new FileInfo(ImportFile);
+
+            var openDialog = new OpenFileDialog
+            {
+                Filter = "Planungsdatei Datei (*.sqlite3)|*.sqlite3|Alle Dateien (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false,
+                InitialDirectory = fi.DirectoryName,
+                FileName = fi.Name,
+                CheckFileExists = true
+            };
+
+            if (openDialog.ShowDialog() == DialogResult.OK)
+            {
+                ImportFile = openDialog.FileName;
+            }
+
+            openDialog.Dispose();
+        }
+
+        private string _importFile = string.Empty;
+
+        public string ImportFile
+        {
+            get
+            {
+                return _importFile;
+            }
+            set
+            {
+                _importFile = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        #endregion Datenbankdatei öffnen
 
         #region Koordinatoren
 

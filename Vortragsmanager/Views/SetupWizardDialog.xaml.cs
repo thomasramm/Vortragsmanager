@@ -15,7 +15,7 @@ namespace Vortragsmanager.Views
 
         private void ExcelFile_ValidateExists(object sender, DevExpress.Xpf.Editors.ValidationEventArgs e)
         {
-            e.IsValid = File.Exists(e.Value.ToString());
+            e.IsValid = File.Exists(e.Value?.ToString() ?? string.Empty);
         }
     }
 }
