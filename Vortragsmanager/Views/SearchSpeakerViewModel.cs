@@ -145,7 +145,7 @@ namespace Vortragsmanager.Views
         public void ReadData()
         {
             var list = new List<GroupConregation>();
-            var vers = selectedVersammlungen.Cast<Conregation>();
+            var vers = selectedVersammlungen?.Cast<Conregation>();
             foreach (var v in vers)
             {
                 var gC = new GroupConregation
