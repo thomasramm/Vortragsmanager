@@ -1,7 +1,7 @@
-﻿using System;
+﻿using DevExpress.Mvvm;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using DevExpress.Mvvm;
 using Vortragsmanager.Models;
 
 namespace Vortragsmanager.Views
@@ -22,9 +22,10 @@ namespace Vortragsmanager.Views
 
         private void AnfrageSpeichern(bool annehmen)
         {
-            //ToDo: Anfrage annehmen -> MailText für Redner
-            //ToDo: Anfrage ablehnen -> MailText für Koordinator
-            var i = new Outside
+            //Dialog vorbereiten
+            var w = new InfoAnRednerUndKoordinatorWindow();
+            var data = (InfoAnRednerUndKoordinatorViewModel)w.DataContext;
+            var buchung = new Outside
             {
                 Ältester = SelectedRedner,
                 Versammlung = SelectedVersammlung,
@@ -32,17 +33,27 @@ namespace Vortragsmanager.Views
                 Reason = OutsideReason.Talk,
                 Vortrag = SelectedVortrag
             };
-            var v = new AnfrageBestätigenViewModel(i, annehmen, annehmen);
-            var w = new AnfrageBestätigenDialog
-            {
-                DataContext = v
-            };
 
-            w.ShowDialog();
-            var data = (AnfrageBestätigenViewModel)w.DataContext;
-            if (data.Speichern)
+            //Anfrage akzeptieren
+            if (annehmen)
             {
-                Core.DataContainer.ExternerPlan.Add(i);
+                data.Titel = "Buchung bestätigen";
+                data.MailTextKoordinator = Core.Templates.GetMailTextAnnehmenKoordinator(buchung);
+                data.MailTextRedner = Core.Templates.GetMailTextAnnehmenRedner(buchung);
+                w.ShowDialog();
+
+                if (data.Speichern)
+                {
+                    Core.DataContainer.ExternerPlan.Add(buchung);
+                }
+            }
+            //Anfrage ablehnen
+            else
+            {
+                data.Titel = "Anfrage ablehnen";
+                data.MailTextKoordinator = Core.Templates.GetMailTextAblehnenKoordinator(buchung);
+                data.MailTextRedner = null;
+                w.ShowDialog();
             }
         }
 
@@ -56,7 +67,7 @@ namespace Vortragsmanager.Views
             set { SetProperty(() => SelectedVersammlung, value); }
         }
 
-        public DateTime SelectedDatum 
+        public DateTime SelectedDatum
         {
             get { return GetProperty(() => SelectedDatum); }
             set { SetProperty(() => SelectedDatum, value, CorrectDate); }
@@ -74,7 +85,7 @@ namespace Vortragsmanager.Views
             SelectedDatumTalks = new ObservableCollection<Outside>(Core.DataContainer.ExternerPlan.Where(x => x.Datum == SelectedDatum));
         }
 
-        public Speaker SelectedRedner 
+        public Speaker SelectedRedner
         {
             get { return GetProperty(() => SelectedRedner); }
             set { SetProperty(() => SelectedRedner, value, SelectedRednerChanged); }
@@ -86,7 +97,7 @@ namespace Vortragsmanager.Views
             set { SetProperty(() => SelectedVortrag, value); }
         }
 
-        public Invitation MeineVersammlung
+        public IEvent MeineVersammlung
         {
             get { return GetProperty(() => MeineVersammlung); }
             set { SetProperty(() => MeineVersammlung, value); }
@@ -98,9 +109,8 @@ namespace Vortragsmanager.Views
             RaisePropertyChanged(nameof(SelectedRednerTalks));
         }
 
-        public ObservableCollection<Outside> SelectedRednerTalks { get; private set; } 
+        public ObservableCollection<Outside> SelectedRednerTalks { get; private set; }
 
         public ObservableCollection<Outside> SelectedDatumTalks { get; private set; }
-
     }
 }

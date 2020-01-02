@@ -1,0 +1,58 @@
+﻿<Window x:Class="Vortragsmanager.Views.InfoAnRednerUndKoordinatorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Vortragsmanager.Views"
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        mc:Ignorable="d"
+        Title="{Binding Titel}" Height="450" Width="800"
+        DataContext="{dxmvvm:ViewModelSource local:InfoAnRednerUndKoordinatorViewModel}"
+        x:Name="AnfrageBestätigenWindow">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding ShowRednerInfoWidth}" />
+            <ColumnDefinition Width="{Binding ShowKoordinatorInfoWidth}" />
+        </Grid.ColumnDefinitions>
+        <TextBox Grid.Row="0" Grid.Column="0" Text="Info an Redner" />
+        <TextBox Grid.Row="0" Grid.Column="1" Text="Info an Koordinator" />
+        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding MailTextRedner}" />
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding MailTextKoordinator}" />
+        <dx:SimpleButton Content="Kopieren"
+                         Command="{Binding CopyCommand, Mode=OneWay}"
+                         Glyph="{dx:DXImage 'SvgImages/Edit/Paste.svg'}"
+                         Grid.Row="2"
+                         Grid.Column="0"
+                         CommandParameter="1"
+                         HorizontalAlignment="Center"
+                         Width="100" Margin="10,10,120,10"
+                         ToolTip="Kopiert den Text an den Redner in die Zwischenablage" />
+        <dx:SimpleButton Content="Kopieren"
+                         Command="{Binding CopyCommand, Mode=OneWay}"
+                         CommandParameter="2"
+                         Glyph="{dx:DXImage 'SvgImages/Edit/Paste.svg'}"
+                         Grid.Row="2" Grid.Column="1"
+                         HorizontalAlignment="Left" Width="100" Margin="10"
+                         ToolTip="Kopiert den Text an den Koordinator in die Zwischenablage" />
+
+        <dx:SimpleButton Content="Speichern"
+                         Grid.Row="2" Grid.Column="1"
+                         Command="{Binding SaveCommand, Mode=OneWay}"
+                         Glyph="{dx:DXImage 'SvgImages/XAF/Action_SaveScript.svg'}"
+                         CommandParameter="{Binding ElementName=AnfrageBestätigenWindow}"
+                         HorizontalAlignment="Right" Width="100" Margin="10,10,120,10" />
+        <dx:SimpleButton Content="Abbrechen"
+                         Command="{Binding CloseCommand, Mode=OneWay}"
+                         CommandParameter="{Binding ElementName=AnfrageBestätigenWindow}"
+                         Glyph="{dx:DXImage 'SvgImages/Outlook Inspired/Cancel.svg'}"
+                         Grid.Row="2"
+                         Grid.Column="1"
+                         HorizontalAlignment="Right" Width="100" Margin="10" />
+    </Grid>
+</Window>

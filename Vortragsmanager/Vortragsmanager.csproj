@@ -30,6 +30,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>Vortragsmanager.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -39,37 +40,54 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>Vortragsmanager.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Vortragsmanager.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Logo1.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.DataAccess.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Images.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.Mvvm.v19.2" />
     <Reference Include="DevExpress.Data.v19.2" />
+    <Reference Include="DevExpress.Office.v19.2.Core, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Pdf.v19.2.Core, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Printing.v19.2.Core" />
     <Reference Include="DevExpress.RichEdit.v19.2.Core, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v19.2.Export, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Accordion.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Controls.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Core.v19.2" />
     <Reference Include="DevExpress.Xpf.Docking.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.DocumentViewer.v19.2.Core, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.ExpressionEditor.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Grid.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Grid.v19.2.Core, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Layout.v19.2.Core, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.LayoutControl.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Printing.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Ribbon.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.RichEdit.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Themes.DXStyle.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Themes.MetropolisDark.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.Themes.Office2019Black.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.Themes.Office2019Colorful.v19.2" />
     <Reference Include="DevExpress.Xpo.v19.2, Version=19.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="EPPlus, Version=4.5.3.2, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus.4.5.3.2\lib\net40\EPPlus.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.112.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.112.0\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
     <Reference Include="System.Windows.Forms" />
@@ -92,34 +110,65 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\GeoApi.cs" />
+    <Compile Include="Core\ini.cs" />
+    <Compile Include="Core\IoExcel.cs" />
+    <Compile Include="Core\IoSqlite.cs" />
+    <Compile Include="Core\Security.cs" />
     <Compile Include="Core\Templates.cs" />
+    <Compile Include="Core\Updater.cs" />
+    <Compile Include="Models\Event.cs" />
     <Compile Include="Models\ICloseable.cs" />
-    <Compile Include="Views\BuchungLöschenDialog.xaml.cs">
-      <DependentUpon>BuchungLöschenDialog.xaml</DependentUpon>
+    <Compile Include="Views\AntwortEintragenControl.cs">
+      <DependentUpon>AntwortEintragenControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BuchungLöschenViewModel.cs">
-      <DependentUpon>BuchungLöschenDialog.xaml</DependentUpon>
+    <Compile Include="Views\AntwortEintragenDialog.xaml.cs">
+      <DependentUpon>AntwortEintragenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AntwortEintragenView.xaml.cs">
+      <DependentUpon>AntwortEintragenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AntwortEintragenViewModel.cs">
+      <DependentUpon>AntwortEintragenControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EinstellungenView.xaml.cs">
+      <DependentUpon>EinstellungenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EinstellungenViewModel.cs">
+      <DependentUpon>EinstellungenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EreignisEintragenDialog.xaml.cs">
+      <DependentUpon>EreignisEintragenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SetupWizardDialog.xaml.cs">
+      <DependentUpon>SetupWizardDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SetupWizardDialogViewModel.cs">
+      <DependentUpon>SetupWizardDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpdateDialog.xaml.cs">
+      <DependentUpon>UpdateDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\leerDialog.xaml.cs">
       <DependentUpon>leerDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\EreignisEintragenDialogView.cs">
+      <DependentUpon>EreignisEintragenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpdateDialogViewModel.cs">
+      <DependentUpon>UpdateDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ListCreateViewModel.cs">
       <DependentUpon>ListCreateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ListeRednerTermineSendenDialog.xaml.cs">
-      <DependentUpon>ListeRednerTermineSendenDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AnfrageBestätigenDialog.xaml.cs">
-      <DependentUpon>AnfrageBestätigenDialog.xaml</DependentUpon>
+    <Compile Include="Views\InfoAnRednerUndKoordinatorWindow.cs">
+      <DependentUpon>InfoAnRednerUndKoordinatorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\leerViewModel.cs">
       <DependentUpon>leerDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ListeRednerTermineSendenViewModel.cs">
-      <DependentUpon>ListeRednerTermineSendenDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AnfrageBestätigenViewModel.cs">
-      <DependentUpon>AnfrageBestätigenDialog.xaml</DependentUpon>
+    <Compile Include="Views\InfoAnRednerUndKoordinatorViewModel.cs">
+      <DependentUpon>InfoAnRednerUndKoordinatorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExternalQuestionViewModel.cs">
       <DependentUpon>ExternalQuestionEdit.xaml</DependentUpon>
@@ -130,8 +179,8 @@
     <Compile Include="Views\MeinPlanViewModel.cs">
       <DependentUpon>MeinPlanView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PlaningEdit.xaml.cs">
-      <DependentUpon>PlaningEdit.xaml</DependentUpon>
+    <Compile Include="Views\SearchSpeaker.cs">
+      <DependentUpon>SearchSpeaker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExternalQuestionEdit.xaml.cs">
       <DependentUpon>ExternalQuestionEdit.xaml</DependentUpon>
@@ -142,11 +191,8 @@
     <Compile Include="Navigation\NavigatorView.xaml.cs">
       <DependentUpon>NavigatorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PlaningEditViewModel.cs">
-      <DependentUpon>PlaningEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Test1View.xaml.cs">
-      <DependentUpon>Test1View.xaml</DependentUpon>
+    <Compile Include="Views\SearchSpeakerViewModel.cs">
+      <DependentUpon>SearchSpeaker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VersammlungSettingsView.xaml.cs">
       <DependentUpon>VersammlungSettingsView.xaml</DependentUpon>
@@ -177,7 +223,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Conregation.cs" />
-    <Compile Include="Models\Invitation.cs" />
     <Compile Include="Models\Outside.cs" />
     <Compile Include="Models\Talk.cs" />
     <Compile Include="Models\Speaker.cs" />
@@ -191,7 +236,31 @@
     <Compile Include="Views\MeinPlanView.xaml.cs">
       <DependentUpon>MeinPlanView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\BuchungLöschenDialog.xaml">
+    <Page Include="Views\AntwortEintragenControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AntwortEintragenDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AntwortEintragenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EinstellungenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EreignisEintragenDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SetupWizardDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UpdateDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -199,11 +268,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ListeRednerTermineSendenDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\AnfrageBestätigenDialog.xaml">
+    <Page Include="Views\InfoAnRednerUndKoordinatorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -211,7 +276,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PlaningEdit.xaml">
+    <Page Include="Views\SearchSpeaker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -232,10 +297,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Navigation\NavigatorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Test1View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -266,6 +327,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\Licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -277,6 +339,10 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Templates\AushangExcel.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Vortragsmanager.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Person_64x64.png" />
@@ -285,22 +351,10 @@
     <Resource Include="Images\Kalender_64x64.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\TextSettings_64x64.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Zwischenablage_32x32.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Search_64x64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\IncommingMail_64x64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Versammlung_64x64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Liste2_64x64.png" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.3\analyzers\dotnet\Microsoft.CodeAnalysis.VersionCheckAnalyzer.dll" />
@@ -312,6 +366,33 @@
     <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.NetFramework.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.2.9.3\analyzers\dotnet\cs\Microsoft.NetFramework.CSharp.Analyzers.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Logo1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Screenshot Downloadseite mit Hinweisen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Logo2_128x128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MailAntwort_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\NewMail_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ListePrint_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ListeSettings_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WindowOptions_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Versammlung2_64x64.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -322,6 +403,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.NetCore.Analyzers.2.9.3\build\Microsoft.NetCore.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NetCore.Analyzers.2.9.3\build\Microsoft.NetCore.Analyzers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.NetFramework.Analyzers.2.9.3\build\Microsoft.NetFramework.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NetFramework.Analyzers.2.9.3\build\Microsoft.NetFramework.Analyzers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.3\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.FxCopAnalyzers.2.9.3\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props'))" />
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -330,4 +412,11 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <ContentSQLiteInteropFiles>true</ContentSQLiteInteropFiles>
+    <CopySQLiteInteropFiles>false</CopySQLiteInteropFiles>
+    <CleanSQLiteInteropFiles>false</CleanSQLiteInteropFiles>
+    <CollectSQLiteInteropFiles>false</CollectSQLiteInteropFiles>
+  </PropertyGroup>
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets')" />
 </Project>

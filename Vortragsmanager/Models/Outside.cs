@@ -6,7 +6,7 @@ namespace Vortragsmanager.Models
     {
         public Speaker Ältester { get; set; }
 
-        public Conregation  Versammlung { get; set; }
+        public Conregation Versammlung { get; set; }
 
         public DateTime Datum { get; set; }
 

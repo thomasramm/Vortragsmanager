@@ -1,241 +1,144 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Vortragsmanager.Models;
 using static Vortragsmanager.Core.Templates;
 
 namespace Vortragsmanager.Core
 {
     public static class Templates
     {
-        public static Dictionary<TemplateName,Template> Vorlagen { get; } = new Dictionary<TemplateName, Template>();
+        public static Dictionary<TemplateName, Template> Vorlagen { get; } = new Dictionary<TemplateName, Template>();
 
         public static Template GetTemplate(TemplateName name)
         {
             return Vorlagen[name];
         }
 
-        //ToDo: Einlesen von Templates aus Ordner oder Datei
-        public static void LoadTemplates()
-        {
-            LoadRednerAnfragenMailText();
-            LoadRednerTermineMailText();
-            LoadExterneAnfrageAblehnenText();
-            LoadExterneAnfrageAnnehmenText();
-        }
-
-        private static void LoadRednerAnfragenMailText()
-        {
-            var x = new Template
-            {
-                Name = TemplateName.RednerAnfragenMailText,
-                Beschreibung = "Diese Vorlage wird verwendet wenn Redner aus einer anderen Versammlung eingeladen werden",
-                Inhalt =
-@"
-Empfänger = {Koordinator Mail}
-------------------------------
-An Versammlung {Versammlung}
-
-Hallo {Koordinator Name}.
-Ich würde gerne folgende Vortragsredner mit den angegebenen Vorträgen bei uns in die Versammlung einladen.
-{Liste Redner}
-
-Folgende Termine sind in meiner Vortragsplannung aktuell noch frei:
-{Freie Termine}.
-
-Ich würde mich freuen von dir zu hören.
-
-Liebe Grüße
-Thomas Ramm
-
-Versammlung Hofgeismar
-Versammlungszeit: Sonntag 10:00Uhr
-Versammlungsort:  34393 Grebenstein, Über der Bahn
-"
-            };
-            x.Parameter.Add("{Koordinator Mail}", "Mailadressen des Koordinator an den die Absage geschickt werden soll, z.B. 'mail@jwpub.org; mail@webdienst.de'");
-            x.Parameter.Add("{Koordinator Name}", "Name des Koordinator an den die Absage geschickt werden soll, z.B. 'Gustav Koordinator'");
-            x.Parameter.Add("{Versammlung}", "Name der Versammlung des eingeladenen Redners, z.B. 'Grebenstein'");
-            x.Parameter.Add("{Liste Redner}", "Liste der angefragten Redner mit deren Vortrag");
-            x.Parameter.Add("{Freie Termine}", "Liste der Angefragten Termine");
-            Vorlagen.Add(x.Name, x);
-        }    
-
-        private static void LoadRednerTermineMailText()
-        {
-            var x = new Template
-            {
-                Name = TemplateName.RednerTermineMailText,
-                Inhalt =
-@"
-Empfänger = {Redner Mail}
-------------------------------
-Hallo,
-anbei die Liste deiner/eurer Vortragseinladungen:
-
-{Redner Termine}
-
-Liebe Grüße
-Thomas Ramm
-
-Versammlung Hofgeismar
-Versammlungszeit: Sonntag 10:00Uhr
-Versammlungsort:  34393 Grebenstein, Über der Bahn
-"
-            };
-            x.Parameter.Add("{Redner Mail}", "Mailadressen der Redner die in der Liste aufgeführt sind, z.B. 'mail@jwpub.org; mail@webdienst.de'");
-            x.Parameter.Add("{Redner Termine}", "Die gewählten Vortragseinladungen");
-            Vorlagen.Add(x.Name, x);
-        }
-
-        private static void LoadExterneAnfrageAnnehmenText()
-        {
-            var x = new Template
-            {
-                Name = TemplateName.ExterneAnfrageAnnehmenInfoAnKoordinatorMailText,
-                Inhalt = @"
-Empfänger = {Koordinator Mail}
-------------------------------
-An Versammlung {Versammlung}
-
-Hallo {Koordinator Name},
-
-folgende Vortragsanfrage bestätige ich dir hiermit:
-Datum: {Datum}
-Redner: {Redner}
-Vortrag: {Vortrag}
-
-Liebe Grüße
-Thomas Ramm
-
-Versammlung Hofgeismar
-Versammlungszeit: Sonntag 10:00Uhr
-Versammlungsort:  34393 Grebenstein, Über der Bahn"
-            };
-            x.Parameter.Add("{Koordinator Mail}", "Mailadressen des Koordinator an den die Absage geschickt werden soll, z.B. 'mail@jwpub.org; mail@webdienst.de'");
-            x.Parameter.Add("{Koordinator Name}", "Name des Koordinator an den die Absage geschickt werden soll, z.B. 'Gustav Koordinator'");
-            x.Parameter.Add("{Versammlung}", "Name der Versammlung des eingeladenen Redners, z.B. 'Grebenstein'");
-            x.Parameter.Add("{Datum", "Datum der Anfrage, z.B. '05.11.2019'");
-            x.Parameter.Add("{Redner}", "Name des angefragten Redner, z.B. 'Max Vortragsredner'");
-            x.Parameter.Add("{Vortrag}", "Angefragter Vortrag, z.B. '123 Vortragsthema'");
-            Vorlagen.Add(x.Name, x);
-
-            x = new Template
-            {
-                Name = TemplateName.ExterneAnfrageAnnehmenInfoAnRednerMailText,
-                Inhalt = @"
-Empfänger = {Redner Mail}
-------------------------------
-
-Hallo {Redner Name},
-
-folgende Vortragseinladung habe ich für dich:
-Datum: {Datum}
-Vortrag: {Vortrag}
-Versammlung: {Versammlung}
-
-Anschrift des Königreichssaals:
-{Versammlung Anschrift1}
-{Versammlung Anschrift2}
-
-{Versammlung Telefon}
-Zusammenkunftszeit: {Versammlung Zusammenkunftszeit}
-
-Liebe Grüße
-Thomas Ramm
-
-Versammlung Hofgeismar
-"
-            };
-            x.Parameter.Add("{Redner Mail}", "Mailadressen des Koordinator an den die Absage geschickt werden soll, z.B. 'mail@jwpub.org; mail@webdienst.de'");
-            x.Parameter.Add("{Redner Name}", "Name des Koordinator an den die Absage geschickt werden soll, z.B. 'Gustav Koordinator'");
-            x.Parameter.Add("{Redner Versammlung}", "Name der Versammlung des eingeladenen Redners, z.B. 'Grebenstein'");
-            x.Parameter.Add("{Datum}", "Datum der Anfrage, z.B. '05.11.2019'");
-            x.Parameter.Add("{Vortrag}", "Angefragter Vortrag, z.B. '123 Vortragsthema'");
-            x.Parameter.Add("{Versammlung}", "Name der einladenden Versammlung, z.B. 'Grebenstein'");
-            x.Parameter.Add("{Versammlung Anschrift1}", "Anschrift1 (Straße) der einladenden Versammlung, z.B. 'Grüner Weg 1'");
-            x.Parameter.Add("{Versammlung Anschrift2}", "Anschrift2 (Ort) der einladenden Versammlung, z.B. '34371 Grebenstein'");
-            x.Parameter.Add("{Versammlung Telefon}", "Telefonnummer der einladenden Versammlung, z.B. '0123-456789'");
-            x.Parameter.Add("{Versammlung Zusammenkunftszeit}", "Zusammenkunftszeit der einladenden Versammlung, z.B. 'Sonntag 10 Uhr'");
-
-            Vorlagen.Add(x.Name, x);
-        }
-
-        private static void LoadExterneAnfrageAblehnenText()
-        {
-            var x = new Template
-            {
-                Name = TemplateName.ExterneAnfrageAblehnenInfoAnKoordinatorMailText,
-                Inhalt = @"
-Empfänger = {Koordinator Mail}
-------------------------------
-An Versammlung {Versammlung}
-
-Hallo {Koordinator Name},
-
-folgende Vortragsanfrage muss ich leider ablehnen:
-Datum: {Datum}
-Redner: {Redner}
-Vortrag: {Vortrag}
-
-Liebe Grüße
-Thomas Ramm
-
-Versammlung Hofgeismar
-Versammlungszeit: Sonntag 10:00Uhr
-Versammlungsort:  34393 Grebenstein, Über der Bahn"
-            };
-            x.Parameter.Add("{Koordinator Mail}", "Mailadressen des Koordinator an den die Absage geschickt werden soll, z.B. 'mail@jwpub.org; mail@webdienst.de'");
-            x.Parameter.Add("{Koordinator Name}", "Name des Koordinator an den die Absage geschickt werden soll, z.B. 'Gustav Koordinator'");
-            x.Parameter.Add("{Versammlung}", "Name der Versammlung des eingeladenen Redners, z.B. 'Grebenstein'");
-            x.Parameter.Add("{Datum", "Datum der Anfrage, z.B. '05.11.2019'");
-            x.Parameter.Add("{Redner}", "Name des angefragten Redner, z.B. 'Max Vortragsredner'");
-            x.Parameter.Add("{Vortrag}", "Angefragter Vortrag, z.B. '123 Vortragsthema'");
-            Vorlagen.Add(x.Name, x);
-
-            x = new Template
-            {
-                Name = TemplateName.ExterneAnfrageAblehnenInfoAnRednerMailText,
-                Inhalt = @"
-Empfänger = {Redner Mail}
-------------------------------
-Hallo {Redner},
-
-folgende Vortragsanfrage wurde gelöscht:
-Datum: {Datum}
-Redner: {Redner}
-Vortrag: {Vortrag}
-
-Liebe Grüße
-Thomas Ramm
-
-Versammlung Hofgeismar
-Versammlungszeit: Sonntag 10:00Uhr
-Versammlungsort:  34393 Grebenstein, Über der Bahn"
-            };
-            x.Parameter.Add("{Redner Mail}", "Mailadresse des Redners an den die Absage geschickt werden soll, z.B. 'mail@jwpub.org; mail@webdienst.de'");
-            x.Parameter.Add("{Versammlung}", "Name der Versammlung des eingeladenen Redners, z.B. 'Grebenstein'");
-            x.Parameter.Add("{Datum", "Datum der Anfrage, z.B. '05.11.2019'");
-            x.Parameter.Add("{Redner}", "Name des angefragten Redner, z.B. 'Max Vortragsredner'");
-            x.Parameter.Add("{Vortrag}", "Angefragter Vortrag, z.B. '123 Vortragsthema'");
-            Vorlagen.Add(x.Name, x);
-        }
-
-        //ToDo: Speichern der Templates in einen Ordner
-        public static void SaveTemplates()
-        {
-            throw new NotImplementedException();
-        }
-
         public enum TemplateName
         {
-            RednerAnfragenMailText,
-            RednerTermineMailText,
-            ExterneAnfrageAblehnenInfoAnKoordinatorMailText,
-            ExterneAnfrageAblehnenInfoAnRednerMailText,
-            ExterneAnfrageAnnehmenInfoAnKoordinatorMailText,
-            ExterneAnfrageAnnehmenInfoAnRednerMailText,
+            RednerAnfragenMailText = 1,
+            RednerTermineMailText = 2,
+            ExterneAnfrageAblehnenInfoAnKoordinatorMailText = 3,
+            ExterneAnfrageAblehnenInfoAnRednerMailText = 4,
+            ExterneAnfrageAnnehmenInfoAnKoordinatorMailText = 5,
+            ExterneAnfrageAnnehmenInfoAnRednerMailText = 6,
+        }
+
+        public static string GetMailTextAnnehmenKoordinator(Outside Buchung)
+        {
+            if (Buchung is null)
+                return "Fehler beim verarbeiten der Vorlage";
+            var mt = GetTemplate(TemplateName.ExterneAnfrageAnnehmenInfoAnKoordinatorMailText).Inhalt;
+            mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
+            mt = mt
+                .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
+                .Replace("{Vortrag}", Buchung.Vortrag.ToString());
+            return mt;
+        }
+
+        public static string GetMailTextAnnehmenRedner(Outside Buchung)
+        {
+            if (Buchung is null)
+                return "Fehler beim verarbeiten der Vorlage";
+
+            var mt = GetTemplate(TemplateName.ExterneAnfrageAnnehmenInfoAnRednerMailText).Inhalt;
+            mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
+            mt = mt
+                .Replace("{Redner Name}", Buchung.Ältester?.Name ?? "unbekannt")
+                .Replace("{Redner Mail}", Buchung.Ältester?.Mail ?? "unbekannt")
+                .Replace("{Redner Versammlung}", Buchung.Ältester?.Versammlung.Name ?? "unbekannt")
+                .Replace("{Vortrag}", Buchung.Vortrag.ToString())
+                .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
+
+                .Replace("{Versammlung Zusammenkunftszeit}", Buchung.Versammlung.GetZusammenkunftszeit(Buchung.Datum));
+
+            return mt;
+        }
+
+        public static string GetMailTextAblehnenKoordinator(Outside Buchung)
+        {
+            if (Buchung is null)
+                return "Fehler beim verarbeiten der Vorlage";
+
+            var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnKoordinatorMailText).Inhalt;
+            mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
+            mt = mt
+                .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
+                .Replace("{Vortrag}", Buchung.Vortrag.ToString());
+
+            return mt;
+        }
+
+        public static string GetMailTextAblehnenRedner(Outside Buchung)
+        {
+            if (Buchung is null)
+                return "Fehler beim verarbeiten der Vorlage";
+
+            var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnRednerMailText).Inhalt;
+            mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
+            mt = mt
+                .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
+                .Replace("{Vortrag}", Buchung.Vortrag.ToString())
+                .Replace("{Redner Mail}", $"{Buchung.Ältester?.Mail ?? "unbekannt"}");
+
+            return mt;
+        }
+
+        public static string GetMailTextAblehnenKoordinator(Invitation Zuteilung)
+        {
+            if (Zuteilung is null)
+                return "Fehler beim verarbeiten der Vorlage";
+
+            var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnKoordinatorMailText).Inhalt;
+            var vers = Zuteilung.Ältester?.Versammlung ?? DataContainer.FindConregation("Unbekannt");
+
+            mt = ReplaceVersammlungsparameter(mt, vers);
+            mt = mt
+                .Replace("{Datum}", $"{Zuteilung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Redner}", Zuteilung.Ältester?.Name ?? "unbekannt")
+                .Replace("{Vortrag}", Zuteilung.Vortrag?.ToString() ?? "unbekannt");
+
+            return mt;
+        }
+
+        public static string ReplaceVersammlungsparameter(string Mailtext, Conregation Versammlung)
+        {
+            if (string.IsNullOrEmpty(Mailtext))
+                return string.Empty;
+
+            if (Versammlung is null)
+                Versammlung = DataContainer.FindConregation("Unbekannt");
+
+            if (Versammlung is null)
+                return "Fehler beim verarbeiten der Vorlage '" + Mailtext + "'";
+
+            return Mailtext
+                .Replace("{Versammlung", Versammlung.Name)
+                .Replace("{Koordinator Mail}", $"{Versammlung.KoordinatorJw}; {Versammlung.KoordinatorMail}")
+                .Replace("{Koordinator Name}", Versammlung.Koordinator)
+                .Replace("{Kreis}", Versammlung.Kreis.ToString(DataContainer.German))
+                .Replace("{Versammlung Telefon}", Versammlung.Telefon)
+                .Replace("{Versammlung Anreise}", Versammlung.Anreise)
+                .Replace("{Versammlung Anschrift1}", Versammlung.Anschrift1)
+                .Replace("{Versammlung Anschrift2}", Versammlung.Anschrift2);
+        }
+
+        public static string GetMailTextAblehnenRedner(Invitation Zuteilung)
+        {
+            if (Zuteilung is null)
+                return "Fehler beim verarbeiten der Vorlage";
+
+            var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnRednerMailText).Inhalt;
+            mt = ReplaceVersammlungsparameter(mt, Zuteilung.Ältester?.Versammlung);
+            mt = mt
+                .Replace("{Datum}", $"{Zuteilung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Redner}", Zuteilung.Ältester?.Name ?? "unbekannt")
+                .Replace("{Vortrag}", Zuteilung.Vortrag.ToString())
+                .Replace("{Redner Mail}", $"{Zuteilung.Ältester.Mail ?? "unbekannt"}");
+
+            return mt;
         }
     }
 
@@ -256,6 +159,4 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn"
             return Name.ToString();
         }
     }
-
-
 }

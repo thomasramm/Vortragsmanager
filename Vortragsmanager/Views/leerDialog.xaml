@@ -7,37 +7,44 @@
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         mc:Ignorable="d"
-        Title="Liste senden" Height="450" Width="800"
+        Title="{Binding Titel}" Height="450" Width="800"
         DataContext="{dxmvvm:ViewModelSource local:LeerViewModel}"
-        x:Name="ListeRednerTermineSendenWindow">
+        x:Name="LeerWindow">
+    <Window.Resources>
+        <dxmvvm:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <TextBox Text="{Binding MailText}"/>
-        <dx:SimpleButton Grid.Row="1" Content="Speichern" 
-                             Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}" 
-                             GlyphAlignment="Left" 
-                             Command="{Binding Speichern}"
-                             CommandParameter="True"
-                             HorizontalAlignment="Right" Width="150" Margin="5,5,160,5"/>
-        <dx:SimpleButton Grid.Row="1" Content="Ablehnen" 
-                             Glyph="{dx:DXImage SvgImages/Outlook Inspired/Cancel.svg}" 
-                             GlyphAlignment="Left" 
-                             Command="{Binding Speichern}"
-                             CommandParameter="False"
-                             HorizontalAlignment="Right" Width="150" Margin="5"/>
-
-        <dx:SimpleButton Grid.Row="1" 
-                                                 Content="Kopieren" 
-                                                 Glyph="/Images/Zwischenablage_32x32.png" 
-                                                 GlyphAlignment="Left" 
-                                                 Command="{Binding CopyToClipboard}"
-                                                 CommandParameter="True"
-                                                 HorizontalAlignment="Left" 
-                                                 Width="150" 
-                                                 ToolTip="Den Text in die Zwischenablage kopieren"      
-                                                 Margin="5"/>
+        <TextBox Text="{Binding Text}" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <dx:SimpleButton Content="{Binding CloseButtonText}"
+                             Glyph="{dx:DXImage SvgImages/Outlook Inspired/Cancel.svg}"
+                             GlyphAlignment="Right"
+                             Command="{Binding CloseCommand}"
+                             CommandParameter="{Binding ElementName=LeerWindow}"
+                             Visibility="{Binding ShowCloseButton, Converter={StaticResource BoolToVisibilityConverter}}"
+                             HorizontalAlignment="Right" Width="150" Margin="5" />
+            <dx:SimpleButton Content="Speichern"
+                         Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}"
+                         GlyphAlignment="Right"
+                         Command="{Binding SaveCommand}"
+                         CommandParameter="{Binding ElementName=LeerWindow}"
+                         Visibility="{Binding ShowSaveButton, Converter={StaticResource BoolToVisibilityConverter}}"
+                         HorizontalAlignment="Right" Width="150" Margin="5" />
+        </StackPanel>
+        <dx:SimpleButton Content="Kopieren"
+                         Grid.Row="1"
+                         Visibility="{Binding ShowCopyButton, Converter={StaticResource BoolToVisibilityConverter}}"
+                         Glyph="/Images/Zwischenablage_32x32.png"
+                         GlyphAlignment="Left"
+                         Command="{Binding CopyCommand}"
+                         CommandParameter="True"
+                         HorizontalAlignment="Left"
+                         Width="150"
+                         ToolTip="Den Text in die Zwischenablage kopieren"
+                         Margin="5" />
     </Grid>
 </Window>

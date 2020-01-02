@@ -1,84 +1,126 @@
 ﻿using DevExpress.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
-using Vortragsmanager.Models;
 
 namespace Vortragsmanager.Views
 {
     public class LeerViewModel : ViewModelBase
     {
-        private readonly ObservableCollection<Outside> _talks;
-
         public LeerViewModel()
         {
-            CloseCommand = new DelegateCommand<ICloseable>(Schließen);
+            CloseCommand = new DelegateCommand<ICloseable>(Close);
+            SaveCommand = new DelegateCommand<ICloseable>(Save);
+            CopyCommand = new DelegateCommand(Copy);
         }
 
-        public LeerViewModel(ObservableCollection<Outside> Talks) : this()
+        public LeerViewModel(string titel, bool CloseButton, bool SaveButton, bool CopyButton, string text) : this()
         {
-            _talks = Talks;
-            GetMailText();  
+            Titel = titel;
+            ShowCloseButton = CloseButton;
+            ShowSaveButton = SaveButton;
+            ShowCopyButton = CopyButton;
+            Text = text;
         }
 
         public DelegateCommand<ICloseable> CloseCommand { get; private set; }
+        public DelegateCommand<ICloseable> SaveCommand { get; private set; }
 
-        public static void Schließen(ICloseable window)
+        public DelegateCommand CopyCommand { get; private set; }
+
+        public void Close(ICloseable window)
         {
+            Speichern = false;
             if (window != null)
                 window.Close();
         }
 
-        private void GetMailText()
+        public void Save(ICloseable window)
         {
-            var mt = Core.Templates.GetTemplate(Core.Templates.TemplateName.RednerTermineMailText).Inhalt;
-            var listeRedner = new List<Speaker>();
-            var mails = "";
-            var termine = "";
-
-            foreach (var einladung in _talks)
-            {
-                if (!listeRedner.Contains(einladung.Ältester))
-                    listeRedner.Add(einladung.Ältester);
-            }
-
-            foreach (var ä in listeRedner)
-            {
-                mails += $"{ä.Mail}; ";
-                termine += "-----------------------------------------------------" + Environment.NewLine;
-                termine += ä.Name + Environment.NewLine;
-
-                foreach (var einladung in _talks)
-                {
-                    if (einladung.Ältester != ä)
-                        continue;
-
-                    termine += $"\tDatum:\t{einladung.Datum:dd.MM.yyyy}" + Environment.NewLine;
-                    termine += $"\tVortrag:\t{einladung.Vortrag}" + Environment.NewLine;
-                    termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Versammlung.GetZusammenkunftszeit(einladung.Datum.Year)}" + Environment.NewLine;
-                    termine += Environment.NewLine;
-
-                }
-                termine += Environment.NewLine;
-            }
-
-
-            mails = mails.Substring(0, mails.Length - 2);
-
-            mt = mt
-                .Replace("{Redner Mail}", mails)
-                .Replace("{Redner Termine}", termine);
-
-            MailText = mt;
-            Clipboard.SetText(mt);
+            Speichern = true;
+            if (window != null)
+                window.Close();
         }
 
-        public string MailText
+        public void Copy()
         {
-            get { return GetProperty(() => MailText); }
-            set { SetProperty(() => MailText, value); }
+            Clipboard.SetText(Text);
+        }
+
+        public bool Speichern { get; set; }
+
+        private string _titel;
+
+        public string Titel
+        {
+            get
+            {
+                return _titel;
+            }
+            set
+            {
+                _titel = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _showCloseButton;
+
+        public bool ShowCloseButton
+        {
+            get
+            {
+                return _showCloseButton;
+            }
+            set
+            {
+                _showCloseButton = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string CloseButtonText => _showSaveButton ? "Abbrechen" : "Schließen";
+
+        private bool _showSaveButton;
+
+        public bool ShowSaveButton
+        {
+            get
+            {
+                return _showSaveButton;
+            }
+            set
+            {
+                _showSaveButton = value;
+                RaisePropertyChanged(nameof(CloseButtonText));
+            }
+        }
+
+        private bool _showCopyButton;
+
+        public bool ShowCopyButton
+        {
+            get
+            {
+                return _showCopyButton;
+            }
+            set
+            {
+                _showCopyButton = value;
+            }
+        }
+
+        private string _text;
+
+        public string Text
+        {
+            get
+            {
+                return _text;
+            }
+            set
+            {
+                _text = value;
+                RaisePropertyChanged();
+            }
         }
     }
 }
-

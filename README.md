@@ -26,7 +26,9 @@ Und dann nach und nach alle weiteren Funktionen nachzuliefern oder zu automatisi
 
 ## Installation
 
-Under Construction (kommt noch)
+Herunterladen des Programm von http://thomas-ramm.de/Vortragsmanager/Vortragsmanager_0.9.0.0.zip
+Entpacken der beiden Setup-Dateien und starten von setup.exe
+Beim ersten starten des Programm wird ein Assistent geöffnet, bei dem man entweder eine Vortragsmanager Datenbank öffnen oder die vplanung.net Dateien importieren kann. 
 
 ## Handbuch
 

@@ -1,12 +1,11 @@
 ﻿<UserControl x:Class="Vortragsmanager.Navigation.NavigatorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Vortragsmanager.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dxwuin="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/navigation"
              xmlns:dxnav="http://schemas.devexpress.com/winfx/2008/xaml/navigation"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <dxnav:TileBar Margin="5,0,0,0" Padding="0" ItemSpacing="0">
@@ -25,9 +24,8 @@
             </dxnav:TileBar.ItemContainerStyle>
             <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="MeinPlanView" Content="Versammlung" />
             <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="MeineRednerView" Content="Redner" />
-            <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="PlaningEdit" Content="Redner suchen" />
+            <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="SearchSpeaker" Content="Redner suchen" />
             <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="ExternalQuestionEdit" Content="Anfrage bearbeiten" />
-            <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="Test1View" Content="Test1View" />
         </dxnav:TileBar>
     </Grid>
 </UserControl>
