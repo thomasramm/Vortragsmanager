@@ -52,7 +52,7 @@
                                     ItemSpace="12"
                                     LayerSpace="12"
                                     Background="Transparent"
-                                    MaximizedElementChanged="lc_MaximizedElementChanged">
+                                    MaximizedElementChanged="Lc_MaximizedElementChanged">
                 <dxlc:FlowLayoutControl.ItemTemplate>
                     <DataTemplate>
                         <dxlc:GroupBox Header="{Binding}"

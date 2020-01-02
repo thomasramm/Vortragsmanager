@@ -31,127 +31,127 @@ namespace Vortragsmanager.Views
 
         private ObservableCollection<Inquiry> inquiryList = new ObservableCollection<Inquiry>();
 
-        public ObservableCollection<Anfrage> Anfragen { get; set; } = new ObservableCollection<Anfrage>();
+        public ObservableCollection<Anfrage> Anfragen { get; } = new ObservableCollection<Anfrage>();
+    }
 
-        public class Anfrage
+    public class Anfrage
+    {
+        public Inquiry BaseAnfrage { get; set; }
+
+        public Anfrage(Inquiry inquiry)
         {
-            public Inquiry BaseAnfrage { get; set; }
+            BaseAnfrage = inquiry;
+            if (inquiry is null)
+                return;
 
-            public Anfrage(Inquiry inquiry)
+            foreach (var x in BaseAnfrage.RednerVortrag)
             {
-                BaseAnfrage = inquiry;
-                if (inquiry is null)
-                    return;
-
-                foreach (var x in BaseAnfrage.RednerVortrag)
-                {
-                    Redner.Add(new AnfrageDetail(this, x.Key, x.Value));
-                }
+                Redner.Add(new AnfrageDetail(this, x.Key, x.Value));
             }
-
-            public ObservableCollection<DateTime> Wochen => BaseAnfrage.Wochen;
-
-            public string Versammlung => BaseAnfrage.Versammlung.Name;
-
-            public ObservableCollection<AnfrageDetail> Redner { get; private set; } = new ObservableCollection<AnfrageDetail>();
         }
 
-        public class AnfrageDetail : ViewModelBase
+        public ObservableCollection<DateTime> Wochen => BaseAnfrage.Wochen;
+
+        public string Versammlung => BaseAnfrage.Versammlung.Name;
+
+        public ObservableCollection<AnfrageDetail> Redner { get; private set; } = new ObservableCollection<AnfrageDetail>();
+    }
+
+    public class AnfrageDetail : ViewModelBase
+    {
+        private Speaker _redner;
+
+        private Talk _vortrag;
+
+        private Anfrage _base;
+
+        public AnfrageDetail(Anfrage Base, Speaker Redner, Talk Vortrag)
         {
-            private Speaker _redner;
+            _base = Base;
+            _redner = Redner;
+            _vortrag = Vortrag;
 
-            private Talk _vortrag;
+            SaveCommand = new DelegateCommand(Zusagen);
+            CancelCommand = new DelegateCommand(Absagen);
+        }
 
-            private Anfrage _base;
+        public DelegateCommand SaveCommand { get; private set; }
 
-            public AnfrageDetail(Anfrage Base, Speaker Redner, Talk Vortrag)
+        public DelegateCommand CancelCommand { get; private set; }
+
+        public string Name => _redner.Name;
+
+        public string Vortrag => _vortrag.ToString();
+
+        public ObservableCollection<DateTime> Wochen => _base.Wochen;
+
+        private bool _sichtbar = true;
+
+        public bool Sichtbar
+        {
+            get
             {
-                _base = Base;
-                _redner = Redner;
-                _vortrag = Vortrag;
-
-                SaveCommand = new DelegateCommand(Zusagen);
-                CancelCommand = new DelegateCommand(Absagen);
+                return _sichtbar;
             }
-
-            public DelegateCommand SaveCommand { get; private set; }
-
-            public DelegateCommand CancelCommand { get; private set; }
-
-            public string Name => _redner.Name;
-
-            public string Vortrag => _vortrag.ToString();
-
-            public ObservableCollection<DateTime> Wochen => _base.Wochen;
-
-            private bool _sichtbar = true;
-
-            public bool Sichtbar
+            set
             {
-                get
-                {
-                    return _sichtbar;
-                }
-                set
-                {
-                    _sichtbar = value;
-                    RaisePropertyChanged();
-                }
+                _sichtbar = value;
+                RaisePropertyChanged();
             }
+        }
 
-            private bool _aktiv = true;
+        private bool _aktiv = true;
 
-            public bool Aktiv
+        public bool Aktiv
+        {
+            get
             {
-                get
-                {
-                    return _aktiv;
-                }
-                set
-                {
-                    _aktiv = value;
-                    RaisePropertyChanged();
-                }
+                return _aktiv;
             }
-
-            private DateTime _selectedDatum;
-
-            public DateTime SelectedDatum
+            set
             {
-                get
-                {
-                    return _selectedDatum;
-                }
-                set
-                {
-                    _selectedDatum = value;
-                    RaisePropertyChanged();
-                }
+                _aktiv = value;
+                RaisePropertyChanged();
             }
+        }
 
-            public void Zusagen()
-            {
-                Sichtbar = false;
-                var i = new Invitation();
-                i.Datum = SelectedDatum;
-                i.LetzteAktion = DateTime.Today;
-                i.Status = EventStatus.Zugesagt;
-                i.Vortrag = _vortrag;
-                i.Ältester = _redner;
-                Core.DataContainer.MeinPlan.Add(i);
-                _base.BaseAnfrage.RednerVortrag.Remove(_redner);
-                _base.Wochen.Remove(SelectedDatum);
-                if ((_base.BaseAnfrage.RednerVortrag.Count == 0) || _base.Wochen.Count == 0)
-                    Core.DataContainer.OffeneAnfragen.Remove(_base.BaseAnfrage);
-            }
+        private DateTime _selectedDatum;
 
-            public void Absagen()
+        public DateTime SelectedDatum
+        {
+            get
             {
-                Sichtbar = false;
-                _base.BaseAnfrage.RednerVortrag.Remove(_redner);
-                if (_base.BaseAnfrage.RednerVortrag.Count == 0)
-                    Core.DataContainer.OffeneAnfragen.Remove(_base.BaseAnfrage);
+                return _selectedDatum;
             }
+            set
+            {
+                _selectedDatum = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public void Zusagen()
+        {
+            Sichtbar = false;
+            var i = new Invitation();
+            i.Datum = SelectedDatum;
+            i.LetzteAktion = DateTime.Today;
+            i.Status = EventStatus.Zugesagt;
+            i.Vortrag = _vortrag;
+            i.Ältester = _redner;
+            Core.DataContainer.MeinPlan.Add(i);
+            _base.BaseAnfrage.RednerVortrag.Remove(_redner);
+            _base.Wochen.Remove(SelectedDatum);
+            if ((_base.BaseAnfrage.RednerVortrag.Count == 0) || _base.Wochen.Count == 0)
+                Core.DataContainer.OffeneAnfragen.Remove(_base.BaseAnfrage);
+        }
+
+        public void Absagen()
+        {
+            Sichtbar = false;
+            _base.BaseAnfrage.RednerVortrag.Remove(_redner);
+            if (_base.BaseAnfrage.RednerVortrag.Count == 0)
+                Core.DataContainer.OffeneAnfragen.Remove(_base.BaseAnfrage);
         }
     }
 }

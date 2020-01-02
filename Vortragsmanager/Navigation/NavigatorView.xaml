@@ -24,7 +24,7 @@
             </dxnav:TileBar.ItemContainerStyle>
             <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="MeinPlanView" Content="Versammlung" />
             <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="MeineRednerView" Content="Redner" />
-            <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="PlaningEdit" Content="Redner suchen" />
+            <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="SearchSpeaker" Content="Redner suchen" />
             <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="ExternalQuestionEdit" Content="Anfrage bearbeiten" />
         </dxnav:TileBar>
     </Grid>

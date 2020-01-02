@@ -37,7 +37,7 @@ namespace Vortragsmanager.Models
             if (Zusammenkunftszeiten.Count == 0)
                 return "unbekannt";
             var letztesJahr = Zusammenkunftszeiten.Where(x => x.Key <= Jahr).Max(y => y.Key);
-            return letztesJahr == null ? "unbekannt" : Zusammenkunftszeiten[letztesJahr];
+            return Zusammenkunftszeiten[letztesJahr];
         }
 
         public string GetZusammenkunftszeit(DateTime Datum)
@@ -55,6 +55,6 @@ namespace Vortragsmanager.Models
 
         public override string ToString() => $"Versammlung {Name}";
 
-        public readonly Dictionary<int, string> Zusammenkunftszeiten = new Dictionary<int, string>(1);
+        public Dictionary<int, string> Zusammenkunftszeiten { get; } = new Dictionary<int, string>(1);
     }
 }

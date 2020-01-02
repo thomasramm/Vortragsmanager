@@ -10,7 +10,6 @@ namespace Vortragsmanager.Views
 {
     public class EinstellungenViewModel : ViewModelBase
     {
-        private const string V = "SQLite Datenbank (*.sqlite3)|*.sqlite3|Alle Dateien (*.*)|*.*";
         private string datenbank;
 
         public EinstellungenViewModel()
@@ -54,7 +53,7 @@ namespace Vortragsmanager.Views
 
             var openDialog = new OpenFileDialog
             {
-                Filter = "Excel Datei (*.xlsx)|*.xlsx|Alle Dateien (*.*)|*.*",
+                Filter = Properties.Resources.DateifilterExcel,
                 FilterIndex = 1,
                 RestoreDirectory = false,
                 InitialDirectory = dir,
@@ -98,7 +97,7 @@ namespace Vortragsmanager.Views
             {
                 var openDialog = new OpenFileDialog
                 {
-                    Filter = V,
+                    Filter = Properties.Resources.DateifilterSqlite,
                     FilterIndex = 1,
                     RestoreDirectory = false,
                     InitialDirectory = fi.DirectoryName,
@@ -120,7 +119,7 @@ namespace Vortragsmanager.Views
             {
                 var saveDialog = new SaveFileDialog
                 {
-                    Filter = V,
+                    Filter = Properties.Resources.DateifilterSqlite,
                     FilterIndex = 1,
                     RestoreDirectory = false,
                     InitialDirectory = fi.DirectoryName,
@@ -160,7 +159,7 @@ namespace Vortragsmanager.Views
             Updater.CheckForUpdatesForce();
         }
 
-        public void EmergencyMail()
+        public static void EmergencyMail()
         {
             var mailadressen = "------------------------------\nListe der Mailadressen\n------------------------------\n";
             var jwpubadressen = "------------------------------\nListe der JwPub-Adressen\n------------------------------\n";
@@ -183,7 +182,7 @@ namespace Vortragsmanager.Views
             dialog.ShowDialog();
         }
 
-        public void CalculateRoute(bool alle)
+        public static void CalculateRoute(bool alle)
         {
             var start = DataContainer.MeineVersammlung;
             var end = DataContainer.Versammlungen.Where(x => x != start);

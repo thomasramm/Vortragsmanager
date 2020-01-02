@@ -14,7 +14,7 @@ namespace Vortragsmanager.Views
         {
             Messenger.Default.Register<Messages>(this, OnMessage);
             ChangeYear = new DelegateCommand<int>(ChangeCurrentYear);
-            ChangeView = new DelegateCommand<View>(ChangeCurrentView);
+            ChangeView = new DelegateCommand<RednerView>(ChangeCurrentView);
             ListeSenden = new DelegateCommand(ListeVersenden);
             VortragAbsagen = new DelegateCommand(Absagen);
 
@@ -87,18 +87,18 @@ namespace Vortragsmanager.Views
             RaisePropertyChanged(nameof(Talks));
         }
 
-        public DelegateCommand<View> ChangeView { get; private set; }
+        public DelegateCommand<RednerView> ChangeView { get; private set; }
 
-        public void ChangeCurrentView(View view)
+        public void ChangeCurrentView(RednerView view)
         {
             switch (view)
             {
-                case View.Year:
+                case RednerView.Year:
                     ViewStateYear = true;
                     ViewStateAgenda = false;
                     break;
 
-                case View.Agenda:
+                case RednerView.Agenda:
                     ViewStateYear = false;
                     ViewStateAgenda = true;
                     LoadAgendaView();
@@ -113,13 +113,7 @@ namespace Vortragsmanager.Views
         public bool ViewStateYear { get; set; }
         public bool ViewStateAgenda { get; set; }
 
-        public int CurrentYear
-        {
-            get
-            {
-                return Core.DataContainer.DisplayedYear;
-            }
-        }
+        public int CurrentYear => Core.DataContainer.DisplayedYear;
 
         private void OnMessage(Messages message)
         {
@@ -234,7 +228,7 @@ namespace Vortragsmanager.Views
         }
     }
 
-    public enum View
+    public enum RednerView
     {
         Year,
         Agenda,

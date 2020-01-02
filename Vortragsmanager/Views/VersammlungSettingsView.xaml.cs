@@ -23,7 +23,7 @@ namespace Vortragsmanager.Views
         }
 
         //wenn eine Versammlung maximiert wird, dann alle anderen ausblenden.
-        private void lc_MaximizedElementChanged(object sender, DevExpress.Xpf.Core.ValueChangedEventArgs<System.Windows.FrameworkElement> e)
+        private void Lc_MaximizedElementChanged(object sender, DevExpress.Xpf.Core.ValueChangedEventArgs<System.Windows.FrameworkElement> e)
         {
             var boxList = ((FlowLayoutControl)sender).Children;
             var editMode = (e.NewValue != null); // ?  System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
@@ -41,7 +41,7 @@ namespace Vortragsmanager.Views
 
         private void SearchBox_ValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            var filter = e.NewValue?.ToString().ToLower() ?? null;
+            var filter = e.NewValue?.ToString().ToLower(Core.DataContainer.German) ?? null;
             foreach (var box in lc.Children)
             {
                 var gBox = (box as GroupBox);

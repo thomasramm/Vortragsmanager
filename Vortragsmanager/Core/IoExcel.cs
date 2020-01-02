@@ -185,10 +185,12 @@ namespace Vortragsmanager.Core
 
                             if (redner == null) //Special Event eintragen
                             {
-                                var se = new Models.SpecialEvent();
-                                se.Datum = DateTime.Parse(datum.ToString(), DataContainer.German);
+                                var se = new Models.SpecialEvent
+                                {
+                                    Datum = DateTime.Parse(datum.ToString(), DataContainer.German),
+                                    Typ = Models.SpecialEventTyp.Sonstiges,
+                                };
                                 var typ = thema.ToString();
-                                se.Typ = Models.SpecialEventTyp.Sonstiges;
                                 if (typ.Contains("Weltzentrale"))
                                 {
                                     se.Typ = Models.SpecialEventTyp.Streaming;
@@ -221,11 +223,13 @@ namespace Vortragsmanager.Core
 
                             if (v1 == "Kreisaufseher")
                             {
-                                var se = new Models.SpecialEvent();
-                                se.Datum = i.Datum;
-                                se.Typ = Models.SpecialEventTyp.Dienstwoche;
-                                se.Vortragender = redner?.ToString() ?? "Kreisaufseher";
-                                se.Thema = thema?.ToString();
+                                var se = new Models.SpecialEvent
+                                {
+                                    Datum = i.Datum,
+                                    Typ = Models.SpecialEventTyp.Dienstwoche,
+                                    Vortragender = redner?.ToString() ?? "Kreisaufseher",
+                                    Thema = thema?.ToString()
+                                };
                                 MeinPlan.Add(se);
                                 continue;
                             }

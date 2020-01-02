@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Vortragsmanager.Core;
 using Vortragsmanager.Models;
+using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.Views
 {
@@ -39,6 +40,7 @@ namespace Vortragsmanager.Views
             return ausgabe.Substring(0, ausgabe.Length - 2);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
         public void CreateAushang()
         {
             //laden der Excel-Datei
@@ -92,6 +94,7 @@ namespace Vortragsmanager.Views
             SaveExcelFile(tempFile, "Aushang.xlsx");
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
         public void CreateContactList()
         {
             var tempFile = Path.GetTempFileName();
@@ -138,10 +141,11 @@ namespace Vortragsmanager.Views
                         var typ = einladung.Status;
                         if (typ == EventStatus.Ereignis)
                         {
-                            //var special = (einladung as SpecialEvent);
-                            //sheet.Cells[row, 2].Value = special.Vortrag?.Thema ?? special.Anzeigetext;
-                            //sheet.Cells[row, 3].Value = special.Vortragender ?? special.Thema;
-                            //sheet.Cells[row, 4].Value = special.Name ?? special.Typ.ToString();
+                            //ToDo: in die Kontaktliste SpecialEvents eintragen
+                            var special = (einladung as SpecialEvent);
+                            sheet.Cells[row, 2].Value = special.Vortrag?.Thema ?? special.Anzeigetext;
+                            sheet.Cells[row, 3].Value = special.Vortragender ?? special.Thema;
+                            sheet.Cells[row, 4].Value = special.Name ?? special.Typ.ToString();
                         }
                         else
                         {
@@ -173,7 +177,7 @@ namespace Vortragsmanager.Views
         {
             var saveFileDialog1 = new SaveFileDialog
             {
-                Filter = "Excel Datei (*.xlsx)|*.xlsx|All files (*.*)|*.*",
+                Filter = Resources.DateifilterExcel,
                 FilterIndex = 1,
                 RestoreDirectory = false,
                 FileName = sugestedName,

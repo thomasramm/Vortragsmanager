@@ -17,6 +17,8 @@ namespace Vortragsmanager.Views
             set
             {
                 _eventOriginal = value;
+                if (value is null)
+                    return;
                 _event = _eventOriginal.Clone();
                 var individuellerName = _event.Name;
                 if (_event.Typ > 0)

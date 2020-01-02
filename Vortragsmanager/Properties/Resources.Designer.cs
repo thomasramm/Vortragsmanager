@@ -59,5 +59,32 @@ namespace Vortragsmanager.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Achtung!.
+        /// </summary>
+        internal static string Achtung {
+            get {
+                return ResourceManager.GetString("Achtung", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Excel Datei (*.xlsx)|*.xlsx|Alle Dateien (*.*)|*.*.
+        /// </summary>
+        internal static string DateifilterExcel {
+            get {
+                return ResourceManager.GetString("DateifilterExcel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Planungsdatei (*.sqlite3)|*.sqlite3|Alle Dateien (*.*)|*.*.
+        /// </summary>
+        internal static string DateifilterSqlite {
+            get {
+                return ResourceManager.GetString("DateifilterSqlite", resourceCulture);
+            }
+        }
     }
 }

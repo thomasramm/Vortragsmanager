@@ -16,10 +16,9 @@ namespace Vortragsmanager.Views
 
         public void NavigatedTo(NavigationEventArgs e)
         {
-            //if (e.Parameter != null)
-            //{
-            //    var datum = (DateTime)e.Parameter;
-            //}
+            if (e is null)
+                return;
+
             if (e.Parameter is null)
                 return;
 

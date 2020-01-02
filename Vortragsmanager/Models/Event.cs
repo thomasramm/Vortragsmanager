@@ -104,7 +104,7 @@ namespace Vortragsmanager.Models
 
         //Ich habe eine Gruppe Redner + Vortrag
         //Ich habe eine Gruppe Daten
-        public Dictionary<Speaker, Talk> RednerVortrag { get; set; } = new Dictionary<Speaker, Talk>();
+        public Dictionary<Speaker, Talk> RednerVortrag { get; } = new Dictionary<Speaker, Talk>();
 
         //Datum der Anfrage
         public DateTime AnfrageDatum { get; set; }
@@ -131,7 +131,7 @@ namespace Vortragsmanager.Models
         }
 
         //Angefragte Termin
-        public ObservableCollection<DateTime> Wochen { get; set; } = new ObservableCollection<DateTime>();
+        public ObservableCollection<DateTime> Wochen { get; } = new ObservableCollection<DateTime>();
 
         public string Kommentar { get; set; }
     }

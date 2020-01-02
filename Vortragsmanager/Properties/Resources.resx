@@ -117,4 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Achtung" xml:space="preserve">
+    <value>Achtung!</value>
+  </data>
+  <data name="DateifilterExcel" xml:space="preserve">
+    <value>Excel Datei (*.xlsx)|*.xlsx|Alle Dateien (*.*)|*.*</value>
+  </data>
+  <data name="DateifilterSqlite" xml:space="preserve">
+    <value>Planungsdatei (*.sqlite3)|*.sqlite3|Alle Dateien (*.*)|*.*</value>
+  </data>
 </root>

@@ -159,7 +159,6 @@ namespace Vortragsmanager.Core
             LoadTalks();
             LoadTemplates();
             DataContainer.Versammlungen.Clear();
-            var unbConr = DataContainer.FindOrAddConregation("unbekannt", -1);
             var wizard = new SetupWizardDialog();
             wizard.ShowDialog();
 

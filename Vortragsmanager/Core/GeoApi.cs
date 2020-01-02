@@ -13,6 +13,11 @@ namespace Vortragsmanager.Core
 
         public static int? GetDistance(string startAdress, string endAdress)
         {
+            if (string.IsNullOrWhiteSpace(startAdress))
+                return 0;
+            if (string.IsNullOrWhiteSpace(endAdress))
+                return 0;
+
             startAdress = startAdress.Replace(" ", "+");
             endAdress = endAdress.Replace(" ", "+");
             var myUrl = url

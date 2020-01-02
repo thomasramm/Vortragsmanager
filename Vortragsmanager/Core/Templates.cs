@@ -111,6 +111,9 @@ namespace Vortragsmanager.Core
             if (Versammlung is null)
                 Versammlung = DataContainer.FindConregation("Unbekannt");
 
+            if (Versammlung is null)
+                return "Fehler beim verarbeiten der Vorlage '" + Mailtext + "'";
+
             return Mailtext
                 .Replace("{Versammlung", Versammlung.Name)
                 .Replace("{Koordinator Mail}", $"{Versammlung.KoordinatorJw}; {Versammlung.KoordinatorMail}")

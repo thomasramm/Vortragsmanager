@@ -12,8 +12,6 @@ namespace Vortragsmanager.Views
 {
     public class ConregationViewModel : ViewModelBase
     {
-        private const string Text = "Achtung!";
-
         public ConregationViewModel(Conregation versammlung)
         {
             Versammlung = versammlung;
@@ -160,8 +158,8 @@ namespace Vortragsmanager.Views
             set
             {
                 if ((value == true) && (ThemedMessageBox.Show(
+                    Properties.Resources.Achtung,
                     "Willst du diese Versammlung wirklich als deine eigene Versammlung setzen?",
-                    Text,
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning) == MessageBoxResult.Yes))
                     Core.DataContainer.MeineVersammlung = Versammlung;
@@ -262,6 +260,9 @@ namespace Vortragsmanager.Views
     {
         public SpeakerViewModel(Speaker redner)
         {
+            if (redner is null)
+                throw new NullReferenceException();
+
             Redner = redner;
             NeuerVortragCommand = new DelegateCommand(NeuenVortragSpeichern);
             VortragLöschenCommand = new DelegateCommand(VortragLöschen);
@@ -394,25 +395,9 @@ namespace Vortragsmanager.Views
 
         public Speaker Redner { get; private set; }
 
-        public ObservableCollection<Conregation> Versammlungen
-        {
-            get => new ObservableCollection<Conregation>(Core.DataContainer.Versammlungen);
-        }
+        public ObservableCollection<Conregation> Versammlungen => new ObservableCollection<Conregation>(Core.DataContainer.Versammlungen);
 
-        private bool _versammlungenPopUpIsOpen;
-
-        public bool VersammlungenPopUp
-        {
-            get
-            {
-                return _versammlungenPopUpIsOpen;
-            }
-            set
-            {
-                _versammlungenPopUpIsOpen = value;
-                //RaisePropertyChanged();
-            }
-        }
+        public bool VersammlungenPopUp { get; set; }
 
         private Conregation _selectedVersammlung;
 
@@ -424,7 +409,7 @@ namespace Vortragsmanager.Views
             }
             set
             {
-                if (!_versammlungenPopUpIsOpen && value != null && value != Redner?.Versammlung)
+                if (!VersammlungenPopUp && value != null && value != Redner?.Versammlung)
                 {
                     if (ThemedMessageBox.Show("Achtung", $"Soll der Redner {Redner.Name} wirklich in die Versammlung {value.Name} verschoben werden?") == MessageBoxResult.OK)
                     {

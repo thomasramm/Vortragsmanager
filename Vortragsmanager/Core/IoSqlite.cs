@@ -279,20 +279,22 @@ namespace Vortragsmanager.Core
                 DataContainer.Versammlungen.Clear();
                 while (rdr.Read())
                 {
-                    var c = new Conregation();
-                    c.Id = rdr.GetInt32(0);
-                    c.Kreis = rdr.GetInt32(1);
-                    c.Name = rdr.GetString(2);
-                    c.Anschrift1 = rdr.IsDBNull(3) ? null : rdr.GetString(3);
-                    c.Anschrift2 = rdr.IsDBNull(4) ? null : rdr.GetString(4);
-                    c.Anreise = rdr.IsDBNull(5) ? null : rdr.GetString(5);
-                    c.Entfernung = rdr.IsDBNull(6) ? 0 : rdr.GetInt32(6);
-                    c.Telefon = rdr.IsDBNull(7) ? null : rdr.GetString(7);
-                    c.Koordinator = rdr.IsDBNull(8) ? null : rdr.GetString(8);
-                    c.KoordinatorTelefon = rdr.IsDBNull(9) ? null : rdr.GetString(9);
-                    c.KoordinatorMobil = rdr.IsDBNull(10) ? null : rdr.GetString(10);
-                    c.KoordinatorMail = rdr.IsDBNull(11) ? null : rdr.GetString(11);
-                    c.KoordinatorJw = rdr.IsDBNull(12) ? null : rdr.GetString(12);
+                    var c = new Conregation
+                    {
+                        Id = rdr.GetInt32(0),
+                        Kreis = rdr.GetInt32(1),
+                        Name = rdr.GetString(2),
+                        Anschrift1 = rdr.IsDBNull(3) ? null : rdr.GetString(3),
+                        Anschrift2 = rdr.IsDBNull(4) ? null : rdr.GetString(4),
+                        Anreise = rdr.IsDBNull(5) ? null : rdr.GetString(5),
+                        Entfernung = rdr.IsDBNull(6) ? 0 : rdr.GetInt32(6),
+                        Telefon = rdr.IsDBNull(7) ? null : rdr.GetString(7),
+                        Koordinator = rdr.IsDBNull(8) ? null : rdr.GetString(8),
+                        KoordinatorTelefon = rdr.IsDBNull(9) ? null : rdr.GetString(9),
+                        KoordinatorMobil = rdr.IsDBNull(10) ? null : rdr.GetString(10),
+                        KoordinatorMail = rdr.IsDBNull(11) ? null : rdr.GetString(11),
+                        KoordinatorJw = rdr.IsDBNull(12) ? null : rdr.GetString(12)
+                    };
                     DataContainer.Versammlungen.Add(c);
 
                     //Vorträge zuordnen
@@ -311,8 +313,6 @@ namespace Vortragsmanager.Core
                 }
 
                 rdr.Close();
-                cmd1.Dispose();
-                cmd2.Dispose();
             }
         }
 
@@ -327,14 +327,15 @@ namespace Vortragsmanager.Core
                 {
                     var nr = rdr.GetInt32(0);
                     var th = rdr.GetString(1);
-                    var t = new Talk(nr, th);
-                    t.Gültig = rdr.GetBoolean(2);
-                    t.zuletztGehalten = rdr.IsDBNull(3) ? (DateTime?)null : rdr.GetDateTime(3);
+                    var t = new Talk(nr, th)
+                    {
+                        Gültig = rdr.GetBoolean(2),
+                        zuletztGehalten = rdr.IsDBNull(3) ? (DateTime?)null : rdr.GetDateTime(3)
+                    };
                     DataContainer.Vorträge.Add(t);
                 }
 
                 rdr.Close();
-                cmd.Dispose();
             }
         }
 
@@ -354,17 +355,19 @@ namespace Vortragsmanager.Core
                 DataContainer.Redner.Clear();
                 while (rdr.Read())
                 {
-                    var r = new Speaker();
-                    r.Id = rdr.GetInt32(0);
-                    r.Name = rdr.GetString(1);
+                    var r = new Speaker
+                    {
+                        Id = rdr.GetInt32(0),
+                        Name = rdr.GetString(1),
+                        Mail = rdr.IsDBNull(3) ? null : rdr.GetString(3),
+                        Telefon = rdr.IsDBNull(4) ? null : rdr.GetString(4),
+                        Mobil = rdr.IsDBNull(5) ? null : rdr.GetString(5),
+                        Ältester = rdr.GetBoolean(6),
+                        Aktiv = rdr.GetBoolean(7),
+                        InfoPrivate = rdr.IsDBNull(8) ? null : rdr.GetString(8),
+                        InfoPublic = rdr.IsDBNull(9) ? null : rdr.GetString(9)
+                    };
                     var idConregation = rdr.IsDBNull(2) ? 0 : rdr.GetInt32(2); //Id 0 = Versammlung "unbekannt"
-                    r.Mail = rdr.IsDBNull(3) ? null : rdr.GetString(3);
-                    r.Telefon = rdr.IsDBNull(4) ? null : rdr.GetString(4);
-                    r.Mobil = rdr.IsDBNull(5) ? null : rdr.GetString(5);
-                    r.Ältester = rdr.GetBoolean(6);
-                    r.Aktiv = rdr.GetBoolean(7);
-                    r.InfoPrivate = rdr.IsDBNull(8) ? null : rdr.GetString(8);
-                    r.InfoPublic = rdr.IsDBNull(9) ? null : rdr.GetString(9);
 
                     //Versammlung zuordnen
                     r.Versammlung = DataContainer.Versammlungen.First(x => x.Id == idConregation);
@@ -383,8 +386,6 @@ namespace Vortragsmanager.Core
                 }
 
                 rdr.Close();
-                cmd2.Dispose();
-                cmd.Dispose();
             }
         }
 
@@ -423,7 +424,6 @@ namespace Vortragsmanager.Core
                 }
 
                 rdr.Close();
-                cmd.Dispose();
             }
         }
 
@@ -458,7 +458,6 @@ namespace Vortragsmanager.Core
                 }
 
                 rdr.Close();
-                cmd.Dispose();
             }
         }
 
@@ -469,7 +468,6 @@ namespace Vortragsmanager.Core
                 cmd.Parameters.AddWithValue("@Name", parameter.ToString());
                 var rdr = cmd.ExecuteScalar();
                 var result = rdr.ToString();
-                cmd.Dispose();
                 return result;
             }
         }

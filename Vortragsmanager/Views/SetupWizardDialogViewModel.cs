@@ -168,7 +168,7 @@ namespace Vortragsmanager.Views
 
             var openDialog = new OpenFileDialog
             {
-                Filter = "Planungsdatei Datei (*.sqlite3)|*.sqlite3|Alle Dateien (*.*)|*.*",
+                Filter = Properties.Resources.DateifilterSqlite,
                 FilterIndex = 1,
                 RestoreDirectory = false,
                 InitialDirectory = fi.DirectoryName,
@@ -228,14 +228,14 @@ namespace Vortragsmanager.Views
             {
                 ThemedMessageBox.Show(
                     $"Die Datei '{ImportExcelFile}' wurde nicht gefunden.",
-                    "Achtung!",
+                    Properties.Resources.Achtung,
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 return;
             }
 
             //einlesen der Excel-Datei
-            if (!Core.IoExcel.Vplanung.ImportKoordinatoren(ImportExcelFile))
+            if (!IoExcel.Vplanung.ImportKoordinatoren(ImportExcelFile))
                 return;
 
             //prüfen ob Kreis bereits importiert wurde
@@ -272,7 +272,7 @@ namespace Vortragsmanager.Views
 
             var openDialog = new OpenFileDialog
             {
-                Filter = "Excel Datei (*.xlsx)|*.xlsx|Alle Dateien (*.*)|*.*",
+                Filter = Properties.Resources.DateifilterExcel,
                 FilterIndex = 1,
                 RestoreDirectory = false,
                 InitialDirectory = dir,
@@ -325,7 +325,7 @@ namespace Vortragsmanager.Views
             {
                 ThemedMessageBox.Show(
                     $"Die Datei '{ImportExcelFile}' wurde nicht gefunden.",
-                    "Achtung!",
+                    Properties.Resources.Achtung,
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 return;
@@ -345,7 +345,7 @@ namespace Vortragsmanager.Views
             {
                 if (ThemedMessageBox.Show(
                     $"Es existieren bereits Einträge für das gewählte Jahr. Ereignisse zusammenführen? (Bestehende Einträge werden überschrieben)?",
-                    "Achtung!",
+                    Properties.Resources.Achtung,
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning) != MessageBoxResult.Yes)
                     return;
@@ -387,38 +387,52 @@ namespace Vortragsmanager.Views
         #endregion Planungen importieren
 
         public bool IsFinished { get; set; }
+    }
 
-        public class Kreis
+    public class Kreis
+    {
+        public Kreis(int nr)
         {
-            public Kreis(int nr)
+            Nr = nr;
+            Anzahl = 1;
+        }
+
+        public Kreis(int nr, int anzahl)
+        {
+            Nr = nr;
+            Anzahl = anzahl;
+        }
+
+        public int Nr { get; set; }
+
+        public int Anzahl { get; set; }
+
+        public override string ToString()
+        {
+            return $"Kreis {Nr} ({Anzahl} Versammlungen)";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+            if (Nr != (obj as Kreis).Nr)
+                return false;
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
             {
-                Nr = nr;
-                Anzahl = 1;
-            }
+                // Choose large primes to avoid hashing collisions
+                const int HashingBase = (int)2166136261;
+                const int HashingMultiplier = 16777619;
 
-            public Kreis(int nr, int anzahl)
-            {
-                Nr = nr;
-                Anzahl = anzahl;
-            }
-
-            public int Nr { get; set; }
-
-            public int Anzahl { get; set; }
-
-            public override string ToString()
-            {
-                return $"Kreis {Nr} ({Anzahl} Versammlungen)";
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (obj == null)
-                    return false;
-                if (Nr != (obj as Kreis).Nr)
-                    return false;
-
-                return true;
+                int hash = HashingBase;
+                hash = (hash * HashingMultiplier) ^ (!object.ReferenceEquals(null, Nr) ? Nr.GetHashCode() : 0);
+                return hash;
             }
         }
     }
