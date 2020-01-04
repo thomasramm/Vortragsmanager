@@ -25,7 +25,8 @@
                    HorizontalContentAlignment="Center"
                    FontSize="16" />
             <TextBlock HorizontalAlignment="Center" FontSize="16" Margin="10">
-                <Hyperlink NavigateUri="https://github.com/thomasramm/Vortragsmanager#Installation">Neueste Version herunterladen.</Hyperlink>
+                <Hyperlink NavigateUri="https://github.com/thomasramm/Vortragsmanager#Installation"
+                           RequestNavigate="Hyperlink_RequestNavigate">Neueste Version herunterladen.</Hyperlink>
             </TextBlock>
             <TextBox Text="{Binding Changelog, Mode=OneWay}" Height="235" />
         </StackPanel>

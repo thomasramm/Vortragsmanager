@@ -157,7 +157,7 @@ namespace Vortragsmanager.Views
 
         public static void SearchUpdate()
         {
-            Updater.CheckForUpdatesForce();
+            Updater.CheckForUpdatesForce(false);
         }
 
         public static void EmergencyMail(int? maxEntfernung)
