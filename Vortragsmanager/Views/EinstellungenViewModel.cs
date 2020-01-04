@@ -1,6 +1,7 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -18,7 +19,7 @@ namespace Vortragsmanager.Views
             SearchDatabaseCommand = new DelegateCommand<string>(SearchDatabase);
             SearchUpdateCommand = new DelegateCommand(SearchUpdate);
             UpdateSpeakerFromExcelCommand = new DelegateCommand(UpdateSpeakerFromExcel);
-            EmergencyMailCommand = new DelegateCommand(EmergencyMail);
+            EmergencyMailCommand = new DelegateCommand<int?>(EmergencyMail);
             CalculateRouteCommand = new DelegateCommand<bool>(CalculateRoute);
             Datenbank = Properties.Settings.Default.sqlite;
         }
@@ -29,7 +30,7 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand UpdateSpeakerFromExcelCommand { get; private set; }
 
-        public DelegateCommand EmergencyMailCommand { get; private set; }
+        public DelegateCommand<int?> EmergencyMailCommand { get; private set; }
 
         public DelegateCommand<bool> CalculateRouteCommand { get; private set; }
 
@@ -159,16 +160,28 @@ namespace Vortragsmanager.Views
             Updater.CheckForUpdatesForce();
         }
 
-        public static void EmergencyMail()
+        public static void EmergencyMail(int? maxEntfernung)
         {
+            IEnumerable<Models.Conregation> empfänger;
+            if (maxEntfernung is null)
+                empfänger = DataContainer.Versammlungen.Where(x => x.Kreis == DataContainer.MeineVersammlung.Kreis);
+            else
+                empfänger = DataContainer.Versammlungen.Where(x => x.Entfernung <= maxEntfernung);
+
             var mailadressen = "------------------------------\nListe der Mailadressen\n------------------------------\n";
+            var mailadressenFuß = "----- Koordinatoren ohne Mailadresse -----\n";
             var jwpubadressen = "------------------------------\nListe der JwPub-Adressen\n------------------------------\n";
-            foreach (var mail in Core.DataContainer.Versammlungen.Where(x => x.Kreis == DataContainer.MeineVersammlung.Kreis))
+            var jwpubadressenFuß = "----- Koordinatoren ohne JwPub-Adresse -----\n";
+            foreach (var mail in empfänger)
             {
                 if (!string.IsNullOrEmpty(mail.KoordinatorMail))
-                    mailadressen += mail.KoordinatorMail + ";" + Environment.NewLine;
+                    mailadressen += $"{mail.Koordinator} <{mail.KoordinatorMail}>;" + Environment.NewLine;
+                else
+                    mailadressenFuß += mail.Koordinator + Environment.NewLine;
                 if (!string.IsNullOrEmpty(mail.KoordinatorJw))
-                    jwpubadressen += mail.KoordinatorJw + ";" + Environment.NewLine;
+                    jwpubadressen += $"{mail.Koordinator} <{mail.KoordinatorJw}>;" + Environment.NewLine;
+                else
+                    jwpubadressenFuß += mail.Koordinator + Environment.NewLine;
             }
 
             var dialog = new leerDialog();
@@ -177,7 +190,10 @@ namespace Vortragsmanager.Views
             data.ShowCopyButton = true;
             data.ShowCloseButton = true;
             data.ShowSaveButton = false;
-            data.Text = jwpubadressen + Environment.NewLine + Environment.NewLine + mailadressen;
+            data.Text = jwpubadressen + Environment.NewLine
+                      + jwpubadressenFuß + Environment.NewLine
+                      + mailadressen + Environment.NewLine
+                      + mailadressenFuß;
 
             dialog.ShowDialog();
         }

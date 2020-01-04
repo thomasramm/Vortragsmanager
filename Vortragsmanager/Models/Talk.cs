@@ -19,5 +19,7 @@ namespace Vortragsmanager.Models
         public DateTime? zuletztGehalten { get; set; }
 
         public override string ToString() => $"({Nummer}) {Thema}";
+
+        public string NumberTopicShort => $"{Nummer} {Thema}";
     }
 }

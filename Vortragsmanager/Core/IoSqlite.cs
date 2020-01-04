@@ -268,6 +268,8 @@ namespace Vortragsmanager.Core
         /// <param name="file">Kompletter Pfad zur Datenbank</param>
         private static void ReadVersammlungen(SQLiteConnection db)
         {
+            DataContainer.Versammlungen.Clear();
+
             var vers = int.Parse(ReadParameter(Parameter.MeineVersammlung, db), DataContainer.German);
             using (var cmd1 = new SQLiteCommand("SELECT Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Entfernung, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw FROM Conregation", db))
             using (var cmd2 = new SQLiteCommand("SELECT Jahr, Zeit FROM Conregation_Zusammenkunftszeiten WHERE IdConregation = @Id", db))
@@ -276,7 +278,6 @@ namespace Vortragsmanager.Core
 
                 SQLiteDataReader rdr = cmd1.ExecuteReader();
 
-                DataContainer.Versammlungen.Clear();
                 while (rdr.Read())
                 {
                     var c = new Conregation
@@ -318,11 +319,12 @@ namespace Vortragsmanager.Core
 
         private static void ReadVorträge(SQLiteConnection db)
         {
+            DataContainer.Vorträge.Clear();
+
             using (var cmd = new SQLiteCommand("SELECT Nummer, Thema, Gultig, ZuletztGehalten FROM Talks", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
 
-                DataContainer.Vorträge.Clear();
                 while (rdr.Read())
                 {
                     var nr = rdr.GetInt32(0);
@@ -346,13 +348,14 @@ namespace Vortragsmanager.Core
         /// <param name="file">Kompletter Pfad zur Datenbank</param>
         private static void ReadRedner(SQLiteConnection db)
         {
+            DataContainer.Redner.Clear();
+
             using (var cmd = new SQLiteCommand("SELECT Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic FROM Speaker", db))
             using (var cmd2 = new SQLiteCommand("SELECT IdTalk FROM Speaker_Vortrag WHERE IdSpeaker = @IdSpeaker", db))
             {
                 cmd2.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
                 SQLiteDataReader rdr = cmd.ExecuteReader();
 
-                DataContainer.Redner.Clear();
                 while (rdr.Read())
                 {
                     var r = new Speaker
@@ -397,11 +400,11 @@ namespace Vortragsmanager.Core
         /// <param name="file">Kompletter Pfad zur Datenbank</param>
         private static void ReadMeinPlan(SQLiteConnection db)
         {
+            DataContainer.MeinPlan.Clear();
+
             using (var cmd = new SQLiteCommand("SELECT IdAltester, IdVortrag, IdConregation, Datum, Status, LetzteAktion, Kommentar FROM Invitation", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
-
-                DataContainer.MeinPlan.Clear();
                 while (rdr.Read())
                 {
                     var i = new Invitation();
@@ -435,11 +438,10 @@ namespace Vortragsmanager.Core
         /// <param name="file"></param>
         private static void ReadExternerPlan(SQLiteConnection db)
         {
+            DataContainer.ExternerPlan.Clear();
             using (var cmd = new SQLiteCommand("SELECT IdSpeaker, IdConregation, Datum, Reason, IdTalk FROM Outside", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
-
-                DataContainer.ExternerPlan.Clear();
                 while (rdr.Read())
                 {
                     var o = new Outside();
@@ -474,14 +476,14 @@ namespace Vortragsmanager.Core
 
         private static void ReadTemplates(SQLiteConnection db)
         {
+            Templates.Vorlagen.Clear();
+
             using (var cmd = new SQLiteCommand("SELECT Id, Inhalt, Beschreibung FROM Templates", db))
             using (var cmd2 = new SQLiteCommand("SELECT Name, Beschreibung FROM Templates_Parameter WHERE IdTemplate = @Id", db))
             {
                 cmd2.Parameters.Add("@Id", System.Data.DbType.Int32);
 
                 SQLiteDataReader rdr = cmd.ExecuteReader();
-
-                Templates.Vorlagen.Clear();
                 while (rdr.Read())
                 {
                     var v = new Template();
@@ -507,6 +509,10 @@ namespace Vortragsmanager.Core
             }
         }
 
+        /// <summary>
+        /// Vorher muß ReadMeinPlan ausgeführt werden, da dort das Zielobjekt geleert wird.
+        /// </summary>
+        /// <param name="db">Datenbank.</param>
         private static void ReadEvents(SQLiteConnection db)
         {
             using (var cmd = new SQLiteCommand("SELECT Typ, Name, Thema, Vortragender, Datum FROM Events", db))
@@ -533,6 +539,8 @@ namespace Vortragsmanager.Core
 
         private static void ReadAnfragen(SQLiteConnection db)
         {
+            DataContainer.OffeneAnfragen.Clear();
+
             using (var cmd1 = new SQLiteCommand("SELECT Id, IdConregation, Status, AnfrageDatum, Kommentar FROM Inquiry", db))
             using (var cmd2 = new SQLiteCommand("SELECT Datum FROM Inquiry_Dates WHERE IdInquiry = @Id", db))
             using (var cmd3 = new SQLiteCommand("SELECT IdSpeaker, IdTalk FROM Inquiry_SpeakerTalk WHERE IdInquiry = @Id", db))
