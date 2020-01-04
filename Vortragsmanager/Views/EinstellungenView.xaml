@@ -6,10 +6,11 @@
              xmlns:local="clr-namespace:Vortragsmanager.Views"
              xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
-    xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
-    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
     x:Class="Vortragsmanager.Views.EinstellungenView"
     DataContext="{dxmvvm:ViewModelSource local:EinstellungenViewModel}"
     mc:Ignorable="d"
@@ -28,41 +29,41 @@
             </DataTemplate>
         </dxwui:PageAdornerControl.HeaderTemplate>
         <dxlc:LayoutControl Orientation="Horizontal" Margin="0,0,0,-33">
-        <dxlc:LayoutGroup Orientation="Vertical">
-            <dxlc:LayoutGroup Header="Datenbank" View="GroupBox" Orientation="Vertical">
-                <dxlc:LayoutItem Label="Pfad zur Datenbank">
-                    <TextBox Text="{Binding Datenbank}" />
-                </dxlc:LayoutItem>
-                <dxlc:LayoutItem>
-                    <Label Content="In dieser Datei sind alle deine Daten gespeichert. Sie wird automatisch bei Programmstart geöffnet." />
-                </dxlc:LayoutItem>
-                <StackPanel Height="40" Orientation="Horizontal" FlowDirection="RightToLeft">
-                    <dx:SimpleButton Content="... Speichern unter"
+            <dxlc:LayoutGroup Orientation="Vertical">
+                <dxlc:LayoutGroup Header="Datenbank" View="GroupBox" Orientation="Vertical">
+                    <dxlc:LayoutItem Label="Pfad zur Datenbank">
+                        <TextBox Text="{Binding Datenbank}" />
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem>
+                        <Label Content="In dieser Datei sind alle deine Daten gespeichert. Sie wird automatisch bei Programmstart geöffnet." />
+                    </dxlc:LayoutItem>
+                    <StackPanel Height="40" Orientation="Horizontal" FlowDirection="RightToLeft">
+                        <dx:SimpleButton Content="... Speichern unter"
                                      Glyph="{dx:DXImage 'SvgImages/Outlook Inspired/SaveAs.svg'}"
                                      GlyphAlignment="Right"
                                      Command="{Binding SearchDatabaseCommand}" CommandParameter="Save"
                                      Margin="0,0,10,0" />
-                    <dx:SimpleButton Content="... Andere Datenbank öffnen"
+                        <dx:SimpleButton Content="... Andere Datenbank öffnen"
                                      Glyph="{dx:DXImage 'SvgImages/Outlook Inspired/Open.svg'}"
                                      GlyphAlignment="Right"
                                      Command="{Binding SearchDatabaseCommand}" CommandParameter="Open" />
-                </StackPanel>
-            </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup Header="Updates" View="GroupBox" Orientation="Vertical">
-                <dxlc:LayoutItem Label="täglich auf neue Updates prüfen">
-                    <dxe:ToggleSwitch CheckedStateContent="An"
+                    </StackPanel>
+                </dxlc:LayoutGroup>
+                <dxlc:LayoutGroup Header="Updates" View="GroupBox" Orientation="Vertical">
+                    <dxlc:LayoutItem Label="täglich auf neue Updates prüfen">
+                        <dxe:ToggleSwitch CheckedStateContent="An"
                                       UncheckedStateContent="Aus"
                                       ContentPlacement="Inside"
                                       IsChecked="{Binding UpdatesEnabled}" />
-                </dxlc:LayoutItem>
-                <StackPanel Height="40" FlowDirection="RightToLeft" Orientation="Horizontal">
-                <dx:SimpleButton Content="Jetzt auf Updates prüfen"
+                    </dxlc:LayoutItem>
+                    <StackPanel Height="40" FlowDirection="RightToLeft" Orientation="Horizontal">
+                        <dx:SimpleButton Content="Jetzt auf Updates prüfen"
                                  Glyph="{dx:DXImage 'SvgImages/RichEdit/UpdateTableOfContents.svg'}"
                                  GlyphAlignment="Right"
                                  Command="{Binding SearchUpdateCommand}" />
-                </StackPanel>
-            </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup Header="Import von Rednerlisten"
+                    </StackPanel>
+                </dxlc:LayoutGroup>
+                <dxlc:LayoutGroup Header="Import von Rednerlisten"
                                   View="GroupBox"
                                   Orientation="Vertical">
                     <dxlc:LayoutItem Label="Vortragsmanager kompatible Excel Datei" LabelPosition="Top">
@@ -80,15 +81,36 @@
                                          Command="{Binding UpdateSpeakerFromExcelCommand}" />
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup Header="Mail an alle Koordinatoren im Kreis"
+                <dxlc:LayoutGroup Header="Mail an Koordinatoren"
                                   View="GroupBox"
                                   Orientation="Vertical">
-                    <dxlc:LayoutItem Label="Mailadressen abrufen">
+                    <dxlc:LayoutItem Label="Alle Koordinatoren im Kreis">
                         <dx:SimpleButton Content="Öffnen"
-                                         Command="{Binding EmergencyMailCommand}" />
+                                         Command="{Binding EmergencyMailCommand}"
+                                         CommandParameter="{x:Null}" />
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Alle Koordinatoren im Umkreis von ">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="75" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <dxe:SpinEdit x:Name="mailEntfernung"
+                                          Grid.Column="0"
+                                          IsFloatValue="False"
+                                          MinValue="0"
+                                          Increment="10"
+                                          EditValueType="{x:Type sys:Int32}"
+                                          DisplayFormatString="0 km"
+                                          EditValue="100" />
+                            <dx:SimpleButton Content="Öffnen"
+                                         Command="{Binding EmergencyMailCommand}"
+                                         CommandParameter="{Binding EditValue, ElementName=mailEntfernung}"
+                                         Grid.Column="1" />
+                        </Grid>
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
-        </dxlc:LayoutGroup>
+            </dxlc:LayoutGroup>
             <dxlc:LayoutGroup Orientation="Vertical">
                 <dxlc:LayoutGroup Header="Entfernungen der Versammlungen zu meiner berechnen" View="GroupBox" Orientation="Horizontal">
                     <dxlc:LayoutItem Label="nur fehlende Entfernungen berechnen" LabelPosition="Top">
