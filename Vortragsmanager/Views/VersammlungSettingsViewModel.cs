@@ -339,9 +339,27 @@ namespace Vortragsmanager.Views
 
         public void NeuenVortragSpeichern()
         {
-            if (!Redner.Vorträge.Contains(NeuerVortrag))
-                Redner.Vorträge.Add(NeuerVortrag);
+            if (string.IsNullOrWhiteSpace(NeueVorträgeListe))
+                NeueVorträgeListe = NeuerVortrag.Nummer.ToString(Core.DataContainer.German);
+
+            var nummern = NeueVorträgeListe.Split(new char[] { ',', ' ', ';' });
+            int num;
+            foreach (var nr in nummern)
+            {
+                bool isNum = int.TryParse(nr, out num);
+                var neuerV = Core.DataContainer.FindTalk(num);
+                if (neuerV == null)
+                    continue;
+                if (!Redner.Vorträge.Contains(neuerV))
+                    Redner.Vorträge.Add(neuerV);
+            }
+
             RaisePropertyChanged(nameof(Vorträge));
+        }
+
+        public string NeueVorträgeListe
+        {
+            get; set;
         }
 
         public SolidColorBrush AktivBrush => Redner.Aktiv ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);

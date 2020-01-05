@@ -253,7 +253,7 @@
                                                                                             <TextBox Text="{Binding Redner.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <dxlc:LayoutItem Label="E-Mail:">
-                                                                                            <TextBox Text="{Binding Redner.Mail, Mode=TwoWay, UpdateSourceTrigger=PropertyChangedy}" />
+                                                                                            <TextBox Text="{Binding Redner.Mail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <dxlc:LayoutItem Label="Telefon:">
                                                                                             <TextBox Text="{Binding Redner.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -306,6 +306,9 @@
                                                                                                               IsTextEditable="False"
                                                                                                               AutoComplete="True"
                                                                                                               IsPopupOpen="True" />
+                                                                                        </dxlc:LayoutItem>
+                                                                                        <dxlc:LayoutItem Label="Kommagetrennte Liste von Vorträgen zum hinzufügen:" LabelPosition="Top" Margin="0,10,0,0">
+                                                                                            <dxe:TextEdit Text="{Binding NeueVorträgeListe}" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <Button Content="Hinzufügen"
                                                                                                 Command="{Binding NeuerVortragCommand}"
