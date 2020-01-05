@@ -115,7 +115,7 @@ namespace Vortragsmanager.Core
                 return "Fehler beim verarbeiten der Vorlage '" + Mailtext + "'";
 
             return Mailtext
-                .Replace("{Versammlung", Versammlung.Name)
+                .Replace("{Versammlung}", Versammlung.Name)
                 .Replace("{Koordinator Mail}", $"{Versammlung.KoordinatorJw}; {Versammlung.KoordinatorMail}")
                 .Replace("{Koordinator Name}", Versammlung.Koordinator)
                 .Replace("{Kreis}", Versammlung.Kreis.ToString(DataContainer.German))

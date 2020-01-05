@@ -108,22 +108,22 @@
                                                                   IsChecked="{Binding EigeneVersammlung}" />
                                                 </dxlc:LayoutItem>
                                                 <dxlc:LayoutItem Label="Kreis:">
-                                                    <TextBox Text="{Binding Versammlung.Kreis}" />
+                                                    <TextBox Text="{Binding Versammlung.Kreis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                 </dxlc:LayoutItem>
                                                 <dxlc:LayoutItem Label="Name:">
-                                                    <TextBox Text="{Binding Versammlung.Name}" />
+                                                    <TextBox Text="{Binding Versammlung.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                 </dxlc:LayoutItem>
                                                 <dxlc:LayoutItem Label="Straße:">
-                                                    <TextBox Text="{Binding Versammlung.Anschrift1}" />
+                                                    <TextBox Text="{Binding Versammlung.Anschrift1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                 </dxlc:LayoutItem>
                                                 <dxlc:LayoutItem Label="Plz Ort:">
-                                                    <TextBox Text="{Binding Versammlung.Anschrift2}" />
+                                                    <TextBox Text="{Binding Versammlung.Anschrift2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                 </dxlc:LayoutItem>
                                                 <dxlc:LayoutItem Label="Anreise:">
-                                                    <TextBox Text="{Binding Versammlung.Anreise}" />
+                                                    <TextBox Text="{Binding Versammlung.Anreise, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                 </dxlc:LayoutItem>
                                                 <dxlc:LayoutItem Label="Telefon Saal:">
-                                                    <TextBox Text="{Binding Versammlung.Telefon}" />
+                                                    <TextBox Text="{Binding Versammlung.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                 </dxlc:LayoutItem>
                                                 <dxlc:LayoutItem Label="Entfernung (km):">
                                                     <Grid>
@@ -142,19 +142,19 @@
                                             </dxlc:LayoutGroup>
                                             <dxlc:LayoutGroup Header="Koordinator" View="GroupBox" Orientation="Vertical">
                                                 <dxlc:LayoutItem Label="Name:">
-                                                    <TextBox Text="{Binding Versammlung.Koordinator}" />
+                                                    <TextBox Text="{Binding Versammlung.Koordinator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                 </dxlc:LayoutItem>
                                                 <dxlc:LayoutItem Label="Telefon:">
-                                                    <TextBox Text="{Binding Versammlung.KoordinatorTelefon}" />
+                                                    <TextBox Text="{Binding Versammlung.KoordinatorTelefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                 </dxlc:LayoutItem>
                                                 <dxlc:LayoutItem Label="Handy:">
-                                                    <TextBox Text="{Binding Versammlung.KoordinatorMobil}" />
+                                                    <TextBox Text="{Binding Versammlung.KoordinatorMobil, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                 </dxlc:LayoutItem>
                                                 <dxlc:LayoutItem Label="Mail:">
-                                                    <TextBox Text="{Binding Versammlung.KoordinatorMail}" />
+                                                    <TextBox Text="{Binding Versammlung.KoordinatorMail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                 </dxlc:LayoutItem>
                                                 <dxlc:LayoutItem Label="JwPub:">
-                                                    <TextBox Text="{Binding Versammlung.KoordinatorJw}" />
+                                                    <TextBox Text="{Binding Versammlung.KoordinatorJw, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                 </dxlc:LayoutItem>
                                             </dxlc:LayoutGroup>
                                             <dxlc:LayoutGroup  Header="Zusammenkunftszeit" View="GroupBox" Orientation="Vertical">
@@ -242,30 +242,30 @@
                                                                                         <dxlc:LayoutItem Label="Typ:">
                                                                                             <dxe:ToggleSwitch ContentPlacement="Near"
                                                                                                       CheckedStateContent="Ältester" UncheckedStateContent="DAG"
-                                                                                                      IsChecked="{Binding Ältester}" />
+                                                                                                      IsChecked="{Binding Ältester, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <dxlc:LayoutItem Label="Aktiv:">
                                                                                             <dxe:ToggleSwitch ContentPlacement="Near"
                                                                                                       CheckedStateContent="Ja" UncheckedStateContent="Nein"
-                                                                                                      IsChecked="{Binding Redner.Aktiv}" />
+                                                                                                      IsChecked="{Binding Redner.Aktiv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <dxlc:LayoutItem Label="Name:">
-                                                                                            <TextBox Text="{Binding Redner.Name}" />
+                                                                                            <TextBox Text="{Binding Redner.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <dxlc:LayoutItem Label="E-Mail:">
-                                                                                            <TextBox Text="{Binding Redner.Mail}" />
+                                                                                            <TextBox Text="{Binding Redner.Mail, Mode=TwoWay, UpdateSourceTrigger=PropertyChangedy}" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <dxlc:LayoutItem Label="Telefon:">
-                                                                                            <TextBox Text="{Binding Redner.Telefon}" />
+                                                                                            <TextBox Text="{Binding Redner.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <dxlc:LayoutItem Label="Handy">
-                                                                                            <TextBox Text="{Binding Redner.Mobil}" />
+                                                                                            <TextBox Text="{Binding Redner.Mobil, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <dxlc:LayoutItem Label="Vertrauliche Notiz">
-                                                                                            <TextBox Text="{Binding Redner.InfoPrivate}" />
+                                                                                            <TextBox Text="{Binding Redner.InfoPrivate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <dxlc:LayoutItem Label="Öffentlicher Hinweis">
-                                                                                            <TextBox Text="{Binding Redner.InfoPublic}" />
+                                                                                            <TextBox Text="{Binding Redner.InfoPublic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <dxlc:LayoutItem Label="Terminabstand:">
                                                                                             <TextBox Text="Under Construction" Foreground="Orange" />

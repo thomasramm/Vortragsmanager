@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Xpf.Core;
+using System;
 using System.ComponentModel;
 using System.Net;
 using System.Reflection;
@@ -9,6 +10,7 @@ namespace Vortragsmanager.Core
     internal static class Updater
     {
         private static readonly BackgroundWorker _updateWorker = new BackgroundWorker();
+        internal static bool _silent = true;
 
         public static Version LocalVersion { get; set; }
 
@@ -25,11 +27,12 @@ namespace Vortragsmanager.Core
             if (nextSearch > DateTime.Today)
                 return;
 
-            CheckForUpdatesForce();
+            CheckForUpdatesForce(true);
         }
 
-        public static void CheckForUpdatesForce()
+        public static void CheckForUpdatesForce(bool silent)
         {
+            _silent = silent;
             var nextSearch = Properties.Settings.Default.NextUpdateSearch;
             nextSearch = DateTime.Today.AddDays(1);
             Properties.Settings.Default.NextUpdateSearch = nextSearch;
@@ -50,8 +53,17 @@ namespace Vortragsmanager.Core
 
         private static void UpdaterFinished(object sender, RunWorkerCompletedEventArgs e)
         {
+            _updateWorker.DoWork -= new DoWorkEventHandler(UpdaterDoWork);
+            _updateWorker.RunWorkerCompleted -= new RunWorkerCompletedEventHandler(UpdaterFinished);
             if (LocalVersion >= ServerVersion)
+            {
+                if (!_silent)
+                    ThemedMessageBox.Show("Information",
+                        "Neueste Version ist bereits installiert",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Information);
                 return;
+            }
 
             ServerVersions = (Ini)e.Result;
 
@@ -72,7 +84,14 @@ namespace Vortragsmanager.Core
                 iniString = client.DownloadString("http://thomas-ramm.de/Vortragsmanager/version.ini");
             }
             if (string.IsNullOrEmpty(iniString))
+            {
+                if (!_silent)
+                    ThemedMessageBox.Show(Properties.Resources.Achtung,
+                        "Fehler beim suchen nach der neuesten Version, kein Zugriff auf Webseite",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Error);
                 return null;
+            }
 
             var ServerVersions = new Ini();
             ServerVersions.Load(iniString);
