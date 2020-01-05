@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using Vortragsmanager.Core;
 
@@ -87,6 +88,8 @@ namespace Vortragsmanager.Views
                 RaisePropertyChanged();
             }
         }
+
+        public string Programmversion => $"Version {Assembly.GetEntryAssembly().GetName().Version.ToString()}";
 
         public DelegateCommand<string> SearchDatabaseCommand { get; private set; }
 

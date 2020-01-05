@@ -56,12 +56,12 @@
                                       ContentPlacement="Inside"
                                       IsChecked="{Binding UpdatesEnabled}" />
                     </dxlc:LayoutItem>
-                    <StackPanel Height="40" FlowDirection="RightToLeft" Orientation="Horizontal">
+                    <dxlc:LayoutItem Label="{Binding Programmversion}">
                         <dx:SimpleButton Content="Jetzt auf Updates prüfen"
                                  Glyph="{dx:DXImage 'SvgImages/RichEdit/UpdateTableOfContents.svg'}"
                                  GlyphAlignment="Right"
                                  Command="{Binding SearchUpdateCommand}" />
-                    </StackPanel>
+                    </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
                 <dxlc:LayoutGroup Header="Import von Rednerlisten"
                                   View="GroupBox"
