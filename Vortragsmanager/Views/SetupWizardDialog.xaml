@@ -46,6 +46,9 @@
                                  IsChecked="{Binding VplanungChecked, Mode=TwoWay}"
                                  Content="Ich habe die Daten von www.vplanung.net und möchte sie importieren." />
                     <RadioButton GroupName="Start"
+                                 IsChecked="{Binding NeuBeginnenChecked, Mode=TwoWay}"
+                                 Content="Ich habe keine Daten und möchte mit einem leeren Programm starten." />
+                    <RadioButton GroupName="Start"
                                  Visibility="Collapsed"
                                  Content="Ich möchte von Programm X umsteigen und die Daten importieren." />
                 </StackPanel>
@@ -58,6 +61,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="{Binding VplanungCheckedHeight}" />
                         <RowDefinition Height="{Binding DatenbankÖffnenHeight}" />
+                        <RowDefinition Height="{Binding NeuBeginnenHeight}" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -98,6 +102,18 @@
                                         Command="{Binding VortragsmanagerdateiLadenCommand}"
                                         CommandParameter="{Binding ElementName=SetupWizardWindow}" />
                             </dxlc:LayoutItem>
+                        </dxlc:LayoutGroup>
+                    </dxlc:LayoutControl>
+                    <dxlc:LayoutControl Grid.Row="2" Grid.ColumnSpan="2">
+                        <dxlc:LayoutGroup Header="ohne Datenimport starten" View="GroupBox" Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="400">
+                                <TextBlock Text="Am besten startest du, indem du zuerst unter 'Versammlungen' die Angaben deiner Versammlung ausfüllst, deine Redner anlegst und einige weitere Versammlungen anlegst"
+                                           TextWrapping="Wrap" />
+                                <Button Content="Assistent beenden"
+                                        Command="{Binding NeuBeginnenCommand}"
+                                        CommandParameter="{Binding ElementName=SetupWizardWindow}"
+                                        Height="26" />
+                            </StackPanel>
                         </dxlc:LayoutGroup>
                     </dxlc:LayoutControl>
                 </Grid>

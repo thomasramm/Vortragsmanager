@@ -21,8 +21,10 @@ namespace Vortragsmanager.Views
             ExcelImportierenPlannungCommand = new DelegateCommand(ExcelImportierenPlannung);
             VortragsmanagerdateiLadenCommand = new DelegateCommand<ICloseable>(VortragsmanagerdateiLaden);
             DatabaseFileDialogCommand = new DelegateCommand(DatabaseFileDialog);
+            NeuBeginnenCommand = new DelegateCommand<ICloseable>(NeuBeginnen);
             CanGoNext = true;
             DatenbankÖffnenHeight = new GridLength(0, GridUnitType.Pixel);
+            NeuBeginnenHeight = new GridLength(0, GridUnitType.Pixel);
         }
 
         private int _selectedIndex;
@@ -45,10 +47,22 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand<ICloseable> CloseCommand { get; private set; }
 
+        public DelegateCommand<ICloseable> NeuBeginnenCommand { get; private set; }
+
         public static void Schließen(ICloseable window)
         {
             if (window != null)
                 window.Close();
+        }
+
+        private void NeuBeginnen(ICloseable window)
+        {
+            var con = new Conregation() { Name = "Meine Versammlung", Kreis = 309, Id = 1 };
+            DataContainer.Versammlungen.Add(con);
+            DataContainer.MeineVersammlung = con;
+            DataContainer.IsInitialized = true;
+            IsFinished = true;
+            Schließen(window);
         }
 
         public void CheckWizardPage()
@@ -60,30 +74,38 @@ namespace Vortragsmanager.Views
                 case 1:
                     if (VplanungChecked)
                     {
-                        foreach (var vers in Core.DataContainer.Versammlungen)
-                        {
-                            if (ImportierteKoordinatorenliste.Any(x => x.Nr == vers.Kreis))
-                            {
-                                var item = ImportierteKoordinatorenliste.First(x => x.Nr == vers.Kreis);
-                                item.Anzahl += 1;
-                            }
-                            else
-                                ImportierteKoordinatorenliste.Add(new Kreis(vers.Kreis));
-                        }
-                        CanGoNext = ImportierteKoordinatorenliste.Count > 0;
+                        CanGoNext = true;
                     }
                     else if (DatenbankÖffnenChecked)
+                    {
+                        CanGoNext = false;
+                    }
+                    else if (NeuBeginnenChecked)
                     {
                         CanGoNext = false;
                     }
                     break;
 
                 case 2:
+                    foreach (var vers in DataContainer.Versammlungen)
+                    {
+                        if (ImportierteKoordinatorenliste.Any(x => x.Nr == vers.Kreis))
+                        {
+                            var item = ImportierteKoordinatorenliste.First(x => x.Nr == vers.Kreis);
+                            item.Anzahl += 1;
+                        }
+                        else
+                            ImportierteKoordinatorenliste.Add(new Kreis(vers.Kreis));
+                    }
+                    CanGoNext = ImportierteKoordinatorenliste.Count > 0;
+                    break;
+
+                case 3:
                     //VersammlungsListe = Core.DataContainer.Versammlungen;
                     CanGoNext = (DeineVersammlung != null);
                     break;
 
-                case 3:
+                case 4:
                     CanGoNext = ImportierteJahreliste.Count > 0;
                     break;
 
@@ -132,6 +154,22 @@ namespace Vortragsmanager.Views
             }
         }
 
+        private bool _neuBeginnenChecked = false;
+
+        public bool NeuBeginnenChecked
+        {
+            get
+            {
+                return _neuBeginnenChecked;
+            }
+            set
+            {
+                _neuBeginnenChecked = value;
+                NeuBeginnenHeight = value ? new GridLength(1, GridUnitType.Star) : new GridLength(0, GridUnitType.Pixel);
+                RaisePropertyChanged(nameof(NeuBeginnenHeight));
+            }
+        }
+
         //new GridLength(0, GridUnitType.Auto)
         public GridLength DatenbankÖffnenHeight
         {
@@ -140,6 +178,12 @@ namespace Vortragsmanager.Views
         }
 
         public GridLength VplanungCheckedHeight
+        {
+            get;
+            set;
+        }
+
+        public GridLength NeuBeginnenHeight
         {
             get;
             set;
