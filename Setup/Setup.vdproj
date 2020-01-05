@@ -2169,15 +2169,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Vortragsmanager"
-        "ProductCode" = "8:{411ED87E-7260-4821-93A2-49D1A3BC7241}"
-        "PackageCode" = "8:{47BF68CA-7B57-4A06-827D-A37CEDE5C921}"
+        "ProductCode" = "8:{402B64E7-0EEE-447B-84C3-4812881E136F}"
+        "PackageCode" = "8:{53E5E982-29BF-41B8-883D-34D87AF4839B}"
         "UpgradeCode" = "8:{09BD3326-8025-447B-B3ED-AA9A44497F97}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.9.2"
+        "ProductVersion" = "8:0.9.3"
         "Manufacturer" = "8:ThomasRamm"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/thomasramm/Vortragsmanager/issues"
@@ -2775,7 +2775,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5A205827448543B2B787011A7A15A22E"
             {
-            "SourcePath" = "8:"
+            "SourcePath" = "8:..\\Vortragsmanager\\obj\\Release\\Vortragsmanager.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_EEAB03C88F544F0788AA141F7AF2DDDE"
@@ -2831,7 +2831,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_BAD3ED101F71422EBFBECE3CF1BFAE1C"
             {
-            "SourcePath" = "8:..\\Vortragsmanager\\obj\\Debug\\Vortragsmanager.exe"
+            "SourcePath" = "8:..\\Vortragsmanager\\obj\\Release\\Vortragsmanager.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_EEAB03C88F544F0788AA141F7AF2DDDE"
