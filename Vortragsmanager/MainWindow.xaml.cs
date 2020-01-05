@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Core;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Threading;
@@ -21,13 +22,14 @@ namespace Vortragsmanager
                 typeof(FrameworkElement),
                 new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
+            if (Settings.Default.sqlite == "vortragsmanager.sqlite3")
+            {
+                Settings.Default.sqlite = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + Settings.Default.sqlite;
+            }
             var filename = Settings.Default.sqlite;
 
-            //ToDo: für Debug-Zwecke: Wizard starten
-            //filename = @"C:\IchExistiere.Nicht";
-
             if (File.Exists(filename))
-                IoSqlite.ReadContainer(Settings.Default.sqlite);
+                IoSqlite.ReadContainer(filename);
             else
                 Initialize.NewDatabase();
 
