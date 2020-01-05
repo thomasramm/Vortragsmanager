@@ -7,10 +7,11 @@
              xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
              xmlns:local="clr-namespace:Vortragsmanager.Views"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
              DataContext="{dxmvvm:ViewModelSource local:ListCreateViewModel}">
-    <dxwui:PageAdornerControl Header="Aktionen">
+    <dxwui:PageAdornerControl Header="Listen ausgeben">
         <dxwui:PageAdornerControl.HeaderTemplate>
             <DataTemplate>
                 <Grid>
@@ -24,13 +25,22 @@
             </DataTemplate>
         </dxwui:PageAdornerControl.HeaderTemplate>
         <Grid>
-            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Content="Aushang für die Versammlung (Excel)"  Width="250" Height="40"
-                    Command="{Binding CreateAushangCommand}" />
-                <Button Content="Kontaktliste der Vortragsplanung (Excel)"  Width="250" Height="40"
-                    Command="{Binding CreateContactListCommand}" />
-            <Label Content="Under Construction" FontSize="40" Foreground="Orange" FontFamily="Segoe UI Light" />
-            </StackPanel>
+            <dxlc:LayoutControl Margin="20">
+                <dxlc:LayoutGroup Header="Excel-Listen" View="GroupBox" Orientation="Vertical">
+                    <dxlc:LayoutItem Label="Aushang für die Versammlung">
+                        <Button Content="Erstellen" Command="{Binding CreateAushangCommand}" />
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Kontaktliste deiner Vortragsplanung (z.B. für deine Vertretung)">
+                        <Button Content="Erstellen" Command="{Binding CreateContactListCommand}" />
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Rednerdaten der Versammlung zum Versenden an Koordinatoren">
+                        <Button Content="Erstellen" Command="{Binding CreateExchangeRednerListCommand}" />
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Liste aller Vorträge mit Anzahl der Ausarbeitungen">
+                        <Button Content="Erstellen" Command="{Binding CreateOverviewTalkCountCommand}" />
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+            </dxlc:LayoutControl>
         </Grid>
     </dxwui:PageAdornerControl>
 </UserControl>
