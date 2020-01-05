@@ -240,7 +240,7 @@
                                                  Content="Kopieren"
                                                  Glyph="/Images/Zwischenablage_32x32.png"
                                                  GlyphAlignment="Left"
-                                                 Command="{Binding CopyToClipboard}"
+                                                 Command="{Binding CopyToClipboardCommand}"
                                                  CommandParameter="True"
                                                  HorizontalAlignment="Left"
                                                  Width="150"

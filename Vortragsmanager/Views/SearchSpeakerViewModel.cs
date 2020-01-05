@@ -16,6 +16,7 @@ namespace Vortragsmanager.Views
         {
             Messenger.Default.Register<GroupConregation>(this, LoadModul2);
             AnfrageSpeichernCommand = new DelegateCommand(AnfrageSpeichern);
+            CopyToClipboardCommand = new DelegateCommand(CopyToClipboard);
 
             LoadModul1();
         }
@@ -32,6 +33,9 @@ namespace Vortragsmanager.Views
             VortragCheckFuture = Settings.Default.SearchSpeaker_VortragCheckFuture;
             VortragCheckHistory = Settings.Default.SearchSpeaker_VortragCheckHistory;
             MaxEntfernung = Settings.Default.SearchSpeaker_MaxEntfernung;
+
+            Modul1Visible = new GridLength(1, GridUnitType.Star);
+            Modul2Visible = new GridLength(0);
         }
 
         #region Freie Termine & Redner suchen
@@ -154,7 +158,7 @@ namespace Vortragsmanager.Views
                 };
                 list.Add(gC);
             }
-            var redner = Core.DataContainer.Redner.Where(x => vers.Contains(x.Versammlung)).ToList();
+            var redner = Core.DataContainer.Redner.Where(x => vers.Contains(x.Versammlung) && x.Aktiv).ToList();
             var einladungen = Core.DataContainer.MeinPlan.Where(x => x.Status != EventStatus.Ereignis).Cast<Invitation>();
 
             foreach (var r in redner)
@@ -165,12 +169,14 @@ namespace Vortragsmanager.Views
                     Redner = r
                 };
                 var vorträge = einladungen.Where(x => x.Ältester == r).ToList();
-                if (vorträge.Count == 0)
-                    continue;
 
-                gr.LetzteEinladung = vorträge.Max(x => x.Datum);
+                if (vorträge.Count > 0)
+                    gr.LetzteEinladung = vorträge.Max(x => x.Datum);
 
                 if (RednerCheckFuture && gr.LetzteEinladung > DateTime.Today)
+                    continue;
+
+                if (RednerCheckFuture && Core.DataContainer.OffeneAnfragen.Any(x => x.RednerVortrag.ContainsKey(r)))
                     continue;
 
                 if (RednerCheckHistory && vorträge.Where(x => x.Datum >= DateTime.Today.AddYears(-1) && x.Datum <= DateTime.Today).Any())
@@ -185,7 +191,9 @@ namespace Vortragsmanager.Views
 
                     gt.Vortrag = t;
                     gt.AnzahlGehört = gehalten.Count;
-                    gt.InZukunft = gehalten.Where(x => x.Datum > DateTime.Today).Any();
+                    gt.InZukunft = gehalten.Where(x => x.Datum > DateTime.Today).Any()
+                        || Core.DataContainer.OffeneAnfragen.Any(x => x.RednerVortrag.ContainsValue(t));
+
                     gt.InVergangenheit = gehalten.Where(x => x.Datum > DateTime.Today.AddYears(-1) && x.Datum <= DateTime.Today).Any();
 
                     if (VortragCheckFuture && gt.InZukunft)
@@ -283,6 +291,8 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand AnfrageSpeichernCommand { get; private set; }
 
+        public DelegateCommand CopyToClipboardCommand { get; private set; }
+
         private void AnfrageSpeichern()
         {
             var anfrage = new Inquiry();
@@ -311,7 +321,7 @@ namespace Vortragsmanager.Views
         public string MailText
         {
             get { return GetProperty(() => MailText); }
-            set { SetProperty(() => MailText, value); }
+            set { SetProperty(() => MailText, value, CopyToClipboard); }
         }
 
         private void LoadModul2(GroupConregation inhalt)
@@ -358,6 +368,11 @@ namespace Vortragsmanager.Views
                 .Replace("{Versammlung}", inhalt.Versammlung.Name);
 
             MailText = mt;
+        }
+
+        public void CopyToClipboard()
+        {
+            Clipboard.SetText(MailText);
         }
 
         public GridLength Modul2Visible
