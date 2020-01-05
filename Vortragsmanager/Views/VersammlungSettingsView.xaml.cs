@@ -20,6 +20,8 @@ namespace Vortragsmanager.Views
             var groupBox = (GroupBox)sender;
             if (groupBox.State == GroupBoxState.Normal)
                 groupBox.State = GroupBoxState.Maximized;
+            //else if (groupBox.State == GroupBoxState.Maximized)
+            //    groupBox.State = GroupBoxState.Normal;
         }
 
         //wenn eine Versammlung maximiert wird, dann alle anderen ausblenden.
