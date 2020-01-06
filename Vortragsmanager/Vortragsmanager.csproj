@@ -111,6 +111,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\GeoApi.cs" />
+    <Compile Include="Core\Helper.cs" />
     <Compile Include="Core\ini.cs" />
     <Compile Include="Core\IoExcel.cs" />
     <Compile Include="Core\IoSqlite.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Core\Updater.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\ICloseable.cs" />
+    <Compile Include="Navigation\DashboardViewModel.cs" />
     <Compile Include="Views\AntwortEintragenControl.cs">
       <DependentUpon>AntwortEintragenControl.xaml</DependentUpon>
     </Compile>
