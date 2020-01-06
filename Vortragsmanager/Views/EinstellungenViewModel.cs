@@ -133,7 +133,7 @@ namespace Vortragsmanager.Views
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
                     Datenbank = saveDialog.FileName;
-                    IoSqlite.SaveContainer(saveDialog.FileName);
+                    IoSqlite.SaveContainer(saveDialog.FileName, true);
                     Properties.Settings.Default.sqlite = saveDialog.FileName;
                     Properties.Settings.Default.Save();
                 }

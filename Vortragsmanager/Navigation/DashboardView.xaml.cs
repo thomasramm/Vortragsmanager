@@ -1,9 +1,12 @@
 ﻿using DevExpress.Xpf.LayoutControl;
 using System;
 using System.Globalization;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Vortragsmanager.Core;
+using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.Navigation
 {
@@ -15,6 +18,14 @@ namespace Vortragsmanager.Navigation
         public DashboardView()
         {
             InitializeComponent();
+
+            //speichern
+            if (DataContainer.IsInitialized)
+            {
+                var file = IoSqlite.SaveContainer(Settings.Default.sqlite, false);
+                Settings.Default.sqlite = file;
+                Settings.Default.Save();
+            }
         }
     }
 
