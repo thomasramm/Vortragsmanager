@@ -98,6 +98,9 @@
                                                               EditValueType="{x:Type sys:Int32}"
                                                               DisplayFormatString="0 km" />
                                             </dxlc:LayoutItem>
+                                            <dxlc:LayoutItem Label="offene Anfrage" FontWeight="Regular" ToolTip="Versammlungen für die bereits offene Anfragen ausstehen werden normalerweise nicht nochmal angefragt.">
+                                                <CheckBox IsChecked="{Binding OffeneAnfrage, Mode=TwoWay}" />
+                                            </dxlc:LayoutItem>
                                             <dxlc:LayoutItem Label="Versammlungen" FontWeight="Regular">
                                                 <dxe:ComboBoxEdit ItemsSource="{Binding Versammlungen}"
                                                                   EditValue="{Binding SelectedVersammlungen, Mode=TwoWay}"

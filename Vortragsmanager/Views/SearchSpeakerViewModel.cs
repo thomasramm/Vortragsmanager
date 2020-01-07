@@ -33,6 +33,7 @@ namespace Vortragsmanager.Views
             VortragCheckFuture = Settings.Default.SearchSpeaker_VortragCheckFuture;
             VortragCheckHistory = Settings.Default.SearchSpeaker_VortragCheckHistory;
             MaxEntfernung = Settings.Default.SearchSpeaker_MaxEntfernung;
+            OffeneAnfrage = Settings.Default.SearchSpeaker_OffeneAnfrage;
 
             Modul1Visible = new GridLength(1, GridUnitType.Star);
             Modul2Visible = new GridLength(0);
@@ -80,11 +81,19 @@ namespace Vortragsmanager.Views
 
         private void FillVersammlungen()
         {
+            IEnumerable<Conregation> vers;
             if (selectedKreise == null)
-                Versammlungen = new ObservableCollection<Conregation>();
+                vers = Core.DataContainer.Versammlungen;
             else
-                Versammlungen = new ObservableCollection<Conregation>(Core.DataContainer.Versammlungen
-                    .Where(x => selectedKreise.Contains(x.Kreis) && x.Entfernung <= MaxEntfernung));
+                vers = Core.DataContainer.Versammlungen
+                    .Where(x => selectedKreise.Contains(x.Kreis) && x.Entfernung <= MaxEntfernung);
+
+            if (!OffeneAnfrage)
+            {
+                var filter = Core.DataContainer.OffeneAnfragen.Where(X => X.Status == EventStatus.Anfrage).Select(X => X.Versammlung);
+                vers = vers.Where(x => filter.Contains(x));
+            }
+            Versammlungen = new ObservableCollection<Conregation>(vers);
             RaisePropertyChanged(nameof(Versammlungen));
             SelectedVersammlungen = Versammlungen.Cast<object>().ToList();
         }
@@ -139,6 +148,22 @@ namespace Vortragsmanager.Views
             set
             {
                 _maxEntfernung = value;
+                RaisePropertyChanged();
+                FillVersammlungen();
+            }
+        }
+
+        public bool _offeneAnfrage;
+
+        public bool OffeneAnfrage
+        {
+            get
+            {
+                return _offeneAnfrage;
+            }
+            set
+            {
+                _offeneAnfrage = value;
                 RaisePropertyChanged();
                 FillVersammlungen();
             }
@@ -332,6 +357,7 @@ namespace Vortragsmanager.Views
             Settings.Default.SearchSpeaker_VortragCheckFuture = VortragCheckFuture;
             Settings.Default.SearchSpeaker_VortragCheckHistory = VortragCheckHistory;
             Settings.Default.SearchSpeaker_MaxEntfernung = MaxEntfernung;
+            Settings.Default.SearchSpeaker_OffeneAnfrage = OffeneAnfrage;
 
             Modul2Visible = new GridLength(1, GridUnitType.Star);
 
