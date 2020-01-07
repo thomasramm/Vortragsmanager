@@ -83,6 +83,7 @@ namespace Vortragsmanager.Views
 
             MeineVersammlung = Core.DataContainer.MeinPlan.FirstOrDefault(x => x.Datum == SelectedDatum);
             SelectedDatumTalks = new ObservableCollection<Outside>(Core.DataContainer.ExternerPlan.Where(x => x.Datum == SelectedDatum));
+            ParameterValidieren();
         }
 
         public Speaker SelectedRedner
@@ -94,7 +95,30 @@ namespace Vortragsmanager.Views
         public Talk SelectedVortrag
         {
             get { return GetProperty(() => SelectedVortrag); }
-            set { SetProperty(() => SelectedVortrag, value); }
+            set { SetProperty(() => SelectedVortrag, value, ParameterValidieren); }
+        }
+
+        private void ParameterValidieren()
+        {
+            ParameterValidiert = SelectedVortrag != null
+                && SelectedRedner != null
+                && SelectedDatum != null
+                && SelectedVersammlung != null;
+        }
+
+        private bool _parameterValidiert = false;
+
+        public bool ParameterValidiert
+        {
+            get
+            {
+                return _parameterValidiert;
+            }
+            set
+            {
+                _parameterValidiert = value;
+                RaisePropertyChanged();
+            }
         }
 
         public IEvent MeineVersammlung
@@ -107,6 +131,7 @@ namespace Vortragsmanager.Views
         {
             SelectedRednerTalks = new ObservableCollection<Outside>(Core.DataContainer.ExternerPlan.Where(x => x.Ältester == SelectedRedner && x.Datum >= DateTime.Today).OrderBy(x => x.Datum));
             RaisePropertyChanged(nameof(SelectedRednerTalks));
+            ParameterValidieren();
         }
 
         public ObservableCollection<Outside> SelectedRednerTalks { get; private set; }
