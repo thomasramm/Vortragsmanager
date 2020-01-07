@@ -91,7 +91,7 @@ namespace Vortragsmanager.Views
             if (!OffeneAnfrage)
             {
                 var filter = Core.DataContainer.OffeneAnfragen.Where(X => X.Status == EventStatus.Anfrage).Select(X => X.Versammlung);
-                vers = vers.Where(x => filter.Contains(x));
+                vers = vers.Where(x => !filter.Contains(x));
             }
             Versammlungen = new ObservableCollection<Conregation>(vers);
             RaisePropertyChanged(nameof(Versammlungen));
@@ -153,7 +153,7 @@ namespace Vortragsmanager.Views
             }
         }
 
-        public bool _offeneAnfrage;
+        private bool _offeneAnfrage;
 
         public bool OffeneAnfrage
         {
@@ -505,6 +505,8 @@ namespace Vortragsmanager.Views
             get { return GetProperty(() => Gewählt); }
             set { SetProperty(() => Gewählt, value); }
         }
+
+        public string LetzterBesuch => (LetzteEinladung == null) ? string.Empty : LetzteEinladung.ToString("dd.MM.yyyy", Core.DataContainer.German);
     }
 
     /// <summary>
@@ -522,7 +524,17 @@ namespace Vortragsmanager.Views
 
         public string Name => Vortrag.ToString();
 
-        public string ZuletztGehalten => (Vortrag.zuletztGehalten is null) ? "nicht gehalten" : $"{Vortrag.zuletztGehalten}";
+        public string ZuletztGehalten
+        {
+            get
+            {
+                if (Vortrag.zuletztGehalten is null)
+                    return "nicht gehalten";
+
+                var datum = (DateTime)Vortrag.zuletztGehalten;
+                return $"{datum.ToString("dd.MM.yyyy", Core.DataContainer.German)}";
+            }
+        }
 
         public override string ToString()
         {
