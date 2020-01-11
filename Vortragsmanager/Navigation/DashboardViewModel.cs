@@ -89,19 +89,35 @@ namespace Vortragsmanager.Navigation
 
         private void GetRednerProgram()
         {
-            var nextRedner = Core.DataContainer.ExternerPlan.Where(x => x.Datum > DateTime.Today).OrderBy(x => x.Datum).FirstOrDefault();
-            if (nextRedner == null)
+            var nextRedner = Core.DataContainer.ExternerPlan.Where(x => x.Datum > DateTime.Today).OrderBy(x => x.Datum);
+            if (!nextRedner.Any())
             {
                 ShowRednerDetails(false);
             }
             else
             {
-                RednerProgramm = nextRedner.Datum.ToShortDateString() + " | " + nextRedner.Versammlung.GetZusammenkunftszeit(nextRedner.Datum) + Environment.NewLine
-                    + nextRedner.Ältester.Name + Environment.NewLine
-                    + nextRedner.Versammlung.Name + Environment.NewLine
-                    + nextRedner.Vortrag.ToString();
-                RaisePropertyChanged(nameof(RednerProgramm));
+                var message = string.Empty;
+                DateTime datum = DateTime.Today;
+                var nr = 1;
+                foreach (var r in nextRedner)
+                {
+                    if (datum == DateTime.Today || datum == r.Datum)
+                    {
+                        datum = r.Datum;
+                        if (nr > 2)
+                        {
+                            message += "...";
+                            break;
+                        }
+                        message += r.Datum.ToShortDateString() + " | " + r.Versammlung.GetZusammenkunftszeit(r.Datum) + Environment.NewLine
+                            + r.Ältester.Name + " in " + r.Versammlung.Name + ", Nr. " + r.Vortrag?.Nummer + Environment.NewLine;
+                        nr++;
+                    }
+                }
+                RednerProgramm = message.TrimEnd('\n');
             }
+
+            RaisePropertyChanged(nameof(RednerProgramm));
         }
 
         public string Datum => _datum.ToString("dd. MMM yyyy", Core.DataContainer.German);
