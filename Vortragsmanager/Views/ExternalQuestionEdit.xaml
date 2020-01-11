@@ -53,13 +53,22 @@
                         </dxlc:LayoutItem>
                     </dxlc:LayoutGroup>
                     <dxlc:LayoutGroup Orientation="Horizontal">
-                        <dxlc:LayoutGroup Header="Redner" View="GroupBox" Orientation="Vertical">
-                            <dxlc:LayoutItem  LabelPosition="Top">
-                                <dxlc:LayoutItem.Label>
-                                    <TextBlock>zukünftige Einladungen: <Run Text="{Binding SelectedRedner.Name}" /></TextBlock>
-                                </dxlc:LayoutItem.Label>
-                                <ListBox ItemsSource="{Binding SelectedRednerTalks}" DisplayMemberPath="Datum" ItemStringFormat="dd.MM.yyyy" />
-                            </dxlc:LayoutItem>
+                        <dxlc:LayoutGroup Orientation="Vertical">
+                            <dxlc:LayoutGroup Header="Redner" View="GroupBox" Orientation="Vertical">
+                                <dxlc:LayoutItem  LabelPosition="Top">
+                                    <dxlc:LayoutItem.Label>
+                                        <TextBlock>zukünftige Einladungen: <Run Text="{Binding SelectedRedner.Name}" /></TextBlock>
+                                    </dxlc:LayoutItem.Label>
+                                    <ListBox ItemsSource="{Binding SelectedRednerTalks}"
+                                             ItemStringFormat="dd.MM.yyyy"
+                                             MinHeight="40" />
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
+                            <dxlc:LayoutGroup Header="Hinweis" View="GroupBox">
+                                <TextBlock Text="{Binding Hinweis}"
+                                           Foreground="Orange"
+                                           TextWrapping="Wrap" />
+                            </dxlc:LayoutGroup>
                         </dxlc:LayoutGroup>
                         <dxlc:LayoutGroup Header="Versammlung" View="GroupBox" Orientation="Vertical">
                             <dxlc:LayoutItem Label="Datum:" LabelPosition="Left">
@@ -75,7 +84,7 @@
                                 <Label Content="{Binding MeineVersammlung.Vortrag}" />
                             </dxlc:LayoutItem>
                             <dxlc:LayoutItem Label="bereits geplannte Vorträge am gewählten Tag:" LabelPosition="Top">
-                                <ListBox ItemsSource="{Binding SelectedDatumTalks}" DisplayMemberPath="Ältester.Name" IsEnabled="False" />
+                                <ListBox ItemsSource="{Binding SelectedDatumTalks, Mode=OneWay}" DisplayMemberPath="Ältester.Name" />
                             </dxlc:LayoutItem>
                         </dxlc:LayoutGroup>
                     </dxlc:LayoutGroup>
