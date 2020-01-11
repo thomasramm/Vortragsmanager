@@ -64,7 +64,7 @@ namespace Vortragsmanager.Views
         public Conregation SelectedVersammlung
         {
             get { return GetProperty(() => SelectedVersammlung); }
-            set { SetProperty(() => SelectedVersammlung, value); }
+            set { SetProperty(() => SelectedVersammlung, value, ParameterValidieren); }
         }
 
         public DateTime SelectedDatum
@@ -82,7 +82,11 @@ namespace Vortragsmanager.Views
             }
 
             MeineVersammlung = Core.DataContainer.MeinPlan.FirstOrDefault(x => x.Datum == SelectedDatum);
-            SelectedDatumTalks = new ObservableCollection<Outside>(Core.DataContainer.ExternerPlan.Where(x => x.Datum == SelectedDatum));
+
+            SelectedDatumTalks.Clear();
+            foreach (var x in Core.DataContainer.ExternerPlan.Where(x => x.Datum == SelectedDatum))
+                SelectedDatumTalks.Add(x);
+
             ParameterValidieren();
         }
 
