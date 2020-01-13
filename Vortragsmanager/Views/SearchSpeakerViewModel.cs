@@ -33,6 +33,7 @@ namespace Vortragsmanager.Views
             VortragCheckFuture = Settings.Default.SearchSpeaker_VortragCheckFuture;
             VortragCheckHistory = Settings.Default.SearchSpeaker_VortragCheckHistory;
             MaxEntfernung = Settings.Default.SearchSpeaker_MaxEntfernung;
+            OffeneAnfrage = Settings.Default.SearchSpeaker_OffeneAnfrage;
 
             Modul1Visible = new GridLength(1, GridUnitType.Star);
             Modul2Visible = new GridLength(0);
@@ -80,11 +81,19 @@ namespace Vortragsmanager.Views
 
         private void FillVersammlungen()
         {
+            IEnumerable<Conregation> vers;
             if (selectedKreise == null)
-                Versammlungen = new ObservableCollection<Conregation>();
+                vers = Core.DataContainer.Versammlungen;
             else
-                Versammlungen = new ObservableCollection<Conregation>(Core.DataContainer.Versammlungen
-                    .Where(x => selectedKreise.Contains(x.Kreis) && x.Entfernung <= MaxEntfernung));
+                vers = Core.DataContainer.Versammlungen
+                    .Where(x => selectedKreise.Contains(x.Kreis) && x.Entfernung <= MaxEntfernung);
+
+            if (!OffeneAnfrage)
+            {
+                var filter = Core.DataContainer.OffeneAnfragen.Where(X => X.Status == EventStatus.Anfrage).Select(X => X.Versammlung);
+                vers = vers.Where(x => !filter.Contains(x));
+            }
+            Versammlungen = new ObservableCollection<Conregation>(vers);
             RaisePropertyChanged(nameof(Versammlungen));
             SelectedVersammlungen = Versammlungen.Cast<object>().ToList();
         }
@@ -139,6 +148,22 @@ namespace Vortragsmanager.Views
             set
             {
                 _maxEntfernung = value;
+                RaisePropertyChanged();
+                FillVersammlungen();
+            }
+        }
+
+        private bool _offeneAnfrage;
+
+        public bool OffeneAnfrage
+        {
+            get
+            {
+                return _offeneAnfrage;
+            }
+            set
+            {
+                _offeneAnfrage = value;
                 RaisePropertyChanged();
                 FillVersammlungen();
             }
@@ -332,6 +357,7 @@ namespace Vortragsmanager.Views
             Settings.Default.SearchSpeaker_VortragCheckFuture = VortragCheckFuture;
             Settings.Default.SearchSpeaker_VortragCheckHistory = VortragCheckHistory;
             Settings.Default.SearchSpeaker_MaxEntfernung = MaxEntfernung;
+            Settings.Default.SearchSpeaker_OffeneAnfrage = OffeneAnfrage;
 
             Modul2Visible = new GridLength(1, GridUnitType.Star);
 
@@ -479,6 +505,8 @@ namespace Vortragsmanager.Views
             get { return GetProperty(() => Gewählt); }
             set { SetProperty(() => Gewählt, value); }
         }
+
+        public string LetzterBesuch => (LetzteEinladung == null) ? string.Empty : LetzteEinladung.ToString("dd.MM.yyyy", Core.DataContainer.German);
     }
 
     /// <summary>
@@ -496,7 +524,17 @@ namespace Vortragsmanager.Views
 
         public string Name => Vortrag.ToString();
 
-        public string ZuletztGehalten => (Vortrag.zuletztGehalten is null) ? "nicht gehalten" : $"{Vortrag.zuletztGehalten}";
+        public string ZuletztGehalten
+        {
+            get
+            {
+                if (Vortrag.zuletztGehalten is null)
+                    return "nicht gehalten";
+
+                var datum = (DateTime)Vortrag.zuletztGehalten;
+                return $"{datum.ToString("dd.MM.yyyy", Core.DataContainer.German)}";
+            }
+        }
 
         public override string ToString()
         {

@@ -111,6 +111,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\GeoApi.cs" />
+    <Compile Include="Core\Helper.cs" />
     <Compile Include="Core\ini.cs" />
     <Compile Include="Core\IoExcel.cs" />
     <Compile Include="Core\IoSqlite.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Core\Updater.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\ICloseable.cs" />
+    <Compile Include="Navigation\DashboardViewModel.cs" />
     <Compile Include="Views\AntwortEintragenControl.cs">
       <DependentUpon>AntwortEintragenControl.xaml</DependentUpon>
     </Compile>
@@ -194,6 +196,16 @@
     <Compile Include="Views\SearchSpeakerViewModel.cs">
       <DependentUpon>SearchSpeaker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\VersammlungMaximizedControl.cs">
+      <DependentUpon>VersammlungMaximizedControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VersammlungControlViewModel.cs">
+      <DependentUpon>VersammlungMaximizedControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VersammlungRednerMaximizedControl.xaml.cs">
+      <DependentUpon>VersammlungRednerMaximizedControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VersammlungRednerViewModel.cs" />
     <Compile Include="Views\VersammlungSettingsView.xaml.cs">
       <DependentUpon>VersammlungSettingsView.xaml</DependentUpon>
     </Compile>
@@ -297,6 +309,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Navigation\NavigatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VersammlungMaximizedControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VersammlungRednerMaximizedControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

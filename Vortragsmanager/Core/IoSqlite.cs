@@ -31,7 +31,7 @@ namespace Vortragsmanager.Core
             DataContainer.IsInitialized = true;
         }
 
-        public static string SaveContainer(string file)
+        public static string SaveContainer(string file, bool createBackup)
         {
             //Speichern der DB in einer tmp-Datei
             var tempFile = Path.GetTempFileName();
@@ -76,6 +76,12 @@ namespace Vortragsmanager.Core
             }
             File.Move(tempFile, newfile);
 
+            if (createBackup)
+            {
+                var fi = new FileInfo(newfile);
+                var backup = fi.DirectoryName + "\\" + fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length) + $"_{DateTime.Now:yyyy-MM-dd-HH-mm}" + fi.Extension;
+                File.Copy(newfile, backup, true);
+            }
             //Rückgabe des (neuen) Speichernamen
             return newfile;
         }

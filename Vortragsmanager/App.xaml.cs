@@ -15,13 +15,8 @@ namespace Vortragsmanager
         {
             if (DataContainer.IsInitialized)
             {
-                var file = IoSqlite.SaveContainer(Settings.Default.sqlite);
+                var file = IoSqlite.SaveContainer(Settings.Default.sqlite, true);
                 Settings.Default.sqlite = file;
-
-                //Aktuell wird jedes mal eine Sicherheitskopie erstellt
-                var fi = new FileInfo(file);
-                var backup = fi.DirectoryName + "\\" + fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length) + $"_{DateTime.Now:yyyy-MM-dd-hh-mm}" + fi.Extension;
-                File.Copy(file, backup, true);
             }
 
             //Alle Programm-Einstellungen die irgendwann gemacht wurden, bei Programmende speichern

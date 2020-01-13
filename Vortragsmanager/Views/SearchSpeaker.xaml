@@ -25,12 +25,12 @@
         <ControlTemplate x:Key="gridTemplate">
             <dxg:GridControl x:Name="PART_GridControl">
                 <dxg:GridControl.Columns>
-                    <dxg:GridColumn FieldName="Vortrag.Nummer" Header="Nr" Width="150" />
-                    <dxg:GridColumn FieldName="Vortrag.Thema" Header="Thema" />
-                    <dxg:GridColumn FieldName="AnzahlGehört" Header="Gehört" />
+                    <dxg:GridColumn FieldName="Vortrag.Nummer" Header="Nr" Width="50" />
+                    <dxg:GridColumn FieldName="Vortrag.Thema" Header="Thema" Width="150" />
+                    <dxg:GridColumn FieldName="AnzahlGehört" Header="Gehört" Width="50" />
                     <dxg:GridColumn FieldName="ZuletztGehalten" Header="zuletzt Gehalten">
                         <dxg:GridColumn.EditSettings>
-                            <dxe:TextEditSettings DisplayFormat="dd.MM.yy" />
+                            <dxe:TextEditSettings Mask="d" MaskUseAsDisplayFormat="True" />
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
                 </dxg:GridControl.Columns>
@@ -97,6 +97,9 @@
                                                               Increment="10"
                                                               EditValueType="{x:Type sys:Int32}"
                                                               DisplayFormatString="0 km" />
+                                            </dxlc:LayoutItem>
+                                            <dxlc:LayoutItem Label="offene Anfrage" FontWeight="Regular" ToolTip="Versammlungen für die bereits offene Anfragen ausstehen werden normalerweise nicht nochmal angefragt.">
+                                                <CheckBox IsChecked="{Binding OffeneAnfrage, Mode=TwoWay}" />
                                             </dxlc:LayoutItem>
                                             <dxlc:LayoutItem Label="Versammlungen" FontWeight="Regular">
                                                 <dxe:ComboBoxEdit ItemsSource="{Binding Versammlungen}"
@@ -185,19 +188,20 @@
                                                                                 <CheckBox IsChecked="{Binding Gewählt, Mode=TwoWay}" />
                                                                                 <Label Content="{Binding Name}" Width="170" Height="30" />
                                                                                 <dxg:LookUpEdit Name="lookUpEdit"
-                                                                                VerticalAlignment="Center"
-                                                                                AutoPopulateColumns="False"
-                                                                                PopupContentTemplate="{StaticResource gridTemplate}"
-                                                                                IsPopupAutoWidth="False"
-                                                                                ItemsSource="{Binding Vorträge}"
-                                                                                SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
-                                                                                DisplayMember="Name"
-                                                                                ShowSizeGrip="False"
-                                                                                IsTextEditable="False"
-                                                                                ImmediatePopup="False"
-                                                                                AutoComplete="False"
-                                                                                IncrementalFiltering="False"
-                                                                                Width="300" />
+                                                                                                VerticalAlignment="Center"
+                                                                                                AutoPopulateColumns="False"
+                                                                                                PopupContentTemplate="{StaticResource gridTemplate}"
+                                                                                                IsPopupAutoWidth="False"
+                                                                                                ItemsSource="{Binding Vorträge}"
+                                                                                                SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+                                                                                                DisplayMember="Name"
+                                                                                                ShowSizeGrip="False"
+                                                                                                IsTextEditable="False"
+                                                                                                ImmediatePopup="False"
+                                                                                                AutoComplete="False"
+                                                                                                IncrementalFiltering="False"
+                                                                                                Width="300" />
+                                                                                <Label Content="{Binding LetzterBesuch}" Width="200" Height="30" Margin="10,0,0,0" ToolTip="letzter Besuch" />
                                                                             </StackPanel>
                                                                         </DataTemplate>
                                                                     </ListBox.ItemTemplate>

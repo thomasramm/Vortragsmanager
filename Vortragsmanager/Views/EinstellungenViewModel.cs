@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using Vortragsmanager.Core;
 
@@ -88,6 +89,8 @@ namespace Vortragsmanager.Views
             }
         }
 
+        public string Programmversion => $"Version {Assembly.GetEntryAssembly().GetName().Version.ToString()}";
+
         public DelegateCommand<string> SearchDatabaseCommand { get; private set; }
 
         public void SearchDatabase(string typ)
@@ -130,7 +133,7 @@ namespace Vortragsmanager.Views
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
                     Datenbank = saveDialog.FileName;
-                    IoSqlite.SaveContainer(saveDialog.FileName);
+                    IoSqlite.SaveContainer(saveDialog.FileName, true);
                     Properties.Settings.Default.sqlite = saveDialog.FileName;
                     Properties.Settings.Default.Save();
                 }
@@ -148,6 +151,20 @@ namespace Vortragsmanager.Views
             set
             {
                 Properties.Settings.Default.SearchForUpdates = value;
+                Properties.Settings.Default.Save();
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool DashboardShowDetails
+        {
+            get
+            {
+                return Properties.Settings.Default.DashboardShowDetails;
+            }
+            set
+            {
+                Properties.Settings.Default.DashboardShowDetails = value;
                 Properties.Settings.Default.Save();
                 RaisePropertyChanged();
             }

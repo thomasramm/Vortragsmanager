@@ -130,5 +130,29 @@ namespace Vortragsmanager.Properties {
                 this["SearchSpeaker_MaxEntfernung"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DashboardShowDetails {
+            get {
+                return ((bool)(this["DashboardShowDetails"]));
+            }
+            set {
+                this["DashboardShowDetails"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SearchSpeaker_OffeneAnfrage {
+            get {
+                return ((bool)(this["SearchSpeaker_OffeneAnfrage"]));
+            }
+            set {
+                this["SearchSpeaker_OffeneAnfrage"] = value;
+            }
+        }
     }
 }
