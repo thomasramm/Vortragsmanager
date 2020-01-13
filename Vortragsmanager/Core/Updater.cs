@@ -55,6 +55,8 @@ namespace Vortragsmanager.Core
         {
             _updateWorker.DoWork -= new DoWorkEventHandler(UpdaterDoWork);
             _updateWorker.RunWorkerCompleted -= new RunWorkerCompletedEventHandler(UpdaterFinished);
+            if (ServerVersion == null)
+                return;
             if (LocalVersion >= ServerVersion)
             {
                 if (!_silent)
@@ -79,15 +81,27 @@ namespace Vortragsmanager.Core
         {
             var iniString = string.Empty;
 
-            using (WebClient client = new WebClient())
+            try
             {
-                iniString = client.DownloadString("http://thomas-ramm.de/Vortragsmanager/version.ini");
+                using (WebClient client = new WebClient())
+                {
+                    iniString = client.DownloadString("http://thomas-ramm.de/Vortragsmanager/version.ini");
+                }
+                if (string.IsNullOrEmpty(iniString))
+                {
+                    if (!_silent)
+                        ThemedMessageBox.Show(Properties.Resources.Achtung,
+                            "Fehler beim suchen nach der neuesten Version. Kein Zugriff auf Webseite",
+                            System.Windows.MessageBoxButton.OK,
+                            System.Windows.MessageBoxImage.Error);
+                    return null;
+                }
             }
-            if (string.IsNullOrEmpty(iniString))
+            catch (Exception ex)
             {
                 if (!_silent)
                     ThemedMessageBox.Show(Properties.Resources.Achtung,
-                        "Fehler beim suchen nach der neuesten Version, kein Zugriff auf Webseite",
+                        "Fehler beim suchen nach der neuesten Version\n" + ex.Message,
                         System.Windows.MessageBoxButton.OK,
                         System.Windows.MessageBoxImage.Error);
                 return null;

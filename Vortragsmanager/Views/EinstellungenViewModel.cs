@@ -156,6 +156,20 @@ namespace Vortragsmanager.Views
             }
         }
 
+        public bool DashboardShowDetails
+        {
+            get
+            {
+                return Properties.Settings.Default.DashboardShowDetails;
+            }
+            set
+            {
+                Properties.Settings.Default.DashboardShowDetails = value;
+                Properties.Settings.Default.Save();
+                RaisePropertyChanged();
+            }
+        }
+
         public DelegateCommand SearchUpdateCommand { get; private set; }
 
         public static void SearchUpdate()

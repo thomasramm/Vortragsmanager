@@ -8,8 +8,11 @@
              xmlns:local="clr-namespace:Vortragsmanager.Navigation"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="1300">
+    <UserControl.DataContext>
+        <local:DashboardViewModel />
+    </UserControl.DataContext>
     <UserControl.Resources>
-        <local:ScalablePaddingConverter x:Key="ScalablePaddingConverter" MinPadding="80" />
+        <local:ScalablePaddingConverter x:Key="ScalablePaddingConverter" MinPadding="10" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -18,13 +21,26 @@
         </Grid.RowDefinitions>
         <dxlc:TileLayoutControl Orientation="Vertical"
                                 AllowItemMoving="False"
-                                Padding="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={StaticResource ScalablePaddingConverter}}">
-            <dxlc:Tile Size="Large"
+                                Padding="50,10">
+            <dxlc:Tile Size="{Binding VersammlungsplanTileSize}"
                        Header="Versammlungsplan"
                        Background="#da312e"
                        dxwuin:Navigation.NavigateTo="MeinPlanView"
                        dxlc:TileLayoutControl.GroupHeader="Mein Plan">
-                <Image Source="/Images/Kalender_64x64.png" Margin="20" />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="{Binding MeinPlanDetailHeight}" />
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="/Images/Kalender_64x64.png" Margin="20" />
+                    <dxlc:LayoutGroup Grid.Row="1"
+                                      View="GroupBox"
+                                      Orientation="Vertical"
+                                      Header="{Binding Datum}"
+                                      Margin="10,0,10,25">
+                        <TextBlock Text="{Binding MeinPlanProgramm}" />
+                    </dxlc:LayoutGroup>
+                </Grid>
             </dxlc:Tile>
             <dxlc:Tile Size="Small"
                        Header="Redner suchen"
@@ -41,13 +57,26 @@
                 <Image Source="/Images/MailAntwort_64x64.png" Margin="10" />
             </dxlc:Tile>
 
-            <dxlc:Tile Size="Large"
+            <dxlc:Tile Size="{Binding RednerTileSize}"
                        Header="Rednerplan"
                        Background="#1e8cff"
                        dxwuin:Navigation.NavigateTo="MeineRednerView"
                        dxlc:FlowLayoutControl.IsFlowBreak="True"
                        dxlc:TileLayoutControl.GroupHeader="Externer Plan">
-                <Image Source="/Images/Person_64x64.png" Margin="20" />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="{Binding RednerDetailHeight}" />
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="/Images/Person_64x64.png" Margin="20" />
+                    <dxlc:LayoutGroup Grid.Row="1"
+                                      View="GroupBox"
+                                      Orientation="Vertical"
+                                      Header="nächste Einladung"
+                                      Margin="10,0,10,25">
+                        <TextBlock Text="{Binding RednerProgramm}" />
+                    </dxlc:LayoutGroup>
+                </Grid>
             </dxlc:Tile>
             <dxlc:Tile Header="Neue Externe Anfrage"
                        Background="#0ab4ff"
