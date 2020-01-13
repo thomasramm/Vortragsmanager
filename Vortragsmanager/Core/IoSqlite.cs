@@ -79,7 +79,7 @@ namespace Vortragsmanager.Core
             if (createBackup)
             {
                 var fi = new FileInfo(newfile);
-                var backup = fi.DirectoryName + "\\" + fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length) + $"_{DateTime.Now:yyyy-MM-dd-hh-mm}" + fi.Extension;
+                var backup = fi.DirectoryName + "\\" + fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length) + $"_{DateTime.Now:yyyy-MM-dd-HH-mm}" + fi.Extension;
                 File.Copy(newfile, backup, true);
             }
             //Rückgabe des (neuen) Speichernamen

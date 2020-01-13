@@ -124,8 +124,13 @@
                                          Command="{Binding CalculateRouteCommand}" CommandParameter="True" />
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
-                <dxlc:LayoutGroup Header="Under Construction" View="GroupBox">
-                    <Label Content="Under Construction" Foreground="Orange" HorizontalContentAlignment="Center" FontSize="16" />
+                <dxlc:LayoutGroup Header="Look and Feel" View="GroupBox" Orientation="Horizontal">
+                    <dxlc:LayoutItem Label="Detailansichten auf der Startseite anzeigen">
+                        <dxe:ToggleSwitch CheckedStateContent="An"
+                                      UncheckedStateContent="Aus"
+                                      ContentPlacement="Inside"
+                                      IsChecked="{Binding DashboardShowDetails}" />
+                    </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>
         </dxlc:LayoutControl>
