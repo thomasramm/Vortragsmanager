@@ -196,6 +196,16 @@
     <Compile Include="Views\SearchSpeakerViewModel.cs">
       <DependentUpon>SearchSpeaker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\VersammlungMaximizedControl.cs">
+      <DependentUpon>VersammlungMaximizedControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VersammlungControlViewModel.cs">
+      <DependentUpon>VersammlungMaximizedControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VersammlungRednerMaximizedControl.xaml.cs">
+      <DependentUpon>VersammlungRednerMaximizedControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VersammlungRednerViewModel.cs" />
     <Compile Include="Views\VersammlungSettingsView.xaml.cs">
       <DependentUpon>VersammlungSettingsView.xaml</DependentUpon>
     </Compile>
@@ -299,6 +309,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Navigation\NavigatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VersammlungMaximizedControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VersammlungRednerMaximizedControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
