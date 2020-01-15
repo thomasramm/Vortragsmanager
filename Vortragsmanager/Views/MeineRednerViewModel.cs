@@ -113,7 +113,7 @@ namespace Vortragsmanager.Views
         public bool ViewStateYear { get; set; }
         public bool ViewStateAgenda { get; set; }
 
-        public int CurrentYear => Core.DataContainer.DisplayedYear;
+        public static int CurrentYear => Core.DataContainer.DisplayedYear;
 
         private void OnMessage(Messages message)
         {
@@ -153,7 +153,7 @@ namespace Vortragsmanager.Views
             set { SetProperty(() => History, value, ApplyFilter); }
         }
 
-        private void LoadAgendaView()
+        private static void LoadAgendaView()
         {
             //ToDo: Alternative Ansicht öffnen
         }

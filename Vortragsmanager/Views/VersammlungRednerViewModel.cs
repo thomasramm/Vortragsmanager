@@ -96,10 +96,11 @@ namespace Vortragsmanager.Views
                 NeueVorträgeListe = NeuerVortrag.Nummer.ToString(Core.DataContainer.German);
 
             var nummern = NeueVorträgeListe.Split(new char[] { ',', ' ', ';' });
-            int num;
             foreach (var nr in nummern)
             {
-                bool isNum = int.TryParse(nr, out num);
+                bool isNum = int.TryParse(nr, out int num);
+                if (!isNum)
+                    continue;
                 var neuerV = Core.DataContainer.FindTalk(num);
                 if (neuerV == null)
                     continue;
@@ -167,7 +168,7 @@ namespace Vortragsmanager.Views
 
         public Speaker Redner { get; private set; }
 
-        public ObservableCollection<Conregation> Versammlungen => new ObservableCollection<Conregation>(Core.DataContainer.Versammlungen);
+        public static ObservableCollection<Conregation> Versammlungen => new ObservableCollection<Conregation>(Core.DataContainer.Versammlungen);
 
         public bool VersammlungenPopUp { get; set; }
 

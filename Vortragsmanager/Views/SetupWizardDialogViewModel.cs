@@ -338,7 +338,7 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand ExcelImportierenPlannungCommand { get; private set; }
 
-        public ObservableCollection<Conregation> VersammlungsListe => Core.DataContainer.Versammlungen;
+        public static ObservableCollection<Conregation> VersammlungsListe => DataContainer.Versammlungen;
 
         private Conregation _deineVersammlung;
 
