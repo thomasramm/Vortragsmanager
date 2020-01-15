@@ -29,6 +29,7 @@ namespace Vortragsmanager.Core
 
             DataContainer.UpdateTalkDate();
             DataContainer.IsInitialized = true;
+            Initialize.Update();
         }
 
         public static string SaveContainer(string file, bool createBackup)

@@ -367,6 +367,7 @@ namespace Vortragsmanager.Core
             LoadRednerTermineMailText();
             LoadExterneAnfrageAblehnenText();
             LoadExterneAnfrageAnnehmenText();
+            LoadEreignisTauschenMailText();
         }
 
         private static void LoadRednerAnfragenMailText()
@@ -565,6 +566,51 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn"
             x.Parameter.Add("{Redner}", "Name des angefragten Redner, z.B. 'Max Vortragsredner'");
             x.Parameter.Add("{Vortrag}", "Angefragter Vortrag, z.B. '123 Vortragsthema'");
             Templates.Vorlagen.Add(x.Name, x);
+        }
+
+        private static void LoadEreignisTauschenMailText()
+        {
+            var x = new Template
+            {
+                Name = Templates.TemplateName.EreignisTauschenMailText,
+                Inhalt = @"
+Empfänger = {MailEmpfänger}
+Betreff = Vortrag tauschen
+------------------------------
+
+Hallo {MailName},
+
+folgenden Vortrag habe ich in meiner Planung getauscht:
+Datum ALT: {DatumAlt} \t Datum NEU: {DatumNeu}
+Redner: {Redner}
+Vortrag: {Vortrag}
+Versammlung: {Versammlung}
+
+Liebe Grüße
+Thomas Ramm
+
+Versammlung Hofgeismar
+Versammlungszeit: Sonntag 10:00Uhr
+Versammlungsort:  34393 Grebenstein, Über der Bahn"
+            };
+
+            x.Parameter.Add("{MailEmpfänger}", "Mailadresse des Empfänger an den die Info geschickt werden soll, z.B. 'mail@jwpub.org; mail@webdienst.de'");
+            x.Parameter.Add("{MailName}", "Name des Empfängers, dies kann entweder der Koordinator oder der Redner sein, z.B. 'Gustav Koordinator'");
+            x.Parameter.Add("{Versammlung}", "Name der Versammlung des eingeladenen Redners, z.B. 'Grebenstein'");
+            x.Parameter.Add("{DatumAlt}", "Bisheriges Datum der Buchung, z.B. '05.11.2019'");
+            x.Parameter.Add("{DatumNeu}", "Neues Datum der Buchung, z.B. '05.12.2019'");
+            x.Parameter.Add("{Redner}", "Name des angefragten Redner, z.B. 'Max Vortragsredner'");
+            x.Parameter.Add("{Vortrag}", "Angefragter Vortrag, z.B. '123 Vortragsthema'");
+            Templates.Vorlagen.Add(x.Name, x);
+        }
+
+        public static void Update()
+        {
+            if (DataContainer.Version < 2)
+            {
+                LoadEreignisTauschenMailText();
+                DataContainer.Version = 2;
+            }
         }
     }
 }
