@@ -35,7 +35,7 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand<int> ChangeYear { get; private set; }
 
-        public static int CurrentYear => Core.DataContainer.DisplayedYear;
+        public int CurrentYear => Core.DataContainer.DisplayedYear;
 
         public void UpdateMonate()
         {
