@@ -89,7 +89,7 @@ namespace Vortragsmanager.Views
             }
         }
 
-        public static string Programmversion => $"Version {Assembly.GetEntryAssembly().GetName().Version.ToString()}";
+        public string Programmversion => $"Version {Assembly.GetEntryAssembly().GetName().Version.ToString()}";
 
         public DelegateCommand<string> SearchDatabaseCommand { get; private set; }
 
