@@ -25,6 +25,8 @@ namespace Vortragsmanager.Views
             if (ereignis is null)
                 return;
 
+            StartEvent = ereignis;
+
             if (ereignis.Status == Models.EventStatus.Zugesagt)
             {
                 var invitation = (ereignis as Models.Invitation);
@@ -210,6 +212,8 @@ namespace Vortragsmanager.Views
         {
             var mails = new InfoAnRednerUndKoordinatorWindow();
             var mailsData = (InfoAnRednerUndKoordinatorViewModel)mails.DataContext;
+            mailsData.DisableCancelButton();
+
             var startDatum = StartEvent.Datum;
 
             //MAIL & TODO WEGEN STARTBUCHUNG
@@ -275,6 +279,7 @@ namespace Vortragsmanager.Views
                     }
                 }
             }
+            mails.ShowDialog();
 
             Speichern = true;
             window?.Close();

@@ -93,5 +93,17 @@ namespace Vortragsmanager.Views
                     CopyToClipboard(1);
             }
         }
+
+        public Visibility ShowSaveCancelButton { get; set; } = Visibility.Visible;
+
+        public Visibility ShowCloseButton { get; set; } = Visibility.Hidden;
+
+        public void DisableCancelButton()
+        {
+            ShowCloseButton = Visibility.Visible;
+            ShowSaveCancelButton = Visibility.Hidden;
+            RaisePropertiesChanged(nameof(ShowSaveCancelButton));
+            RaisePropertiesChanged(nameof(ShowCloseButton));
+        }
     }
 }

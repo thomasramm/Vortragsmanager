@@ -35,6 +35,7 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand<int> ChangeYear { get; private set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]
         public int CurrentYear => Core.DataContainer.DisplayedYear;
 
         public void UpdateMonate()

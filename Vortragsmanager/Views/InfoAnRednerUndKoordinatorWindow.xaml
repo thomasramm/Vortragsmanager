@@ -40,19 +40,26 @@
                          Grid.Row="2" Grid.Column="1"
                          HorizontalAlignment="Left" Width="120" Margin="10"
                          ToolTip="Kopiert den Text an den Koordinator in die Zwischenablage" />
-
-        <dx:SimpleButton Content="Speichern"
-                         Grid.Row="2" Grid.Column="1"
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10"
+                         Grid.Row="2"
+                         Grid.Column="1">
+            <dx:SimpleButton Content="Speichern"
                          Command="{Binding SaveCommand, Mode=OneWay}"
                          Glyph="{dx:DXImage 'SvgImages/XAF/Action_SaveScript.svg'}"
                          CommandParameter="{Binding ElementName=AnfrageBestätigenWindow}"
-                         HorizontalAlignment="Right" Width="120" Margin="10,10,140,10" />
-        <dx:SimpleButton Content="Abbrechen"
+                         Visibility="{Binding ShowSaveCancelButton, Mode=OneWay}"
+                         Width="120" Margin="5,0" />
+            <dx:SimpleButton Content="Abbrechen"
                          Command="{Binding CloseCommand, Mode=OneWay}"
                          CommandParameter="{Binding ElementName=AnfrageBestätigenWindow}"
                          Glyph="{dx:DXImage 'SvgImages/Outlook Inspired/Cancel.svg'}"
-                         Grid.Row="2"
-                         Grid.Column="1"
-                         HorizontalAlignment="Right" Width="120" Margin="10" />
+                         Visibility="{Binding ShowSaveCancelButton, Mode=OneWay}"
+                         Width="120" Margin="5,0" />
+            <dx:SimpleButton Content="Schließen"
+                         Command="{Binding CloseCommand, Mode=OneWay}"
+                         CommandParameter="{Binding ElementName=AnfrageBestätigenWindow}"
+                         Visibility="{Binding ShowCloseButton, Mode=OneWay}"
+                         Width="120" Margin="5,0" />
+        </StackPanel>
     </Grid>
 </Window>
