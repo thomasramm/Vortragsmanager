@@ -50,18 +50,18 @@
                          Glyph="{dx:DXImage 'SvgImages/XAF/Action_SaveScript.svg'}"
                          CommandParameter="{Binding ElementName=AnfrageBestätigenWindow}"
                          Visibility="{Binding ShowSaveCancelButton, Mode=OneWay}"
-                         Width="120" Margin="5,0" />
+                         Width="120" Margin="0" />
             <dx:SimpleButton Content="Abbrechen"
                          Command="{Binding CloseCommand, Mode=OneWay}"
                          CommandParameter="{Binding ElementName=AnfrageBestätigenWindow}"
                          Glyph="{dx:DXImage 'SvgImages/Outlook Inspired/Cancel.svg'}"
                          Visibility="{Binding ShowSaveCancelButton, Mode=OneWay}"
-                         Width="120" Margin="5,0" />
+                         Width="120" Margin="0" />
             <dx:SimpleButton Content="Schließen"
                          Command="{Binding CloseCommand, Mode=OneWay}"
                          CommandParameter="{Binding ElementName=AnfrageBestätigenWindow}"
                          Visibility="{Binding ShowCloseButton, Mode=OneWay}"
-                         Width="120" Margin="5,0" />
+                         Width="120" Margin="10,0,5,0" />
         </StackPanel>
     </Grid>
 </Window>

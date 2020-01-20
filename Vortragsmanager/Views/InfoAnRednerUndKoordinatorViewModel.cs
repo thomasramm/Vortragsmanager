@@ -126,12 +126,12 @@ namespace Vortragsmanager.Views
 
         public Visibility ShowSaveCancelButton { get; set; } = Visibility.Visible;
 
-        public Visibility ShowCloseButton { get; set; } = Visibility.Hidden;
+        public Visibility ShowCloseButton { get; set; } = Visibility.Collapsed;
 
         public void DisableCancelButton()
         {
             ShowCloseButton = Visibility.Visible;
-            ShowSaveCancelButton = Visibility.Hidden;
+            ShowSaveCancelButton = Visibility.Collapsed;
             RaisePropertiesChanged(nameof(ShowSaveCancelButton));
             RaisePropertiesChanged(nameof(ShowCloseButton));
         }
