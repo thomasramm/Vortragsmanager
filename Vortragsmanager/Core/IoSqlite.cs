@@ -23,6 +23,7 @@ namespace Vortragsmanager.Core
                 ReadTemplates(db);
                 ReadEvents(db);
                 ReadAnfragen(db);
+                ReadCancelation(db);
 
                 db.Close();
             }
@@ -51,6 +52,7 @@ namespace Vortragsmanager.Core
                     SaveAnfragen(db);
                     SaveExternerPlan(db);
                     SaveTemplates(db);
+                    SaveCancelation(db);
                     transaction.Commit();
                 }
                 db.Close();
@@ -223,6 +225,13 @@ namespace Vortragsmanager.Core
                 IdInquiry INTEGER,
                 IdSpeaker INTEGER,
                 IdTalk INTEGER)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Cancelation (
+                Datum INTEGER,
+                IdSpeaker INTEGER,
+                IdLastStatus INTEGER)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
         }
@@ -601,6 +610,31 @@ namespace Vortragsmanager.Core
             }
         }
 
+        private static void ReadCancelation(SQLiteConnection db)
+        {
+            using (var cmd = new SQLiteCommand("SELECT Datum, IdSpeaker, IdSLastStatus FROM Cancelation", db))
+            {
+                SQLiteDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    var IdAltester = rdr.GetInt32(1);
+                    var Altester = DataContainer.Redner.First(x => x.Id == IdAltester);
+
+                    var v = new Cancelation
+                    {
+                        Datum = rdr.GetDateTime(0),
+                        Ältester = Altester,
+                        LetzterStatus = (EventStatus)rdr.GetInt32(2)
+                    };
+
+                    DataContainer.Absagen.Add(v);
+                }
+
+                rdr.Close();
+            }
+        }
+
         #endregion READ
 
         #region SAVE
@@ -920,6 +954,26 @@ namespace Vortragsmanager.Core
 
             cmd1.Dispose();
             cmd2.Dispose();
+        }
+
+        private static void SaveCancelation(SQLiteConnection db)
+        {
+            var cmd = new SQLiteCommand("INSERT INTO Cancelation(Datum, IdSpeaker, IdSLastStatus) " +
+    "VALUES (@Datum, @IdSpeaker, @IdSLastStatus)", db);
+
+            cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
+            cmd.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@IdSLastStatus", System.Data.DbType.Int32);
+
+            foreach (var absage in DataContainer.Absagen)
+            {
+                cmd.Parameters[0].Value = absage.Datum;
+                cmd.Parameters[1].Value = absage.Ältester.Id;
+                cmd.Parameters[2].Value = (int)absage.LetzterStatus;
+                cmd.ExecuteNonQuery();
+            }
+
+            cmd.Dispose();
         }
 
         #endregion SAVE

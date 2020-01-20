@@ -32,6 +32,8 @@ namespace Vortragsmanager.Core
 
         public static ObservableCollection<Outside> ExternerPlan { get; } = new ObservableCollection<Outside>();
 
+        public static ObservableCollection<Cancelation> Absagen { get; } = new ObservableCollection<Cancelation>();
+
         public static Conregation FindConregation(string name)
         {
             foreach (var c in Versammlungen)
