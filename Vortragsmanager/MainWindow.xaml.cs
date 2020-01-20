@@ -37,6 +37,10 @@ namespace Vortragsmanager
                 Close();
 
             InitializeComponent();
+
+            var fi = new FileInfo(Settings.Default.sqlite);
+            Title = "Vortragsmanager DeLuxe | " + fi.Name;
+
             Updater.CheckForUpdates();
         }
     }
