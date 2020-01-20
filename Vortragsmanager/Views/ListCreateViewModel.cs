@@ -17,6 +17,7 @@ namespace Vortragsmanager.Views
 
         public ListCreateViewModel()
         {
+            Log.Info(nameof(ListCreateViewModel), "");
             CreateAushangCommand = new DelegateCommand(CreateAushang);
             CreateContactListCommand = new DelegateCommand(CreateContactList);
             CreateExchangeRednerListCommand = new DelegateCommand(CreateExchangeRednerList);
@@ -34,6 +35,7 @@ namespace Vortragsmanager.Views
 
         private static string GetRednerAuswärts(DateTime datum)
         {
+            Log.Info(nameof(GetRednerAuswärts), datum);
             var e = DataContainer.ExternerPlan.Where(x => x.Datum == datum).ToList();
             if (e.Count == 0)
                 return "";
@@ -49,6 +51,7 @@ namespace Vortragsmanager.Views
 
         public static void CreateAushang()
         {
+            Log.Info(nameof(CreateAushang), "");
             //laden der Excel-Datei
             var template = $"{templateFolder}AushangExcel.xlsx";
             var tempFile = Path.GetTempFileName();
@@ -102,6 +105,7 @@ namespace Vortragsmanager.Views
 
         public static void CreateContactList()
         {
+            Log.Info(nameof(CreateContactList), "");
             var tempFile = Path.GetTempFileName();
             var excel = new FileInfo(tempFile);
             using (ExcelPackage package = new ExcelPackage())
@@ -180,6 +184,7 @@ namespace Vortragsmanager.Views
 
         public static void CreateExchangeRednerList()
         {
+            Log.Info(nameof(CreateExchangeRednerList), "");
             var jahr = DateTime.Today.Year;
             var row = 12;
             var tempFile = Path.GetTempFileName();
@@ -305,6 +310,7 @@ namespace Vortragsmanager.Views
 
         public static void CreateOverviewTalkCount()
         {
+            Log.Info(nameof(CreateOverviewTalkCount), "");
             var tempFile = Path.GetTempFileName();
             var excel = new FileInfo(tempFile);
             var vers = DataContainer.MeineVersammlung;
@@ -347,6 +353,7 @@ namespace Vortragsmanager.Views
 
         private static void SaveExcelFile(string tempName, string sugestedName)
         {
+            Log.Info(nameof(SaveExcelFile), $"tempName={tempName}, sugestedName={sugestedName}");
             var saveFileDialog1 = new SaveFileDialog
             {
                 Filter = Resources.DateifilterExcel,
@@ -357,6 +364,7 @@ namespace Vortragsmanager.Views
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                Log.Info($"Save={saveFileDialog1.FileName}");
                 var fi = new FileInfo(saveFileDialog1.FileName);
                 var filename = fi.FullName;
                 var i = 0;

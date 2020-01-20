@@ -10,6 +10,7 @@ namespace Vortragsmanager.Core
     {
         public static void ReadContainer(string file)
         {
+            Log.Info(nameof(ReadContainer), file);
             using (SQLiteConnection db = new SQLiteConnection($"Data Source = {file}; Version = 3;"))
             {
                 db.Open();
@@ -34,6 +35,7 @@ namespace Vortragsmanager.Core
 
         public static string SaveContainer(string file, bool createBackup)
         {
+            Log.Info(nameof(SaveContainer), $"file={file}, createBackup={createBackup}");
             //Speichern der DB in einer tmp-Datei
             var tempFile = Path.GetTempFileName();
             SQLiteConnection.CreateFile($"{tempFile}");
@@ -89,6 +91,7 @@ namespace Vortragsmanager.Core
 
         public static void CreateEmptyDatabase(string file)
         {
+            Log.Info(nameof(CreateEmptyDatabase), file);
             SQLiteConnection.CreateFile(file);
             using (SQLiteConnection db = new SQLiteConnection($"Data Source = {file}; Version = 3;"))
             {

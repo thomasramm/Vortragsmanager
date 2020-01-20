@@ -171,6 +171,38 @@ namespace Vortragsmanager.Views
             }
         }
 
+        public int SelectedLogLevel
+        {
+            get
+            {
+                return Properties.Settings.Default.LogLevel;
+            }
+            set
+            {
+                Log.Start((LogLevel)value);
+                RaisePropertyChanged();
+            }
+        }
+
+        public string LogFolder
+        {
+            get
+            {
+                return Properties.Settings.Default.LogFolder;
+            }
+            set
+            {
+                var di = new DirectoryInfo(value);
+                if (!di.Exists)
+                {
+                    return;
+                }
+                Properties.Settings.Default.LogFolder = value;
+                Properties.Settings.Default.Save();
+                RaisePropertyChanged();
+            }
+        }
+
         public DelegateCommand SearchUpdateCommand { get; private set; }
 
         public static void SearchUpdate()

@@ -154,5 +154,29 @@ namespace Vortragsmanager.Properties {
                 this["SearchSpeaker_OffeneAnfrage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int LogLevel {
+            get {
+                return ((int)(this["LogLevel"]));
+            }
+            set {
+                this["LogLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-")]
+        public string LogFolder {
+            get {
+                return ((string)(this["LogFolder"]));
+            }
+            set {
+                this["LogFolder"] = value;
+            }
+        }
     }
 }
