@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using Vortragsmanager.Models;
+using System.Linq;
 
 namespace Vortragsmanager.Views
 {
@@ -73,17 +74,33 @@ namespace Vortragsmanager.Views
 
             SaveCommand = new DelegateCommand(Zusagen);
             CancelCommand = new DelegateCommand(Absagen);
+            AlleDatenFreigeben = new DelegateCommand(LadeFreieTermine);
         }
 
         public DelegateCommand SaveCommand { get; private set; }
 
         public DelegateCommand CancelCommand { get; private set; }
 
+        public DelegateCommand AlleDatenFreigeben { get; private set; }
+
         public string Name => _redner.Name;
 
         public string Vortrag => _vortrag.ToString();
 
         public ObservableCollection<DateTime> Wochen => _base.Wochen;
+
+        private void LadeFreieTermine()
+        {
+            _base.Wochen.Clear();
+            var startDate = Core.Helper.GetSunday(DateTime.Today);
+            var endDate = startDate.AddYears(1);
+            while (startDate < endDate)
+            {
+                if (!Core.DataContainer.MeinPlan.Any(x => x.Datum == startDate))
+                    _base.Wochen.Add(startDate);
+                startDate = startDate.AddDays(7);
+            }
+        }
 
         private bool _sichtbar = true;
 
