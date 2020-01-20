@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Vortragsmanager.Models;
 using static Vortragsmanager.Core.Templates;
 
@@ -21,6 +22,39 @@ namespace Vortragsmanager.Core
             ExterneAnfrageAblehnenInfoAnRednerMailText = 4,
             ExterneAnfrageAnnehmenInfoAnKoordinatorMailText = 5,
             ExterneAnfrageAnnehmenInfoAnRednerMailText = 6,
+            EreignisTauschenMailText = 7,
+        }
+
+        public static string GetMailTextEreignisTauschenAnKoordinator(Conregation conregation, DateTime startDatum, DateTime zielDatum, string name, string vortrag, string versammlung)
+        {
+            if (conregation is null)
+                return "Fehler beim verarbeiten der Vorlage";
+
+            var mailAdresse = string.IsNullOrEmpty(conregation.KoordinatorJw) ? conregation.KoordinatorMail : conregation.KoordinatorJw;
+
+            return GetMailTextEreignisTauschenAnRedner(name, vortrag, versammlung, mailAdresse, conregation.Koordinator, startDatum, zielDatum);
+        }
+
+        public static string GetMailTextEreignisTauschenAnRedner(Speaker redner, DateTime startDatum, DateTime zielDatum, string vortrag, string versammlung)
+        {
+            if (redner is null)
+                return "Fehler beim verarbeiten der Vorlage";
+
+            return GetMailTextEreignisTauschenAnRedner(redner.Name, vortrag, versammlung, redner.Mail, redner.Name, startDatum, zielDatum);
+        }
+
+        private static string GetMailTextEreignisTauschenAnRedner(string name, string vortrag, string versammlung, string mailEmpfänger, string nameEmpfänger, DateTime datumAlt, DateTime datumNeu)
+        {
+            var mt = GetTemplate(TemplateName.EreignisTauschenMailText).Inhalt;
+            mt = mt
+                .Replace("{Redner}", name)
+                .Replace("{Vortrag}", vortrag)
+                .Replace("{Versammlung}", versammlung)
+                .Replace("{DatumAlt}", datumAlt.ToShortDateString())
+                .Replace("{DatumNeu}", datumNeu.ToShortDateString())
+                .Replace("{MailName}", nameEmpfänger)
+                .Replace("{MailEmpfänger}", mailEmpfänger);
+            return mt;
         }
 
         public static string GetMailTextAnnehmenKoordinator(Outside Buchung)

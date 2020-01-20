@@ -35,13 +35,8 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand<int> ChangeYear { get; private set; }
 
-        public int CurrentYear
-        {
-            get
-            {
-                return Core.DataContainer.DisplayedYear;
-            }
-        }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]
+        public int CurrentYear => Core.DataContainer.DisplayedYear;
 
         public void UpdateMonate()
         {
@@ -120,6 +115,7 @@ namespace Vortragsmanager.Views
             AnzahlAuswärtigeRedner = Core.DataContainer.ExternerPlan?.Count(x => x.Datum == tag) ?? 0;
 
             AnfrageLöschenCommand = new DelegateCommand(AnfrageLöschen);
+            BuchungVerschiebenCommand = new DelegateCommand(BuchungVerschieben);
             BuchungLöschenCommand = new DelegateCommand(AnfrageLöschen);
             RednerSuchenCommand = new DelegateCommand(RednerSuchen);
             EreignisEintragenCommand = new DelegateCommand(EreignisEintragen);
@@ -131,6 +127,8 @@ namespace Vortragsmanager.Views
         public DelegateCommand EreignisEintragenCommand { get; private set; }
 
         public DelegateCommand BuchungLöschenCommand { get; private set; }
+
+        public DelegateCommand BuchungVerschiebenCommand { get; private set; }
 
         public DelegateCommand RednerSuchenCommand { get; private set; }
 
@@ -182,6 +180,20 @@ namespace Vortragsmanager.Views
             if (data.Speichern)
             {
                 Core.DataContainer.MeinPlan.Remove(Zuteilung);
+                Monat.GetWeeks(Jahr);
+            }
+        }
+
+        public void BuchungVerschieben()
+        {
+            var verschieben = new KalendereintragVerschieben();
+            var data = (KalendereintragVerschiebenView)verschieben.DataContext;
+            data.KalenderTyp = Kalenderart.Intern;
+            data.LadeStartDatum(Zuteilung);
+            verschieben.ShowDialog();
+
+            if (data.Speichern)
+            {
                 Monat.GetWeeks(Jahr);
             }
         }
