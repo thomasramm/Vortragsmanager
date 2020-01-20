@@ -20,8 +20,8 @@
             <ColumnDefinition Width="{Binding ShowRednerInfoWidth}" />
             <ColumnDefinition Width="{Binding ShowKoordinatorInfoWidth}" />
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Row="0" Grid.Column="0" Text="Info an Redner" />
-        <TextBox Grid.Row="0" Grid.Column="1" Text="Info an Koordinator" />
+        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding InfoAnRednerTitel}" />
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding InfoAnKoordinatorTitel}" />
         <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding MailTextRedner}" />
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding MailTextKoordinator}" />
         <dx:SimpleButton Content="Kopieren"
@@ -37,12 +37,14 @@
                          Command="{Binding CopyCommand, Mode=OneWay}"
                          CommandParameter="2"
                          Glyph="{dx:DXImage 'SvgImages/Edit/Paste.svg'}"
-                         Grid.Row="2" Grid.Column="1"
+                         Grid.Row="2"
+                         Grid.Column="1"
                          HorizontalAlignment="Left" Width="120" Margin="10"
                          ToolTip="Kopiert den Text an den Koordinator in die Zwischenablage" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10"
                          Grid.Row="2"
-                         Grid.Column="1">
+                         Grid.Column="0"
+                    Grid.ColumnSpan="2">
             <dx:SimpleButton Content="Speichern"
                          Command="{Binding SaveCommand, Mode=OneWay}"
                          Glyph="{dx:DXImage 'SvgImages/XAF/Action_SaveScript.svg'}"

@@ -56,11 +56,50 @@ namespace Vortragsmanager.Views
 
         public string StartDatum { get; set; }
 
-        public string ZielVersammlung { get; set; }
+        private string _zielVersammlung;
 
-        public string ZielName { get; set; }
+        public string ZielVersammlung
+        {
+            get
+            {
+                return _zielVersammlung;
+            }
+            set
+            {
+                _zielVersammlung = value;
+                RaisePropertyChanged();
+            }
+        }
 
-        public string ZielVortrag { get; set; }
+        private string _zielName;
+
+        public string ZielName
+        {
+            get
+            {
+                return _zielName;
+            }
+            set
+            {
+                _zielName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _zielVortrag;
+
+        public string ZielVortrag
+        {
+            get
+            {
+                return _zielVortrag;
+            }
+            set
+            {
+                _zielVortrag = value;
+                RaisePropertyChanged();
+            }
+        }
 
         private DateTime _zielDatum;
 
@@ -223,9 +262,15 @@ namespace Vortragsmanager.Views
             {
                 var ev = (StartEvent as Models.Invitation);
                 if (ev.Ältester.Versammlung == Core.DataContainer.MeineVersammlung)
+                {
+                    mailsData.InfoAnKoordinatorTitel = "Info an Redner";
                     mailsData.MailTextKoordinator = Core.Templates.GetMailTextEreignisTauschenAnRedner(ev.Ältester, startDatum, ZielDatum, ev.Vortrag.ToString(), ev.Ältester.Versammlung.Name);
+                }
                 else
+                {
+                    mailsData.InfoAnKoordinatorTitel = "Info an Koordinator";
                     mailsData.MailTextKoordinator = Core.Templates.GetMailTextEreignisTauschenAnKoordinator(ev.Ältester.Versammlung, startDatum, ZielDatum, ev.Ältester.Name, ev.Vortrag.ToString(), ev.Ältester.Versammlung.Name);
+                }
             }
 
             //MAIL & TODO WEGEN ZIELBUCHUNG
@@ -239,14 +284,24 @@ namespace Vortragsmanager.Views
                         ev.Wochen.Remove(ZielDatum);
                         ev.Wochen.Add(startDatum);
                     }
+                    else if (ZielEvent.Status == Models.EventStatus.Ereignis)
+                    {
+                        ZielEvent.Datum = startDatum;
+                    }
                     else
                     {
                         ZielEvent.Datum = startDatum;
                         var ev = (ZielEvent as Models.Invitation);
                         if (ev.Ältester.Versammlung == Core.DataContainer.MeineVersammlung)
-                            mailsData.MailTextRedner = Core.Templates.GetMailTextEreignisTauschenAnRedner(ev.Ältester, startDatum, ZielDatum, ev.Vortrag.ToString(), ev.Ältester.Versammlung.Name);
+                        {
+                            mailsData.InfoAnRednerTitel = "Info an Redner";
+                            mailsData.MailTextRedner = Core.Templates.GetMailTextEreignisTauschenAnRedner(ev.Ältester, ZielDatum, startDatum, ev.Vortrag.ToString(), ev.Ältester.Versammlung.Name);
+                        }
                         else
-                            mailsData.MailTextRedner = Core.Templates.GetMailTextEreignisTauschenAnKoordinator(ev.Ältester.Versammlung, startDatum, ZielDatum, ev.Ältester.Name, ev.Vortrag.ToString(), ev.Ältester.Versammlung.Name);
+                        {
+                            mailsData.InfoAnRednerTitel = "Info an Koordinator";
+                            mailsData.MailTextRedner = Core.Templates.GetMailTextEreignisTauschenAnKoordinator(ev.Ältester.Versammlung, ZielDatum, startDatum, ev.Ältester.Name, ev.Vortrag.ToString(), ev.Ältester.Versammlung.Name);
+                        }
                     }
                 }
                 else if (ZielbuchungLöschenChecked)
@@ -262,13 +317,23 @@ namespace Vortragsmanager.Views
                             break;
 
                         case Models.EventStatus.Zugesagt:
-                        case Models.EventStatus.Ereignis:
                             var inv = (ZielEvent as Models.Invitation);
                             if (inv.Ältester.Versammlung == Core.DataContainer.MeineVersammlung)
+                            {
+                                mailsData.InfoAnRednerTitel = "Info an Redner";
                                 mailsData.MailTextRedner = Core.Templates.GetMailTextAblehnenRedner(inv);
+                            }
                             else
+                            {
+                                mailsData.InfoAnRednerTitel = "Info an Koordinator";
                                 mailsData.MailTextRedner = Core.Templates.GetMailTextAblehnenKoordinator(inv);
+                            }
+
                             Core.DataContainer.MeinPlan.Remove(inv);
+                            break;
+
+                        case Models.EventStatus.Ereignis:
+                            Core.DataContainer.MeinPlan.Remove(ZielEvent);
                             break;
 
                         case Models.EventStatus.Abgesagt:

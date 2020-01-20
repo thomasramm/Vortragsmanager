@@ -581,7 +581,8 @@ Betreff = Vortrag tauschen
 Hallo {MailName},
 
 folgenden Vortrag habe ich in meiner Planung getauscht:
-Datum ALT: {DatumAlt} \t Datum NEU: {DatumNeu}
+Datum ALT: {DatumAlt}
+Datum NEU: {DatumNeu}
 Redner: {Redner}
 Vortrag: {Vortrag}
 Versammlung: {Versammlung}

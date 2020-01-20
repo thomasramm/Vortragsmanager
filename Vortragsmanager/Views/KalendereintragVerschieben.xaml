@@ -41,7 +41,7 @@
                 </dxlc:LayoutItem>
             </dxlc:LayoutGroup>
             <dxlc:LayoutItem Label="Zieldatum" Margin="0,10">
-                <dxe:DateEdit EditValue="{Binding ZielDatum, Mode=TwoWay}" />
+                <dxe:DateEdit EditValue="{Binding ZielDatum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </dxlc:LayoutItem>
             <Label Content="Am gewählten Zieldatum gibt es bereits eine Buchung!"
                    Height="23"

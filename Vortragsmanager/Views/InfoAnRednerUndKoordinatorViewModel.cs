@@ -94,6 +94,36 @@ namespace Vortragsmanager.Views
             }
         }
 
+        private string _InfoAnRedner = "Info an Redner";
+
+        public string InfoAnRednerTitel
+        {
+            get
+            {
+                return _InfoAnRedner;
+            }
+            set
+            {
+                _InfoAnRedner = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _InfoAnKoordinator = "Info an Koordinator";
+
+        public string InfoAnKoordinatorTitel
+        {
+            get
+            {
+                return _InfoAnKoordinator;
+            }
+            set
+            {
+                _InfoAnKoordinator = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public Visibility ShowSaveCancelButton { get; set; } = Visibility.Visible;
 
         public Visibility ShowCloseButton { get; set; } = Visibility.Hidden;
