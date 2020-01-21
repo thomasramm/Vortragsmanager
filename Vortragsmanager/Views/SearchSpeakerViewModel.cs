@@ -182,6 +182,8 @@ namespace Vortragsmanager.Views
         {
             var list = new List<GroupConregation>();
             var vers = selectedVersammlungen?.Cast<Conregation>();
+            if (vers is null)
+                return;
             foreach (var v in vers)
             {
                 var gC = new GroupConregation

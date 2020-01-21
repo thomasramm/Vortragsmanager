@@ -328,7 +328,7 @@ namespace Vortragsmanager.Views
                                 mailsData.InfoAnRednerTitel = "Info an Koordinator";
                                 mailsData.MailTextRedner = Core.Templates.GetMailTextAblehnenKoordinator(inv);
                             }
-                            Core.DataContainer.Absagen.Add(new Models.Cancelation(ZielDatum, inv.Ältester, Models.EventStatus.Zugesagt))
+                            Core.DataContainer.Absagen.Add(new Models.Cancelation(ZielDatum, inv.Ältester, Models.EventStatus.Zugesagt));
                             Core.DataContainer.MeinPlan.Remove(inv);
                             break;
 
