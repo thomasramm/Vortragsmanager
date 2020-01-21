@@ -51,9 +51,9 @@ namespace Vortragsmanager.Core
             Write(LogLevel.Fehler, method, message);
         }
 
-        public static void Info(string message)
+        public static void Info(string method)
         {
-            Write(LogLevel.Info, "unknown", message);
+            Write(LogLevel.Info, method, "");
         }
 
         public static void Info(string method, object message)

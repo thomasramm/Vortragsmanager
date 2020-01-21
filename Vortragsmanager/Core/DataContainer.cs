@@ -34,6 +34,7 @@ namespace Vortragsmanager.Core
 
         public static Conregation FindConregation(string name)
         {
+            Log.Info(nameof(FindConregation), $"name={name}");
             foreach (var c in Versammlungen)
             {
                 if (c.Name == name)
@@ -45,6 +46,7 @@ namespace Vortragsmanager.Core
 
         public static Conregation FindConregation(string name, int kreis)
         {
+            Log.Info(nameof(FindConregation), $"name={name}, kreis={kreis}");
             foreach (var c in Versammlungen)
             {
                 if (c.Name == name && c.Kreis == kreis)
@@ -60,6 +62,7 @@ namespace Vortragsmanager.Core
 
             if (c == null)
             {
+                Log.Info(nameof(FindOrAddConregation), $"add={name}");
                 c = new Conregation
                 {
                     Name = name,
@@ -78,6 +81,7 @@ namespace Vortragsmanager.Core
 
             if (c == null)
             {
+                Log.Info(nameof(FindOrAddConregation), $"add={name}, {kreis}");
                 c = new Conregation
                 {
                     Name = name,
@@ -92,6 +96,7 @@ namespace Vortragsmanager.Core
 
         public static Talk FindTalk(int Nummer)
         {
+            Log.Info(nameof(FindTalk), $"Nummer={Nummer}");
             foreach (var t in Vorträge)
             {
                 if (t.Nummer == Nummer)
@@ -103,6 +108,7 @@ namespace Vortragsmanager.Core
 
         public static Speaker FindSpeaker(string name, Conregation versammlung)
         {
+            Log.Info(nameof(FindSpeaker), $"name={name}, conregation={versammlung?.Id}, {versammlung?.Name}");
             foreach (var s in Redner)
             {
                 if (s.Name == name && s.Versammlung == versammlung)
@@ -118,6 +124,7 @@ namespace Vortragsmanager.Core
 
             if (s == null)
             {
+                Log.Info(nameof(FindOrAddSpeaker), $"add={name} to conregation={versammlung?.Id}, {versammlung?.Name}");
                 s = new Speaker
                 {
                     Name = name,
@@ -141,6 +148,7 @@ namespace Vortragsmanager.Core
 
         public static void UpdateTalkDate()
         {
+            Log.Info(nameof(UpdateTalkDate), "");
             foreach (var evt in MeinPlan.Where(x => x.Status != EventStatus.Ereignis))
             {
                 var m = (evt as Invitation);
@@ -156,6 +164,7 @@ namespace Vortragsmanager.Core
     {
         public static void NewDatabase()
         {
+            Log.Info(nameof(NewDatabase));
             LoadTalks();
             LoadTemplates();
             DataContainer.Versammlungen.Clear();
@@ -168,6 +177,7 @@ namespace Vortragsmanager.Core
 
         public static void LoadTalks()
         {
+            Log.Info(nameof(LoadTalks));
             DataContainer.Vorträge.Clear();
             var l = DataContainer.Vorträge;
             l.Add(new Talk(1, "Wie gut kennst du Gott?"));
@@ -362,6 +372,7 @@ namespace Vortragsmanager.Core
 
         public static void LoadTemplates()
         {
+            Log.Info(nameof(LoadTemplates));
             Templates.Vorlagen.Clear();
             LoadRednerAnfragenMailText();
             LoadRednerTermineMailText();
@@ -372,6 +383,7 @@ namespace Vortragsmanager.Core
 
         private static void LoadRednerAnfragenMailText()
         {
+            Log.Info(nameof(LoadRednerAnfragenMailText));
             var x = new Template
             {
                 Name = Templates.TemplateName.RednerAnfragenMailText,
@@ -409,6 +421,7 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn
 
         private static void LoadRednerTermineMailText()
         {
+            Log.Info(nameof(LoadRednerTermineMailText));
             var x = new Template
             {
                 Name = Templates.TemplateName.RednerTermineMailText,
@@ -436,6 +449,7 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn
 
         private static void LoadExterneAnfrageAnnehmenText()
         {
+            Log.Info(nameof(LoadExterneAnfrageAnnehmenText));
             var x = new Template
             {
                 Name = Templates.TemplateName.ExterneAnfrageAnnehmenInfoAnKoordinatorMailText,
@@ -509,6 +523,7 @@ Versammlung Hofgeismar
 
         private static void LoadExterneAnfrageAblehnenText()
         {
+            Log.Info(nameof(LoadExterneAnfrageAblehnenText));
             var x = new Template
             {
                 Name = Templates.TemplateName.ExterneAnfrageAblehnenInfoAnKoordinatorMailText,
@@ -570,6 +585,7 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn"
 
         private static void LoadEreignisTauschenMailText()
         {
+            Log.Info(nameof(LoadEreignisTauschenMailText));
             var x = new Template
             {
                 Name = Templates.TemplateName.EreignisTauschenMailText,
@@ -607,6 +623,7 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn"
 
         public static void Update()
         {
+            Log.Info(nameof(Update));
             if (DataContainer.Version < 2)
             {
                 LoadEreignisTauschenMailText();

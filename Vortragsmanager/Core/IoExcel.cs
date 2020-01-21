@@ -11,6 +11,7 @@ namespace Vortragsmanager.Core
     {
         public static void UpdateSpeakers(string File)
         {
+            Log.Info(nameof(UpdateSpeakers), File);
             var fi = new FileInfo(File);
 
             using (ExcelPackage package = new ExcelPackage(fi))
@@ -66,6 +67,7 @@ namespace Vortragsmanager.Core
 
             public static bool ImportKoordinatoren(string filename)
             {
+                Log.Info(nameof(ImportKoordinatoren), filename);
                 var file = new FileInfo(filename);
                 Conregations = new List<Models.Conregation>();
 
@@ -153,6 +155,7 @@ namespace Vortragsmanager.Core
 
             public static bool ImportEigenePlanungen(string filename)
             {
+                Log.Info(nameof(ImportEigenePlanungen), filename);
                 try
                 {
                     var file = new FileInfo(filename);
@@ -256,6 +259,7 @@ namespace Vortragsmanager.Core
                 }
                 catch (Exception e)
                 {
+                    Log.Error(nameof(ImportEigenePlanungen), e.Message);
                     ThemedMessageBox.Show("Fehler",
                         $"Beim Einlesen der Excel-Datei ist es zu folgendem Fehler gekommen\n:{e.Message}",
                         System.Windows.MessageBoxButton.OK,
@@ -267,6 +271,7 @@ namespace Vortragsmanager.Core
 
             public static bool ImportRednerPlanungen(string filename)
             {
+                Log.Info(nameof(ImportRednerPlanungen), filename);
                 try
                 {
                     var file = new FileInfo(filename);
@@ -327,6 +332,7 @@ namespace Vortragsmanager.Core
                 }
                 catch (Exception e)
                 {
+                    Log.Error(nameof(ImportRednerPlanungen), e.Message);
                     ThemedMessageBox.Show("Fehler",
                         $"Beim Einlesen der Excel-Datei ist es zu folgendem Fehler gekommen\n:{e.Message}",
                         System.Windows.MessageBoxButton.OK,

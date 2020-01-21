@@ -364,7 +364,7 @@ namespace Vortragsmanager.Views
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                Log.Info($"Save={saveFileDialog1.FileName}");
+                Log.Info(nameof(SaveExcelFile), $"{saveFileDialog1.FileName}");
                 var fi = new FileInfo(saveFileDialog1.FileName);
                 var filename = fi.FullName;
                 var i = 0;

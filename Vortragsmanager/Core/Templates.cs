@@ -11,6 +11,7 @@ namespace Vortragsmanager.Core
 
         public static Template GetTemplate(TemplateName name)
         {
+            Log.Info(nameof(GetTemplate), name.ToString());
             return Vorlagen[name];
         }
 
@@ -27,6 +28,7 @@ namespace Vortragsmanager.Core
 
         public static string GetMailTextEreignisTauschenAnKoordinator(Conregation conregation, DateTime startDatum, DateTime zielDatum, string name, string vortrag, string versammlung)
         {
+            Log.Info(nameof(GetMailTextEreignisTauschenAnKoordinator));
             if (conregation is null)
                 return "Fehler beim verarbeiten der Vorlage";
 
@@ -37,6 +39,7 @@ namespace Vortragsmanager.Core
 
         public static string GetMailTextEreignisTauschenAnRedner(Speaker redner, DateTime startDatum, DateTime zielDatum, string vortrag, string versammlung)
         {
+            Log.Info(nameof(GetMailTextEreignisTauschenAnRedner));
             if (redner is null)
                 return "Fehler beim verarbeiten der Vorlage";
 
@@ -45,6 +48,7 @@ namespace Vortragsmanager.Core
 
         private static string GetMailTextEreignisTauschenAnRedner(string name, string vortrag, string versammlung, string mailEmpfänger, string nameEmpfänger, DateTime datumAlt, DateTime datumNeu)
         {
+            Log.Info(nameof(GetMailTextEreignisTauschenAnRedner));
             var mt = GetTemplate(TemplateName.EreignisTauschenMailText).Inhalt;
             mt = mt
                 .Replace("{Redner}", name)
@@ -59,6 +63,7 @@ namespace Vortragsmanager.Core
 
         public static string GetMailTextAnnehmenKoordinator(Outside Buchung)
         {
+            Log.Info(nameof(GetMailTextAnnehmenKoordinator));
             if (Buchung is null)
                 return "Fehler beim verarbeiten der Vorlage";
             var mt = GetTemplate(TemplateName.ExterneAnfrageAnnehmenInfoAnKoordinatorMailText).Inhalt;
@@ -72,6 +77,7 @@ namespace Vortragsmanager.Core
 
         public static string GetMailTextAnnehmenRedner(Outside Buchung)
         {
+            Log.Info(nameof(GetMailTextAnnehmenRedner));
             if (Buchung is null)
                 return "Fehler beim verarbeiten der Vorlage";
 
@@ -91,6 +97,7 @@ namespace Vortragsmanager.Core
 
         public static string GetMailTextAblehnenKoordinator(Outside Buchung)
         {
+            Log.Info(nameof(GetMailTextAblehnenKoordinator));
             if (Buchung is null)
                 return "Fehler beim verarbeiten der Vorlage";
 
@@ -106,6 +113,7 @@ namespace Vortragsmanager.Core
 
         public static string GetMailTextAblehnenRedner(Outside Buchung)
         {
+            Log.Info(nameof(GetMailTextAblehnenRedner));
             if (Buchung is null)
                 return "Fehler beim verarbeiten der Vorlage";
 
@@ -122,6 +130,7 @@ namespace Vortragsmanager.Core
 
         public static string GetMailTextAblehnenKoordinator(Invitation Zuteilung)
         {
+            Log.Info(nameof(GetMailTextAblehnenKoordinator));
             if (Zuteilung is null)
                 return "Fehler beim verarbeiten der Vorlage";
 
@@ -139,6 +148,7 @@ namespace Vortragsmanager.Core
 
         public static string ReplaceVersammlungsparameter(string Mailtext, Conregation Versammlung)
         {
+            Log.Info(nameof(ReplaceVersammlungsparameter));
             if (string.IsNullOrEmpty(Mailtext))
                 return string.Empty;
 
@@ -161,6 +171,7 @@ namespace Vortragsmanager.Core
 
         public static string GetMailTextAblehnenRedner(Invitation Zuteilung)
         {
+            Log.Info(nameof(GetMailTextAblehnenRedner));
             if (Zuteilung is null)
                 return "Fehler beim verarbeiten der Vorlage";
 

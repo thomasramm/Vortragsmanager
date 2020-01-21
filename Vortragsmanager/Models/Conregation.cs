@@ -34,6 +34,7 @@ namespace Vortragsmanager.Models
 
         public string GetZusammenkunftszeit(int Jahr)
         {
+            Core.Log.Info(nameof(GetZusammenkunftszeit), Jahr);
             if (Zusammenkunftszeiten.Count == 0)
                 return "unbekannt";
             if (Zusammenkunftszeiten.ContainsKey(Jahr))
@@ -44,11 +45,13 @@ namespace Vortragsmanager.Models
 
         public string GetZusammenkunftszeit(DateTime Datum)
         {
+            Core.Log.Info(nameof(GetZusammenkunftszeit), Datum);
             return GetZusammenkunftszeit(Datum.Year);
         }
 
         public void SetZusammenkunftszeit(int Jahr, string Zeit)
         {
+            Core.Log.Info(nameof(SetZusammenkunftszeit), $"jahr={Jahr}, Zeit={Zeit}");
             if (Zusammenkunftszeiten.ContainsKey(Jahr))
                 Zusammenkunftszeiten[Jahr] = Zeit;
             else

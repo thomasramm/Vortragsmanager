@@ -10,6 +10,7 @@ namespace Vortragsmanager.Core
     {
         public static DateTime GetSunday(DateTime date)
         {
+            Log.Info(nameof(GetSunday), $"date={date}");
             if (date.DayOfWeek != DayOfWeek.Sunday)
             {
                 date = date.AddDays(7 - (int)date.DayOfWeek);

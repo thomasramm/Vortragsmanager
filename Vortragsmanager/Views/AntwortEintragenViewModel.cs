@@ -10,12 +10,14 @@ namespace Vortragsmanager.Views
     {
         public void LoadData()
         {
+            Core.Log.Info(nameof(LoadData));
             inquiryList = Core.DataContainer.OffeneAnfragen;
             LoadInquiryUI();
         }
 
         public void LoadData(Inquiry Anfrage)
         {
+            Core.Log.Info(nameof(LoadData), "Anfrage=" + Anfrage?.Id);
             inquiryList.Clear();
             inquiryList.Add(Anfrage);
             LoadInquiryUI();
@@ -23,6 +25,7 @@ namespace Vortragsmanager.Views
 
         private void LoadInquiryUI()
         {
+            Core.Log.Info(nameof(LoadInquiryUI));
             Anfragen.Clear();
             foreach (var a in inquiryList)
             {
@@ -91,6 +94,7 @@ namespace Vortragsmanager.Views
 
         private void LadeFreieTermine()
         {
+            Core.Log.Info(nameof(LadeFreieTermine));
             _base.Wochen.Clear();
             var startDate = Core.Helper.GetSunday(DateTime.Today);
             var endDate = startDate.AddYears(1);
@@ -149,6 +153,7 @@ namespace Vortragsmanager.Views
 
         public void Zusagen()
         {
+            Core.Log.Info(nameof(Zusagen));
             Sichtbar = false;
             var i = new Invitation();
             i.Datum = SelectedDatum;
@@ -165,6 +170,7 @@ namespace Vortragsmanager.Views
 
         public void Absagen()
         {
+            Core.Log.Info(nameof(Absagen));
             Sichtbar = false;
             _base.BaseAnfrage.RednerVortrag.Remove(_redner);
             if (_base.BaseAnfrage.RednerVortrag.Count == 0)
