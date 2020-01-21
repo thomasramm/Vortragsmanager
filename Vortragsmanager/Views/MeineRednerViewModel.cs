@@ -113,6 +113,7 @@ namespace Vortragsmanager.Views
         public bool ViewStateYear { get; set; }
         public bool ViewStateAgenda { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]
         public int CurrentYear => Core.DataContainer.DisplayedYear;
 
         private void OnMessage(Messages message)
@@ -153,6 +154,7 @@ namespace Vortragsmanager.Views
             set { SetProperty(() => History, value, ApplyFilter); }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]
         private void LoadAgendaView()
         {
             //ToDo: Alternative Ansicht öffnen

@@ -16,67 +16,68 @@
         <dxmvvm:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
     <dxlc:LayoutControl Grid.Row="1">
-    <dxlc:FlowLayoutControl Orientation="Vertical"
+        <dxlc:FlowLayoutControl Orientation="Vertical"
                             StretchContent="True"
                             BreakFlowToFit="True"
                             MaximizedElementPosition="Right"
                             Grid.Row="1"
                             dx:ThemeManager.Theme="MetropolisDark"
                             ItemsSource="{Binding Anfragen}">
-                <dxlc:FlowLayoutControl.ItemTemplate>
-                    <DataTemplate>
-                        <dxlc:GroupBox Header="{Binding}" Content="{Binding}" Foreground="White">
-                            <dxlc:GroupBox.HeaderTemplate>
-                                <DataTemplate>
-                                    <TextBlock Margin="1" Foreground="White">
+            <dxlc:FlowLayoutControl.ItemTemplate>
+                <DataTemplate>
+                    <dxlc:GroupBox Header="{Binding}" Content="{Binding}" Foreground="White">
+                        <dxlc:GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="1" Foreground="White">
                                         <Run Text="{Binding Versammlung, Mode=OneWay}" FontSize="14" FontWeight="Regular" />
-                                    </TextBlock>
-                                </DataTemplate>
-                            </dxlc:GroupBox.HeaderTemplate>
-                            <dxlc:GroupBox.ContentTemplate>
-                                <DataTemplate>
-                                    <dxlc:FlowLayoutControl Orientation="Vertical"
+                                </TextBlock>
+                            </DataTemplate>
+                        </dxlc:GroupBox.HeaderTemplate>
+                        <dxlc:GroupBox.ContentTemplate>
+                            <DataTemplate>
+                                <dxlc:FlowLayoutControl Orientation="Vertical"
                                                             StretchContent="True"
                                                             BreakFlowToFit="True"
                                                             ItemsSource="{Binding Redner}">
-                                        <dxlc:FlowLayoutControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <dxlc:LayoutGroup Orientation="Horizontal" View="GroupBox"
+                                    <dxlc:FlowLayoutControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <dxlc:LayoutGroup Orientation="Horizontal" View="GroupBox"
                                                                   Visibility="{Binding Sichtbar, Converter={StaticResource BoolToVisibilityConverter}}"
                                                                   IsEnabled="{Binding Aktiv}">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="1*" />
-                                                            <ColumnDefinition Width="120" />
-                                                            <ColumnDefinition Width="180" />
-                                                        </Grid.ColumnDefinitions>
-                                                        <dxlc:LayoutGroup Orientation="Vertical" Grid.Column="0">
-                                                            <dxlc:LayoutItem>
-                                                                <Label Content="{Binding Name}" />
-                                                            </dxlc:LayoutItem>
-                                                            <dxlc:DataLayoutItem>
-                                                                <Label Content="{Binding Vortrag}" />
-                                                            </dxlc:DataLayoutItem>
-                                                        </dxlc:LayoutGroup>
-                                                        <dxlc:LayoutItem Label="Bestätigtes Datum"
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1*" />
+                                                        <ColumnDefinition Width="120" />
+                                                        <ColumnDefinition Width="180" />
+                                                        <ColumnDefinition Width="48" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <dxlc:LayoutGroup Orientation="Vertical" Grid.Column="0">
+                                                        <dxlc:LayoutItem>
+                                                            <Label Content="{Binding Name}" />
+                                                        </dxlc:LayoutItem>
+                                                        <dxlc:DataLayoutItem>
+                                                            <Label Content="{Binding Vortrag}" />
+                                                        </dxlc:DataLayoutItem>
+                                                    </dxlc:LayoutGroup>
+                                                    <dxlc:LayoutItem Label="Bestätigtes Datum"
                                                                          LabelPosition="Top"
                                                                          LabelVerticalAlignment="Center"
                                                                          VerticalContentAlignment="Bottom"
                                                                          Grid.Column="1" Margin="5,0" Padding="0"
                                                                          Height="48">
-                                                            <ComboBox ItemsSource="{Binding Wochen}"
+                                                        <ComboBox ItemsSource="{Binding Wochen}"
                                                                       SelectedItem="{Binding SelectedDatum}"
                                                                       ItemStringFormat="{}{0:dd.MM.yyyy}"
                                                                       Margin="0" Height="24" />
-                                                        </dxlc:LayoutItem>
-                                                        <dx:SimpleButton Content="Redner eintragen"
+                                                    </dxlc:LayoutItem>
+                                                    <dx:SimpleButton Content="Redner eintragen"
                                                                          Glyph="{dx:DXImage 'SvgImages/Icon Builder/Actions_CheckCircled.svg'}"
                                                                          Grid.Column="2" Height="24"
                                                                          VerticalAlignment="Top"
                                                                          HorizontalContentAlignment="Left"
                                                                          Command="{Binding SaveCommand}"
                                                                          Visibility="{Binding Aktiv, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                                        <dx:SimpleButton Content="Redner wurde abgesagt"
+                                                    <dx:SimpleButton Content="Redner wurde abgesagt"
                                                                          Glyph="{dx:DXImage 'SvgImages/Outlook Inspired/Cancel.svg'}"
                                                                          Command="{Binding CancelCommand}"
                                                                          Visibility="{Binding Aktiv, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -84,16 +85,23 @@
                                                                          HorizontalContentAlignment="Left"
                                                                          Height="24"
                                                                          VerticalAlignment="Bottom" />
-                                                    </Grid>
-                                                </dxlc:LayoutGroup>
-                                            </DataTemplate>
-                                        </dxlc:FlowLayoutControl.ItemTemplate>
-                                    </dxlc:FlowLayoutControl>
-                                </DataTemplate>
-                            </dxlc:GroupBox.ContentTemplate>
-                        </dxlc:GroupBox>
-                    </DataTemplate>
-                </dxlc:FlowLayoutControl.ItemTemplate>
-            </dxlc:FlowLayoutControl>
+                                                    <dx:SimpleButton Content="Redner an anderem Datum eintragen"
+                                                                     Command="{Binding AlleDatenFreigeben}"
+                                                                     Glyph="{dx:DXImage 'SvgImages/Scheduling/OpenCalendar.svg'}"
+                                                                     Visibility="{Binding Aktiv, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                                     ToolTip="Redner wurde für ein anderes Datum bestätigt"
+                                                                     Grid.Column="3"
+                                                                     Height="48" Width="48" />
+                                                </Grid>
+                                            </dxlc:LayoutGroup>
+                                        </DataTemplate>
+                                    </dxlc:FlowLayoutControl.ItemTemplate>
+                                </dxlc:FlowLayoutControl>
+                            </DataTemplate>
+                        </dxlc:GroupBox.ContentTemplate>
+                    </dxlc:GroupBox>
+                </DataTemplate>
+            </dxlc:FlowLayoutControl.ItemTemplate>
+        </dxlc:FlowLayoutControl>
     </dxlc:LayoutControl>
 </UserControl>

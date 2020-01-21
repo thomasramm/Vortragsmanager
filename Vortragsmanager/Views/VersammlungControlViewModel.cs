@@ -148,7 +148,7 @@ namespace Vortragsmanager.Views
             set
             {
                 if ((value != ZusammenkunftszeitJahr1) && (value != Versammlung.GetZusammenkunftszeit(Jahr2)))
-                    Versammlung.SetZusammenkunftszeit(Jahr1, value);
+                    Versammlung.SetZusammenkunftszeit(Jahr2, value);
                 RaisePropertyChanged(ZusammenkunftszeitJahr2);
             }
         }
@@ -163,6 +163,8 @@ namespace Vortragsmanager.Views
             {
                 if ((value != ZusammenkunftszeitJahr2) && (value != Versammlung.GetZusammenkunftszeit(Jahr3)))
                     Versammlung.SetZusammenkunftszeit(Jahr3, value);
+                if (value != ZusammenkunftszeitJahr3 && value == ZusammenkunftszeitJahr2)
+                    Versammlung.Zusammenkunftszeiten.Remove(Jahr3);
                 RaisePropertyChanged(ZusammenkunftszeitJahr3);
             }
         }

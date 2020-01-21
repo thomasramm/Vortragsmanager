@@ -30,6 +30,7 @@ namespace Vortragsmanager.Core
 
             DataContainer.UpdateTalkDate();
             DataContainer.IsInitialized = true;
+            Initialize.Update();
         }
 
         public static string SaveContainer(string file, bool createBackup)
@@ -906,7 +907,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@Wert", System.Data.DbType.String);
 
             cmd.Parameters[0].Value = "Version";
-            cmd.Parameters[1].Value = 1;
+            cmd.Parameters[1].Value = DataContainer.Version;
             cmd.ExecuteNonQuery();
 
             cmd.Parameters[0].Value = "IsInitialized";
