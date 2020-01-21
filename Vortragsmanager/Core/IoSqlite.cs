@@ -634,7 +634,7 @@ namespace Vortragsmanager.Core
 
         private static void ReadCancelation(SQLiteConnection db)
         {
-            using (var cmd = new SQLiteCommand("SELECT Datum, IdSpeaker, IdLastStatus FROM Cancelation", db))
+            using (var cmd = new SQLiteCommand("SELECT Datum, IdSpeaker, IdLastStatus FROM Cancelation WHERE Datum >= date('now')", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
 
