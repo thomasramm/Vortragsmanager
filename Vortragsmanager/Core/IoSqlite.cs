@@ -15,6 +15,11 @@ namespace Vortragsmanager.Core
                 db.Open();
 
                 ReadParameter(db);
+
+                //Falls sich an der Datenstruktur was geändert hat, muss ich erst mal
+                //die Struktur aktualisieren bevor ich etwas einlesen kann...
+                UpdateDatabase(db);
+
                 ReadVersammlungen(db);
                 ReadVorträge(db);
                 ReadRedner(db);
@@ -25,12 +30,15 @@ namespace Vortragsmanager.Core
                 ReadAnfragen(db);
                 ReadCancelation(db);
 
+                DataContainer.UpdateTalkDate();
+                DataContainer.IsInitialized = true;
+
+                //Falls es jetzt noch weitere Updates gibt die am Container durchgeführt
+                //werden müssen, ist hier ein guter Ort...
+                Initialize.Update();
+
                 db.Close();
             }
-
-            DataContainer.UpdateTalkDate();
-            DataContainer.IsInitialized = true;
-            Initialize.Update();
         }
 
         public static string SaveContainer(string file, bool createBackup)
@@ -238,6 +246,19 @@ namespace Vortragsmanager.Core
         }
 
         #region READ
+
+        private static void UpdateDatabase(SQLiteConnection db)
+        {
+            if (DataContainer.Version < 2)
+            {
+                var cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Cancelation (
+                    Datum INTEGER,
+                    IdSpeaker INTEGER,
+                    IdLastStatus INTEGER)", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+            }
+        }
 
         private static void ReadParameter(SQLiteConnection db)
         {
@@ -613,7 +634,7 @@ namespace Vortragsmanager.Core
 
         private static void ReadCancelation(SQLiteConnection db)
         {
-            using (var cmd = new SQLiteCommand("SELECT Datum, IdSpeaker, IdSLastStatus FROM Cancelation", db))
+            using (var cmd = new SQLiteCommand("SELECT Datum, IdSpeaker, IdLastStatus FROM Cancelation", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
 
