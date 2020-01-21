@@ -15,6 +15,11 @@ namespace Vortragsmanager.Core
                 db.Open();
 
                 ReadParameter(db);
+
+                //Falls sich an der Datenstruktur was geändert hat, muss ich erst mal
+                //die Struktur aktualisieren bevor ich etwas einlesen kann...
+                UpdateDatabase(db);
+
                 ReadVersammlungen(db);
                 ReadVorträge(db);
                 ReadRedner(db);
@@ -23,13 +28,17 @@ namespace Vortragsmanager.Core
                 ReadTemplates(db);
                 ReadEvents(db);
                 ReadAnfragen(db);
+                ReadCancelation(db);
+
+                DataContainer.UpdateTalkDate();
+                DataContainer.IsInitialized = true;
+
+                //Falls es jetzt noch weitere Updates gibt die am Container durchgeführt
+                //werden müssen, ist hier ein guter Ort...
+                Initialize.Update();
 
                 db.Close();
             }
-
-            DataContainer.UpdateTalkDate();
-            DataContainer.IsInitialized = true;
-            Initialize.Update();
         }
 
         public static string SaveContainer(string file, bool createBackup)
@@ -52,6 +61,7 @@ namespace Vortragsmanager.Core
                     SaveAnfragen(db);
                     SaveExternerPlan(db);
                     SaveTemplates(db);
+                    SaveCancelation(db);
                     transaction.Commit();
                 }
                 db.Close();
@@ -226,9 +236,29 @@ namespace Vortragsmanager.Core
                 IdTalk INTEGER)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Cancelation (
+                Datum INTEGER,
+                IdSpeaker INTEGER,
+                IdLastStatus INTEGER)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
         }
 
         #region READ
+
+        private static void UpdateDatabase(SQLiteConnection db)
+        {
+            if (DataContainer.Version < 2)
+            {
+                var cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Cancelation (
+                    Datum INTEGER,
+                    IdSpeaker INTEGER,
+                    IdLastStatus INTEGER)", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+            }
+        }
 
         private static void ReadParameter(SQLiteConnection db)
         {
@@ -602,6 +632,31 @@ namespace Vortragsmanager.Core
             }
         }
 
+        private static void ReadCancelation(SQLiteConnection db)
+        {
+            using (var cmd = new SQLiteCommand("SELECT Datum, IdSpeaker, IdLastStatus FROM Cancelation WHERE Datum >= date('now')", db))
+            {
+                SQLiteDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    var IdAltester = rdr.GetInt32(1);
+                    var Altester = DataContainer.Redner.First(x => x.Id == IdAltester);
+
+                    var v = new Cancelation
+                    {
+                        Datum = rdr.GetDateTime(0),
+                        Ältester = Altester,
+                        LetzterStatus = (EventStatus)rdr.GetInt32(2)
+                    };
+
+                    DataContainer.Absagen.Add(v);
+                }
+
+                rdr.Close();
+            }
+        }
+
         #endregion READ
 
         #region SAVE
@@ -921,6 +976,26 @@ namespace Vortragsmanager.Core
 
             cmd1.Dispose();
             cmd2.Dispose();
+        }
+
+        private static void SaveCancelation(SQLiteConnection db)
+        {
+            var cmd = new SQLiteCommand("INSERT INTO Cancelation(Datum, IdSpeaker, IdSLastStatus) " +
+    "VALUES (@Datum, @IdSpeaker, @IdSLastStatus)", db);
+
+            cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
+            cmd.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@IdSLastStatus", System.Data.DbType.Int32);
+
+            foreach (var absage in DataContainer.Absagen)
+            {
+                cmd.Parameters[0].Value = absage.Datum;
+                cmd.Parameters[1].Value = absage.Ältester.Id;
+                cmd.Parameters[2].Value = (int)absage.LetzterStatus;
+                cmd.ExecuteNonQuery();
+            }
+
+            cmd.Dispose();
         }
 
         #endregion SAVE

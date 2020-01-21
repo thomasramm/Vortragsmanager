@@ -43,7 +43,6 @@ namespace Vortragsmanager.Models
     {
         Anfrage,
         Zugesagt,
-        Abgesagt,
         Ereignis
     }
 
@@ -145,5 +144,25 @@ namespace Vortragsmanager.Models
         string Anzeigetext { get; }
 
         Talk Vortrag { get; set; }
+    }
+
+    public class Cancelation
+    {
+        public Cancelation()
+        {
+        }
+
+        public Cancelation(DateTime datum, Speaker person, EventStatus status)
+        {
+            Datum = datum;
+            Ältester = person;
+            LetzterStatus = status;
+        }
+
+        public DateTime Datum { get; set; }
+
+        public Speaker Ältester { get; set; }
+
+        public EventStatus LetzterStatus { get; set; }
     }
 }

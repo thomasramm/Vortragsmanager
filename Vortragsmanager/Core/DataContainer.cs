@@ -1,6 +1,7 @@
 ﻿using DevExpress.Mvvm;
 using System;
 using System.Collections.ObjectModel;
+using System.Data.SQLite;
 using System.Globalization;
 using System.Linq;
 using Vortragsmanager.Models;
@@ -31,6 +32,8 @@ namespace Vortragsmanager.Core
         public static ObservableCollection<Inquiry> OffeneAnfragen { get; } = new ObservableCollection<Inquiry>();
 
         public static ObservableCollection<Outside> ExternerPlan { get; } = new ObservableCollection<Outside>();
+
+        public static ObservableCollection<Cancelation> Absagen { get; } = new ObservableCollection<Cancelation>();
 
         public static Conregation FindConregation(string name)
         {
@@ -610,6 +613,7 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn"
             if (DataContainer.Version < 2)
             {
                 LoadEreignisTauschenMailText();
+
                 DataContainer.Version = 2;
             }
         }

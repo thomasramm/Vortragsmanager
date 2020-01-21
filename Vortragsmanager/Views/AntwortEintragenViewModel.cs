@@ -167,6 +167,10 @@ namespace Vortragsmanager.Views
         {
             Sichtbar = false;
             _base.BaseAnfrage.RednerVortrag.Remove(_redner);
+            foreach (var w in _base.BaseAnfrage.Wochen)
+            {
+                Core.DataContainer.Absagen.Add(new Cancelation(w, _redner, EventStatus.Anfrage));
+            }
             if (_base.BaseAnfrage.RednerVortrag.Count == 0)
                 Core.DataContainer.OffeneAnfragen.Remove(_base.BaseAnfrage);
         }
