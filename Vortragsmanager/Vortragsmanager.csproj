@@ -113,6 +113,7 @@
     <Compile Include="Core\GeoApi.cs" />
     <Compile Include="Core\Helper.cs" />
     <Compile Include="Core\ini.cs" />
+    <Compile Include="Core\Initialize.cs" />
     <Compile Include="Core\IoExcel.cs" />
     <Compile Include="Core\IoSqlite.cs" />
     <Compile Include="Core\Log.cs" />
