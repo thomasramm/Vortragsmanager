@@ -117,9 +117,9 @@ namespace Vortragsmanager.Views
             get; set;
         }
 
-        public SolidColorBrush AktivBrush => Redner.Aktiv ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
+        public SolidColorBrush AktivBrush => Redner.Aktiv && Redner.Einladen ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
 
-        public string AktivText => Redner.Aktiv ? "Aktiv" : "Inaktiv";
+        public string AktivText => Redner.Aktiv && Redner.Einladen ? "Aktiv" : "Inaktiv";
 
         public SolidColorBrush ÄltesterBrush => Redner.Ältester ? new SolidColorBrush(Colors.DodgerBlue) : new SolidColorBrush(Colors.Brown);
 

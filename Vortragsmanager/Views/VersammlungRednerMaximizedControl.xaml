@@ -34,6 +34,11 @@
                                               CheckedStateContent="Ja" UncheckedStateContent="Nein"
                                               IsChecked="{Binding Redner.Aktiv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="Einladen:">
+                            <dxe:ToggleSwitch ContentPlacement="Near"
+                                              CheckedStateContent="Ja" UncheckedStateContent="Nein"
+                                              IsChecked="{Binding Redner.Einladen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </dxlc:LayoutItem>
                         <dxlc:LayoutItem Label="Name:">
                             <TextBox Text="{Binding Redner.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </dxlc:LayoutItem>

@@ -192,7 +192,7 @@ namespace Vortragsmanager.Views
                 };
                 list.Add(gC);
             }
-            var redner = Core.DataContainer.Redner.Where(x => vers.Contains(x.Versammlung) && x.Aktiv).ToList();
+            var redner = Core.DataContainer.Redner.Where(x => vers.Contains(x.Versammlung) && x.Aktiv && x.Einladen).ToList();
             var einladungen = Core.DataContainer.MeinPlan.Where(x => x.Status != EventStatus.Ereignis).Cast<Invitation>();
 
             foreach (var r in redner)
