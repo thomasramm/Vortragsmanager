@@ -66,10 +66,20 @@ namespace Vortragsmanager.Views
         public void ApplyFilter()
         {
             //Jahr
-            var list = Core.DataContainer.ExternerPlan.Where(x => x.Datum.Year == CurrentYear);
+            List<Outside> list = Core.DataContainer.ExternerPlan.Where(x => x.Datum.Year == CurrentYear).ToList();
+            //ToDo2: interne sind auch externe!!!
+            var listIntern = Core.DataContainer.MeinPlan.Where(x => x.Datum.Year == CurrentYear && x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester.Versammlung == Core.DataContainer.MeineVersammlung);
 
             if (!History)
-                list = list.Where(x => x.Datum >= DateTime.Today);
+            {
+                list = list.Where(x => x.Datum >= DateTime.Today).ToList();
+                listIntern = listIntern.Where(x => x.Datum >= DateTime.Today);
+            }
+
+            foreach (var item in listIntern)
+            {
+                list.Add(new Outside() { Ältester = item.Ältester, Versammlung = Core.DataContainer.MeineVersammlung, Datum = item.Datum, Reason = OutsideReason.Talk, Vortrag = item.Vortrag });
+            }
 
             //Person
             if (Redner.Any(x => x.IsChecked == false))
@@ -209,6 +219,7 @@ namespace Vortragsmanager.Views
             var data = (InfoAnRednerUndKoordinatorViewModel)w.DataContext;
             data.Titel = "Liste der Vortragseinladungen versenden";
             data.MailTextRedner = GetListeMailText();
+            data.DisableCancelButton();
 
             w.ShowDialog();
         }

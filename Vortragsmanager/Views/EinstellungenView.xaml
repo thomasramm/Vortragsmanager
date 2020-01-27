@@ -124,12 +124,22 @@
                                          Command="{Binding CalculateRouteCommand}" CommandParameter="True" />
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
-                <dxlc:LayoutGroup Header="Look and Feel" View="GroupBox" Orientation="Horizontal">
+                <dxlc:LayoutGroup Header="Sonstiges" View="GroupBox" Orientation="Vertical">
                     <dxlc:LayoutItem Label="Detailansichten auf der Startseite anzeigen">
                         <dxe:ToggleSwitch CheckedStateContent="An"
                                       UncheckedStateContent="Aus"
                                       ContentPlacement="Inside"
                                       IsChecked="{Binding DashboardShowDetails}" />
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Logging">
+                        <ComboBox SelectedIndex="{Binding SelectedLogLevel}">
+                            <ComboBoxItem Content="Kein Log" />
+                            <ComboBoxItem Content="Nur Fehler" />
+                            <ComboBoxItem Content="Alles Loggen" />
+                        </ComboBox>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Ordner für die Log-Dateien">
+                        <TextBox Text="{Binding LogFolder, Mode=TwoWay}" />
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>

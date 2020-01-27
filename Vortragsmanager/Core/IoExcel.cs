@@ -11,6 +11,7 @@ namespace Vortragsmanager.Core
     {
         public static void UpdateSpeakers(string File)
         {
+            Log.Info(nameof(UpdateSpeakers), File);
             var fi = new FileInfo(File);
 
             using (ExcelPackage package = new ExcelPackage(fi))
@@ -66,6 +67,7 @@ namespace Vortragsmanager.Core
 
             public static bool ImportKoordinatoren(string filename)
             {
+                Log.Info(nameof(ImportKoordinatoren), filename);
                 var file = new FileInfo(filename);
                 Conregations = new List<Models.Conregation>();
 
@@ -153,6 +155,7 @@ namespace Vortragsmanager.Core
 
             public static bool ImportEigenePlanungen(string filename)
             {
+                Log.Info(nameof(ImportEigenePlanungen), filename);
                 try
                 {
                     var file = new FileInfo(filename);
@@ -256,10 +259,12 @@ namespace Vortragsmanager.Core
                 }
                 catch (Exception e)
                 {
+                    Log.Error(nameof(ImportEigenePlanungen), e.Message);
                     ThemedMessageBox.Show("Fehler",
                         $"Beim Einlesen der Excel-Datei ist es zu folgendem Fehler gekommen\n:{e.Message}",
                         System.Windows.MessageBoxButton.OK,
                         System.Windows.MessageBoxImage.Error);
+                    MeinPlan.Clear();
                     return false;
                 }
                 return true;
@@ -267,6 +272,7 @@ namespace Vortragsmanager.Core
 
             public static bool ImportRednerPlanungen(string filename)
             {
+                Log.Info(nameof(ImportRednerPlanungen), filename);
                 try
                 {
                     var file = new FileInfo(filename);
@@ -315,7 +321,7 @@ namespace Vortragsmanager.Core
                             i.Versammlung = v;
 
                             //Vortrag
-                            var vn = int.Parse(vortrag.ToString(), DataContainer.German);
+                            var vn = string.IsNullOrEmpty(vortrag?.ToString()) ? -1 : int.Parse(vortrag.ToString(), DataContainer.German);
                             var t = DataContainer.FindTalk(vn);
                             i.Vortrag = t;
                             if (!i.Ältester.Vorträge.Contains(t))
@@ -327,10 +333,12 @@ namespace Vortragsmanager.Core
                 }
                 catch (Exception e)
                 {
+                    Log.Error(nameof(ImportRednerPlanungen), e.Message);
                     ThemedMessageBox.Show("Fehler",
                         $"Beim Einlesen der Excel-Datei ist es zu folgendem Fehler gekommen\n:{e.Message}",
                         System.Windows.MessageBoxButton.OK,
                         System.Windows.MessageBoxImage.Error);
+                    ExternerPlan.Clear();
                     return false;
                 }
                 return true;
