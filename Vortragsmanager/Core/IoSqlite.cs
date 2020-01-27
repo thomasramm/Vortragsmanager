@@ -10,11 +10,17 @@ namespace Vortragsmanager.Core
     {
         public static void ReadContainer(string file)
         {
+            Log.Info(nameof(ReadContainer), file);
             using (SQLiteConnection db = new SQLiteConnection($"Data Source = {file}; Version = 3;"))
             {
                 db.Open();
 
                 ReadParameter(db);
+
+                //Falls sich an der Datenstruktur was geändert hat, muss ich erst mal
+                //die Struktur aktualisieren bevor ich etwas einlesen kann...
+                UpdateDatabase(db);
+
                 ReadVersammlungen(db);
                 ReadVorträge(db);
                 ReadRedner(db);
@@ -23,16 +29,22 @@ namespace Vortragsmanager.Core
                 ReadTemplates(db);
                 ReadEvents(db);
                 ReadAnfragen(db);
+                ReadCancelation(db);
+
+                DataContainer.UpdateTalkDate();
+                DataContainer.IsInitialized = true;
+
+                //Falls es jetzt noch weitere Updates gibt die am Container durchgeführt
+                //werden müssen, ist hier ein guter Ort...
+                Initialize.Update();
 
                 db.Close();
             }
-
-            DataContainer.UpdateTalkDate();
-            DataContainer.IsInitialized = true;
         }
 
         public static string SaveContainer(string file, bool createBackup)
         {
+            Log.Info(nameof(SaveContainer), $"file={file}, createBackup={createBackup}");
             //Speichern der DB in einer tmp-Datei
             var tempFile = Path.GetTempFileName();
             SQLiteConnection.CreateFile($"{tempFile}");
@@ -51,6 +63,7 @@ namespace Vortragsmanager.Core
                     SaveAnfragen(db);
                     SaveExternerPlan(db);
                     SaveTemplates(db);
+                    SaveCancelation(db);
                     transaction.Commit();
                 }
                 db.Close();
@@ -88,6 +101,7 @@ namespace Vortragsmanager.Core
 
         public static void CreateEmptyDatabase(string file)
         {
+            Log.Info(nameof(CreateEmptyDatabase), file);
             SQLiteConnection.CreateFile(file);
             using (SQLiteConnection db = new SQLiteConnection($"Data Source = {file}; Version = 3;"))
             {
@@ -103,6 +117,7 @@ namespace Vortragsmanager.Core
 
         private static void CreateEmptyDatabase(SQLiteConnection db)
         {
+            Log.Info(nameof(CreateEmptyDatabase), "connection");
             var cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Conregation (
                 Id INTEGER,
                 Kreis INTEGER,
@@ -166,7 +181,8 @@ namespace Vortragsmanager.Core
                 Altester INTEGER,
                 Aktiv INTEGER,
                 InfoPrivate TEXT,
-                InfoPublic TEXT)", db);
+                InfoPublic TEXT,
+                Einladen INTEGER)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
 
@@ -225,12 +241,40 @@ namespace Vortragsmanager.Core
                 IdTalk INTEGER)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Cancelation (
+                Datum INTEGER,
+                IdSpeaker INTEGER,
+                IdLastStatus INTEGER)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
         }
 
         #region READ
 
+        private static void UpdateDatabase(SQLiteConnection db)
+        {
+            if (DataContainer.Version < 2)
+            {
+                var cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Cancelation (
+                    Datum INTEGER,
+                    IdSpeaker INTEGER,
+                    IdLastStatus INTEGER)", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+            }
+
+            if (DataContainer.Version < 3)
+            {
+                var cmd = new SQLiteCommand(@"ALTER TABLE Speaker ADD Einladen INTEGER;", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+            }
+        }
+
         private static void ReadParameter(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadParameter));
             using (var cmd = new SQLiteCommand("SELECT Name, Wert FROM Parameter", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
@@ -274,6 +318,7 @@ namespace Vortragsmanager.Core
         /// <param name="file">Kompletter Pfad zur Datenbank</param>
         private static void ReadVersammlungen(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadVersammlungen));
             DataContainer.Versammlungen.Clear();
 
             var vers = int.Parse(ReadParameter(Parameter.MeineVersammlung, db), DataContainer.German);
@@ -325,6 +370,7 @@ namespace Vortragsmanager.Core
 
         private static void ReadVorträge(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadVorträge));
             DataContainer.Vorträge.Clear();
 
             using (var cmd = new SQLiteCommand("SELECT Nummer, Thema, Gultig, ZuletztGehalten FROM Talks", db))
@@ -354,9 +400,10 @@ namespace Vortragsmanager.Core
         /// <param name="file">Kompletter Pfad zur Datenbank</param>
         private static void ReadRedner(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadRedner));
             DataContainer.Redner.Clear();
 
-            using (var cmd = new SQLiteCommand("SELECT Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic FROM Speaker", db))
+            using (var cmd = new SQLiteCommand("SELECT Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic, Einladen FROM Speaker", db))
             using (var cmd2 = new SQLiteCommand("SELECT IdTalk FROM Speaker_Vortrag WHERE IdSpeaker = @IdSpeaker", db))
             {
                 cmd2.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
@@ -374,7 +421,8 @@ namespace Vortragsmanager.Core
                         Ältester = rdr.GetBoolean(6),
                         Aktiv = rdr.GetBoolean(7),
                         InfoPrivate = rdr.IsDBNull(8) ? null : rdr.GetString(8),
-                        InfoPublic = rdr.IsDBNull(9) ? null : rdr.GetString(9)
+                        InfoPublic = rdr.IsDBNull(9) ? null : rdr.GetString(9),
+                        Einladen = rdr.IsDBNull(10) ? true : rdr.GetBoolean(10)
                     };
                     var idConregation = rdr.IsDBNull(2) ? 0 : rdr.GetInt32(2); //Id 0 = Versammlung "unbekannt"
 
@@ -406,6 +454,7 @@ namespace Vortragsmanager.Core
         /// <param name="file">Kompletter Pfad zur Datenbank</param>
         private static void ReadMeinPlan(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadMeinPlan));
             DataContainer.MeinPlan.Clear();
 
             using (var cmd = new SQLiteCommand("SELECT IdAltester, IdVortrag, IdConregation, Datum, Status, LetzteAktion, Kommentar FROM Invitation", db))
@@ -444,6 +493,7 @@ namespace Vortragsmanager.Core
         /// <param name="file"></param>
         private static void ReadExternerPlan(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadExternerPlan));
             DataContainer.ExternerPlan.Clear();
             using (var cmd = new SQLiteCommand("SELECT IdSpeaker, IdConregation, Datum, Reason, IdTalk FROM Outside", db))
             {
@@ -471,6 +521,7 @@ namespace Vortragsmanager.Core
 
         private static string ReadParameter(Parameter parameter, SQLiteConnection db)
         {
+            Log.Info(nameof(ReadParameter), $"parameter={parameter.ToString()}");
             using (var cmd = new SQLiteCommand($"SELECT Wert FROM Parameter WHERE Name = @Name", db))
             {
                 cmd.Parameters.AddWithValue("@Name", parameter.ToString());
@@ -482,6 +533,7 @@ namespace Vortragsmanager.Core
 
         private static void ReadTemplates(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadTemplates));
             Templates.Vorlagen.Clear();
 
             using (var cmd = new SQLiteCommand("SELECT Id, Inhalt, Beschreibung FROM Templates", db))
@@ -521,6 +573,7 @@ namespace Vortragsmanager.Core
         /// <param name="db">Datenbank.</param>
         private static void ReadEvents(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadEvents));
             using (var cmd = new SQLiteCommand("SELECT Typ, Name, Thema, Vortragender, Datum FROM Events", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
@@ -545,6 +598,7 @@ namespace Vortragsmanager.Core
 
         private static void ReadAnfragen(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadAnfragen));
             DataContainer.OffeneAnfragen.Clear();
 
             using (var cmd1 = new SQLiteCommand("SELECT Id, IdConregation, Status, AnfrageDatum, Kommentar FROM Inquiry", db))
@@ -601,12 +655,38 @@ namespace Vortragsmanager.Core
             }
         }
 
+        private static void ReadCancelation(SQLiteConnection db)
+        {
+            using (var cmd = new SQLiteCommand("SELECT Datum, IdSpeaker, IdLastStatus FROM Cancelation WHERE Datum >= date('now')", db))
+            {
+                SQLiteDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    var IdAltester = rdr.GetInt32(1);
+                    var Altester = DataContainer.Redner.First(x => x.Id == IdAltester);
+
+                    var v = new Cancelation
+                    {
+                        Datum = rdr.GetDateTime(0),
+                        Ältester = Altester,
+                        LetzterStatus = (EventStatus)rdr.GetInt32(2)
+                    };
+
+                    DataContainer.Absagen.Add(v);
+                }
+
+                rdr.Close();
+            }
+        }
+
         #endregion READ
 
         #region SAVE
 
         private static void SaveVersammlungen(SQLiteConnection db)
         {
+            Log.Info(nameof(SaveVersammlungen));
             SQLiteCommand conregationInsertCommand = new SQLiteCommand("INSERT INTO Conregation(Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Entfernung, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw) " +
                 "VALUES (@Id, @Kreis, @Name, @Anschrift1, @Anschrift2, @Anreise, @Entfernung, @Telefon, @Koordinator, @KoordinatorTelefon, @KoordinatorMobil, @KoordinatorMail, @KoordinatorJw)", db);
 
@@ -665,6 +745,7 @@ namespace Vortragsmanager.Core
 
         private static void SaveMeinPlan(SQLiteConnection db)
         {
+            Log.Info(nameof(SaveMeinPlan));
             var cmd = new SQLiteCommand("INSERT INTO Invitation(" +
                 "IdAltester, IdVortrag, IdConregation, Datum, Status, LetzteAktion, Kommentar) " +
                 "VALUES (@IdAltester, @IdVortrag, @IdConregation, @Datum, @Status, @LetzteAktion, @Kommentar)", db);
@@ -717,6 +798,7 @@ namespace Vortragsmanager.Core
 
         private static void SaveAnfragen(SQLiteConnection db)
         {
+            Log.Info(nameof(SaveAnfragen));
             var cmd1 = new SQLiteCommand("INSERT INTO Inquiry(Id, IdConregation, Status, AnfrageDatum, Kommentar) VALUES (@Id, @IdConregation, @Status, @AnfrageDatum, @Kommentar)", db);
             var cmd2 = new SQLiteCommand("INSERT INTO Inquiry_Dates(IdInquiry, Datum) VALUES (@IdInquiry, @Datum)", db);
             var cmd3 = new SQLiteCommand("INSERT INTO Inquiry_SpeakerTalk(IdInquiry, IdSpeaker, IdTalk) VALUES (@IdInquiry, @IdSpeaker, @IdTalk)", db);
@@ -766,6 +848,7 @@ namespace Vortragsmanager.Core
 
         private static void SaveExternerPlan(SQLiteConnection db)
         {
+            Log.Info(nameof(SaveExternerPlan));
             var cmd = new SQLiteCommand("INSERT INTO Outside(IdSpeaker, IdConregation, Datum, Reason, IdTalk) " +
                 "VALUES (@IdSpeaker, @IdConregation, @Datum, @Reason, @IdTalk)", db);
 
@@ -790,8 +873,9 @@ namespace Vortragsmanager.Core
 
         private static void SaveRedner(SQLiteConnection db)
         {
-            var cmd = new SQLiteCommand("INSERT INTO Speaker(Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic) " +
-                "VALUES (@Id, @Name, @IdConregation, @Mail, @Telefon, @Mobil, @Altester, @Aktiv, @InfoPrivate, @InfoPublic)", db);
+            Log.Info(nameof(SaveRedner));
+            var cmd = new SQLiteCommand("INSERT INTO Speaker(Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic, Einladen) " +
+                "VALUES (@Id, @Name, @IdConregation, @Mail, @Telefon, @Mobil, @Altester, @Aktiv, @InfoPrivate, @InfoPublic, @Einladen)", db);
 
             cmd.Parameters.Add("@Id", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Name", System.Data.DbType.String);
@@ -803,6 +887,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@Aktiv", System.Data.DbType.Boolean);
             cmd.Parameters.Add("@InfoPrivate", System.Data.DbType.String);
             cmd.Parameters.Add("@InfoPublic", System.Data.DbType.String);
+            cmd.Parameters.Add("@Einladen", System.Data.DbType.Boolean);
 
             foreach (var red in DataContainer.Redner)
             {
@@ -816,6 +901,7 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[7].Value = red.Aktiv;
                 cmd.Parameters[8].Value = red.InfoPrivate;
                 cmd.Parameters[9].Value = red.InfoPublic;
+                cmd.Parameters[10].Value = red.Einladen;
                 cmd.ExecuteNonQuery();
             }
             cmd.Dispose();
@@ -843,6 +929,7 @@ namespace Vortragsmanager.Core
 
         private static void SaveVorträge(SQLiteConnection db)
         {
+            Log.Info(nameof(SaveVorträge));
             var cmd = new SQLiteCommand("INSERT INTO Talks(Nummer, Thema, Gultig, ZuletztGehalten)" +
                 "VALUES (@Nummer, @Thema, @Gultig, @ZuletztGehalten)", db);
 
@@ -865,6 +952,7 @@ namespace Vortragsmanager.Core
 
         private static void SaveParameter(SQLiteConnection db)
         {
+            Log.Info(nameof(SaveParameter));
             var cmd = new SQLiteCommand("INSERT INTO Parameter(Name, Wert)" +
                 "VALUES (@Name, @Wert)", db);
 
@@ -872,7 +960,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@Wert", System.Data.DbType.String);
 
             cmd.Parameters[0].Value = "Version";
-            cmd.Parameters[1].Value = 1;
+            cmd.Parameters[1].Value = DataContainer.Version;
             cmd.ExecuteNonQuery();
 
             cmd.Parameters[0].Value = "IsInitialized";
@@ -892,6 +980,7 @@ namespace Vortragsmanager.Core
 
         private static void SaveTemplates(SQLiteConnection db)
         {
+            Log.Info(nameof(SaveTemplates));
             var cmd1 = new SQLiteCommand("INSERT INTO Templates(Id, Inhalt, Beschreibung) VALUES (@Id, @Inhalt, @Beschreibung)", db);
             cmd1.Parameters.Add("@Id", System.Data.DbType.Int32);
             cmd1.Parameters.Add("@Inhalt", System.Data.DbType.String);
@@ -920,6 +1009,26 @@ namespace Vortragsmanager.Core
 
             cmd1.Dispose();
             cmd2.Dispose();
+        }
+
+        private static void SaveCancelation(SQLiteConnection db)
+        {
+            var cmd = new SQLiteCommand("INSERT INTO Cancelation(Datum, IdSpeaker, IdSLastStatus) " +
+    "VALUES (@Datum, @IdSpeaker, @IdSLastStatus)", db);
+
+            cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
+            cmd.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@IdSLastStatus", System.Data.DbType.Int32);
+
+            foreach (var absage in DataContainer.Absagen)
+            {
+                cmd.Parameters[0].Value = absage.Datum;
+                cmd.Parameters[1].Value = absage.Ältester.Id;
+                cmd.Parameters[2].Value = (int)absage.LetzterStatus;
+                cmd.ExecuteNonQuery();
+            }
+
+            cmd.Dispose();
         }
 
         #endregion SAVE

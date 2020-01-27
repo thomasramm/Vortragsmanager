@@ -338,7 +338,8 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand ExcelImportierenPlannungCommand { get; private set; }
 
-        public ObservableCollection<Conregation> VersammlungsListe => Core.DataContainer.Versammlungen;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]
+        public ObservableCollection<Conregation> VersammlungsListe => DataContainer.Versammlungen;
 
         private Conregation _deineVersammlung;
 
@@ -353,7 +354,7 @@ namespace Vortragsmanager.Views
                 _deineVersammlung = value;
                 CanGoNext = (_deineVersammlung != null);
                 if (value != null)
-                    Core.DataContainer.MeineVersammlung = _deineVersammlung;
+                    DataContainer.MeineVersammlung = _deineVersammlung;
             }
         }
 

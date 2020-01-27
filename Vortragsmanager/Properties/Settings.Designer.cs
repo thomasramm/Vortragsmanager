@@ -73,7 +73,7 @@ namespace Vortragsmanager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool SearchSpeaker_RednerCheckHistory {
             get {
                 return ((bool)(this["SearchSpeaker_RednerCheckHistory"]));
@@ -85,7 +85,7 @@ namespace Vortragsmanager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool SearchSpeaker_RednerCheckFuture {
             get {
                 return ((bool)(this["SearchSpeaker_RednerCheckFuture"]));
@@ -97,7 +97,7 @@ namespace Vortragsmanager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool SearchSpeaker_VortragCheckFuture {
             get {
                 return ((bool)(this["SearchSpeaker_VortragCheckFuture"]));
@@ -109,7 +109,7 @@ namespace Vortragsmanager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool SearchSpeaker_VortragCheckHistory {
             get {
                 return ((bool)(this["SearchSpeaker_VortragCheckHistory"]));
@@ -152,6 +152,54 @@ namespace Vortragsmanager.Properties {
             }
             set {
                 this["SearchSpeaker_OffeneAnfrage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int LogLevel {
+            get {
+                return ((int)(this["LogLevel"]));
+            }
+            set {
+                this["LogLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-")]
+        public string LogFolder {
+            get {
+                return ((string)(this["LogFolder"]));
+            }
+            set {
+                this["LogFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SearchSpeaker_RednerCheckCancelation {
+            get {
+                return ((bool)(this["SearchSpeaker_RednerCheckCancelation"]));
+            }
+            set {
+                this["SearchSpeaker_RednerCheckCancelation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SaveBackups {
+            get {
+                return ((bool)(this["SaveBackups"]));
+            }
+            set {
+                this["SaveBackups"] = value;
             }
         }
     }

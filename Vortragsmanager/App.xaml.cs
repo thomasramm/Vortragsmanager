@@ -15,7 +15,8 @@ namespace Vortragsmanager
         {
             if (DataContainer.IsInitialized)
             {
-                var file = IoSqlite.SaveContainer(Settings.Default.sqlite, true);
+                Log.Info("ApplicationExit", "Save");
+                var file = IoSqlite.SaveContainer(Settings.Default.sqlite, Settings.Default.SaveBackups);
                 Settings.Default.sqlite = file;
             }
 

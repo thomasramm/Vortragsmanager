@@ -89,6 +89,7 @@ namespace Vortragsmanager.Views
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]
         public string Programmversion => $"Version {Assembly.GetEntryAssembly().GetName().Version.ToString()}";
 
         public DelegateCommand<string> SearchDatabaseCommand { get; private set; }
@@ -133,7 +134,7 @@ namespace Vortragsmanager.Views
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
                     Datenbank = saveDialog.FileName;
-                    IoSqlite.SaveContainer(saveDialog.FileName, true);
+                    IoSqlite.SaveContainer(saveDialog.FileName, SaveBackup);
                     Properties.Settings.Default.sqlite = saveDialog.FileName;
                     Properties.Settings.Default.Save();
                 }
@@ -156,6 +157,20 @@ namespace Vortragsmanager.Views
             }
         }
 
+        public bool SaveBackup
+        {
+            get
+            {
+                return Properties.Settings.Default.SaveBackups;
+            }
+            set
+            {
+                Properties.Settings.Default.SaveBackups = value;
+                Properties.Settings.Default.Save();
+                RaisePropertyChanged();
+            }
+        }
+
         public bool DashboardShowDetails
         {
             get
@@ -165,6 +180,38 @@ namespace Vortragsmanager.Views
             set
             {
                 Properties.Settings.Default.DashboardShowDetails = value;
+                Properties.Settings.Default.Save();
+                RaisePropertyChanged();
+            }
+        }
+
+        public int SelectedLogLevel
+        {
+            get
+            {
+                return Properties.Settings.Default.LogLevel;
+            }
+            set
+            {
+                Log.Start((LogLevel)value);
+                RaisePropertyChanged();
+            }
+        }
+
+        public string LogFolder
+        {
+            get
+            {
+                return Properties.Settings.Default.LogFolder;
+            }
+            set
+            {
+                var di = new DirectoryInfo(value);
+                if (!di.Exists)
+                {
+                    return;
+                }
+                Properties.Settings.Default.LogFolder = value;
                 Properties.Settings.Default.Save();
                 RaisePropertyChanged();
             }

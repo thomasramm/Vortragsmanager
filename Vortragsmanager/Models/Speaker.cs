@@ -5,6 +5,7 @@ namespace Vortragsmanager.Models
     public class Speaker
     {
         public int Id { get; set; }
+
         public string Name { get; set; }
 
         public Conregation Versammlung { get; set; }
@@ -20,6 +21,8 @@ namespace Vortragsmanager.Models
         public bool Ältester { get; set; } = true;
 
         public bool Aktiv { get; set; } = true;
+
+        public bool Einladen { get; set; } = true;
 
         public string InfoPrivate { get; set; }
 

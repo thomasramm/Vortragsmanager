@@ -20,6 +20,7 @@ namespace Vortragsmanager.Core
 
         public static void CheckForUpdates()
         {
+            Log.Info(nameof(CheckForUpdates));
             if (!Properties.Settings.Default.SearchForUpdates)
                 return;
 
@@ -32,6 +33,7 @@ namespace Vortragsmanager.Core
 
         public static void CheckForUpdatesForce(bool silent)
         {
+            Log.Info(nameof(CheckForUpdates), $"silent={silent}");
             _silent = silent;
             var nextSearch = Properties.Settings.Default.NextUpdateSearch;
             nextSearch = DateTime.Today.AddDays(1);
@@ -53,6 +55,7 @@ namespace Vortragsmanager.Core
 
         private static void UpdaterFinished(object sender, RunWorkerCompletedEventArgs e)
         {
+            Log.Info(nameof(UpdaterFinished));
             _updateWorker.DoWork -= new DoWorkEventHandler(UpdaterDoWork);
             _updateWorker.RunWorkerCompleted -= new RunWorkerCompletedEventHandler(UpdaterFinished);
             if (ServerVersion == null)
@@ -79,6 +82,7 @@ namespace Vortragsmanager.Core
 
         private static Ini ReadNewestVersion()
         {
+            Log.Info(nameof(ReadNewestVersion));
             var iniString = string.Empty;
 
             try

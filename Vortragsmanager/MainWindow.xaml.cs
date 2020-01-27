@@ -22,6 +22,8 @@ namespace Vortragsmanager
                 typeof(FrameworkElement),
                 new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
+            Log.Start();
+
             if (Settings.Default.sqlite == "vortragsmanager.sqlite3")
             {
                 Settings.Default.sqlite = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + Settings.Default.sqlite;
@@ -37,6 +39,10 @@ namespace Vortragsmanager
                 Close();
 
             InitializeComponent();
+
+            var fi = new FileInfo(Settings.Default.sqlite);
+            Title = "Vortragsmanager DeLuxe | " + fi.Name;
+
             Updater.CheckForUpdates();
         }
     }

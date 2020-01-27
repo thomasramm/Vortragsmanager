@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using Vortragsmanager.Models;
+using System.Linq;
 
 namespace Vortragsmanager.Views
 {
@@ -9,12 +10,14 @@ namespace Vortragsmanager.Views
     {
         public void LoadData()
         {
+            Core.Log.Info(nameof(LoadData));
             inquiryList = Core.DataContainer.OffeneAnfragen;
             LoadInquiryUI();
         }
 
         public void LoadData(Inquiry Anfrage)
         {
+            Core.Log.Info(nameof(LoadData), "Anfrage=" + Anfrage?.Id);
             inquiryList.Clear();
             inquiryList.Add(Anfrage);
             LoadInquiryUI();
@@ -22,6 +25,7 @@ namespace Vortragsmanager.Views
 
         private void LoadInquiryUI()
         {
+            Core.Log.Info(nameof(LoadInquiryUI));
             Anfragen.Clear();
             foreach (var a in inquiryList)
             {
@@ -73,17 +77,34 @@ namespace Vortragsmanager.Views
 
             SaveCommand = new DelegateCommand(Zusagen);
             CancelCommand = new DelegateCommand(Absagen);
+            AlleDatenFreigeben = new DelegateCommand(LadeFreieTermine);
         }
 
         public DelegateCommand SaveCommand { get; private set; }
 
         public DelegateCommand CancelCommand { get; private set; }
 
+        public DelegateCommand AlleDatenFreigeben { get; private set; }
+
         public string Name => _redner.Name;
 
         public string Vortrag => _vortrag.ToString();
 
         public ObservableCollection<DateTime> Wochen => _base.Wochen;
+
+        private void LadeFreieTermine()
+        {
+            Core.Log.Info(nameof(LadeFreieTermine));
+            _base.Wochen.Clear();
+            var startDate = Core.Helper.GetSunday(DateTime.Today);
+            var endDate = startDate.AddYears(1);
+            while (startDate < endDate)
+            {
+                if (!Core.DataContainer.MeinPlan.Any(x => x.Datum == startDate))
+                    _base.Wochen.Add(startDate);
+                startDate = startDate.AddDays(7);
+            }
+        }
 
         private bool _sichtbar = true;
 
@@ -132,6 +153,7 @@ namespace Vortragsmanager.Views
 
         public void Zusagen()
         {
+            Core.Log.Info(nameof(Zusagen));
             Sichtbar = false;
             var i = new Invitation();
             i.Datum = SelectedDatum;
@@ -148,8 +170,13 @@ namespace Vortragsmanager.Views
 
         public void Absagen()
         {
+            Core.Log.Info(nameof(Absagen));
             Sichtbar = false;
             _base.BaseAnfrage.RednerVortrag.Remove(_redner);
+            foreach (var w in _base.BaseAnfrage.Wochen)
+            {
+                Core.DataContainer.Absagen.Add(new Cancelation(w, _redner, EventStatus.Anfrage));
+            }
             if (_base.BaseAnfrage.RednerVortrag.Count == 0)
                 Core.DataContainer.OffeneAnfragen.Remove(_base.BaseAnfrage);
         }

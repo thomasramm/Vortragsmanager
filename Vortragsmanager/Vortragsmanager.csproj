@@ -113,8 +113,10 @@
     <Compile Include="Core\GeoApi.cs" />
     <Compile Include="Core\Helper.cs" />
     <Compile Include="Core\ini.cs" />
+    <Compile Include="Core\Initialize.cs" />
     <Compile Include="Core\IoExcel.cs" />
     <Compile Include="Core\IoSqlite.cs" />
+    <Compile Include="Core\Log.cs" />
     <Compile Include="Core\Security.cs" />
     <Compile Include="Core\Templates.cs" />
     <Compile Include="Core\Updater.cs" />
@@ -141,6 +143,12 @@
     </Compile>
     <Compile Include="Views\EreignisEintragenDialog.xaml.cs">
       <DependentUpon>EreignisEintragenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\KalendereintragVerschieben.xaml.cs">
+      <DependentUpon>KalendereintragVerschieben.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\KalendereintragVerschiebenView.cs">
+      <DependentUpon>KalendereintragVerschieben.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SetupWizardDialog.xaml.cs">
       <DependentUpon>SetupWizardDialog.xaml</DependentUpon>
@@ -267,6 +275,10 @@
     <Page Include="Views\EreignisEintragenDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\KalendereintragVerschieben.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SetupWizardDialog.xaml">
       <Generator>MSBuild:Compile</Generator>

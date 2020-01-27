@@ -96,10 +96,11 @@ namespace Vortragsmanager.Views
                 NeueVorträgeListe = NeuerVortrag.Nummer.ToString(Core.DataContainer.German);
 
             var nummern = NeueVorträgeListe.Split(new char[] { ',', ' ', ';' });
-            int num;
             foreach (var nr in nummern)
             {
-                bool isNum = int.TryParse(nr, out num);
+                bool isNum = int.TryParse(nr, out int num);
+                if (!isNum)
+                    continue;
                 var neuerV = Core.DataContainer.FindTalk(num);
                 if (neuerV == null)
                     continue;
@@ -116,9 +117,9 @@ namespace Vortragsmanager.Views
             get; set;
         }
 
-        public SolidColorBrush AktivBrush => Redner.Aktiv ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
+        public SolidColorBrush AktivBrush => Redner.Aktiv && Redner.Einladen ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
 
-        public string AktivText => Redner.Aktiv ? "Aktiv" : "Inaktiv";
+        public string AktivText => Redner.Aktiv && Redner.Einladen ? "Aktiv" : "Inaktiv";
 
         public SolidColorBrush ÄltesterBrush => Redner.Ältester ? new SolidColorBrush(Colors.DodgerBlue) : new SolidColorBrush(Colors.Brown);
 
@@ -167,6 +168,7 @@ namespace Vortragsmanager.Views
 
         public Speaker Redner { get; private set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]
         public ObservableCollection<Conregation> Versammlungen => new ObservableCollection<Conregation>(Core.DataContainer.Versammlungen);
 
         public bool VersammlungenPopUp { get; set; }

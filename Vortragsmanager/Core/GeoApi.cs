@@ -13,6 +13,8 @@ namespace Vortragsmanager.Core
 
         public static int? GetDistance(string startAdress, string endAdress)
         {
+            Log.Info(nameof(GetDistance), $"start={startAdress}, end={endAdress}");
+
             if (string.IsNullOrWhiteSpace(startAdress))
                 return 0;
             if (string.IsNullOrWhiteSpace(endAdress))
@@ -58,6 +60,8 @@ namespace Vortragsmanager.Core
 
         public static int? GetDistance(Conregation start, Conregation end)
         {
+            Log.Info(nameof(GetDistance), $"start={start.Name}, end={end.Name}");
+
             if (start == null || end == null)
                 return null;
 
