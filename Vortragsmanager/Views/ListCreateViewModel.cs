@@ -22,6 +22,7 @@ namespace Vortragsmanager.Views
             CreateContactListCommand = new DelegateCommand(CreateContactList);
             CreateExchangeRednerListCommand = new DelegateCommand(CreateExchangeRednerList);
             CreateOverviewTalkCountCommand = new DelegateCommand(CreateOverviewTalkCount);
+            CreateSpeakerOverviewCommand = new DelegateCommand(CreateSpeakerOverview);
             templateFolder = AppDomain.CurrentDomain.BaseDirectory + @"Templates\";
         }
 
@@ -32,6 +33,8 @@ namespace Vortragsmanager.Views
         public DelegateCommand CreateExchangeRednerListCommand { get; private set; }
 
         public DelegateCommand CreateOverviewTalkCountCommand { get; private set; }
+
+        public DelegateCommand CreateSpeakerOverviewCommand { get; private set; }
 
         private static string GetRednerAuswärts(DateTime datum)
         {
@@ -349,6 +352,85 @@ namespace Vortragsmanager.Views
                 package.SaveAs(excel);
             }
             SaveExcelFile(tempFile, "Vortragsthemen.xlsx");
+        }
+
+        public static void CreateSpeakerOverview()
+        {
+            Log.Info(nameof(CreateSpeakerOverview), "");
+            var tempFile = Path.GetTempFileName();
+            var excel = new FileInfo(tempFile);
+            var vers = DataContainer.MeineVersammlung;
+            var kreis = vers.Kreis;
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                ExcelWorksheet sheet = package.Workbook.Worksheets.Add($"Redner");
+
+                sheet.Column(1).Width = 7;
+                sheet.Column(2).Width = 25;
+                sheet.Column(3).Width = 25;
+                sheet.Column(4).Width = 7;
+                sheet.Column(5).Width = 7;
+                sheet.Column(6).Width = 10;
+                sheet.Column(7).Width = 11;
+                sheet.Column(8).Width = 30;
+                sheet.Column(9).Width = 30;
+                sheet.Column(10).Width = 15;
+                sheet.Column(11).Width = 15;
+                sheet.Column(12).Width = 20;
+                sheet.Column(13).Width = 20;
+
+                sheet.Cells[1, 1, 1, 13].Style.Font.Bold = true;
+                sheet.Cells[1, 1].Value = "Kreis";
+                sheet.Cells[1, 2].Value = "Versammlung";
+                sheet.Cells[1, 3].Value = "Name";
+                sheet.Cells[1, 4].Value = "DAG";
+                sheet.Cells[1, 5].Value = "Aktiv";
+                sheet.Cells[1, 6].Value = "Einladen";
+                sheet.Cells[1, 7].Value = "Datum letzte Einladung";
+                sheet.Cells[1, 8].Value = "Vorträge";
+                sheet.Cells[1, 9].Value = "Mail";
+                sheet.Cells[1, 10].Value = "Telefon";
+                sheet.Cells[1, 11].Value = "Mobil";
+                sheet.Cells[1, 12].Value = "Kommentar Privat";
+                sheet.Cells[1, 13].Value = "Kommentar Öffentlich";
+
+                var row = 2;
+                var rednerListe = DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Zugesagt).Cast<Invitation>();
+                foreach (var v in DataContainer.Redner.OrderBy(x => x.Versammlung.Name).ThenBy(x => x.Name))
+                {
+                    sheet.Cells[row, 1].Value = v.Versammlung.Kreis;
+                    sheet.Cells[row, 2].Value = v.Versammlung.Name;
+                    sheet.Cells[row, 3].Value = v.Name;
+                    sheet.Cells[row, 4].Value = v.Ältester ? "" : "X";
+                    sheet.Cells[row, 5].Value = v.Aktiv ? "X" : "";
+                    sheet.Cells[row, 6].Value = v.Einladen ? "X" : "";
+
+                    var b = rednerListe.Cast<Invitation>()?.Where(x => x.Ältester == v);
+                    var letzterVortrag = b.Any() ? b.Select(x => x.Datum)?.Max().ToShortDateString() : "n.a.";
+                    sheet.Cells[row, 7].Value = letzterVortrag;
+
+                    var vortragsliste = string.Empty;
+                    foreach (var item in v.Vorträge)
+                    {
+                        vortragsliste += item.Nummer + ", ";
+                    };
+                    sheet.Cells[row, 8].Value = vortragsliste.Substring(0, vortragsliste.Length - 2);
+                    sheet.Cells[row, 9].Value = v.Mail;
+                    sheet.Cells[row, 10].Value = v.Telefon;
+                    sheet.Cells[row, 11].Value = v.Mobil;
+                    sheet.Cells[row, 12].Value = v.InfoPrivate;
+                    sheet.Cells[row, 13].Value = v.InfoPublic;
+                    row++;
+                }
+
+                //create a range for the table
+                ExcelRange range = sheet.Cells[1, 1, row - 1, 13];
+                ExcelTable tab = sheet.Tables.Add(range, "Table1");
+                tab.TableStyle = TableStyles.Medium2;
+
+                package.SaveAs(excel);
+            }
+            SaveExcelFile(tempFile, "Vortragsredner.xlsx");
         }
 
         private static void SaveExcelFile(string tempName, string sugestedName)
