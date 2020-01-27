@@ -264,6 +264,7 @@ namespace Vortragsmanager.Core
                         $"Beim Einlesen der Excel-Datei ist es zu folgendem Fehler gekommen\n:{e.Message}",
                         System.Windows.MessageBoxButton.OK,
                         System.Windows.MessageBoxImage.Error);
+                    MeinPlan.Clear();
                     return false;
                 }
                 return true;
@@ -320,7 +321,7 @@ namespace Vortragsmanager.Core
                             i.Versammlung = v;
 
                             //Vortrag
-                            var vn = int.Parse(vortrag.ToString(), DataContainer.German);
+                            var vn = string.IsNullOrEmpty(vortrag?.ToString()) ? -1 : int.Parse(vortrag.ToString(), DataContainer.German);
                             var t = DataContainer.FindTalk(vn);
                             i.Vortrag = t;
                             if (!i.Ältester.Vorträge.Contains(t))
@@ -337,6 +338,7 @@ namespace Vortragsmanager.Core
                         $"Beim Einlesen der Excel-Datei ist es zu folgendem Fehler gekommen\n:{e.Message}",
                         System.Windows.MessageBoxButton.OK,
                         System.Windows.MessageBoxImage.Error);
+                    ExternerPlan.Clear();
                     return false;
                 }
                 return true;
