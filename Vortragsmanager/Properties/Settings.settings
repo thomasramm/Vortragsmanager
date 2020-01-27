@@ -15,16 +15,16 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="SearchSpeaker_RednerCheckHistory" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="SearchSpeaker_RednerCheckFuture" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="SearchSpeaker_VortragCheckFuture" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="SearchSpeaker_VortragCheckHistory" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="SearchSpeaker_MaxEntfernung" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
@@ -40,6 +40,9 @@
     </Setting>
     <Setting Name="LogFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)">-</Value>
+    </Setting>
+    <Setting Name="SearchSpeaker_RednerCheckCancelation" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

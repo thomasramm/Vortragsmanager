@@ -180,6 +180,7 @@ namespace Vortragsmanager.Views
             if (data.Speichern)
             {
                 Core.DataContainer.MeinPlan.Remove(Zuteilung);
+                Core.DataContainer.Absagen.Add(new Cancelation(zuteilung.Datum, zuteilung.Ältester, zuteilung.Status));
                 Monat.GetWeeks(Jahr);
             }
         }
@@ -220,6 +221,7 @@ namespace Vortragsmanager.Views
         public IEvent Zuteilung { get; set; }
 
         public int Jahr { get; }
+
         public MonthViewModel Monat { get; }
 
         public DateTime Tag { get; set; }

@@ -30,6 +30,7 @@ namespace Vortragsmanager.Views
             Modul2Visible = new GridLength(0);
             RednerCheckHistory = Settings.Default.SearchSpeaker_RednerCheckHistory;
             RednerCheckFuture = Settings.Default.SearchSpeaker_RednerCheckFuture;
+            RednerCheckCancelation = Settings.Default.SearchSpeaker_RednerCheckCancelation;
             VortragCheckFuture = Settings.Default.SearchSpeaker_VortragCheckFuture;
             VortragCheckHistory = Settings.Default.SearchSpeaker_VortragCheckHistory;
             MaxEntfernung = Settings.Default.SearchSpeaker_MaxEntfernung;
@@ -140,6 +141,12 @@ namespace Vortragsmanager.Views
             set { SetProperty(() => VortragCheckHistory, value, ReadData); }
         }
 
+        public bool RednerCheckCancelation
+        {
+            get { return GetProperty(() => RednerCheckHistory); }
+            set { SetProperty(() => RednerCheckHistory, value, ReadData); }
+        }
+
         private int _maxEntfernung;
 
         public int MaxEntfernung
@@ -175,6 +182,8 @@ namespace Vortragsmanager.Views
         {
             var list = new List<GroupConregation>();
             var vers = selectedVersammlungen?.Cast<Conregation>();
+            if (vers is null)
+                return;
             foreach (var v in vers)
             {
                 var gC = new GroupConregation
@@ -205,6 +214,9 @@ namespace Vortragsmanager.Views
                     continue;
 
                 if (RednerCheckHistory && vorträge.Where(x => x.Datum >= DateTime.Today.AddYears(-1) && x.Datum <= DateTime.Today).Any())
+                    continue;
+
+                if (RednerCheckCancelation && Core.DataContainer.Absagen.Any(x => x.Ältester == r))
                     continue;
 
                 gv.Redner.Add(gr);
@@ -356,6 +368,7 @@ namespace Vortragsmanager.Views
             Settings.Default.SearchSpeaker_RednerCheckFuture = RednerCheckFuture;
             Settings.Default.SearchSpeaker_VortragCheckFuture = VortragCheckFuture;
             Settings.Default.SearchSpeaker_VortragCheckHistory = VortragCheckHistory;
+            Settings.Default.SearchSpeaker_RednerCheckCancelation = RednerCheckCancelation;
             Settings.Default.SearchSpeaker_MaxEntfernung = MaxEntfernung;
             Settings.Default.SearchSpeaker_OffeneAnfrage = OffeneAnfrage;
 

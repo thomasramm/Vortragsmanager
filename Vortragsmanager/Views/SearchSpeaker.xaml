@@ -115,6 +115,11 @@
                                     </dxa:AccordionItem>
                                     <dxa:AccordionItem Header="Redner + Vortrags-Filter">
                                         <StackPanel>
+                                            <CheckBox IsChecked="{Binding RednerCheckCancelation, Mode=TwoWay}">
+                                                <TextBlock Text="Redner ausblenden, für die bereits eine Absage erteilt wurde."
+                                                           TextWrapping="Wrap" FontWeight="Regular"
+                                                           ToolTip="Wurde ein Redner für ein Zukünftiges Datum angefragt, aber abgesagt, dann diesen Redner nicht noch einmal anfragen." />
+                                            </CheckBox>
                                             <CheckBox IsChecked="{Binding RednerCheckFuture, Mode=TwoWay}">
                                                 <TextBlock Text="Redner ausblenden, die bereits eingeladen sind."
                                                            TextWrapping="Wrap" FontWeight="Regular" />
