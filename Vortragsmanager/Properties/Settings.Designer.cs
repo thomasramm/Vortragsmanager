@@ -190,5 +190,17 @@ namespace Vortragsmanager.Properties {
                 this["SearchSpeaker_RednerCheckCancelation"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SaveBackups {
+            get {
+                return ((bool)(this["SaveBackups"]));
+            }
+            set {
+                this["SaveBackups"] = value;
+            }
+        }
     }
 }

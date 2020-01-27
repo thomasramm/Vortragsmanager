@@ -48,6 +48,12 @@
                                      GlyphAlignment="Right"
                                      Command="{Binding SearchDatabaseCommand}" CommandParameter="Open" />
                     </StackPanel>
+                    <dxlc:LayoutItem Label="Sicherungskopie bei jedem Speichern anlegen">
+                        <dxe:ToggleSwitch CheckedStateContent="An"
+                                      UncheckedStateContent="Aus"
+                                      ContentPlacement="Inside"
+                                      IsChecked="{Binding SaveBackup}" />
+                    </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
                 <dxlc:LayoutGroup Header="Updates" View="GroupBox" Orientation="Vertical">
                     <dxlc:LayoutItem Label="täglich auf neue Updates prüfen">
