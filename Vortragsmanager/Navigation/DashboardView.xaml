@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <dxlc:TileLayoutControl Orientation="Vertical"
                                 AllowItemMoving="False"
-                                Padding="50,10">
+                                Padding="50,50,10,10">
             <dxlc:Tile Size="{Binding VersammlungsplanTileSize}"
                        Header="Versammlungsplan"
                        Background="#da312e"
@@ -62,7 +62,7 @@
                        Background="#1e8cff"
                        dxwuin:Navigation.NavigateTo="MeineRednerView"
                        dxlc:FlowLayoutControl.IsFlowBreak="True"
-                       dxlc:TileLayoutControl.GroupHeader="Externer Plan">
+                       dxlc:TileLayoutControl.GroupHeader="Meine Redner">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*" />
