@@ -36,7 +36,10 @@ namespace Vortragsmanager
                 Initialize.NewDatabase();
 
             if (!DataContainer.IsInitialized)
+            {
+                ThemedMessageBox.Show("Fehler", "Vortragsmanager ist nicht initialisiert. Das Programm wird beendet", MessageBoxButton.OK, MessageBoxImage.Error);
                 Close();
+            }
 
             InitializeComponent();
 
