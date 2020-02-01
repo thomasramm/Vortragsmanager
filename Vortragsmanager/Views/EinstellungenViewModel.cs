@@ -90,7 +90,17 @@ namespace Vortragsmanager.Views
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]
-        public string Programmversion => $"Version {Assembly.GetEntryAssembly().GetName().Version.ToString()}";
+        public string Programmversion
+        {
+            get
+            {
+                var version = Assembly.GetEntryAssembly().GetName().Version;
+
+                DateTime buildDate = new DateTime(2000, 1, 1).AddDays(version.Build);
+                string v = $"Version {version.Major}.{version.Minor} ({buildDate.ToShortDateString()})";
+                return v;
+            }
+        }
 
         public DelegateCommand<string> SearchDatabaseCommand { get; private set; }
 
