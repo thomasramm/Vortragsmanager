@@ -23,6 +23,10 @@ namespace Vortragsmanager
                 new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
             Log.Start();
+            AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
+            {
+                Log.Error("FirstChanceException", eventArgs.Exception.ToString());
+            };
 
             if (Settings.Default.sqlite == "vortragsmanager.sqlite3")
             {
