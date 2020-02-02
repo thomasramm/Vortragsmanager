@@ -1,4 +1,13 @@
-[0.9.7331.40156]
+[03.02.2020]
+Fehlerbehebung: 
+* Abgesagte Vorträge wurden noch nicht gespeichert.
+Verbesserungen:
+* Fehlerlog erweitert, mehr Fehler werden aufgezeichnet. 
+* Standard-Log-Level ist jetzt auf "Fehler" eingestellt.
+* Changelog von Versionsnummern auf Datum umgestellt, damit können Benutzer meistens mehr anfangen.
+* Changelog auf Github verschoben.
+
+[27.01.2020]
 Neue Funktion:
 * Buchung verschieben.
 * Programmversion und geöffnete Datei werden im Fenstertitel angezeigt.
@@ -12,7 +21,7 @@ Neue Funktion:
 * Neue Einstellmöglichkeit, ob beim Speichern eine Sicherungsdatei angelegt werden soll.
 Bugs: Viele kleinere Programmverbesserung und Fehlerbehebungen
 
-[0.9.7317.12945]
+[13.01.2020]
 * Anzeige der nächsten Ereignisse direkt auf der Startseite
 ** Einladung am Sonntag
 ** Nächster externer Redner
@@ -25,18 +34,18 @@ Bugs: Viele kleinere Programmverbesserung und Fehlerbehebungen
 ** Anzeige des letzten Besuch eines Redners in meiner Versammlung
 * kleine UI (Oberflächen) Verbesserungen 
 
-[0.9.7309.42947]
+[06.01.2020]
 * Rednersuche berücksichtigt nun auch offene Anfragen + deaktivierte Redner
 * Im Bereich der Versammlungen->Rednerverwaltung kann man bei neuen Rednern die Vorträge jetzt auch als kommagetrennte Liste eingeben, was wesentlich schneller geht.
 
-[0.9.7309.40217]
+[05.01.2020]
 * Fehler im Einrichtungsassistent, import von vplanung.net Dateien war nicht möglich
 * Neue Listen: 
 ** Rednerdaten der Versammlung zum Versenden an Koordinatoren 
 ** Liste aller Vorträge mit Anzahl der Ausarbeitungen
 * kleinere Programmverbesserungen der Oberfläche
 
-[0.9.7308.18646]
+[04.01.2020]
 * Kritischer Bug bei Funktion "andere Datenbank öffnen", Anfragen wurden verdoppelt
 * Mail an Koordinatoren im Kreis erweitert um neue Funktion "Mail an Koordinatoren < x km Entfernung"
 * Redner verwalten, hinzufügen von Vorträgen zum Rednern vereinfacht, die Vortragsnummer kann im offenen DropDown über die Tastatur eingegeben werden.

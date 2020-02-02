@@ -14,7 +14,11 @@ namespace Vortragsmanager.Core
 
         public static Version LocalVersion { get; set; }
 
+        public static DateTime LocalDate { get; set; }
+
         public static Version ServerVersion { get; set; }
+
+        public static DateTime ServerDate { get; set; }
 
         public static Ini ServerVersions { get; set; }
 
@@ -41,6 +45,7 @@ namespace Vortragsmanager.Core
             Properties.Settings.Default.Save();
 
             LocalVersion = Assembly.GetEntryAssembly().GetName().Version;
+            LocalDate = new DateTime(2000, 1, 1).AddDays(LocalVersion.Build);
 
             _updateWorker.DoWork += new DoWorkEventHandler(UpdaterDoWork);
             _updateWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(UpdaterFinished);
@@ -60,7 +65,7 @@ namespace Vortragsmanager.Core
             _updateWorker.RunWorkerCompleted -= new RunWorkerCompletedEventHandler(UpdaterFinished);
             if (ServerVersion == null)
                 return;
-            if (LocalVersion >= ServerVersion)
+            if (LocalDate >= ServerDate)
             {
                 if (!_silent)
                     ThemedMessageBox.Show("Information",
@@ -74,8 +79,8 @@ namespace Vortragsmanager.Core
 
             var w = new UpdateDialog();
             var data = (UpdateDialogViewModel)w.DataContext;
-            data.LocalVersion = LocalVersion;
-            data.ServerVersion = ServerVersion;
+            data.LocalVersion = LocalDate;
+            data.ServerVersion = ServerDate;
             data.ServerIni = ServerVersions;
             w.ShowDialog();
         }
@@ -89,7 +94,7 @@ namespace Vortragsmanager.Core
             {
                 using (WebClient client = new WebClient())
                 {
-                    iniString = client.DownloadString("http://thomas-ramm.de/Vortragsmanager/version.ini");
+                    iniString = client.DownloadString("https://raw.githubusercontent.com/thomasramm/Vortragsmanager/hotfix/Save/Changelog.md");
                 }
                 if (string.IsNullOrEmpty(iniString))
                 {
@@ -115,12 +120,12 @@ namespace Vortragsmanager.Core
             ServerVersions.Load(iniString);
 
             var versionen = ServerVersions.GetSections();
-            ServerVersion = new Version("0.0.0.0");
+            ServerDate = new DateTime(2000, 1, 1);
             foreach (var version in versionen)
             {
-                var v = new Version(version);
-                if (v > ServerVersion)
-                    ServerVersion = v;
+                var v = DateTime.Parse(version, DataContainer.German);
+                if (v > ServerDate)
+                    ServerDate = v;
             }
             return ServerVersions;
         }
