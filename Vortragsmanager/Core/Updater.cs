@@ -12,11 +12,7 @@ namespace Vortragsmanager.Core
         private static readonly BackgroundWorker _updateWorker = new BackgroundWorker();
         internal static bool _silent = true;
 
-        public static Version LocalVersion { get; set; }
-
         public static DateTime LocalDate { get; set; }
-
-        public static Version ServerVersion { get; set; }
 
         public static DateTime ServerDate { get; set; }
 
@@ -44,8 +40,8 @@ namespace Vortragsmanager.Core
             Properties.Settings.Default.NextUpdateSearch = nextSearch;
             Properties.Settings.Default.Save();
 
-            LocalVersion = Assembly.GetEntryAssembly().GetName().Version;
-            LocalDate = new DateTime(2000, 1, 1).AddDays(LocalVersion.Build);
+            var localVersion = Assembly.GetEntryAssembly().GetName().Version;
+            LocalDate = new DateTime(2000, 1, 1).AddDays(localVersion.Build);
 
             _updateWorker.DoWork += new DoWorkEventHandler(UpdaterDoWork);
             _updateWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(UpdaterFinished);
@@ -63,7 +59,7 @@ namespace Vortragsmanager.Core
             Log.Info(nameof(UpdaterFinished));
             _updateWorker.DoWork -= new DoWorkEventHandler(UpdaterDoWork);
             _updateWorker.RunWorkerCompleted -= new RunWorkerCompletedEventHandler(UpdaterFinished);
-            if (ServerVersion == null)
+            if (ServerDate == new DateTime(2000, 1, 1))
                 return;
             if (LocalDate >= ServerDate)
             {
@@ -94,6 +90,7 @@ namespace Vortragsmanager.Core
             {
                 using (WebClient client = new WebClient())
                 {
+                    client.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.Reload);
                     iniString = client.DownloadString("https://raw.githubusercontent.com/thomasramm/Vortragsmanager/hotfix/Save/Changelog.md");
                 }
                 if (string.IsNullOrEmpty(iniString))

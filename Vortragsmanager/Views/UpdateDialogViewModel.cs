@@ -87,7 +87,7 @@ namespace Vortragsmanager.Views
                     foreach (var k in keys)
                     {
                         var value = ServerIni.GetValue(k, version);
-                        changeLog += $"{k}: {value}\n";
+                        changeLog += $"{k} {value}\n";
                     }
                     changeLog += Environment.NewLine + Environment.NewLine;
                 }
