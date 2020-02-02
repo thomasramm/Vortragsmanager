@@ -50,5 +50,5 @@ Bugs: Viele kleinere Programmverbesserung und Fehlerbehebungen
 * Mail an Koordinatoren im Kreis erweitert um neue Funktion "Mail an Koordinatoren < x km Entfernung"
 * Redner verwalten, hinzufügen von Vorträgen zum Rednern vereinfacht, die Vortragsnummer kann im offenen DropDown über die Tastatur eingegeben werden.
 
-[0.9.0.0]
+[28.12.2019]
 Erste Testversion (Beta)
