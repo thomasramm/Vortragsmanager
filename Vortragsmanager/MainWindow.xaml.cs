@@ -23,6 +23,10 @@ namespace Vortragsmanager
                 new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
             Log.Start();
+            AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
+            {
+                Log.Error("FirstChanceException", eventArgs.Exception.ToString());
+            };
 
             if (Settings.Default.sqlite == "vortragsmanager.sqlite3")
             {
@@ -36,7 +40,10 @@ namespace Vortragsmanager
                 Initialize.NewDatabase();
 
             if (!DataContainer.IsInitialized)
+            {
+                ThemedMessageBox.Show("Fehler", "Vortragsmanager ist nicht initialisiert. Das Programm wird beendet", MessageBoxButton.OK, MessageBoxImage.Error);
                 Close();
+            }
 
             InitializeComponent();
 

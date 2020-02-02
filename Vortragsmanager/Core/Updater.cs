@@ -12,9 +12,9 @@ namespace Vortragsmanager.Core
         private static readonly BackgroundWorker _updateWorker = new BackgroundWorker();
         internal static bool _silent = true;
 
-        public static Version LocalVersion { get; set; }
+        public static DateTime LocalDate { get; set; }
 
-        public static Version ServerVersion { get; set; }
+        public static DateTime ServerDate { get; set; }
 
         public static Ini ServerVersions { get; set; }
 
@@ -40,7 +40,8 @@ namespace Vortragsmanager.Core
             Properties.Settings.Default.NextUpdateSearch = nextSearch;
             Properties.Settings.Default.Save();
 
-            LocalVersion = Assembly.GetEntryAssembly().GetName().Version;
+            var localVersion = Assembly.GetEntryAssembly().GetName().Version;
+            LocalDate = new DateTime(2000, 1, 1).AddDays(localVersion.Build);
 
             _updateWorker.DoWork += new DoWorkEventHandler(UpdaterDoWork);
             _updateWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(UpdaterFinished);
@@ -58,9 +59,9 @@ namespace Vortragsmanager.Core
             Log.Info(nameof(UpdaterFinished));
             _updateWorker.DoWork -= new DoWorkEventHandler(UpdaterDoWork);
             _updateWorker.RunWorkerCompleted -= new RunWorkerCompletedEventHandler(UpdaterFinished);
-            if (ServerVersion == null)
+            if (ServerDate == new DateTime(2000, 1, 1))
                 return;
-            if (LocalVersion >= ServerVersion)
+            if (LocalDate >= ServerDate)
             {
                 if (!_silent)
                     ThemedMessageBox.Show("Information",
@@ -74,8 +75,8 @@ namespace Vortragsmanager.Core
 
             var w = new UpdateDialog();
             var data = (UpdateDialogViewModel)w.DataContext;
-            data.LocalVersion = LocalVersion;
-            data.ServerVersion = ServerVersion;
+            data.LocalVersion = LocalDate;
+            data.ServerVersion = ServerDate;
             data.ServerIni = ServerVersions;
             w.ShowDialog();
         }
@@ -89,7 +90,8 @@ namespace Vortragsmanager.Core
             {
                 using (WebClient client = new WebClient())
                 {
-                    iniString = client.DownloadString("http://thomas-ramm.de/Vortragsmanager/version.ini");
+                    client.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.Reload);
+                    iniString = client.DownloadString(Properties.Settings.Default.ChangelogPfad);
                 }
                 if (string.IsNullOrEmpty(iniString))
                 {
@@ -115,12 +117,12 @@ namespace Vortragsmanager.Core
             ServerVersions.Load(iniString);
 
             var versionen = ServerVersions.GetSections();
-            ServerVersion = new Version("0.0.0.0");
+            ServerDate = new DateTime(2000, 1, 1);
             foreach (var version in versionen)
             {
-                var v = new Version(version);
-                if (v > ServerVersion)
-                    ServerVersion = v;
+                var v = DateTime.Parse(version, DataContainer.German);
+                if (v > ServerDate)
+                    ServerDate = v;
             }
             return ServerVersions;
         }

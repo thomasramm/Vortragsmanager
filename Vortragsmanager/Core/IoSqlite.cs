@@ -1013,12 +1013,12 @@ namespace Vortragsmanager.Core
 
         private static void SaveCancelation(SQLiteConnection db)
         {
-            var cmd = new SQLiteCommand("INSERT INTO Cancelation(Datum, IdSpeaker, IdSLastStatus) " +
-    "VALUES (@Datum, @IdSpeaker, @IdSLastStatus)", db);
+            var cmd = new SQLiteCommand("INSERT INTO Cancelation(Datum, IdSpeaker, IdLastStatus) " +
+    "VALUES (@Datum, @IdSpeaker, @IdLastStatus)", db);
 
             cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
             cmd.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
-            cmd.Parameters.Add("@IdSLastStatus", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@IdLastStatus", System.Data.DbType.Int32);
 
             foreach (var absage in DataContainer.Absagen)
             {

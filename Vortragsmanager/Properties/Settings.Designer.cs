@@ -157,7 +157,7 @@ namespace Vortragsmanager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int LogLevel {
             get {
                 return ((int)(this["LogLevel"]));
@@ -200,6 +200,15 @@ namespace Vortragsmanager.Properties {
             }
             set {
                 this["SaveBackups"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://raw.githubusercontent.com/thomasramm/Vortragsmanager/master/Changelog.md")]
+        public string ChangelogPfad {
+            get {
+                return ((string)(this["ChangelogPfad"]));
             }
         }
     }

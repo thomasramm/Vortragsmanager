@@ -60,6 +60,11 @@ namespace Vortragsmanager.Core
 
         public static int? GetDistance(Conregation start, Conregation end)
         {
+            if ((start is null) || (end is null))
+            {
+                Log.Info(nameof(GetDistance), $"start oder end is null");
+                return null;
+            }
             Log.Info(nameof(GetDistance), $"start={start.Name}, end={end.Name}");
 
             if (start == null || end == null)

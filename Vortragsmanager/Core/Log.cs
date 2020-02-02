@@ -63,7 +63,7 @@ namespace Vortragsmanager.Core
 
         private static void Write(LogLevel level, string method, string message)
         {
-            if (LogLevel.Info <= Level)
+            if (level <= Level)
                 System.IO.File.AppendAllText(File, $"{DateTime.Now}\t{level}\t{method} => {message}" + Environment.NewLine);
         }
     }
