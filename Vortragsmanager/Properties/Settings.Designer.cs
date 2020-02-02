@@ -202,5 +202,14 @@ namespace Vortragsmanager.Properties {
                 this["SaveBackups"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://raw.githubusercontent.com/thomasramm/Vortragsmanager/master/Changelog.md")]
+        public string ChangelogPfad {
+            get {
+                return ((string)(this["ChangelogPfad"]));
+            }
+        }
     }
 }

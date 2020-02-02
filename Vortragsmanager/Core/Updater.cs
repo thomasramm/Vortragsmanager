@@ -91,7 +91,7 @@ namespace Vortragsmanager.Core
                 using (WebClient client = new WebClient())
                 {
                     client.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.Reload);
-                    iniString = client.DownloadString("https://raw.githubusercontent.com/thomasramm/Vortragsmanager/hotfix/Save/Changelog.md");
+                    iniString = client.DownloadString(Properties.Settings.Default.ChangelogPfad);
                 }
                 if (string.IsNullOrEmpty(iniString))
                 {
