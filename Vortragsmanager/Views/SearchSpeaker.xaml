@@ -128,7 +128,7 @@
                                                 <TextBlock Text="Redner ausblenden, die in den letzten 12 Monaten bereits eingeladen wurden."
                                                            TextWrapping="Wrap" FontWeight="Regular" />
                                             </CheckBox>
-                                            <CheckBox IsChecked="{Binding VortragCheckZukunft, Mode=TwoWay}">
+                                            <CheckBox IsChecked="{Binding VortragCheckFuture, Mode=TwoWay}">
                                                 <TextBlock Text="Vorträge ausblenden, die bereits eingeplant sind."
                                                            TextWrapping="Wrap" FontWeight="Regular" />
                                             </CheckBox>

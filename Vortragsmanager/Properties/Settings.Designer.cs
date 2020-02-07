@@ -211,5 +211,17 @@ namespace Vortragsmanager.Properties {
                 return ((string)(this["ChangelogPfad"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SearchSpeaker_Kreis {
+            get {
+                return ((string)(this["SearchSpeaker_Kreis"]));
+            }
+            set {
+                this["SearchSpeaker_Kreis"] = value;
+            }
+        }
     }
 }
