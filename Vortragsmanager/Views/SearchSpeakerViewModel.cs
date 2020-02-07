@@ -10,6 +10,7 @@ using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.Views
 {
+    //ToDo: Bei Suche in der eigenen Versammlung die Buchungszeiten berücksichtigen, analog zu "Redner Anfrage Extern"
     public class SearchSpeakerViewModel : ViewModelBase
     {
         public SearchSpeakerViewModel()
@@ -113,7 +114,7 @@ namespace Vortragsmanager.Views
                 var filter = Core.DataContainer.OffeneAnfragen.Where(X => X.Status == EventStatus.Anfrage).Select(X => X.Versammlung);
                 vers = vers.Where(x => !filter.Contains(x));
             }
-            Versammlungen = new ObservableCollection<Conregation>(vers);
+            Versammlungen = new ObservableCollection<Conregation>(vers.OrderBy(x => x.Name));
             RaisePropertyChanged(nameof(Versammlungen));
             SelectedVersammlungen = Versammlungen.Cast<object>().ToList();
         }

@@ -31,7 +31,7 @@ namespace Vortragsmanager.Views
 
         public void RednerLöschen(bool silent)
         {
-            //ToDo: Redner löschen: im Vortragsplan die Zuteilungen ersetzen gegen "unbekannt"
+            //ToDo: historische Redner löschen: im Vortragsplan die Zuteilungen ersetzen gegen "unbekannt"?
             if (silent || ThemedMessageBox.Show("Redner löschen",
                 $"Wirklich Redner {Redner.Name} löschen?" + Environment.NewLine +
                 "Alle vergangenen Einladungen werden durch 'unbekannt' ersetzt," + Environment.NewLine +
