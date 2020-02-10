@@ -25,9 +25,11 @@ Mein Plan war es deshalb die notwendigen Grundfunktionen bis zum Jahresende 2019
 Nun werden nach und nach alle weiteren Funktionen nachgeliefert, automatisiert soweit möglich oder hübscher und noch übersichtlicher dargestellt.
 Da jeder eine andere Arbeitsweise hat, bin ich für eure Vorschläge offen. Nutzt dazu wenn möglich  die Funktion "New Issue" auf der Seite https://github.com/thomasramm/Vortragsmanager/issues oder schreibt mir in einem der dort offenen Punkte ob ihr diese Funktion auch wichtig findet, das hilft mir natürlich auch bei der Priorisierung der Weiterentwicklung. Natürlich könnt ihr mir auch eine Mail schicken.
 
+Die neuesten Funktionen und Fehlerbehebungen kannst du im [Changelog](Changelog.md) Changelog nachverfolgen.
+
 ## Installation
 
-Herunterladen des Programm von http://thomas-ramm.de/Vortragsmanager/Vortragsmanager_0.10.zip
+Herunterladen des Programm von http://thomas-ramm.de/Vortragsmanager/Vortragsmanager.zip
 Entpacken der beiden Setup-Dateien und starten von setup.exe
 Nach dem Start des Setup-Assistenten kommen von Windows einige Sicherheits-Warnungen, das das Programm von einer unbekannten Quelle kommt (ja, Microsoft kennt mich tatsächlich nicht). Diese müssen erst noch bestätigt werden, und dann werden die Programmdateien entpackt, eine Verknüpfung im Startmenü und auf dem Desktop angelegt und schon könnt ihr loslegen.
 Beim ersten starten des Programm wird ein Assistent geöffnet, bei dem man entweder eine Vortragsmanager Datenbank öffnen oder die vplanung.net Dateien importieren kann. 
