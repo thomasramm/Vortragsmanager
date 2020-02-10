@@ -120,7 +120,26 @@ namespace Vortragsmanager.Views
             RednerSuchenCommand = new DelegateCommand(RednerSuchen);
             EreignisEintragenCommand = new DelegateCommand(EreignisEintragen);
             AnfrageBearbeitenCommand = new DelegateCommand(AnfrageBearbeiten);
+            ClickCommand = new DelegateCommand(OnClick);
         }
+
+        private void OnClick()
+        {
+            if (IsAnfrage)
+                AnfrageBearbeiten();
+            else if (IsOffen)
+                RednerSuchen();
+            else if (IsEreignis)
+                EreignisEintragen();
+            else if (IsBuchung)
+            {
+                DetailView = !DetailView;
+                RaisePropertyChanged(nameof(DetailView));
+                //ToDo: Bei Click auf Buchung, Details Anzeigen
+            }
+        }
+
+        public DelegateCommand ClickCommand { get; private set; }
 
         public DelegateCommand AnfrageLöschenCommand { get; private set; }
 
@@ -214,11 +233,12 @@ namespace Vortragsmanager.Views
             //throw new NotImplementedException();
             //var dev = new AntwortEintragenDialog();
             //dev.ShowDialog();
-
             Navigation.NavigationView.Frame.Navigate("SearchSpeaker", Tag);
         }
 
         public IEvent Zuteilung { get; set; }
+
+        public Invitation Einladung => (Zuteilung as Invitation);
 
         public int Jahr { get; }
 
@@ -264,6 +284,8 @@ namespace Vortragsmanager.Views
         public bool IsEreignis => Zuteilung?.Status == EventStatus.Ereignis;
 
         public bool IsOffen => (Zuteilung == null);
+
+        public bool DetailView { get; set; } = false;
 
         public override string ToString()
         {
