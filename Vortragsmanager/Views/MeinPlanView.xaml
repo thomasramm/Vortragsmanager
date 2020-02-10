@@ -88,7 +88,14 @@
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <!-- ToDo: Detailansicht bei Klick/Doppelklick zur Vortragsbuchung -->
-                                                    <Border Background="{Binding Background}" Height="24" Margin="0" Width="185">
+                                                    <Border Background="{Binding Background}"
+
+                                                            Height="24"
+                                                            Margin="0"
+                                                            Width="185">
+                                                        <Border.InputBindings>
+                                                            <MouseBinding Gesture="LeftClick" Command="{Binding ClickCommand}" />
+                                                        </Border.InputBindings>
                                                         <Border.ContextMenu>
                                                             <ContextMenu>
                                                                 <MenuItem Header="Redner suchen" Command="{Binding RednerSuchenCommand}" Visibility="{Binding IsOffen, Converter={StaticResource BooleanToVisibilityConverter}}" />
@@ -102,6 +109,49 @@
                                                         <StackPanel Orientation="Horizontal">
                                                             <Label Content="{Binding}" Width="14" Margin="5,0" />
                                                             <Label Content="{Binding Anzeigetext}" />
+                                                            <Popup Name="myPopup"
+                                                                   IsOpen="{Binding DetailView}">
+                                                                <dxlc:LayoutControl View="GroupBox"
+                                                                                    Header="{Binding Tag}"
+                                                                                    Orientation="Vertical">
+                                                                    <dxlc:LayoutItem Label="Vortrag:">
+                                                                        <Label Content="{Binding Einladung.Vortrag}" />
+                                                                    </dxlc:LayoutItem>
+                                                                    <dxlc:LayoutItem Label="Versammlung:">
+                                                                        <Label Content="{Binding Einladung.Ältester.Versammlung.Name}" />
+                                                                    </dxlc:LayoutItem>
+                                                                    <dxlc:LayoutGroup Orientation="Horizontal">
+                                                                        <dxlc:LayoutGroup Orientation="Vertical">
+                                                                            <dxlc:LayoutItem Label="Redner:">
+                                                                                <Label Content="{Binding Einladung.Ältester.Name}" Foreground="Orange" />
+                                                                            </dxlc:LayoutItem>
+                                                                            <dxlc:LayoutItem Label="Telefon:">
+                                                                                <Label Content="{Binding Einladung.Ältester.Telefon}" />
+                                                                            </dxlc:LayoutItem>
+                                                                            <dxlc:LayoutItem Label="Mobil:">
+                                                                                <Label Content="{Binding Einladung.Ältester.Mobil}" />
+                                                                            </dxlc:LayoutItem>
+                                                                            <dxlc:LayoutItem Label="Info:">
+                                                                                <Label Content="{Binding Einladung.Ältester.InfoPrivate}" />
+                                                                            </dxlc:LayoutItem>
+                                                                            <dxlc:LayoutItem>
+                                                                                <Label Content="{Binding Einladung.Ältester.InfoPublic}" />
+                                                                            </dxlc:LayoutItem>
+                                                                        </dxlc:LayoutGroup>
+                                                                        <dxlc:LayoutGroup Orientation="Vertical">
+                                                                            <dxlc:LayoutItem Label="Koordinator">
+                                                                                <Label Content="{Binding Einladung.Ältester.Versammlung.Koordinator}" Foreground="Orange" />
+                                                                            </dxlc:LayoutItem>
+                                                                            <dxlc:LayoutItem Label="Telefon:">
+                                                                                <Label Content="{Binding Einladung.Ältester.Versammlung.KoordinatorTelefon}" />
+                                                                            </dxlc:LayoutItem>
+                                                                            <dxlc:LayoutItem Label="Mobil:">
+                                                                                <Label Content="{Binding Einladung.Ältester.Versammlung.KoordinatorMobil}" />
+                                                                            </dxlc:LayoutItem>
+                                                                        </dxlc:LayoutGroup>
+                                                                    </dxlc:LayoutGroup>
+                                                                </dxlc:LayoutControl>
+                                                            </Popup>
                                                         </StackPanel>
                                                     </Border>
                                                 </DataTemplate>

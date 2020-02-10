@@ -10,6 +10,7 @@ using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.Views
 {
+    //ToDo: Bei Suche in der eigenen Versammlung die Buchungszeiten berücksichtigen, analog zu "Redner Anfrage Extern"
     public class SearchSpeakerViewModel : ViewModelBase
     {
         public SearchSpeakerViewModel()
@@ -35,9 +36,40 @@ namespace Vortragsmanager.Views
             VortragCheckHistory = Settings.Default.SearchSpeaker_VortragCheckHistory;
             MaxEntfernung = Settings.Default.SearchSpeaker_MaxEntfernung;
             OffeneAnfrage = Settings.Default.SearchSpeaker_OffeneAnfrage;
+            ReadSelectedKreis();
 
             Modul1Visible = new GridLength(1, GridUnitType.Star);
             Modul2Visible = new GridLength(0);
+        }
+
+        public void ReadSelectedKreis()
+        {
+            var selKreis = Settings.Default.SearchSpeaker_Kreis;
+            var kreis = selKreis.Split(';');
+            if (!string.IsNullOrEmpty(selKreis))
+            {
+                List<object> kreisList = new List<object>(kreis.Length);
+                foreach (var k in kreis)
+                {
+                    if (int.TryParse(k, out int i))
+                        kreisList.Add(i);
+                }
+                SelectedKreise = kreisList;
+            }
+            else
+                SelectedKreise = new List<object>() { Core.DataContainer.MeineVersammlung.Kreis };
+
+            FillVersammlungen();
+        }
+
+        public void SaveSelectedKreis()
+        {
+            var s = string.Empty;
+            foreach (var k in (List<object>)SelectedKreise)
+            {
+                s += k.ToString() + ";";
+            }
+            Settings.Default.SearchSpeaker_Kreis = s.TrimEnd(';');
         }
 
         #region Freie Termine & Redner suchen
@@ -56,11 +88,6 @@ namespace Vortragsmanager.Views
         {
             get
             {
-                if (selectedKreise == null)
-                {
-                    selectedKreise = FillMyKreis();
-                    FillVersammlungen();
-                }
                 return selectedKreise;
             }
             set
@@ -69,13 +96,6 @@ namespace Vortragsmanager.Views
                 FillVersammlungen();
                 RaisePropertyChanged();
             }
-        }
-
-        private static List<object> FillMyKreis()
-        {
-            return new List<object>() {
-                Core.DataContainer.MeineVersammlung.Kreis
-            };
         }
 
         public ObservableCollection<Conregation> Versammlungen { get; private set; }
@@ -94,7 +114,7 @@ namespace Vortragsmanager.Views
                 var filter = Core.DataContainer.OffeneAnfragen.Where(X => X.Status == EventStatus.Anfrage).Select(X => X.Versammlung);
                 vers = vers.Where(x => !filter.Contains(x));
             }
-            Versammlungen = new ObservableCollection<Conregation>(vers);
+            Versammlungen = new ObservableCollection<Conregation>(vers.OrderBy(x => x.Name));
             RaisePropertyChanged(nameof(Versammlungen));
             SelectedVersammlungen = Versammlungen.Cast<object>().ToList();
         }
@@ -371,6 +391,7 @@ namespace Vortragsmanager.Views
             Settings.Default.SearchSpeaker_RednerCheckCancelation = RednerCheckCancelation;
             Settings.Default.SearchSpeaker_MaxEntfernung = MaxEntfernung;
             Settings.Default.SearchSpeaker_OffeneAnfrage = OffeneAnfrage;
+            SaveSelectedKreis();
 
             Modul2Visible = new GridLength(1, GridUnitType.Star);
 

@@ -39,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_0E1A0695F6F5464FBE22ED4BF858AE74"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_106A54E1FD2745983F1D6EA80A00E511"
         "OwnerKey" = "8:_6F33C85D9DE6BAEAEFE8AE5A0063422C"
         "MsmSig" = "8:_UNDEFINED"
@@ -1256,6 +1262,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0E1A0695F6F5464FBE22ED4BF858AE74"
+            {
+            "SourcePath" = "8:..\\Vortragsmanager\\Templates\\AushangExcel.xlsx"
+            "TargetName" = "8:AushangExcel.xlsx"
+            "Tag" = "8:"
+            "Folder" = "8:_239F3F6480C042199F57BCE9896A4844"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_106A54E1FD2745983F1D6EA80A00E511"
             {
             "AssemblyRegister" = "3:1"
@@ -2151,6 +2177,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_239F3F6480C042199F57BCE9896A4844"
+                    {
+                    "Name" = "8:Templates"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_74ABE667A59C4A748DE01544327FA599"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -2169,20 +2206,20 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Vortragsmanager"
-        "ProductCode" = "8:{93F7D70B-F6E5-4E7F-A432-CCFBCC3FA5D2}"
-        "PackageCode" = "8:{F119F651-B5D3-42CA-BF17-90A8C222A188}"
+        "ProductCode" = "8:{6A0E2013-D1CA-4D23-9C1A-F54E67E56709}"
+        "PackageCode" = "8:{D134D5B9-CA53-4843-8E68-6E775F06C93F}"
         "UpgradeCode" = "8:{09BD3326-8025-447B-B3ED-AA9A44497F97}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.10"
+        "ProductVersion" = "8:0.11"
         "Manufacturer" = "8:ThomasRamm"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/thomasramm/Vortragsmanager/issues"
         "Title" = "8:Vortragsmanager Setup"
-        "Subject" = "8:Subjekt Eigenschaft"
+        "Subject" = "8:Vortragsmanager DeLuxe 0.11"
         "ARPCONTACT" = "8:Thomas Ramm"
         "Keywords" = "8:Vortrag, jw, Vortragsmanager, Manager, DeLuxe, Koordination"
         "ARPCOMMENTS" = "8:Vortragsmanager"
