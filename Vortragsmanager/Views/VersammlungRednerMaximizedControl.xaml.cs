@@ -24,5 +24,19 @@ namespace Vortragsmanager.Views
         {
             InitializeComponent();
         }
+
+        private void NeueVorträgeListe_Validate(object sender, DevExpress.Xpf.Editors.ValidationEventArgs e)
+        {
+            if (e.Value == null)
+                return;
+            if (string.IsNullOrEmpty(e.Value.ToString()))
+                return;
+            e.IsValid = true;
+            var a = (SpeakerViewModel)((DevExpress.Xpf.Editors.TextEdit)sender).DataContext;
+            a.NeueVorträgeListe = e.Value.ToString();
+            a.NeuenVortragSpeichern();
+            e.Handled = true;
+            e.IsValid = true;
+        }
     }
 }
