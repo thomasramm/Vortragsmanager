@@ -1,4 +1,5 @@
 ﻿using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -34,6 +35,13 @@ namespace Vortragsmanager.Views
                 Reason = OutsideReason.Talk,
                 Vortrag = SelectedVortrag
             };
+
+            var doppelbuchung = Core.DataContainer.ExternerPlan.Any(x => x.Ältester == SelectedRedner && x.Datum == SelectedDatum)
+                || Core.DataContainer.MeinPlan.Where(x => x.Datum == SelectedDatum && x.Status == EventStatus.Zugesagt).Cast<Invitation>().Any(x => x.Ältester == SelectedRedner);
+
+            if (doppelbuchung)
+                if (ThemedMessageBox.Show("Warnung", "Für diesen Redner gibt es an dem Datum schon eine Buchung. Trotzdem Buchung speichern?", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Warning) == System.Windows.MessageBoxResult.No)
+                    return;
 
             //Anfrage akzeptieren
             if (annehmen)
