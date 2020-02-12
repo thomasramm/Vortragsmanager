@@ -325,6 +325,7 @@ namespace Vortragsmanager.Views
                 sheet.Column(1).Width = 10;
                 sheet.Column(2).Width = 50;
                 sheet.Column(3).Width = 10;
+                sheet.Column(5).Width = 15;
 
                 sheet.Cells[1, 1].Value = "Anzahl der Ausarbeitungen der Vorträge";
 
@@ -333,6 +334,7 @@ namespace Vortragsmanager.Views
                 sheet.Cells[2, 2].Value = "Thema";
                 sheet.Cells[2, 3].Value = "Versammlung";
                 sheet.Cells[2, 4].Value = "Kreis";
+                sheet.Cells[2, 5].Value = "zuletzt gehört";
 
                 var row = 3;
                 foreach (var v in DataContainer.Vorträge.OrderBy(x => x.Nummer))
@@ -341,13 +343,20 @@ namespace Vortragsmanager.Views
                     sheet.Cells[row, 2].Value = v.Thema;
                     sheet.Cells[row, 3].Value = DataContainer.Redner.Where(x => x.Versammlung == vers && x.Vorträge.Contains(v)).Count();
                     sheet.Cells[row, 4].Value = DataContainer.Redner.Where(x => x.Versammlung.Kreis == kreis && x.Vorträge.Contains(v)).Count();
+                    var wochen = DataContainer.MeinPlan.Where(x => x.Vortrag == v);
+                    if (wochen.Any())
+                        sheet.Cells[row, 5].Value = wochen.Select(x => x.Datum).Max();
+
                     row++;
                 }
 
                 //create a range for the table
-                ExcelRange range = sheet.Cells[2, 1, row - 1, 4];
+                ExcelRange range = sheet.Cells[2, 1, row - 1, 5];
                 ExcelTable tab = sheet.Tables.Add(range, "Table1");
                 tab.TableStyle = TableStyles.Medium2;
+
+                range = sheet.Cells[2, 5, row - 1, 5];
+                range.Style.Numberformat.Format = "dd.mm.yyyy";
 
                 package.SaveAs(excel);
             }
