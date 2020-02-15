@@ -8,6 +8,7 @@
              xmlns:local="clr-namespace:Vortragsmanager.Views"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
              DataContext="{dxmvvm:ViewModelSource local:ListCreateViewModel}">
@@ -25,7 +26,11 @@
             </DataTemplate>
         </dxwui:PageAdornerControl.HeaderTemplate>
         <Grid>
-            <dxlc:LayoutControl Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+            <dxlc:LayoutControl Margin="20" Grid.Row="0">
                 <dxlc:LayoutGroup Header="Excel-Listen" View="GroupBox" Orientation="Vertical">
                     <dxlc:LayoutItem Label="Aushang für die Versammlung">
                         <Button Content="Erstellen" Command="{Binding CreateAushangCommand}" />
@@ -44,6 +49,11 @@
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
             </dxlc:LayoutControl>
+            <dxe:ToggleSwitch x:Name="toggleSwitch" Grid.Row="1" Margin="10,5"
+                              HorizontalAlignment="Right"
+                              CheckedStateContent="Liste nach dem Erstellen öffnen"
+                              UncheckedStateContent="Liste nur Erstellen"
+                              IsChecked="{Binding ListeÖffnen}" />
         </Grid>
     </dxwui:PageAdornerControl>
 </UserControl>

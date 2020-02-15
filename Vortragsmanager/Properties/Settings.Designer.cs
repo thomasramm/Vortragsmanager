@@ -223,5 +223,17 @@ namespace Vortragsmanager.Properties {
                 this["SearchSpeaker_Kreis"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ListCreate_OpenFile {
+            get {
+                return ((bool)(this["ListCreate_OpenFile"]));
+            }
+            set {
+                this["ListCreate_OpenFile"] = value;
+            }
+        }
     }
 }

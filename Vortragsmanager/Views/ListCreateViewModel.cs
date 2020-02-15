@@ -36,6 +36,16 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand CreateSpeakerOverviewCommand { get; private set; }
 
+        public bool ListeÖffnen
+        {
+            get => Settings.Default.ListCreate_OpenFile;
+            set
+            {
+                Settings.Default.ListCreate_OpenFile = value;
+                Settings.Default.Save();
+            }
+        }
+
         private static string GetRednerAuswärts(DateTime datum)
         {
             Log.Info(nameof(GetRednerAuswärts), datum);
@@ -52,7 +62,7 @@ namespace Vortragsmanager.Views
             return ausgabe.Substring(0, ausgabe.Length - 2);
         }
 
-        public static void CreateAushang()
+        public void CreateAushang()
         {
             Log.Info(nameof(CreateAushang), "");
             //laden der Excel-Datei
@@ -106,7 +116,7 @@ namespace Vortragsmanager.Views
             SaveExcelFile(tempFile, "Aushang.xlsx");
         }
 
-        public static void CreateContactList()
+        public void CreateContactList()
         {
             Log.Info(nameof(CreateContactList), "");
             var tempFile = Path.GetTempFileName();
@@ -185,7 +195,7 @@ namespace Vortragsmanager.Views
             SaveExcelFile(tempFile, "Kontaktdaten.xlsx");
         }
 
-        public static void CreateExchangeRednerList()
+        public void CreateExchangeRednerList()
         {
             Log.Info(nameof(CreateExchangeRednerList), "");
             var jahr = DateTime.Today.Year;
@@ -311,7 +321,7 @@ namespace Vortragsmanager.Views
             SaveExcelFile(tempFile, "Rednerliste.xlsx");
         }
 
-        public static void CreateOverviewTalkCount()
+        public void CreateOverviewTalkCount()
         {
             Log.Info(nameof(CreateOverviewTalkCount), "");
             var tempFile = Path.GetTempFileName();
@@ -363,7 +373,7 @@ namespace Vortragsmanager.Views
             SaveExcelFile(tempFile, "Vortragsthemen.xlsx");
         }
 
-        public static void CreateSpeakerOverview()
+        public void CreateSpeakerOverview()
         {
             Log.Info(nameof(CreateSpeakerOverview), "");
             var tempFile = Path.GetTempFileName();
@@ -442,7 +452,7 @@ namespace Vortragsmanager.Views
             SaveExcelFile(tempFile, "Vortragsredner.xlsx");
         }
 
-        private static void SaveExcelFile(string tempName, string sugestedName)
+        private void SaveExcelFile(string tempName, string sugestedName)
         {
             Log.Info(nameof(SaveExcelFile), $"tempName={tempName}, sugestedName={sugestedName}");
             var saveFileDialog1 = new SaveFileDialog
@@ -474,6 +484,8 @@ namespace Vortragsmanager.Views
                 finally
                 {
                     File.Move(tempName, filename);
+                    if (ListeÖffnen)
+                        System.Diagnostics.Process.Start(filename);
                 }
             }
             saveFileDialog1.Dispose();
