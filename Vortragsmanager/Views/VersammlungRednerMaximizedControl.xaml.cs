@@ -38,5 +38,19 @@ namespace Vortragsmanager.Views
             e.Handled = true;
             e.IsValid = true;
         }
+
+        private void ComboBoxEdit_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter)
+                return;
+
+            var cb = (DevExpress.Xpf.Editors.ComboBoxEdit)sender;
+            if (cb.SelectedIndex == -1)
+                return;
+
+            var a = (SpeakerViewModel)(cb).DataContext;
+            a.NeueVorträgeListe = a.NeuerVortrag.Nummer.ToString(Core.DataContainer.German);
+            a.NeuenVortragSpeichern();
+        }
     }
 }
