@@ -25,6 +25,8 @@ Mein Plan war es deshalb die notwendigen Grundfunktionen bis zum Jahresende 2019
 Nun werden nach und nach alle weiteren Funktionen nachgeliefert, automatisiert soweit möglich oder hübscher und noch übersichtlicher dargestellt.
 Da jeder eine andere Arbeitsweise hat, bin ich für eure Vorschläge offen. Nutzt dazu wenn möglich  die Funktion "New Issue" auf der Seite https://github.com/thomasramm/Vortragsmanager/issues oder schreibt mir in einem der dort offenen Punkte ob ihr diese Funktion auch wichtig findet, das hilft mir natürlich auch bei der Priorisierung der Weiterentwicklung. Natürlich könnt ihr mir auch eine Mail schicken.
 
+Die neuesten Funktionen und Fehlerbehebungen kannst du im [Changelog](Changelog.md) Changelog nachverfolgen.
+
 ## Installation
 
 Herunterladen des Programm von http://thomas-ramm.de/Vortragsmanager/Vortragsmanager.zip

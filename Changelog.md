@@ -4,64 +4,77 @@
 * Redner suchen: 
   * Neuer Filter Vortrags-Nr
 * Listen Erstellen
-  *  Dateien nach dem erstellen direkt öffnen
-  * Liste der Vorträge erweitert um Spalte "zuletzt gehört"
+  *  Dateien nach dem erstellen direkt Ã¶ffnen
+  * Liste der VortrÃ¤ge erweitert um Spalte "zuletzt gehÃ¶rt"
 * Redner bearbeiten
-  * Neuen Vortrag eingeben und speichern mit Enter (beide Eingabemöglichkeiten)
+  * Neuen Vortrag eingeben und speichern mit Enter (beide EingabemÃ¶glichkeiten)
   * Die Box wird nur noch bei klick auf den Header geschlossen
 
+[10.02.2020]
+Fehlerbehebung:
+* Beim Ã¶ffnen einer Datenbank werden Absagen nun vor dem einlesen korrekt geleert.
+* Das Excel-Template ist nun im Setup enthalten
+* Redner suchen:
+  * Liste der Versammlungen ist Alphabetisch sortiert
+  * gewÃ¤hlte Kreise und der Status des Parameters "zukÃ¼nftige VortrÃ¤ge..." wird nun gemerkt
+* Mein Plan:
+  * Beim Klick auf einen Eintrag (linke Maustaste) wird nun je nach Typ des Eintrags ein Dialog aufgerufen.
+    * Ereigniss: Ereignis bearbeiten
+    * offener Eintrag: Rednersuche
+    * Buchung: Info-Dialog mit Kontaktinformationen. Bei einem Klick auf das Feld, wird dieses wieder geschlossen.
 
 [02.02.2020]
 Fehlerbehebung: 
-* Abgesagte Vorträge wurden noch nicht gespeichert.
+* Abgesagte VortrÃ¤ge wurden noch nicht gespeichert.
 Verbesserungen:
 * Fehlerlog erweitert, mehr Fehler werden aufgezeichnet. 
 * Standard-Log-Level ist jetzt auf "Fehler" eingestellt.
-* Changelog von Versionsnummern auf Datum umgestellt, damit können Benutzer meistens mehr anfangen.
+* Changelog von Versionsnummern auf Datum umgestellt, damit kÃ¶nnen Benutzer meistens mehr anfangen.
 * Changelog auf Github verschoben.
 
 [27.01.2020]
 Neue Funktion:
 * Buchung verschieben.
-* Programmversion und geöffnete Datei werden im Fenstertitel angezeigt.
-* Neue Möglichkeit eine Anfrage für ein anderes freies Datum zu bestätigen.
-* Möglichkeit zum aktivieren eines Log zur Fehlersuche
-* Rednersuche: Neuer Filter: Redner für die in der Zukunft eine Absage erteilt wurde nicht nochmal anfragen
+* Programmversion und geÃ¶ffnete Datei werden im Fenstertitel angezeigt.
+* Neue MÃ¶glichkeit eine Anfrage fÃ¼r ein anderes freies Datum zu bestÃ¤tigen.
+* MÃ¶glichkeit zum aktivieren eines Log zur Fehlersuche
+* Rednersuche: Neuer Filter: Redner fÃ¼r die in der Zukunft eine Absage erteilt wurde nicht nochmal anfragen
 * Bei der Vortragsanzeige unter "Meine Redner" werden auch die Planungen in meiner eigenen Versammlung mit angezeigt.
 * Neuer Vortrag 56
-* Neues Attribut für Redner "Einladen" - wirkt genauso wie Aktiv. Wenn ein Redner zwar aktiv ist, aber z.B. nicht so weit bis zu deiner Versammlung reisen will, kannst du ihn bei "Einladen" deaktivieren. Wenn dann nach 1-2 Jahren eine neue Liste kommt, musst du nicht überlegen ob ein ehemals deaktivierter Redner wieder aktiv reist oder warum er bei dir deaktiviert ist...
+* Neues Attribut fÃ¼r Redner "Einladen" - wirkt genauso wie Aktiv. Wenn ein Redner zwar aktiv ist, aber z.B. nicht so weit bis zu deiner Versammlung reisen will, kannst du ihn bei "Einladen" deaktivieren. Wenn dann nach 1-2 Jahren eine neue Liste kommt, musst du nicht Ã¼berlegen ob ein ehemals deaktivierter Redner wieder aktiv reist oder warum er bei dir deaktiviert ist...
 * Neue Liste: Alle Redner die im System hinterlegt sind ausgeben.
-* Neue Einstellmöglichkeit, ob beim Speichern eine Sicherungsdatei angelegt werden soll.
+* Neue EinstellmÃ¶glichkeit, ob beim Speichern eine Sicherungsdatei angelegt werden soll.
 Bugs: Viele kleinere Programmverbesserung und Fehlerbehebungen
 
 [13.01.2020]
-* Anzeige der nächsten Ereignisse direkt auf der Startseite
+* Anzeige der nÃ¤chsten Ereignisse direkt auf der Startseite
   * Einladung am Sonntag
-  * Nächster externer Redner
+  * NÃ¤chster externer Redner
 * Externe Anfrage:
-  * prüfen ob alle Felder korrekt gefüllt sind
+  * prÃ¼fen ob alle Felder korrekt gefÃ¼llt sind
   * kleine UI Fehler behoben
-  * Hinweise anzeigen die gegen die Einladung sprechen: Redner ist bereits verplant, Redner hat innerhalb 1 Monats mehr als 1 Einladung, an dem angefragten Datum sind bereits 2 oder mehr Redner auswärts unterwegs.
+  * Hinweise anzeigen die gegen die Einladung sprechen: Redner ist bereits verplant, Redner hat innerhalb 1 Monats mehr als 1 Einladung, an dem angefragten Datum sind bereits 2 oder mehr Redner auswÃ¤rts unterwegs.
 * Rednersuche
-  * Offene Anfragen für Versammlungen werden jetzt berücksichtigt, neuer Filter
+  * Offene Anfragen fÃ¼r Versammlungen werden jetzt berÃ¼cksichtigt, neuer Filter
   * Anzeige des letzten Besuch eines Redners in meiner Versammlung
-* kleine UI (Oberflächen) Verbesserungen 
+* kleine UI (OberflÃ¤chen) Verbesserungen 
+
 
 [06.01.2020]
-* Rednersuche berücksichtigt nun auch offene Anfragen + deaktivierte Redner
-* Im Bereich der Versammlungen->Rednerverwaltung kann man bei neuen Rednern die Vorträge jetzt auch als kommagetrennte Liste eingeben, was wesentlich schneller geht.
+* Rednersuche berÃ¼cksichtigt nun auch offene Anfragen + deaktivierte Redner
+* Im Bereich der Versammlungen->Rednerverwaltung kann man bei neuen Rednern die VortrÃ¤ge jetzt auch als kommagetrennte Liste eingeben, was wesentlich schneller geht.
 
 [05.01.2020]
-* Fehler im Einrichtungsassistent, import von vplanung.net Dateien war nicht möglich
+* Fehler im Einrichtungsassistent, import von vplanung.net Dateien war nicht mÃ¶glich
 * Neue Listen: 
  * Rednerdaten der Versammlung zum Versenden an Koordinatoren 
- * Liste aller Vorträge mit Anzahl der Ausarbeitungen
-* kleinere Programmverbesserungen der Oberfläche
+ * Liste aller VortrÃ¤ge mit Anzahl der Ausarbeitungen
+* kleinere Programmverbesserungen der OberflÃ¤che
 
 [04.01.2020]
-* Kritischer Bug bei Funktion "andere Datenbank öffnen", Anfragen wurden verdoppelt
+* Kritischer Bug bei Funktion "andere Datenbank Ã¶ffnen", Anfragen wurden verdoppelt
 * Mail an Koordinatoren im Kreis erweitert um neue Funktion "Mail an Koordinatoren < x km Entfernung"
-* Redner verwalten, hinzufügen von Vorträgen zum Rednern vereinfacht, die Vortragsnummer kann im offenen DropDown über die Tastatur eingegeben werden.
+* Redner verwalten, hinzufÃ¼gen von VortrÃ¤gen zum Rednern vereinfacht, die Vortragsnummer kann im offenen DropDown Ã¼ber die Tastatur eingegeben werden.
 
 [28.12.2019]
 Erste Testversion (Beta)
