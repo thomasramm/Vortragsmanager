@@ -108,13 +108,22 @@ namespace Vortragsmanager.Views
                     Redner.Vorträge.Add(neuerV);
             }
             NeueVorträgeListe = string.Empty;
-            RaisePropertyChanged(nameof(NeueVorträgeListe));
             RaisePropertyChanged(nameof(Vorträge));
         }
 
+        private string _neueVorträgeListe;
+
         public string NeueVorträgeListe
         {
-            get; set;
+            get
+            {
+                return _neueVorträgeListe;
+            }
+            set
+            {
+                _neueVorträgeListe = value;
+                RaisePropertyChanged();
+            }
         }
 
         public SolidColorBrush AktivBrush => Redner.Aktiv && Redner.Einladen ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);

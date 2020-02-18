@@ -68,7 +68,14 @@
                         <dxdo:LayoutPanel ItemWidth="{Binding ElementName=accordion, Path=IsExpanded, Converter={StaticResource accordionPanelWidthConverter}}"
                                 ShowCaption="False"
                                 AllowSizing="False">
-                            <dxa:AccordionControl x:Name="accordion"
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*" />
+                                    <RowDefinition Height="50" />
+                                </Grid.RowDefinitions>
+                                <dxa:AccordionControl
+                                    x:Name="accordion"
+                                    Grid.Row="0"
                                         SelectionMode="None"
                                         CollapsedItemClickAction="ShowItems"
                                         SummaryItemHeader="Filter"
@@ -78,72 +85,90 @@
                                         ShowSearchControl="False"
                                         Margin="1"
                                         ViewMode="Accordion">
-                                <dxa:AccordionControl.Items>
-                                    <dxa:AccordionItem Header="Versammlung">
-                                        <dxlc:LayoutControl Orientation="Vertical" Margin="0">
-                                            <dxlc:LayoutItem Label="Kreis" FontWeight="Regular">
-                                                <dxe:ComboBoxEdit
+                                    <dxa:AccordionControl.Items>
+                                        <dxa:AccordionItem Header="Versammlung">
+                                            <dxlc:LayoutControl Orientation="Vertical" Margin="0">
+                                                <dxlc:LayoutItem Label="Kreis" FontWeight="Regular">
+                                                    <dxe:ComboBoxEdit
                                                 ItemsSource="{Binding Kreise}"
                                                 EditValue="{Binding SelectedKreise, Mode=TwoWay}">
-                                                    <dxe:ComboBoxEdit.StyleSettings>
-                                                        <dxe:CheckedComboBoxStyleSettings />
-                                                    </dxe:ComboBoxEdit.StyleSettings>
-                                                </dxe:ComboBoxEdit>
-                                            </dxlc:LayoutItem>
-                                            <dxlc:LayoutItem Label="max. Entfernung" FontWeight="Regular">
-                                                <dxe:SpinEdit EditValue="{Binding MaxEntfernung, Mode=TwoWay}"
+                                                        <dxe:ComboBoxEdit.StyleSettings>
+                                                            <dxe:CheckedComboBoxStyleSettings />
+                                                        </dxe:ComboBoxEdit.StyleSettings>
+                                                    </dxe:ComboBoxEdit>
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="max. Entfernung" FontWeight="Regular">
+                                                    <dxe:SpinEdit EditValue="{Binding MaxEntfernung, Mode=TwoWay}"
                                                               MinValue="0"
                                                               IsFloatValue="False"
                                                               Increment="10"
                                                               EditValueType="{x:Type sys:Int32}"
                                                               DisplayFormatString="0 km" />
-                                            </dxlc:LayoutItem>
-                                            <dxlc:LayoutItem Label="offene Anfrage" FontWeight="Regular" ToolTip="Versammlungen für die bereits offene Anfragen ausstehen werden normalerweise nicht nochmal angefragt.">
-                                                <CheckBox IsChecked="{Binding OffeneAnfrage, Mode=TwoWay}" />
-                                            </dxlc:LayoutItem>
-                                            <dxlc:LayoutItem Label="Versammlungen" FontWeight="Regular">
-                                                <dxe:ComboBoxEdit ItemsSource="{Binding Versammlungen}"
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="offene Anfrage" FontWeight="Regular" ToolTip="Versammlungen für die bereits offene Anfragen ausstehen werden normalerweise nicht nochmal angefragt.">
+                                                    <CheckBox IsChecked="{Binding OffeneAnfrage, Mode=TwoWay}" />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem Label="Versammlungen" FontWeight="Regular">
+                                                    <dxe:ComboBoxEdit ItemsSource="{Binding Versammlungen}"
                                                                   EditValue="{Binding SelectedVersammlungen, Mode=TwoWay}"
                                                                   FontWeight="Regular"
                                                                   DisplayMember="Name">
+                                                        <dxe:ComboBoxEdit.StyleSettings>
+                                                            <dxe:CheckedComboBoxStyleSettings />
+                                                        </dxe:ComboBoxEdit.StyleSettings>
+                                                    </dxe:ComboBoxEdit>
+                                                </dxlc:LayoutItem>
+                                            </dxlc:LayoutControl>
+                                        </dxa:AccordionItem>
+                                        <dxa:AccordionItem Header="Redner + Vortrags-Filter">
+                                            <StackPanel>
+                                                <CheckBox IsChecked="{Binding RednerCheckCancelation, Mode=TwoWay}">
+                                                    <TextBlock Text="Redner ausblenden, für die bereits eine Absage erteilt wurde."
+                                                           TextWrapping="Wrap" FontWeight="Regular"
+                                                           ToolTip="Wurde ein Redner für ein Zukünftiges Datum angefragt, aber abgesagt, dann diesen Redner nicht noch einmal anfragen." />
+                                                </CheckBox>
+                                                <CheckBox IsChecked="{Binding RednerCheckFuture, Mode=TwoWay}">
+                                                    <TextBlock Text="Redner ausblenden, die bereits eingeladen sind."
+                                                           TextWrapping="Wrap" FontWeight="Regular" />
+                                                </CheckBox>
+                                                <CheckBox IsChecked="{Binding RednerCheckHistory, Mode=TwoWay}">
+                                                    <TextBlock Text="Redner ausblenden, die in den letzten 12 Monaten bereits eingeladen wurden."
+                                                           TextWrapping="Wrap" FontWeight="Regular" />
+                                                </CheckBox>
+                                                <CheckBox IsChecked="{Binding VortragCheckFuture, Mode=TwoWay}">
+                                                    <TextBlock Text="Vorträge ausblenden, die bereits eingeplant sind."
+                                                           TextWrapping="Wrap" FontWeight="Regular" />
+                                                </CheckBox>
+                                                <CheckBox IsChecked="{Binding VortragCheckHistory, Mode=TwoWay}">
+                                                    <TextBlock Text="Vorträge ausblenden, die in den letzten 12 Monaten gehalten wurden."
+                                                           TextWrapping="Wrap" FontWeight="Regular" />
+                                                </CheckBox>
+                                                <dxe:ComboBoxEdit ShowSizeGrip="True"
+                                                              FontWeight="Regular"
+                                                              ItemsSource="{Binding VortragListe, Mode=OneWay}"
+                                                              EditValue="{Binding VortragListeSelected, Mode=TwoWay}"
+                                                              DisplayMember="NumberTopicDate"
+                                                              ValueMember="Nummer">
                                                     <dxe:ComboBoxEdit.StyleSettings>
                                                         <dxe:CheckedComboBoxStyleSettings />
                                                     </dxe:ComboBoxEdit.StyleSettings>
                                                 </dxe:ComboBoxEdit>
-                                            </dxlc:LayoutItem>
-                                        </dxlc:LayoutControl>
-                                    </dxa:AccordionItem>
-                                    <dxa:AccordionItem Header="Redner + Vortrags-Filter">
-                                        <StackPanel>
-                                            <CheckBox IsChecked="{Binding RednerCheckCancelation, Mode=TwoWay}">
-                                                <TextBlock Text="Redner ausblenden, für die bereits eine Absage erteilt wurde."
-                                                           TextWrapping="Wrap" FontWeight="Regular"
-                                                           ToolTip="Wurde ein Redner für ein Zukünftiges Datum angefragt, aber abgesagt, dann diesen Redner nicht noch einmal anfragen." />
-                                            </CheckBox>
-                                            <CheckBox IsChecked="{Binding RednerCheckFuture, Mode=TwoWay}">
-                                                <TextBlock Text="Redner ausblenden, die bereits eingeladen sind."
-                                                           TextWrapping="Wrap" FontWeight="Regular" />
-                                            </CheckBox>
-                                            <CheckBox IsChecked="{Binding RednerCheckHistory, Mode=TwoWay}">
-                                                <TextBlock Text="Redner ausblenden, die in den letzten 12 Monaten bereits eingeladen wurden."
-                                                           TextWrapping="Wrap" FontWeight="Regular" />
-                                            </CheckBox>
-                                            <CheckBox IsChecked="{Binding VortragCheckFuture, Mode=TwoWay}">
-                                                <TextBlock Text="Vorträge ausblenden, die bereits eingeplant sind."
-                                                           TextWrapping="Wrap" FontWeight="Regular" />
-                                            </CheckBox>
-                                            <CheckBox IsChecked="{Binding VortragCheckHistory, Mode=TwoWay}">
-                                                <TextBlock Text="Vorträge ausblenden, die in den letzten 12 Monaten gehalten wurden."
-                                                           TextWrapping="Wrap" FontWeight="Regular" />
-                                            </CheckBox>
-                                        </StackPanel>
-                                    </dxa:AccordionItem>
-                                </dxa:AccordionControl.Items>
-                            </dxa:AccordionControl>
+                                            </StackPanel>
+                                        </dxa:AccordionItem>
+                                    </dxa:AccordionControl.Items>
+                                </dxa:AccordionControl>
+                                <Button Content="Redner suchen"
+                                        Foreground="Orange"
+                                        Command="{Binding RednerSuchenCommand}"
+                                        Grid.Row="1"
+                                        Height="30"
+                                        VerticalAlignment="Center"
+                                        Margin="10,0" />
+                            </Grid>
                         </dxdo:LayoutPanel>
                         <dxdo:LayoutPanel ShowCaption="False">
                             <dxa:AccordionControl ViewMode="Accordion">
-                                <dxa:AccordionItem Header="Datum">
+                                <dxa:AccordionItem Header="Datum" IsExpanded="True">
                                     <Grid>
                                         <ComboBox VerticalAlignment="Top" Height="30" SelectedIndex="{Binding SelectedTermine, Mode=TwoWay}">
                                             <ComboBoxItem Content="nächster freier Termin" />
@@ -155,14 +180,13 @@
                                         <dxlc:FlowLayoutControl Margin="0,50,0,0" BreakFlowToFit="True" ItemsSource="{Binding FreieTermine}" Orientation="Horizontal">
                                             <dxlc:FlowLayoutControl.ItemTemplate>
                                                 <DataTemplate>
-
                                                     <CheckBox Content="{Binding Titel}" IsChecked="{Binding IsChecked}" dxlc:FlowLayoutControl.IsFlowBreak="{Binding IsFirstDateOfMonth,Mode=OneWay}" />
                                                 </DataTemplate>
                                             </dxlc:FlowLayoutControl.ItemTemplate>
                                         </dxlc:FlowLayoutControl>
                                     </Grid>
                                 </dxa:AccordionItem>
-                                <dxa:AccordionItem Header="Vorträge">
+                                <dxa:AccordionItem Header="Vorträge" IsExpanded="True">
                                     <dxlc:FlowLayoutControl Orientation="Vertical"
                                                 StretchContent="True"
                                                 BreakFlowToFit="True"

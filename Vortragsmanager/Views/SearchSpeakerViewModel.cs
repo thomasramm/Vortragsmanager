@@ -24,6 +24,8 @@ namespace Vortragsmanager.Views
 
         private void LoadModul1()
         {
+            RednerSuchenCommand = new DelegateCommand(ReadData);
+
             Kreise = new ObservableCollection<int>(Core.DataContainer.Versammlungen.Select(x => x.Kreis).Where(x => x > 0).Distinct());
             ReadTermine();
             SelectedTermine = 2;
@@ -41,6 +43,8 @@ namespace Vortragsmanager.Views
             Modul1Visible = new GridLength(1, GridUnitType.Star);
             Modul2Visible = new GridLength(0);
         }
+
+        public DelegateCommand RednerSuchenCommand { get; private set; }
 
         public void ReadSelectedKreis()
         {
@@ -133,38 +137,53 @@ namespace Vortragsmanager.Views
             {
                 selectedVersammlungen = (List<object>)value;
                 RaisePropertyChanged();
-                ReadData();
             }
         }
 
         public bool RednerCheckFuture
         {
             get { return GetProperty(() => RednerCheckFuture); }
-            set { SetProperty(() => RednerCheckFuture, value, ReadData); }
+            set { SetProperty(() => RednerCheckFuture, value); }
         }
 
         public bool RednerCheckHistory
         {
             get { return GetProperty(() => RednerCheckHistory); }
-            set { SetProperty(() => RednerCheckHistory, value, ReadData); }
+            set { SetProperty(() => RednerCheckHistory, value); }
         }
+
+        private bool _vortragCheckFuture;
 
         public bool VortragCheckFuture
         {
-            get { return GetProperty(() => VortragCheckFuture); }
-            set { SetProperty(() => VortragCheckFuture, value, ReadData); }
+            get => _vortragCheckFuture;
+
+            set
+            {
+                _vortragCheckFuture = value;
+                RaisePropertyChanged();
+                ReadAvailableTalks();
+            }
         }
+
+        private bool _vortragCheckHistory;
 
         public bool VortragCheckHistory
         {
-            get { return GetProperty(() => VortragCheckHistory); }
-            set { SetProperty(() => VortragCheckHistory, value, ReadData); }
+            get => _vortragCheckHistory;
+
+            set
+            {
+                _vortragCheckHistory = value;
+                RaisePropertyChanged();
+                ReadAvailableTalks();
+            }
         }
 
         public bool RednerCheckCancelation
         {
             get { return GetProperty(() => RednerCheckHistory); }
-            set { SetProperty(() => RednerCheckHistory, value, ReadData); }
+            set { SetProperty(() => RednerCheckHistory, value); }
         }
 
         private int _maxEntfernung;
@@ -198,6 +217,43 @@ namespace Vortragsmanager.Views
 
         public List<GroupConregation> Redner { get; private set; }
 
+        public ObservableCollection<Talk> VortragListe { get; } = new ObservableCollection<Talk>();
+
+        private List<object> _test;
+
+        public object VortragListeSelected
+        {
+            get
+            {
+                //if (_test == null)
+                //    _test = Versammlungen.Cast<object>().ToList();
+                return _test;
+            }
+            set
+            {
+                _test = (List<object>)value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public void ReadAvailableTalks()
+        {
+            var gewählt = new List<object>(150);
+            VortragListe.Clear();
+            foreach (var t in Core.DataContainer.Vorträge)
+            {
+                if (VortragCheckFuture && (t.zuletztGehalten != null) && t.zuletztGehalten > DateTime.Today)
+                    continue;
+
+                if (VortragCheckHistory && (t.zuletztGehalten != null) && t.zuletztGehalten > DateTime.Today.AddYears(-1))
+                    continue;
+
+                VortragListe.Add(t);
+                gewählt.Add(t.Nummer);
+            }
+            VortragListeSelected = gewählt;
+        }
+
         public void ReadData()
         {
             var list = new List<GroupConregation>();
@@ -214,6 +270,7 @@ namespace Vortragsmanager.Views
             }
             var redner = Core.DataContainer.Redner.Where(x => vers.Contains(x.Versammlung) && x.Aktiv && x.Einladen).ToList();
             var einladungen = Core.DataContainer.MeinPlan.Where(x => x.Status != EventStatus.Ereignis).Cast<Invitation>();
+            var selektierteVorträge = _test.Cast<int>().ToList();
 
             foreach (var r in redner)
             {
@@ -239,28 +296,27 @@ namespace Vortragsmanager.Views
                 if (RednerCheckCancelation && Core.DataContainer.Absagen.Any(x => x.Ältester == r))
                     continue;
 
-                gv.Redner.Add(gr);
-
-                foreach (var t in r.Vorträge.OrderBy(x => x.zuletztGehalten ?? DateTime.MinValue))
+                var anzahlVorträge = 0;
+                foreach (var t in r.Vorträge.Where(x => selektierteVorträge.Contains(x.Nummer)).OrderBy(x => x.zuletztGehalten ?? DateTime.MinValue))
                 {
                     var gt = new GroupTalk();
                     var gehalten = Core.DataContainer.MeinPlan.Where(x => x.Vortrag == t).ToList();
 
                     gt.Vortrag = t;
                     gt.AnzahlGehört = gehalten.Count;
-                    gt.InZukunft = gehalten.Where(x => x.Datum > DateTime.Today).Any()
-                        || Core.DataContainer.OffeneAnfragen.Any(x => x.RednerVortrag.ContainsValue(t));
-
-                    gt.InVergangenheit = gehalten.Where(x => x.Datum > DateTime.Today.AddYears(-1) && x.Datum <= DateTime.Today).Any();
-
-                    if (VortragCheckFuture && gt.InZukunft)
-                        continue;
-
-                    if (VortragCheckHistory && gt.InVergangenheit)
-                        continue;
-
                     gr.Vorträge.Add(gt);
+                    anzahlVorträge++;
                 }
+
+                if (anzahlVorträge > 0)
+                    gv.Redner.Add(gr);
+            }
+
+            for (int i = list.Count - 1; i >= 0; i--)
+            {
+                var versi = list[i];
+                if (list[i].Redner.Count == 0)
+                    list.RemoveAt(i);
             }
 
             Redner = list;

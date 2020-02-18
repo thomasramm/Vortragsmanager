@@ -36,6 +36,16 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand CreateSpeakerOverviewCommand { get; private set; }
 
+        public bool ListeÖffnen
+        {
+            get => Settings.Default.ListCreate_OpenFile;
+            set
+            {
+                Settings.Default.ListCreate_OpenFile = value;
+                Settings.Default.Save();
+            }
+        }
+
         private static string GetRednerAuswärts(DateTime datum)
         {
             Log.Info(nameof(GetRednerAuswärts), datum);
@@ -52,7 +62,7 @@ namespace Vortragsmanager.Views
             return ausgabe.Substring(0, ausgabe.Length - 2);
         }
 
-        public static void CreateAushang()
+        public void CreateAushang()
         {
             Log.Info(nameof(CreateAushang), "");
             //laden der Excel-Datei
@@ -106,7 +116,7 @@ namespace Vortragsmanager.Views
             SaveExcelFile(tempFile, "Aushang.xlsx");
         }
 
-        public static void CreateContactList()
+        public void CreateContactList()
         {
             Log.Info(nameof(CreateContactList), "");
             var tempFile = Path.GetTempFileName();
@@ -185,7 +195,7 @@ namespace Vortragsmanager.Views
             SaveExcelFile(tempFile, "Kontaktdaten.xlsx");
         }
 
-        public static void CreateExchangeRednerList()
+        public void CreateExchangeRednerList()
         {
             Log.Info(nameof(CreateExchangeRednerList), "");
             var jahr = DateTime.Today.Year;
@@ -311,7 +321,7 @@ namespace Vortragsmanager.Views
             SaveExcelFile(tempFile, "Rednerliste.xlsx");
         }
 
-        public static void CreateOverviewTalkCount()
+        public void CreateOverviewTalkCount()
         {
             Log.Info(nameof(CreateOverviewTalkCount), "");
             var tempFile = Path.GetTempFileName();
@@ -325,6 +335,7 @@ namespace Vortragsmanager.Views
                 sheet.Column(1).Width = 10;
                 sheet.Column(2).Width = 50;
                 sheet.Column(3).Width = 10;
+                sheet.Column(5).Width = 15;
 
                 sheet.Cells[1, 1].Value = "Anzahl der Ausarbeitungen der Vorträge";
 
@@ -333,6 +344,7 @@ namespace Vortragsmanager.Views
                 sheet.Cells[2, 2].Value = "Thema";
                 sheet.Cells[2, 3].Value = "Versammlung";
                 sheet.Cells[2, 4].Value = "Kreis";
+                sheet.Cells[2, 5].Value = "zuletzt gehört";
 
                 var row = 3;
                 foreach (var v in DataContainer.Vorträge.OrderBy(x => x.Nummer))
@@ -341,20 +353,27 @@ namespace Vortragsmanager.Views
                     sheet.Cells[row, 2].Value = v.Thema;
                     sheet.Cells[row, 3].Value = DataContainer.Redner.Where(x => x.Versammlung == vers && x.Vorträge.Contains(v)).Count();
                     sheet.Cells[row, 4].Value = DataContainer.Redner.Where(x => x.Versammlung.Kreis == kreis && x.Vorträge.Contains(v)).Count();
+                    var wochen = DataContainer.MeinPlan.Where(x => x.Vortrag == v);
+                    if (wochen.Any())
+                        sheet.Cells[row, 5].Value = wochen.Select(x => x.Datum).Max();
+
                     row++;
                 }
 
                 //create a range for the table
-                ExcelRange range = sheet.Cells[2, 1, row - 1, 4];
+                ExcelRange range = sheet.Cells[2, 1, row - 1, 5];
                 ExcelTable tab = sheet.Tables.Add(range, "Table1");
                 tab.TableStyle = TableStyles.Medium2;
+
+                range = sheet.Cells[2, 5, row - 1, 5];
+                range.Style.Numberformat.Format = "dd.mm.yyyy";
 
                 package.SaveAs(excel);
             }
             SaveExcelFile(tempFile, "Vortragsthemen.xlsx");
         }
 
-        public static void CreateSpeakerOverview()
+        public void CreateSpeakerOverview()
         {
             Log.Info(nameof(CreateSpeakerOverview), "");
             var tempFile = Path.GetTempFileName();
@@ -433,7 +452,7 @@ namespace Vortragsmanager.Views
             SaveExcelFile(tempFile, "Vortragsredner.xlsx");
         }
 
-        private static void SaveExcelFile(string tempName, string sugestedName)
+        private void SaveExcelFile(string tempName, string sugestedName)
         {
             Log.Info(nameof(SaveExcelFile), $"tempName={tempName}, sugestedName={sugestedName}");
             var saveFileDialog1 = new SaveFileDialog
@@ -465,6 +484,8 @@ namespace Vortragsmanager.Views
                 finally
                 {
                     File.Move(tempName, filename);
+                    if (ListeÖffnen)
+                        System.Diagnostics.Process.Start(filename);
                 }
             }
             saveFileDialog1.Dispose();

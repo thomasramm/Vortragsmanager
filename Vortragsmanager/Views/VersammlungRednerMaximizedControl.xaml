@@ -95,10 +95,13 @@
                                             DisplayMember="NumberTopicShort"
                                             IsTextEditable="False"
                                             AutoComplete="True"
-                                            IsPopupOpen="True" />
+                                            IsPopupOpen="True" KeyUp="ComboBoxEdit_KeyUp" />
                         </dxlc:LayoutItem>
                         <dxlc:LayoutItem Label="Kommagetrennte Liste von Vorträgen zum hinzufügen:" LabelPosition="Top" Margin="0,10,0,0">
-                            <dxe:TextEdit Text="{Binding NeueVorträgeListe}" />
+                            <dxe:TextEdit EditValue="{Binding NeueVorträgeListe}"
+                                          ValidateOnEnterKeyPressed="True"
+                                          ValidateOnTextInput="False"
+                                          Validate="NeueVorträgeListe_Validate" />
                         </dxlc:LayoutItem>
                         <Button Content="Hinzufügen"
                                 Command="{Binding NeuerVortragCommand}"
