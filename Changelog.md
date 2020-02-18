@@ -1,3 +1,16 @@
+[18.02.2020]
+* Redner Extern planen:
+  * Doppeltes speichern verhindern
+* Redner suchen: 
+  * Neuer Filter Vortrags-Nr
+* Listen Erstellen
+  *  Dateien nach dem erstellen direkt öffnen
+  * Liste der Vorträge erweitert um Spalte "zuletzt gehört"
+* Redner bearbeiten
+  * Neuen Vortrag eingeben und speichern mit Enter (beide Eingabemöglichkeiten)
+  * Die Box wird nur noch bei klick auf den Header geschlossen
+
+
 [02.02.2020]
 Fehlerbehebung: 
 * Abgesagte Vorträge wurden noch nicht gespeichert.
@@ -23,15 +36,15 @@ Bugs: Viele kleinere Programmverbesserung und Fehlerbehebungen
 
 [13.01.2020]
 * Anzeige der nächsten Ereignisse direkt auf der Startseite
-** Einladung am Sonntag
-** Nächster externer Redner
+  * Einladung am Sonntag
+  * Nächster externer Redner
 * Externe Anfrage:
-** prüfen ob alle Felder korrekt gefüllt sind
-** kleine UI Fehler behoben
-** Hinweise anzeigen die gegen die Einladung sprechen: Redner ist bereits verplant, Redner hat innerhalb 1 Monats mehr als 1 Einladung, an dem angefragten Datum sind bereits 2 oder mehr Redner auswärts unterwegs.
+  * prüfen ob alle Felder korrekt gefüllt sind
+  * kleine UI Fehler behoben
+  * Hinweise anzeigen die gegen die Einladung sprechen: Redner ist bereits verplant, Redner hat innerhalb 1 Monats mehr als 1 Einladung, an dem angefragten Datum sind bereits 2 oder mehr Redner auswärts unterwegs.
 * Rednersuche
-** Offene Anfragen für Versammlungen werden jetzt berücksichtigt, neuer Filter
-** Anzeige des letzten Besuch eines Redners in meiner Versammlung
+  * Offene Anfragen für Versammlungen werden jetzt berücksichtigt, neuer Filter
+  * Anzeige des letzten Besuch eines Redners in meiner Versammlung
 * kleine UI (Oberflächen) Verbesserungen 
 
 [06.01.2020]
@@ -41,8 +54,8 @@ Bugs: Viele kleinere Programmverbesserung und Fehlerbehebungen
 [05.01.2020]
 * Fehler im Einrichtungsassistent, import von vplanung.net Dateien war nicht möglich
 * Neue Listen: 
-** Rednerdaten der Versammlung zum Versenden an Koordinatoren 
-** Liste aller Vorträge mit Anzahl der Ausarbeitungen
+ * Rednerdaten der Versammlung zum Versenden an Koordinatoren 
+ * Liste aller Vorträge mit Anzahl der Ausarbeitungen
 * kleinere Programmverbesserungen der Oberfläche
 
 [04.01.2020]
