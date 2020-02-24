@@ -85,7 +85,7 @@ namespace Vortragsmanager.Views
                     if (evt.Status == EventStatus.Ereignis)
                     {
                         var sonntag = (evt as SpecialEvent);
-                        worksheet.Cells[row, 2].Value = sonntag.Name; //EventName
+                        worksheet.Cells[row, 2].Value = sonntag.Name ?? sonntag.Typ.ToString(); //EventName
                         row++;
                         worksheet.Cells[row, 3].Value = sonntag.Vortragender; //Vortragsredner
                         worksheet.Cells[row, 4].Value = sonntag.Thema; //Vortragsredner, Versammlung
@@ -269,7 +269,7 @@ namespace Vortragsmanager.Views
                 row++;
 
                 sheet.Cells[row, 1].Value = $"{jahr + 1}: {DataContainer.MeineVersammlung.GetZusammenkunftszeit(jahr + 1)}";
-                row = row + 2;
+                row += 2;
 
                 sheet.Cells[row, 1, row, 3].Style.Font.Bold = true;
                 sheet.Cells[row, 1].Value = "Redner";
@@ -433,7 +433,9 @@ namespace Vortragsmanager.Views
                     {
                         vortragsliste += item.Nummer + ", ";
                     };
-                    sheet.Cells[row, 8].Value = vortragsliste.Substring(0, vortragsliste.Length - 2);
+                    if (vortragsliste.Length >= 2)
+                        vortragsliste = vortragsliste.Substring(0, vortragsliste.Length - 2);
+                    sheet.Cells[row, 8].Value = vortragsliste;
                     sheet.Cells[row, 9].Value = v.Mail;
                     sheet.Cells[row, 10].Value = v.Telefon;
                     sheet.Cells[row, 11].Value = v.Mobil;

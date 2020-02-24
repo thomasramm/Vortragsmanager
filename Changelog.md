@@ -1,3 +1,7 @@
+[24.02.2020]
+* kleine Bugs behoben beim Listen erstellen
+* Verbesserter Log zur Fehlersuche
+
 [18.02.2020]
 * Redner Extern planen:
   * Doppeltes speichern verhindern
