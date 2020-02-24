@@ -25,7 +25,8 @@ namespace Vortragsmanager
             Log.Start();
             AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
             {
-                Log.Error("FirstChanceException", eventArgs.Exception.ToString());
+                Log.Error("FirstChanceException", eventArgs.Exception.Message);
+                Log.Error("FirstChanceExceptionStackTrace", eventArgs.Exception.StackTrace);
             };
 
             if (Settings.Default.sqlite == "vortragsmanager.sqlite3")
