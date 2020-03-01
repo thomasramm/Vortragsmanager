@@ -118,6 +118,7 @@ namespace Vortragsmanager.Views
             BuchungVerschiebenCommand = new DelegateCommand(BuchungVerschieben);
             BuchungLöschenCommand = new DelegateCommand(AnfrageLöschen);
             RednerSuchenCommand = new DelegateCommand(RednerSuchen);
+            RednerEintragenCommand = new DelegateCommand(RednerEintragen);
             EreignisEintragenCommand = new DelegateCommand(EreignisEintragen);
             AnfrageBearbeitenCommand = new DelegateCommand(AnfrageBearbeiten);
             ClickCommand = new DelegateCommand(OnClick);
@@ -151,6 +152,8 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand RednerSuchenCommand { get; private set; }
 
+        public DelegateCommand RednerEintragenCommand { get; private set; }
+
         public DelegateCommand AnfrageBearbeitenCommand { get; private set; }
 
         private void EreignisEintragen()
@@ -175,6 +178,10 @@ namespace Vortragsmanager.Views
                 Zuteilung = ev;
                 Monat.GetWeeks(Jahr);
             }
+        }
+
+        private void RednerEintragen()
+        {
         }
 
         public void AnfrageLöschen()
