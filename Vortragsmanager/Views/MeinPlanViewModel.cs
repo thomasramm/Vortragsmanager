@@ -182,6 +182,22 @@ namespace Vortragsmanager.Views
 
         private void RednerEintragen()
         {
+            var dialog = new RednerEintragenDialog();
+            var data = (RednerEintragenView)(dialog.DataContext);
+            dialog.ShowDialog();
+            if (!data.Speichern)
+                return;
+
+            var i = new Invitation
+            {
+                Datum = Tag,
+                Status = EventStatus.Zugesagt,
+                Ältester = data.SelectedRedner,
+                Vortrag = data.SelectedVortrag
+            };
+            Zuteilung = i;
+            Core.DataContainer.MeinPlan.Add(i);
+            Monat.GetWeeks(Jahr);
         }
 
         public void AnfrageLöschen()
@@ -203,12 +219,12 @@ namespace Vortragsmanager.Views
                 data.MailTextKoordinator = Core.Templates.GetMailTextAblehnenKoordinator(zuteilung);
 
             w.ShowDialog();
-            if (data.Speichern)
-            {
-                Core.DataContainer.MeinPlan.Remove(Zuteilung);
-                Core.DataContainer.Absagen.Add(new Cancelation(zuteilung.Datum, zuteilung.Ältester, zuteilung.Status));
-                Monat.GetWeeks(Jahr);
-            }
+            if (!data.Speichern)
+                return;
+
+            Core.DataContainer.MeinPlan.Remove(Zuteilung);
+            Core.DataContainer.Absagen.Add(new Cancelation(zuteilung.Datum, zuteilung.Ältester, zuteilung.Status));
+            Monat.GetWeeks(Jahr);
         }
 
         public void BuchungVerschieben()
@@ -219,10 +235,10 @@ namespace Vortragsmanager.Views
             data.LadeStartDatum(Zuteilung);
             verschieben.ShowDialog();
 
-            if (data.Speichern)
-            {
-                Monat.GetWeeks(Jahr);
-            }
+            if (!data.Speichern)
+                return;
+
+            Monat.GetWeeks(Jahr);
         }
 
         public void AnfrageBearbeiten()

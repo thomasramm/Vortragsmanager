@@ -141,6 +141,9 @@
     <Compile Include="Views\EinstellungenViewModel.cs">
       <DependentUpon>EinstellungenView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RednerEintragenDialog.cs">
+      <DependentUpon>RednerEintragenDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EreignisEintragenDialog.xaml.cs">
       <DependentUpon>EreignisEintragenDialog.xaml</DependentUpon>
     </Compile>
@@ -149,6 +152,9 @@
     </Compile>
     <Compile Include="Views\KalendereintragVerschiebenView.cs">
       <DependentUpon>KalendereintragVerschieben.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RednerEintragenView.cs">
+      <DependentUpon>RednerEintragenDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SetupWizardDialog.xaml.cs">
       <DependentUpon>SetupWizardDialog.xaml</DependentUpon>
@@ -271,6 +277,10 @@
     <Page Include="Views\EinstellungenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RednerEintragenDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\EreignisEintragenDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
