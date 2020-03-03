@@ -1,3 +1,8 @@
+[xx.xx.xxxx]
+Mein Plan: 
+ * Direktes Eintragen von Vortragsbuchungen
+ * Detailansicht bei Buchungen wird jetzt über das neue X oben rechts im Popup geschlossen, bei Klick auf eine Information (z.B. Telefonnr des Koordinator) wird diese in die Zwischenablage kopiert. Das Kopieren wird durch eine kurzzeitige optische Hervorhebung signalisiert.
+ 
 [24.02.2020]
 * kleine Bugs behoben beim Listen erstellen
 * Verbesserter Log zur Fehlersuche
