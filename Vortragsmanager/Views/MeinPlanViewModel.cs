@@ -123,6 +123,7 @@ namespace Vortragsmanager.Views
             AnfrageBearbeitenCommand = new DelegateCommand(AnfrageBearbeiten);
             BuchungBearbeitenCommand = new DelegateCommand(BuchungBearbeiten);
             ClickCommand = new DelegateCommand(OnClick);
+            ClosePopupCommand = new DelegateCommand(ClosePopup);
         }
 
         private void OnClick()
@@ -135,11 +136,18 @@ namespace Vortragsmanager.Views
                 EreignisEintragen();
             else if (IsBuchung)
             {
-                DetailView = !DetailView;
+                DetailView = true;
                 RaisePropertyChanged(nameof(DetailView));
-                //ToDo: Bei Click auf Buchung, Details Anzeigen
             }
         }
+
+        private void ClosePopup()
+        {
+            DetailView = false;
+            RaisePropertyChanged(nameof(DetailView));
+        }
+
+        public DelegateCommand ClosePopupCommand { get; private set; }
 
         public DelegateCommand ClickCommand { get; private set; }
 
