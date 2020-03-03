@@ -118,9 +118,12 @@ namespace Vortragsmanager.Views
             BuchungVerschiebenCommand = new DelegateCommand(BuchungVerschieben);
             BuchungLöschenCommand = new DelegateCommand(AnfrageLöschen);
             RednerSuchenCommand = new DelegateCommand(RednerSuchen);
+            RednerEintragenCommand = new DelegateCommand(RednerEintragen);
             EreignisEintragenCommand = new DelegateCommand(EreignisEintragen);
             AnfrageBearbeitenCommand = new DelegateCommand(AnfrageBearbeiten);
+            BuchungBearbeitenCommand = new DelegateCommand(BuchungBearbeiten);
             ClickCommand = new DelegateCommand(OnClick);
+            ClosePopupCommand = new DelegateCommand(ClosePopup);
         }
 
         private void OnClick()
@@ -133,11 +136,18 @@ namespace Vortragsmanager.Views
                 EreignisEintragen();
             else if (IsBuchung)
             {
-                DetailView = !DetailView;
+                DetailView = true;
                 RaisePropertyChanged(nameof(DetailView));
-                //ToDo: Bei Click auf Buchung, Details Anzeigen
             }
         }
+
+        private void ClosePopup()
+        {
+            DetailView = false;
+            RaisePropertyChanged(nameof(DetailView));
+        }
+
+        public DelegateCommand ClosePopupCommand { get; private set; }
 
         public DelegateCommand ClickCommand { get; private set; }
 
@@ -149,7 +159,11 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand BuchungVerschiebenCommand { get; private set; }
 
+        public DelegateCommand BuchungBearbeitenCommand { get; private set; }
+
         public DelegateCommand RednerSuchenCommand { get; private set; }
+
+        public DelegateCommand RednerEintragenCommand { get; private set; }
 
         public DelegateCommand AnfrageBearbeitenCommand { get; private set; }
 
@@ -177,6 +191,26 @@ namespace Vortragsmanager.Views
             }
         }
 
+        private void RednerEintragen()
+        {
+            var dialog = new RednerEintragenDialog();
+            var data = (RednerEintragenView)(dialog.DataContext);
+            dialog.ShowDialog();
+            if (!data.Speichern)
+                return;
+
+            var i = new Invitation
+            {
+                Datum = Tag,
+                Status = EventStatus.Zugesagt,
+                Ältester = data.SelectedRedner,
+                Vortrag = data.SelectedVortrag
+            };
+            Zuteilung = i;
+            Core.DataContainer.MeinPlan.Add(i);
+            Monat.GetWeeks(Jahr);
+        }
+
         public void AnfrageLöschen()
         {
             if (Zuteilung.Status == EventStatus.Ereignis)
@@ -196,12 +230,12 @@ namespace Vortragsmanager.Views
                 data.MailTextKoordinator = Core.Templates.GetMailTextAblehnenKoordinator(zuteilung);
 
             w.ShowDialog();
-            if (data.Speichern)
-            {
-                Core.DataContainer.MeinPlan.Remove(Zuteilung);
-                Core.DataContainer.Absagen.Add(new Cancelation(zuteilung.Datum, zuteilung.Ältester, zuteilung.Status));
-                Monat.GetWeeks(Jahr);
-            }
+            if (!data.Speichern)
+                return;
+
+            Core.DataContainer.MeinPlan.Remove(Zuteilung);
+            Core.DataContainer.Absagen.Add(new Cancelation(zuteilung.Datum, zuteilung.Ältester, zuteilung.Status));
+            Monat.GetWeeks(Jahr);
         }
 
         public void BuchungVerschieben()
@@ -212,10 +246,33 @@ namespace Vortragsmanager.Views
             data.LadeStartDatum(Zuteilung);
             verschieben.ShowDialog();
 
-            if (data.Speichern)
+            if (!data.Speichern)
+                return;
+
+            Monat.GetWeeks(Jahr);
+        }
+
+        public void BuchungBearbeiten()
+        {
+            var dialog = new RednerEintragenDialog();
+            var data = (RednerEintragenView)(dialog.DataContext);
+            data.SelectedVersammlung = Einladung.Ältester.Versammlung;
+            data.SelectedRedner = Einladung.Ältester;
+            data.SelectedVortrag = Einladung.Vortrag;
+            dialog.ShowDialog();
+            if (!data.Speichern)
+                return;
+
+            var i = new Invitation
             {
-                Monat.GetWeeks(Jahr);
-            }
+                Datum = Tag,
+                Status = EventStatus.Zugesagt,
+                Ältester = data.SelectedRedner,
+                Vortrag = data.SelectedVortrag
+            };
+            Einladung.Ältester = data.SelectedRedner;
+            Einladung.Vortrag = data.SelectedVortrag;
+            Monat.GetWeeks(Jahr);
         }
 
         public void AnfrageBearbeiten()
