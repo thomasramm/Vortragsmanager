@@ -104,6 +104,7 @@
                                                                 <MenuItem Header="Ereignis bearbeiten" Command="{Binding EreignisEintragenCommand}"   Visibility="{Binding IsEreignis, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <MenuItem Header="Anfrage bearbeiten" Command="{Binding AnfrageBearbeitenCommand}" Visibility="{Binding IsAnfrage, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <MenuItem Header="Buchung verschieben" Command="{Binding BuchungVerschiebenCommand}" Visibility="{Binding IsBuchung, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                <MenuItem Header="Buchung bearbeiten" Command="{Binding BuchungBearbeitenCommand}" Visibility="{Binding IsBuchung, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <MenuItem Header="Buchung löschen" Command="{Binding BuchungLöschenCommand}" Visibility="{Binding IsBuchung, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                             </ContextMenu>
                                                         </Border.ContextMenu>

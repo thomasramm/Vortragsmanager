@@ -121,6 +121,7 @@ namespace Vortragsmanager.Views
             RednerEintragenCommand = new DelegateCommand(RednerEintragen);
             EreignisEintragenCommand = new DelegateCommand(EreignisEintragen);
             AnfrageBearbeitenCommand = new DelegateCommand(AnfrageBearbeiten);
+            BuchungBearbeitenCommand = new DelegateCommand(BuchungBearbeiten);
             ClickCommand = new DelegateCommand(OnClick);
         }
 
@@ -149,6 +150,8 @@ namespace Vortragsmanager.Views
         public DelegateCommand BuchungLöschenCommand { get; private set; }
 
         public DelegateCommand BuchungVerschiebenCommand { get; private set; }
+
+        public DelegateCommand BuchungBearbeitenCommand { get; private set; }
 
         public DelegateCommand RednerSuchenCommand { get; private set; }
 
@@ -238,6 +241,29 @@ namespace Vortragsmanager.Views
             if (!data.Speichern)
                 return;
 
+            Monat.GetWeeks(Jahr);
+        }
+
+        public void BuchungBearbeiten()
+        {
+            var dialog = new RednerEintragenDialog();
+            var data = (RednerEintragenView)(dialog.DataContext);
+            data.SelectedVersammlung = Einladung.Ältester.Versammlung;
+            data.SelectedRedner = Einladung.Ältester;
+            data.SelectedVortrag = Einladung.Vortrag;
+            dialog.ShowDialog();
+            if (!data.Speichern)
+                return;
+
+            var i = new Invitation
+            {
+                Datum = Tag,
+                Status = EventStatus.Zugesagt,
+                Ältester = data.SelectedRedner,
+                Vortrag = data.SelectedVortrag
+            };
+            Einladung.Ältester = data.SelectedRedner;
+            Einladung.Vortrag = data.SelectedVortrag;
             Monat.GetWeeks(Jahr);
         }
 
