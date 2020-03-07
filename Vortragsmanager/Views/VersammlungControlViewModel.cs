@@ -1,10 +1,7 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using Vortragsmanager.Models;
@@ -68,23 +65,7 @@ namespace Vortragsmanager.Views
 
             Core.DataContainer.Versammlungen.Remove(Versammlung);
             Sichtbarkeit = Visibility.Collapsed;
-
-            //var boxList = ((FlowLayoutControl)lc).Children;
-            //for (int i = 0; i < boxList.Count; i++)
-            //{
-            //    var gBox = (boxList[i] as GroupBox);
-            //    if (gBox is null)
-            //        continue;
-            //    var data = (ConregationViewModel)gBox.DataContext;
-            //    data.EditMode = false;
-            //    data.Select(false);
-            //    if (data == this)
-            //    {
-            //        boxList.RemoveAt(i);
-            //        i--;
-            //    }
-            //}
-
+            _deleted = true;
             RaisePropertyChanged(nameof(Sichtbarkeit));
         }
 

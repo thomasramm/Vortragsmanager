@@ -263,13 +263,6 @@ namespace Vortragsmanager.Views
             if (!data.Speichern)
                 return;
 
-            var i = new Invitation
-            {
-                Datum = Tag,
-                Status = EventStatus.Zugesagt,
-                Ältester = data.SelectedRedner,
-                Vortrag = data.SelectedVortrag
-            };
             Einladung.Ältester = data.SelectedRedner;
             Einladung.Vortrag = data.SelectedVortrag;
             Monat.GetWeeks(Jahr);
