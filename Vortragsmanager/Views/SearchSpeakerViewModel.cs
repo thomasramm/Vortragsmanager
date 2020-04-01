@@ -427,6 +427,7 @@ namespace Vortragsmanager.Views
                 anfrage.Wochen.Add(d);
             }
             anfrage.Kommentar = Kommentar;
+            anfrage.Mailtext = MailText;
             Core.DataContainer.OffeneAnfragen.Add(anfrage);
             LoadModul1();
         }
