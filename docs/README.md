@@ -18,8 +18,9 @@ Die Verwaltung deiner eigenen Redner- und Vortragsplanung geschieht hier.
 Zur [Anleitung](MeinPlan.md)
 
 Neben dem Plan mit seinen Funktionen gibt es auf der Startseite noch zwei Unterfunktionen:
-* [Redner suchen](MeinPlan.md#Redner_suchen)
-* [Antwort eintragen](MeinPlan#Antwort_eintragen)
+* [Redner suchen](MeinPlan.md#redner-suchen)
+* [Antwort eintragen](MeinPlan#antwort-eintragen)
+
 
 ## [Meine Redner](MeineRedner.md) ##
 Eine Liste aller Einlaungen meiner Redner. Diese Liste kann hier gefiltert und bearbeitet werden.
@@ -27,11 +28,11 @@ Eine Liste aller Einlaungen meiner Redner. Diese Liste kann hier gefiltert und b
 Zur [Anleitung](MeineRedner.md)
 
 Neben dieser Liste gibt es auf der Startseite noch die Unterfunktion
-* [Neue Externe Anfrage](MeineRedner.md#Neue_Externe_Anfrage)
+* [Neue Externe Anfrage](MeineRedner.md#neue-externe-anfrage)
 
 ## [Verwaltung](Verwaltung.md) ##
 Der Bereich Verwaltung besteht aus vier verschiedenen Bereichen: 
-* [Listen ausgeben](Verwaltung.md#Listen_ausgeben)
-* [Versammlungen](Verwaltung.md#Versammlungen)
-* [Vorlagen](Verwaltung.md#Vorlagen)
-* [Programm](Verwaltung.md#Programm)
+* [Listen ausgeben](Verwaltung.md#listen-ausgeben)
+* [Versammlungen](Verwaltung.md#versammlungen)
+* [Vorlagen](Verwaltung.md#vorlagen)
+* [Programm](Verwaltung.md#programm)

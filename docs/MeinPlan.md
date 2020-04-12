@@ -1,3 +1,5 @@
+⇦ zurück zum [Inhaltsverzeichnis](README.md)
+
 Die Verwaltung deiner eigenen Redner- und Vortragsplanung geschieht hier. 
 
 UNDER CONSTRUCTION
@@ -8,3 +10,5 @@ UNDER CONSTRUCTION
 
 # Antwort eintragen #
 UNDER CONSTRUCTION
+
+⇦ zurück zum [Inhaltsverzeichnis](README.md)
