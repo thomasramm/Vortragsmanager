@@ -2,7 +2,7 @@
 
 Eine Kurzübersicht über das Programm findest du in der [Readme](./../README.md) im Hauptverzeichnis.
 
-Dieses Handbuch geht auf die Installation, sowie auf die drei Hauptbereiche des Programm ein:
+Dieses Handbuch geht detailierter auf die Installation, sowie auf die drei Hauptbereiche des Programm ein:
 * Mein Plan -> Die Vortragsplanung deiner Versammlung
 * Meine Redner -> Externe Einladungen deiner Redner
 * Verwaltung -> Listen ausgeben, Programmeinstellungen und (Redner-)Daten pflegen
