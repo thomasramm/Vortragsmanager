@@ -1,4 +1,8 @@
-[xx.xx.xxxx]
+[12.04.2020]
+* UpdateDialog: Zeilenumbruch bei Anzeige langer Texte
+* Rener suchen: Zukünftig werden die generierten Mail-Text einer Vortragsanfrage gespeichert (Ich wollte einen Koordinator an eine ausstehende Einladung erinnern, die Mail war in jwpub aber schon gelöscht...) und es gibt einen kleinen Button zur Anzeige in der Anzeige der offenen Anfragen. Wird die Anfrage bestätigt oder gelöscht, wird der Mailtext mit gelöscht.
+
+[03.03.2020]
 Mein Plan: 
  * Direktes Eintragen von Vortragsbuchungen
  * Detailansicht bei Buchungen wird jetzt über das neue X oben rechts im Popup geschlossen, bei Klick auf eine Information (z.B. Telefonnr des Koordinator) wird diese in die Zwischenablage kopiert. Das Kopieren wird durch eine kurzzeitige optische Hervorhebung signalisiert.
