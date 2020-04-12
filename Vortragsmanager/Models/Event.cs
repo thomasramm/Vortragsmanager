@@ -133,6 +133,8 @@ namespace Vortragsmanager.Models
         public ObservableCollection<DateTime> Wochen { get; } = new ObservableCollection<DateTime>();
 
         public string Kommentar { get; set; }
+
+        public string Mailtext { get; set; }
     }
 
     public interface IEvent

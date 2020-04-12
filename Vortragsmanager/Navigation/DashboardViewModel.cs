@@ -1,10 +1,7 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Xpf.LayoutControl;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using Vortragsmanager.Models;
 

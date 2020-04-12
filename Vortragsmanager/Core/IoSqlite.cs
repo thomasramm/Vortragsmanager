@@ -225,7 +225,8 @@ namespace Vortragsmanager.Core
                 IdConregation INTEGER,
                 Status INTEGER,
                 AnfrageDatum INTEGER,
-                Kommentar STRING)", db);
+                Kommentar STRING,
+                Mailtext STRING)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
 
@@ -267,6 +268,13 @@ namespace Vortragsmanager.Core
             if (DataContainer.Version < 3)
             {
                 var cmd = new SQLiteCommand(@"ALTER TABLE Speaker ADD Einladen INTEGER;", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+            }
+
+            if (DataContainer.Version < 4)
+            {
+                var cmd = new SQLiteCommand(@"ALTER TABLE Inquiry ADD Mailtext STRING;", db);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
             }
@@ -601,7 +609,7 @@ namespace Vortragsmanager.Core
             Log.Info(nameof(ReadAnfragen));
             DataContainer.OffeneAnfragen.Clear();
 
-            using (var cmd1 = new SQLiteCommand("SELECT Id, IdConregation, Status, AnfrageDatum, Kommentar FROM Inquiry", db))
+            using (var cmd1 = new SQLiteCommand("SELECT Id, IdConregation, Status, AnfrageDatum, Kommentar, Mailtext FROM Inquiry", db))
             using (var cmd2 = new SQLiteCommand("SELECT Datum FROM Inquiry_Dates WHERE IdInquiry = @Id", db))
             using (var cmd3 = new SQLiteCommand("SELECT IdSpeaker, IdTalk FROM Inquiry_SpeakerTalk WHERE IdInquiry = @Id", db))
             {
@@ -616,6 +624,7 @@ namespace Vortragsmanager.Core
                     var status = rdr1.GetInt32(2);
                     var anfrage = rdr1.GetDateTime(3);
                     var kommentar = rdr1.GetString(4);
+                    var mailtext = rdr1.IsDBNull(5) ? "" : rdr1.GetString(5);
 
                     var v = new Inquiry
                     {
@@ -624,6 +633,7 @@ namespace Vortragsmanager.Core
                         //Status = (EventStatus)status,
                         AnfrageDatum = anfrage,
                         Kommentar = kommentar,
+                        Mailtext = mailtext,
                     };
 
                     cmd2.Parameters[0].Value = id;
@@ -800,7 +810,7 @@ namespace Vortragsmanager.Core
         private static void SaveAnfragen(SQLiteConnection db)
         {
             Log.Info(nameof(SaveAnfragen));
-            var cmd1 = new SQLiteCommand("INSERT INTO Inquiry(Id, IdConregation, Status, AnfrageDatum, Kommentar) VALUES (@Id, @IdConregation, @Status, @AnfrageDatum, @Kommentar)", db);
+            var cmd1 = new SQLiteCommand("INSERT INTO Inquiry(Id, IdConregation, Status, AnfrageDatum, Kommentar, Mailtext) VALUES (@Id, @IdConregation, @Status, @AnfrageDatum, @Kommentar, @Mailtext)", db);
             var cmd2 = new SQLiteCommand("INSERT INTO Inquiry_Dates(IdInquiry, Datum) VALUES (@IdInquiry, @Datum)", db);
             var cmd3 = new SQLiteCommand("INSERT INTO Inquiry_SpeakerTalk(IdInquiry, IdSpeaker, IdTalk) VALUES (@IdInquiry, @IdSpeaker, @IdTalk)", db);
 
@@ -809,6 +819,7 @@ namespace Vortragsmanager.Core
             cmd1.Parameters.Add("@Status", System.Data.DbType.Int32);
             cmd1.Parameters.Add("@AnfrageDatum", System.Data.DbType.Date);
             cmd1.Parameters.Add("@Kommentar", System.Data.DbType.String);
+            cmd1.Parameters.Add("@Mailtext", System.Data.DbType.String);
 
             cmd2.Parameters.Add("@IdInquiry", System.Data.DbType.Int32);
             cmd2.Parameters.Add("@Datum", System.Data.DbType.Date);
@@ -824,6 +835,7 @@ namespace Vortragsmanager.Core
                 cmd1.Parameters[2].Value = (int)con.Status;
                 cmd1.Parameters[3].Value = con.AnfrageDatum;
                 cmd1.Parameters[4].Value = con.Kommentar;
+                cmd1.Parameters[5].Value = con.Mailtext;
                 cmd1.ExecuteNonQuery();
 
                 cmd2.Parameters[0].Value = con.Id;

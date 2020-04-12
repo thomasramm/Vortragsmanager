@@ -1,8 +1,8 @@
 ﻿using DevExpress.Mvvm;
 using System;
 using System.Collections.ObjectModel;
-using Vortragsmanager.Models;
 using System.Linq;
+using Vortragsmanager.Models;
 
 namespace Vortragsmanager.Views
 {
@@ -48,15 +48,32 @@ namespace Vortragsmanager.Views
             if (inquiry is null)
                 return;
 
+            MailtextAnzeigenCommand = new DelegateCommand(MailtextAnzeigen);
+
             foreach (var x in BaseAnfrage.RednerVortrag)
             {
                 Redner.Add(new AnfrageDetail(this, x.Key, x.Value));
             }
         }
 
+        public DelegateCommand MailtextAnzeigenCommand { get; private set; }
+
+        public void MailtextAnzeigen()
+        {
+            var w = new InfoAnRednerUndKoordinatorWindow();
+            var data = (InfoAnRednerUndKoordinatorViewModel)w.DataContext;
+            data.Titel = $"Original Mailtext vom {AnfrageDatum}";
+            data.MailTextKoordinator = string.IsNullOrWhiteSpace(BaseAnfrage.Mailtext) ? "kein Mailtext vorhanden!" + Environment.NewLine + BaseAnfrage.Kommentar : BaseAnfrage.Mailtext;
+            data.DisableCancelButton();
+
+            w.ShowDialog();
+        }
+
         public ObservableCollection<DateTime> Wochen => BaseAnfrage.Wochen;
 
         public string Versammlung => BaseAnfrage.Versammlung.Name;
+
+        public string AnfrageDatum => BaseAnfrage.AnfrageDatum.ToString("dd.MM.yyyy", Core.DataContainer.German);
 
         public ObservableCollection<AnfrageDetail> Redner { get; private set; } = new ObservableCollection<AnfrageDetail>();
     }

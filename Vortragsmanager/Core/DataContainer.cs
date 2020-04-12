@@ -1,7 +1,6 @@
 ﻿using DevExpress.Mvvm;
 using System;
 using System.Collections.ObjectModel;
-using System.Data.SQLite;
 using System.Globalization;
 using System.Linq;
 using Vortragsmanager.Models;

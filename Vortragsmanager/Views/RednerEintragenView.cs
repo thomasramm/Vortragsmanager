@@ -1,7 +1,7 @@
 ﻿using DevExpress.Mvvm;
 using System.Collections.Generic;
-using Vortragsmanager.Models;
 using System.Linq;
+using Vortragsmanager.Models;
 
 namespace Vortragsmanager.Views
 {

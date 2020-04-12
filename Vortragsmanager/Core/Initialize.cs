@@ -495,6 +495,11 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn"
                 DataContainer.Vorträge.Add(new Talk(-1, "Unbekannt") { Gültig = false });
                 DataContainer.Version = 3;
             }
+
+            if (DataContainer.Version < 4)
+            {
+                DataContainer.Version = 4;
+            }
         }
     }
 }

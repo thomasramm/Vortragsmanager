@@ -28,7 +28,7 @@ namespace Vortragsmanager.Views
             l.Background = new SolidColorBrush(Colors.Green);
 
             var timer = new Timer() { Interval = 250, Enabled = true, AutoReset = false };
-            timer.Elapsed += (s, ev) => l.Dispatcher.BeginInvoke((Action)delegate () { l.Background = original; });
+            timer.Elapsed += (s, ev) => l.Dispatcher.BeginInvoke((Action)delegate () { l.Background = original; timer.Dispose(); });
         }
     }
 }
