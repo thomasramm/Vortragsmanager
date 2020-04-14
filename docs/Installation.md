@@ -12,37 +12,40 @@ Die Installation teilt sich in zwei wichtige Schritte ein.
  In dem erstellten Ordner **Vortragsmanager** startest du die eigentliche Installation mit **Setup.exe**.
 
 1. Nun werden einige Sicherheitswarnungen angezeigt weil Microsoft mein Programm nicht kennt (was ich durchaus nachvollziehen kann 😉):
- Im ersten Dialog klickst du auf *Weitere Informationen*
 
- ![STEP 3](./../images/step_03.png)
+Im ersten Dialog klickst du auf *Weitere Informationen*
+
+![STEP 3](./../images/step_03.png)
  
- Nun wird dir ein neuer Button angezeigt *Trotzdem ausführen*. Diesen bitte bestätigen.
+Nun wird dir ein neuer Button angezeigt *Trotzdem ausführen*. Diesen bitte bestätigen.
  
- ![STEP 4](./../images/step_04.png)
+![STEP 4](./../images/step_04.png)
 
-1. Nun startet die eigentliche Programminstallation. Klicke auf *Weiter*
+Jetzt startet die eigentliche Programminstallation. Klicke auf *Weiter*
 
- ![STEP 5](./../images/step_05.png)
+![STEP 5](./../images/step_05.png)
 
-1. Jetzt kann er Installationsordner abgeändert werden.
+Als nächstes kann der Installationsordner abgeändert werden.
 
- ![STEP 6](./../images/step_06.png)
+![STEP 6](./../images/step_06.png)
 
-1. Zum Schluss noch die Installation durch klick auf *Weiter* bestätigen.
+Zum Schluss noch die Installation durch klick auf *Weiter* bestätigen.
 
- ![STEP 7](./../images/step_07.png)
+![STEP 7](./../images/step_07.png)
 
-1. Eventuell wirst du nochmals gefragt ob das Setup wirklich Änerungen an deinem Gerät vornehmen darf, was nochmals mit *Ja* bestätigt weren muß.
+Eventuell wirst du nochmals gefragt ob das Setup wirklich Änerungen an deinem Gerät vornehmen darf, was nochmals mit *Ja* bestätigt weren muß.
 
- ![STEP 8](./../images/step_08.png)
+![STEP 8](./../images/step_08.png)
 
-1. Nun wird das Programm installiert, was bei mir wenige Sekunden dauert. Am Ende wird das Setup durch klick auf *Schließen* beendet.
+Endlich wird das Programm installiert, was bei mir wenige Sekunden dauert. Am Ende wird das Setup durch klick auf *Schließen* beendet.
 
- ![STEP 9](./../images/step_09.png)
+![STEP 9](./../images/step_09.png)
 
 In deinem Startmenü hast du jetzt einen Eintrag zum starten des Vortragsmanagers.
 
 ![STEP 10](./../images/step_10.png)
+
+
 
 # Wizard #
 
@@ -58,9 +61,13 @@ Du hast 3 verschiedene Möglichkeiten wie du starten kannst.
 ## Datenbank öffnen ##
 Solltest du bereits eine Datei für den Vortragsmanager haben, kannst du hier im nächsten Schritt den Pfad zu deiner Datei auswählen und diese öffnen. Der Pfad wird im Programm gespeichert, so dass beim nächsten Programmstart die Datei automatisch geöffnet wird.
 
+⇦ zurück zum [Inhaltsverzeichnis](README.md)
+
 ## Mit leerem Programm starten ##
 
 Der Assistent wird beendet und du startest mit einem leeren Programm, in dem du alle deine Daten erfassen mußt.
+
+⇦ zurück zum [Inhaltsverzeichnis](README.md)
 
 ## Import der vplanung.net Daten ##
 
