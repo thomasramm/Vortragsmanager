@@ -2,17 +2,10 @@
 
 Eine Kurzübersicht über das Programm findest du in der [Readme](./../README.md) im Hauptverzeichnis.
 
-Dieses Handbuch geht detailierter auf die Installation, sowie auf die drei Hauptbereiche des Programm ein:
-* Mein Plan -> Die Vortragsplanung deiner Versammlung
-* Meine Redner -> Externe Einladungen deiner Redner
-* Verwaltung -> Listen ausgeben, Programmeinstellungen und (Redner-)Daten pflegen
-
 ## [Installation](Installation.md) ##
-Die Beschreibung der Installation und der ersten Schritte (Datenimport).
+Die Beschreibung der Installation und der ersten Schritte (Datenimport) findest du im Kapitel  [Installations-Anleitung](Installation.md)
 
-zur [Anleitung](Installation.md)
-
-## Die Startseite ##
+## Die Oberfläche ##
 
 ![Startseite](./../images/startseite_01.png)
 
@@ -30,3 +23,5 @@ Der Vortragsmanager ist in 3 Bereiche aufgeteilt:
     * [Versammlungen](Verwaltung.md#versammlungen): Versammlungs-, Koordinator- und Rednerdaten bearbeiten.
     * [Vorlagen](Verwaltung.md#vorlagen): Vorlagentexte für die Kommunikation mit anderen Verwalten.
     * [Programm](Verwaltung.md#programm): Programmeinstellungen vornehmen und Zusatzfunktionen aufrufen.
+
+PS: In der Titelleiste sieht man hinter dem Programmnamen den Namen der Datei in der deine Daten gespeichert werden.
