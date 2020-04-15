@@ -1,5 +1,5 @@
 ⇦ zurück zum [Inhaltsverzeichnis](README.md)
-
+![Icon](./../images/menu_icon_01.png)
 Die Verwaltung deiner eigenen Redner- und Vortragsplanung geschieht hier. 
 
 Die Seite besteht aus der Jahres-Navigation in der du das aktuell betrachtete Jahr wechseln kannst und einem Jahreskalender mit allen deinen Planungen.
@@ -67,9 +67,14 @@ Mit einem Klick auf die Anfrage wird ein Dialog geöffnet, in dem du die Anfrage
 Anfragen haben kein Kontextmenü
 
 # Redner suchen #
+![Icon](./../images/menu_icon_02.png)
+
 UNDER CONSTRUCTION
 
 # Antwort eintragen #
+
+![Icon](./../images/menu_icon_03.png)
+
 UNDER CONSTRUCTION
 
 ⇦ zurück zum [Inhaltsverzeichnis](README.md)
