@@ -7,7 +7,7 @@ namespace Vortragsmanager.Core
     {
         public static void Reset()
         {
-            DataContainer.Version = 3;
+            DataContainer.Version = Helper.CurrentVersion;
             DataContainer.IsInitialized = false;
             DataContainer.MeineVersammlung = null;
             DataContainer.ExternerPlan.Clear();
@@ -499,6 +499,11 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn"
             if (DataContainer.Version < 4)
             {
                 DataContainer.Version = 4;
+            }
+
+            if (DataContainer.Version < Helper.CurrentVersion)
+            {
+                DataContainer.Version = Helper.CurrentVersion;
             }
         }
     }

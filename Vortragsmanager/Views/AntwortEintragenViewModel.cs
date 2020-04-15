@@ -91,6 +91,8 @@ namespace Vortragsmanager.Views
             _base = Base;
             _redner = Redner;
             _vortrag = Vortrag;
+            if (_base != null && _base.Wochen.Count > 0)
+                SelectedDatum = _base.Wochen[0];
 
             SaveCommand = new DelegateCommand(Zusagen);
             CancelCommand = new DelegateCommand(Absagen);
