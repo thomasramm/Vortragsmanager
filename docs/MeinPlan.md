@@ -11,10 +11,10 @@ Für jede Woche gibt es einen Eintrag mit dem Tag im Monat und einem Hinweis auf
 
 Eine Woche kann 4 verschiedene Stati haben. Schauen wir uns das am Beispiel des Monats Juli an: 
 
- * 05 Juli: [Vortragseinladung](vortragseinladung-05-juli) von Milo Schwarz
- * 12 Juli: [Sonderereignis](ereignisse-12-juli) Kongress
- * 19 Juli: [offen](keine-planung-vorhanden-offen-19-juli) noch keine Planung festgelegt
- * 26 Juli: [Eine Anfrage](laufende-anfrage-26-juli)) an Versammlung Aachen steht noch aus
+ * 05 Juli: [Vortragseinladung](#vortragseinladung-05-juli) von Milo Schwarz
+ * 12 Juli: [Sonderereignis](#ereignisse-12-juli) Kongress
+ * 19 Juli: [offen](#keine-planung-vorhanden-offen-19-juli) noch keine Planung festgelegt
+ * 26 Juli: [Eine Anfrage](#laufende-anfrage-26-juli) an Versammlung Aachen steht noch aus
 
 ## Die Ereignistypen
 
