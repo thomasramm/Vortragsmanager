@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Vortragsmanager.Models
 {
@@ -20,5 +19,9 @@ namespace Vortragsmanager.Models
         public DateTime? zuletztGehalten { get; set; }
 
         public override string ToString() => $"({Nummer}) {Thema}";
+
+        public string NumberTopicShort => $"{Nummer} {Thema}";
+
+        public string NumberTopicDate => $"{Nummer} {Thema} | " + zuletztGehalten?.ToShortDateString() ?? "nie gehalten";
     }
 }

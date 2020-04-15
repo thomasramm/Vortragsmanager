@@ -3,11 +3,11 @@
 namespace Vortragsmanager.Views
 {
     /// <summary>
-    /// Interaktionslogik für BuchungLöschenDialog.xaml
+    /// Interaktionslogik für BuchungLöschenCommandDialog.xaml
     /// </summary>
-    public partial class EreignisEintragenDialog : Window, ICloseable
+    public partial class EreignisEintragenCommandDialog : Window, ICloseable
     {
-        public EreignisEintragenDialog()
+        public EreignisEintragenCommandDialog()
         {
             InitializeComponent();
         }

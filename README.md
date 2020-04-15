@@ -20,23 +20,34 @@ denn das Programm auslesen kann.
 
 ## Entwicklungsstand ##
 
-Da die Zeit seit der Ankündigung bis zur Schließung extrem kurz ist, kann nicht ein voll ausgereiftes System in dieser kurzen Zeit entstehen.
-Mein Plan ist es deshalb die notwendigen Grundfunktionen bis zum Jahresende bereitzustellen - ohne viel Schnick-Schnack, in einer vereinfachten Anzeige und Funktionsumfang.
-Und dann nach und nach alle weiteren Funktionen nachzuliefern oder zu automatisieren oder hübscher und noch übersichtlicher darzustellen.
+Da die Zeit zwischen der Ankündigung bis zur Schließung extrem kurz war, konnte ich leider nicht ein voll ausgereiftes System in dieser kurzen Zeit erstellen.
+Mein Plan war es deshalb die notwendigen Grundfunktionen bis zum Jahresende 2019 bereitzustellen - ohne viel Schnick-Schnack, aber mit dem nötigen Funktionsumfang.
+Nun werden nach und nach alle weiteren Funktionen nachgeliefert, automatisiert soweit möglich oder hübscher und noch übersichtlicher dargestellt.
+Da jeder eine andere Arbeitsweise hat, bin ich für eure Vorschläge offen. Nutzt dazu wenn möglich  die Funktion "New Issue" auf der Seite https://github.com/thomasramm/Vortragsmanager/issues oder schreibt mir in einem der dort offenen Punkte ob ihr diese Funktion auch wichtig findet, das hilft mir natürlich auch bei der Priorisierung der Weiterentwicklung. Natürlich könnt ihr mir auch eine Mail schicken.
+
+Die neuesten Funktionen und Fehlerbehebungen kannst du im [Changelog](Changelog.md) Changelog nachverfolgen.
 
 ## Installation
 
-Under Construction (kommt noch)
+Herunterladen des Programm von http://thomas-ramm.de/Vortragsmanager/Vortragsmanager.zip
+Entpacken der beiden Setup-Dateien und starten von setup.exe
+Nach dem Start des Setup-Assistenten kommen von Windows einige Sicherheits-Warnungen, das das Programm von einer unbekannten Quelle kommt (ja, Microsoft kennt mich tatsächlich nicht). Diese müssen erst noch bestätigt werden, und dann werden die Programmdateien entpackt, eine Verknüpfung im Startmenü und auf dem Desktop angelegt und schon könnt ihr loslegen.
+Beim ersten starten des Programm wird ein Assistent geöffnet, bei dem man entweder eine Vortragsmanager Datenbank öffnen oder die vplanung.net Dateien importieren kann. 
+
+Zur [detailierten Installationsanleitung](./docs/Installation.md)
 
 ## Handbuch
 
-Under Construction (kommt noch)
+Einen ersten Überblick über das Programm gebe ich in folgendem 15min Video.
+Die Oberfläche hat sich zwar inzwischen stark weiterentwickelt, die Grundlegende Bedienung ist aber immer noch sehr gut zu verstehen: https://youtu.be/nd0oVwxhB70
+
+zum [Handbuch](./docs/README.md)
 
 ## Copyright & Lizenz
 
 Das Copyright liegt bei mir.   
 Das Programm darf zwecks Vortragsplannung benutzt werden.  
-Der Quellcode darf nicht zum Zwecke eines alternativven Programm'S mit dem gleichen Zweck benutzt werden.  
+Der Quellcode darf nicht zum Zwecke eines alternativven Programm's mit dem gleichen Zweck benutzt werden.  
 Ich übernehme keinerlei Verantwortung für Probleme oder Schäden die durch die Benutzung des Programms entstehen.
 
 

@@ -1,13 +1,13 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
+using Vortragsmanager.Core;
 using Vortragsmanager.Models;
-using System.Linq;
 
 namespace Vortragsmanager.Views
 {
@@ -19,7 +19,12 @@ namespace Vortragsmanager.Views
             ExcelFileDialogCommand = new DelegateCommand(ExcelFileDialog);
             ExcelImportierenKoordinatorenCommand = new DelegateCommand(ExcelImportierenKoordinatoren);
             ExcelImportierenPlannungCommand = new DelegateCommand(ExcelImportierenPlannung);
+            VortragsmanagerdateiLadenCommand = new DelegateCommand<ICloseable>(VortragsmanagerdateiLaden);
+            DatabaseFileDialogCommand = new DelegateCommand(DatabaseFileDialog);
+            NeuBeginnenCommand = new DelegateCommand<ICloseable>(NeuBeginnen);
             CanGoNext = true;
+            DatenbankÖffnenHeight = new GridLength(0, GridUnitType.Pixel);
+            NeuBeginnenHeight = new GridLength(0, GridUnitType.Pixel);
         }
 
         private int _selectedIndex;
@@ -42,10 +47,22 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand<ICloseable> CloseCommand { get; private set; }
 
+        public DelegateCommand<ICloseable> NeuBeginnenCommand { get; private set; }
+
         public static void Schließen(ICloseable window)
         {
             if (window != null)
                 window.Close();
+        }
+
+        private void NeuBeginnen(ICloseable window)
+        {
+            var con = new Conregation() { Name = "Meine Versammlung", Kreis = 309, Id = 1 };
+            DataContainer.Versammlungen.Add(con);
+            DataContainer.MeineVersammlung = con;
+            DataContainer.IsInitialized = true;
+            IsFinished = true;
+            Schließen(window);
         }
 
         public void CheckWizardPage()
@@ -55,7 +72,22 @@ namespace Vortragsmanager.Views
             switch (SelectedIndex)
             {
                 case 1:
-                    foreach (var vers in Core.DataContainer.Versammlungen)
+                    if (VplanungChecked)
+                    {
+                        CanGoNext = true;
+                    }
+                    else if (DatenbankÖffnenChecked)
+                    {
+                        CanGoNext = false;
+                    }
+                    else if (NeuBeginnenChecked)
+                    {
+                        CanGoNext = false;
+                    }
+                    break;
+
+                case 2:
+                    foreach (var vers in DataContainer.Versammlungen)
                     {
                         if (ImportierteKoordinatorenliste.Any(x => x.Nr == vers.Kreis))
                         {
@@ -67,22 +99,25 @@ namespace Vortragsmanager.Views
                     }
                     CanGoNext = ImportierteKoordinatorenliste.Count > 0;
                     break;
-                case 2:
+
+                case 3:
                     //VersammlungsListe = Core.DataContainer.Versammlungen;
                     CanGoNext = (DeineVersammlung != null);
                     break;
-                case 3:
+
+                case 4:
                     CanGoNext = ImportierteJahreliste.Count > 0;
                     break;
+
                 default:
                     CanGoNext = true;
                     break;
             }
         }
-        
+
         public bool CanGoNext
         {
-            get 
+            get
             {
                 return _canGoNext;
             }
@@ -93,12 +128,130 @@ namespace Vortragsmanager.Views
             }
         }
 
+        private bool _datenbankÖffnenChecked = false;
+
+        public bool DatenbankÖffnenChecked
+        {
+            get { return _datenbankÖffnenChecked; }
+            set
+            {
+                _datenbankÖffnenChecked = value;
+                DatenbankÖffnenHeight = value ? new GridLength(1, GridUnitType.Star) : new GridLength(0, GridUnitType.Pixel);
+                RaisePropertyChanged(nameof(DatenbankÖffnenHeight));
+            }
+        }
+
+        private bool _vplanungChecked = true;
+
+        public bool VplanungChecked
+        {
+            get { return _vplanungChecked; }
+            set
+            {
+                _vplanungChecked = value;
+                VplanungCheckedHeight = value ? new GridLength(1, GridUnitType.Star) : new GridLength(0, GridUnitType.Pixel);
+                RaisePropertyChanged(nameof(VplanungCheckedHeight));
+            }
+        }
+
+        private bool _neuBeginnenChecked = false;
+
+        public bool NeuBeginnenChecked
+        {
+            get
+            {
+                return _neuBeginnenChecked;
+            }
+            set
+            {
+                _neuBeginnenChecked = value;
+                NeuBeginnenHeight = value ? new GridLength(1, GridUnitType.Star) : new GridLength(0, GridUnitType.Pixel);
+                RaisePropertyChanged(nameof(NeuBeginnenHeight));
+            }
+        }
+
+        //new GridLength(0, GridUnitType.Auto)
+        public GridLength DatenbankÖffnenHeight
+        {
+            get;
+            set;
+        }
+
+        public GridLength VplanungCheckedHeight
+        {
+            get;
+            set;
+        }
+
+        public GridLength NeuBeginnenHeight
+        {
+            get;
+            set;
+        }
+
+        #region Datenbankdatei öffnen
+
+        public DelegateCommand<ICloseable> VortragsmanagerdateiLadenCommand { get; private set; }
+
+        public DelegateCommand DatabaseFileDialogCommand { get; private set; }
+
+        public void VortragsmanagerdateiLaden(ICloseable window)
+        {
+            IoSqlite.ReadContainer(ImportFile);
+            Properties.Settings.Default.sqlite = ImportFile;
+            IsFinished = true;
+            Schließen(window);
+        }
+
+        public void DatabaseFileDialog()
+        {
+            if (string.IsNullOrEmpty(ImportFile))
+                ImportFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "Planungsdatei.sqlite3";
+
+            var fi = new FileInfo(ImportFile);
+
+            var openDialog = new OpenFileDialog
+            {
+                Filter = Properties.Resources.DateifilterSqlite,
+                FilterIndex = 1,
+                RestoreDirectory = false,
+                InitialDirectory = fi.DirectoryName,
+                FileName = fi.Name,
+                CheckFileExists = true
+            };
+
+            if (openDialog.ShowDialog() == DialogResult.OK)
+            {
+                ImportFile = openDialog.FileName;
+            }
+
+            openDialog.Dispose();
+        }
+
+        private string _importFile = string.Empty;
+
+        public string ImportFile
+        {
+            get
+            {
+                return _importFile;
+            }
+            set
+            {
+                _importFile = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        #endregion Datenbankdatei öffnen
+
         #region Koordinatoren
+
         public DelegateCommand ExcelImportierenKoordinatorenCommand { get; private set; }
 
         public DelegateCommand ExcelFileDialogCommand { get; private set; }
 
-        public string ImportExcelFile 
+        public string ImportExcelFile
         {
             get
             {
@@ -119,14 +272,14 @@ namespace Vortragsmanager.Views
             {
                 ThemedMessageBox.Show(
                     $"Die Datei '{ImportExcelFile}' wurde nicht gefunden.",
-                    "Achtung!",
+                    Properties.Resources.Achtung,
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 return;
             }
 
             //einlesen der Excel-Datei
-            if (!Core.IoExcel.Vplanung.ImportKoordinatoren(ImportExcelFile))
+            if (!IoExcel.Vplanung.ImportKoordinatoren(ImportExcelFile))
                 return;
 
             //prüfen ob Kreis bereits importiert wurde
@@ -138,16 +291,15 @@ namespace Vortragsmanager.Views
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning) != MessageBoxResult.Yes)
                     return;
-                
+
                 //löschen des bereits erfolgten imports für den Kreis
                 var anzahlVersammlungen = Core.DataContainer.Versammlungen.Count;
-                for (int i = anzahlVersammlungen-1; i >0; i--)
+                for (int i = anzahlVersammlungen - 1; i > 0; i--)
                 {
                     if (Core.DataContainer.Versammlungen[i].Kreis == Core.IoExcel.Vplanung.Kreis)
                         Core.DataContainer.Versammlungen.RemoveAt(i);
                 }
                 ImportierteKoordinatorenliste.Remove(new Kreis(Core.IoExcel.Vplanung.Kreis));
-                
             }
             foreach (var item in Core.IoExcel.Vplanung.Conregations)
             {
@@ -164,7 +316,7 @@ namespace Vortragsmanager.Views
 
             var openDialog = new OpenFileDialog
             {
-                Filter = "Excel Datei (*.xlsx)|*.xlsx|Alle Dateien (*.*)|*.*",
+                Filter = Properties.Resources.DateifilterExcel,
                 FilterIndex = 1,
                 RestoreDirectory = false,
                 InitialDirectory = dir,
@@ -179,17 +331,19 @@ namespace Vortragsmanager.Views
 
             openDialog.Dispose();
         }
-               
-        #endregion
+
+        #endregion Koordinatoren
 
         #region DeineVersammlung
 
         public DelegateCommand ExcelImportierenPlannungCommand { get; private set; }
 
-        public ObservableCollection<Conregation> VersammlungsListe => Core.DataContainer.Versammlungen;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]
+        public ObservableCollection<Conregation> VersammlungsListe => DataContainer.Versammlungen;
 
         private Conregation _deineVersammlung;
-        public Conregation DeineVersammlung 
+
+        public Conregation DeineVersammlung
         {
             get
             {
@@ -200,11 +354,11 @@ namespace Vortragsmanager.Views
                 _deineVersammlung = value;
                 CanGoNext = (_deineVersammlung != null);
                 if (value != null)
-                   Core.DataContainer.MeineVersammlung = _deineVersammlung;
+                    DataContainer.MeineVersammlung = _deineVersammlung;
             }
         }
 
-        #endregion
+        #endregion DeineVersammlung
 
         #region Planungen importieren
 
@@ -216,7 +370,7 @@ namespace Vortragsmanager.Views
             {
                 ThemedMessageBox.Show(
                     $"Die Datei '{ImportExcelFile}' wurde nicht gefunden.",
-                    "Achtung!",
+                    Properties.Resources.Achtung,
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 return;
@@ -224,7 +378,7 @@ namespace Vortragsmanager.Views
 
             //einlesen der Excel-Datei
             if (!Core.IoExcel.Vplanung.ImportEigenePlanungen(ImportExcelFile) ||
-                !Core.IoExcel.Vplanung.ImportRednerPlanungen(ImportExcelFile) )
+                !Core.IoExcel.Vplanung.ImportRednerPlanungen(ImportExcelFile))
                 return;
 
             var jahr = Core.IoExcel.Vplanung.MeinPlan.Select(x => x.Datum.Year);
@@ -236,11 +390,10 @@ namespace Vortragsmanager.Views
             {
                 if (ThemedMessageBox.Show(
                     $"Es existieren bereits Einträge für das gewählte Jahr. Ereignisse zusammenführen? (Bestehende Einträge werden überschrieben)?",
-                    "Achtung!",
+                    Properties.Resources.Achtung,
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning) != MessageBoxResult.Yes)
                     return;
-
             }
 
             foreach (var item in Core.IoExcel.Vplanung.ExternerPlan)
@@ -270,47 +423,61 @@ namespace Vortragsmanager.Views
                 if (!ImportierteJahreliste.Contains(neu))
                     ImportierteJahreliste.Add(neu);
             }
-            
+
             RaisePropertyChanged(nameof(ImportierteJahreliste));
             CanGoNext = true;
             IsFinished = true;
         }
 
-        #endregion
+        #endregion Planungen importieren
 
         public bool IsFinished { get; set; }
+    }
 
-        public class Kreis
+    public class Kreis
+    {
+        public Kreis(int nr)
         {
-            public Kreis(int nr)
+            Nr = nr;
+            Anzahl = 1;
+        }
+
+        public Kreis(int nr, int anzahl)
+        {
+            Nr = nr;
+            Anzahl = anzahl;
+        }
+
+        public int Nr { get; set; }
+
+        public int Anzahl { get; set; }
+
+        public override string ToString()
+        {
+            return $"Kreis {Nr} ({Anzahl} Versammlungen)";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+            if (Nr != (obj as Kreis).Nr)
+                return false;
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
             {
-                Nr = nr;
-                Anzahl = 1;
-            }
+                // Choose large primes to avoid hashing collisions
+                const int HashingBase = (int)2166136261;
+                const int HashingMultiplier = 16777619;
 
-            public Kreis(int nr, int anzahl)
-            {
-                Nr = nr;
-                Anzahl = anzahl;
-            }
-
-            public int Nr { get; set; }
-
-            public int Anzahl { get; set; }
-
-            public override string ToString()
-            {
-                return $"Kreis {Nr} ({Anzahl} Versammlungen)";
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (obj == null)
-                    return false;
-                if (Nr != (obj as Kreis).Nr)
-                    return false;
-
-                return true;
+                int hash = HashingBase;
+                hash = (hash * HashingMultiplier) ^ (!object.ReferenceEquals(null, Nr) ? Nr.GetHashCode() : 0);
+                return hash;
             }
         }
     }

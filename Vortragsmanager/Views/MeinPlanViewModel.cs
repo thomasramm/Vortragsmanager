@@ -35,13 +35,8 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand<int> ChangeYear { get; private set; }
 
-        public static int CurrentYear
-        {
-            get
-            {
-                return Core.DataContainer.DisplayedYear;
-            }
-        }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]
+        public int CurrentYear => Core.DataContainer.DisplayedYear;
 
         public void UpdateMonate()
         {
@@ -66,9 +61,10 @@ namespace Vortragsmanager.Views
             }
         }
 
-        public static void ChangeCurrentYear(int step)
+        public void ChangeCurrentYear(int step)
         {
             Core.DataContainer.DisplayedYear += step;
+            RaisePropertyChanged(nameof(CurrentYear));
         }
     }
 
@@ -113,23 +109,65 @@ namespace Vortragsmanager.Views
             Monat = monat;
             Tag = tag;
             Zuteilung = Core.DataContainer.MeinPlan?.FirstOrDefault(x => x.Datum == tag) ?? null;
+            if (Zuteilung == null)
+                Zuteilung = Core.DataContainer.OffeneAnfragen?.FirstOrDefault(x => x.Wochen.Contains(tag)) ?? null;
+
             AnzahlAuswärtigeRedner = Core.DataContainer.ExternerPlan?.Count(x => x.Datum == tag) ?? 0;
 
-            AnfrageLöschen = new DelegateCommand(EintragLöschen);
-            BuchungLöschen = new DelegateCommand(EintragLöschen);
-            RednerSuchen = new DelegateCommand(RednerFinden);
-            EreignisEintragen = new DelegateCommand(EreignisBearbeiten);
+            AnfrageLöschenCommand = new DelegateCommand(AnfrageLöschen);
+            BuchungVerschiebenCommand = new DelegateCommand(BuchungVerschieben);
+            BuchungLöschenCommand = new DelegateCommand(AnfrageLöschen);
+            RednerSuchenCommand = new DelegateCommand(RednerSuchen);
+            RednerEintragenCommand = new DelegateCommand(RednerEintragen);
+            EreignisEintragenCommand = new DelegateCommand(EreignisEintragen);
+            AnfrageBearbeitenCommand = new DelegateCommand(AnfrageBearbeiten);
+            BuchungBearbeitenCommand = new DelegateCommand(BuchungBearbeiten);
+            ClickCommand = new DelegateCommand(OnClick);
+            ClosePopupCommand = new DelegateCommand(ClosePopup);
         }
 
-        public DelegateCommand AnfrageLöschen { get; private set; }
+        private void OnClick()
+        {
+            if (IsAnfrage)
+                AnfrageBearbeiten();
+            else if (IsOffen)
+                RednerSuchen();
+            else if (IsEreignis)
+                EreignisEintragen();
+            else if (IsBuchung)
+            {
+                DetailView = true;
+                RaisePropertyChanged(nameof(DetailView));
+            }
+        }
 
-        public DelegateCommand EreignisEintragen { get; private set; }
+        private void ClosePopup()
+        {
+            DetailView = false;
+            RaisePropertyChanged(nameof(DetailView));
+        }
 
-        public DelegateCommand BuchungLöschen { get; private set; }
+        public DelegateCommand ClosePopupCommand { get; private set; }
 
-        public DelegateCommand RednerSuchen { get; private set; }
+        public DelegateCommand ClickCommand { get; private set; }
 
-        private void EreignisBearbeiten()
+        public DelegateCommand AnfrageLöschenCommand { get; private set; }
+
+        public DelegateCommand EreignisEintragenCommand { get; private set; }
+
+        public DelegateCommand BuchungLöschenCommand { get; private set; }
+
+        public DelegateCommand BuchungVerschiebenCommand { get; private set; }
+
+        public DelegateCommand BuchungBearbeitenCommand { get; private set; }
+
+        public DelegateCommand RednerSuchenCommand { get; private set; }
+
+        public DelegateCommand RednerEintragenCommand { get; private set; }
+
+        public DelegateCommand AnfrageBearbeitenCommand { get; private set; }
+
+        private void EreignisEintragen()
         {
             var ev = (Zuteilung as SpecialEvent);
             var neu = false;
@@ -138,8 +176,8 @@ namespace Vortragsmanager.Views
                 ev = new SpecialEvent() { Datum = Tag };
                 neu = true;
             }
-            var dialog = new EreignisEintragenDialog();
-            var data = (EreignisEintragenDialogView)(dialog.DataContext);
+            var dialog = new EreignisEintragenCommandDialog();
+            var data = (EreignisEintragenCommandDialogView)(dialog.DataContext);
             data.Event = ev;
 
             dialog.ShowDialog();
@@ -153,9 +191,29 @@ namespace Vortragsmanager.Views
             }
         }
 
-        public void EintragLöschen()
+        private void RednerEintragen()
         {
-            if (Zuteilung.Status == InvitationStatus.Ereignis)
+            var dialog = new RednerEintragenDialog();
+            var data = (RednerEintragenView)(dialog.DataContext);
+            dialog.ShowDialog();
+            if (!data.Speichern)
+                return;
+
+            var i = new Invitation
+            {
+                Datum = Tag,
+                Status = EventStatus.Zugesagt,
+                Ältester = data.SelectedRedner,
+                Vortrag = data.SelectedVortrag
+            };
+            Zuteilung = i;
+            Core.DataContainer.MeinPlan.Add(i);
+            Monat.GetWeeks(Jahr);
+        }
+
+        public void AnfrageLöschen()
+        {
+            if (Zuteilung.Status == EventStatus.Ereignis)
             {
                 Core.DataContainer.MeinPlan.Remove(Zuteilung);
                 Monat.GetWeeks(Jahr);
@@ -163,28 +221,77 @@ namespace Vortragsmanager.Views
             }
 
             var zuteilung = (Zuteilung as Invitation);
-            var w = new BuchungLöschenDialog
-            {
-                DataContext = new BuchungLöschenViewModel(zuteilung)
-            };
+
+            var w = new InfoAnRednerUndKoordinatorWindow();
+            var data = (InfoAnRednerUndKoordinatorViewModel)w.DataContext;
+            if (zuteilung.Ältester.Versammlung == Core.DataContainer.MeineVersammlung)
+                data.MailTextRedner = Core.Templates.GetMailTextAblehnenRedner(zuteilung);
+            else
+                data.MailTextKoordinator = Core.Templates.GetMailTextAblehnenKoordinator(zuteilung);
+
             w.ShowDialog();
-            var data = (BuchungLöschenViewModel)w.DataContext;
-            if (data.Gelöscht)
-            {
-                Core.DataContainer.MeinPlan.Remove(Zuteilung);
-                Monat.GetWeeks(Jahr);
-            }
+            if (!data.Speichern)
+                return;
+
+            Core.DataContainer.MeinPlan.Remove(Zuteilung);
+            Core.DataContainer.Absagen.Add(new Cancelation(zuteilung.Datum, zuteilung.Ältester, zuteilung.Status));
+            Monat.GetWeeks(Jahr);
         }
 
-        public void RednerFinden()
+        public void BuchungVerschieben()
+        {
+            var verschieben = new KalendereintragVerschieben();
+            var data = (KalendereintragVerschiebenView)verschieben.DataContext;
+            data.KalenderTyp = Kalenderart.Intern;
+            data.LadeStartDatum(Zuteilung);
+            verschieben.ShowDialog();
+
+            if (!data.Speichern)
+                return;
+
+            Monat.GetWeeks(Jahr);
+        }
+
+        public void BuchungBearbeiten()
+        {
+            var dialog = new RednerEintragenDialog();
+            var data = (RednerEintragenView)(dialog.DataContext);
+            data.SelectedVersammlung = Einladung.Ältester.Versammlung;
+            data.SelectedRedner = Einladung.Ältester;
+            data.SelectedVortrag = Einladung.Vortrag;
+            dialog.ShowDialog();
+            if (!data.Speichern)
+                return;
+
+            Einladung.Ältester = data.SelectedRedner;
+            Einladung.Vortrag = data.SelectedVortrag;
+            Monat.GetWeeks(Jahr);
+        }
+
+        public void AnfrageBearbeiten()
+        {
+            var dev = new AntwortEintragenDialog();
+            var data = (AntwortEintragenViewModel)dev.Control.DataContext;
+            data.LoadData(Zuteilung as Inquiry);
+            dev.ShowDialog();
+            Messenger.Default.Send(Messages.DisplayYearChanged);
+        }
+
+        public void RednerSuchen()
         {
             //ToDo: Redner suchen aus "MeinPlan" heraus
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            //var dev = new AntwortEintragenDialog();
+            //dev.ShowDialog();
+            Navigation.NavigationView.Frame.Navigate("SearchSpeaker", Tag);
         }
 
         public IEvent Zuteilung { get; set; }
 
+        public Invitation Einladung => (Zuteilung as Invitation);
+
         public int Jahr { get; }
+
         public MonthViewModel Monat { get; }
 
         public DateTime Tag { get; set; }
@@ -196,9 +303,9 @@ namespace Vortragsmanager.Views
                 var color = Color.FromRgb(51, 51, 51);
                 if (Zuteilung == null)
                     color = Colors.Tomato;
-                else if (Zuteilung.Status == InvitationStatus.Anfrage)
+                else if (Zuteilung.Status == EventStatus.Anfrage)
                     color = Colors.Orange;
-                else if (Zuteilung.Status == InvitationStatus.Ereignis)
+                else if (Zuteilung.Status == EventStatus.Ereignis)
                     color = Colors.SlateGray;
                 return new SolidColorBrush(color);
             }
@@ -220,13 +327,15 @@ namespace Vortragsmanager.Views
             }
         }
 
-        public bool IsAnfrage => Zuteilung?.Status == InvitationStatus.Anfrage;
+        public bool IsAnfrage => Zuteilung?.Status == EventStatus.Anfrage;
 
-        public bool IsBuchung => Zuteilung?.Status == InvitationStatus.Zugesagt || Zuteilung?.Status == InvitationStatus.Ereignis;
+        public bool IsBuchung => Zuteilung?.Status == EventStatus.Zugesagt || Zuteilung?.Status == EventStatus.Ereignis;
 
-        public bool IsEreignis => Zuteilung?.Status == InvitationStatus.Ereignis;
+        public bool IsEreignis => Zuteilung?.Status == EventStatus.Ereignis;
 
         public bool IsOffen => (Zuteilung == null);
+
+        public bool DetailView { get; set; } = false;
 
         public override string ToString()
         {

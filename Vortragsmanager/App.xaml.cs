@@ -22,7 +22,14 @@ namespace Vortragsmanager
                 Settings.Default.Save();
             }
             if (DataContainer.IsInitialized)
-                IoSqlite.SaveContainer(Settings.Default.sqlite);
+            {
+                Log.Info("ApplicationExit", "Save");
+                var file = IoSqlite.SaveContainer(Settings.Default.sqlite, Settings.Default.SaveBackups);
+                Settings.Default.sqlite = file;
+            }
+
+            //Alle Programm-Einstellungen die irgendwann gemacht wurden, bei Programmende speichern
+            Settings.Default.Save();
         }
     }
 }

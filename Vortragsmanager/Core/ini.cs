@@ -1,9 +1,9 @@
 ﻿/*
- 
+
  Code von https://gist.github.com/Larry57/5725301
  NuGet PAket nicht benutzt um Codeänderungen vornehmen zu können,
  so will ich die ini nicht aus einer Datei sondern aus einem string auslesen
- 
+
   */
 
 using System;
@@ -15,8 +15,8 @@ using System.Text;
 
 public class Ini
 {
-    Dictionary<string, Dictionary<string, string>> ini = new Dictionary<string, Dictionary<string, string>>(StringComparer.InvariantCultureIgnoreCase);
-    string file;
+    private Dictionary<string, Dictionary<string, string>> ini = new Dictionary<string, Dictionary<string, string>>(StringComparer.InvariantCultureIgnoreCase);
+    private string file;
 
     /// <summary>
     /// Initialize an INI file
@@ -34,13 +34,16 @@ public class Ini
         Load(content);
     }
 
-    public Ini() { }
+    public Ini()
+    {
+    }
 
     /// <summary>
     /// Load the INI file content
     /// </summary>
     public void Load(string content)
     {
+        Vortragsmanager.Core.Log.Info(nameof(Load), content);
         if (string.IsNullOrEmpty(content))
             return;
 
@@ -109,6 +112,7 @@ public class Ini
     /// <returns></returns>
     public string GetValue(string key, string section, string @default)
     {
+        Vortragsmanager.Core.Log.Info(nameof(GetValue), $"key={key}, section={section}, default={@default}");
         if (!ini.ContainsKey(section))
             return @default;
 
@@ -123,6 +127,7 @@ public class Ini
     /// </summary>
     public void Save()
     {
+        Vortragsmanager.Core.Log.Info(nameof(Save));
         var sb = new StringBuilder();
         foreach (var section in ini)
         {
@@ -153,7 +158,7 @@ public class Ini
         File.WriteAllText(file, sb.ToString());
     }
 
-    static bool endWithCRLF(StringBuilder sb)
+    private static bool endWithCRLF(StringBuilder sb)
     {
         if (sb.Length < 4)
             return sb[sb.Length - 2] == '\r' &&
@@ -183,6 +188,7 @@ public class Ini
     /// <param name="value">parameter value</param>
     public void WriteValue(string key, string section, string value)
     {
+        Vortragsmanager.Core.Log.Info(nameof(WriteValue), $"key={key}, section={section}, value={value}");
         Dictionary<string, string> currentSection;
         if (!ini.ContainsKey(section))
         {
@@ -202,8 +208,9 @@ public class Ini
     /// <returns></returns>
     public string[] GetKeys(string section)
     {
+        Vortragsmanager.Core.Log.Info(nameof(GetKeys), section);
         if (!ini.ContainsKey(section))
-            return new string[0];
+            return Array.Empty<string>();
 
         return ini[section].Keys.ToArray();
     }
@@ -214,6 +221,7 @@ public class Ini
     /// <returns></returns>
     public string[] GetSections()
     {
+        Vortragsmanager.Core.Log.Info(nameof(GetSections));
         return ini.Keys.Where(t => !string.IsNullOrEmpty(t)).ToArray();
     }
 }

@@ -18,6 +18,8 @@ namespace Vortragsmanager.Models
 
         public string Anreise { get; set; }
 
+        public int Entfernung { get; set; } = 0;
+
         public string Telefon { get; set; }
 
         public string Koordinator { get; set; }
@@ -32,19 +34,24 @@ namespace Vortragsmanager.Models
 
         public string GetZusammenkunftszeit(int Jahr)
         {
+            Core.Log.Info(nameof(GetZusammenkunftszeit), Jahr);
             if (Zusammenkunftszeiten.Count == 0)
                 return "unbekannt";
+            if (Zusammenkunftszeiten.ContainsKey(Jahr))
+                return Zusammenkunftszeiten[Jahr];
             var letztesJahr = Zusammenkunftszeiten.Where(x => x.Key <= Jahr).Max(y => y.Key);
-            return letztesJahr == null ? "unbekannt" : Zusammenkunftszeiten[letztesJahr];
+            return Zusammenkunftszeiten[letztesJahr];
         }
 
         public string GetZusammenkunftszeit(DateTime Datum)
         {
+            Core.Log.Info(nameof(GetZusammenkunftszeit), Datum);
             return GetZusammenkunftszeit(Datum.Year);
         }
 
         public void SetZusammenkunftszeit(int Jahr, string Zeit)
         {
+            Core.Log.Info(nameof(SetZusammenkunftszeit), $"jahr={Jahr}, Zeit={Zeit}");
             if (Zusammenkunftszeiten.ContainsKey(Jahr))
                 Zusammenkunftszeiten[Jahr] = Zeit;
             else
@@ -53,6 +60,6 @@ namespace Vortragsmanager.Models
 
         public override string ToString() => $"Versammlung {Name}";
 
-        public readonly Dictionary<int, string> Zusammenkunftszeiten = new Dictionary<int, string>(1);
+        public Dictionary<int, string> Zusammenkunftszeiten { get; } = new Dictionary<int, string>(1);
     }
 }

@@ -8,129 +8,108 @@
              xmlns:local="clr-namespace:Vortragsmanager.Navigation"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="1300">
+    <UserControl.DataContext>
+        <local:DashboardViewModel />
+    </UserControl.DataContext>
     <UserControl.Resources>
-        <Style x:Key="VerticalTile" TargetType="dxlc:Tile">
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="Size" Value="Large" />
-            <Setter Property="HeaderTemplate">
-                <Setter.Value>
-                    <DataTemplate />
-                </Setter.Value>
-            </Setter>
-            <Setter Property="ContentTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <StackPanel>
-                            <Image Source="{Binding}" Stretch="None" />
-                            <TextBlock Text="{Binding Path=Header, RelativeSource={RelativeSource AncestorType=dxlc:Tile}}" FontSize="14" Margin="0,5,0,0" HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="HorizontalTile" TargetType="dxlc:Tile">
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="Size" Value="Small" />
-            <Setter Property="HeaderTemplate">
-                <Setter.Value>
-                    <DataTemplate />
-                </Setter.Value>
-            </Setter>
-            <Setter Property="ContentTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="{Binding}" Stretch="None" />
-                            <TextBlock Text="{Binding Path=Header, RelativeSource={RelativeSource AncestorType=dxlc:Tile}}" FontSize="14" Margin="20,0,0,0" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="SmallTile" TargetType="dxlc:Tile">
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="Size" Value="Small" />
-            <Setter Property="HeaderTemplate">
-                <Setter.Value>
-                    <DataTemplate />
-                </Setter.Value>
-            </Setter>
-            <Setter Property="ContentTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <StackPanel>
-                            <Image Source="{Binding}" Stretch="None" />
-                            <TextBlock Text="{Binding Path=Header, RelativeSource={RelativeSource AncestorType=dxlc:Tile}}" FontSize="14" Margin="0,5,0,0" HorizontalAlignment="Center" TextWrapping="Wrap" />
-                        </StackPanel>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <local:ScalablePaddingConverter x:Key="ScalablePaddingConverter" MinPadding="80" />
+        <local:ScalablePaddingConverter x:Key="ScalablePaddingConverter" MinPadding="10" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
             <RowDefinition Height="10" />
         </Grid.RowDefinitions>
-        <dxlc:TileLayoutControl Orientation="Vertical" Padding="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={StaticResource ScalablePaddingConverter}}">
-            <dxlc:Tile Size="Large"
+        <dxlc:TileLayoutControl Orientation="Vertical"
+                                AllowItemMoving="False"
+                                Padding="50,50,10,10">
+            <dxlc:Tile Size="{Binding VersammlungsplanTileSize}"
                        Header="Versammlungsplan"
-                       Background="#D32D41"
+                       Background="#da312e"
                        dxwuin:Navigation.NavigateTo="MeinPlanView"
-                       dxlc:TileLayoutControl.GroupHeader="Übersichten">
-                <Image Source="/Images/Kalender_64x64.png" Margin="20" />
-            </dxlc:Tile>
-            <dxlc:Tile Size="Large"
-                       Header="Rednerplan"
-                       Background="#488A99"
-                       dxwuin:Navigation.NavigateTo="MeineRednerView">
-                <Image Source="/Images/Person_64x64.png" Margin="20" />
+                       dxlc:TileLayoutControl.GroupHeader="Mein Plan">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="{Binding MeinPlanDetailHeight}" />
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="/Images/Kalender_64x64.png" Margin="20" />
+                    <dxlc:LayoutGroup Grid.Row="1"
+                                      View="GroupBox"
+                                      Orientation="Vertical"
+                                      Header="{Binding Datum}"
+                                      Margin="10,0,10,25">
+                        <TextBlock Text="{Binding MeinPlanProgramm}" />
+                    </dxlc:LayoutGroup>
+                </Grid>
             </dxlc:Tile>
             <dxlc:Tile Size="Small"
                        Header="Redner suchen"
-                       Background="#EA6A47"
-                       dxwuin:Navigation.NavigateTo="PlaningEdit"
-                       dxlc:TileLayoutControl.GroupHeader="Aktionen"
-                       dxlc:FlowLayoutControl.IsFlowBreak="True">
+                       Background="#e65a1e"
+                       dxwuin:Navigation.NavigateTo="SearchSpeaker"
+                       dxlc:TileLayoutControl.GroupHeader="Aktionen">
                 <Image Source="/Images/Search_64x64.png" Margin="10" />
             </dxlc:Tile>
-            <dxlc:Tile Header="Anfrage bearbeiten"
-                       Background="#6AB187"
+            <dxlc:Tile Size="Small"
+                       Header="Antwort eintragen"
+                       Background="#ff8c00"
+                       dxwuin:Navigation.NavigateTo="AntwortEintragenView"
+                       dxlc:TileLayoutControl.GroupHeader="Aktionen">
+                <Image Source="/Images/MailAntwort_64x64.png" Margin="10" />
+            </dxlc:Tile>
+
+            <dxlc:Tile Size="{Binding RednerTileSize}"
+                       Header="Rednerplan"
+                       Background="#1e8cff"
+                       dxwuin:Navigation.NavigateTo="MeineRednerView"
+                       dxlc:FlowLayoutControl.IsFlowBreak="True"
+                       dxlc:TileLayoutControl.GroupHeader="Meine Redner">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="{Binding RednerDetailHeight}" />
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="/Images/Person_64x64.png" Margin="20" />
+                    <dxlc:LayoutGroup Grid.Row="1"
+                                      View="GroupBox"
+                                      Orientation="Vertical"
+                                      Header="nächste Einladung"
+                                      Margin="10,0,10,25">
+                        <TextBlock Text="{Binding RednerProgramm}" />
+                    </dxlc:LayoutGroup>
+                </Grid>
+            </dxlc:Tile>
+            <dxlc:Tile Header="Neue Externe Anfrage"
+                       Background="#0ab4ff"
                        Size="Small"
                        dxwuin:Navigation.NavigateTo="ExternalQuestionEdit">
-                <Image Source="/Images/IncommingMail_64x64.png"  Margin="20" />
+                <Image Source="/Images/NewMail_64x64.png"  Margin="20" />
             </dxlc:Tile>
             <dxlc:Tile Header="Listen ausgeben"
-                       Background="#AC3E31"
+                       Background="#64b414"
                        Size="Small"
-                       dxwuin:Navigation.NavigateTo="ListCreateView">
-                <Image Source="/Images/Liste2_64x64.png" Margin="10,0,10,24" />
+                       dxwuin:Navigation.NavigateTo="ListCreateView"
+                       dxlc:FlowLayoutControl.IsFlowBreak="True"
+                       dxlc:TileLayoutControl.GroupHeader="Verwaltung">
+                <Image Source="/Images/ListePrint_64x64.png" Margin="20" />
             </dxlc:Tile>
             <dxlc:Tile Header="Versammlungen"
-                       Background="#AC3E31"
+                       Background="#0a6432"
                        Size="Small"
-                       dxwuin:Navigation.NavigateTo="VersammlungSettingsView"
-                       dxlc:FlowLayoutControl.IsFlowBreak="True"
-                       dxlc:TileLayoutControl.GroupHeader="Einstellungen">
-                <Image Source="/Images/Versammlung_64x64.png" Margin="10,0,10,10" />
+                       dxwuin:Navigation.NavigateTo="VersammlungSettingsView">
+                <Image Source="/Images/Versammlung2_64x64.png" Margin="20" />
             </dxlc:Tile>
             <dxlc:Tile Size="Small"
                        Header="Vorlagen"
-                       Background="#B3C100"
-                       Foreground="Black"
+                       Background="#009614"
                        dxwuin:Navigation.NavigateTo="VorlagenView">
-                <Image Source="/Images/TextSettings_64x64.png" Margin="10,0,10,10" />
+                <Image Source="/Images/ListeSettings_64x64.png" Margin="20" />
             </dxlc:Tile>
             <dxlc:Tile Size="Small"
                        Header="Programm"
-                       Background="DodgerBlue"
+                       Background="#64be64"
                        Foreground="White"
                        dxwuin:Navigation.NavigateTo="EinstellungenView">
-                <Image Source="/Images/Laptop2_64x64.png" Margin="10,0,10,10" />
+                <Image Source="/Images/WindowOptions_64x64.png" Margin="20" />
             </dxlc:Tile>
         </dxlc:TileLayoutControl>
     </Grid>

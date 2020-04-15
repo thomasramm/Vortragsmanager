@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Xpf.WindowsUI;
+using System;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
@@ -12,7 +13,10 @@ namespace Vortragsmanager.Navigation
         public NavigationView()
         {
             InitializeComponent();
+            Frame = frame;
         }
+
+        public static NavigationFrame Frame { get; set; }
     }
 
     public class FrameAnimationSelector : DevExpress.Xpf.WindowsUI.AnimationSelector

@@ -10,11 +10,17 @@ namespace Vortragsmanager.Core
     {
         public static void ReadContainer(string file)
         {
+            Log.Info(nameof(ReadContainer), file);
             using (SQLiteConnection db = new SQLiteConnection($"Data Source = {file}; Version = 3;"))
             {
                 db.Open();
 
                 ReadParameter(db);
+
+                //Falls sich an der Datenstruktur was geändert hat, muss ich erst mal
+                //die Struktur aktualisieren bevor ich etwas einlesen kann...
+                UpdateDatabase(db);
+
                 ReadVersammlungen(db);
                 ReadVorträge(db);
                 ReadRedner(db);
@@ -22,13 +28,23 @@ namespace Vortragsmanager.Core
                 ReadExternerPlan(db);
                 ReadTemplates(db);
                 ReadEvents(db);
+                ReadAnfragen(db);
+                ReadCancelation(db);
+
+                DataContainer.UpdateTalkDate();
+                DataContainer.IsInitialized = true;
+
+                //Falls es jetzt noch weitere Updates gibt die am Container durchgeführt
+                //werden müssen, ist hier ein guter Ort...
+                Initialize.Update();
 
                 db.Close();
             }
         }
 
-        public static string SaveContainer(string file)
+        public static string SaveContainer(string file, bool createBackup)
         {
+            Log.Info(nameof(SaveContainer), $"file={file}, createBackup={createBackup}");
             //Speichern der DB in einer tmp-Datei
             var tempFile = Path.GetTempFileName();
             SQLiteConnection.CreateFile($"{tempFile}");
@@ -44,8 +60,10 @@ namespace Vortragsmanager.Core
                     SaveVersammlungen(db);
                     SaveRedner(db);
                     SaveMeinPlan(db);
+                    SaveAnfragen(db);
                     SaveExternerPlan(db);
                     SaveTemplates(db);
+                    SaveCancelation(db);
                     transaction.Commit();
                 }
                 db.Close();
@@ -71,12 +89,19 @@ namespace Vortragsmanager.Core
             }
             File.Move(tempFile, newfile);
 
+            if (createBackup)
+            {
+                var fi = new FileInfo(newfile);
+                var backup = fi.DirectoryName + "\\" + fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length) + $"_{DateTime.Now:yyyy-MM-dd-HH-mm}" + fi.Extension;
+                File.Copy(newfile, backup, true);
+            }
             //Rückgabe des (neuen) Speichernamen
             return newfile;
         }
 
         public static void CreateEmptyDatabase(string file)
         {
+            Log.Info(nameof(CreateEmptyDatabase), file);
             SQLiteConnection.CreateFile(file);
             using (SQLiteConnection db = new SQLiteConnection($"Data Source = {file}; Version = 3;"))
             {
@@ -92,6 +117,7 @@ namespace Vortragsmanager.Core
 
         private static void CreateEmptyDatabase(SQLiteConnection db)
         {
+            Log.Info(nameof(CreateEmptyDatabase), "connection");
             var cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Conregation (
                 Id INTEGER,
                 Kreis INTEGER,
@@ -99,6 +125,7 @@ namespace Vortragsmanager.Core
                 Anschrift1 TEXT,
                 Anschrift2 TEXT,
                 Anreise TEXT,
+                Entfernung INTEGER,
                 Telefon TEXT,
                 Koordinator TEXT,
                 KoordinatorTelefon TEXT,
@@ -154,10 +181,10 @@ namespace Vortragsmanager.Core
                 Altester INTEGER,
                 Aktiv INTEGER,
                 InfoPrivate TEXT,
-                InfoPublic TEXT)", db);
+                InfoPublic TEXT,
+                Einladen INTEGER)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
-
 
             cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Speaker_Vortrag (
                 IdSpeaker INTEGER,
@@ -192,10 +219,70 @@ namespace Vortragsmanager.Core
                 Beschreibung STRING)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Inquiry (
+                Id INTEGER,
+                IdConregation INTEGER,
+                Status INTEGER,
+                AnfrageDatum INTEGER,
+                Kommentar STRING,
+                Mailtext STRING)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Inquiry_Dates (
+                IdInquiry INTEGER,
+                Datum INTEGER)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Inquiry_SpeakerTalk (
+                IdInquiry INTEGER,
+                IdSpeaker INTEGER,
+                IdTalk INTEGER)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Cancelation (
+                Datum INTEGER,
+                IdSpeaker INTEGER,
+                IdLastStatus INTEGER)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+        }
+
+        #region READ
+
+        private static void UpdateDatabase(SQLiteConnection db)
+        {
+            if (DataContainer.Version < 2)
+            {
+                var cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Cancelation (
+                    Datum INTEGER,
+                    IdSpeaker INTEGER,
+                    IdLastStatus INTEGER)", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+            }
+
+            if (DataContainer.Version < 3)
+            {
+                var cmd = new SQLiteCommand(@"ALTER TABLE Speaker ADD Einladen INTEGER;", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+            }
+
+            if (DataContainer.Version < 4)
+            {
+                var cmd = new SQLiteCommand(@"ALTER TABLE Inquiry ADD Mailtext STRING;", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+            }
         }
 
         private static void ReadParameter(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadParameter));
             using (var cmd = new SQLiteCommand("SELECT Name, Wert FROM Parameter", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
@@ -216,8 +303,8 @@ namespace Vortragsmanager.Core
                             break;
 
                         case "MeineVersammlung":
-                            //ToDo: Die VErsammmlungen müssen bereits eingelsen sein, hier muss eine Objektzuordnung statt finden
-                            //DataContainer.MeineVersammlung.Id = rdr.GetInt32(1);
+                            //Die VErsammmlungen müssen bereits eingelsen sein, hier muss eine Objektzuordnung statt finden
+                            //deshalb nochmaliger Aufruf unter ReadVersammlungen
                             break;
 
                         case "DisplayedYear":
@@ -239,30 +326,35 @@ namespace Vortragsmanager.Core
         /// <param name="file">Kompletter Pfad zur Datenbank</param>
         private static void ReadVersammlungen(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadVersammlungen));
+            DataContainer.Versammlungen.Clear();
+
             var vers = int.Parse(ReadParameter(Parameter.MeineVersammlung, db), DataContainer.German);
-            using (var cmd1 = new SQLiteCommand("SELECT Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw FROM Conregation", db))
+            using (var cmd1 = new SQLiteCommand("SELECT Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Entfernung, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw FROM Conregation", db))
             using (var cmd2 = new SQLiteCommand("SELECT Jahr, Zeit FROM Conregation_Zusammenkunftszeiten WHERE IdConregation = @Id", db))
             {
                 cmd2.Parameters.Add("@Id", System.Data.DbType.Int32);
 
                 SQLiteDataReader rdr = cmd1.ExecuteReader();
 
-                DataContainer.Versammlungen.Clear();
                 while (rdr.Read())
                 {
-                    var c = new Conregation();
-                    c.Id = rdr.GetInt32(0);
-                    c.Kreis = rdr.GetInt32(1);
-                    c.Name = rdr.GetString(2);
-                    c.Anschrift1 = rdr.IsDBNull(3) ? null : rdr.GetString(3);
-                    c.Anschrift2 = rdr.IsDBNull(4) ? null : rdr.GetString(4);
-                    c.Anreise = rdr.IsDBNull(5) ? null : rdr.GetString(5);
-                    c.Telefon = rdr.IsDBNull(6) ? null : rdr.GetString(6);
-                    c.Koordinator = rdr.IsDBNull(7) ? null : rdr.GetString(7);
-                    c.KoordinatorTelefon = rdr.IsDBNull(8) ? null : rdr.GetString(8);
-                    c.KoordinatorMobil = rdr.IsDBNull(9) ? null : rdr.GetString(9);
-                    c.KoordinatorMail = rdr.IsDBNull(10) ? null : rdr.GetString(10);
-                    c.KoordinatorJw = rdr.IsDBNull(11) ? null : rdr.GetString(11);
+                    var c = new Conregation
+                    {
+                        Id = rdr.GetInt32(0),
+                        Kreis = rdr.GetInt32(1),
+                        Name = rdr.GetString(2),
+                        Anschrift1 = rdr.IsDBNull(3) ? null : rdr.GetString(3),
+                        Anschrift2 = rdr.IsDBNull(4) ? null : rdr.GetString(4),
+                        Anreise = rdr.IsDBNull(5) ? null : rdr.GetString(5),
+                        Entfernung = rdr.IsDBNull(6) ? 0 : rdr.GetInt32(6),
+                        Telefon = rdr.IsDBNull(7) ? null : rdr.GetString(7),
+                        Koordinator = rdr.IsDBNull(8) ? null : rdr.GetString(8),
+                        KoordinatorTelefon = rdr.IsDBNull(9) ? null : rdr.GetString(9),
+                        KoordinatorMobil = rdr.IsDBNull(10) ? null : rdr.GetString(10),
+                        KoordinatorMail = rdr.IsDBNull(11) ? null : rdr.GetString(11),
+                        KoordinatorJw = rdr.IsDBNull(12) ? null : rdr.GetString(12)
+                    };
                     DataContainer.Versammlungen.Add(c);
 
                     //Vorträge zuordnen
@@ -281,30 +373,31 @@ namespace Vortragsmanager.Core
                 }
 
                 rdr.Close();
-                cmd1.Dispose();
-                cmd2.Dispose();
             }
         }
 
         private static void ReadVorträge(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadVorträge));
+            DataContainer.Vorträge.Clear();
+
             using (var cmd = new SQLiteCommand("SELECT Nummer, Thema, Gultig, ZuletztGehalten FROM Talks", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
 
-                DataContainer.Vorträge.Clear();
                 while (rdr.Read())
                 {
                     var nr = rdr.GetInt32(0);
                     var th = rdr.GetString(1);
-                    var t = new Talk(nr, th);
-                    t.Gültig = rdr.GetBoolean(2);
-                    t.zuletztGehalten = rdr.IsDBNull(3) ? (DateTime?)null : rdr.GetDateTime(3);
+                    var t = new Talk(nr, th)
+                    {
+                        Gültig = rdr.GetBoolean(2),
+                        zuletztGehalten = rdr.IsDBNull(3) ? (DateTime?)null : rdr.GetDateTime(3)
+                    };
                     DataContainer.Vorträge.Add(t);
                 }
 
                 rdr.Close();
-                cmd.Dispose();
             }
         }
 
@@ -315,26 +408,31 @@ namespace Vortragsmanager.Core
         /// <param name="file">Kompletter Pfad zur Datenbank</param>
         private static void ReadRedner(SQLiteConnection db)
         {
-            using (var cmd = new SQLiteCommand("SELECT Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic FROM Speaker", db))
+            Log.Info(nameof(ReadRedner));
+            DataContainer.Redner.Clear();
+
+            using (var cmd = new SQLiteCommand("SELECT Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic, Einladen FROM Speaker", db))
             using (var cmd2 = new SQLiteCommand("SELECT IdTalk FROM Speaker_Vortrag WHERE IdSpeaker = @IdSpeaker", db))
             {
                 cmd2.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
                 SQLiteDataReader rdr = cmd.ExecuteReader();
 
-                DataContainer.Redner.Clear();
                 while (rdr.Read())
                 {
-                    var r = new Speaker();
-                    r.Id = rdr.GetInt32(0);
-                    r.Name = rdr.GetString(1);
-                    var idConregation = rdr.IsDBNull(3) ? 0 : rdr.GetInt32(2); //Id 0 = Versammlung "unbekannt"
-                    r.Mail = rdr.IsDBNull(3) ? null : rdr.GetString(3);
-                    r.Telefon = rdr.IsDBNull(4) ? null : rdr.GetString(4);
-                    r.Mobil = rdr.IsDBNull(5) ? null : rdr.GetString(5);
-                    r.Ältester = rdr.GetBoolean(6);
-                    r.Aktiv = rdr.GetBoolean(7);
-                    r.InfoPrivate = rdr.IsDBNull(8) ? null : rdr.GetString(8);
-                    r.InfoPublic = rdr.IsDBNull(9) ? null : rdr.GetString(9);
+                    var r = new Speaker
+                    {
+                        Id = rdr.GetInt32(0),
+                        Name = rdr.GetString(1),
+                        Mail = rdr.IsDBNull(3) ? null : rdr.GetString(3),
+                        Telefon = rdr.IsDBNull(4) ? null : rdr.GetString(4),
+                        Mobil = rdr.IsDBNull(5) ? null : rdr.GetString(5),
+                        Ältester = rdr.GetBoolean(6),
+                        Aktiv = rdr.GetBoolean(7),
+                        InfoPrivate = rdr.IsDBNull(8) ? null : rdr.GetString(8),
+                        InfoPublic = rdr.IsDBNull(9) ? null : rdr.GetString(9),
+                        Einladen = rdr.IsDBNull(10) ? true : rdr.GetBoolean(10)
+                    };
+                    var idConregation = rdr.IsDBNull(2) ? 0 : rdr.GetInt32(2); //Id 0 = Versammlung "unbekannt"
 
                     //Versammlung zuordnen
                     r.Versammlung = DataContainer.Versammlungen.First(x => x.Id == idConregation);
@@ -353,8 +451,6 @@ namespace Vortragsmanager.Core
                 }
 
                 rdr.Close();
-                cmd2.Dispose();
-                cmd.Dispose();
             }
         }
 
@@ -366,11 +462,12 @@ namespace Vortragsmanager.Core
         /// <param name="file">Kompletter Pfad zur Datenbank</param>
         private static void ReadMeinPlan(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadMeinPlan));
+            DataContainer.MeinPlan.Clear();
+
             using (var cmd = new SQLiteCommand("SELECT IdAltester, IdVortrag, IdConregation, Datum, Status, LetzteAktion, Kommentar FROM Invitation", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
-
-                DataContainer.MeinPlan.Clear();
                 while (rdr.Read())
                 {
                     var i = new Invitation();
@@ -378,7 +475,7 @@ namespace Vortragsmanager.Core
                     var IdVortrag = rdr.IsDBNull(1) ? (int?)null : rdr.GetInt32(1);
                     var IdConregation = rdr.IsDBNull(2) ? (int?)null : rdr.GetInt32(2);
                     i.Datum = rdr.GetDateTime(3);
-                    i.Status = (InvitationStatus)rdr.GetInt32(4);
+                    i.Status = (EventStatus)rdr.GetInt32(4);
                     i.LetzteAktion = rdr.GetDateTime(5);
                     i.Kommentar = rdr.IsDBNull(6) ? null : rdr.GetString(6);
 
@@ -393,7 +490,6 @@ namespace Vortragsmanager.Core
                 }
 
                 rdr.Close();
-                cmd.Dispose();
             }
         }
 
@@ -405,54 +501,55 @@ namespace Vortragsmanager.Core
         /// <param name="file"></param>
         private static void ReadExternerPlan(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadExternerPlan));
+            DataContainer.ExternerPlan.Clear();
             using (var cmd = new SQLiteCommand("SELECT IdSpeaker, IdConregation, Datum, Reason, IdTalk FROM Outside", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
-
-                DataContainer.ExternerPlan.Clear();
                 while (rdr.Read())
                 {
                     var o = new Outside();
                     var IdSpeaker = rdr.GetInt32(0);
-                    var IdConregation = rdr.GetInt32(1);
+                    var IdConregation = rdr.IsDBNull(1) ? (int?)null : rdr.GetInt32(1);
                     o.Datum = rdr.GetDateTime(2);
                     o.Reason = (OutsideReason)rdr.GetInt32(3);
                     var IdTalk = rdr.GetInt32(4);
 
                     o.Ältester = DataContainer.Redner.First(x => x.Id == IdSpeaker);
-                    o.Versammlung = DataContainer.Versammlungen.First(x => x.Id == IdConregation);
+                    if (IdConregation != null)
+                        o.Versammlung = DataContainer.Versammlungen.First(x => x.Id == IdConregation);
                     o.Vortrag = DataContainer.Vorträge.First(x => x.Nummer == IdTalk);
 
                     DataContainer.ExternerPlan.Add(o);
                 }
 
                 rdr.Close();
-                cmd.Dispose();
             }
         }
 
         private static string ReadParameter(Parameter parameter, SQLiteConnection db)
         {
+            Log.Info(nameof(ReadParameter), $"parameter={parameter.ToString()}");
             using (var cmd = new SQLiteCommand($"SELECT Wert FROM Parameter WHERE Name = @Name", db))
             {
                 cmd.Parameters.AddWithValue("@Name", parameter.ToString());
                 var rdr = cmd.ExecuteScalar();
                 var result = rdr.ToString();
-                cmd.Dispose();
                 return result;
             }
         }
 
         private static void ReadTemplates(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadTemplates));
+            Templates.Vorlagen.Clear();
+
             using (var cmd = new SQLiteCommand("SELECT Id, Inhalt, Beschreibung FROM Templates", db))
             using (var cmd2 = new SQLiteCommand("SELECT Name, Beschreibung FROM Templates_Parameter WHERE IdTemplate = @Id", db))
             {
                 cmd2.Parameters.Add("@Id", System.Data.DbType.Int32);
 
                 SQLiteDataReader rdr = cmd.ExecuteReader();
-
-                Templates.Vorlagen.Clear();
                 while (rdr.Read())
                 {
                     var v = new Template();
@@ -478,8 +575,13 @@ namespace Vortragsmanager.Core
             }
         }
 
+        /// <summary>
+        /// Vorher muß ReadMeinPlan ausgeführt werden, da dort das Zielobjekt geleert wird.
+        /// </summary>
+        /// <param name="db">Datenbank.</param>
         private static void ReadEvents(SQLiteConnection db)
         {
+            Log.Info(nameof(ReadEvents));
             using (var cmd = new SQLiteCommand("SELECT Typ, Name, Thema, Vortragender, Datum FROM Events", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
@@ -488,8 +590,8 @@ namespace Vortragsmanager.Core
                 {
                     var v = new SpecialEvent
                     {
-                        Typ = (EventTyp)rdr.GetInt32(0),
-                        Name = rdr.GetString(1),
+                        Typ = (SpecialEventTyp)rdr.GetInt32(0),
+                        Name = rdr.IsDBNull(1) ? null : rdr.GetString(1),
                         Thema = rdr.IsDBNull(2) ? null : rdr.GetString(2),
                         Vortragender = rdr.IsDBNull(3) ? null : rdr.GetString(3),
                         Datum = rdr.GetDateTime(4)
@@ -500,13 +602,104 @@ namespace Vortragsmanager.Core
 
                 rdr.Close();
             }
-
         }
+
+        private static void ReadAnfragen(SQLiteConnection db)
+        {
+            Log.Info(nameof(ReadAnfragen));
+            DataContainer.OffeneAnfragen.Clear();
+
+            using (var cmd1 = new SQLiteCommand("SELECT Id, IdConregation, Status, AnfrageDatum, Kommentar, Mailtext FROM Inquiry", db))
+            using (var cmd2 = new SQLiteCommand("SELECT Datum FROM Inquiry_Dates WHERE IdInquiry = @Id", db))
+            using (var cmd3 = new SQLiteCommand("SELECT IdSpeaker, IdTalk FROM Inquiry_SpeakerTalk WHERE IdInquiry = @Id", db))
+            {
+                cmd2.Parameters.Add("@Id", System.Data.DbType.Int32);
+                cmd3.Parameters.Add("@Id", System.Data.DbType.Int32);
+
+                SQLiteDataReader rdr1 = cmd1.ExecuteReader();
+                while (rdr1.Read())
+                {
+                    var id = rdr1.GetInt32(0);
+                    var idConregation = rdr1.GetInt32(1);
+                    var status = rdr1.GetInt32(2);
+                    var anfrage = rdr1.GetDateTime(3);
+                    var kommentar = rdr1.GetString(4);
+                    var mailtext = rdr1.IsDBNull(5) ? "" : rdr1.GetString(5);
+
+                    var v = new Inquiry
+                    {
+                        Id = id,
+                        Versammlung = DataContainer.Versammlungen.First(x => x.Id == idConregation),
+                        //Status = (EventStatus)status,
+                        AnfrageDatum = anfrage,
+                        Kommentar = kommentar,
+                        Mailtext = mailtext,
+                    };
+
+                    cmd2.Parameters[0].Value = id;
+                    SQLiteDataReader rdr2 = cmd2.ExecuteReader();
+                    while (rdr2.Read())
+                    {
+                        var datum = rdr2.GetDateTime(0);
+                        v.Wochen.Add(datum);
+                    }
+                    rdr2.Close();
+
+                    cmd3.Parameters[0].Value = id;
+                    SQLiteDataReader rdr3 = cmd3.ExecuteReader();
+                    while (rdr3.Read())
+                    {
+                        var idSpeaker = rdr3.GetInt32(0);
+                        var idTalk = rdr3.GetInt32(1);
+
+                        var s = DataContainer.Redner.First(x => x.Id == idSpeaker);
+                        var t = DataContainer.Vorträge.First(x => x.Nummer == idTalk);
+                        v.RednerVortrag.Add(s, t);
+                    }
+                    rdr3.Close();
+
+                    DataContainer.OffeneAnfragen.Add(v);
+                }
+
+                rdr1.Close();
+            }
+        }
+
+        private static void ReadCancelation(SQLiteConnection db)
+        {
+            DataContainer.Absagen.Clear();
+            using (var cmd = new SQLiteCommand("SELECT Datum, IdSpeaker, IdLastStatus FROM Cancelation WHERE Datum >= date('now')", db))
+            {
+                SQLiteDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    var IdAltester = rdr.GetInt32(1);
+                    var Altester = DataContainer.Redner.First(x => x.Id == IdAltester);
+
+                    var v = new Cancelation
+                    {
+                        Datum = rdr.GetDateTime(0),
+                        Ältester = Altester,
+                        LetzterStatus = (EventStatus)rdr.GetInt32(2)
+                    };
+
+                    DataContainer.Absagen.Add(v);
+                }
+
+                rdr.Close();
+            }
+        }
+
+        #endregion READ
+
+        #region SAVE
 
         private static void SaveVersammlungen(SQLiteConnection db)
         {
-            SQLiteCommand conregationInsertCommand = new SQLiteCommand("INSERT INTO Conregation(Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw) " +
-                "VALUES (@Id, @Kreis, @Name, @Anschrift1, @Anschrift2, @Anreise, @Telefon, @Koordinator, @KoordinatorTelefon, @KoordinatorMobil, @KoordinatorMail, @KoordinatorJw)", db);
+            Log.Info(nameof(SaveVersammlungen));
+            SQLiteCommand conregationInsertCommand = new SQLiteCommand("INSERT INTO Conregation(Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Entfernung, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw) " +
+                "VALUES (@Id, @Kreis, @Name, @Anschrift1, @Anschrift2, @Anreise, @Entfernung, @Telefon, @Koordinator, @KoordinatorTelefon, @KoordinatorMobil, @KoordinatorMail, @KoordinatorJw)", db);
 
             conregationInsertCommand.Parameters.Add("@Id", System.Data.DbType.Int32);
             conregationInsertCommand.Parameters.Add("@Kreis", System.Data.DbType.Int32);
@@ -514,6 +707,7 @@ namespace Vortragsmanager.Core
             conregationInsertCommand.Parameters.Add("@Anschrift1", System.Data.DbType.String);
             conregationInsertCommand.Parameters.Add("@Anschrift2", System.Data.DbType.String);
             conregationInsertCommand.Parameters.Add("@Anreise", System.Data.DbType.String);
+            conregationInsertCommand.Parameters.Add("@Entfernung", System.Data.DbType.Int32);
             conregationInsertCommand.Parameters.Add("@Telefon", System.Data.DbType.String);
             conregationInsertCommand.Parameters.Add("@Koordinator", System.Data.DbType.String);
             conregationInsertCommand.Parameters.Add("@KoordinatorTelefon", System.Data.DbType.String);
@@ -529,12 +723,13 @@ namespace Vortragsmanager.Core
                 conregationInsertCommand.Parameters[3].Value = vers.Anschrift1;
                 conregationInsertCommand.Parameters[4].Value = vers.Anschrift2;
                 conregationInsertCommand.Parameters[5].Value = vers.Anreise;
-                conregationInsertCommand.Parameters[6].Value = vers.Telefon;
-                conregationInsertCommand.Parameters[7].Value = vers.Koordinator;
-                conregationInsertCommand.Parameters[8].Value = vers.KoordinatorTelefon;
-                conregationInsertCommand.Parameters[9].Value = vers.KoordinatorMobil;
-                conregationInsertCommand.Parameters[10].Value = vers.KoordinatorMail;
-                conregationInsertCommand.Parameters[11].Value = vers.KoordinatorJw;
+                conregationInsertCommand.Parameters[6].Value = vers.Entfernung;
+                conregationInsertCommand.Parameters[7].Value = vers.Telefon;
+                conregationInsertCommand.Parameters[8].Value = vers.Koordinator;
+                conregationInsertCommand.Parameters[9].Value = vers.KoordinatorTelefon;
+                conregationInsertCommand.Parameters[10].Value = vers.KoordinatorMobil;
+                conregationInsertCommand.Parameters[11].Value = vers.KoordinatorMail;
+                conregationInsertCommand.Parameters[12].Value = vers.KoordinatorJw;
                 conregationInsertCommand.ExecuteNonQuery();
             }
             conregationInsertCommand.Dispose();
@@ -561,6 +756,7 @@ namespace Vortragsmanager.Core
 
         private static void SaveMeinPlan(SQLiteConnection db)
         {
+            Log.Info(nameof(SaveMeinPlan));
             var cmd = new SQLiteCommand("INSERT INTO Invitation(" +
                 "IdAltester, IdVortrag, IdConregation, Datum, Status, LetzteAktion, Kommentar) " +
                 "VALUES (@IdAltester, @IdVortrag, @IdConregation, @Datum, @Status, @LetzteAktion, @Kommentar)", db);
@@ -573,12 +769,12 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@LetzteAktion", System.Data.DbType.Date);
             cmd.Parameters.Add("@Kommentar", System.Data.DbType.String);
 
-            foreach (var er in DataContainer.MeinPlan.Where(x => x.Status != InvitationStatus.Ereignis))
+            foreach (var er in DataContainer.MeinPlan.Where(x => x.Status != EventStatus.Ereignis))
             {
                 var con = (er as Invitation);
                 cmd.Parameters[0].Value = con.Ältester?.Id;
                 cmd.Parameters[1].Value = con.Vortrag?.Nummer;
-                cmd.Parameters[2].Value = con.Ältester?.Versammlung?.Id;
+                cmd.Parameters[2].Value = con.Ältester?.Versammlung?.Id ?? con.AnfrageVersammlung?.Id;
                 cmd.Parameters[3].Value = con.Datum;
                 cmd.Parameters[4].Value = (int)con.Status;
                 cmd.Parameters[5].Value = con.LetzteAktion;
@@ -587,7 +783,7 @@ namespace Vortragsmanager.Core
             }
 
             cmd.Dispose();
-                       
+
             cmd = new SQLiteCommand("INSERT INTO Events(Typ, Name, Thema, Vortragender, Datum)" +
                 "VALUES (@Typ, @Name, @Thema, @Vortragender, @Datum)", db);
 
@@ -597,7 +793,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@Vortragender", System.Data.DbType.String);
             cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
 
-            foreach (var er in DataContainer.MeinPlan.Where(x => x.Status == InvitationStatus.Ereignis))
+            foreach (var er in DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Ereignis))
             {
                 var evt = (er as SpecialEvent);
                 cmd.Parameters[0].Value = (int)evt.Typ;
@@ -611,8 +807,61 @@ namespace Vortragsmanager.Core
             cmd.Dispose();
         }
 
+        private static void SaveAnfragen(SQLiteConnection db)
+        {
+            Log.Info(nameof(SaveAnfragen));
+            var cmd1 = new SQLiteCommand("INSERT INTO Inquiry(Id, IdConregation, Status, AnfrageDatum, Kommentar, Mailtext) VALUES (@Id, @IdConregation, @Status, @AnfrageDatum, @Kommentar, @Mailtext)", db);
+            var cmd2 = new SQLiteCommand("INSERT INTO Inquiry_Dates(IdInquiry, Datum) VALUES (@IdInquiry, @Datum)", db);
+            var cmd3 = new SQLiteCommand("INSERT INTO Inquiry_SpeakerTalk(IdInquiry, IdSpeaker, IdTalk) VALUES (@IdInquiry, @IdSpeaker, @IdTalk)", db);
+
+            cmd1.Parameters.Add("@Id", System.Data.DbType.Int32);
+            cmd1.Parameters.Add("@IdConregation", System.Data.DbType.Int32);
+            cmd1.Parameters.Add("@Status", System.Data.DbType.Int32);
+            cmd1.Parameters.Add("@AnfrageDatum", System.Data.DbType.Date);
+            cmd1.Parameters.Add("@Kommentar", System.Data.DbType.String);
+            cmd1.Parameters.Add("@Mailtext", System.Data.DbType.String);
+
+            cmd2.Parameters.Add("@IdInquiry", System.Data.DbType.Int32);
+            cmd2.Parameters.Add("@Datum", System.Data.DbType.Date);
+
+            cmd3.Parameters.Add("@IdInquiry", System.Data.DbType.Int32);
+            cmd3.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
+            cmd3.Parameters.Add("@IdTalk", System.Data.DbType.Int32);
+
+            foreach (var con in DataContainer.OffeneAnfragen)
+            {
+                cmd1.Parameters[0].Value = con.Id;
+                cmd1.Parameters[1].Value = con.Versammlung.Id;
+                cmd1.Parameters[2].Value = (int)con.Status;
+                cmd1.Parameters[3].Value = con.AnfrageDatum;
+                cmd1.Parameters[4].Value = con.Kommentar;
+                cmd1.Parameters[5].Value = con.Mailtext;
+                cmd1.ExecuteNonQuery();
+
+                cmd2.Parameters[0].Value = con.Id;
+                foreach (var d in con.Wochen)
+                {
+                    cmd2.Parameters[1].Value = d;
+                    cmd2.ExecuteNonQuery();
+                }
+
+                cmd3.Parameters[0].Value = con.Id;
+                foreach (var person in con.RednerVortrag)
+                {
+                    cmd3.Parameters[1].Value = person.Key.Id;
+                    cmd3.Parameters[2].Value = person.Value.Nummer;
+                    cmd3.ExecuteNonQuery();
+                }
+            }
+
+            cmd1.Dispose();
+            cmd2.Dispose();
+            cmd3.Dispose();
+        }
+
         private static void SaveExternerPlan(SQLiteConnection db)
         {
+            Log.Info(nameof(SaveExternerPlan));
             var cmd = new SQLiteCommand("INSERT INTO Outside(IdSpeaker, IdConregation, Datum, Reason, IdTalk) " +
                 "VALUES (@IdSpeaker, @IdConregation, @Datum, @Reason, @IdTalk)", db);
 
@@ -625,7 +874,7 @@ namespace Vortragsmanager.Core
             foreach (var plan in DataContainer.ExternerPlan)
             {
                 cmd.Parameters[0].Value = plan.Ältester.Id;
-                cmd.Parameters[1].Value = plan.Versammlung.Id;
+                cmd.Parameters[1].Value = plan.Versammlung?.Id;
                 cmd.Parameters[2].Value = plan.Datum;
                 cmd.Parameters[3].Value = (int)plan.Reason;
                 cmd.Parameters[4].Value = plan.Vortrag.Nummer;
@@ -637,8 +886,9 @@ namespace Vortragsmanager.Core
 
         private static void SaveRedner(SQLiteConnection db)
         {
-            var cmd = new SQLiteCommand("INSERT INTO Speaker(Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic) " +
-                "VALUES (@Id, @Name, @IdConregation, @Mail, @Telefon, @Mobil, @Altester, @Aktiv, @InfoPrivate, @InfoPublic)", db);
+            Log.Info(nameof(SaveRedner));
+            var cmd = new SQLiteCommand("INSERT INTO Speaker(Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic, Einladen) " +
+                "VALUES (@Id, @Name, @IdConregation, @Mail, @Telefon, @Mobil, @Altester, @Aktiv, @InfoPrivate, @InfoPublic, @Einladen)", db);
 
             cmd.Parameters.Add("@Id", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Name", System.Data.DbType.String);
@@ -650,6 +900,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@Aktiv", System.Data.DbType.Boolean);
             cmd.Parameters.Add("@InfoPrivate", System.Data.DbType.String);
             cmd.Parameters.Add("@InfoPublic", System.Data.DbType.String);
+            cmd.Parameters.Add("@Einladen", System.Data.DbType.Boolean);
 
             foreach (var red in DataContainer.Redner)
             {
@@ -663,6 +914,7 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[7].Value = red.Aktiv;
                 cmd.Parameters[8].Value = red.InfoPrivate;
                 cmd.Parameters[9].Value = red.InfoPublic;
+                cmd.Parameters[10].Value = red.Einladen;
                 cmd.ExecuteNonQuery();
             }
             cmd.Dispose();
@@ -678,6 +930,8 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[0].Value = red.Id;
                 foreach (var t in red.Vorträge)
                 {
+                    if (t is null)
+                        continue;
                     cmd.Parameters[1].Value = t.Nummer;
                     cmd.ExecuteNonQuery();
                 }
@@ -688,6 +942,7 @@ namespace Vortragsmanager.Core
 
         private static void SaveVorträge(SQLiteConnection db)
         {
+            Log.Info(nameof(SaveVorträge));
             var cmd = new SQLiteCommand("INSERT INTO Talks(Nummer, Thema, Gultig, ZuletztGehalten)" +
                 "VALUES (@Nummer, @Thema, @Gultig, @ZuletztGehalten)", db);
 
@@ -710,6 +965,7 @@ namespace Vortragsmanager.Core
 
         private static void SaveParameter(SQLiteConnection db)
         {
+            Log.Info(nameof(SaveParameter));
             var cmd = new SQLiteCommand("INSERT INTO Parameter(Name, Wert)" +
                 "VALUES (@Name, @Wert)", db);
 
@@ -717,7 +973,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@Wert", System.Data.DbType.String);
 
             cmd.Parameters[0].Value = "Version";
-            cmd.Parameters[1].Value = 1;
+            cmd.Parameters[1].Value = DataContainer.Version;
             cmd.ExecuteNonQuery();
 
             cmd.Parameters[0].Value = "IsInitialized";
@@ -737,6 +993,7 @@ namespace Vortragsmanager.Core
 
         private static void SaveTemplates(SQLiteConnection db)
         {
+            Log.Info(nameof(SaveTemplates));
             var cmd1 = new SQLiteCommand("INSERT INTO Templates(Id, Inhalt, Beschreibung) VALUES (@Id, @Inhalt, @Beschreibung)", db);
             cmd1.Parameters.Add("@Id", System.Data.DbType.Int32);
             cmd1.Parameters.Add("@Inhalt", System.Data.DbType.String);
@@ -766,7 +1023,29 @@ namespace Vortragsmanager.Core
             cmd1.Dispose();
             cmd2.Dispose();
         }
-               
+
+        private static void SaveCancelation(SQLiteConnection db)
+        {
+            var cmd = new SQLiteCommand("INSERT INTO Cancelation(Datum, IdSpeaker, IdLastStatus) " +
+    "VALUES (@Datum, @IdSpeaker, @IdLastStatus)", db);
+
+            cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
+            cmd.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@IdLastStatus", System.Data.DbType.Int32);
+
+            foreach (var absage in DataContainer.Absagen)
+            {
+                cmd.Parameters[0].Value = absage.Datum;
+                cmd.Parameters[1].Value = absage.Ältester.Id;
+                cmd.Parameters[2].Value = (int)absage.LetzterStatus;
+                cmd.ExecuteNonQuery();
+            }
+
+            cmd.Dispose();
+        }
+
+        #endregion SAVE
+
         public enum Parameter
         {
             Version,

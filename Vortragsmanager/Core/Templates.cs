@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Vortragsmanager.Models;
 using static Vortragsmanager.Core.Templates;
 
 namespace Vortragsmanager.Core
@@ -10,13 +11,8 @@ namespace Vortragsmanager.Core
 
         public static Template GetTemplate(TemplateName name)
         {
+            Log.Info(nameof(GetTemplate), name.ToString());
             return Vorlagen[name];
-        }
-
-        //ToDo: Speichern der Templates in einen Ordner
-        public static void SaveTemplates()
-        {
-            throw new NotImplementedException();
         }
 
         public enum TemplateName
@@ -27,6 +23,167 @@ namespace Vortragsmanager.Core
             ExterneAnfrageAblehnenInfoAnRednerMailText = 4,
             ExterneAnfrageAnnehmenInfoAnKoordinatorMailText = 5,
             ExterneAnfrageAnnehmenInfoAnRednerMailText = 6,
+            EreignisTauschenMailText = 7,
+        }
+
+        public static string GetMailTextEreignisTauschenAnKoordinator(Conregation conregation, DateTime startDatum, DateTime zielDatum, string name, string vortrag, string versammlung)
+        {
+            Log.Info(nameof(GetMailTextEreignisTauschenAnKoordinator));
+            if (conregation is null)
+                return "Fehler beim verarbeiten der Vorlage";
+
+            var mailAdresse = string.IsNullOrEmpty(conregation.KoordinatorJw) ? conregation.KoordinatorMail : conregation.KoordinatorJw;
+
+            return GetMailTextEreignisTauschenAnRedner(name, vortrag, versammlung, mailAdresse, conregation.Koordinator, startDatum, zielDatum);
+        }
+
+        public static string GetMailTextEreignisTauschenAnRedner(Speaker redner, DateTime startDatum, DateTime zielDatum, string vortrag, string versammlung)
+        {
+            Log.Info(nameof(GetMailTextEreignisTauschenAnRedner));
+            if (redner is null)
+                return "Fehler beim verarbeiten der Vorlage";
+
+            return GetMailTextEreignisTauschenAnRedner(redner.Name, vortrag, versammlung, redner.Mail, redner.Name, startDatum, zielDatum);
+        }
+
+        private static string GetMailTextEreignisTauschenAnRedner(string name, string vortrag, string versammlung, string mailEmpfänger, string nameEmpfänger, DateTime datumAlt, DateTime datumNeu)
+        {
+            Log.Info(nameof(GetMailTextEreignisTauschenAnRedner));
+            var mt = GetTemplate(TemplateName.EreignisTauschenMailText).Inhalt;
+            mt = mt
+                .Replace("{Redner}", name)
+                .Replace("{Vortrag}", vortrag)
+                .Replace("{Versammlung}", versammlung)
+                .Replace("{DatumAlt}", datumAlt.ToShortDateString())
+                .Replace("{DatumNeu}", datumNeu.ToShortDateString())
+                .Replace("{MailName}", nameEmpfänger)
+                .Replace("{MailEmpfänger}", mailEmpfänger);
+            return mt;
+        }
+
+        public static string GetMailTextAnnehmenKoordinator(Outside Buchung)
+        {
+            Log.Info(nameof(GetMailTextAnnehmenKoordinator));
+            if (Buchung is null)
+                return "Fehler beim verarbeiten der Vorlage";
+            var mt = GetTemplate(TemplateName.ExterneAnfrageAnnehmenInfoAnKoordinatorMailText).Inhalt;
+            mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
+            mt = mt
+                .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
+                .Replace("{Vortrag}", Buchung.Vortrag.ToString());
+            return mt;
+        }
+
+        public static string GetMailTextAnnehmenRedner(Outside Buchung)
+        {
+            Log.Info(nameof(GetMailTextAnnehmenRedner));
+            if (Buchung is null)
+                return "Fehler beim verarbeiten der Vorlage";
+
+            var mt = GetTemplate(TemplateName.ExterneAnfrageAnnehmenInfoAnRednerMailText).Inhalt;
+            mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
+            mt = mt
+                .Replace("{Redner Name}", Buchung.Ältester?.Name ?? "unbekannt")
+                .Replace("{Redner Mail}", Buchung.Ältester?.Mail ?? "unbekannt")
+                .Replace("{Redner Versammlung}", Buchung.Ältester?.Versammlung.Name ?? "unbekannt")
+                .Replace("{Vortrag}", Buchung.Vortrag.ToString())
+                .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
+
+                .Replace("{Versammlung Zusammenkunftszeit}", Buchung.Versammlung.GetZusammenkunftszeit(Buchung.Datum));
+
+            return mt;
+        }
+
+        public static string GetMailTextAblehnenKoordinator(Outside Buchung)
+        {
+            Log.Info(nameof(GetMailTextAblehnenKoordinator));
+            if (Buchung is null)
+                return "Fehler beim verarbeiten der Vorlage";
+
+            var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnKoordinatorMailText).Inhalt;
+            mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
+            mt = mt
+                .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
+                .Replace("{Vortrag}", Buchung.Vortrag.ToString());
+
+            return mt;
+        }
+
+        public static string GetMailTextAblehnenRedner(Outside Buchung)
+        {
+            Log.Info(nameof(GetMailTextAblehnenRedner));
+            if (Buchung is null)
+                return "Fehler beim verarbeiten der Vorlage";
+
+            var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnRednerMailText).Inhalt;
+            mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
+            mt = mt
+                .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
+                .Replace("{Vortrag}", Buchung.Vortrag.ToString())
+                .Replace("{Redner Mail}", $"{Buchung.Ältester?.Mail ?? "unbekannt"}");
+
+            return mt;
+        }
+
+        public static string GetMailTextAblehnenKoordinator(Invitation Zuteilung)
+        {
+            Log.Info(nameof(GetMailTextAblehnenKoordinator));
+            if (Zuteilung is null)
+                return "Fehler beim verarbeiten der Vorlage";
+
+            var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnKoordinatorMailText).Inhalt;
+            var vers = Zuteilung.Ältester?.Versammlung ?? DataContainer.FindConregation("Unbekannt");
+
+            mt = ReplaceVersammlungsparameter(mt, vers);
+            mt = mt
+                .Replace("{Datum}", $"{Zuteilung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Redner}", Zuteilung.Ältester?.Name ?? "unbekannt")
+                .Replace("{Vortrag}", Zuteilung.Vortrag?.ToString() ?? "unbekannt");
+
+            return mt;
+        }
+
+        public static string ReplaceVersammlungsparameter(string Mailtext, Conregation Versammlung)
+        {
+            Log.Info(nameof(ReplaceVersammlungsparameter));
+            if (string.IsNullOrEmpty(Mailtext))
+                return string.Empty;
+
+            if (Versammlung is null)
+                Versammlung = DataContainer.FindConregation("Unbekannt");
+
+            if (Versammlung is null)
+                return "Fehler beim verarbeiten der Vorlage '" + Mailtext + "'";
+
+            return Mailtext
+                .Replace("{Versammlung}", Versammlung.Name)
+                .Replace("{Koordinator Mail}", $"{Versammlung.KoordinatorJw}; {Versammlung.KoordinatorMail}")
+                .Replace("{Koordinator Name}", Versammlung.Koordinator)
+                .Replace("{Kreis}", Versammlung.Kreis.ToString(DataContainer.German))
+                .Replace("{Versammlung Telefon}", Versammlung.Telefon)
+                .Replace("{Versammlung Anreise}", Versammlung.Anreise)
+                .Replace("{Versammlung Anschrift1}", Versammlung.Anschrift1)
+                .Replace("{Versammlung Anschrift2}", Versammlung.Anschrift2);
+        }
+
+        public static string GetMailTextAblehnenRedner(Invitation Zuteilung)
+        {
+            Log.Info(nameof(GetMailTextAblehnenRedner));
+            if (Zuteilung is null)
+                return "Fehler beim verarbeiten der Vorlage";
+
+            var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnRednerMailText).Inhalt;
+            mt = ReplaceVersammlungsparameter(mt, Zuteilung.Ältester?.Versammlung);
+            mt = mt
+                .Replace("{Datum}", $"{Zuteilung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Redner}", Zuteilung.Ältester?.Name ?? "unbekannt")
+                .Replace("{Vortrag}", Zuteilung.Vortrag.ToString())
+                .Replace("{Redner Mail}", $"{Zuteilung.Ältester.Mail ?? "unbekannt"}");
+
+            return mt;
         }
     }
 

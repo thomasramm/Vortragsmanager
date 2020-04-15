@@ -4,7 +4,7 @@ using System.Windows;
 namespace Vortragsmanager.Views
 {
     /// <summary>
-    /// Interaktionslogik für BuchungLöschenDialog.xaml
+    /// Interaktionslogik für BuchungLöschenCommandDialog.xaml
     /// </summary>
     public partial class SetupWizardDialog : Window, ICloseable
     {
@@ -15,7 +15,7 @@ namespace Vortragsmanager.Views
 
         private void ExcelFile_ValidateExists(object sender, DevExpress.Xpf.Editors.ValidationEventArgs e)
         {
-            e.IsValid = File.Exists(e.Value.ToString());
+            e.IsValid = File.Exists(e.Value?.ToString() ?? string.Empty);
         }
     }
 }

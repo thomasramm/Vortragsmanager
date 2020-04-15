@@ -3,7 +3,7 @@
 namespace Vortragsmanager.Views
 {
     /// <summary>
-    /// Interaktionslogik für BuchungLöschenDialog.xaml
+    /// Interaktionslogik für BuchungLöschenCommandDialog.xaml
     /// </summary>
     public partial class leerDialog : Window, ICloseable
     {
