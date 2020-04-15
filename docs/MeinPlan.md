@@ -1,13 +1,15 @@
 ⇦ zurück zum [Inhaltsverzeichnis](README.md)
+
 ![Icon](./../images/menu_icon_01.png)
+
 Die Verwaltung deiner eigenen Redner- und Vortragsplanung geschieht hier. 
 
 Die Seite besteht aus der Jahres-Navigation in der du das aktuell betrachtete Jahr wechseln kannst und einem Jahreskalender mit allen deinen Planungen.
 Für jede Woche gibt es einen Eintrag mit dem Tag im Monat und einem Hinweis auf deine Eintragung.
 
-![Übersicht](./../images/meinPlan_01.png)
+![Übersicht](./../images/meinplan_01.png)
 
-Eine Woche kann 4 verschiedene Stati haben. Schauen wir uns das am Beispiel des Monats Juli an: ![Juli](./../images/meinPlan_02.png) 
+Eine Woche kann 4 verschiedene Stati haben. Schauen wir uns das am Beispiel des Monats Juli an: ![Juli](./../images/meinplan_02.png) 
 
  * 05. Juli: Milo Schwarz ist zum Vortrag eingeladen
  * 12. Juli: Sonderereignis Kongress
@@ -17,7 +19,7 @@ Eine Woche kann 4 verschiedene Stati haben. Schauen wir uns das am Beispiel des 
 ## Die Ereignistypen
 
 ### Bestehende Vortragseinladung (05. Juli)
-Bei bestehenden Vortragseinladungen wird dir der Name des Redners angezeigt. Mit einem Klick auf die Buchung werden dir weitere Details der Buchung angezeigt. ![Buchung Details](./../images/meinPlan_03.png) 
+Bei bestehenden Vortragseinladungen wird dir der Name des Redners angezeigt. Mit einem Klick auf die Buchung werden dir weitere Details der Buchung angezeigt. ![Buchung Details](./../images/meinplan_03.png) 
 
 Die Kontaktdaten können per klick in die Zwischenablage kopiert und in anderen Programmen eingefügt werden.
 
