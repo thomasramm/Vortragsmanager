@@ -125,9 +125,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+<<<<<<< HEAD
     <Compile Include="Core\Anonymisieren.cs" />
+=======
     <Compile Include="Core\GeoApi.cs" />
     <Compile Include="Core\Helper.cs" />
+>>>>>>> master
     <Compile Include="Core\ini.cs" />
     <Compile Include="Core\Initialize.cs" />
     <Compile Include="Core\IoExcel.cs" />

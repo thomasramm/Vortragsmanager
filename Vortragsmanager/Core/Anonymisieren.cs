@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.Core
 {
@@ -13,11 +14,22 @@ namespace Vortragsmanager.Core
         {
             _ = new Anonymisieren();
         }
+
         public Anonymisieren()
         {
             LoadNamen();
             LoadCity();
             DatenAnonymisieren();
+
+            var file = Settings.Default.sqlite;
+            if (!file.Contains("anonymisiert"))
+            {
+                file = file.Replace(".sqlite3", "_anonymisiert.sqlite3");
+            }
+
+            IoSqlite.SaveContainer(file, false);
+            Settings.Default.sqlite = file;
+            Settings.Default.Save();
         }
 
         private List<string> Namen { get; set; }
@@ -187,7 +199,6 @@ namespace Vortragsmanager.Core
             Namen.Add("Johannes Roth");
             Namen.Add("Jacob Beck");
             Namen.Add("Mike Lorenz");
-
         }
 
         public void LoadCity()
@@ -345,8 +356,6 @@ namespace Vortragsmanager.Core
             Städte.Add("Hürth");
             Städte.Add("Langenfeld (Rheinland)");
             Städte.Add("Unna");
-
-
         }
 
         private void DatenAnonymisieren()
