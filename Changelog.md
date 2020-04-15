@@ -1,3 +1,7 @@
+[15.04.2020]
+* Antwort Eintragen: Datumsfeld mit erstem Datum vorausgewählt 
+* Updater: Beim Wizard wurde die Dateiversion falsch gesetzt
+
 [12.04.2020]
 * UpdateDialog: Zeilenumbruch bei Anzeige langer Texte
 * Redner suchen: Zukünftig werden die generierten Mail-Text einer Vortragsanfrage gespeichert (Ich wollte einen Koordinator an eine ausstehende Einladung erinnern, die Mail war in jwpub aber schon gelöscht...) und es gibt einen kleinen Button zur Anzeige in der Anzeige der offenen Anfragen. Wird die Anfrage bestätigt oder gelöscht, wird der Mailtext mit gelöscht.
