@@ -361,19 +361,26 @@ namespace Vortragsmanager.Core
         private void DatenAnonymisieren()
         {
             var i = 0;
+            var erweiterung = string.Empty;
             foreach (var redner in DataContainer.Redner)
             {
-                redner.Name = Namen[i];
-                redner.Mail = Namen[i].Replace(" ", ".") + "@mail.de";
+                redner.Name = Namen[i] + erweiterung;
+                redner.Mail = redner.Name.Replace(" ", ".") + "@mail.de";
                 redner.Mobil = "+49 150 123456";
                 redner.Telefon = "0561-123 456";
                 i++;
+                if (i >= Namen.Count)
+                {
+                    erweiterung = " jun.";
+                    i = 0;
+                }
             }
 
             i = 0;
+            var lauf = 1;
             foreach (var versammlung in DataContainer.Versammlungen)
             {
-                versammlung.Name = Städte[i];
+                versammlung.Name = Städte[i] + ((lauf > 1) ? $" {lauf}" : "");
                 versammlung.Anschrift1 = "Zum Königreich 1";
                 versammlung.Anschrift2 = "00000 " + Städte[i];
                 versammlung.Anreise = "https://goo.gl/maps/mCihsiqLXaoFUhF46";
@@ -383,6 +390,12 @@ namespace Vortragsmanager.Core
                 versammlung.KoordinatorMobil = "+49 150 123456";
                 versammlung.KoordinatorTelefon = "0561-123 456";
                 i++;
+
+                if (i >= Städte.Count)
+                {
+                    i = 0;
+                    lauf++;
+                }
             }
         }
     }
