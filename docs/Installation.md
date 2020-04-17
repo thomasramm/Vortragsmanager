@@ -4,6 +4,13 @@ Die Installation teilt sich in zwei wichtige Schritte ein.
 1. Die [Programminstallation](#installation) unter Windows
 2. Der [Setup-Wizard](#wizard) beim ersten Programmstart
 
+## Inhaltsverzeichnis
+1. [Installation](#installation)
+1. [Wizard](#wizard)
+    1. [Datenbank öffnen](#datenbank-öffnen)
+    1. [Mit leerem Programm starten](#mit-leerem-programm-starten)
+    1. [Import der vplanung.net Daten](#import-der-vplanung-net-daten)
+
 # Installation #
 
 1. Lade dir das Archiv [Vortragsmanager.zip](http://thomas-ramm.de/Vortragsmanager/Vortragsmanager.zip) herunter.
