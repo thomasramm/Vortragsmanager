@@ -35,9 +35,13 @@ PS: In der Titelleiste sieht man hinter dem Programmnamen den Namen der Datei in
         1. [Mit leerem Programm starten](Installation.md#mit-leerem-programm-starten)
         1. [Import der vplanung.net Daten](Installation.md#import-der-vplanung-net-daten)
 
-1. [Mein Plan](MeinPlan.md#mein-plan)
+1. [Mein Plan](MeinPlan.md)
     1. Mein Plan
         1. [Ereignistypen](MeinPlan.md#die-ereignistypen)
         1. [Aktionen](MeinPlan.md#aktionen)
     1. [Redner suchen](MeinPlan.md#redner-suchen)
     1. [Antwort eintragen](MeinPlan.md#antwort-eintragen)
+
+1. [Meine Redner](MeineRedner.md)
+    1. Meine Redner
+    1. [Neue externe Anfrage](MeineRedner.md#neue-externe-anfrage)
