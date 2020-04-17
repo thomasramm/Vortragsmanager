@@ -25,3 +25,19 @@ Der Vortragsmanager ist in 3 Bereiche aufgeteilt:
     * [Programm](Verwaltung.md#programm): Programmeinstellungen vornehmen und Zusatzfunktionen aufrufen.
 
 PS: In der Titelleiste sieht man hinter dem Programmnamen den Namen der Datei in der deine Daten gespeichert werden.
+
+# Inhaltsverzeichnis dieses Handbuches
+
+1. [Installation](Installation.md)
+    1. [Programm installieren](Installation.md#installation)
+    1. [Wizard (Datenimport)](Installation.md#wizard)
+        1. [Datenbank öffnen](Installation.md#datenbank-öffnen)
+        1. [Mit leerem Programm starten](Installation.md#mit-leerem-programm-starten)
+        1. [Import der vplanung.net Daten](Installation.md#import-der-vplanung-net-daten)
+
+1. [Mein Plan](MeinPlan.md#mein-plan)
+    1. Mein Plan
+        1. [Ereignistypen](MeinPlan.md#die-ereignistypen)
+        1. [Aktionen](MeinPlan.md#aktionen)
+    1. [Redner suchen](MeinPlan.md#redner-suchen)
+    1. [Antwort eintragen](MeinPlan.md#antwort-eintragen)
