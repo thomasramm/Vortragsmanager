@@ -27,7 +27,7 @@
         </Grid.RowDefinitions>
         <dxlc:LayoutControl Orientation="Vertical">
             <dxlc:LayoutGroup Orientation="Vertical" View="GroupBox" Header="Startbuchung">
-                <dxlc:LayoutItem Label="Versammlung">
+                <dxlc:LayoutItem Label="{Binding StartTyp, Mode=OneWay}">
                     <Label Content="{Binding StartVersammlung, Mode=OneWay}" />
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="Name">
@@ -50,7 +50,7 @@
                               View="GroupBox"
                               Header="Zielbuchung"
                               Visibility="{Binding ZielBuchungBelegt, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <dxlc:LayoutItem Label="Versammlung">
+                <dxlc:LayoutItem Label="{Binding ZielTyp, Mode=TwoWay}">
                     <Label Content="{Binding ZielVersammlung, Mode=TwoWay}" />
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="Name">
