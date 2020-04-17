@@ -2,6 +2,14 @@
 
 ![Icon](./../images/menu_icon_01.png)
 
+## Inhaltsverzeichnis
+1. [Mein Plan](#mein-plan)
+    1. [Ereignistypen](#die-ereignistypen)
+    1. [Aktionen](#aktionen)
+1. [Redner suchen](#redner-suchen)
+1. [Antwort eintragen](#antwort-eintragen)
+
+# Mein Plan
 Die Verwaltung deiner eigenen Redner- und Vortragsplanung geschieht hier. 
 
 Die Seite besteht aus der Jahres-Navigation in der du das aktuell betrachtete Jahr wechseln kannst und einem Jahreskalender mit allen deinen Planungen.
@@ -69,6 +77,32 @@ Anfragen an Koordinatoren werden in dem Jahresplan mit dem Namen der Versammlung
 Mit einem Klick auf die Anfrage wird ein Dialog geöffnet, in dem du die Anfrage bearbeiten kannst.
 
 Anfragen haben kein Kontextmenü
+
+## Aktionen
+
+Im Fenster Mein Plan können folgende Aktionen durchgeführt werden:
+
+### Buchung verschieben (bzw. tauschen)
+Vorträge und Ereignisse können verschoben werden.
+Das verschieben geschieht über das [Kontextmenü](Konzept.md#kontextmenü) .
+
+![Buchung verschieben](./../images/meinplan_04.png)
+
+In diesem Beispiel habe ich auf die Buchung am 29.03.2020 geklickt (meine Startbuchung). Ich wähle dann das Zieldatum aus, auf das ich diese Buchung verschieben möchte. Ist an dem Zieldatum kein Eintrag vorhanden, kann man die Änderung Speichern oder die Aktion wieder Abbrechen.
+Ist an dem Zieldatum bereits eine Buchung vorhanden, wird sie im Dialog angezeigt und man kann entscheiden ob man den bisherigen Eintrag am Zieldatum löschen oder mit dem aktuellen Ereignis tauschen möchte.
+Nach dem bestätigen werden [Mailtexte](Konzept.md#mailtexte) an die betroffenen Redner oder Koordinatoren generiert.
+
+### Buchung bearbeiten
+Vorträge 
+
+### Buchung löschen
+
+
+### Ereignis bearbeiten
+
+
+### Anfrage "bearbeiten"
+
 
 # Redner suchen #
 ![Icon](./../images/menu_icon_02.png)
