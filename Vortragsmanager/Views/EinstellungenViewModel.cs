@@ -151,6 +151,8 @@ namespace Vortragsmanager.Views
 
                 saveDialog.Dispose();
             }
+
+            DataContainer.globalSettings.RefreshTitle();
         }
 
         public bool UpdatesEnabled

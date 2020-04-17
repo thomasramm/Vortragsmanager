@@ -2,14 +2,35 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using Vortragsmanager.Models;
 using Vortragsmanager.Views;
 
 namespace Vortragsmanager.Core
 {
+    public class MyGloabalSettings : ViewModelBase
+    {
+        public MyGloabalSettings()
+        {
+            Titel = "thomas";
+        }
+
+        public string Titel { get; set; }
+
+        public void RefreshTitle()
+        {
+            var fi = new FileInfo(Properties.Settings.Default.sqlite);
+            Titel = "Vortragsmanager DeLuxe | " + fi.Name;
+
+            RaisePropertyChanged(Titel);
+        }
+    }
+
     public static class DataContainer
     {
+        public static MyGloabalSettings globalSettings { get; set; }
+
         private static int displayedYear = DateTime.Now.Year;
 
         public static CultureInfo German { get; } = new CultureInfo("de-DE");
