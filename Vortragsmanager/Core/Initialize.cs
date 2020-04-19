@@ -264,11 +264,11 @@ Folgende Termine sind in meiner Vortragsplannung aktuell noch frei:
 Ich würde mich freuen von dir zu hören.
 
 Liebe Grüße
-Thomas Ramm
+DEIN NAME
 
-Versammlung Hofgeismar
-Versammlungszeit: Sonntag 10:00Uhr
-Versammlungsort:  34393 Grebenstein, Über der Bahn
+Versammlung DEINE VERSAMMLUNG
+Versammlungszeit: DEINE VERSAMMLUNGSZEIT
+Versammlungsort:  DEINE ANSCHRIFT
 "
             };
             x.Parameter.Add("{Koordinator Mail}", "Mailadressen des Koordinator an den die Absage geschickt werden soll, z.B. 'mail@jwpub.org; mail@webdienst.de'");
@@ -295,11 +295,11 @@ anbei die Liste deiner/eurer Vortragseinladungen:
 {Redner Termine}
 
 Liebe Grüße
-Thomas Ramm
+DEIN NAME
 
-Versammlung Hofgeismar
-Versammlungszeit: Sonntag 10:00Uhr
-Versammlungsort:  34393 Grebenstein, Über der Bahn
+Versammlung DEINE VERSAMMLUNG
+Versammlungszeit: DEINE VERSAMMLUNGSZEIT
+Versammlungsort:  DEINE ANSCHRIFT
 "
             };
             x.Parameter.Add("{Redner Mail}", "Mailadressen der Redner die in der Liste aufgeführt sind, z.B. 'mail@jwpub.org; mail@webdienst.de'");
@@ -326,11 +326,11 @@ Redner: {Redner}
 Vortrag: {Vortrag}
 
 Liebe Grüße
-Thomas Ramm
+DEIN NAME
 
-Versammlung Hofgeismar
-Versammlungszeit: Sonntag 10:00Uhr
-Versammlungsort:  34393 Grebenstein, Über der Bahn"
+Versammlung DEINE VERSAMMLUNG
+Versammlungszeit: DEINE VERSAMMLUNGSZEIT
+Versammlungsort:  DEINE ANSCHRIFT"
             };
             x.Parameter.Add("{Koordinator Mail}", "Mailadressen des Koordinator an den die Absage geschickt werden soll, z.B. 'mail@jwpub.org; mail@webdienst.de'");
             x.Parameter.Add("{Koordinator Name}", "Name des Koordinator an den die Absage geschickt werden soll, z.B. 'Gustav Koordinator'");
@@ -362,10 +362,11 @@ Anschrift des Königreichssaals:
 Zusammenkunftszeit: {Versammlung Zusammenkunftszeit}
 
 Liebe Grüße
-Thomas Ramm
+DEIN NAME
 
-Versammlung Hofgeismar
-"
+Versammlung DEINE VERSAMMLUNG
+Versammlungszeit: DEINE VERSAMMLUNGSZEIT
+Versammlungsort:  DEINE ANSCHRIFT"
             };
             x.Parameter.Add("{Redner Mail}", "Mailadressen des Koordinator an den die Absage geschickt werden soll, z.B. 'mail@jwpub.org; mail@webdienst.de'");
             x.Parameter.Add("{Redner Name}", "Name des Koordinator an den die Absage geschickt werden soll, z.B. 'Gustav Koordinator'");
@@ -400,11 +401,11 @@ Redner: {Redner}
 Vortrag: {Vortrag}
 
 Liebe Grüße
-Thomas Ramm
+DEIN NAME
 
-Versammlung Hofgeismar
-Versammlungszeit: Sonntag 10:00Uhr
-Versammlungsort:  34393 Grebenstein, Über der Bahn"
+Versammlung DEINE VERSAMMLUNG
+Versammlungszeit: DEINE VERSAMMLUNGSZEIT
+Versammlungsort:  DEINE ANSCHRIFT"
             };
             x.Parameter.Add("{Koordinator Mail}", "Mailadressen des Koordinator an den die Absage geschickt werden soll, z.B. 'mail@jwpub.org; mail@webdienst.de'");
             x.Parameter.Add("{Koordinator Name}", "Name des Koordinator an den die Absage geschickt werden soll, z.B. 'Gustav Koordinator'");
@@ -429,11 +430,11 @@ Vortrag: {Vortrag}
 Versammlung: {Versammlung}
 
 Liebe Grüße
-Thomas Ramm
+DEIN NAME
 
-Versammlung Hofgeismar
-Versammlungszeit: Sonntag 10:00Uhr
-Versammlungsort:  34393 Grebenstein, Über der Bahn"
+Versammlung DEINE VERSAMMLUNG
+Versammlungszeit: DEINE VERSAMMLUNGSZEIT
+Versammlungsort:  DEINE ANSCHRIFT"
             };
             x.Parameter.Add("{Redner Mail}", "Mailadresse des Redners an den die Absage geschickt werden soll, z.B. 'mail@jwpub.org; mail@webdienst.de'");
             x.Parameter.Add("{Versammlung}", "Name der Versammlung des eingeladenen Redners, z.B. 'Grebenstein'");
@@ -464,11 +465,11 @@ Vortrag: {Vortrag}
 Versammlung: {Versammlung}
 
 Liebe Grüße
-Thomas Ramm
+DEIN NAME
 
-Versammlung Hofgeismar
-Versammlungszeit: Sonntag 10:00Uhr
-Versammlungsort:  34393 Grebenstein, Über der Bahn"
+Versammlung DEINE VERSAMMLUNG
+Versammlungszeit: DEINE VERSAMMLUNGSZEIT
+Versammlungsort:  DEINE ANSCHRIFT"
             };
 
             x.Parameter.Add("{MailEmpfänger}", "Mailadresse des Empfänger an den die Info geschickt werden soll, z.B. 'mail@jwpub.org; mail@webdienst.de'");
@@ -502,8 +503,8 @@ Vortrag: {Vortrag}
 Wir benutzen für unsere Zusammenkünfte aktuell Zoom.
 
 Zugangsdaten
-Meeting-ID: 871-793-8114
-Passwort: Paulus1914
+Meeting-ID: XXX-XXX-XXXX
+Passwort: GEHEIM
 
 Hinweise zu Zoom
 Das Meeting starten wir 30 min vor Programmbeginn, also ab 9:30 Uhr.
@@ -512,13 +513,13 @@ Für deinen Vortrag, das Schlußgebet und Kommentare beim WT Studium würdest du
 Wenn du unseren Meeting Raum testen möchtest, oder andere Fragen hast, kannst du dich gerne an mich wenden.
 
 Liebe Grüße
-Thomas Ramm
-Mail: tramm1@jwpub.org
-Telefon: 0170-3109194
+DEIN NAME
+MAIL
+TELEFON
 
-Versammlung Hofgeismar
-Versammlungszeit: Sonntag 10:00Uhr
-Versammlungsort:  34393 Grebenstein, Über der Bahn 5"
+Versammlung DEINE VERSAMMLUNG
+Versammlungszeit: DEINE VERSAMMLUNGSZEIT
+Versammlungsort:  DEINE ANSCHRIFT"
             };
 
             x.Parameter.Add("{MailEmpfänger}", "Mailadresse des Empfänger an den die Info geschickt werden soll, z.B. 'mail@jwpub.org; mail@webdienst.de'");
