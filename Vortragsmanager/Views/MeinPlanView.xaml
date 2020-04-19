@@ -106,6 +106,7 @@
                                                                 <MenuItem Header="Buchung verschieben" Command="{Binding BuchungVerschiebenCommand}" Visibility="{Binding IsBuchung, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <MenuItem Header="Buchung bearbeiten" Command="{Binding BuchungBearbeitenCommand}" Visibility="{Binding IsBuchung, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <MenuItem Header="Buchung löschen" Command="{Binding BuchungLöschenCommand}" Visibility="{Binding IsBuchung, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                <MenuItem Header="Erinnerungsmail" Command="{Binding BuchungErinnernCommand}" Visibility="{Binding IsEinladung, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                             </ContextMenu>
                                                         </Border.ContextMenu>
                                                         <StackPanel Orientation="Horizontal">

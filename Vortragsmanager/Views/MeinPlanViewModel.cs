@@ -124,6 +124,7 @@ namespace Vortragsmanager.Views
             EreignisEintragenCommand = new DelegateCommand(EreignisEintragen);
             AnfrageBearbeitenCommand = new DelegateCommand(AnfrageBearbeiten);
             BuchungBearbeitenCommand = new DelegateCommand(BuchungBearbeiten);
+            BuchungErinnernCommand = new DelegateCommand(BuchungErinnern);
             ClickCommand = new DelegateCommand(OnClick);
             ClosePopupCommand = new DelegateCommand(ClosePopup);
         }
@@ -168,6 +169,8 @@ namespace Vortragsmanager.Views
         public DelegateCommand RednerEintragenCommand { get; private set; }
 
         public DelegateCommand AnfrageBearbeitenCommand { get; private set; }
+
+        public DelegateCommand BuchungErinnernCommand { get; private set; }
 
         private void EreignisEintragen()
         {
@@ -293,6 +296,15 @@ namespace Vortragsmanager.Views
             Navigation.NavigationView.Frame.Navigate("SearchSpeaker", Tag);
         }
 
+        public void BuchungErinnern()
+        {
+            var mail = new InfoAnRednerUndKoordinatorWindow();
+            var data = (InfoAnRednerUndKoordinatorViewModel)mail.DataContext;
+            data.MailTextKoordinator = Core.Templates.GetMailTextRednerErinnerung(Zuteilung as Invitation);
+            data.DisableCancelButton();
+            mail.ShowDialog();
+        }
+
         public IEvent Zuteilung { get; set; }
 
         public Invitation Einladung => (Zuteilung as Invitation);
@@ -337,6 +349,8 @@ namespace Vortragsmanager.Views
         public bool IsAnfrage => Zuteilung?.Status == EventStatus.Anfrage;
 
         public bool IsBuchung => Zuteilung?.Status == EventStatus.Zugesagt || Zuteilung?.Status == EventStatus.Ereignis;
+
+        public bool IsEinladung => Zuteilung?.Status == EventStatus.Zugesagt;
 
         public bool IsEreignis => Zuteilung?.Status == EventStatus.Ereignis;
 

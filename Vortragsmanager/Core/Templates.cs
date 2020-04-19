@@ -24,6 +24,7 @@ namespace Vortragsmanager.Core
             ExterneAnfrageAnnehmenInfoAnKoordinatorMailText = 5,
             ExterneAnfrageAnnehmenInfoAnRednerMailText = 6,
             EreignisTauschenMailText = 7,
+            RednerErinnerungMailText = 8,
         }
 
         public static string GetMailTextEreignisTauschenAnKoordinator(Conregation conregation, DateTime startDatum, DateTime zielDatum, string name, string vortrag, string versammlung)
@@ -182,6 +183,33 @@ namespace Vortragsmanager.Core
                 .Replace("{Redner}", Zuteilung.Ältester?.Name ?? "unbekannt")
                 .Replace("{Vortrag}", Zuteilung.Vortrag.ToString())
                 .Replace("{Redner Mail}", $"{Zuteilung.Ältester.Mail ?? "unbekannt"}");
+
+            return mt;
+        }
+
+        public static string GetMailTextRednerErinnerung(Invitation Zuteilung)
+        {
+            Log.Info(nameof(GetMailTextRednerErinnerung));
+            if (Zuteilung is null)
+                return "Fehler beim verarbeiten der Vorlage";
+
+            var EmpfängerName = Zuteilung.Ältester.Name;
+            var EmpfängerMail = Zuteilung.Ältester.Mail;
+
+            if (string.IsNullOrWhiteSpace(EmpfängerMail))
+            {
+                EmpfängerName = Zuteilung.Ältester.Versammlung.Koordinator;
+                EmpfängerMail = Zuteilung.Ältester.Versammlung.KoordinatorJw + ", " + Zuteilung.Ältester.Versammlung.KoordinatorMail;
+            }
+
+            var mt = GetTemplate(TemplateName.RednerErinnerungMailText).Inhalt;
+            mt = ReplaceVersammlungsparameter(mt, Zuteilung.Ältester?.Versammlung);
+            mt = mt
+                .Replace("{MailEmpfänger}", EmpfängerMail)
+                .Replace("{MailName}", EmpfängerName)
+                .Replace("{Datum}", $"{Zuteilung.Datum:dd.MM.yyyy}")
+                .Replace("{Redner}", $"{Zuteilung.Ältester.Name ?? "unbekannt"}")
+                .Replace("{Vortrag}", Zuteilung.Vortrag.ToString());
 
             return mt;
         }

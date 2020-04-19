@@ -238,6 +238,7 @@ namespace Vortragsmanager.Core
             LoadExterneAnfrageAblehnenText();
             LoadExterneAnfrageAnnehmenText();
             LoadEreignisTauschenMailText();
+            LoadRednerErinnerungMailText();
         }
 
         private static void LoadRednerAnfragenMailText()
@@ -480,6 +481,54 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn"
             Templates.Vorlagen.Add(x.Name, x);
         }
 
+        private static void LoadRednerErinnerungMailText()
+        {
+            Log.Info(nameof(LoadRednerErinnerungMailText));
+            var x = new Template
+            {
+                Name = Templates.TemplateName.RednerErinnerungMailText,
+                Inhalt = @"
+Empfänger = {MailEmpfänger}
+Betreff = Vortrag tauschen
+------------------------------
+
+Hallo {MailName},
+
+ich möchte hiermit an folgenden Vortrag erinnern und einige Hinweise geben:
+Datum: {Datum}
+Redner: {Redner}
+Vortrag: {Vortrag}
+
+Wir benutzen für unsere Zusammenkünfte aktuell Zoom.
+
+Zugangsdaten
+Meeting-ID: 871-793-8114
+Passwort: Paulus1914
+
+Hinweise zu Zoom
+Das Meeting starten wir 30 min vor Programmbeginn, also ab 9:30 Uhr.
+Das Melden beim Wachtturm-Studium machen wir ausschließlich per 'Hand - Heben' Funktion von Zoom.
+Für deinen Vortrag, das Schlußgebet und Kommentare beim WT Studium würdest du bitte deine Stumm-Schaltung selber aufheben.
+Wenn du unseren Meeting Raum testen möchtest, oder andere Fragen hast, kannst du dich gerne an mich wenden.
+
+Liebe Grüße
+Thomas Ramm
+Mail: tramm1@jwpub.org
+Telefon: 0170-3109194
+
+Versammlung Hofgeismar
+Versammlungszeit: Sonntag 10:00Uhr
+Versammlungsort:  34393 Grebenstein, Über der Bahn 5"
+            };
+
+            x.Parameter.Add("{MailEmpfänger}", "Mailadresse des Empfänger an den die Info geschickt werden soll, z.B. 'mail@jwpub.org; mail@webdienst.de'");
+            x.Parameter.Add("{MailName}", "Name des Empfängers, dies kann entweder der Koordinator oder der Redner sein, z.B. 'Gustav Koordinator'");
+            x.Parameter.Add("{Datum}", "Datum der Buchung, z.B. '05.11.2019'");
+            x.Parameter.Add("{Redner}", "Name des angefragten Redner, z.B. 'Max Vortragsredner'");
+            x.Parameter.Add("{Vortrag}", "Angefragter Vortrag, z.B. '123 Vortragsthema'");
+            Templates.Vorlagen.Add(x.Name, x);
+        }
+
         public static void Update()
         {
             Log.Info(nameof(Update));
@@ -499,6 +548,12 @@ Versammlungsort:  34393 Grebenstein, Über der Bahn"
             if (DataContainer.Version < 4)
             {
                 DataContainer.Version = 4;
+            }
+
+            if (DataContainer.Version < 5)
+            {
+                LoadRednerErinnerungMailText();
+                DataContainer.Version = 5;
             }
 
             if (DataContainer.Version < Helper.CurrentVersion)
