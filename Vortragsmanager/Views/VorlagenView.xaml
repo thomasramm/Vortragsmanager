@@ -35,22 +35,34 @@
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
-            <StackPanel>
-            <Label Grid.Row="0" Grid.Column="0" Content="Vorlagen Übersicht" FontSize="12" Foreground="Orange" FontFamily="Segoe UI Light" HorizontalAlignment="Left" Margin="0" />
-                <ListBox Height="185" VerticalAlignment="Top" Margin="0,0"
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="27" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="27" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="27" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="Vorlagen Übersicht" FontSize="12" Foreground="Orange" FontFamily="Segoe UI Light" Margin="0" />
+                <ListBox Grid.Row="1"
                     SelectedItem="{Binding SelectedVorlage}"
                     ItemsSource="{Binding Vorlagen}"
                     DisplayMemberPath="Value" />
-                <Label Content="Beschreibung"  FontSize="12" Foreground="Orange" FontFamily="Segoe UI Light" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,5,0,0" />
-                <TextBox Text="{Binding SelectedVorlageBeschreibung}" TextWrapping="Wrap" IsReadOnly="True" Height="56" />
-                <Label Grid.Row="0" Grid.Column="0" Content="Parameter" FontSize="12" Foreground="Orange" FontFamily="Segoe UI Light" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,5,0,0" />
-                <ListBox  Height="200" VerticalAlignment="Top" Margin="0"
+                <Label Grid.Row="2" Content="Beschreibung"  FontSize="12" Foreground="Orange" FontFamily="Segoe UI Light" Margin="0,5,0,0" />
+                <TextBox Grid.Row="3"
+                         Text="{Binding SelectedVorlageBeschreibung}" TextWrapping="Wrap" IsReadOnly="True" />
+                <Label Grid.Row="4" Content="Parameter" FontSize="12" Foreground="Orange" FontFamily="Segoe UI Light" Margin="0,5,0,0" />
+                <ListBox Grid.Row="5"
                     SelectedItem="{Binding SelectedParameter}"
                     ItemsSource="{Binding SelectedVorlageParameter}"
                     DisplayMemberPath="Key" />
-                <Label Content="Beschreibung"  FontSize="12" Foreground="Orange" FontFamily="Segoe UI Light" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,5,0,0" />
-                <TextBox Text="{Binding ParameterBeschreibung}" TextWrapping="Wrap" IsReadOnly="True" Height="56" />
-            </StackPanel>
+                <Label Grid.Row="6" Content="Beschreibung"  FontSize="12" Foreground="Orange" FontFamily="Segoe UI Light" Margin="0,5,0,0" />
+                <TextBox Grid.Row="7"
+                         Text="{Binding ParameterBeschreibung}" TextWrapping="Wrap" IsReadOnly="True" />
+            </Grid>
             <Label Grid.Row="0" Grid.Column="1" Content="Vorlagen Inhalt" FontSize="12" Foreground="Orange" FontFamily="Segoe UI Light" HorizontalAlignment="Left" Margin="5,0" />
             <TextBox Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" AcceptsTab="True" AcceptsReturn="True" Margin="5,21,0,0"
                      Text="{Binding SelectedVorlageInhalt}" />
