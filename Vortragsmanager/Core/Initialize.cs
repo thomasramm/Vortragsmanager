@@ -490,7 +490,7 @@ Versammlungsort:  DEINE ANSCHRIFT"
                 Name = Templates.TemplateName.RednerErinnerungMailText,
                 Inhalt = @"
 Empfänger = {MailEmpfänger}
-Betreff = Vortrag tauschen
+Betreff = Vortrag in Versammlung Hofgeismar
 ------------------------------
 
 Hallo {MailName},
