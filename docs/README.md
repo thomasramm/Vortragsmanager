@@ -24,6 +24,7 @@ Der Vortragsmanager ist in 3 Bereiche aufgeteilt:
     * [Vorlagen](Verwaltung.md#vorlagen): Vorlagentexte für die Kommunikation mit anderen Verwalten.
     * [Programm](Verwaltung.md#programm): Programmeinstellungen vornehmen und Zusatzfunktionen aufrufen.
 
+
 PS: In der Titelleiste sieht man hinter dem Programmnamen den Namen der Datei in der deine Daten gespeichert werden.
 
 # Inhaltsverzeichnis dieses Handbuches
@@ -45,3 +46,14 @@ PS: In der Titelleiste sieht man hinter dem Programmnamen den Namen der Datei in
 1. [Meine Redner](MeineRedner.md)
     1. Meine Redner
     1. [Neue externe Anfrage](MeineRedner.md#neue-externe-anfrage)
+
+
+
+1. [Verwaltung](Verwaltung.md)
+    * [Listen ausgeben](Verwaltung.md#listen-ausgeben)
+    * [Versammlungen](Verwaltung.md#versammlungen)
+       1. [Versammlungen](Verwaltung.md#versammlung)
+       1. [Koordinatoren](Verwaltung.md#koordinator)
+       1. [Redner](Verwaltung.md#redner)
+    * [Vorlagen](Verwaltung.md#vorlagen)
+    * [Programm](Verwaltung.md#programm)
