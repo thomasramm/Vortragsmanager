@@ -38,6 +38,7 @@ Wenn du mit der rechten Maustaste auf eine Vortragseinladung klickst wird ein Ko
 * Buchung verschieben (bzw. tauschen)
 * Buchung bearbeiten
 * Buchung löschen
+* Erinnerungsmail senden
 
 ### Ereignisse (12. Juli)
 
@@ -95,16 +96,22 @@ Nach dem bestätigen werden [Mailtexte](Konzept.md#mailtexte) an die betroffenen
 
 ### Buchung bearbeiten
 Vorträge und Ereignisse können nachträglich bearbeitet werden.
+
 #### Vorträge
 Du kannst den Redner und den Vortrag ändern. Es wird für diese Änderung jedoch kein Mailtext generiert.
+
 #### Ereignisse
 Du kannst den Ereignis-Typ, den Namen des Redners sowie den Titel des Vortrags nachträglich ändern, sofern das Ereigniss alle diese Parameter unterstützt.
+
 #### Anfragen
 Man kommt hier zu dem Dialog [Antwort eintragen](#antwort-eintragen) der weiter unten beschrieben wird.
 
 ### Buchung löschen
 Du kannst Vorträge und Ereignisse löschen.
 Beim Löschen von Vorträgen wird ein Mailtext generiert, Ereignisse werden sofort gelöscht.
+
+### Erinnerungsmail senden
+Du kannst für eine bevorstehende Vortragseinladung eine Erinnerungsmail senden.
 
 # Redner suchen #
 ![Icon](./../images/menu_icon_02.png)
