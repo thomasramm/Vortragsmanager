@@ -1,3 +1,9 @@
+[27.04.2020]
+
+Mein Plan: 
+* Neue Funktion: Senden einer Erinnerungsmail mit Hinweisen, z.B. Zoom Zugangsdaten
+* kleine Fehlerbehebungen
+
 [15.04.2020]
 * Antwort Eintragen: Datumsfeld mit erstem Datum vorausgewählt 
 * Updater: Beim Wizard wurde die Dateiversion falsch gesetzt

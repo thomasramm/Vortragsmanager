@@ -12,21 +12,20 @@ namespace Vortragsmanager.Views
         public MeinPlanViewModel()
         {
             ChangeYear = new DelegateCommand<int>(ChangeCurrentYear);
-            Monate = new ObservableCollection<MonthViewModel>
-            {
-                new MonthViewModel(1, "Januar"),
-                new MonthViewModel(2, "Februar"),
-                new MonthViewModel(3, "März"),
-                new MonthViewModel(4, "April"),
-                new MonthViewModel(5, "Mai"),
-                new MonthViewModel(6, "Juni"),
-                new MonthViewModel(7, "Juli"),
-                new MonthViewModel(8, "August"),
-                new MonthViewModel(9, "September"),
-                new MonthViewModel(10, "Oktober"),
-                new MonthViewModel(11, "November"),
-                new MonthViewModel(12, "Dezember"),
-            };
+            Monate = new ObservableCollection<MonthViewModel>();
+            Monate.Add(new MonthViewModel(1, "Januar", Monate));
+            Monate.Add(new MonthViewModel(2, "Februar", Monate));
+            Monate.Add(new MonthViewModel(3, "März", Monate));
+            Monate.Add(new MonthViewModel(4, "April", Monate));
+            Monate.Add(new MonthViewModel(5, "Mai", Monate));
+            Monate.Add(new MonthViewModel(6, "Juni", Monate));
+            Monate.Add(new MonthViewModel(7, "Juli", Monate));
+            Monate.Add(new MonthViewModel(8, "August", Monate));
+            Monate.Add(new MonthViewModel(9, "September", Monate));
+            Monate.Add(new MonthViewModel(10, "Oktober", Monate));
+            Monate.Add(new MonthViewModel(11, "November", Monate));
+            Monate.Add(new MonthViewModel(12, "Dezember", Monate));
+
             Messenger.Default.Register<Messages>(this, OnMessage);
             UpdateMonate();
         }
@@ -70,12 +69,13 @@ namespace Vortragsmanager.Views
 
     public class MonthViewModel : ViewModelBase
     {
-        public MonthViewModel(int nr, string name)
+        public MonthViewModel(int nr, string name, ObservableCollection<MonthViewModel> monate)
         {
             Nr = nr;
             Name = name;
 
             Wochen = new ObservableCollection<WeekViewModel>();
+            Monate = monate;
         }
 
         public int Nr { get; set; }
@@ -83,6 +83,8 @@ namespace Vortragsmanager.Views
         public string Name { get; set; }
 
         public ObservableCollection<WeekViewModel> Wochen { get; private set; }
+
+        public ObservableCollection<MonthViewModel> Monate { get; private set; }
 
         public void GetWeeks(int jahr)
         {
@@ -122,6 +124,7 @@ namespace Vortragsmanager.Views
             EreignisEintragenCommand = new DelegateCommand(EreignisEintragen);
             AnfrageBearbeitenCommand = new DelegateCommand(AnfrageBearbeiten);
             BuchungBearbeitenCommand = new DelegateCommand(BuchungBearbeiten);
+            BuchungErinnernCommand = new DelegateCommand(BuchungErinnern);
             ClickCommand = new DelegateCommand(OnClick);
             ClosePopupCommand = new DelegateCommand(ClosePopup);
         }
@@ -166,6 +169,8 @@ namespace Vortragsmanager.Views
         public DelegateCommand RednerEintragenCommand { get; private set; }
 
         public DelegateCommand AnfrageBearbeitenCommand { get; private set; }
+
+        public DelegateCommand BuchungErinnernCommand { get; private set; }
 
         private void EreignisEintragen()
         {
@@ -249,7 +254,12 @@ namespace Vortragsmanager.Views
             if (!data.Speichern)
                 return;
 
+            //StartBuchung aktualisieren
             Monat.GetWeeks(Jahr);
+            //ZielBuchung aktualisieren
+            var zielMonatNr = data.ZielDatum.Month;
+            if (zielMonatNr != Monat.Nr)
+                Monat.Monate.Single(x => x.Nr == zielMonatNr).GetWeeks(Jahr);
         }
 
         public void BuchungBearbeiten()
@@ -289,6 +299,15 @@ namespace Vortragsmanager.Views
             //var dev = new AntwortEintragenDialog();
             //dev.ShowDialog();
             Navigation.NavigationView.Frame.Navigate("SearchSpeaker", Tag);
+        }
+
+        public void BuchungErinnern()
+        {
+            var mail = new InfoAnRednerUndKoordinatorWindow();
+            var data = (InfoAnRednerUndKoordinatorViewModel)mail.DataContext;
+            data.MailTextKoordinator = Core.Templates.GetMailTextRednerErinnerung(Zuteilung as Invitation);
+            data.DisableCancelButton();
+            mail.ShowDialog();
         }
 
         public IEvent Zuteilung { get; set; }
@@ -335,6 +354,8 @@ namespace Vortragsmanager.Views
         public bool IsAnfrage => Zuteilung?.Status == EventStatus.Anfrage;
 
         public bool IsBuchung => Zuteilung?.Status == EventStatus.Zugesagt || Zuteilung?.Status == EventStatus.Ereignis;
+
+        public bool IsEinladung => Zuteilung?.Status == EventStatus.Zugesagt;
 
         public bool IsEreignis => Zuteilung?.Status == EventStatus.Ereignis;
 

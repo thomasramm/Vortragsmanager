@@ -48,8 +48,10 @@ namespace Vortragsmanager
 
             InitializeComponent();
 
-            var fi = new FileInfo(Settings.Default.sqlite);
-            Title = "Vortragsmanager DeLuxe | " + fi.Name;
+            DataContainer.globalSettings = new MyGloabalSettings();
+            DataContext = DataContainer.globalSettings;
+
+            DataContainer.globalSettings.RefreshTitle();
 
             Updater.CheckForUpdates();
         }

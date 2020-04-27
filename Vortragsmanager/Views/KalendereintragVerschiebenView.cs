@@ -28,6 +28,7 @@ namespace Vortragsmanager.Views
             {
                 var invitation = (ereignis as Models.Invitation);
                 if (invitation is null) return;
+                StartTyp = "Versammlung";
                 StartName = invitation.Ältester.Name;
                 StartVortrag = invitation.Vortrag.ToString();
                 StartVersammlung = invitation.Ältester.Versammlung.Name;
@@ -37,13 +38,19 @@ namespace Vortragsmanager.Views
             {
                 var special = (ereignis as Models.SpecialEvent);
                 if (special is null) return;
-                StartName = special.Name;
-                StartVortrag = special.Vortrag?.Thema;
-                StartVersammlung = special.Thema;
+                StartTyp = "Ereignis";
+                StartVersammlung = special.Anzeigetext;
+                StartName = special.Vortragender;
+                if (string.IsNullOrEmpty(StartName))
+                    StartName = StartVersammlung == special.Name ? "" : special.Name;
+                StartVortrag = special.Thema;
             }
+
             StartDatum = ereignis.Datum.ToShortDateString();
             ZielDatum = ereignis.Datum;
         }
+
+        public string StartTyp { get; set; }
 
         public string StartVersammlung { get; set; }
 
@@ -94,6 +101,21 @@ namespace Vortragsmanager.Views
             set
             {
                 _zielVortrag = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _zielTyp = "Versammlung";
+
+        public string ZielTyp
+        {
+            get
+            {
+                return _zielTyp;
+            }
+            set
+            {
+                _zielTyp = value;
                 RaisePropertyChanged();
             }
         }
@@ -182,17 +204,21 @@ namespace Vortragsmanager.Views
                 if (woche.Status == Models.EventStatus.Zugesagt)
                 {
                     var invitation = (woche as Models.Invitation);
+                    ZielTyp = "Versammlung";
+                    ZielVersammlung = invitation.Ältester.Versammlung.Name;
                     ZielName = invitation.Ältester.Name;
                     ZielVortrag = invitation.Vortrag.ToString();
-                    ZielVersammlung = invitation.Ältester.Versammlung.Name;
                 }
 
                 if (woche.Status == Models.EventStatus.Ereignis)
                 {
                     var ereignis = (woche as Models.SpecialEvent);
-                    ZielName = ereignis.Name;
-                    ZielVortrag = ereignis.Vortrag?.Thema;
-                    ZielVersammlung = ereignis.Thema;
+                    ZielTyp = "Ereignis";
+                    ZielVersammlung = ereignis.Anzeigetext;
+                    ZielName = ereignis.Vortragender;
+                    if (string.IsNullOrEmpty(ZielName))
+                        ZielName = ZielVersammlung == ereignis.Name ? "" : ereignis.Name;
+                    ZielVortrag = ereignis.Thema;
                 }
                 ZielEvent = woche;
                 return;
