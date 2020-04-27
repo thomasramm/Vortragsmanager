@@ -264,6 +264,11 @@ namespace Vortragsmanager.Views
 
         public void BuchungBearbeiten()
         {
+            if (Zuteilung.Status == EventStatus.Ereignis)
+            {
+                EreignisEintragen();
+                return;
+            }
             var dialog = new RednerEintragenDialog();
             var data = (RednerEintragenView)(dialog.DataContext);
             data.SelectedVersammlung = Einladung.Ältester.Versammlung;

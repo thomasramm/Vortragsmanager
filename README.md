@@ -34,11 +34,14 @@ Entpacken der beiden Setup-Dateien und starten von setup.exe
 Nach dem Start des Setup-Assistenten kommen von Windows einige Sicherheits-Warnungen, das das Programm von einer unbekannten Quelle kommt (ja, Microsoft kennt mich tatsächlich nicht). Diese müssen erst noch bestätigt werden, und dann werden die Programmdateien entpackt, eine Verknüpfung im Startmenü und auf dem Desktop angelegt und schon könnt ihr loslegen.
 Beim ersten starten des Programm wird ein Assistent geöffnet, bei dem man entweder eine Vortragsmanager Datenbank öffnen oder die vplanung.net Dateien importieren kann. 
 
+Zur [detailierten Installationsanleitung](./docs/Installation.md)
+
 ## Handbuch
 
-Einen ersten Überblick über das Programm gebe ich in folgendem 15min Video: https://youtu.be/nd0oVwxhB70
+Einen ersten Überblick über das Programm gebe ich in folgendem 15min Video.
+Die Oberfläche hat sich zwar inzwischen stark weiterentwickelt, die Grundlegende Bedienung ist aber immer noch sehr gut zu verstehen: https://youtu.be/nd0oVwxhB70
 
-Under Construction (kommt noch)
+zum [Handbuch](./docs/README.md)
 
 ## Copyright & Lizenz
 
