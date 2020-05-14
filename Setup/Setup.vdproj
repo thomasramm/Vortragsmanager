@@ -922,19 +922,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E67EB88CD9D14BA10206F3D7E58B6636"
+        "OwnerKey" = "8:_5A205827448543B2B787011A7A15A22E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_BAD3ED101F71422EBFBECE3CF1BFAE1C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5A205827448543B2B787011A7A15A22E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1103,6 +1097,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_BBC489A2A38D722972982EC0AD85F0C1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E67EB88CD9D14BA10206F3D7E58B6636"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -2206,20 +2206,20 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Vortragsmanager"
-        "ProductCode" = "8:{562599A8-17D3-4745-86E6-AFF741A6E4F8}"
-        "PackageCode" = "8:{82E0FB07-7A90-496A-90D5-07751E2A14E0}"
+        "ProductCode" = "8:{E63F8C6C-CA44-4B3C-9153-D9F723A70B2A}"
+        "PackageCode" = "8:{7FC89721-AAAC-4C3D-880D-BEFDE801D069}"
         "UpgradeCode" = "8:{09BD3326-8025-447B-B3ED-AA9A44497F97}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.17"
+        "ProductVersion" = "8:0.18"
         "Manufacturer" = "8:ThomasRamm"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/thomasramm/Vortragsmanager/issues"
         "Title" = "8:Vortragsmanager Setup"
-        "Subject" = "8:Vortragsmanager DeLuxe 0.12"
+        "Subject" = "8:Vortragsmanager DeLuxe 0.18"
         "ARPCONTACT" = "8:Thomas Ramm"
         "Keywords" = "8:Vortrag, jw, Vortragsmanager, Manager, DeLuxe, Koordination"
         "ARPCOMMENTS" = "8:Vortragsmanager"
