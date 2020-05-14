@@ -14,6 +14,57 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{B6B680E8-DE3C-43D7-9E4E-76771D0B30AE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{6B067D4E-8582-4A43-8344-F5F26B6040D1}"
+	ProjectSection(SolutionItems) = preProject
+		docs\Installation.md = docs\Installation.md
+		docs\Konzept.md = docs\Konzept.md
+		docs\MeineRedner.md = docs\MeineRedner.md
+		docs\MeinPlan.md = docs\MeinPlan.md
+		docs\README.md = docs\README.md
+		docs\Verwaltung.md = docs\Verwaltung.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{EBA8B2B4-5C0A-4F22-96C0-1B0D25F7A20F}"
+	ProjectSection(SolutionItems) = preProject
+		images\installation_wizard_01.png = images\installation_wizard_01.png
+		images\installation_wizard_02.png = images\installation_wizard_02.png
+		images\installation_wizard_03.png = images\installation_wizard_03.png
+		images\installation_wizard_04.png = images\installation_wizard_04.png
+		images\meineredner_01.png = images\meineredner_01.png
+		images\meineredner_02.png = images\meineredner_02.png
+		images\meinplan_01.png = images\meinplan_01.png
+		images\meinplan_02.png = images\meinplan_02.png
+		images\meinplan_03.png = images\meinplan_03.png
+		images\meinplan_04.png = images\meinplan_04.png
+		images\meinplan_05.png = images\meinplan_05.png
+		images\meinplan_06.png = images\meinplan_06.png
+		images\meinplan_07.png = images\meinplan_07.png
+		images\menu_icon_01.png = images\menu_icon_01.png
+		images\menu_icon_02.png = images\menu_icon_02.png
+		images\menu_icon_03.png = images\menu_icon_03.png
+		images\menu_icon_04.png = images\menu_icon_04.png
+		images\menu_icon_05.png = images\menu_icon_05.png
+		images\menu_icon_06.png = images\menu_icon_06.png
+		images\menu_icon_07.png = images\menu_icon_07.png
+		images\menu_icon_08.png = images\menu_icon_08.png
+		images\menu_icon_09.png = images\menu_icon_09.png
+		images\startseite_01.png = images\startseite_01.png
+		images\step_03.png = images\step_03.png
+		images\step_04.png = images\step_04.png
+		images\step_05.png = images\step_05.png
+		images\step_06.png = images\step_06.png
+		images\step_07.png = images\step_07.png
+		images\step_08.png = images\step_08.png
+		images\step_09.png = images\step_09.png
+		images\step_10.png = images\step_10.png
+		images\verwaltung_01.png = images\verwaltung_01.png
+		images\verwaltung_02.png = images\verwaltung_02.png
+		images\verwaltung_03.png = images\verwaltung_03.png
+		images\verwaltung_04.png = images\verwaltung_04.png
+		images\verwaltung_20.png = images\verwaltung_20.png
+		images\verwaltung_21.png = images\verwaltung_21.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +90,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6B067D4E-8582-4A43-8344-F5F26B6040D1} = {ED4EF8AF-31FF-417B-BE59-C9BA187E6E94}
+		{EBA8B2B4-5C0A-4F22-96C0-1B0D25F7A20F} = {ED4EF8AF-31FF-417B-BE59-C9BA187E6E94}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2586EACC-6FFF-445E-B7EF-12A729743779}
