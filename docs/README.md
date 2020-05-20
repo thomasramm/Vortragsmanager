@@ -7,7 +7,7 @@ Die Beschreibung der Installation und der ersten Schritte (Datenimport) findest 
 
 ## Die Oberfläche ##
 
-![Startseite](./../images/startseite_01.png)
+![Startseite](images/startseite_01.png)
 
 Der Vortragsmanager ist in 3 Bereiche aufgeteilt:
 
