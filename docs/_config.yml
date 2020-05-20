@@ -1,3 +1,9 @@
 theme: jekyll-theme-dinky
 plugins:
   - jekyll-sitemap
+navbar-links:
+  About Me: "aboutme"
+  Resources:
+    - Test1: "Konzept"
+    - Test2: "Konzept.md"
+  Author's home: "http://thomas-ramm.de"
