@@ -1,4 +1,9 @@
-theme: jekyll-theme-tactile
+# Build settings
+markdown: kramdown
+remote_theme: mmistakes/minimal-mistakes
+# Outputting
+permalink: /:categories/:title/
+#theme: jekyll-theme-tactile
 plugins:
   - jekyll-sitemap
 navbar-links:
