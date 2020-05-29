@@ -33,16 +33,13 @@ lmenu:
       url: /Installation/#wizard
 
 - title: Mein Plan
-  url: /MeinPlan/
-  description: Die Planung der Vorträge deiner Versammlung
   children: 
     - title: Mein Plan
       url: /MeinPlan/
-      children:
-        - title: Ereignistypen
-          url: /MeinPlan/#die-ereignistypen
-        - title: Aktionen
-          url: /MeinPlan/#aktionen
+    - title: Ereignistypen
+      url: /MeinPlan/#die-ereignistypen
+    - title: Aktionen
+      url: /MeinPlan/#aktionen
     - title: Redner suchen
       url: /MeinPlan/#redner-suchen
     - title: Antwort eintragen
