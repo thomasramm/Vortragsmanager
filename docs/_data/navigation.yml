@@ -33,13 +33,15 @@ lmenu:
         url: /Installation/#wizard
 
   - title: Mein Plan
+    url: /MeinPlan/
     children: 
       - title: Mein Plan
         url: /MeinPlan/
-      - title: Ereignistypen
-        url: /MeinPlan/#die-ereignistypen
-      - title: Aktionen
-        url: /MeinPlan/#aktionen
+        children:
+          - title: Ereignistypen
+            url: /MeinPlan/#die-ereignistypen
+          - title: Aktionen
+            url: /MeinPlan/#aktionen
       - title: Redner suchen
         url: /MeinPlan/#redner-suchen
       - title: Antwort eintragen
