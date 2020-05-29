@@ -263,6 +263,8 @@ defaults:
       type: pages
     values:
       layout: single
+      sidebar:
+        nav: "lmenu"
   # _docs --> Alle Seiten
   - scope:
       path: ""
