@@ -263,8 +263,7 @@ defaults:
       type: pages
     values:
       layout: single
-defaults:
-  # _docs --> normale Seiten
+  # _docs --> Alle Seiten
   - scope:
       path: ""
       type: docs
