@@ -1,6 +1,6 @@
 ⇦ zurück zum [Inhaltsverzeichnis](README.md)
 
-![Icon](./../images/menu_icon_04.png)
+![Icon](images/menu_icon_04.png)
 
 ## Inhaltsverzeichnis
 1. [Meine Redner](#meine-redner)
@@ -13,7 +13,7 @@
 
 Eine Liste aller Einlaungen meiner Redner. Diese Liste kann hier gefiltert bearbeitet und ausgegeben werden.
 
-![Oberfläche](./../images/meineredner_01.png)
+![Oberfläche](images/meineredner_01.png)
 
 ## Filter
 
@@ -50,12 +50,12 @@ Möchtest du eine Info Mail mit allen ausstehenden Vorträgen an einen oder mehr
 
 # Neue Externe Anfrage #
 
-![Icon](./../images/menu_icon_05.png)
+![Icon](images/menu_icon_05.png)
 
 bekommst du eine Anfrage für eine Einladung von einem anderen Koordinator, kannst du sie hier prüfen und dann Bestätigen oder ablehnen. Sowohl für die Bestätigung als auch für die Ablehnung der Anfrage werden Mailtexte an den Anfragenden Koordinator und - bei Bestätigung - an den eingelaenen Redner generiert.
 Nach Bestätigung oder Ablehnung der Anfrage bleibt das Fenster offen, so dass weitere Anfragen bearbeitet werden können.
 
-![Oberfläche](./../images/meineredner_02.png)
+![Oberfläche](images/meineredner_02.png)
 
 Dieser Menüpunkt besteht aus 4 Bereichen
 

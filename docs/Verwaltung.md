@@ -12,11 +12,11 @@
 
 
 # Listen ausgeben #
-![Icon](./../images/menu_icon_06.png)
+![Icon](images/menu_icon_06.png)
 
 In diesem Bereich können diverse Listen und Aushänge erzeugt werden. Das Ausgabeformat ist für alle Listen Excel (*.xlsx)
 
-![Listen ausgeben](./../images/verwaltung_01.png)
+![Listen ausgeben](images/verwaltung_01.png)
 
 im Bereich unten Rechts kann eingestellt werden ob die **Listen nur erstellt** - oder die **Liste nach dem erstellen öffnen** direkt im Verknüpften Programm geöffnet werden soll.
 
@@ -46,7 +46,7 @@ Eine Liste aller Vorträge mit der Information:
 Eine Liste aller Vortragsredner die im Programm eingegeben worden sind mit den hinterlegten Informationen, sowie dem Datum wann sie das letzte mal in deiner Versammlung einen Vortrag gehalten haben.
 
 # Versammlungen #
-![Icon](./../images/menu_icon_07.png)
+![Icon](images/menu_icon_07.png)
 
 Im Bereich Versammlungen werden diverse Informationen gepflegt:
 
@@ -54,7 +54,7 @@ Im Bereich Versammlungen werden diverse Informationen gepflegt:
 * [Koordinatoren](#koordinator)
 * [Redner](#redner)
 
-![Versammlungen](./../images/verwaltung_02.png)
+![Versammlungen](images/verwaltung_02.png)
 
 Öffnest du diesen Bereich werden dir alle angelegten Versammlungen mit dem Namen des Koordinator angezeigt.
 
@@ -66,7 +66,7 @@ Klickst du auf das grüne + -Zeichen, oder auf eine Versammlung, wird diese Vers
 
 ## Versammlung
 
-![Versammlung](./../images/verwaltung_20.png)
+![Versammlung](images/verwaltung_20.png)
 
 Im linken Bereich werden allgemeine Versammlungsdaten angezeigt, 
 im Rechten Bereich die Redner die zu der Versammlung angelegt wurden.
@@ -104,7 +104,7 @@ Klickt man auf einen Redner, oder klickt auf die Schaltfläche "Neuen Redner anl
 
 ## Redner
 
-![Redner bearbeiten](./../images/verwaltung_21.png)
+![Redner bearbeiten](images/verwaltung_21.png)
 
 In der Titelleiste wird der Name des Redners hervorgehoben, Mit einem Klick auf die Titelleiste wird zwischen der Übersicht- und der Detailansicht gewechselt.
 
@@ -147,14 +147,14 @@ UNDER CONSTRUCTION
 
 
 # Vorlagen #
-![Icon](./../images/menu_icon_08.png)
+![Icon](images/menu_icon_08.png)
 
 Hier werden die Inhalte verwaltet die durch das Programm zum generieren der individuellen Mails benutzt werden. Jede Mailvorlage besteht aus zwei Bereichen:
 * Dem Mailtext
 * Den Platzhaltern die im Mailtext eingefügt werden.
 Platzhalter werden im Mailtext durch {} -Klammern gekennzeichnet.
 
-![Vorlagen](./../images/verwaltung_03.png)
+![Vorlagen](images/verwaltung_03.png)
 
 ## Vorlagen Übersicht
 Hier kannst du alle Verfügbaren vorlagen sehen und auswählen. Die Namen sind hoffentlich selbsterklärend.
@@ -173,11 +173,11 @@ Hier steht der Haupttext der Mailvorlage. Die Platzhalter müssen durch {}-Klamm
 
 
 # Programm #
-![Icon](./../images/menu_icon_09.png)
+![Icon](images/menu_icon_09.png)
 
 Im Bereich Programm werden einige Programmweite Einstellungen vorgenommen, als auch Aktionen durchgeführt die sehr selten benötigt werden.
 
-![Programm](./../images/verwaltung_04.png)
+![Programm](images/verwaltung_04.png)
 
 ## Datenbank
 
