@@ -5,6 +5,20 @@ main:
 
 - title: Installation
   url: /Installation/
+  description: Programminstallation und (Daten-)Initialisierung
+
+- title: Mein Plan
+  url: /MeinPlan/
+  description: Die Planung der Vorträge deiner Versammlung
+
+- title: Meine Redner
+  url: /MeineRedner/
+  description: Die Planung der Termine deiner Redner
+
+- title: Verwaltung
+  url: /Verwaltung/
   
-- title: Konzept
+- title: Konzepte
   url: /Konzept/
+  description: Beschreibung einzelner Wörter oder Abläufe
+
