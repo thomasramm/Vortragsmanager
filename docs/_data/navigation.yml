@@ -37,18 +37,45 @@ lmenu:
     children: 
       - title: Mein Plan
         url: /MeinPlan/
-        children:
-          - title: Ereignistypen
-            url: /MeinPlan/#die-ereignistypen
-          - title: Aktionen
-            url: /MeinPlan/#aktionen
+      - title: Ereignistypen
+        url: /MeinPlan/#die-ereignistypen
+      - title: Aktionen
+        url: /MeinPlan/#aktionen
       - title: Redner suchen
         url: /MeinPlan/#redner-suchen
       - title: Antwort eintragen
         url: /MeinPlan/#antwort-eintragen
 
   - title: Meine Redner
+    url: /MeineRedner/
+    children:
+      - title: Meine Redner
+        url: /MeineRedner/#meine-redner
+      - title: Redner Filtern
+        url: /MeineRedner/#filter
+      - title: Zuteilung Bearbeiten
+        url: /MeineRedner/#bearbeiten
+      - title: Ausgeben
+        url: /MeineRedner/#ausgeben
+      - title: Neue externe Anfrage
+        url: /MeineRedner/#neue-externe-anfrage
 
   - title: Verwaltung
+    description: Programmeinstellungen und Allgemeine Daten pflegen
+    url: /Verwaltung/
+    children:
+      - title: Listen ausgeben
+        url: /Verwaltung/#listen-ausgeben
+      - title: Versammlungen
+        url: /Verwaltung/#versammlungen
+      - title: Koordinatoren
+        url: /Verwaltung/#koordinator
+      - title: Redner
+        url: /Verwaltung/#redner
+      - title: Vorlagen
+        url: /Verwaltung/#vorlagen
+      - title: Programm Einstellungen
+        url: /Verwaltung/#programm
     
   - title: Konzepte
+    url: /Konzept/
