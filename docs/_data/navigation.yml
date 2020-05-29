@@ -1,0 +1,10 @@
+main:
+# Site navigation links
+- title: Home
+  url: /Index/
+
+- title: Installation
+  url: /Installation/
+  
+- title: Konzept
+  url: /Konzept/
