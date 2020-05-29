@@ -23,35 +23,30 @@ main:
   description: Beschreibung einzelner Wörter oder Abläufe
 
 lmenu:
-- title: Erste Schritte
-  children:
-    - title: "Übersicht"
-      url: "/Index/"
-    - title: "Installation"
-      url: /Installation/
-    - title: Initialisierung
-      url: /Installation/#wizard
+  - title: Erste Schritte
+    children:
+      - title: "Übersicht"
+        url: "/Index/"
+      - title: "Installation"
+        url: /Installation/
+      - title: Initialisierung
+        url: /Installation/#wizard
 
-- title: Mein Plan
-  children: 
-    - title: Mein Plan
-      url: /MeinPlan/
-    - title: Ereignistypen
-      url: /MeinPlan/#die-ereignistypen
-    - title: Aktionen
-      url: /MeinPlan/#aktionen
-    - title: Redner suchen
-      url: /MeinPlan/#redner-suchen
-    - title: Antwort eintragen
-      url: /MeinPlan/#antwort-eintragen
+  - title: Mein Plan
+    children: 
+      - title: Mein Plan
+        url: /MeinPlan/
+      - title: Ereignistypen
+        url: /MeinPlan/#die-ereignistypen
+      - title: Aktionen
+        url: /MeinPlan/#aktionen
+      - title: Redner suchen
+        url: /MeinPlan/#redner-suchen
+      - title: Antwort eintragen
+        url: /MeinPlan/#antwort-eintragen
 
-- title: Meine Redner
-  url: /MeineRedner/
-  description: Die Planung der Termine deiner Redner
+  - title: Meine Redner
 
-- title: Verwaltung
-  url: /Verwaltung/
-  
-- title: Konzepte
-  url: /Konzept/
-  description: Beschreibung einzelner Wörter oder Abläufe
+  - title: Verwaltung
+    
+  - title: Konzepte
