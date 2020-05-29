@@ -1,25 +1,3 @@
-# Outputting
-permalink: /:categories/:title/
-#theme: jekyll-theme-tactile
-plugins:
-  - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-gist
-  - jekyll-feed
-  - jemoji
-  - jekyll-include-cache
-navbar-links:
-  About Me: "aboutme"
-  Resources:
-    - Test1: "Konzept"
-    - Test2: "Konzept.md"
-  Author's home: "http://thomas-ramm.de"
-
-
-
-
-
-
 # Welcome to Jekyll!
 #
 # This config file is meant for settings that affect your entire site, values
