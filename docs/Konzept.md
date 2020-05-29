@@ -1,7 +1,3 @@
----
-layout: page
-title: Konzept
----
 ⇦ zurück zum [Inhaltsverzeichnis](README.md)
 
 UNDER CONSTRUCTION
