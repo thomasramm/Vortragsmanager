@@ -2,13 +2,13 @@
 title: "Listen ausgeben"
 ---
 
-![Icon](images/menu_icon_06.png)
+![Icon](images/menu_icon_06.png){: .align-right}
 
 In diesem Bereich können diverse Listen und Aushänge erzeugt werden. Das Ausgabeformat ist für alle Listen Excel (*.xlsx)
 
 ![Listen ausgeben](images/verwaltung_01.png)
 
-im Bereich unten Rechts kann eingestellt werden ob die **Listen nur erstellt** - oder die **Liste nach dem erstellen öffnen** direkt im Verknüpften Programm geöffnet werden soll.
+im Bereich unten Rechts kann eingestellt werden ob die **Listen nur erstellt** - oder mit der OPtion **Liste nach dem erstellen öffnen** direkt im Verknüpften Programm geöffnet werden soll.
 
 Folgende Listen können ausgegeben werden:
 
@@ -35,15 +35,4 @@ Eine Liste aller Vorträge mit der Information:
 
 Eine Liste aller Vortragsredner die im Programm eingegeben worden sind mit den hinterlegten Informationen, sowie dem Datum wann sie das letzte mal in deiner Versammlung einen Vortrag gehalten haben.
 
-[zurück](Verwaltung.md){: .btn .btn--primary}  [weiter](Versammlungen.md){: .btn .btn--primary}
-
-[zurück](Verwaltung.md){: .btn .btn--success}  [weiter](Versammlungen.md){: .btn}
-[zurück](Verwaltung.md){: .btn .btn--warning}  [weiter](Versammlungen.md){: .btn .btn--primary}
-[zurück](Verwaltung.md){: .btn .btn--danger}  [weiter](Versammlungen.md){: .btn .btn--primary}
-[zurück](Verwaltung.md){: .btn .btn--info}  [weiter](Versammlungen.md){: .btn .btn--primary}
-[zurück](Verwaltung.md){: .btn .btn--inverse}  [weiter](Versammlungen.md){: .btn .btn--primary}
-[zurück](Verwaltung.md){: .btn .btn--light-outline}  [weiter](Versammlungen.md){: .btn .btn--primary}
-[zurück](Verwaltung.md){: .btn .btn--primary .btn--large}  [weiter](Versammlungen.md){: .btn .btn--primary}
-
-
-
+[zurück](Verwaltung.md){: .btn .btn--inverse}  [weiter](Versammlungen.md){: .btn .btn--inverse}
