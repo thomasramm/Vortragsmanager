@@ -17,10 +17,10 @@ minimal_mistakes_skin    : "default" # "default", "air", "aqua", "contrast", "da
 # Site Settings
 locale                   : "de-DE"
 title                    : "Vortragsmanager DeLuxe"
-title_separator          : "-"
+title_separator          : "|"
 subtitle                 : "Version 1.0" # site tagline that appears below site title in masthead
 name                     : "Thomas Ramm"
-description              : "Handbuch zum Vortragsmanager DeLuxe"
+description              : "Vortragsmanager DeLuxe ist ein Programm zum Koordinieren und Planen deiner Redner & Vorträge."
 url                      : https://thomasramm.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : /Vortragsmanager # the subpath of your site, e.g. "/blog"
 repository               : thomasramm/Vortragsmanager # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"

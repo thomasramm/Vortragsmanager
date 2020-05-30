@@ -1,5 +1,5 @@
 ---
-title: "Handbuch zum Vortragsmanager DeLuxe 1.0"
+title: "Vortragsmanager DeLuxe 1.0"
 permalink: /
 ---
 
