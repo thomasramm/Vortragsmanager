@@ -274,21 +274,3 @@ defaults:
     values:
       sidebar:
         nav: "lmenu"
-
-galleryVerwaltung:
-  - url: (Verwaltung.md)
-    image_path: /images/menu_icon_06.png
-    alt: "Listen ausgeben"
-    title: "Listen ausgeben"
-  - url: /Versammlungen/
-    image_path: /images/menu_icon_07.png
-    alt: "Versammlungen"
-    title: "Versammlungen"
-  - url: /Vorlagen
-    image_path: /images/menu_icon_08.png
-    alt: "Vorlagen"
-    title: "Vorlagen"
-  - url: ProgrammEinstellungen.md
-    image_path: /images/menu_icon_09.png
-    alt: "Programm Einstellungen"
-    title: "Progrqamm Einstellungen"
