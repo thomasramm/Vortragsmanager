@@ -27,7 +27,9 @@ repository               : thomasramm/Vortragsmanager # GitHub username/repo-nam
 teaser                   :  # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : /docs/images/Logo.png # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
-# breadcrumbs            : false # true, false (default)
+# breadcrumbs              : true # true, false (default)
+# breadcrumb_home_label    : "Home"
+# breadcrumb_separator     : ">"
 atom_feed:
   path                   : # blank (default) uses feed.xml
 search                   : true # true, false (default)
