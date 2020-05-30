@@ -1,18 +1,10 @@
 ---
 title: "Meine Redner"
 ---
-![Icon](images/menu_icon_04.png){: .align-right}
+![Icon](images/menu_icon_04.png)
 
-Inhaltsverzeichnis
-1. [Meine Redner](#meine-redner)
-    1. [Filtern](#filter)
-    2. [Bearbeiten](#bearbeiten)
-    3. [Ausgeben](#ausgeben)
-1. [Neue externe Anfrage](neue-externe-anfrage)
 
-# Meine Redner #
-
-Eine Liste aller Einlaungen meiner Redner. Diese Liste kann hier gefiltert bearbeitet und ausgegeben werden.
+Eine Liste aller Einladungen meiner Redner. Diese Liste kann hier gefiltert bearbeitet und ausgegeben werden.
 
 ![Oberfläche](images/meineredner_01.png)
 

@@ -53,7 +53,7 @@ lmenu:
         url: /MeineRedner/#filter
       - title: Zuteilung Bearbeiten
         url: /MeineRedner/#bearbeiten
-      - title: Ausgeben
+      - title: Zuteilung Ausgeben
         url: /MeineRedner/#ausgeben
       - title: Neue externe Anfrage
         url: /MeineRedner/#neue-externe-anfrage
