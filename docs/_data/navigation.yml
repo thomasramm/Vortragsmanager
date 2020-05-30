@@ -1,7 +1,7 @@
 main:
 # Main Site navigation links on the TOP
-- title: Home
-  url: /Index/
+- title: Startseite
+  url: /
 
 - title: Installation
   url: /Installation/
@@ -24,18 +24,18 @@ main:
 
 lmenu:
   - title: Erste Schritte
+    url: "/"
     children:
       - title: "Übersicht"
-        url: "/Index/"
+        url: "/"
       - title: "Installation"
         url: /Installation/
       - title: Initialisierung
-        url: /Installation/#wizard
+        url: /Initialisierung/
 
   - title: Mein Plan
+    url: /MeinPlan/
     children: 
-      - title: Mein Plan
-        url: /MeinPlan/
       - title: Ereignistypen
         url: /MeinPlan/#die-ereignistypen
       - title: Aktionen
@@ -43,10 +43,37 @@ lmenu:
       - title: Redner suchen
         url: /MeinPlan/#redner-suchen
       - title: Antwort eintragen
-        url: /MeinPlan/#antwort-eintragen
+        url: /AntwortEintragen/
 
   - title: Meine Redner
+    url: /MeineRedner/
+    children:
+      - title: Meine Redner
+        url: /MeineRedner/
+      - title: Redner Filtern
+        url: /MeineRedner/#filter
+      - title: Zuteilung Bearbeiten
+        url: /MeineRedner/#bearbeiten
+      - title: Zuteilung Ausgeben
+        url: /MeineRedner/#ausgeben
+      - title: Neue externe Anfrage
+        url: /ExteneAnfrage/
 
   - title: Verwaltung
+    url: /Verwaltung/
+    children:
+      - title: Listen ausgeben
+        url: /ListenAusgeben/
+      - title: Versammlungen pflegen
+        url: /Versammlungen/
+      - title: Koordinatoren pflegen
+        url: /Versammlungen/#koordinator
+      - title: Redner pflegen
+        url: /Versammlungen/#redner
+      - title: Vorlagen bearbeiten
+        url: /Vorlagen/
+      - title: Programm Einstellungen
+        url: /ProgrammEinstellungen/
     
   - title: Konzepte
+    url: /Konzept/
