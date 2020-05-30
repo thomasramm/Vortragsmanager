@@ -29,7 +29,7 @@ Hier benötigst du 2-3 verschiedene Excel-Dateien, die du aus vplanung.net herun
 ### Import der Koordinatoren ###
 
 ![Import der Versammlungs- und Koordinatoren Daten](images/installation_wizard_02.png){: .align-right}
-Zuerst werden die Koordinatoren und Versammlungsdaten importiert. Wähle dazu alle deine Datei "Liste der Vortragskoordinatoren im Kreis NNN.xlsx" aus und klicke auf "Importieren". Dir werden in der rechten Liste die Kreisnummer, sowie die Anzahl der soeben importierten Versammlungen angezeigt. Du kannst diesen Schritt nun auch für alle Nachbarkreise wiederholen, deren Daten du heruntergeladen hast.
+Zuerst werden die Koordinatoren und Versammlungsdaten importiert. Wähle dazu alle deine Dateien "Liste der Vortragskoordinatoren im Kreis NNN.xlsx" aus und klicke auf "Importieren". Dir werden in der rechten Liste die Kreisnummer, sowie die Anzahl der soeben importierten Versammlungen angezeigt. Du kannst diesen Schritt nun auch für alle Nachbarkreise wiederholen, deren Daten du heruntergeladen hast.
 
 Wenn du alle Koordinatoren-Listen importiert hast, klicke auf weiter.
 

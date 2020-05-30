@@ -1,16 +1,12 @@
 ---
 title: "Mein Plan"
+header:
+  image: /images/menu_icon_01.png
+  image_description: "Programmlogo - Mein Plan"
+  caption: Mein Plan"
 ---
 ![Icon](images/menu_icon_01.png){: .align-right}
 
-## Inhaltsverzeichnis
-1. [Mein Plan](#mein-plan)
-    1. [Ereignistypen](#die-ereignistypen)
-    1. [Aktionen](#aktionen)
-1. [Redner suchen](#redner-suchen)
-1. [Antwort eintragen](#antwort-eintragen)
-
-# Mein Plan
 Die Verwaltung deiner eigenen Redner- und Vortragsplanung geschieht hier. 
 
 Die Seite besteht aus der Jahres-Navigation in der du das aktuell betrachtete Jahr wechseln kannst und einem Jahreskalender mit allen deinen Planungen.
