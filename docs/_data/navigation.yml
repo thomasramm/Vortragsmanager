@@ -35,8 +35,6 @@ lmenu:
   - title: Mein Plan
     url: /MeinPlan/
     children: 
-      - title: Mein Plan
-        url: /MeinPlan/
       - title: Ereignistypen
         url: /MeinPlan/#die-ereignistypen
       - title: Aktionen
@@ -61,18 +59,17 @@ lmenu:
         url: /MeineRedner/#neue-externe-anfrage
 
   - title: Verwaltung
-    description: Programmeinstellungen und Allgemeine Daten pflegen
     url: /Verwaltung/
     children:
       - title: Listen ausgeben
         url: /Verwaltung/#listen-ausgeben
-      - title: Versammlungen
+      - title: Versammlungen pflegen
         url: /Verwaltung/#versammlungen
-      - title: Koordinatoren
+      - title: Koordinatoren pflegen
         url: /Verwaltung/#koordinator
-      - title: Redner
+      - title: Redner pflegen
         url: /Verwaltung/#redner
-      - title: Vorlagen
+      - title: Vorlagen bearbeuteb
         url: /Verwaltung/#vorlagen
       - title: Programm Einstellungen
         url: /Verwaltung/#programm
