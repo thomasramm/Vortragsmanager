@@ -8,7 +8,7 @@ Du hast 3 verschiedene Möglichkeiten wie du starten kannst.
  ![Wizard Auswahl](images/installation_wizard_01.png)
 
  1. Ich habe eine Vortragsmanager Datenbank die ich öffnen möchte ⇒ [hier weiter lesen](#datenbank-öffnen)
- 1. Ich habe die Daten von www.vplanung.net und möchte sie importieren. ⇒ [hier weiter lesen](#import-der-vplanung.net-daten)
+ 1. Ich habe die Daten von www.vplanung.net und möchte sie importieren. ⇒ [hier weiter lesen](#import-der-vplanungnet-daten)
  1. Ich habe keine Daten und möchte mit einem leeren Programm starten. ⇒ [hier weiter lesen](#mit-leerem-programm-starten)
 
 ## Datenbank öffnen ##

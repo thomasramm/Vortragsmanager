@@ -47,8 +47,4 @@ In deinem Startmenü hast du jetzt einen Eintrag zum starten des Vortragsmanager
 
 ![STEP 10](images/step_10.png)
 
-
-
-
-
 [zurück](Index.md){: .btn .btn--inverse}  [weiter](Initialisierung.md){: .btn .btn--inverse}

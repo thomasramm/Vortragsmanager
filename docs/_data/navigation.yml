@@ -48,7 +48,7 @@ lmenu:
     url: /MeineRedner/
     children:
       - title: Meine Redner
-        url: /MeineRedner/#meine-redner
+        url: /MeineRedner/
       - title: Redner Filtern
         url: /MeineRedner/#filter
       - title: Zuteilung Bearbeiten
