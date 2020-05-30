@@ -1,11 +1,7 @@
 ---
 title: "Mein Plan"
-header:
-  image: /images/menu_icon_01.png
-  image_description: "Programmlogo - Mein Plan"
-  caption: Mein Plan"
 ---
-![Icon](images/menu_icon_01.png){: .align-right}
+![Icon](images/menu_icon_01.png)
 
 Die Verwaltung deiner eigenen Redner- und Vortragsplanung geschieht hier. 
 
