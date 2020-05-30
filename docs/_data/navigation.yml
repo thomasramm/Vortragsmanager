@@ -42,7 +42,7 @@ lmenu:
       - title: Redner suchen
         url: /MeinPlan/#redner-suchen
       - title: Antwort eintragen
-        url: /MeinPlan/#antwort-eintragen
+        url: /AntwortEintragen/
 
   - title: Meine Redner
     url: /MeineRedner/
@@ -56,7 +56,7 @@ lmenu:
       - title: Zuteilung Ausgeben
         url: /MeineRedner/#ausgeben
       - title: Neue externe Anfrage
-        url: /MeineRedner/#neue-externe-anfrage
+        url: /ExteneAnfrage/
 
   - title: Verwaltung
     url: /Verwaltung/

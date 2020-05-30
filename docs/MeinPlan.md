@@ -206,4 +206,4 @@ Außerdem hast du hier die Möglichkeit den Original-Mailtext der generiert wurd
 
 Dieser Dialog kann auch über "Mein Plan" aufgerufen werden. Wählt man hier eine offene Anfrage und dann über das Kontextmenü "bearbeiten" aus, wird der gleiche Dialog geöffnet, aber nur die relevante Anfrage angezeigt.
 
-[zurück](Installation.md){: .btn .btn--inverse}  [weiter](MeineRedner.md){: .btn .btn--inverse}
+[zurück](Installation.md){: .btn .btn--inverse}  [weiter](AntowrtEintragen.md){: .btn .btn--inverse}
