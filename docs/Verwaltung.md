@@ -35,11 +35,14 @@ Der Bereich Verwaltung besteht aus 4 unterschiedlichen Teilen:
 ## test 5
 [![link3](/images/menu_icon_06.png)](Verwaltung){: .align-left}
 [![link3](/images/menu_icon_07.png)](Verwaltung){: .align-left}
- &nbsp;
- {: .text-nowrap}
+
+<br clear="all" />
+
 [![link3](/images/menu_icon_08.png)](Verwaltung){: .align-left}
 [![link3](/images/menu_icon_09.png)](Verwaltung){: .align-left}
-&nbsp;
+
+<br clear="all" />
+
 {: .text-nowrap}
 
 
