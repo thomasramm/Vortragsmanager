@@ -1,7 +1,7 @@
 ---
 title: "Verwaltung"
 gallery:
-  - url: (Verwaltung.md)
+  - url: /Verwaltung/
     image_path: /images/menu_icon_06.png
     alt: "Listen ausgeben"
     title: "Listen ausgeben"
@@ -9,11 +9,11 @@ gallery:
     image_path: /images/menu_icon_07.png
     alt: "Versammlungen"
     title: "Versammlungen"
-  - url: /Vorlagen
+  - url: /Vorlagen/
     image_path: /images/menu_icon_08.png
     alt: "Vorlagen"
     title: "Vorlagen"
-  - url: ProgrammEinstellungen.md
+  - url: /ProgrammEinstellungen/
     image_path: /images/menu_icon_09.png
     alt: "Programm Einstellungen"
     title: "Progrqamm Einstellungen"
@@ -29,8 +29,17 @@ Der Bereich Verwaltung besteht aus 4 unterschiedlichen Teilen:
 1. [Programm](ProgrammEinstellungen.md)
 
 {% include gallery caption="Der Bereich Verwaltung besteht aus 4 unterschiedlichen Teilen." %}
+{% include gallery layout="full" %}
 {% include gallery layout="half" %}
-{% include gallery layout="half" %}
+
+![image-left](/images/menu_icon_06.png)(Verwaltung.md){: .align-left}
+![image-right](/images/menu_icon_07.png)(/Verwaltung/){: .align-right}
+![image-left](/images/menu_icon_08.png){: .align-left}
+![image-right](/images/menu_icon_09.png){: .align-right}
+[![link1][/images/menu_icon_06.png]][Verwaltung.md]
+[![link2](/images/menu_icon_06.png)][Verwaltung.md]
+[![link3](/images/menu_icon_06.png)](Verwaltung.md)
+[![link3](/images/menu_icon_06.png)](Verwaltung.md){: .align-right}
 
 
 [zurück](MeineRedner.md){: .btn .btn--inverse}  [weiter](ListenAusgeben.md){: .btn .btn--inverse}
