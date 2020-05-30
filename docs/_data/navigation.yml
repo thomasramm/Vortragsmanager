@@ -1,6 +1,6 @@
 main:
 # Main Site navigation links on the TOP
-- title: Home
+- title: Startseite
   url: /Index/
 
 - title: Installation
@@ -30,7 +30,7 @@ lmenu:
       - title: "Installation"
         url: /Installation/
       - title: Initialisierung
-        url: /Installation/#wizard
+        url: /Initialisierung/
 
   - title: Mein Plan
     url: /MeinPlan/
@@ -62,7 +62,7 @@ lmenu:
     url: /Verwaltung/
     children:
       - title: Listen ausgeben
-        url: /ListenAusgeben
+        url: /ListenAusgeben/
       - title: Versammlungen pflegen
         url: /Versammlungen/
       - title: Koordinatoren pflegen
@@ -72,7 +72,7 @@ lmenu:
       - title: Vorlagen bearbeiten
         url: /Vorlagen/
       - title: Programm Einstellungen
-        url: /ProgrammEinstellungen
+        url: /ProgrammEinstellungen/
     
   - title: Konzepte
     url: /Konzept/
