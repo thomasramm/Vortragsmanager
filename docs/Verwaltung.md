@@ -36,10 +36,14 @@ Der Bereich Verwaltung besteht aus 4 unterschiedlichen Teilen:
 ![image-right](/images/menu_icon_07.png)(/Verwaltung/){: .align-right}
 ![image-left](/images/menu_icon_08.png){: .align-left}
 ![image-right](/images/menu_icon_09.png){: .align-right}
-[![link1][/images/menu_icon_06.png]][Verwaltung.md]
-[![link2](/images/menu_icon_06.png)][Verwaltung.md]
-[![link3](/images/menu_icon_06.png)](Verwaltung.md)
-[![link3](/images/menu_icon_06.png)](Verwaltung.md){: .align-right}
 
+[![link3](/images/menu_icon_06.png)](Verwaltung){: .align-left}
+[![link3](/images/menu_icon_06.png)](Verwaltung){: .align-right}
+
+[![link3](/images/menu_icon_06.png)](Verwaltung){: .align-left}
+[![link3](/images/menu_icon_06.png)](Verwaltung){: .align-left}
+
+[![link3](/images/menu_icon_06.png)](Verwaltung){: .align-left}
+[![link3](/images/menu_icon_06.png)](Verwaltung){: .align-center}
 
 [zurück](MeineRedner.md){: .btn .btn--inverse}  [weiter](ListenAusgeben.md){: .btn .btn--inverse}
