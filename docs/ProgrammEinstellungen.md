@@ -1,4 +1,8 @@
-# Programm #
+---
+title: Programm
+subtitle: "Einstellungen und weitere Funktionen"
+---
+
 ![Icon](images/menu_icon_09.png)
 
 Im Bereich Programm werden einige Programmweite Einstellungen vorgenommen, als auch Aktionen durchgeführt die sehr selten benötigt werden.

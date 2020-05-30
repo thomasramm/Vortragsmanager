@@ -1,4 +1,6 @@
-# Versammlungen #
+---
+title: "Versammlungen"
+---
 ![Icon](images/menu_icon_07.png)
 
 Im Bereich Versammlungen werden diverse Informationen gepflegt:

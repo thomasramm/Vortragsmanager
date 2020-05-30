@@ -1,4 +1,6 @@
-# Vorlagen #
+---
+title: "Vorlagen"
+---
 ![Icon](images/menu_icon_08.png)
 
 Hier werden die Inhalte verwaltet die durch das Programm zum generieren der individuellen Mails benutzt werden. Jede Mailvorlage besteht aus zwei Bereichen:
