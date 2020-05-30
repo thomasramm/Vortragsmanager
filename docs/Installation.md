@@ -4,14 +4,7 @@ title: "Installation"
 
 Die Installation teilt sich in zwei wichtige Schritte ein.
 1. Die [Programminstallation](#installation) unter Windows
-2. Der [Setup-Wizard](#wizard) beim ersten Programmstart
-
-## Inhaltsverzeichnis
-1. [Installation](#installation)
-1. [Wizard](#wizard)
-    1. [Datenbank öffnen](#datenbank-öffnen)
-    1. [Mit leerem Programm starten](#mit-leerem-programm-starten)
-    1. [Import der vplanung.net Daten](#import-der-vplanung-net-daten)
+2. Der [Setup-Wizard](Initialisierung.md) beim ersten Programmstart
 
 # Installation #
 
