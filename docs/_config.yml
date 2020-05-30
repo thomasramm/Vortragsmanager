@@ -12,7 +12,7 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "aqua" # "default", "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "sunrise" # "default", "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "de-DE"
@@ -24,8 +24,8 @@ description              : "Handbuch zum Vortragsmanager DeLuxe"
 url                      : https://thomasramm.github.io/ # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : /Vortragsmanager # the subpath of your site, e.g. "/blog"
 repository               : thomasramm/Vortragsmanager # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
-teaser                   : /images/RepoCard.png # path of fallback teaser image, e.g. "/assets/images/500x300.png"
-logo                     : /images/Logo.png # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
+teaser                   : /docs/images/RepoCard.png # path of fallback teaser image, e.g. "/assets/images/500x300.png"
+logo                     : /docs/images/Logo.png # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs              : true # true, false (default)
 # breadcrumb_home_label    : "Home"
