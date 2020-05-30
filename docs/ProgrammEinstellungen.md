@@ -2,8 +2,7 @@
 title: Programm
 subtitle: "Einstellungen und weitere Funktionen"
 ---
-
-![Icon](images/menu_icon_09.png)
+![Icon](images/menu_icon_09.png){: .align-right}
 
 Im Bereich Programm werden einige Programmweite Einstellungen vorgenommen, als auch Aktionen durchgeführt die sehr selten benötigt werden.
 
@@ -54,4 +53,4 @@ Der Standard ist auf "Fehler" gesetzt. Das sollte bei den meisten Problemen helf
 
 Im Ordner wird noch angegeben in welchem Ordner die Dateien abgelegt werden sollen. Der Dateiname ist immer vortragsmanager_DATUM.log und wird jeden Tag geändert.
 
-[zurück](ProgrammEinstellungen.md){: .btn .btn--inverse}  [weiter](Verwaltung.md){: .btn .btn--inverse}
+[zurück](Vorlagen.md){: .btn .btn--inverse}  [weiter](Konzept.md){: .btn .btn--inverse}

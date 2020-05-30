@@ -1,7 +1,6 @@
 ---
 title: "Listen ausgeben"
 ---
-
 ![Icon](images/menu_icon_06.png){: .align-right}
 
 In diesem Bereich können diverse Listen und Aushänge erzeugt werden. Das Ausgabeformat ist für alle Listen Excel (*.xlsx)

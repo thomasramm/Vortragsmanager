@@ -1,7 +1,7 @@
 ---
 title: "Versammlungen"
 ---
-![Icon](images/menu_icon_07.png)
+![Icon](images/menu_icon_07.png){: .align-right}
 
 Im Bereich Versammlungen werden diverse Informationen gepflegt:
 
