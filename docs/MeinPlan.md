@@ -1,6 +1,7 @@
-⇦ zurück zum [Inhaltsverzeichnis](README.md)
-
-![Icon](images/menu_icon_01.png)
+---
+title: "Mein Plan"
+---
+![Icon](images/menu_icon_01.png){: .align-right}
 
 ## Inhaltsverzeichnis
 1. [Mein Plan](#mein-plan)
@@ -213,5 +214,4 @@ Außerdem hast du hier die Möglichkeit den Original-Mailtext der generiert wurd
 
 Dieser Dialog kann auch über "Mein Plan" aufgerufen werden. Wählt man hier eine offene Anfrage und dann über das Kontextmenü "bearbeiten" aus, wird der gleiche Dialog geöffnet, aber nur die relevante Anfrage angezeigt.
 
-
-⇦ zurück zum [Inhaltsverzeichnis](README.md)
+[zurück](Installation.md){: .btn .btn--inverse}  [weiter](MeinPlan.md){: .btn .btn--inverse}

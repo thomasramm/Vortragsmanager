@@ -1,6 +1,7 @@
-⇦ zurück zum [Inhaltsverzeichnis](README.md)
-
-![Icon](images/menu_icon_04.png)
+---
+title: "Meine Redner"
+---
+![Icon](images/menu_icon_04.png){: .align-right}
 
 ## Inhaltsverzeichnis
 1. [Meine Redner](#meine-redner)
@@ -88,4 +89,4 @@ Hier wird angezeigt wer an diesem Datum in deiner eigenen Versammlung den Vortra
 
 Kommte es bei der Prüfung für den Redner oder für die Versammlung zu Problemen, werden dir hier entsprechende Hinweise ausgegeben. In diesem Beispiel hat der Redner bereits 1 Woche zuvor einen Vortrag und der Abstand von 1 Monat wurde nicht eingehalten. 
 
-⇦ zurück zum [Inhaltsverzeichnis](README.md)
+[zurück](MeinPlan.md){: .btn .btn--inverse}  [weiter](Verwaltung.md){: .btn .btn--inverse}

@@ -1,4 +1,6 @@
-⇦ zurück zum [Inhaltsverzeichnis](README.md)
+---
+title: "Installation"
+---
 
 Die Installation teilt sich in zwei wichtige Schritte ein.
 1. Die [Programminstallation](#installation) unter Windows
@@ -101,6 +103,4 @@ Die importierten Jahre werden dir zur Kontrolle wieder rechts angezeigt.
 
 ![Import der Vortragsbuchungen](images/installation_wizard_04.png)
 
-
-
-⇦ zurück zum [Inhaltsverzeichnis](README.md)
+[zurück](Index.md){: .btn .btn--inverse}  [weiter](MeinPlan.md){: .btn .btn--inverse}
