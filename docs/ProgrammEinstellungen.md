@@ -50,4 +50,4 @@ Der Standard ist auf "Fehler" gesetzt. Das sollte bei den meisten Problemen helf
 
 Im Ordner wird noch angegeben in welchem Ordner die Dateien abgelegt werden sollen. Der Dateiname ist immer vortragsmanager_DATUM.log und wird jeden Tag geändert.
 
-[zurück](ProgrammEinstellungen.md)  [weiter](Verwaltung.md)
+[zurück](ProgrammEinstellungen.md){: .btn .btn--inverse}  [weiter](Verwaltung.md){: .btn .btn--inverse}

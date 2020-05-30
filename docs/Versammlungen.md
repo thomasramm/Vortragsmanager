@@ -98,4 +98,4 @@ Die Liste der Vorträge die ein Diener ausgearbeitet hat.
 
 UNDER CONSTRUCTION
 
-[zurück](ListenAusgeben.md)  [weiter](Vorlagen.md)
+[zurück](ListenAusgeben.md){: .btn .btn--inverse}  [weiter](Vorlagen.md){: .btn .btn--inverse}

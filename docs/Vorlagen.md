@@ -23,4 +23,4 @@ Eine kurze Beschreibung des gewählten Parameter (mit welchem Inhalt wird er ers
 ## Vorlagen Inhalt
 Hier steht der Haupttext der Mailvorlage. Die Platzhalter müssen durch {}-Klammern gekennzeichnet sein. Insbesondere die Signatur (deine Kontaktdaten) sowie die Versammlungsdaten sollten hier einmalig eingesetzt und gespeichert werden.
 
-[zurück](Versammlungen.md)  [weiter](ProgrammEinstellungen.md)
+[zurück](Versammlungen.md) {: .btn .btn--inverse} [weiter](ProgrammEinstellungen.md){: .btn .btn--inverse}

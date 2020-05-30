@@ -8,4 +8,9 @@ Der Bereich Verwaltung besteht aus 4 unterschiedlichen Teilen:
 1. [Vorlagen](Vorlagen.md)
 1. [Programm](ProgrammEinstellungen.md)
 
-[zurück](MeineRedner.md)  [weiter](ListenAusgeben.md)
+{% include gallery id="galleryVerwaltung" caption="Der Bereich Verwaltung besteht aus 4 unterschiedlichen Teilen." %}
+{% include gallery id="galleryVerwaltung" layout="half" %}
+{% include gallery id="galleryVerwaltung" layout="half" %}
+
+
+[zurück](MeineRedner.md){: .btn .btn--inverse}  [weiter](ListenAusgeben.md){: .btn .btn--inverse}
