@@ -1,6 +1,8 @@
 ---
 title: "Handbuch zum Vortragsmanager DeLuxe 1.0"
 permalink: /
+header:
+  image: "/images/repoCard.png"
 ---
 
 Eine Kurzübersicht über das Programm findest du in der [Readme](https://github.com/thomasramm/Vortragsmanager/blob/master/README.md) im GitHub Projekt.
