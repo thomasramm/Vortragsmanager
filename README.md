@@ -38,10 +38,7 @@ Zur [detailierten Installationsanleitung](./docs/Installation.md)
 
 ## Handbuch
 
-Einen ersten Überblick über das Programm gebe ich in folgendem 15min Video.
-Die Oberfläche hat sich zwar inzwischen stark weiterentwickelt, die Grundlegende Bedienung ist aber immer noch sehr gut zu verstehen: https://youtu.be/nd0oVwxhB70
-
-zum [Handbuch](./docs/README.md)
+zum [Handbuch](https://thomasramm.github.io/Vortragsmanager/Index/)
 
 ## Copyright & Lizenz
 
