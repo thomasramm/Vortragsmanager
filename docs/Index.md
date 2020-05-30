@@ -2,7 +2,12 @@
 title: "Handbuch zum Vortragsmanager DeLuxe 1.0"
 ---
 
-Eine Kurzübersicht über das Programm findest du in der [Readme](https://github.com/thomasramm/Vortragsmanager/blob/master/README.md) im Hauptverzeichnis.
+Eine Kurzübersicht über das Programm findest du in der [Readme](https://github.com/thomasramm/Vortragsmanager/blob/master/README.md) im GitHub Projekt.
+
+Einen ersten Überblick über das Programm gebe ich in folgendem 15min Video.
+Die Oberfläche hat sich zwar inzwischen stark weiterentwickelt, die Grundlegende Bedienung ist aber immer noch sehr gut zu verstehen: 
+
+{% include video id="nd0oVwxhB70" provider="youtube" %}
 
 ## [Installation](Installation.md) ##
 Die Beschreibung der Installation und der ersten Schritte (Datenimport) findest du im Kapitel  [Installations-Anleitung](Installation.md)
