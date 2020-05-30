@@ -36,3 +36,14 @@ Eine Liste aller Vorträge mit der Information:
 Eine Liste aller Vortragsredner die im Programm eingegeben worden sind mit den hinterlegten Informationen, sowie dem Datum wann sie das letzte mal in deiner Versammlung einen Vortrag gehalten haben.
 
 [zurück](Verwaltung.md){: .btn .btn--primary}  [weiter](Versammlungen.md){: .btn .btn--primary}
+
+[zurück](Verwaltung.md){: .btn .btn--success}  [weiter](Versammlungen.md){: .btn}
+[zurück](Verwaltung.md){: .btn .btn--warning}  [weiter](Versammlungen.md){: .btn .btn--primary}
+[zurück](Verwaltung.md){: .btn .btn--danger}  [weiter](Versammlungen.md){: .btn .btn--primary}
+[zurück](Verwaltung.md){: .btn .btn--info}  [weiter](Versammlungen.md){: .btn .btn--primary}
+[zurück](Verwaltung.md){: .btn .btn--inverse}  [weiter](Versammlungen.md){: .btn .btn--primary}
+[zurück](Verwaltung.md){: .btn .btn--light-outline}  [weiter](Versammlungen.md){: .btn .btn--primary}
+[zurück](Verwaltung.md){: .btn .btn--primary .btn--large}  [weiter](Versammlungen.md){: .btn .btn--primary}
+
+
+
