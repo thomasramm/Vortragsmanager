@@ -62,17 +62,17 @@ lmenu:
     url: /Verwaltung/
     children:
       - title: Listen ausgeben
-        url: /Verwaltung/#listen-ausgeben
+        url: /ListenAusgeben
       - title: Versammlungen pflegen
-        url: /Verwaltung/#versammlungen
+        url: /Versammlungen/
       - title: Koordinatoren pflegen
-        url: /Verwaltung/#koordinator
+        url: /Versammlungen/#koordinator
       - title: Redner pflegen
-        url: /Verwaltung/#redner
-      - title: Vorlagen bearbeuteb
-        url: /Verwaltung/#vorlagen
+        url: /Versammlungen/#redner
+      - title: Vorlagen bearbeiten
+        url: /Vorlagen/
       - title: Programm Einstellungen
-        url: /Verwaltung/#programm
+        url: /ProgrammEinstellungen
     
   - title: Konzepte
     url: /Konzept/
