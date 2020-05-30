@@ -35,9 +35,12 @@ Der Bereich Verwaltung besteht aus 4 unterschiedlichen Teilen:
 ## test 5
 [![link3](/images/menu_icon_06.png)](Verwaltung){: .align-left}
 [![link3](/images/menu_icon_06.png)](Verwaltung){: .align-left}
+ &nbsp;
+[![link3](/images/menu_icon_06.png)](Verwaltung){: .align-left}
+[![link3](/images/menu_icon_06.png)](Verwaltung){: .align-left}
+&nbsp;
 
-[![link3](/images/menu_icon_06.png)](Verwaltung){: .align-left}
-[![link3](/images/menu_icon_06.png)](Verwaltung){: .align-left}
+
 
 
 [zurück](MeineRedner.md){: .btn .btn--inverse}  [weiter](ListenAusgeben.md){: .btn .btn--inverse}
