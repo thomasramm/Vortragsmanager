@@ -35,4 +35,4 @@ Eine Liste aller Vorträge mit der Information:
 
 Eine Liste aller Vortragsredner die im Programm eingegeben worden sind mit den hinterlegten Informationen, sowie dem Datum wann sie das letzte mal in deiner Versammlung einen Vortrag gehalten haben.
 
-[zurück](Verwaltung.md)  [weiter](Versammlungen.md)
+[zurück](Verwaltung.md){: .btn .btn--primary}  [weiter](Versammlungen.md){: .btn .btn--primary}
