@@ -3,7 +3,7 @@ title: "Meine Redner"
 ---
 ![Icon](images/menu_icon_04.png){: .align-right}
 
-## Inhaltsverzeichnis
+Inhaltsverzeichnis
 1. [Meine Redner](#meine-redner)
     1. [Filtern](#filter)
     2. [Bearbeiten](#bearbeiten)
