@@ -340,3 +340,7 @@ ASALocalRun/
 healthchecksdb
 /Rohdaten
 /Vortragsmanager/Core/Security.cs
+docs/_site
+.jekyll-cache/
+Gemfile.lock
+generate_page.cmd
