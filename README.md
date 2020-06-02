@@ -38,7 +38,7 @@ Zur [detailierten Installationsanleitung](./docs/Installation.md)
 
 ## Handbuch
 
-zum [Handbuch](https://thomasramm.github.io/Vortragsmanager/Index/)
+zum [Handbuch](https://thomasramm.github.io/Vortragsmanager/)
 
 ## Copyright & Lizenz
 
