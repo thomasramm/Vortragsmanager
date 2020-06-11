@@ -182,8 +182,8 @@ namespace Vortragsmanager.Views
 
         public bool RednerCheckCancelation
         {
-            get { return GetProperty(() => RednerCheckHistory); }
-            set { SetProperty(() => RednerCheckHistory, value); }
+            get { return GetProperty(() => RednerCheckCancelation); }
+            set { SetProperty(() => RednerCheckCancelation, value); }
         }
 
         private int _maxEntfernung;
