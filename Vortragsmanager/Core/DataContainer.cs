@@ -1,4 +1,5 @@
 ﻿using DevExpress.Mvvm;
+using DevExpress.Mvvm.Native;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -171,11 +172,16 @@ namespace Vortragsmanager.Core
         public static void UpdateTalkDate()
         {
             Log.Info(nameof(UpdateTalkDate), "");
+            Vorträge.ForEach(x => x.zuletztGehalten = null);
             foreach (var evt in MeinPlan.Where(x => x.Status != EventStatus.Ereignis))
             {
                 var m = (evt as Invitation);
                 if (m.Vortrag is null)
                     continue;
+                if (m.Vortrag.Nummer == 190)
+                {
+                    var v = m.Vortrag;
+                }
                 if (m.Datum > m.Vortrag.zuletztGehalten || m.Vortrag.zuletztGehalten == null)
                     m.Vortrag.zuletztGehalten = m.Datum;
             }
