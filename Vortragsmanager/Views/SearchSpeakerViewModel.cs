@@ -240,7 +240,7 @@ namespace Vortragsmanager.Views
         {
             var gewählt = new List<object>(150);
             VortragListe.Clear();
-            foreach (var t in Core.DataContainer.Vorträge)
+            foreach (var t in Core.DataContainer.Vorträge.Where(x => x.Nummer >= 0 && x.Gültig).OrderBy(x => x.Nummer))
             {
                 if (VortragCheckFuture && (t.zuletztGehalten != null) && t.zuletztGehalten > DateTime.Today)
                     continue;
