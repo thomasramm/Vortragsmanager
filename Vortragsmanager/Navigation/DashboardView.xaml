@@ -104,6 +104,12 @@
                        dxwuin:Navigation.NavigateTo="VorlagenView">
                 <Image Source="/Images/ListeSettings_64x64.png" Margin="20" />
             </dxlc:Tile>
+            <dxlc:Tile Header="Redner"
+                       Background="#0a6432"
+                       Size="Small"
+                       dxwuin:Navigation.NavigateTo="RednerView">
+                <Image Source="/Images/Person_64x64.png" Margin="20" />
+            </dxlc:Tile>
             <dxlc:Tile Size="Small"
                        Header="Programm"
                        Background="#64be64"

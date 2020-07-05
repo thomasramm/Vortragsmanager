@@ -107,7 +107,7 @@ namespace Vortragsmanager.Navigation
                             break;
                         }
                         message += r.Datum.ToShortDateString() + " | " + r.Versammlung.GetZusammenkunftszeit(r.Datum) + Environment.NewLine
-                            + r.Ältester.Name + " in " + r.Versammlung.Name + ", Nr. " + r.Vortrag?.Nummer + Environment.NewLine;
+                            + r.Ältester.Name + " in " + r.Versammlung.Name + ", Nr. " + r.Vortrag?.Vortrag.Nummer + Environment.NewLine;
                         nr++;
                     }
                 }

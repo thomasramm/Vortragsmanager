@@ -557,6 +557,12 @@ Versammlungsort:  DEINE ANSCHRIFT"
                 DataContainer.Version = 5;
             }
 
+            if (DataContainer.Version < 6)
+            {
+                LoadRednerErinnerungMailText();
+                DataContainer.Version = 6;
+            }
+
             if (DataContainer.Version < Helper.CurrentVersion)
             {
                 DataContainer.Version = Helper.CurrentVersion;

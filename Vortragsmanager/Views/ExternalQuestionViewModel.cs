@@ -104,7 +104,7 @@ namespace Vortragsmanager.Views
             set { SetProperty(() => SelectedRedner, value, SelectedRednerChanged); }
         }
 
-        public Talk SelectedVortrag
+        public TalkSong SelectedVortrag
         {
             get { return GetProperty(() => SelectedVortrag); }
             set { SetProperty(() => SelectedVortrag, value, ParameterValidieren); }

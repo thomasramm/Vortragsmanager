@@ -188,7 +188,9 @@ namespace Vortragsmanager.Core
 
             cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Speaker_Vortrag (
                 IdSpeaker INTEGER,
-                IdTalk INTEGER)", db);
+                IdTalk INTEGER,
+                IdSong1 INTEGER,
+                IdSong2 INTEGER)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
 
@@ -275,6 +277,19 @@ namespace Vortragsmanager.Core
             if (DataContainer.Version < 4)
             {
                 var cmd = new SQLiteCommand(@"ALTER TABLE Inquiry ADD Mailtext STRING;", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+            }
+
+            //Version 5 hat nur C# Updates an den Daten
+
+            if (DataContainer.Version < 6)
+            {
+                var cmd = new SQLiteCommand(@"ALTER TABLE Speaker_Vortrag ADD IdSong1 INTEGER;", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                cmd = new SQLiteCommand(@"ALTER TABLE Speaker_Vortrag ADD IdSong2 INTEGER;", db);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
             }
@@ -392,7 +407,7 @@ namespace Vortragsmanager.Core
                     var t = new Talk(nr, th)
                     {
                         Gültig = rdr.GetBoolean(2),
-                        zuletztGehalten = rdr.IsDBNull(3) ? (DateTime?)null : rdr.GetDateTime(3)
+                        ZuletztGehalten = rdr.IsDBNull(3) ? (DateTime?)null : rdr.GetDateTime(3)
                     };
                     DataContainer.Vorträge.Add(t);
                 }
@@ -412,7 +427,7 @@ namespace Vortragsmanager.Core
             DataContainer.Redner.Clear();
 
             using (var cmd = new SQLiteCommand("SELECT Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic, Einladen FROM Speaker", db))
-            using (var cmd2 = new SQLiteCommand("SELECT IdTalk FROM Speaker_Vortrag WHERE IdSpeaker = @IdSpeaker", db))
+            using (var cmd2 = new SQLiteCommand("SELECT IdTalk, IdSong1, IdSong2 FROM Speaker_Vortrag WHERE IdSpeaker = @IdSpeaker", db))
             {
                 cmd2.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
                 SQLiteDataReader rdr = cmd.ExecuteReader();
@@ -430,7 +445,7 @@ namespace Vortragsmanager.Core
                         Aktiv = rdr.GetBoolean(7),
                         InfoPrivate = rdr.IsDBNull(8) ? null : rdr.GetString(8),
                         InfoPublic = rdr.IsDBNull(9) ? null : rdr.GetString(9),
-                        Einladen = rdr.IsDBNull(10) ? true : rdr.GetBoolean(10)
+                        Einladen = rdr.IsDBNull(10) || rdr.GetBoolean(10)
                     };
                     var idConregation = rdr.IsDBNull(2) ? 0 : rdr.GetInt32(2); //Id 0 = Versammlung "unbekannt"
 
@@ -443,8 +458,10 @@ namespace Vortragsmanager.Core
                     while (rdr2.Read())
                     {
                         var id = rdr2.GetInt32(0);
+                        var song1 = rdr2.IsDBNull(1) ? (int?)null : rdr2.GetInt32(1);
+                        var song2 = rdr2.IsDBNull(2) ? (int?)null : rdr2.GetInt32(2);
                         var vortrag = DataContainer.Vorträge.First(x => x.Nummer == id);
-                        r.Vorträge.Add(vortrag);
+                        r.Vorträge.Add(new TalkSong(vortrag, song1, song2));
                     }
                     rdr2.Close();
                     DataContainer.Redner.Add(r);
@@ -482,7 +499,11 @@ namespace Vortragsmanager.Core
                     if (!(IdAltester is null))
                         i.Ältester = DataContainer.Redner.First(x => x.Id == IdAltester);
                     if (!(IdVortrag is null))
-                        i.Vortrag = DataContainer.Vorträge.First(x => x.Nummer == IdVortrag);
+                    {
+                        i.Vortrag = i.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == IdVortrag);
+                        if (!(i.Vortrag is null))
+                            i.Vortrag = new TalkSong(DataContainer.FindTalk((int)IdVortrag), -1, -1);
+                    }
                     if (!(IdConregation is null))
                         i.AnfrageVersammlung = DataContainer.Versammlungen.First(x => x.Id == IdConregation);
 
@@ -518,7 +539,9 @@ namespace Vortragsmanager.Core
                     o.Ältester = DataContainer.Redner.First(x => x.Id == IdSpeaker);
                     if (IdConregation != null)
                         o.Versammlung = DataContainer.Versammlungen.First(x => x.Id == IdConregation);
-                    o.Vortrag = DataContainer.Vorträge.First(x => x.Nummer == IdTalk);
+                    o.Vortrag = o.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == IdTalk);
+                    if (o.Vortrag is null)
+                        o.Vortrag = new TalkSong(DataContainer.FindTalk(IdTalk));
 
                     DataContainer.ExternerPlan.Add(o);
                 }
@@ -773,7 +796,7 @@ namespace Vortragsmanager.Core
             {
                 var con = (er as Invitation);
                 cmd.Parameters[0].Value = con.Ältester?.Id;
-                cmd.Parameters[1].Value = con.Vortrag?.Nummer;
+                cmd.Parameters[1].Value = con.Vortrag?.Vortrag.Nummer;
                 cmd.Parameters[2].Value = con.Ältester?.Versammlung?.Id ?? con.AnfrageVersammlung?.Id;
                 cmd.Parameters[3].Value = con.Datum;
                 cmd.Parameters[4].Value = (int)con.Status;
@@ -877,7 +900,7 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[1].Value = plan.Versammlung?.Id;
                 cmd.Parameters[2].Value = plan.Datum;
                 cmd.Parameters[3].Value = (int)plan.Reason;
-                cmd.Parameters[4].Value = plan.Vortrag.Nummer;
+                cmd.Parameters[4].Value = plan.Vortrag.Vortrag.Nummer;
                 cmd.ExecuteNonQuery();
             }
 
@@ -919,11 +942,13 @@ namespace Vortragsmanager.Core
             }
             cmd.Dispose();
 
-            cmd = new SQLiteCommand("INSERT INTO Speaker_Vortrag(IdSpeaker, IdTalk) " +
-                "VALUES (@IdSpeaker, @IdTalk)", db);
+            cmd = new SQLiteCommand("INSERT INTO Speaker_Vortrag(IdSpeaker, IdTalk, IdSong1, IdSong2) " +
+                "VALUES (@IdSpeaker, @IdTalk, @IdSong1, @IdSong2)", db);
 
             cmd.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
             cmd.Parameters.Add("@IdTalk", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@IdSong1", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@IdSong2", System.Data.DbType.Int32);
 
             foreach (var red in DataContainer.Redner)
             {
@@ -932,7 +957,9 @@ namespace Vortragsmanager.Core
                 {
                     if (t is null)
                         continue;
-                    cmd.Parameters[1].Value = t.Nummer;
+                    cmd.Parameters[1].Value = t.Vortrag.Nummer;
+                    cmd.Parameters[2].Value = t.Lied;
+                    cmd.Parameters[3].Value = t.LiedErsatz;
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -956,7 +983,7 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[0].Value = vort.Nummer;
                 cmd.Parameters[1].Value = vort.Thema;
                 cmd.Parameters[2].Value = vort.Gültig;
-                cmd.Parameters[3].Value = vort.zuletztGehalten;
+                cmd.Parameters[3].Value = vort.ZuletztGehalten;
                 cmd.ExecuteNonQuery();
             }
 

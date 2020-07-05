@@ -28,7 +28,7 @@ namespace Vortragsmanager.Models
 
         public Speaker Ältester { get; set; }
 
-        public Talk Vortrag { get; set; }
+        public TalkSong Vortrag { get; set; }
 
         public Conregation AnfrageVersammlung { get; set; }
 
@@ -72,7 +72,7 @@ namespace Vortragsmanager.Models
 
         public string Vortragender { get; set; }
 
-        public Talk Vortrag { get; set; }
+        public TalkSong Vortrag { get; set; }
 
         public SpecialEvent Clone()
         {
@@ -115,7 +115,7 @@ namespace Vortragsmanager.Models
 
         public string Anzeigetext => Versammlung.Name;
 
-        public Talk Vortrag
+        public TalkSong Vortrag
         {
             get => throw new NotImplementedException();
             set => throw new NotImplementedException();
@@ -145,7 +145,7 @@ namespace Vortragsmanager.Models
 
         string Anzeigetext { get; }
 
-        Talk Vortrag { get; set; }
+        TalkSong Vortrag { get; set; }
     }
 
     public class Cancelation

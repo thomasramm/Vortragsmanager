@@ -50,8 +50,8 @@ namespace Vortragsmanager.Core
                     {
                         var nr = int.Parse(v, DataContainer.German);
                         var t = DataContainer.FindTalk(nr);
-                        if (!(t is null) && (!s.Vorträge.Contains(t)))
-                            s.Vorträge.Add(t);
+                        if (!(t is null) && (!s.Vorträge.Select(y => y.Vortrag).Contains(t)))
+                            s.Vorträge.Add(new Models.TalkSong(t));
                     }
 
                     row++;
@@ -249,9 +249,9 @@ namespace Vortragsmanager.Core
                             //Vortrag
                             var vn = int.Parse(vortrag.ToString(), DataContainer.German);
                             var t = DataContainer.FindTalk(vn);
-                            i.Vortrag = t;
-                            if (!i.Ältester.Vorträge.Contains(t))
-                                i.Ältester.Vorträge.Add(t);
+                            i.Vortrag = new Models.TalkSong(t);
+                            if (!i.Ältester.Vorträge.Select(y => y.Vortrag).Contains(t))
+                                i.Ältester.Vorträge.Add(i.Vortrag);
 
                             MeinPlan.Add(i);
                         }
@@ -323,9 +323,9 @@ namespace Vortragsmanager.Core
                             //Vortrag
                             var vn = string.IsNullOrEmpty(vortrag?.ToString()) ? -1 : int.Parse(vortrag.ToString(), DataContainer.German);
                             var t = DataContainer.FindTalk(vn);
-                            i.Vortrag = t;
-                            if (!i.Ältester.Vorträge.Contains(t))
-                                i.Ältester.Vorträge.Add(t);
+                            i.Vortrag = new Models.TalkSong(t);
+                            if (!i.Ältester.Vorträge.Select(y => y.Vortrag).Contains(t))
+                                i.Ältester.Vorträge.Add(i.Vortrag);
 
                             ExternerPlan.Add(i);
                         }

@@ -98,8 +98,8 @@ namespace Vortragsmanager.Views
                     else
                     {
                         var sonntag = (evt as Invitation);
-                        worksheet.Cells[row, 2].Value = sonntag.Vortrag.Thema; //Vortragsthema
-                                                                               //worksheet.Cells[row, 6].Value = vorsitz;
+                        worksheet.Cells[row, 2].Value = sonntag.Vortrag.Vortrag.Thema; //Vortragsthema
+                                                                                       //worksheet.Cells[row, 6].Value = vorsitz;
                         row++;
                         worksheet.Cells[row, 3].Value = sonntag.Ältester?.Name; //Vortragsredner
                         worksheet.Cells[row, 4].Value = sonntag.Ältester?.Versammlung?.Name; //Vortragsredner, Versammlung
@@ -165,14 +165,14 @@ namespace Vortragsmanager.Views
                         {
                             //ToDo: in die Kontaktliste SpecialEvents eintragen
                             var special = (einladung as SpecialEvent);
-                            sheet.Cells[row, 2].Value = special.Vortrag?.Thema ?? special.Anzeigetext;
+                            sheet.Cells[row, 2].Value = special.Vortrag?.Vortrag.Thema ?? special.Anzeigetext;
                             sheet.Cells[row, 3].Value = special.Vortragender ?? special.Thema;
                             sheet.Cells[row, 4].Value = special.Name ?? special.Typ.ToString();
                         }
                         else
                         {
                             var details = (einladung as Invitation);
-                            sheet.Cells[row, 2].Value = details.Vortrag.Thema;
+                            sheet.Cells[row, 2].Value = details.Vortrag.Vortrag.Thema;
                             sheet.Cells[row, 3].Value = details.Ältester.Name;
                             sheet.Cells[row, 4].Value = details.Ältester.Versammlung.Name;
                             sheet.Cells[row, 5].Value = details.Ältester.Telefon;
@@ -297,7 +297,7 @@ namespace Vortragsmanager.Views
                     var vorträge = string.Empty;
                     foreach (var v in redner.Vorträge)
                     {
-                        vorträge += $"{v.Nummer}, ";
+                        vorträge += $"{v.Vortrag.Nummer}, ";
                     }
                     sheet.Cells[row, 3].Value = vorträge.TrimEnd().TrimEnd(',');
                     row++;
@@ -351,9 +351,9 @@ namespace Vortragsmanager.Views
                 {
                     sheet.Cells[row, 1].Value = v.Nummer;
                     sheet.Cells[row, 2].Value = v.Thema;
-                    sheet.Cells[row, 3].Value = DataContainer.Redner.Where(x => x.Versammlung == vers && x.Vorträge.Contains(v)).Count();
-                    sheet.Cells[row, 4].Value = DataContainer.Redner.Where(x => x.Versammlung.Kreis == kreis && x.Vorträge.Contains(v)).Count();
-                    var wochen = DataContainer.MeinPlan.Where(x => x.Vortrag == v);
+                    sheet.Cells[row, 3].Value = DataContainer.Redner.Where(x => x.Versammlung == vers && x.Vorträge.Select(y => y.Vortrag).Contains(v)).Count();
+                    sheet.Cells[row, 4].Value = DataContainer.Redner.Where(x => x.Versammlung.Kreis == kreis && x.Vorträge.Select(y => y.Vortrag).Contains(v)).Count();
+                    var wochen = DataContainer.MeinPlan.Where(x => x.Vortrag.Vortrag.Nummer == v.Nummer);
                     if (wochen.Any())
                         sheet.Cells[row, 5].Value = wochen.Select(x => x.Datum).Max();
 
@@ -431,7 +431,7 @@ namespace Vortragsmanager.Views
                     var vortragsliste = string.Empty;
                     foreach (var item in v.Vorträge)
                     {
-                        vortragsliste += item.Nummer + ", ";
+                        vortragsliste += item.Vortrag.Nummer + ", ";
                     };
                     if (vortragsliste.Length >= 2)
                         vortragsliste = vortragsliste.Substring(0, vortragsliste.Length - 2);

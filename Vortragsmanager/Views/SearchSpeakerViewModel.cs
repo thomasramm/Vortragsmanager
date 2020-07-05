@@ -242,10 +242,10 @@ namespace Vortragsmanager.Views
             VortragListe.Clear();
             foreach (var t in Core.DataContainer.Vorträge.Where(x => x.Nummer >= 0 && x.Gültig).OrderBy(x => x.Nummer))
             {
-                if (VortragCheckFuture && (t.zuletztGehalten != null) && t.zuletztGehalten > DateTime.Today)
+                if (VortragCheckFuture && (t.ZuletztGehalten != null) && t.ZuletztGehalten > DateTime.Today)
                     continue;
 
-                if (VortragCheckHistory && (t.zuletztGehalten != null) && t.zuletztGehalten > DateTime.Today.AddYears(-1))
+                if (VortragCheckHistory && (t.ZuletztGehalten != null) && t.ZuletztGehalten > DateTime.Today.AddYears(-1))
                     continue;
 
                 VortragListe.Add(t);
@@ -297,12 +297,12 @@ namespace Vortragsmanager.Views
                     continue;
 
                 var anzahlVorträge = 0;
-                foreach (var t in r.Vorträge.Where(x => selektierteVorträge.Contains(x.Nummer)).OrderBy(x => x.zuletztGehalten ?? DateTime.MinValue))
+                foreach (var t in r.Vorträge.Where(x => selektierteVorträge.Contains(x.Vortrag.Nummer)).OrderBy(x => x.Vortrag.ZuletztGehalten ?? DateTime.MinValue))
                 {
                     var gt = new GroupTalk();
-                    var gehalten = Core.DataContainer.MeinPlan.Where(x => x.Vortrag == t).ToList();
+                    var gehalten = Core.DataContainer.MeinPlan.Where(x => x.Vortrag.Vortrag.Nummer == t.Vortrag.Nummer).ToList();
 
-                    gt.Vortrag = t;
+                    gt.Vortrag = t.Vortrag;
                     gt.AnzahlGehört = gehalten.Count;
                     gr.Vorträge.Add(gt);
                     anzahlVorträge++;
@@ -408,10 +408,12 @@ namespace Vortragsmanager.Views
 
         private void AnfrageSpeichern()
         {
-            var anfrage = new Inquiry();
-            anfrage.AnfrageDatum = DateTime.Today;
-            anfrage.Versammlung = AktuelleAnfrage.Versammlung;
-            anfrage.Id = Core.DataContainer.OffeneAnfragen.Select(x => x.Id).DefaultIfEmpty(0).Max() + 1;
+            var anfrage = new Inquiry
+            {
+                AnfrageDatum = DateTime.Today,
+                Versammlung = AktuelleAnfrage.Versammlung,
+                Id = Core.DataContainer.OffeneAnfragen.Select(x => x.Id).DefaultIfEmpty(0).Max() + 1
+            };
 
             var Kommentar = $"Anfrage an Versammlung {AktuelleAnfrage.Versammlung.Name} am {DateTime.Today:dd.MM.yyyy}";
 
@@ -619,10 +621,10 @@ namespace Vortragsmanager.Views
         {
             get
             {
-                if (Vortrag.zuletztGehalten is null)
+                if (Vortrag.ZuletztGehalten is null)
                     return "nicht gehalten";
 
-                var datum = (DateTime)Vortrag.zuletztGehalten;
+                var datum = (DateTime)Vortrag.ZuletztGehalten;
                 return $"{datum.ToString("dd.MM.yyyy", Core.DataContainer.German)}";
             }
         }

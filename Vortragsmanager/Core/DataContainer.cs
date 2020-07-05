@@ -30,7 +30,7 @@ namespace Vortragsmanager.Core
 
     public static class DataContainer
     {
-        public static MyGloabalSettings globalSettings { get; set; }
+        public static MyGloabalSettings GlobalSettings { get; set; }
 
         private static int displayedYear = DateTime.Now.Year;
 
@@ -172,19 +172,55 @@ namespace Vortragsmanager.Core
         public static void UpdateTalkDate()
         {
             Log.Info(nameof(UpdateTalkDate), "");
-            Vorträge.ForEach(x => x.zuletztGehalten = null);
+            Vorträge.ForEach(x => x.ZuletztGehalten = null);
             foreach (var evt in MeinPlan.Where(x => x.Status != EventStatus.Ereignis))
             {
                 var m = (evt as Invitation);
                 if (m.Vortrag is null)
                     continue;
-                if (m.Vortrag.Nummer == 190)
-                {
-                    var v = m.Vortrag;
-                }
-                if (m.Datum > m.Vortrag.zuletztGehalten || m.Vortrag.zuletztGehalten == null)
-                    m.Vortrag.zuletztGehalten = m.Datum;
+                if (m.Datum > m.Vortrag.Vortrag.ZuletztGehalten || m.Vortrag.Vortrag.ZuletztGehalten == null)
+                    m.Vortrag.Vortrag.ZuletztGehalten = m.Datum;
             }
+        }
+
+        public static void RednerLöschen(Speaker MyRedner)
+        {
+            if (MyRedner is null)
+                return;
+
+            //Einladungen
+            var einladungen = MeinPlan
+                .Where(x => x.Status == EventStatus.Zugesagt)
+                .Cast<Invitation>()
+                .Where(x => x.Ältester == MyRedner)
+                .ToList();
+            foreach (var einladung in einladungen)
+            {
+                if (einladung.Datum < DateTime.Today)
+                    einladung.Ältester = null;
+                else
+                    MeinPlan.Remove(einladung);
+            }
+            //Offene Anfragen
+            var anfragen = OffeneAnfragen
+                .Where(x => x.RednerVortrag.ContainsKey(MyRedner))
+                .ToList();
+            foreach (var anfrage in anfragen)
+            {
+                anfrage.RednerVortrag.Remove(MyRedner);
+                if (anfrage.RednerVortrag.Count == 0)
+                    OffeneAnfragen.Remove(anfrage);
+            }
+
+            //Externe Einladungen
+            if (MyRedner.Versammlung == MeineVersammlung)
+            {
+                var externeE = ExternerPlan.Where(x => x.Ältester == MyRedner).ToList();
+                foreach (var einladung in externeE)
+                    ExternerPlan.Remove(einladung);
+            }
+
+            Redner.Remove(MyRedner);
         }
     }
 }

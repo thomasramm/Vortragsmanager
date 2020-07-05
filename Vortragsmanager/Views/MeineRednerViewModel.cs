@@ -14,7 +14,7 @@ namespace Vortragsmanager.Views
         {
             Messenger.Default.Register<Messages>(this, OnMessage);
             ChangeYear = new DelegateCommand<int>(ChangeCurrentYear);
-            ChangeView = new DelegateCommand<RednerView>(ChangeCurrentView);
+            ChangeView = new DelegateCommand<RednerViewType>(ChangeCurrentView);
             ListeSenden = new DelegateCommand(ListeVersenden);
             VortragAbsagen = new DelegateCommand(Absagen);
 
@@ -78,7 +78,14 @@ namespace Vortragsmanager.Views
 
             foreach (var item in listIntern)
             {
-                list.Add(new Outside() { Ältester = item.Ältester, Versammlung = Core.DataContainer.MeineVersammlung, Datum = item.Datum, Reason = OutsideReason.Talk, Vortrag = item.Vortrag });
+                list.Add(new Outside()
+                {
+                    Ältester = item.Ältester,
+                    Versammlung = Core.DataContainer.MeineVersammlung,
+                    Datum = item.Datum,
+                    Reason = OutsideReason.Talk,
+                    Vortrag = item.Vortrag
+                });
             }
 
             //Person
@@ -97,18 +104,18 @@ namespace Vortragsmanager.Views
             RaisePropertyChanged(nameof(Talks));
         }
 
-        public DelegateCommand<RednerView> ChangeView { get; private set; }
+        public DelegateCommand<RednerViewType> ChangeView { get; private set; }
 
-        public void ChangeCurrentView(RednerView view)
+        public void ChangeCurrentView(RednerViewType view)
         {
             switch (view)
             {
-                case RednerView.Year:
+                case RednerViewType.Year:
                     ViewStateYear = true;
                     ViewStateAgenda = false;
                     break;
 
-                case RednerView.Agenda:
+                case RednerViewType.Agenda:
                     ViewStateYear = false;
                     ViewStateAgenda = true;
                     LoadAgendaView();
@@ -241,7 +248,7 @@ namespace Vortragsmanager.Views
         }
     }
 
-    public enum RednerView
+    public enum RednerViewType
     {
         Year,
         Agenda,

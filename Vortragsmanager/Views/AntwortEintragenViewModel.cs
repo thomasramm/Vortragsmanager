@@ -174,12 +174,14 @@ namespace Vortragsmanager.Views
         {
             Core.Log.Info(nameof(Zusagen));
             Sichtbar = false;
-            var i = new Invitation();
-            i.Datum = SelectedDatum;
-            i.LetzteAktion = DateTime.Today;
-            i.Status = EventStatus.Zugesagt;
-            i.Vortrag = _vortrag;
-            i.Ältester = _redner;
+            var i = new Invitation
+            {
+                Datum = SelectedDatum,
+                LetzteAktion = DateTime.Today,
+                Status = EventStatus.Zugesagt,
+                Vortrag = _redner.Vorträge.First(x => x.Vortrag.Nummer == _vortrag.Nummer),
+                Ältester = _redner
+            };
             Core.DataContainer.MeinPlan.Add(i);
             _base.BaseAnfrage.RednerVortrag.Remove(_redner);
             _base.Wochen.Remove(SelectedDatum);

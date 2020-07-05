@@ -48,10 +48,10 @@ namespace Vortragsmanager
 
             InitializeComponent();
 
-            DataContainer.globalSettings = new MyGloabalSettings();
-            DataContext = DataContainer.globalSettings;
+            DataContainer.GlobalSettings = new MyGloabalSettings();
+            DataContext = DataContainer.GlobalSettings;
 
-            DataContainer.globalSettings.RefreshTitle();
+            DataContainer.GlobalSettings.RefreshTitle();
 
             Updater.CheckForUpdates();
         }
