@@ -98,6 +98,17 @@ namespace Vortragsmanager.Views
                     else
                     {
                         var sonntag = (evt as Invitation);
+                        var themaMitLied = sonntag.Vortrag.Vortrag.Thema;
+                        if (sonntag.Vortrag.Lied != null)
+                        {
+                            themaMitLied += $" (𝄞 {sonntag.Vortrag.Lied}";
+                            if (sonntag.Vortrag.LiedErsatz != null)
+                                themaMitLied += $"/{sonntag.Vortrag.LiedErsatz}";
+                            themaMitLied += ")";
+                        }
+                        else if (sonntag.Vortrag.LiedErsatz != null)
+                            themaMitLied += $" (𝄞 {sonntag.Vortrag.LiedErsatz})";
+
                         worksheet.Cells[row, 2].Value = sonntag.Vortrag.Vortrag.Thema; //Vortragsthema
                                                                                        //worksheet.Cells[row, 6].Value = vorsitz;
                         row++;
