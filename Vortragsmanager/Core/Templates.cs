@@ -33,8 +33,7 @@ namespace Vortragsmanager.Core
             if (conregation is null)
                 return "Fehler beim verarbeiten der Vorlage";
 
-            var mailAdresse = string.IsNullOrEmpty(conregation.KoordinatorJw) ? conregation.KoordinatorMail : conregation.KoordinatorJw;
-
+            var mailAdresse = GetMailadresseKoordinator(conregation);
             return GetMailTextEreignisTauschenAnRedner(name, vortrag, versammlung, mailAdresse, conregation.Koordinator, startDatum, zielDatum);
         }
 
@@ -44,7 +43,8 @@ namespace Vortragsmanager.Core
             if (redner is null)
                 return "Fehler beim verarbeiten der Vorlage";
 
-            return GetMailTextEreignisTauschenAnRedner(redner.Name, vortrag, versammlung, redner.Mail, redner.Name, startDatum, zielDatum);
+            var mailAdresse = GetMailadresseRedner(redner);
+            return GetMailTextEreignisTauschenAnRedner(redner.Name, vortrag, versammlung, mailAdresse, redner.Name, startDatum, zielDatum);
         }
 
         private static string GetMailTextEreignisTauschenAnRedner(string name, string vortrag, string versammlung, string mailEmpfänger, string nameEmpfänger, DateTime datumAlt, DateTime datumNeu)
@@ -86,7 +86,7 @@ namespace Vortragsmanager.Core
             mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
             mt = mt
                 .Replace("{Redner Name}", Buchung.Ältester?.Name ?? "unbekannt")
-                .Replace("{Redner Mail}", Buchung.Ältester?.Mail ?? "unbekannt")
+                .Replace("{Redner Mail}", GetMailadresseRedner(Buchung.Ältester))
                 .Replace("{Redner Versammlung}", Buchung.Ältester?.Versammlung.Name ?? "unbekannt")
                 .Replace("{Vortrag}", Buchung.Vortrag.ToString())
                 .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
@@ -124,7 +124,7 @@ namespace Vortragsmanager.Core
                 .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
                 .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
                 .Replace("{Vortrag}", Buchung.Vortrag.ToString())
-                .Replace("{Redner Mail}", $"{Buchung.Ältester?.Mail ?? "unbekannt"}");
+                .Replace("{Redner Mail}", GetMailadresseRedner(Buchung.Ältester));
 
             return mt;
         }
@@ -161,7 +161,7 @@ namespace Vortragsmanager.Core
 
             return Mailtext
                 .Replace("{Versammlung}", Versammlung.Name)
-                .Replace("{Koordinator Mail}", $"{Versammlung.KoordinatorJw}; {Versammlung.KoordinatorMail}")
+                .Replace("{Koordinator Mail}", GetMailadresseKoordinator(Versammlung))
                 .Replace("{Koordinator Name}", Versammlung.Koordinator)
                 .Replace("{Kreis}", Versammlung.Kreis.ToString(DataContainer.German))
                 .Replace("{Versammlung Telefon}", Versammlung.Telefon)
@@ -182,7 +182,7 @@ namespace Vortragsmanager.Core
                 .Replace("{Datum}", $"{Zuteilung.Datum:dd.MM.yyyy}, ")
                 .Replace("{Redner}", Zuteilung.Ältester?.Name ?? "unbekannt")
                 .Replace("{Vortrag}", Zuteilung.Vortrag.ToString())
-                .Replace("{Redner Mail}", $"{Zuteilung.Ältester.Mail ?? "unbekannt"}");
+                .Replace("{Redner Mail}", GetMailadresseRedner(Zuteilung.Ältester));
 
             return mt;
         }
@@ -194,12 +194,12 @@ namespace Vortragsmanager.Core
                 return "Fehler beim verarbeiten der Vorlage";
 
             var EmpfängerName = Zuteilung.Ältester.Name;
-            var EmpfängerMail = Zuteilung.Ältester.Mail;
+            var EmpfängerMail = GetMailadresseRedner(Zuteilung.Ältester);
 
             if (string.IsNullOrWhiteSpace(EmpfängerMail))
             {
                 EmpfängerName = Zuteilung.Ältester.Versammlung.Koordinator;
-                EmpfängerMail = Zuteilung.Ältester.Versammlung.KoordinatorJw + ", " + Zuteilung.Ältester.Versammlung.KoordinatorMail;
+                EmpfängerMail = GetMailadresseKoordinator(Zuteilung.Ältester.Versammlung);
             }
 
             var mt = GetTemplate(TemplateName.RednerErinnerungMailText).Inhalt;
@@ -212,6 +212,18 @@ namespace Vortragsmanager.Core
                 .Replace("{Vortrag}", Zuteilung.Vortrag.ToString());
 
             return mt;
+        }
+
+        private static string GetMailadresseKoordinator(Conregation versammlung)
+        {
+            var ergebnis = string.IsNullOrEmpty(versammlung?.KoordinatorJw) ? versammlung?.KoordinatorMail : versammlung?.KoordinatorJw;
+            return string.IsNullOrWhiteSpace(ergebnis) ? "unbekannt" : ergebnis;
+        }
+
+        private static string GetMailadresseRedner(Speaker redner)
+        {
+            var ergebnis = string.IsNullOrWhiteSpace(redner?.JwMail) ? redner?.Mail : redner?.JwMail;
+            return string.IsNullOrWhiteSpace(ergebnis) ? "unbekannt" : ergebnis;
         }
     }
 

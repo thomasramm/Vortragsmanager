@@ -183,7 +183,8 @@ namespace Vortragsmanager.Core
                 Aktiv INTEGER,
                 InfoPrivate TEXT,
                 InfoPublic TEXT,
-                Einladen INTEGER)", db);
+                Einladen INTEGER,
+                JwMail TEXT)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
 
@@ -298,6 +299,10 @@ namespace Vortragsmanager.Core
             if (DataContainer.Version < 7)
             {
                 var cmd = new SQLiteCommand(@"ALTER TABLE Conregation ADD Zoom TEXT;", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                cmd = new SQLiteCommand(@"ALTER TABLE Speaker ADD JwMail TEXT;", db);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
             }
@@ -435,7 +440,7 @@ namespace Vortragsmanager.Core
             Log.Info(nameof(ReadRedner));
             DataContainer.Redner.Clear();
 
-            using (var cmd = new SQLiteCommand("SELECT Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic, Einladen FROM Speaker", db))
+            using (var cmd = new SQLiteCommand("SELECT Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic, Einladen, JwMail FROM Speaker", db))
             using (var cmd2 = new SQLiteCommand("SELECT IdTalk, IdSong1, IdSong2 FROM Speaker_Vortrag WHERE IdSpeaker = @IdSpeaker", db))
             {
                 cmd2.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
@@ -454,7 +459,8 @@ namespace Vortragsmanager.Core
                         Aktiv = rdr.GetBoolean(7),
                         InfoPrivate = rdr.IsDBNull(8) ? null : rdr.GetString(8),
                         InfoPublic = rdr.IsDBNull(9) ? null : rdr.GetString(9),
-                        Einladen = rdr.IsDBNull(10) || rdr.GetBoolean(10)
+                        Einladen = rdr.IsDBNull(10) || rdr.GetBoolean(10),
+                        JwMail = rdr.IsDBNull(11) ? null : rdr.GetString(11),
                     };
                     var idConregation = rdr.IsDBNull(2) ? 0 : rdr.GetInt32(2); //Id 0 = Versammlung "unbekannt"
 
@@ -921,8 +927,8 @@ namespace Vortragsmanager.Core
         private static void SaveRedner(SQLiteConnection db)
         {
             Log.Info(nameof(SaveRedner));
-            var cmd = new SQLiteCommand("INSERT INTO Speaker(Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic, Einladen) " +
-                "VALUES (@Id, @Name, @IdConregation, @Mail, @Telefon, @Mobil, @Altester, @Aktiv, @InfoPrivate, @InfoPublic, @Einladen)", db);
+            var cmd = new SQLiteCommand("INSERT INTO Speaker(Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic, Einladen, JwMail) " +
+                "VALUES (@Id, @Name, @IdConregation, @Mail, @Telefon, @Mobil, @Altester, @Aktiv, @InfoPrivate, @InfoPublic, @Einladen, @JwMail)", db);
 
             cmd.Parameters.Add("@Id", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Name", System.Data.DbType.String);
@@ -935,6 +941,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@InfoPrivate", System.Data.DbType.String);
             cmd.Parameters.Add("@InfoPublic", System.Data.DbType.String);
             cmd.Parameters.Add("@Einladen", System.Data.DbType.Boolean);
+            cmd.Parameters.Add("@JwMail", System.Data.DbType.String);
 
             foreach (var red in DataContainer.Redner)
             {
@@ -949,6 +956,7 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[8].Value = red.InfoPrivate;
                 cmd.Parameters[9].Value = red.InfoPublic;
                 cmd.Parameters[10].Value = red.Einladen;
+                cmd.Parameters[11].Value = red.JwMail;
                 cmd.ExecuteNonQuery();
             }
             cmd.Dispose();

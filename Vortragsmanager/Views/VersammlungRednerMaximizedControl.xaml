@@ -45,6 +45,9 @@
                         <dxlc:LayoutItem Label="E-Mail:">
                             <TextBox Text="{Binding Redner.Mail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="JwPub.org:">
+                            <TextBox Text="{Binding Redner.JwMail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </dxlc:LayoutItem>
                         <dxlc:LayoutItem Label="Telefon:">
                             <TextBox Text="{Binding Redner.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </dxlc:LayoutItem>

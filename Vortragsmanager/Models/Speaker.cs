@@ -14,6 +14,8 @@ namespace Vortragsmanager.Models
 
         public string Mail { get; set; }
 
+        public string JwMail { get; set; }
+
         public string Telefon { get; set; }
 
         public string Mobil { get; set; }
