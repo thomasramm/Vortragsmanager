@@ -12,8 +12,9 @@
     xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
     xmlns:local="clr-namespace:Vortragsmanager.Views"
     x:Class="Vortragsmanager.Views.RednerView"
-             mc:Ignorable="d"
-             d:DesignHeight="600" d:DesignWidth="1000">
+    mc:Ignorable="d"
+    d:DesignHeight="600"
+    d:DesignWidth="1000">
     <UserControl.DataContext>
         <local:RednerViewModel />
     </UserControl.DataContext>

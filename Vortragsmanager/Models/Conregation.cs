@@ -20,6 +20,8 @@ namespace Vortragsmanager.Models
 
         public int Entfernung { get; set; } = 0;
 
+        public string Zoom { get; set; }
+
         public string Telefon { get; set; }
 
         public string Koordinator { get; set; }
