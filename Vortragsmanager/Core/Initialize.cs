@@ -358,6 +358,9 @@ Anschrift des Königreichssaals:
 {Versammlung Anschrift1}
 {Versammlung Anschrift2}
 
+Zoom:
+{Versammlung Zoom}
+
 {Versammlung Telefon}
 Zusammenkunftszeit: {Versammlung Zusammenkunftszeit}
 
@@ -377,6 +380,7 @@ Versammlungsort:  DEINE ANSCHRIFT"
             x.Parameter.Add("{Versammlung Anschrift1}", "Anschrift1 (Straße) der einladenden Versammlung, z.B. 'Grüner Weg 1'");
             x.Parameter.Add("{Versammlung Anschrift2}", "Anschrift2 (Ort) der einladenden Versammlung, z.B. '34371 Grebenstein'");
             x.Parameter.Add("{Versammlung Telefon}", "Telefonnummer der einladenden Versammlung, z.B. '0123-456789'");
+            x.Parameter.Add("{Versammlung Zoom}", "Zugangsdaten zu Zoom, z.B. 'ID 12345, Passwd. XXXXX'");
             x.Parameter.Add("{Versammlung Zusammenkunftszeit}", "Zusammenkunftszeit der einladenden Versammlung, z.B. 'Sonntag 10 Uhr'");
 
             Templates.Vorlagen.Add(x.Name, x);
@@ -536,37 +540,27 @@ Versammlungsort:  DEINE ANSCHRIFT"
             if (DataContainer.Version < 2)
             {
                 LoadEreignisTauschenMailText();
-                DataContainer.Version = 2;
             }
 
             if (DataContainer.Version < 3)
             {
                 DataContainer.Vorträge.Add(new Talk(56, "Wessen Führung kannst du vertrauen?"));
                 DataContainer.Vorträge.Add(new Talk(-1, "Unbekannt") { Gültig = false });
-                DataContainer.Version = 3;
-            }
-
-            if (DataContainer.Version < 4)
-            {
-                DataContainer.Version = 4;
             }
 
             if (DataContainer.Version < 5)
             {
                 LoadRednerErinnerungMailText();
-                DataContainer.Version = 5;
             }
 
-            if (DataContainer.Version < 6)
+            if (DataContainer.Version < 7)
             {
-                LoadRednerErinnerungMailText();
-                DataContainer.Version = 6;
+                var template = Templates.Vorlagen[Templates.TemplateName.ExterneAnfrageAnnehmenInfoAnRednerMailText];
+                template.Parameter.Add("{Versammlung Zoom}", "Zugangsdaten zu Zoom, z.B. 'ID 12345, Passwd. XXXXX'");
             }
 
-            if (DataContainer.Version < Helper.CurrentVersion)
-            {
-                DataContainer.Version = Helper.CurrentVersion;
-            }
+            //auf aktuellste Version setzen
+            DataContainer.Version = Helper.CurrentVersion;
         }
     }
 }

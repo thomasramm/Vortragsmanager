@@ -166,6 +166,7 @@ namespace Vortragsmanager.Core
                 .Replace("{Kreis}", Versammlung.Kreis.ToString(DataContainer.German))
                 .Replace("{Versammlung Telefon}", Versammlung.Telefon)
                 .Replace("{Versammlung Anreise}", Versammlung.Anreise)
+                .Replace("{Versammlung Zoom}", Versammlung.Zoom)
                 .Replace("{Versammlung Anschrift1}", Versammlung.Anschrift1)
                 .Replace("{Versammlung Anschrift2}", Versammlung.Anschrift2);
         }
