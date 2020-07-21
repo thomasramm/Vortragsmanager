@@ -1,4 +1,6 @@
 ﻿using DevExpress.Mvvm;
+using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using Vortragsmanager.Models;
 
@@ -26,9 +28,11 @@ namespace Vortragsmanager.Views
                 SetEreignisTyp();
                 if (!string.IsNullOrEmpty(individuellerName))
                     EreignisName = individuellerName;
+
                 RaisePropertyChanged(nameof(EreignisName));
                 RaisePropertyChanged(nameof(VortragName));
                 RaisePropertyChanged(nameof(VortragThema));
+                RaisePropertyChanged(nameof(NeuerVortrag));
             }
         }
 
@@ -44,6 +48,24 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand<ICloseable> SaveCommand { get; private set; }
 
+        public ObservableCollection<Talk> Vortragsliste => Core.DataContainer.Vorträge;
+
+        public Talk NeuerVortrag
+        {
+            get
+            {
+                return _event?.Vortrag?.Vortrag;
+            }
+            set
+            {
+                if (value == null)
+                    _event.Vortrag = null;
+                else
+                    _event.Vortrag = new TalkSong(value);
+                RaisePropertyChanged();
+            }
+        }
+
         public static void Schließen(ICloseable window)
         {
             if (window != null)
@@ -55,10 +77,12 @@ namespace Vortragsmanager.Views
         public void Save(ICloseable window)
         {
             Speichern = true;
+
             _eventOriginal.Name = _event.Name;
             _eventOriginal.Thema = _event.Thema;
             _eventOriginal.Typ = _event.Typ;
             _eventOriginal.Vortragender = _event.Vortragender;
+            _eventOriginal.Vortrag = _event.Vortrag;
             if (window != null)
                 window.Close();
         }
@@ -76,6 +100,7 @@ namespace Vortragsmanager.Views
                 case 0: //Alles Sichtbar
                     _event.Typ = SpecialEventTyp.Dienstwoche;
                     ShowVortrag = true;
+                    ShowVortragDropDown = false;
                     ShowEreignisName = false;
                     EreignisName = "Dienstwoche";
                     break;
@@ -83,6 +108,7 @@ namespace Vortragsmanager.Views
                 case 4://Alles Sichtbar
                     _event.Typ = SpecialEventTyp.Sonstiges;
                     ShowVortrag = true;
+                    ShowVortragDropDown = true;
                     ShowEreignisName = true;
                     EreignisName = "Sonstiges";
                     break;
@@ -91,6 +117,7 @@ namespace Vortragsmanager.Views
                     _event.Typ = SpecialEventTyp.RegionalerKongress;
                     EreignisName = "Regionaler Kongress";
                     ShowVortrag = false;
+                    ShowVortragDropDown = false;
                     ShowEreignisName = false;
                     break;
 
@@ -98,6 +125,7 @@ namespace Vortragsmanager.Views
                     _event.Typ = SpecialEventTyp.Kreiskongress;
                     EreignisName = "Kreiskongress";
                     ShowVortrag = false;
+                    ShowVortragDropDown = false;
                     ShowEreignisName = false;
                     break;
 
@@ -105,6 +133,7 @@ namespace Vortragsmanager.Views
                     _event.Typ = SpecialEventTyp.Streaming;
                     EreignisName = "Streaming";
                     ShowVortrag = false;
+                    ShowVortragDropDown = true;
                     ShowEreignisName = true;
                     break;
             }
@@ -114,6 +143,12 @@ namespace Vortragsmanager.Views
         {
             get { return GetProperty(() => ShowVortrag); }
             set { SetProperty(() => ShowVortrag, value); }
+        }
+
+        public bool ShowVortragDropDown
+        {
+            get { return GetProperty(() => ShowVortragDropDown); }
+            set { SetProperty(() => ShowVortragDropDown, value); }
         }
 
         public bool ShowEreignisName

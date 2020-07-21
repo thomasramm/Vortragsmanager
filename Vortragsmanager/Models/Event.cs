@@ -82,7 +82,8 @@ namespace Vortragsmanager.Models
                 Name = Name,
                 Thema = Thema,
                 Vortragender = Vortragender,
-                Datum = Datum
+                Datum = Datum,
+                Vortrag = Vortrag,
             };
             return s;
         }

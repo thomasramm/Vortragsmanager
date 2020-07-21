@@ -39,6 +39,15 @@
             <dxlc:LayoutItem Label="Vortragsthema">
                 <dxe:TextEdit Text="{Binding VortragThema, Mode=TwoWay}" />
             </dxlc:LayoutItem>
+            <dxlc:LayoutItem Label="Vortrag" Visibility="{Binding ShowVortragDropDown, Converter={StaticResource BooleanToVisibilityConverter}}"
+                             ToolTip="Hier ausgewählte Vorträge werden in der Liste bereits gehörter oder geplanter Vorträge berücksichtigt.">
+                <dxe:ComboBoxEdit ItemsSource="{Binding Vortragsliste}"
+                                  SelectedItem="{Binding NeuerVortrag}"
+                                  DisplayMember="NumberTopicShort"
+                                  IsTextEditable="False"
+                                  AutoComplete="True"
+                                  IsPopupOpen="True" />
+            </dxlc:LayoutItem>
         </dxlc:LayoutControl>
         <dx:SimpleButton Grid.Row="1" Content="Speichern"
                              Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}"

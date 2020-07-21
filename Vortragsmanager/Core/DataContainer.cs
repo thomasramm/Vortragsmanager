@@ -173,13 +173,12 @@ namespace Vortragsmanager.Core
         {
             Log.Info(nameof(UpdateTalkDate), "");
             Vorträge.ForEach(x => x.ZuletztGehalten = null);
-            foreach (var evt in MeinPlan.Where(x => x.Status != EventStatus.Ereignis))
+            foreach (var evt in MeinPlan)
             {
-                var m = (evt as Invitation);
-                if (m.Vortrag is null)
+                if (evt.Vortrag is null || evt.Vortrag.Vortrag is null)
                     continue;
-                if (m.Datum > m.Vortrag.Vortrag.ZuletztGehalten || m.Vortrag.Vortrag.ZuletztGehalten == null)
-                    m.Vortrag.Vortrag.ZuletztGehalten = m.Datum;
+                if (evt.Datum > evt.Vortrag.Vortrag.ZuletztGehalten || evt.Vortrag.Vortrag.ZuletztGehalten == null)
+                    evt.Vortrag.Vortrag.ZuletztGehalten = evt.Datum;
             }
         }
 

@@ -159,7 +159,8 @@ namespace Vortragsmanager.Core
                 Name TEXT,
                 Thema TEXT,
                 VORTRAGENDER TEXT,
-                Datum INTEGER)", db);
+                Datum INTEGER,
+                IdVortrag INTEGER)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
 
@@ -303,6 +304,10 @@ namespace Vortragsmanager.Core
                 cmd.Dispose();
 
                 cmd = new SQLiteCommand(@"ALTER TABLE Speaker ADD JwMail TEXT;", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                cmd = new SQLiteCommand(@"ALTER TABLE Events ADD IdVortrag INTEGER;", db);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
             }
@@ -620,7 +625,7 @@ namespace Vortragsmanager.Core
         private static void ReadEvents(SQLiteConnection db)
         {
             Log.Info(nameof(ReadEvents));
-            using (var cmd = new SQLiteCommand("SELECT Typ, Name, Thema, Vortragender, Datum FROM Events", db))
+            using (var cmd = new SQLiteCommand("SELECT Typ, Name, Thema, Vortragender, Datum, IdVortrag FROM Events", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
 
@@ -632,7 +637,8 @@ namespace Vortragsmanager.Core
                         Name = rdr.IsDBNull(1) ? null : rdr.GetString(1),
                         Thema = rdr.IsDBNull(2) ? null : rdr.GetString(2),
                         Vortragender = rdr.IsDBNull(3) ? null : rdr.GetString(3),
-                        Datum = rdr.GetDateTime(4)
+                        Datum = rdr.GetDateTime(4),
+                        Vortrag = rdr.IsDBNull(5) ? null : new TalkSong(DataContainer.FindTalk(rdr.GetInt32(5)))
                     };
 
                     DataContainer.MeinPlan.Add(v);
@@ -824,14 +830,15 @@ namespace Vortragsmanager.Core
 
             cmd.Dispose();
 
-            cmd = new SQLiteCommand("INSERT INTO Events(Typ, Name, Thema, Vortragender, Datum)" +
-                "VALUES (@Typ, @Name, @Thema, @Vortragender, @Datum)", db);
+            cmd = new SQLiteCommand("INSERT INTO Events(Typ, Name, Thema, Vortragender, Datum, IdVortrag)" +
+                "VALUES (@Typ, @Name, @Thema, @Vortragender, @Datum, @IdVortrag)", db);
 
             cmd.Parameters.Add("@Typ", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Name", System.Data.DbType.String);
             cmd.Parameters.Add("@Thema", System.Data.DbType.String);
             cmd.Parameters.Add("@Vortragender", System.Data.DbType.String);
             cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
+            cmd.Parameters.Add("@IdVortrag", System.Data.DbType.Int32);
 
             foreach (var er in DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Ereignis))
             {
@@ -841,6 +848,7 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[2].Value = evt.Thema;
                 cmd.Parameters[3].Value = evt.Vortragender;
                 cmd.Parameters[4].Value = evt.Datum;
+                cmd.Parameters[5].Value = evt.Vortrag?.Vortrag?.Nummer;
                 cmd.ExecuteNonQuery();
             }
 
