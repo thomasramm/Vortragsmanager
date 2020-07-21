@@ -137,7 +137,9 @@
     <Compile Include="Core\Updater.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\ICloseable.cs" />
-    <Compile Include="Navigation\DashboardViewModel.cs" />
+    <Compile Include="Navigation\DashboardViewModel.cs">
+      <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AntwortEintragenControl.cs">
       <DependentUpon>AntwortEintragenControl.xaml</DependentUpon>
     </Compile>

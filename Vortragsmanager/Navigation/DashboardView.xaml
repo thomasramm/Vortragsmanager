@@ -84,25 +84,13 @@
                        dxwuin:Navigation.NavigateTo="ExternalQuestionEdit">
                 <Image Source="/Images/NewMail_64x64.png"  Margin="20" />
             </dxlc:Tile>
-            <dxlc:Tile Header="Listen ausgeben"
-                       Background="#64b414"
-                       Size="Small"
-                       dxwuin:Navigation.NavigateTo="ListCreateView"
-                       dxlc:FlowLayoutControl.IsFlowBreak="True"
-                       dxlc:TileLayoutControl.GroupHeader="Verwaltung">
-                <Image Source="/Images/ListePrint_64x64.png" Margin="20" />
-            </dxlc:Tile>
             <dxlc:Tile Header="Versammlungen"
                        Background="#0a6432"
                        Size="Small"
-                       dxwuin:Navigation.NavigateTo="VersammlungSettingsView">
+                       dxwuin:Navigation.NavigateTo="VersammlungSettingsView"
+                       dxlc:FlowLayoutControl.IsFlowBreak="True"
+                       dxlc:TileLayoutControl.GroupHeader="Verwaltung">
                 <Image Source="/Images/Versammlung2_64x64.png" Margin="20" />
-            </dxlc:Tile>
-            <dxlc:Tile Size="Small"
-                       Header="Vorlagen"
-                       Background="#009614"
-                       dxwuin:Navigation.NavigateTo="VorlagenView">
-                <Image Source="/Images/ListeSettings_64x64.png" Margin="20" />
             </dxlc:Tile>
             <dxlc:Tile Header="Redner"
                        Background="#0a6432"
@@ -110,6 +98,19 @@
                        dxwuin:Navigation.NavigateTo="RednerView">
                 <Image Source="/Images/Person_64x64.png" Margin="20" />
             </dxlc:Tile>
+            <dxlc:Tile Header="Listen ausgeben"
+                       Background="#64b414"
+                       Size="Small"
+                       dxwuin:Navigation.NavigateTo="ListCreateView">
+                <Image Source="/Images/ListePrint_64x64.png" Margin="20" />
+            </dxlc:Tile>
+            <dxlc:Tile Size="Small"
+                       Header="Vorlagen"
+                       Background="#009614"
+                       dxwuin:Navigation.NavigateTo="VorlagenView">
+                <Image Source="/Images/ListeSettings_64x64.png" Margin="20" />
+            </dxlc:Tile>
+
             <dxlc:Tile Size="Small"
                        Header="Programm"
                        Background="#64be64"

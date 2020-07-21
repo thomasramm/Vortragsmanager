@@ -25,4 +25,10 @@ Beschreibung (Parameter)
 Vorlagen Inhalt
 :   Hier steht der Haupttext der Mailvorlage. Die Platzhalter müssen durch {}-Klammern gekennzeichnet sein. Insbesondere die Signatur (deine Kontaktdaten) sowie die Versammlungsdaten sollten hier einmalig eingesetzt und gespeichert werden.
 
+Zurücksetzen
+:   Der Inhalt der Vorlage wird gelöscht und gegen den Standard Wert ausgetauscht, der bei Programmauslieferung dabei ist. 
+
+Abbrechen
+:   Die aktuellen Bearbeitungen der Vorlage werden wieder gelöscht und der zuletzt gespeicherte Inhalt wieder hergestellt.
+
 [zurück](Versammlungen.md){: .btn .btn--inverse} [weiter](ProgrammEinstellungen.md){: .btn .btn--inverse}

@@ -49,6 +49,8 @@ Zuteilungen der Vergangenheit werden dann abgeändert, der Vortrag bleibt weiter
 
 ### Rednerliste
 
+Die Redner können auch über das Hauptmenü [Redner](Redner.md) angezeigt und bearbeitet werden.
+
 Im rechten Bereich werden die angelegten Redner angezeigt. Dargestellt werden folgende Informationen:
 
 * Aktiv/Inaktiv (grün/rot) zeigt an ob der Redner weiterhin Vorträge in anderen Versammlungen hält.
@@ -100,4 +102,4 @@ Die Liste der Vorträge die ein Diener ausgearbeitet hat.
 
 UNDER CONSTRUCTION
 
-[zurück](ListenAusgeben.md){: .btn .btn--inverse}  [weiter](Vorlagen.md){: .btn .btn--inverse}
+[zurück](ListenAusgeben.md){: .btn .btn--inverse}  [weiter](Redner.md){: .btn .btn--inverse}
