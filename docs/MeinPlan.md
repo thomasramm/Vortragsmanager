@@ -1,21 +1,14 @@
-⇦ zurück zum [Inhaltsverzeichnis](README.md)
+---
+title: "Mein Plan"
+---
+![Icon](images/menu_icon_01.png)
 
-![Icon](./../images/menu_icon_01.png)
-
-## Inhaltsverzeichnis
-1. [Mein Plan](#mein-plan)
-    1. [Ereignistypen](#die-ereignistypen)
-    1. [Aktionen](#aktionen)
-1. [Redner suchen](#redner-suchen)
-1. [Antwort eintragen](#antwort-eintragen)
-
-# Mein Plan
 Die Verwaltung deiner eigenen Redner- und Vortragsplanung geschieht hier. 
 
 Die Seite besteht aus der Jahres-Navigation in der du das aktuell betrachtete Jahr wechseln kannst und einem Jahreskalender mit allen deinen Planungen.
 Für jede Woche gibt es einen Eintrag mit dem Tag im Monat und einem Hinweis auf deine Eintragung.
 
-![Übersicht](./../images/meinplan_01.png)
+![Übersicht](images/meinplan_01.png)
 
 Eine Woche kann 4 verschiedene Stati haben. Schauen wir uns das am Beispiel des Monats Juli an: 
 
@@ -29,7 +22,7 @@ Eine Woche kann 4 verschiedene Stati haben. Schauen wir uns das am Beispiel des 
 ### Vortragseinladung (05. Juli)
 Bei bestehenden Vortragseinladungen wird dir der Name des Redners angezeigt. Mit einem Klick auf die Buchung werden dir weitere Details der Buchung angezeigt. 
 
-![Buchung Details](./../images/meinplan_03.png) 
+![Buchung Details](images/meinplan_03.png) 
 
 Die Kontaktdaten können per klick in die Zwischenablage kopiert und in anderen Programmen eingefügt werden.
 
@@ -87,7 +80,7 @@ Im Fenster Mein Plan können folgende Aktionen durchgeführt werden:
 Vorträge und Ereignisse können verschoben werden.
 Das verschieben geschieht über das [Kontextmenü](Konzept.md#kontextmenü) .
 
-![Buchung verschieben](./../images/meinplan_04.png)
+![Buchung verschieben](images/meinplan_04.png)
 
 In diesem Beispiel habe ich auf die Buchung am 29.03.2020 geklickt (meine Startbuchung). Ich wähle dann das Zieldatum aus, auf das ich diese Buchung verschieben möchte. Ist an dem Zieldatum kein Eintrag vorhanden, kann man die Änderung Speichern oder die Aktion wieder Abbrechen.
 Ist an dem Zieldatum bereits eine Buchung vorhanden, wird sie im Dialog angezeigt und man kann entscheiden ob man den bisherigen Eintrag am Zieldatum löschen oder mit dem aktuellen Ereignis tauschen möchte.
@@ -114,11 +107,11 @@ Beim Löschen von Vorträgen wird ein Mailtext generiert, Ereignisse werden sofo
 Du kannst für eine bevorstehende Vortragseinladung eine Erinnerungsmail senden.
 
 # Redner suchen #
-![Icon](./../images/menu_icon_02.png)
+![Icon](images/menu_icon_02.png)
 
 Eine der häufigsten Tätigkeiten ist es, nach Vorträgen und Rednern für die eigene Versammlung zu suchen. Die Suchfunktion wird über das Menü auf der Startseite, oder per [Kontextmenü](Konzept.md#Kontextmenü) in dem Fenster "Mein Plan" einer offenen Woche aufgerufen.
 
-![Redner suchen](./../images/meinplan_05.png)
+![Redner suchen](images/meinplan_05.png)
 
 Das Fenster besteht aus 3 Bereichen.
 
@@ -167,7 +160,7 @@ Die Ergebnisse werden sofort rechts unterhalb des Datumfeldes angezeigt.
 
 ### Suchergebnisse
 
-![Icon](./../images/meinplan_06.png)
+![Icon](images/meinplan_06.png)
 
 In diesem Beispiel wurden zwei Versammlungen gefunden, die den Suchkriterien entsprechen bzw. deren Redner den Kriterien entsprechen.
 Du musst dich nun entscheiden welche der Versammlungen du für die oben markierten Wochen nach einem oder mehreren Redner(n) angefragt werden soll.
@@ -190,11 +183,11 @@ Ist die Anfrage erstellt und mit jwpub.org versendet, heißt es warten bis der K
 
 # Antwort eintragen #
 
-![Icon](./../images/menu_icon_03.png)
+![Icon](images/menu_icon_03.png)
 
 Hier werden dir alle offenen Anfragen angezeigt.
 
-![Icon](./../images/meinplan_07.png)
+![Icon](images/meinplan_07.png)
 
 In diesem Beispiel gibt es aktuell zwei nicht beantwortete Anfragen:
  
@@ -213,5 +206,4 @@ Außerdem hast du hier die Möglichkeit den Original-Mailtext der generiert wurd
 
 Dieser Dialog kann auch über "Mein Plan" aufgerufen werden. Wählt man hier eine offene Anfrage und dann über das Kontextmenü "bearbeiten" aus, wird der gleiche Dialog geöffnet, aber nur die relevante Anfrage angezeigt.
 
-
-⇦ zurück zum [Inhaltsverzeichnis](README.md)
+[zurück](Installation.md){: .btn .btn--inverse}  [weiter](AntowrtEintragen.md){: .btn .btn--inverse}
