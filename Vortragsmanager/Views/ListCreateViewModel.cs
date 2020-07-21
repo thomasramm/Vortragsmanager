@@ -99,18 +99,20 @@ namespace Vortragsmanager.Views
                     {
                         var sonntag = (evt as Invitation);
                         var themaMitLied = sonntag.Vortrag.Vortrag.Thema;
-                        if (sonntag.Vortrag.Lied != null)
+                        //Lieder des Redners abfragen
+                        var v = sonntag.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == sonntag.Vortrag.Vortrag.Nummer);
+                        if (v.Lied != null && v.Lied > 0)
                         {
-                            themaMitLied += $" (𝄞 {sonntag.Vortrag.Lied}";
-                            if (sonntag.Vortrag.LiedErsatz != null)
-                                themaMitLied += $"/{sonntag.Vortrag.LiedErsatz}";
+                            themaMitLied += $" (♪ {v.Lied}";
+                            if (v.LiedErsatz != null && v.LiedErsatz > 0)
+                                themaMitLied += $"/{v.LiedErsatz}";
                             themaMitLied += ")";
                         }
-                        else if (sonntag.Vortrag.LiedErsatz != null)
-                            themaMitLied += $" (𝄞 {sonntag.Vortrag.LiedErsatz})";
+                        else if (v.LiedErsatz != null && v.LiedErsatz > 0)
+                            themaMitLied += $" (♪ {v.LiedErsatz})";
 
-                        worksheet.Cells[row, 2].Value = sonntag.Vortrag.Vortrag.Thema; //Vortragsthema
-                                                                                       //worksheet.Cells[row, 6].Value = vorsitz;
+                        worksheet.Cells[row, 2].Value = themaMitLied; //Vortragsthema
+                                                                      //worksheet.Cells[row, 6].Value = vorsitz;
                         row++;
                         worksheet.Cells[row, 3].Value = sonntag.Ältester?.Name; //Vortragsredner
                         worksheet.Cells[row, 4].Value = sonntag.Ältester?.Versammlung?.Name; //Vortragsredner, Versammlung
@@ -417,7 +419,7 @@ namespace Vortragsmanager.Views
                 sheet.Column(13).Width = 20;
                 sheet.Column(14).Width = 20;
 
-                sheet.Cells[1, 1, 1, 13].Style.Font.Bold = true;
+                sheet.Cells[1, 1, 1, 14].Style.Font.Bold = true;
                 sheet.Cells[1, 1].Value = "Kreis";
                 sheet.Cells[1, 2].Value = "Versammlung";
                 sheet.Cells[1, 3].Value = "Name";
@@ -466,7 +468,7 @@ namespace Vortragsmanager.Views
                 }
 
                 //create a range for the table
-                ExcelRange range = sheet.Cells[1, 1, row - 1, 13];
+                ExcelRange range = sheet.Cells[1, 1, row - 1, 14];
                 ExcelTable tab = sheet.Tables.Add(range, "Table1");
                 tab.TableStyle = TableStyles.Medium2;
 

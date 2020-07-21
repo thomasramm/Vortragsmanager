@@ -30,7 +30,7 @@
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
-            <dxlc:LayoutControl Margin="20" Grid.Row="0">
+            <dxlc:LayoutControl Margin="20" Grid.Row="0" MaxWidth="800">
                 <dxlc:LayoutGroup Header="Excel-Listen" View="GroupBox" Orientation="Vertical">
                     <dxlc:LayoutItem Label="Aushang für die Versammlung">
                         <Button Content="Erstellen" Command="{Binding CreateAushangCommand}" />
