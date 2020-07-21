@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Vortragsmanager.Models;
 using static Vortragsmanager.Core.Templates;
 
@@ -68,11 +69,14 @@ namespace Vortragsmanager.Core
             if (Buchung is null)
                 return "Fehler beim verarbeiten der Vorlage";
             var mt = GetTemplate(TemplateName.ExterneAnfrageAnnehmenInfoAnKoordinatorMailText).Inhalt;
+            var vortrag = Buchung.Ältester?.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == Buchung.Vortrag.Vortrag.Nummer);
+            if (vortrag is null)
+                vortrag = Buchung.Vortrag;
             mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
             mt = mt
                 .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
                 .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
-                .Replace("{Vortrag}", Buchung.Vortrag.Vortrag.ToString());
+                .Replace("{Vortrag}", vortrag.VortragMitNummerUndLied);
             return mt;
         }
 

@@ -101,18 +101,10 @@ namespace Vortragsmanager.Views
                         var themaMitLied = sonntag.Vortrag.Vortrag.Thema;
                         //Lieder des Redners abfragen
                         var v = sonntag.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == sonntag.Vortrag.Vortrag.Nummer);
-                        if (v.Lied != null && v.Lied > 0)
-                        {
-                            themaMitLied += $" (♪ {v.Lied}";
-                            if (v.LiedErsatz != null && v.LiedErsatz > 0)
-                                themaMitLied += $"/{v.LiedErsatz}";
-                            themaMitLied += ")";
-                        }
-                        else if (v.LiedErsatz != null && v.LiedErsatz > 0)
-                            themaMitLied += $" (♪ {v.LiedErsatz})";
-
-                        worksheet.Cells[row, 2].Value = themaMitLied; //Vortragsthema
-                                                                      //worksheet.Cells[row, 6].Value = vorsitz;
+                        if (v == null)
+                            v = sonntag.Vortrag;
+                        worksheet.Cells[row, 2].Value = v.VortragMitLied; //Vortragsthema
+                                                                          //worksheet.Cells[row, 6].Value = vorsitz;
                         row++;
                         worksheet.Cells[row, 3].Value = sonntag.Ältester?.Name; //Vortragsredner
                         worksheet.Cells[row, 4].Value = sonntag.Ältester?.Versammlung?.Name; //Vortragsredner, Versammlung
