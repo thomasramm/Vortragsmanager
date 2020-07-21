@@ -118,7 +118,14 @@ namespace Vortragsmanager.Core
         private static void CreateEmptyDatabase(SQLiteConnection db)
         {
             Log.Info(nameof(CreateEmptyDatabase), "connection");
-            var cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Conregation (
+
+            var cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Parameter (
+                Name TEXT,
+                Wert TEXT)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Conregation (
                 Id INTEGER,
                 Kreis INTEGER,
                 Name TEXT,
@@ -205,23 +212,9 @@ namespace Vortragsmanager.Core
             cmd.ExecuteNonQuery();
             cmd.Dispose();
 
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Parameter (
-                Name TEXT,
-                Wert TEXT)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
             cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Templates (
                 Id INTEGER,
-                Inhalt STRING,
-                Beschreibung STRING)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Templates_Parameter (
-                IdTemplate INTEGER,
-                Name STRING,
-                Beschreibung STRING)", db);
+                Inhalt STRING)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
 
@@ -308,6 +301,10 @@ namespace Vortragsmanager.Core
                 cmd.Dispose();
 
                 cmd = new SQLiteCommand(@"ALTER TABLE Events ADD IdVortrag INTEGER;", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                cmd = new SQLiteCommand(@"DELETE FROM Templates;", db);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
             }
@@ -585,33 +582,17 @@ namespace Vortragsmanager.Core
         private static void ReadTemplates(SQLiteConnection db)
         {
             Log.Info(nameof(ReadTemplates));
-            Templates.Vorlagen.Clear();
+            Templates.Load();
 
-            using (var cmd = new SQLiteCommand("SELECT Id, Inhalt, Beschreibung FROM Templates", db))
-            using (var cmd2 = new SQLiteCommand("SELECT Name, Beschreibung FROM Templates_Parameter WHERE IdTemplate = @Id", db))
+            using (var cmd = new SQLiteCommand("SELECT Id, Inhalt FROM Templates", db))
             {
-                cmd2.Parameters.Add("@Id", System.Data.DbType.Int32);
-
                 SQLiteDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
-                    var v = new Template();
                     var id = rdr.GetInt32(0);
-                    v.Inhalt = rdr.GetString(1);
-                    v.Beschreibung = rdr.IsDBNull(2) ? null : rdr.GetString(2);
-                    v.Name = (Templates.TemplateName)id;
-
-                    cmd2.Parameters[0].Value = id;
-                    SQLiteDataReader rdr2 = cmd2.ExecuteReader();
-                    while (rdr2.Read())
-                    {
-                        var k = rdr2.GetString(0);
-                        var w = rdr2.GetString(1);
-                        v.Parameter.Add(k, w);
-                    }
-                    rdr2.Close();
-
-                    Templates.Vorlagen.Add(v.Name, v);
+                    var name = (Templates.TemplateName)id;
+                    Templates.Vorlagen[name].Inhalt = rdr.GetString(1);
+                    Templates.Vorlagen[name].BenutzerdefinierterInhalt = true;
                 }
 
                 rdr.Close();
@@ -1048,34 +1029,18 @@ namespace Vortragsmanager.Core
         private static void SaveTemplates(SQLiteConnection db)
         {
             Log.Info(nameof(SaveTemplates));
-            var cmd1 = new SQLiteCommand("INSERT INTO Templates(Id, Inhalt, Beschreibung) VALUES (@Id, @Inhalt, @Beschreibung)", db);
+            var cmd1 = new SQLiteCommand("INSERT INTO Templates(Id, Inhalt) VALUES (@Id, @Inhalt)", db);
             cmd1.Parameters.Add("@Id", System.Data.DbType.Int32);
             cmd1.Parameters.Add("@Inhalt", System.Data.DbType.String);
-            cmd1.Parameters.Add("@Beschreibung", System.Data.DbType.String);
 
-            var cmd2 = new SQLiteCommand("INSERT INTO Templates_Parameter(IdTemplate, Name, Beschreibung) VALUES (@Id, @Name, @Beschreibung)", db);
-            cmd2.Parameters.Add("@Id", System.Data.DbType.Int32);
-            cmd2.Parameters.Add("@Name", System.Data.DbType.String);
-            cmd2.Parameters.Add("@Beschreibung", System.Data.DbType.String);
-
-            foreach (var t in Templates.Vorlagen)
+            foreach (var t in Templates.Vorlagen.Where(x => x.Value.BenutzerdefinierterInhalt))
             {
                 cmd1.Parameters[0].Value = (int)t.Value.Name;
                 cmd1.Parameters[1].Value = t.Value.Inhalt;
-                cmd1.Parameters[2].Value = t.Value.Beschreibung;
                 cmd1.ExecuteNonQuery();
-
-                foreach (var p in t.Value.Parameter)
-                {
-                    cmd2.Parameters[0].Value = (int)t.Value.Name;
-                    cmd2.Parameters[1].Value = p.Key;
-                    cmd2.Parameters[2].Value = p.Value;
-                    cmd2.ExecuteNonQuery();
-                }
             }
 
             cmd1.Dispose();
-            cmd2.Dispose();
         }
 
         private static void SaveCancelation(SQLiteConnection db)
