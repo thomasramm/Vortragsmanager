@@ -36,18 +36,33 @@
             <dxlc:LayoutItem Label="Ältester / KA" Visibility="{Binding ShowVortrag, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <dxe:TextEdit Text="{Binding VortragName, Mode=TwoWay}" />
             </dxlc:LayoutItem>
-            <dxlc:LayoutItem Label="Vortragsthema">
-                <dxe:TextEdit Text="{Binding VortragThema, Mode=TwoWay}" />
-            </dxlc:LayoutItem>
-            <dxlc:LayoutItem Label="Vortrag" Visibility="{Binding ShowVortragDropDown, Converter={StaticResource BooleanToVisibilityConverter}}"
-                             ToolTip="Hier ausgewählte Vorträge werden in der Liste bereits gehörter oder geplanter Vorträge berücksichtigt.">
-                <dxe:ComboBoxEdit ItemsSource="{Binding Vortragsliste}"
-                                  SelectedItem="{Binding NeuerVortrag}"
-                                  DisplayMember="NumberTopicShort"
-                                  IsTextEditable="False"
-                                  AutoComplete="True"
-                                  IsPopupOpen="True" />
-            </dxlc:LayoutItem>
+            <dxlc:LayoutGroup>
+                <RadioButton GroupName="Vortrag"
+                             IsChecked="{Binding VortragDropDownIsChecked, Mode=TwoWay}"
+                             Visibility="{Binding ShowVortragRadio, Converter={StaticResource BooleanToVisibilityConverter}}"
+                             Height="23" Width="14" />
+                <dxlc:LayoutItem Label="Vortrag"
+                                 Visibility="{Binding ShowVortragDropDown, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                 IsEnabled="{Binding VortragDropDownIsChecked}"
+                                 ToolTip="Hier ausgewählte Vorträge werden in der Liste bereits gehörter oder geplanter Vorträge berücksichtigt.">
+                    <dxe:ComboBoxEdit ItemsSource="{Binding Vortragsliste}"
+                                      SelectedItem="{Binding NeuerVortrag}"
+                                      DisplayMember="NumberTopicShort"
+                                      IsTextEditable="False"
+                                      AutoComplete="True"
+                                      IsPopupOpen="True" />
+                </dxlc:LayoutItem>
+            </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup>
+                <RadioButton GroupName="Vortrag"
+                             IsChecked="{Binding VortragFreitextIsChecked, Mode=TwoWay}"
+                             Visibility="{Binding ShowVortragRadio, Converter={StaticResource BooleanToVisibilityConverter}}"
+                             Height="23" Width="14" />
+                <dxlc:LayoutItem Label="Vortrag (Freitext)"
+                                 IsEnabled="{Binding VortragFreitextIsChecked}">
+                    <dxe:TextEdit Text="{Binding VortragThema, Mode=TwoWay}" />
+                </dxlc:LayoutItem>
+            </dxlc:LayoutGroup>
         </dxlc:LayoutControl>
         <dx:SimpleButton Grid.Row="1" Content="Speichern"
                              Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}"
