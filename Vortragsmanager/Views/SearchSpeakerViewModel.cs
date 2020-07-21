@@ -300,7 +300,7 @@ namespace Vortragsmanager.Views
                 foreach (var t in r.Vorträge.Where(x => selektierteVorträge.Contains(x.Vortrag.Nummer)).OrderBy(x => x.Vortrag.ZuletztGehalten ?? DateTime.MinValue))
                 {
                     var gt = new GroupTalk();
-                    var gehalten = Core.DataContainer.MeinPlan.Where(x => x.Vortrag.Vortrag.Nummer == t.Vortrag.Nummer).ToList();
+                    var gehalten = Core.DataContainer.MeinPlan.Where(x => x.Vortrag?.Vortrag?.Nummer == t.Vortrag.Nummer).ToList();
 
                     gt.Vortrag = t.Vortrag;
                     gt.AnzahlGehört = gehalten.Count;

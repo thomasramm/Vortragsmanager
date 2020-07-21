@@ -204,7 +204,7 @@ namespace Vortragsmanager.Views
                         continue;
 
                     termine += $"\tDatum:\t{einladung.Datum:dd.MM.yyyy}" + Environment.NewLine;
-                    termine += $"\tVortrag:\t{einladung.Vortrag}" + Environment.NewLine;
+                    termine += $"\tVortrag:\t{einladung.Vortrag.Vortrag}" + Environment.NewLine;
                     termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Versammlung.GetZusammenkunftszeit(einladung.Datum.Year)}" + Environment.NewLine;
                     termine += Environment.NewLine;
                 }

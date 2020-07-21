@@ -98,7 +98,10 @@ namespace Vortragsmanager.Views
             }
             set
             {
-                _selectedVortrag = value;
+                if (value == null)
+                    _selectedVortrag = null;
+                else
+                    _selectedVortrag = Vortrag.FirstOrDefault(x => x.Vortrag.Nummer == value.Vortrag.Nummer);
                 RaisePropertyChanged();
             }
         }

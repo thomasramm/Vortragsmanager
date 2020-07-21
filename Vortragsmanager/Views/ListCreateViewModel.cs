@@ -371,7 +371,7 @@ namespace Vortragsmanager.Views
                     sheet.Cells[row, 2].Value = v.Thema;
                     sheet.Cells[row, 3].Value = DataContainer.Redner.Where(x => x.Versammlung == vers && x.Vorträge.Select(y => y.Vortrag).Contains(v)).Count();
                     sheet.Cells[row, 4].Value = DataContainer.Redner.Where(x => x.Versammlung.Kreis == kreis && x.Vorträge.Select(y => y.Vortrag).Contains(v)).Count();
-                    var wochen = DataContainer.MeinPlan.Where(x => x.Vortrag.Vortrag.Nummer == v.Nummer);
+                    var wochen = DataContainer.MeinPlan.Where(x => x.Vortrag?.Vortrag?.Nummer == v.Nummer);
                     if (wochen.Any())
                         sheet.Cells[row, 5].Value = wochen.Select(x => x.Datum).Max();
 

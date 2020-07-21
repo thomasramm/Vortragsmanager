@@ -88,7 +88,7 @@
                             <dxg:GridColumn Header="Datum" Binding="{Binding Datum}" />
                             <dxg:GridColumn Header="Name" Binding="{Binding Ältester.Name}" />
                             <dxg:GridColumn Header="Versammlung" Binding="{Binding Versammlung.Name}" />
-                            <dxg:GridColumn Header="Vortrag" Binding="{Binding Vortrag}" />
+                            <dxg:GridColumn Header="Vortrag" Binding="{Binding Vortrag.Vortrag}" />
                         </dxg:GridControl>
                         <Border Grid.Row="1" Background="Snow" />
                             <dx:SimpleButton Content="Vortrag absagen"

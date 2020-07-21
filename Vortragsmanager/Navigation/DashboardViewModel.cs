@@ -74,7 +74,7 @@ namespace Vortragsmanager.Navigation
                 var einladung = (Invitation)prog;
                 MeinPlanProgramm = einladung.Ältester.Name + Environment.NewLine
                     + einladung.Ältester.Versammlung.Name + Environment.NewLine
-                    + einladung.Vortrag.ToString() + Environment.NewLine
+                    + einladung.Vortrag.Vortrag.ToString() + Environment.NewLine
                     + einladung.Ältester.Mobil ?? einladung.Ältester.Telefon;
             }
             else

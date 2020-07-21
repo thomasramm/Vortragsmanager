@@ -60,6 +60,8 @@ namespace Vortragsmanager.Models
                 Zusammenkunftszeiten.Add(Jahr, Zeit);
         }
 
+        public string NameMitKoordinator => $"{Name} ({Koordinator})";
+
         public override string ToString() => $"Versammlung {Name}";
 
         public Dictionary<int, string> Zusammenkunftszeiten { get; } = new Dictionary<int, string>(1);

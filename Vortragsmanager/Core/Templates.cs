@@ -72,7 +72,7 @@ namespace Vortragsmanager.Core
             mt = mt
                 .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
                 .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
-                .Replace("{Vortrag}", Buchung.Vortrag.ToString());
+                .Replace("{Vortrag}", Buchung.Vortrag.Vortrag.ToString());
             return mt;
         }
 
@@ -88,7 +88,7 @@ namespace Vortragsmanager.Core
                 .Replace("{Redner Name}", Buchung.Ältester?.Name ?? "unbekannt")
                 .Replace("{Redner Mail}", GetMailadresseRedner(Buchung.Ältester))
                 .Replace("{Redner Versammlung}", Buchung.Ältester?.Versammlung.Name ?? "unbekannt")
-                .Replace("{Vortrag}", Buchung.Vortrag.ToString())
+                .Replace("{Vortrag}", Buchung.Vortrag.Vortrag.ToString())
                 .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
 
                 .Replace("{Versammlung Zusammenkunftszeit}", Buchung.Versammlung.GetZusammenkunftszeit(Buchung.Datum));
@@ -107,7 +107,7 @@ namespace Vortragsmanager.Core
             mt = mt
                 .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
                 .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
-                .Replace("{Vortrag}", Buchung.Vortrag.ToString());
+                .Replace("{Vortrag}", Buchung.Vortrag.Vortrag.ToString());
 
             return mt;
         }
@@ -123,7 +123,7 @@ namespace Vortragsmanager.Core
             mt = mt
                 .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
                 .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
-                .Replace("{Vortrag}", Buchung.Vortrag.ToString())
+                .Replace("{Vortrag}", Buchung.Vortrag.Vortrag.ToString())
                 .Replace("{Redner Mail}", GetMailadresseRedner(Buchung.Ältester));
 
             return mt;
@@ -142,7 +142,7 @@ namespace Vortragsmanager.Core
             mt = mt
                 .Replace("{Datum}", $"{Zuteilung.Datum:dd.MM.yyyy}, ")
                 .Replace("{Redner}", Zuteilung.Ältester?.Name ?? "unbekannt")
-                .Replace("{Vortrag}", Zuteilung.Vortrag?.ToString() ?? "unbekannt");
+                .Replace("{Vortrag}", Zuteilung.Vortrag?.Vortrag?.ToString() ?? "unbekannt");
 
             return mt;
         }
@@ -182,7 +182,7 @@ namespace Vortragsmanager.Core
             mt = mt
                 .Replace("{Datum}", $"{Zuteilung.Datum:dd.MM.yyyy}, ")
                 .Replace("{Redner}", Zuteilung.Ältester?.Name ?? "unbekannt")
-                .Replace("{Vortrag}", Zuteilung.Vortrag.ToString())
+                .Replace("{Vortrag}", Zuteilung.Vortrag.Vortrag.ToString())
                 .Replace("{Redner Mail}", GetMailadresseRedner(Zuteilung.Ältester));
 
             return mt;
@@ -210,7 +210,7 @@ namespace Vortragsmanager.Core
                 .Replace("{MailName}", EmpfängerName)
                 .Replace("{Datum}", $"{Zuteilung.Datum:dd.MM.yyyy}")
                 .Replace("{Redner}", $"{Zuteilung.Ältester.Name ?? "unbekannt"}")
-                .Replace("{Vortrag}", Zuteilung.Vortrag.ToString());
+                .Replace("{Vortrag}", Zuteilung.Vortrag.Vortrag.ToString());
 
             return mt;
         }

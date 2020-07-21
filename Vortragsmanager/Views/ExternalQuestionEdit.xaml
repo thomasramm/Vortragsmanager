@@ -43,11 +43,12 @@
                         </dxlc:LayoutItem>
                         <dxlc:LayoutItem Label="Vortrag">
                             <dxe:ComboBoxEdit ItemsSource="{Binding SelectedRedner.Vorträge}"
-                                              SelectedItem="{Binding SelectedVortrag}" />
+                                              SelectedItem="{Binding SelectedVortrag}"
+                                              DisplayMember="Vortrag" />
                         </dxlc:LayoutItem>
                         <dxlc:LayoutItem Label="Versammlung">
                             <dxe:ComboBoxEdit ItemsSource="{Binding Versammlungen}"
-                                              DisplayMember="Name"
+                                              DisplayMember="NameMitKoordinator"
                                               AutoComplete="True"
                                               SelectedItem="{Binding SelectedVersammlung}" />
                         </dxlc:LayoutItem>
@@ -81,7 +82,7 @@
                                 <Label Content="{Binding MeineVersammlung.Ältester.Versammlung.Name}" />
                             </dxlc:LayoutItem>
                             <dxlc:LayoutItem Label="Thema:" LabelPosition="Left">
-                                <Label Content="{Binding MeineVersammlung.Vortrag}" />
+                                <Label Content="{Binding MeineVersammlung.Vortrag.Vortrag}" />
                             </dxlc:LayoutItem>
                             <dxlc:LayoutItem Label="bereits geplannte Vorträge am gewählten Tag:" LabelPosition="Top">
                                 <ListBox ItemsSource="{Binding SelectedDatumTalks, Mode=OneWay}" DisplayMemberPath="Ältester.Name" />
