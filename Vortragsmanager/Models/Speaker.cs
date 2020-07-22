@@ -10,9 +10,11 @@ namespace Vortragsmanager.Models
 
         public Conregation Versammlung { get; set; }
 
-        public List<Talk> Vorträge { get; } = new List<Talk>();
+        public List<TalkSong> Vorträge { get; } = new List<TalkSong>();
 
         public string Mail { get; set; }
+
+        public string JwMail { get; set; }
 
         public string Telefon { get; set; }
 

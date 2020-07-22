@@ -98,8 +98,13 @@ namespace Vortragsmanager.Views
                     else
                     {
                         var sonntag = (evt as Invitation);
-                        worksheet.Cells[row, 2].Value = sonntag.Vortrag.Thema; //Vortragsthema
-                                                                               //worksheet.Cells[row, 6].Value = vorsitz;
+                        var themaMitLied = sonntag.Vortrag.Vortrag.Thema;
+                        //Lieder des Redners abfragen
+                        var v = sonntag.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == sonntag.Vortrag.Vortrag.Nummer);
+                        if (v == null)
+                            v = sonntag.Vortrag;
+                        worksheet.Cells[row, 2].Value = v.VortragMitLied; //Vortragsthema
+                                                                          //worksheet.Cells[row, 6].Value = vorsitz;
                         row++;
                         worksheet.Cells[row, 3].Value = sonntag.Ältester?.Name; //Vortragsredner
                         worksheet.Cells[row, 4].Value = sonntag.Ältester?.Versammlung?.Name; //Vortragsredner, Versammlung
@@ -135,12 +140,13 @@ namespace Vortragsmanager.Views
                     sheet.Cells[1, 5].Value = "Redner Telefon";
                     sheet.Cells[1, 6].Value = "Redner Mobil";
                     sheet.Cells[1, 7].Value = "Redner Mail";
-                    sheet.Cells[1, 8].Value = "Koordinator";
-                    sheet.Cells[1, 9].Value = "Koordinator Telefon";
-                    sheet.Cells[1, 10].Value = "Koordinator Mobil";
-                    sheet.Cells[1, 11].Value = "Koordinator Mail";
-                    sheet.Cells[1, 12].Value = "Koordinator JwPub";
-                    using (var range = sheet.Cells[1, 1, 1, 12])
+                    sheet.Cells[1, 8].Value = "Redner JwPub";
+                    sheet.Cells[1, 9].Value = "Koordinator";
+                    sheet.Cells[1, 10].Value = "Koordinator Telefon";
+                    sheet.Cells[1, 11].Value = "Koordinator Mobil";
+                    sheet.Cells[1, 12].Value = "Koordinator Mail";
+                    sheet.Cells[1, 13].Value = "Koordinator JwPub";
+                    using (var range = sheet.Cells[1, 1, 1, 13])
                     {
                         range.Style.Font.Bold = true;
                     }
@@ -165,24 +171,25 @@ namespace Vortragsmanager.Views
                         {
                             //ToDo: in die Kontaktliste SpecialEvents eintragen
                             var special = (einladung as SpecialEvent);
-                            sheet.Cells[row, 2].Value = special.Vortrag?.Thema ?? special.Anzeigetext;
+                            sheet.Cells[row, 2].Value = special.Vortrag?.Vortrag.Thema ?? special.Anzeigetext;
                             sheet.Cells[row, 3].Value = special.Vortragender ?? special.Thema;
                             sheet.Cells[row, 4].Value = special.Name ?? special.Typ.ToString();
                         }
                         else
                         {
                             var details = (einladung as Invitation);
-                            sheet.Cells[row, 2].Value = details.Vortrag.Thema;
+                            sheet.Cells[row, 2].Value = details.Vortrag.Vortrag.Thema;
                             sheet.Cells[row, 3].Value = details.Ältester.Name;
                             sheet.Cells[row, 4].Value = details.Ältester.Versammlung.Name;
                             sheet.Cells[row, 5].Value = details.Ältester.Telefon;
                             sheet.Cells[row, 6].Value = details.Ältester.Mobil;
                             sheet.Cells[row, 7].Value = details.Ältester.Mail;
-                            sheet.Cells[row, 8].Value = details.Ältester.Versammlung.Koordinator;
-                            sheet.Cells[row, 9].Value = details.Ältester.Versammlung.KoordinatorTelefon;
-                            sheet.Cells[row, 10].Value = details.Ältester.Versammlung.KoordinatorMobil;
-                            sheet.Cells[row, 11].Value = details.Ältester.Versammlung.KoordinatorMail;
-                            sheet.Cells[row, 12].Value = details.Ältester.Versammlung.KoordinatorJw;
+                            sheet.Cells[row, 8].Value = details.Ältester.JwMail;
+                            sheet.Cells[row, 9].Value = details.Ältester.Versammlung.Koordinator;
+                            sheet.Cells[row, 10].Value = details.Ältester.Versammlung.KoordinatorTelefon;
+                            sheet.Cells[row, 11].Value = details.Ältester.Versammlung.KoordinatorMobil;
+                            sheet.Cells[row, 12].Value = details.Ältester.Versammlung.KoordinatorMail;
+                            sheet.Cells[row, 13].Value = details.Ältester.Versammlung.KoordinatorJw;
                         }
                         row++;
                         startDate = startDate.AddDays(7);
@@ -227,6 +234,11 @@ namespace Vortragsmanager.Views
                 if (!string.IsNullOrEmpty(DataContainer.MeineVersammlung.Anreise))
                 {
                     sheet.Cells[row, 1].Value = DataContainer.MeineVersammlung.Anreise;
+                    row++;
+                }
+                if (!string.IsNullOrEmpty(DataContainer.MeineVersammlung.Zoom))
+                {
+                    sheet.Cells[row, 1].Value = DataContainer.MeineVersammlung.Zoom;
                     row++;
                 }
                 if (!string.IsNullOrEmpty(DataContainer.MeineVersammlung.Telefon))
@@ -297,7 +309,7 @@ namespace Vortragsmanager.Views
                     var vorträge = string.Empty;
                     foreach (var v in redner.Vorträge)
                     {
-                        vorträge += $"{v.Nummer}, ";
+                        vorträge += $"{v.Vortrag.Nummer}, ";
                     }
                     sheet.Cells[row, 3].Value = vorträge.TrimEnd().TrimEnd(',');
                     row++;
@@ -351,9 +363,9 @@ namespace Vortragsmanager.Views
                 {
                     sheet.Cells[row, 1].Value = v.Nummer;
                     sheet.Cells[row, 2].Value = v.Thema;
-                    sheet.Cells[row, 3].Value = DataContainer.Redner.Where(x => x.Versammlung == vers && x.Vorträge.Contains(v)).Count();
-                    sheet.Cells[row, 4].Value = DataContainer.Redner.Where(x => x.Versammlung.Kreis == kreis && x.Vorträge.Contains(v)).Count();
-                    var wochen = DataContainer.MeinPlan.Where(x => x.Vortrag == v);
+                    sheet.Cells[row, 3].Value = DataContainer.Redner.Where(x => x.Versammlung == vers && x.Vorträge.Select(y => y.Vortrag).Contains(v)).Count();
+                    sheet.Cells[row, 4].Value = DataContainer.Redner.Where(x => x.Versammlung.Kreis == kreis && x.Vorträge.Select(y => y.Vortrag).Contains(v)).Count();
+                    var wochen = DataContainer.MeinPlan.Where(x => x.Vortrag?.Vortrag?.Nummer == v.Nummer);
                     if (wochen.Any())
                         sheet.Cells[row, 5].Value = wochen.Select(x => x.Datum).Max();
 
@@ -393,12 +405,13 @@ namespace Vortragsmanager.Views
                 sheet.Column(7).Width = 11;
                 sheet.Column(8).Width = 30;
                 sheet.Column(9).Width = 30;
-                sheet.Column(10).Width = 15;
+                sheet.Column(10).Width = 30;
                 sheet.Column(11).Width = 15;
-                sheet.Column(12).Width = 20;
+                sheet.Column(12).Width = 15;
                 sheet.Column(13).Width = 20;
+                sheet.Column(14).Width = 20;
 
-                sheet.Cells[1, 1, 1, 13].Style.Font.Bold = true;
+                sheet.Cells[1, 1, 1, 14].Style.Font.Bold = true;
                 sheet.Cells[1, 1].Value = "Kreis";
                 sheet.Cells[1, 2].Value = "Versammlung";
                 sheet.Cells[1, 3].Value = "Name";
@@ -408,10 +421,11 @@ namespace Vortragsmanager.Views
                 sheet.Cells[1, 7].Value = "Datum letzte Einladung";
                 sheet.Cells[1, 8].Value = "Vorträge";
                 sheet.Cells[1, 9].Value = "Mail";
-                sheet.Cells[1, 10].Value = "Telefon";
-                sheet.Cells[1, 11].Value = "Mobil";
-                sheet.Cells[1, 12].Value = "Kommentar Privat";
-                sheet.Cells[1, 13].Value = "Kommentar Öffentlich";
+                sheet.Cells[1, 10].Value = "JwPub";
+                sheet.Cells[1, 11].Value = "Telefon";
+                sheet.Cells[1, 12].Value = "Mobil";
+                sheet.Cells[1, 13].Value = "Kommentar Privat";
+                sheet.Cells[1, 14].Value = "Kommentar Öffentlich";
 
                 var row = 2;
                 var rednerListe = DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Zugesagt).Cast<Invitation>();
@@ -431,21 +445,22 @@ namespace Vortragsmanager.Views
                     var vortragsliste = string.Empty;
                     foreach (var item in v.Vorträge)
                     {
-                        vortragsliste += item.Nummer + ", ";
+                        vortragsliste += item.Vortrag.Nummer + ", ";
                     };
                     if (vortragsliste.Length >= 2)
                         vortragsliste = vortragsliste.Substring(0, vortragsliste.Length - 2);
                     sheet.Cells[row, 8].Value = vortragsliste;
                     sheet.Cells[row, 9].Value = v.Mail;
-                    sheet.Cells[row, 10].Value = v.Telefon;
-                    sheet.Cells[row, 11].Value = v.Mobil;
-                    sheet.Cells[row, 12].Value = v.InfoPrivate;
-                    sheet.Cells[row, 13].Value = v.InfoPublic;
+                    sheet.Cells[row, 10].Value = v.JwMail;
+                    sheet.Cells[row, 11].Value = v.Telefon;
+                    sheet.Cells[row, 12].Value = v.Mobil;
+                    sheet.Cells[row, 13].Value = v.InfoPrivate;
+                    sheet.Cells[row, 14].Value = v.InfoPublic;
                     row++;
                 }
 
                 //create a range for the table
-                ExcelRange range = sheet.Cells[1, 1, row - 1, 13];
+                ExcelRange range = sheet.Cells[1, 1, row - 1, 14];
                 ExcelTable tab = sheet.Tables.Add(range, "Table1");
                 tab.TableStyle = TableStyles.Medium2;
 

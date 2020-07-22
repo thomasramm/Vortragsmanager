@@ -89,7 +89,6 @@
                                                 <DataTemplate>
                                                     <!-- ToDo: Detailansicht bei Klick/Doppelklick zur Vortragsbuchung -->
                                                     <Border Background="{Binding Background}"
-
                                                             Height="24"
                                                             Margin="0"
                                                             Width="185">
@@ -114,13 +113,12 @@
                                                             <Popup Name="myPopup"
                                                                    IsOpen="{Binding DetailView}">
                                                                 <Grid>
-
                                                                     <dxlc:LayoutControl Orientation="Vertical">
                                                                         <dxlc:LayoutGroup Orientation="Vertical"
                                                                                           View="GroupBox"
                                                                                           Header="{Binding Tag}" Margin="-12">
                                                                             <dxlc:LayoutItem Label="Vortrag:">
-                                                                                <Label Content="{Binding Einladung.Vortrag}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />
+                                                                                <Label Content="{Binding Einladung.Vortrag.Vortrag}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />
                                                                             </dxlc:LayoutItem>
                                                                             <dxlc:LayoutItem Label="Versammlung:">
                                                                                 <Label Content="{Binding Einladung.Ältester.Versammlung.Name}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />

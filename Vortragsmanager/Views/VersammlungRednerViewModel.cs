@@ -29,9 +29,13 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand VortragLöschenCommand { get; private set; }
 
+        public void RednerLöschen()
+        {
+            RednerLöschen(false);
+        }
+
         public void RednerLöschen(bool silent)
         {
-            //ToDo: historische Redner löschen: im Vortragsplan die Zuteilungen ersetzen gegen "unbekannt"?
             if (silent || ThemedMessageBox.Show("Redner löschen",
                 $"Wirklich Redner {Redner.Name} löschen?" + Environment.NewLine +
                 "Alle vergangenen Einladungen werden durch 'unbekannt' ersetzt," + Environment.NewLine +
@@ -39,47 +43,10 @@ namespace Vortragsmanager.Views
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                //Einladungen
-                var einladungen = Core.DataContainer.MeinPlan
-                    .Where(x => x.Status == EventStatus.Zugesagt)
-                    .Cast<Invitation>()
-                    .Where(x => x.Ältester == Redner)
-                    .ToList();
-                foreach (var einladung in einladungen)
-                {
-                    if (einladung.Datum < DateTime.Today)
-                        einladung.Ältester = null;
-                    else
-                        Core.DataContainer.MeinPlan.Remove(einladung);
-                }
-                //Offene Anfragen
-                var anfragen = Core.DataContainer.OffeneAnfragen
-                    .Where(x => x.RednerVortrag.ContainsKey(Redner))
-                    .ToList();
-                foreach (var anfrage in anfragen)
-                {
-                    anfrage.RednerVortrag.Remove(Redner);
-                    if (anfrage.RednerVortrag.Count == 0)
-                        Core.DataContainer.OffeneAnfragen.Remove(anfrage);
-                }
-
-                //Externe Einladungen
-                if (Redner.Versammlung == Core.DataContainer.MeineVersammlung)
-                {
-                    var externeE = Core.DataContainer.ExternerPlan.Where(x => x.Ältester == Redner).ToList();
-                    foreach (var einladung in externeE)
-                        Core.DataContainer.ExternerPlan.Remove(einladung);
-                }
-
-                Core.DataContainer.Redner.Remove(Redner);
+                Core.DataContainer.RednerLöschen(Redner);
                 Sichtbar = Visibility.Collapsed;
                 RaisePropertyChanged(nameof(Sichtbar));
             }
-        }
-
-        public void RednerLöschen()
-        {
-            RednerLöschen(false);
         }
 
         public Visibility Sichtbar { get; set; }
@@ -93,7 +60,7 @@ namespace Vortragsmanager.Views
         public void NeuenVortragSpeichern()
         {
             if (string.IsNullOrWhiteSpace(NeueVorträgeListe))
-                NeueVorträgeListe = NeuerVortrag.Nummer.ToString(Core.DataContainer.German);
+                NeueVorträgeListe = NeuerVortrag.Vortrag.Nummer.ToString(Core.DataContainer.German);
 
             var nummern = NeueVorträgeListe.Split(new char[] { ',', ' ', ';' });
             foreach (var nr in nummern)
@@ -104,8 +71,8 @@ namespace Vortragsmanager.Views
                 var neuerV = Core.DataContainer.FindTalk(num);
                 if (neuerV == null)
                     continue;
-                if (!Redner.Vorträge.Contains(neuerV))
-                    Redner.Vorträge.Add(neuerV);
+                if (!Redner.Vorträge.Select(x => x.Vortrag).Contains(neuerV))
+                    Redner.Vorträge.Add(new TalkSong(neuerV));
             }
             NeueVorträgeListe = string.Empty;
             RaisePropertyChanged(nameof(Vorträge));
@@ -140,19 +107,19 @@ namespace Vortragsmanager.Views
             {
                 string o = "Vorträge: ";
                 foreach (var v in Vorträge)
-                    o += v.Nummer + ", ";
+                    o += v.Vortrag.Nummer + ", ";
 
                 return o.TrimEnd(' ').TrimEnd(',');
             }
         }
 
-        public Talk GewählterVortrag { get; set; }
+        public TalkSong GewählterVortrag { get; set; }
 
-        public Talk NeuerVortrag { get; set; }
+        public TalkSong NeuerVortrag { get; set; }
 
-        public ObservableCollection<Talk> Vorträge
+        public ObservableCollection<TalkSong> Vorträge
         {
-            get => new ObservableCollection<Talk>(Redner.Vorträge.OrderBy(x => x.Nummer));
+            get => new ObservableCollection<TalkSong>(Redner.Vorträge.OrderBy(x => x.Vortrag.Nummer));
         }
 
         public static ObservableCollection<Talk> Vortragsliste => Core.DataContainer.Vorträge;

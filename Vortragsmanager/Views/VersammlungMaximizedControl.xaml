@@ -51,6 +51,9 @@
                 <dxlc:LayoutItem Label="Telefon Saal:">
                     <TextBox Text="{Binding Versammlung.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </dxlc:LayoutItem>
+                <dxlc:LayoutItem Label="Zoom:">
+                    <TextBox Text="{Binding Versammlung.Zoom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="Entfernung (km):">
                     <Grid>
                         <Grid.ColumnDefinitions>

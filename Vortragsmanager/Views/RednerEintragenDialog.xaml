@@ -40,7 +40,7 @@
             <dxlc:LayoutItem Label="Vortrag">
                 <dxe:ComboBoxEdit ItemsSource="{Binding Vortrag}"
                                   SelectedItem="{Binding SelectedVortrag, Mode=TwoWay}"
-                                  DisplayMember="NumberTopicShort"
+                                  DisplayMember="Vortrag.NumberTopicShort"
                                   AutoComplete="True"
                                   IsTextEditable="True" />
             </dxlc:LayoutItem>

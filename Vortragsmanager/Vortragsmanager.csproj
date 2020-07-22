@@ -137,7 +137,9 @@
     <Compile Include="Core\Updater.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\ICloseable.cs" />
-    <Compile Include="Navigation\DashboardViewModel.cs" />
+    <Compile Include="Navigation\DashboardViewModel.cs">
+      <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AntwortEintragenControl.cs">
       <DependentUpon>AntwortEintragenControl.xaml</DependentUpon>
     </Compile>
@@ -170,6 +172,9 @@
     </Compile>
     <Compile Include="Views\RednerEintragenView.cs">
       <DependentUpon>RednerEintragenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RednerViewModel.cs">
+      <DependentUpon>RednerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SetupWizardDialog.xaml.cs">
       <DependentUpon>SetupWizardDialog.xaml</DependentUpon>
@@ -235,6 +240,9 @@
       <DependentUpon>VersammlungRednerMaximizedControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VersammlungRednerViewModel.cs" />
+    <Compile Include="Views\RednerView.xaml.cs">
+      <DependentUpon>RednerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VersammlungSettingsView.xaml.cs">
       <DependentUpon>VersammlungSettingsView.xaml</DependentUpon>
     </Compile>
@@ -356,6 +364,10 @@
     <Page Include="Views\VersammlungRednerMaximizedControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RednerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\VersammlungSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>

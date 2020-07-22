@@ -1,22 +1,25 @@
 ﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Vortragsmanager.Views"
-        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-        xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
-        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-        x:Class="Vortragsmanager.Views.KalendereintragVerschieben"
-        mc:Ignorable="d"
-        Title="Buchung verschieben"
-        Height="{Binding WindowHeight, Mode=TwoWay}"
-        Width="500"
-        DataContext="{dxmvvm:ViewModelSource local:KalendereintragVerschiebenView}"
-        Background="#333333"
-        x:Name="KalendereintragVerschiebenWindow"
-        dx:ThemeManager.Theme="MetropolisDark" Foreground="White">
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Vortragsmanager.Views"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    x:Class="Vortragsmanager.Views.KalendereintragVerschieben"
+    mc:Ignorable="d"
+    Title="Buchung verschieben"
+    Height="{Binding WindowHeight, Mode=TwoWay}"
+    Width="500"
+    Background="#333333"
+    x:Name="KalendereintragVerschiebenWindow"
+    dx:ThemeManager.Theme="MetropolisDark"
+    Foreground="White">
+    <Window.DataContext>
+        <local:KalendereintragVerschiebenView />
+    </Window.DataContext>
     <Window.Resources>
         <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>

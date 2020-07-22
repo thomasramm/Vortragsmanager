@@ -14,6 +14,6 @@ namespace Vortragsmanager.Core
             return date;
         }
 
-        public static int CurrentVersion => 5;
+        public static int CurrentVersion => 7;
     }
 }

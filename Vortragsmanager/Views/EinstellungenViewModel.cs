@@ -152,7 +152,7 @@ namespace Vortragsmanager.Views
                 saveDialog.Dispose();
             }
 
-            DataContainer.globalSettings.RefreshTitle();
+            DataContainer.GlobalSettings.RefreshTitle();
         }
 
         public bool UpdatesEnabled

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 
+    http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    <url>
+        <loc>https://thomasramm.github.io/Vortragsmanager/</loc>
+        <lastmod>2020-06-02T22:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.00</priority>
+    </url>
+<url>
+<loc>https://thomasramm.github.io/Vortragsmanager/AntwortEintragen/</loc>
+</url>
+<url>
+<loc>https://thomasramm.github.io/Vortragsmanager/ExterneAnfrage/</loc>
+</url>
+<url>
+<loc>https://thomasramm.github.io/Vortragsmanager/Initialisierung/</loc>
+</url>
+<url>
+<loc>https://thomasramm.github.io/Vortragsmanager/Installation/</loc>
+</url>
+<url>
+<loc>https://thomasramm.github.io/Vortragsmanager/ListenAusgeben/</loc>
+</url>
+<url>
+<loc>https://thomasramm.github.io/Vortragsmanager/MeinPlan/</loc>
+</url>
+<url>
+<loc>https://thomasramm.github.io/Vortragsmanager/MeineRedner/</loc>
+</url>
+<url>
+<loc>https://thomasramm.github.io/Vortragsmanager/ProgrammEinstellungen/</loc>
+</url>
+<url>
+<loc>https://thomasramm.github.io/Vortragsmanager/Versammlungen/</loc>
+</url>
+<url>
+<loc>https://thomasramm.github.io/Vortragsmanager/Verwaltung/</loc>
+</url>
+<url>
+<loc>https://thomasramm.github.io/Vortragsmanager/Vorlagen/</loc>
+</url>
+<url>
+<loc>https://thomasramm.github.io/Vortragsmanager/Konzept/</loc>
+</url>
+<url>
+<loc>https://thomasramm.github.io/Vortragsmanager/Redner/</loc>
+</url>
+</urlset>

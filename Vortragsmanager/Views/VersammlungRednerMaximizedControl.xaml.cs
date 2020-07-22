@@ -37,7 +37,7 @@ namespace Vortragsmanager.Views
                 return;
 
             var a = (SpeakerViewModel)(cb).DataContext;
-            a.NeueVorträgeListe = a.NeuerVortrag.Nummer.ToString(Core.DataContainer.German);
+            a.NeueVorträgeListe = a.NeuerVortrag.Vortrag.Nummer.ToString(Core.DataContainer.German);
             a.NeuenVortragSpeichern();
         }
     }

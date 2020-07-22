@@ -342,3 +342,5 @@ healthchecksdb
 /Vortragsmanager/Core/Security.cs
 /docs/.jekyll-cache
 /docs/_site
+Gemfile.lock
+generate_page.cmd

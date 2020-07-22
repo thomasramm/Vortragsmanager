@@ -7,8 +7,6 @@
              xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
              xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
              xmlns:local="clr-namespace:Vortragsmanager.Views"
-             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="800"
@@ -66,6 +64,13 @@
             <Label Grid.Row="0" Grid.Column="1" Content="Vorlagen Inhalt" FontSize="12" Foreground="Orange" FontFamily="Segoe UI Light" HorizontalAlignment="Left" Margin="5,0" />
             <TextBox Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" AcceptsTab="True" AcceptsReturn="True" Margin="5,21,0,0"
                      Text="{Binding SelectedVorlageInhalt}" />
+            <dx:SimpleButton Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Width="130" Margin="10,10,270,10"
+                             Content="Zurücksetzen"
+                             Glyph="{dx:DXImage SvgImages/Dashboards/ResetLayoutOptions.svg}"
+                             GlyphAlignment="Left"
+                             Command="{Binding ResetCommand}"
+                             CommandParameter="True"
+                             ToolTip="Setzt die Änderungen auf die Programmvorgaben zurück." />
             <dx:SimpleButton Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Width="120" Margin="10,10,130,10"
                              Content="Speichern"
                              Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}"

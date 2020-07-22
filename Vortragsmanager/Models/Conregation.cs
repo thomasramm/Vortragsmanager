@@ -20,6 +20,8 @@ namespace Vortragsmanager.Models
 
         public int Entfernung { get; set; } = 0;
 
+        public string Zoom { get; set; }
+
         public string Telefon { get; set; }
 
         public string Koordinator { get; set; }
@@ -57,6 +59,8 @@ namespace Vortragsmanager.Models
             else
                 Zusammenkunftszeiten.Add(Jahr, Zeit);
         }
+
+        public string NameMitKoordinator => $"{Name} ({Koordinator})";
 
         public override string ToString() => $"Versammlung {Name}";
 

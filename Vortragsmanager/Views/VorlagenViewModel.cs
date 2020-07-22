@@ -1,4 +1,5 @@
 ﻿using DevExpress.Mvvm;
+using DevExpress.XtraRichEdit.Commands.Internal;
 using System.Collections.Generic;
 using Vortragsmanager.Core;
 using static Vortragsmanager.Core.Templates;
@@ -9,21 +10,32 @@ namespace Vortragsmanager.Views
     {
         public VorlagenViewModel()
         {
-            Vorlagen = Core.Templates.Vorlagen;
+            Vorlagen = Templates.Vorlagen;
             RaisePropertyChanged(nameof(Vorlagen));
             Speichern = new DelegateCommand<bool>(VorlagentextSpeichern);
+            ResetCommand = new DelegateCommand(Reset);
         }
 
         public DelegateCommand<bool> Speichern { get; private set; }
+
+        public DelegateCommand ResetCommand { get; private set; }
 
         public Dictionary<TemplateName, Template> Vorlagen { get; }
 
         public void VorlagentextSpeichern(bool speichern)
         {
             if (speichern)
+            {
                 SelectedVorlage.Value.Inhalt = SelectedVorlageInhalt;
+                SelectedVorlage.Value.BenutzerdefinierterInhalt = (SelectedVorlageInhalt != Templates.LoadInhalt(SelectedVorlage.Key));
+            }
             else
                 SelectedVorlageInhalt = SelectedVorlage.Value.Inhalt;
+        }
+
+        public void Reset()
+        {
+            SelectedVorlageInhalt = Templates.LoadInhalt(SelectedVorlage.Key);
         }
 
         public KeyValuePair<TemplateName, Template> SelectedVorlage

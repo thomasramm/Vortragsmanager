@@ -86,11 +86,11 @@ namespace Vortragsmanager.Views
             }
         }
 
-        public List<Talk> Vortrag => _selectedRedner?.Vorträge;
+        public List<TalkSong> Vortrag => _selectedRedner?.Vorträge;
 
-        private Talk _selectedVortrag;
+        private TalkSong _selectedVortrag;
 
-        public Talk SelectedVortrag
+        public TalkSong SelectedVortrag
         {
             get
             {
@@ -98,7 +98,10 @@ namespace Vortragsmanager.Views
             }
             set
             {
-                _selectedVortrag = value;
+                if (value == null)
+                    _selectedVortrag = null;
+                else
+                    _selectedVortrag = Vortrag.FirstOrDefault(x => x.Vortrag.Nummer == value.Vortrag.Nummer);
                 RaisePropertyChanged();
             }
         }

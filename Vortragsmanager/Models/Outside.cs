@@ -12,7 +12,7 @@ namespace Vortragsmanager.Models
 
         public OutsideReason Reason { get; set; } = OutsideReason.Talk;
 
-        public Talk Vortrag { get; set; }
+        public TalkSong Vortrag { get; set; }
     }
 
     public enum OutsideReason
