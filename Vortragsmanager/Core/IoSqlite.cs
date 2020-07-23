@@ -2,7 +2,7 @@
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
-using Vortragsmanager.Models;
+using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.Core
 {
@@ -325,7 +325,7 @@ namespace Vortragsmanager.Core
                     switch (key)
                     {
                         case "Version":
-                            DataContainer.Version = int.Parse(value, DataContainer.German);
+                            DataContainer.Version = int.Parse(value, Helper.German);
                             break;
 
                         case "IsInitialized":
@@ -338,7 +338,7 @@ namespace Vortragsmanager.Core
                             break;
 
                         case "DisplayedYear":
-                            DataContainer.DisplayedYear = int.Parse(value, DataContainer.German);
+                            Helper.DisplayedYear = int.Parse(value, Helper.German);
                             break;
 
                         default:
@@ -359,7 +359,7 @@ namespace Vortragsmanager.Core
             Log.Info(nameof(ReadVersammlungen));
             DataContainer.Versammlungen.Clear();
 
-            var vers = int.Parse(ReadParameter(Parameter.MeineVersammlung, db), DataContainer.German);
+            var vers = int.Parse(ReadParameter(Parameter.MeineVersammlung, db), Helper.German);
             using (var cmd1 = new SQLiteCommand("SELECT Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Entfernung, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw, Zoom FROM Conregation", db))
             using (var cmd2 = new SQLiteCommand("SELECT Jahr, Zeit FROM Conregation_Zusammenkunftszeiten WHERE IdConregation = @Id", db))
             {
@@ -569,7 +569,7 @@ namespace Vortragsmanager.Core
 
         private static string ReadParameter(Parameter parameter, SQLiteConnection db)
         {
-            Log.Info(nameof(ReadParameter), $"parameter={parameter.ToString()}");
+            Log.Info(nameof(ReadParameter), $"parameter={parameter}");
             using (var cmd = new SQLiteCommand($"SELECT Wert FROM Parameter WHERE Name = @Name", db))
             {
                 cmd.Parameters.AddWithValue("@Name", parameter.ToString());
@@ -801,7 +801,7 @@ namespace Vortragsmanager.Core
 
             foreach (var er in DataContainer.MeinPlan.Where(x => x.Status != EventStatus.Ereignis))
             {
-                var con = (er as Invitation);
+                var con = er as Invitation;
                 cmd.Parameters[0].Value = con.Ältester?.Id;
                 cmd.Parameters[1].Value = con.Vortrag?.Vortrag.Nummer;
                 cmd.Parameters[2].Value = con.Ältester?.Versammlung?.Id ?? con.AnfrageVersammlung?.Id;
@@ -826,7 +826,7 @@ namespace Vortragsmanager.Core
 
             foreach (var er in DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Ereignis))
             {
-                var evt = (er as SpecialEvent);
+                var evt = er as SpecialEvent;
                 cmd.Parameters[0].Value = (int)evt.Typ;
                 cmd.Parameters[1].Value = evt.Name;
                 cmd.Parameters[2].Value = evt.Thema;
@@ -1023,7 +1023,7 @@ namespace Vortragsmanager.Core
             cmd.ExecuteNonQuery();
 
             cmd.Parameters[0].Value = "DisplayedYear";
-            cmd.Parameters[1].Value = DataContainer.DisplayedYear;
+            cmd.Parameters[1].Value = Helper.DisplayedYear;
             cmd.ExecuteNonQuery();
 
             cmd.Dispose();

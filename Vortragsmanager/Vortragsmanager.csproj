@@ -133,135 +133,137 @@
     <Compile Include="Core\IoSqlite.cs" />
     <Compile Include="Core\Log.cs" />
     <Compile Include="Core\Security.cs" />
-    <Compile Include="Core\Templates.cs" />
+    <Compile Include="Datamodels\Templates.cs" />
     <Compile Include="Core\Updater.cs" />
-    <Compile Include="Models\Event.cs" />
-    <Compile Include="Models\ICloseable.cs" />
-    <Compile Include="Navigation\DashboardViewModel.cs">
+    <Compile Include="Datamodels\Event.cs" />
+    <Compile Include="Datamodels\ICloseable.cs" />
+    <Compile Include="UserControls\DashboardViewModel.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AntwortEintragenControl.cs">
+    <Compile Include="UserControls\AntwortEintragenControl.cs">
       <DependentUpon>AntwortEintragenControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AntwortEintragenDialog.xaml.cs">
-      <DependentUpon>AntwortEintragenDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AntwortEintragenView.xaml.cs">
-      <DependentUpon>AntwortEintragenView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AntwortEintragenViewModel.cs">
-      <DependentUpon>AntwortEintragenControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EinstellungenView.xaml.cs">
-      <DependentUpon>EinstellungenView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EinstellungenViewModel.cs">
-      <DependentUpon>EinstellungenView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RednerEintragenDialog.cs">
-      <DependentUpon>RednerEintragenDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EreignisEintragenDialog.xaml.cs">
-      <DependentUpon>EreignisEintragenDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\KalendereintragVerschieben.xaml.cs">
-      <DependentUpon>KalendereintragVerschieben.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\KalendereintragVerschiebenView.cs">
-      <DependentUpon>KalendereintragVerschieben.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RednerEintragenView.cs">
-      <DependentUpon>RednerEintragenDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RednerViewModel.cs">
-      <DependentUpon>RednerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SetupWizardDialog.xaml.cs">
-      <DependentUpon>SetupWizardDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SetupWizardDialogViewModel.cs">
-      <DependentUpon>SetupWizardDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UpdateDialog.xaml.cs">
-      <DependentUpon>UpdateDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\leerDialog.xaml.cs">
-      <DependentUpon>leerDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EreignisEintragenDialogView.cs">
-      <DependentUpon>EreignisEintragenDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UpdateDialogViewModel.cs">
-      <DependentUpon>UpdateDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ListCreateViewModel.cs">
-      <DependentUpon>ListCreateView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\InfoAnRednerUndKoordinatorWindow.cs">
-      <DependentUpon>InfoAnRednerUndKoordinatorWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\leerViewModel.cs">
-      <DependentUpon>leerDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\InfoAnRednerUndKoordinatorViewModel.cs">
-      <DependentUpon>InfoAnRednerUndKoordinatorWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ExternalQuestionViewModel.cs">
-      <DependentUpon>ExternalQuestionEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MeineRednerViewModel.cs">
-      <DependentUpon>MeineRednerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MeinPlanViewModel.cs">
-      <DependentUpon>MeinPlanView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SearchSpeaker.cs">
-      <DependentUpon>SearchSpeaker.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ExternalQuestionEdit.xaml.cs">
-      <DependentUpon>ExternalQuestionEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Navigation\NavigationView.xaml.cs">
-      <DependentUpon>NavigationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Navigation\NavigatorView.xaml.cs">
-      <DependentUpon>NavigatorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SearchSpeakerViewModel.cs">
-      <DependentUpon>SearchSpeaker.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VersammlungLöschenDialog.xaml.cs">
-      <DependentUpon>VersammlungLöschenDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VersammlungLöschenDialogView.cs">
-      <DependentUpon>VersammlungLöschenDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VersammlungMaximizedControl.cs">
-      <DependentUpon>VersammlungMaximizedControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VersammlungControlViewModel.cs">
-      <DependentUpon>VersammlungMaximizedControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VersammlungRednerMaximizedControl.xaml.cs">
+    <Compile Include="UserControls\VersammlungRednerViewModel.cs">
       <DependentUpon>VersammlungRednerMaximizedControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VersammlungRednerViewModel.cs" />
-    <Compile Include="Views\RednerView.xaml.cs">
+    <Compile Include="Windows\AntwortEintragenDialog.xaml.cs">
+      <DependentUpon>AntwortEintragenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeinPlan\AntwortEintragenView.xaml.cs">
+      <DependentUpon>AntwortEintragenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\AntwortEintragenViewModel.cs">
+      <DependentUpon>AntwortEintragenControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeineVerwaltung\EinstellungenView.xaml.cs">
+      <DependentUpon>EinstellungenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeineVerwaltung\EinstellungenViewModel.cs">
+      <DependentUpon>EinstellungenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\RednerEintragenDialog.cs">
+      <DependentUpon>RednerEintragenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EreignisEintragenDialog.xaml.cs">
+      <DependentUpon>EreignisEintragenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\KalendereintragVerschieben.xaml.cs">
+      <DependentUpon>KalendereintragVerschieben.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\KalendereintragVerschiebenView.cs">
+      <DependentUpon>KalendereintragVerschieben.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\RednerEintragenView.cs">
+      <DependentUpon>RednerEintragenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeineVerwaltung\RednerViewModel.cs">
       <DependentUpon>RednerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VersammlungSettingsView.xaml.cs">
-      <DependentUpon>VersammlungSettingsView.xaml</DependentUpon>
+    <Compile Include="Windows\SetupWizardDialog.xaml.cs">
+      <DependentUpon>SetupWizardDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ListCreateView.cs">
+    <Compile Include="Windows\SetupWizardDialogViewModel.cs">
+      <DependentUpon>SetupWizardDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\UpdateDialog.xaml.cs">
+      <DependentUpon>UpdateDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\leerDialog.xaml.cs">
+      <DependentUpon>leerDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EreignisEintragenDialogView.cs">
+      <DependentUpon>EreignisEintragenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\UpdateDialogViewModel.cs">
+      <DependentUpon>UpdateDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeineVerwaltung\ListCreateViewModel.cs">
       <DependentUpon>ListCreateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VersammlungSettingsViewModel.cs">
+    <Compile Include="Windows\InfoAnRednerUndKoordinatorWindow.cs">
+      <DependentUpon>InfoAnRednerUndKoordinatorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\leerViewModel.cs">
+      <DependentUpon>leerDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\InfoAnRednerUndKoordinatorViewModel.cs">
+      <DependentUpon>InfoAnRednerUndKoordinatorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeineRedner\ExternalQuestionViewModel.cs">
+      <DependentUpon>ExternalQuestionEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeineRedner\MeineRednerViewModel.cs">
+      <DependentUpon>MeineRednerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeinPlan\MeinPlanViewModel.cs">
+      <DependentUpon>MeinPlanView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeinPlan\SearchSpeaker.cs">
+      <DependentUpon>SearchSpeaker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeineRedner\ExternalQuestionEdit.xaml.cs">
+      <DependentUpon>ExternalQuestionEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\NavigationView.xaml.cs">
+      <DependentUpon>NavigationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\NavigatorView.xaml.cs">
+      <DependentUpon>NavigatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeinPlan\SearchSpeakerViewModel.cs">
+      <DependentUpon>SearchSpeaker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\VersammlungLöschenDialog.xaml.cs">
+      <DependentUpon>VersammlungLöschenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\VersammlungLöschenDialogView.cs">
+      <DependentUpon>VersammlungLöschenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\VersammlungMaximizedControl.cs">
+      <DependentUpon>VersammlungMaximizedControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\VersammlungControlViewModel.cs">
+      <DependentUpon>VersammlungMaximizedControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\VersammlungRednerMaximizedControl.xaml.cs">
+      <DependentUpon>VersammlungRednerMaximizedControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeineVerwaltung\RednerView.xaml.cs">
+      <DependentUpon>RednerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeineVerwaltung\VersammlungSettingsView.xaml.cs">
       <DependentUpon>VersammlungSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VorlagenView.xaml.cs">
+    <Compile Include="MeineVerwaltung\ListCreateView.cs">
+      <DependentUpon>ListCreateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeineVerwaltung\VersammlungSettingsViewModel.cs">
+      <DependentUpon>VersammlungSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeineVerwaltung\VorlagenView.xaml.cs">
       <DependentUpon>VorlagenView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VorlagenViewModel.cs">
+    <Compile Include="MeineVerwaltung\VorlagenViewModel.cs">
       <DependentUpon>VorlagenView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -272,122 +274,122 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\DataContainer.cs" />
+    <Compile Include="Datamodels\DataContainer.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Conregation.cs" />
-    <Compile Include="Models\Outside.cs" />
-    <Compile Include="Models\Talk.cs" />
-    <Compile Include="Models\Speaker.cs" />
-    <Compile Include="Models\Messages.cs" />
-    <Compile Include="Navigation\DashboardView.xaml.cs">
+    <Compile Include="Datamodels\Conregation.cs" />
+    <Compile Include="Datamodels\Outside.cs" />
+    <Compile Include="Datamodels\Talk.cs" />
+    <Compile Include="Datamodels\Speaker.cs" />
+    <Compile Include="Datamodels\Messages.cs" />
+    <Compile Include="UserControls\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MeineRednerView.cs">
+    <Compile Include="MeineRedner\MeineRednerView.cs">
       <DependentUpon>MeineRednerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MeinPlanView.xaml.cs">
+    <Compile Include="MeinPlan\MeinPlanView.xaml.cs">
       <DependentUpon>MeinPlanView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\AntwortEintragenControl.xaml">
+    <Page Include="UserControls\AntwortEintragenControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AntwortEintragenDialog.xaml">
+    <Page Include="Windows\AntwortEintragenDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AntwortEintragenView.xaml">
+    <Page Include="MeinPlan\AntwortEintragenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\EinstellungenView.xaml">
+    <Page Include="MeineVerwaltung\EinstellungenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\RednerEintragenDialog.xaml">
+    <Page Include="Windows\RednerEintragenDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\EreignisEintragenDialog.xaml">
+    <Page Include="Windows\EreignisEintragenDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\KalendereintragVerschieben.xaml">
+    <Page Include="Windows\KalendereintragVerschieben.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SetupWizardDialog.xaml">
+    <Page Include="Windows\SetupWizardDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\UpdateDialog.xaml">
+    <Page Include="Windows\UpdateDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\leerDialog.xaml">
+    <Page Include="Windows\leerDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\InfoAnRednerUndKoordinatorWindow.xaml">
+    <Page Include="Windows\InfoAnRednerUndKoordinatorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Navigation\DashboardView.xaml">
+    <Page Include="UserControls\DashboardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SearchSpeaker.xaml">
+    <Page Include="MeinPlan\SearchSpeaker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ExternalQuestionEdit.xaml">
+    <Page Include="MeineRedner\ExternalQuestionEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MeineRednerView.xaml">
+    <Page Include="MeineRedner\MeineRednerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MeinPlanView.xaml">
+    <Page Include="MeinPlan\MeinPlanView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Navigation\NavigationView.xaml">
+    <Page Include="UserControls\NavigationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Navigation\NavigatorView.xaml">
+    <Page Include="UserControls\NavigatorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VersammlungLöschenDialog.xaml">
+    <Page Include="Windows\VersammlungLöschenDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VersammlungMaximizedControl.xaml">
+    <Page Include="UserControls\VersammlungMaximizedControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VersammlungRednerMaximizedControl.xaml">
+    <Page Include="UserControls\VersammlungRednerMaximizedControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\RednerView.xaml">
+    <Page Include="MeineVerwaltung\RednerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\VersammlungSettingsView.xaml">
+    <Page Include="MeineVerwaltung\VersammlungSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ListCreateView.xaml">
+    <Page Include="MeineVerwaltung\ListCreateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\VorlagenView.xaml">
+    <Page Include="MeineVerwaltung\VorlagenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -493,6 +495,7 @@
   <ItemGroup>
     <Resource Include="Images\Merge_32x32.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

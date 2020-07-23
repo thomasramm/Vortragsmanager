@@ -1,4 +1,4 @@
-﻿using Vortragsmanager.Models;
+﻿using Vortragsmanager.Datamodels;
 using Vortragsmanager.Views;
 
 namespace Vortragsmanager.Core

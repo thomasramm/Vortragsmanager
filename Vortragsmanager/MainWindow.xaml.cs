@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
 using Vortragsmanager.Core;
+using Vortragsmanager.Datamodels;
 using Vortragsmanager.Properties;
 
 namespace Vortragsmanager
@@ -48,10 +49,10 @@ namespace Vortragsmanager
 
             InitializeComponent();
 
-            DataContainer.GlobalSettings = new MyGloabalSettings();
-            DataContext = DataContainer.GlobalSettings;
+            Helper.GlobalSettings = new MyGloabalSettings();
+            DataContext = Helper.GlobalSettings;
 
-            DataContainer.GlobalSettings.RefreshTitle();
+            Helper.GlobalSettings.RefreshTitle();
 
             Updater.CheckForUpdates();
         }
