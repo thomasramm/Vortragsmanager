@@ -29,9 +29,9 @@ namespace Vortragsmanager.Core
                         break;
 
                     //Versammlung
-                    var rednerVersammlung = DataContainer.FindOrAddConregation(vers.ToString());
+                    var rednerVersammlung = DataContainer.ConregationFindOrAdd(vers.ToString());
 
-                    var s = DataContainer.FindSpeaker(name.ToString(), rednerVersammlung);
+                    var s = DataContainer.SpeakerFind(name.ToString(), rednerVersammlung);
                     if (s == null)
                     {
                         s = new Models.Speaker
@@ -49,7 +49,7 @@ namespace Vortragsmanager.Core
                     foreach (var v in meineVotrgäge)
                     {
                         var nr = int.Parse(v, DataContainer.German);
-                        var t = DataContainer.FindTalk(nr);
+                        var t = DataContainer.TalkFind(nr);
                         if (!(t is null) && (!s.Vorträge.Select(y => y.Vortrag).Contains(t)))
                             s.Vorträge.Add(new Models.TalkSong(t));
                     }
@@ -237,8 +237,8 @@ namespace Vortragsmanager.Core
                                 continue;
                             }
 
-                            var v = DataContainer.FindOrAddConregation(v1);
-                            var r = DataContainer.FindOrAddSpeaker(redner.ToString(), v);
+                            var v = DataContainer.ConregationFindOrAdd(v1);
+                            var r = DataContainer.SpeakerFindOrAdd(redner.ToString(), v);
                             i.Ältester = r;
 
                             if (string.IsNullOrEmpty(i.Ältester.Telefon) && !string.IsNullOrEmpty(rednerTelefon))
@@ -248,7 +248,7 @@ namespace Vortragsmanager.Core
 
                             //Vortrag
                             var vn = int.Parse(vortrag.ToString(), DataContainer.German);
-                            var t = DataContainer.FindTalk(vn);
+                            var t = DataContainer.TalkFind(vn);
                             i.Vortrag = new Models.TalkSong(t);
                             if (!i.Ältester.Vorträge.Select(y => y.Vortrag).Contains(t))
                                 i.Ältester.Vorträge.Add(i.Vortrag);
@@ -307,7 +307,7 @@ namespace Vortragsmanager.Core
                             };
 
                             //Redner
-                            var r = DataContainer.FindOrAddSpeaker(redner.ToString(), DataContainer.MeineVersammlung);
+                            var r = DataContainer.SpeakerFindOrAdd(redner.ToString(), DataContainer.MeineVersammlung);
                             if (r == null)
                                 continue;
 
@@ -317,12 +317,12 @@ namespace Vortragsmanager.Core
                             var v1 = versammlung?.ToString() ?? "Unbekannt";
                             if (v1 == "Urlaub")
                                 i.Reason = Models.OutsideReason.NotAvailable;
-                            var v = DataContainer.FindOrAddConregation(v1);
+                            var v = DataContainer.ConregationFindOrAdd(v1);
                             i.Versammlung = v;
 
                             //Vortrag
                             var vn = string.IsNullOrEmpty(vortrag?.ToString()) ? -1 : int.Parse(vortrag.ToString(), DataContainer.German);
-                            var t = DataContainer.FindTalk(vn);
+                            var t = DataContainer.TalkFind(vn);
                             i.Vortrag = new Models.TalkSong(t);
                             if (!i.Ältester.Vorträge.Select(y => y.Vortrag).Contains(t))
                                 i.Ältester.Vorträge.Add(i.Vortrag);

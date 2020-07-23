@@ -294,10 +294,6 @@ namespace Vortragsmanager.Views
 
         public void RednerSuchen()
         {
-            //ToDo: Redner suchen aus "MeinPlan" heraus
-            //throw new NotImplementedException();
-            //var dev = new AntwortEintragenDialog();
-            //dev.ShowDialog();
             Navigation.NavigationView.Frame.Navigate("SearchSpeaker", Tag);
         }
 

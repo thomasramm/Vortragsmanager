@@ -43,7 +43,7 @@ namespace Vortragsmanager.Views
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                Core.DataContainer.RednerLöschen(Redner);
+                Core.DataContainer.SpeakerRemove(Redner);
                 Sichtbar = Visibility.Collapsed;
                 RaisePropertyChanged(nameof(Sichtbar));
             }
@@ -68,7 +68,7 @@ namespace Vortragsmanager.Views
                 bool isNum = int.TryParse(nr, out int num);
                 if (!isNum)
                     continue;
-                var neuerV = Core.DataContainer.FindTalk(num);
+                var neuerV = Core.DataContainer.TalkFind(num);
                 if (neuerV == null)
                     continue;
                 if (!Redner.Vorträge.Select(x => x.Vortrag).Contains(neuerV))

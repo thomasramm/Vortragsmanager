@@ -19,7 +19,7 @@ namespace Vortragsmanager.Views
             AddTalkCommand = new DelegateCommand(TalkAdd);
             DeleteTalkCommand = new DelegateCommand<TalkSong>(TalkDelete);
 
-            ListeAllerVersammlungen = new ObservableCollection<Conregation>(Core.DataContainer.Versammlungen.OrderBy(x => x, new EigeneKreisNameComparer()));
+            ListeAllerVersammlungen = new ObservableCollection<Conregation>(Core.DataContainer.Versammlungen.OrderBy(x => x, new Core.Helper.EigeneKreisNameComparer()));
             ListeFilteredVersammlungen = new ObservableCollection<Conregation>(ListeAllerVersammlungen);
 
             ListeAllerRedner = new ObservableCollection<Speaker>(Core.DataContainer.Redner.OrderBy(x => x.Name));
@@ -159,7 +159,8 @@ namespace Vortragsmanager.Views
             if (DialogResult.No == MessageBox.Show($"Soll der Redner '{Redner.Name}' wirklich gelöscht werden?", "Achtung!", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                 return;
 
-            Core.DataContainer.RednerLöschen(Redner);
+            Core.DataContainer.SpeakerRemove(Redner);
+
             ListeAllerRedner.Remove(Redner);
             ListeFilteredRedner.Remove(Redner);
             Redner = null;
@@ -169,12 +170,12 @@ namespace Vortragsmanager.Views
         {
             Conregation vers = null;
             if (!string.IsNullOrEmpty(SelectedConregationName))
-                vers = Core.DataContainer.FindConregation(SelectedConregationName);
+                vers = Core.DataContainer.ConregationFind(SelectedConregationName);
 
             if (vers is null)
             {
                 ThemedMessageBox.Show("Im Filter ist aktuell keine Versammlung gewählt. Bitte für den neuen Redner unter Aktionen -> Versammlung verschieben die Versammlung zuweisen.");
-                vers = Core.DataContainer.FindConregation("Unbekannt");
+                vers = Core.DataContainer.ConregationFind("Unbekannt");
             }
 
             Speaker redner = new Speaker();
@@ -182,9 +183,9 @@ namespace Vortragsmanager.Views
             while (redner != null)
             {
                 i++;
-                redner = Core.DataContainer.FindSpeaker($"Neuer Redner #{i}", vers);
+                redner = Core.DataContainer.SpeakerFind($"Neuer Redner #{i}", vers);
             }
-            redner = Core.DataContainer.FindOrAddSpeaker($"Neuer Redner #{i}", vers);
+            redner = Core.DataContainer.SpeakerFindOrAdd($"Neuer Redner #{i}", vers);
 
             SelectedSpeakerName = redner.Name;
         }
@@ -210,7 +211,7 @@ namespace Vortragsmanager.Views
                 bool isNum = int.TryParse(nr, out int num);
                 if (!isNum)
                     continue;
-                var neuerV = Core.DataContainer.FindTalk(num);
+                var neuerV = Core.DataContainer.TalkFind(num);
                 if (neuerV == null)
                     continue;
                 if (!Redner.Vorträge.Select(x => x.Vortrag).Contains(neuerV))
@@ -238,17 +239,5 @@ namespace Vortragsmanager.Views
         public string NeuerVortrag { get; set; }
 
         #endregion Vortrag
-
-        internal class EigeneKreisNameComparer : IComparer<Conregation>
-        {
-            public int Compare(Conregation x, Conregation y)
-            {
-                var eigene = Core.DataContainer.MeineVersammlung;
-                var eigenerKreis = eigene.Kreis;
-                string value1 = ((x.Kreis == eigenerKreis) ? "0" : "1") + ((x == eigene) ? "0" : "1") + x.Kreis + x.Name;
-                string value2 = ((y.Kreis == eigenerKreis) ? "0" : "1") + ((y == eigene) ? "0" : "1") + y.Kreis + y.Name;
-                return string.Compare(value1, value2, StringComparison.InvariantCulture);
-            }
-        }
     }
 }

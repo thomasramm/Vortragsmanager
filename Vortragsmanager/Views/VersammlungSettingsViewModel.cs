@@ -52,7 +52,7 @@ namespace Vortragsmanager.Views
 
         public void AddConregation()
         {
-            var vers = Core.DataContainer.FindOrAddConregation("Neue Versammlung");
+            var vers = Core.DataContainer.ConregationFindOrAdd("Neue Versammlung");
             var model = new ConregationViewModel(vers);
             Add(model);
             model.Select(true);

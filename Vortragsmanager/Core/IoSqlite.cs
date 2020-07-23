@@ -519,7 +519,7 @@ namespace Vortragsmanager.Core
                     {
                         i.Vortrag = i.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == IdVortrag);
                         if (!(i.Vortrag is null))
-                            i.Vortrag = new TalkSong(DataContainer.FindTalk((int)IdVortrag), -1, -1);
+                            i.Vortrag = new TalkSong(DataContainer.TalkFind((int)IdVortrag), -1, -1);
                     }
                     if (!(IdConregation is null))
                         i.AnfrageVersammlung = DataContainer.Versammlungen.First(x => x.Id == IdConregation);
@@ -558,7 +558,7 @@ namespace Vortragsmanager.Core
                         o.Versammlung = DataContainer.Versammlungen.First(x => x.Id == IdConregation);
                     o.Vortrag = o.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == IdTalk);
                     if (o.Vortrag is null)
-                        o.Vortrag = new TalkSong(DataContainer.FindTalk(IdTalk));
+                        o.Vortrag = new TalkSong(DataContainer.TalkFind(IdTalk));
 
                     DataContainer.ExternerPlan.Add(o);
                 }
@@ -619,7 +619,7 @@ namespace Vortragsmanager.Core
                         Thema = rdr.IsDBNull(2) ? null : rdr.GetString(2),
                         Vortragender = rdr.IsDBNull(3) ? null : rdr.GetString(3),
                         Datum = rdr.GetDateTime(4),
-                        Vortrag = rdr.IsDBNull(5) ? null : new TalkSong(DataContainer.FindTalk(rdr.GetInt32(5)))
+                        Vortrag = rdr.IsDBNull(5) ? null : new TalkSong(DataContainer.TalkFind(rdr.GetInt32(5)))
                     };
 
                     DataContainer.MeinPlan.Add(v);
@@ -700,7 +700,10 @@ namespace Vortragsmanager.Core
                 while (rdr.Read())
                 {
                     var IdAltester = rdr.GetInt32(1);
-                    var Altester = DataContainer.Redner.First(x => x.Id == IdAltester);
+                    var Altester = DataContainer.Redner.FirstOrDefault(x => x.Id == IdAltester);
+
+                    if (Altester == null)
+                        continue;
 
                     var v = new Cancelation
                     {

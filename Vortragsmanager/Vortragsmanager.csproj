@@ -230,6 +230,12 @@
     <Compile Include="Views\SearchSpeakerViewModel.cs">
       <DependentUpon>SearchSpeaker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\VersammlungLöschenDialog.xaml.cs">
+      <DependentUpon>VersammlungLöschenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VersammlungLöschenDialogView.cs">
+      <DependentUpon>VersammlungLöschenDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VersammlungMaximizedControl.cs">
       <DependentUpon>VersammlungMaximizedControl.xaml</DependentUpon>
     </Compile>
@@ -357,6 +363,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\VersammlungLöschenDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\VersammlungMaximizedControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -476,6 +486,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Delete_Red_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Merge_32x32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

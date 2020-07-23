@@ -1,4 +1,5 @@
-﻿using DevExpress.Mvvm;
+﻿using DevExpress.Data.Browsing;
+using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using System;
 using System.Linq;
@@ -27,51 +28,25 @@ namespace Vortragsmanager.Views
 
         private bool _deleted = false;
 
-        public void Delete(object lc)
+        public void Delete(object lca)
         {
-            if (ThemedMessageBox.Show("Versammlung löschen",
-                $"Soll die Versammlung {Versammlung.Name} mit allen {RednerListe.Count} Rednern gelöscht werden?" + Environment.NewLine +
-                "Alle vergangenen Einladungen werden durch 'unbekannt' ersetzt," + Environment.NewLine +
-                "alle zukünftigen Einladungen und Anfragen werden gelöscht!",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning) == MessageBoxResult.No)
-                return;
+            var vld = new VersammlungLöschenDialog();
+            var data = (VersammlungLöschenDialogView)vld.DataContext;
+            data.Versammlung = Versammlung;
 
-            while (RednerListe.Count > 0)
+            vld.ShowDialog();
+
+            if (!data.Abbrechen)
             {
-                RednerListe[0].RednerLöschen(true);
-                RednerListe.RemoveAt(0);
+                Sichtbarkeit = Visibility.Collapsed;
+                _deleted = true;
+                RaisePropertyChanged(nameof(Sichtbarkeit));
             }
-            //Einladungen
-            var einladungen = Core.DataContainer.MeinPlan
-                .Where(x => x.Status == EventStatus.Zugesagt)
-                .Cast<Invitation>()
-                .Where(x => x.AnfrageVersammlung == Versammlung)
-                .ToList();
-            foreach (var einladung in einladungen)
-                Core.DataContainer.MeinPlan.Remove(einladung);
-
-            //Anfragen
-            var anfragen = Core.DataContainer.OffeneAnfragen.Where(x => x.Versammlung == Versammlung).ToList();
-            foreach (var anfrage in anfragen)
-                Core.DataContainer.OffeneAnfragen.Remove(anfrage);
-
-            //Externe Vorträge in dieser Versammlung
-            var externeE = Core.DataContainer.ExternerPlan.Where(x => x.Versammlung == Versammlung);
-            foreach (var outside in externeE)
-            {
-                outside.Versammlung = null;
-            }
-
-            Core.DataContainer.Versammlungen.Remove(Versammlung);
-            Sichtbarkeit = Visibility.Collapsed;
-            _deleted = true;
-            RaisePropertyChanged(nameof(Sichtbarkeit));
         }
 
         public void NewPerson()
         {
-            var redner = Core.DataContainer.FindOrAddSpeaker("Neuer Redner", Versammlung);
+            var redner = Core.DataContainer.SpeakerFindOrAdd("Neuer Redner", Versammlung);
             var rednerModel = new SpeakerViewModel(redner);
             RednerListe.Add(rednerModel);
             rednerModel.Select();

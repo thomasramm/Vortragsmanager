@@ -56,9 +56,9 @@ namespace Vortragsmanager.Core
 
         public static ObservableCollection<Cancelation> Absagen { get; } = new ObservableCollection<Cancelation>();
 
-        public static Conregation FindConregation(string name)
+        public static Conregation ConregationFind(string name)
         {
-            Log.Info(nameof(FindConregation), $"name={name}");
+            Log.Info(nameof(ConregationFind), $"name={name}");
             foreach (var c in Versammlungen)
             {
                 if (c.Name == name)
@@ -68,9 +68,9 @@ namespace Vortragsmanager.Core
             return null;
         }
 
-        public static Conregation FindConregation(string name, int kreis)
+        public static Conregation ConregationFind(string name, int kreis)
         {
-            Log.Info(nameof(FindConregation), $"name={name}, kreis={kreis}");
+            Log.Info(nameof(ConregationFind), $"name={name}, kreis={kreis}");
             foreach (var c in Versammlungen)
             {
                 if (c.Name == name && c.Kreis == kreis)
@@ -80,13 +80,13 @@ namespace Vortragsmanager.Core
             return null;
         }
 
-        public static Conregation FindOrAddConregation(string name)
+        public static Conregation ConregationFindOrAdd(string name)
         {
-            var c = FindConregation(name);
+            var c = ConregationFind(name);
 
             if (c == null)
             {
-                Log.Info(nameof(FindOrAddConregation), $"add={name}");
+                Log.Info(nameof(ConregationFindOrAdd), $"add={name}");
                 c = new Conregation
                 {
                     Name = name,
@@ -99,13 +99,13 @@ namespace Vortragsmanager.Core
             return c;
         }
 
-        public static Conregation FindOrAddConregation(string name, int kreis)
+        public static Conregation ConregationFindOrAdd(string name, int kreis)
         {
-            var c = FindConregation(name, kreis);
+            var c = ConregationFind(name, kreis);
 
             if (c == null)
             {
-                Log.Info(nameof(FindOrAddConregation), $"add={name}, {kreis}");
+                Log.Info(nameof(ConregationFindOrAdd), $"add={name}, {kreis}");
                 c = new Conregation
                 {
                     Name = name,
@@ -118,20 +118,75 @@ namespace Vortragsmanager.Core
             return c;
         }
 
-        public static Talk FindTalk(int Nummer)
+        public static Conregation ConregationGetUnknown()
         {
-            Log.Info(nameof(FindTalk), $"Nummer={Nummer}");
+            return ConregationFindOrAdd("Unbekannt");
+        }
+
+        public static void ConregationRemove(Conregation Versammlung)
+        {
+            var redner = Redner.Where(x => x.Versammlung == Versammlung).OrderBy(x => x.Name).ToList();
+            var unbekannteVersammlung = ConregationGetUnknown();
+            var unbekannterRedner = SpeakerGetUnknown();
+
+            //Einladungen umschreiben (vergangene) oder löschen (zukünftige)
+            var einladungen = MeinPlan
+                .Where(x => x.Status == EventStatus.Zugesagt)
+                .Cast<Invitation>()
+                .Where(x => x.AnfrageVersammlung == Versammlung)
+                .ToList();
+            foreach (var einladung in einladungen)
+            {
+                if (einladung.Datum <= DateTime.Today)
+                {
+                    einladung.AnfrageVersammlung = unbekannteVersammlung;
+                    einladung.Ältester = unbekannterRedner;
+                }
+                else
+                {
+                    MeinPlan.Remove(einladung);
+                }
+            }
+
+            //Anfragen löschen
+            var anfragen = OffeneAnfragen.Where(x => x.Versammlung == Versammlung).ToList();
+            foreach (var anfrage in anfragen)
+            {
+                OffeneAnfragen.Remove(anfrage);
+            }
+
+            //Externe Vorträge in dieser Versammlung
+            var externeE = ExternerPlan.Where(x => x.Versammlung == Versammlung).ToList();
+            foreach (var outside in externeE)
+            {
+                if (outside.Datum <= DateTime.Today)
+                    outside.Versammlung = unbekannteVersammlung;
+                else
+                    ExternerPlan.Remove(outside);
+            }
+
+            foreach (var r in redner)
+            {
+                SpeakerRemove(r);
+            }
+
+            Versammlungen.Remove(Versammlung);
+        }
+
+        public static Talk TalkFind(int Nummer)
+        {
+            Log.Info(nameof(TalkFind), $"Nummer={Nummer}");
             foreach (var t in Vorträge)
             {
                 if (t.Nummer == Nummer)
                     return t;
             }
-            return FindTalk(-1);
+            return TalkFind(-1);
         }
 
-        public static Speaker FindSpeaker(string name, Conregation versammlung)
+        public static Speaker SpeakerFind(string name, Conregation versammlung)
         {
-            Log.Info(nameof(FindSpeaker), $"name={name}, conregation={versammlung?.Id}, {versammlung?.Name}");
+            Log.Info(nameof(SpeakerFind), $"name={name}, conregation={versammlung?.Id}, {versammlung?.Name}");
             foreach (var s in Redner)
             {
                 if (s.Name == name && s.Versammlung == versammlung)
@@ -141,13 +196,13 @@ namespace Vortragsmanager.Core
             return null;
         }
 
-        public static Speaker FindOrAddSpeaker(string name, Conregation versammlung)
+        public static Speaker SpeakerFindOrAdd(string name, Conregation versammlung)
         {
-            var s = FindSpeaker(name, versammlung);
+            var s = SpeakerFind(name, versammlung);
 
             if (s == null)
             {
-                Log.Info(nameof(FindOrAddSpeaker), $"add={name} to conregation={versammlung?.Id}, {versammlung?.Name}");
+                Log.Info(nameof(SpeakerFindOrAdd), $"add={name} to conregation={versammlung?.Id}, {versammlung?.Name}");
                 s = new Speaker
                 {
                     Name = name,
@@ -157,6 +212,63 @@ namespace Vortragsmanager.Core
                 Redner.Add(s);
             }
             return s;
+        }
+
+        public static Speaker SpeakerGetUnknown()
+        {
+            return SpeakerFindOrAdd("Unbekannt", ConregationGetUnknown());
+        }
+
+        public static void SpeakerRemove(Speaker redner)
+        {
+            if (redner is null)
+                return;
+
+            var unbekannteVersammlung = ConregationGetUnknown();
+            var unbekannterRedner = SpeakerGetUnknown();
+
+            //Einladungen
+            var einladungen = MeinPlan
+                .Where(x => x.Status == EventStatus.Zugesagt)
+                .Cast<Invitation>()
+                .Where(x => x.Ältester == redner)
+                .ToList();
+            foreach (var einladung in einladungen)
+            {
+                if (einladung.Datum < DateTime.Today)
+                {
+                    einladung.AnfrageVersammlung = unbekannteVersammlung;
+                    einladung.Ältester = unbekannterRedner;
+                }
+                else
+                    MeinPlan.Remove(einladung);
+            }
+            //Offene Anfragen
+            var anfragen = OffeneAnfragen
+                .Where(x => x.RednerVortrag.ContainsKey(redner))
+                .ToList();
+            foreach (var anfrage in anfragen)
+            {
+                anfrage.RednerVortrag.Remove(redner);
+                if (anfrage.RednerVortrag.Count == 0)
+                    OffeneAnfragen.Remove(anfrage);
+            }
+
+            //Externe Einladungen
+            if (redner.Versammlung == MeineVersammlung)
+            {
+                var externeE = ExternerPlan.Where(x => x.Ältester == redner).ToList();
+                foreach (var einladung in externeE)
+                    ExternerPlan.Remove(einladung);
+            }
+
+            //Absagen
+            var absagen = Absagen
+                .Where(x => x.Ältester == redner).ToList();
+            foreach (var absage in absagen)
+                Absagen.Remove(absage);
+
+            Redner.Remove(redner);
         }
 
         public static int DisplayedYear
@@ -180,46 +292,6 @@ namespace Vortragsmanager.Core
                 if (evt.Datum > evt.Vortrag.Vortrag.ZuletztGehalten || evt.Vortrag.Vortrag.ZuletztGehalten == null)
                     evt.Vortrag.Vortrag.ZuletztGehalten = evt.Datum;
             }
-        }
-
-        public static void RednerLöschen(Speaker MyRedner)
-        {
-            if (MyRedner is null)
-                return;
-
-            //Einladungen
-            var einladungen = MeinPlan
-                .Where(x => x.Status == EventStatus.Zugesagt)
-                .Cast<Invitation>()
-                .Where(x => x.Ältester == MyRedner)
-                .ToList();
-            foreach (var einladung in einladungen)
-            {
-                if (einladung.Datum < DateTime.Today)
-                    einladung.Ältester = null;
-                else
-                    MeinPlan.Remove(einladung);
-            }
-            //Offene Anfragen
-            var anfragen = OffeneAnfragen
-                .Where(x => x.RednerVortrag.ContainsKey(MyRedner))
-                .ToList();
-            foreach (var anfrage in anfragen)
-            {
-                anfrage.RednerVortrag.Remove(MyRedner);
-                if (anfrage.RednerVortrag.Count == 0)
-                    OffeneAnfragen.Remove(anfrage);
-            }
-
-            //Externe Einladungen
-            if (MyRedner.Versammlung == MeineVersammlung)
-            {
-                var externeE = ExternerPlan.Where(x => x.Ältester == MyRedner).ToList();
-                foreach (var einladung in externeE)
-                    ExternerPlan.Remove(einladung);
-            }
-
-            Redner.Remove(MyRedner);
         }
     }
 }
