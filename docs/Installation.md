@@ -8,7 +8,7 @@ Die Installation teilt sich in zwei wichtige Schritte ein.
 
 # Installation #
 
-1. Lade dir das Archiv [Vortragsmanager.zip](http://thomas-ramm.de/Vortragsmanager/Vortragsmanager.zip) herunter.
+1. Lade dir das Archiv herunter. [![Download Vortragsmanager](https://img.shields.io/badge/download-vortragsmanager.zip-blue?style=for-the-badge)](https://github.com/thomasramm/Vortragsmanager/releases/latest/download/Vortragsmanager.zip)
 
 1. Entpacke das Archiv (rechte Maustaste -> Archiv entpacken).
  In dem erstellten Ordner **Vortragsmanager** startest du die eigentliche Installation mit **Setup.exe**.
