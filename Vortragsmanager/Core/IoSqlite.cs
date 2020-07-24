@@ -2,7 +2,7 @@
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
-using Vortragsmanager.Models;
+using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.Core
 {
@@ -325,7 +325,7 @@ namespace Vortragsmanager.Core
                     switch (key)
                     {
                         case "Version":
-                            DataContainer.Version = int.Parse(value, DataContainer.German);
+                            DataContainer.Version = int.Parse(value, Helper.German);
                             break;
 
                         case "IsInitialized":
@@ -338,7 +338,7 @@ namespace Vortragsmanager.Core
                             break;
 
                         case "DisplayedYear":
-                            DataContainer.DisplayedYear = int.Parse(value, DataContainer.German);
+                            Helper.DisplayedYear = int.Parse(value, Helper.German);
                             break;
 
                         default:
@@ -359,7 +359,7 @@ namespace Vortragsmanager.Core
             Log.Info(nameof(ReadVersammlungen));
             DataContainer.Versammlungen.Clear();
 
-            var vers = int.Parse(ReadParameter(Parameter.MeineVersammlung, db), DataContainer.German);
+            var vers = int.Parse(ReadParameter(Parameter.MeineVersammlung, db), Helper.German);
             using (var cmd1 = new SQLiteCommand("SELECT Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Entfernung, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw, Zoom FROM Conregation", db))
             using (var cmd2 = new SQLiteCommand("SELECT Jahr, Zeit FROM Conregation_Zusammenkunftszeiten WHERE IdConregation = @Id", db))
             {
@@ -519,7 +519,7 @@ namespace Vortragsmanager.Core
                     {
                         i.Vortrag = i.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == IdVortrag);
                         if (!(i.Vortrag is null))
-                            i.Vortrag = new TalkSong(DataContainer.FindTalk((int)IdVortrag), -1, -1);
+                            i.Vortrag = new TalkSong(DataContainer.TalkFind((int)IdVortrag), -1, -1);
                     }
                     if (!(IdConregation is null))
                         i.AnfrageVersammlung = DataContainer.Versammlungen.First(x => x.Id == IdConregation);
@@ -558,7 +558,7 @@ namespace Vortragsmanager.Core
                         o.Versammlung = DataContainer.Versammlungen.First(x => x.Id == IdConregation);
                     o.Vortrag = o.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == IdTalk);
                     if (o.Vortrag is null)
-                        o.Vortrag = new TalkSong(DataContainer.FindTalk(IdTalk));
+                        o.Vortrag = new TalkSong(DataContainer.TalkFind(IdTalk));
 
                     DataContainer.ExternerPlan.Add(o);
                 }
@@ -569,7 +569,7 @@ namespace Vortragsmanager.Core
 
         private static string ReadParameter(Parameter parameter, SQLiteConnection db)
         {
-            Log.Info(nameof(ReadParameter), $"parameter={parameter.ToString()}");
+            Log.Info(nameof(ReadParameter), $"parameter={parameter}");
             using (var cmd = new SQLiteCommand($"SELECT Wert FROM Parameter WHERE Name = @Name", db))
             {
                 cmd.Parameters.AddWithValue("@Name", parameter.ToString());
@@ -619,7 +619,7 @@ namespace Vortragsmanager.Core
                         Thema = rdr.IsDBNull(2) ? null : rdr.GetString(2),
                         Vortragender = rdr.IsDBNull(3) ? null : rdr.GetString(3),
                         Datum = rdr.GetDateTime(4),
-                        Vortrag = rdr.IsDBNull(5) ? null : new TalkSong(DataContainer.FindTalk(rdr.GetInt32(5)))
+                        Vortrag = rdr.IsDBNull(5) ? null : new TalkSong(DataContainer.TalkFind(rdr.GetInt32(5)))
                     };
 
                     DataContainer.MeinPlan.Add(v);
@@ -700,7 +700,10 @@ namespace Vortragsmanager.Core
                 while (rdr.Read())
                 {
                     var IdAltester = rdr.GetInt32(1);
-                    var Altester = DataContainer.Redner.First(x => x.Id == IdAltester);
+                    var Altester = DataContainer.Redner.FirstOrDefault(x => x.Id == IdAltester);
+
+                    if (Altester == null)
+                        continue;
 
                     var v = new Cancelation
                     {
@@ -798,7 +801,7 @@ namespace Vortragsmanager.Core
 
             foreach (var er in DataContainer.MeinPlan.Where(x => x.Status != EventStatus.Ereignis))
             {
-                var con = (er as Invitation);
+                var con = er as Invitation;
                 cmd.Parameters[0].Value = con.Ältester?.Id;
                 cmd.Parameters[1].Value = con.Vortrag?.Vortrag.Nummer;
                 cmd.Parameters[2].Value = con.Ältester?.Versammlung?.Id ?? con.AnfrageVersammlung?.Id;
@@ -823,7 +826,7 @@ namespace Vortragsmanager.Core
 
             foreach (var er in DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Ereignis))
             {
-                var evt = (er as SpecialEvent);
+                var evt = er as SpecialEvent;
                 cmd.Parameters[0].Value = (int)evt.Typ;
                 cmd.Parameters[1].Value = evt.Name;
                 cmd.Parameters[2].Value = evt.Thema;
@@ -1020,7 +1023,7 @@ namespace Vortragsmanager.Core
             cmd.ExecuteNonQuery();
 
             cmd.Parameters[0].Value = "DisplayedYear";
-            cmd.Parameters[1].Value = DataContainer.DisplayedYear;
+            cmd.Parameters[1].Value = Helper.DisplayedYear;
             cmd.ExecuteNonQuery();
 
             cmd.Dispose();

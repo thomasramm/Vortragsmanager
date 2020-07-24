@@ -1,0 +1,123 @@
+﻿<Window x:Class="Vortragsmanager.Views.VersammlungLöschenDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Vortragsmanager.Views"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        mc:Ignorable="d"
+        x:Name="VersammlungBearbeiten"
+        Title="Versammlung bearbeiten"
+        dx:ThemeManager.Theme="MetropolisDark"
+        Background="#333333"
+        Height="450"
+        Width="800">
+    <Window.Resources>
+        <dxmvvm:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
+    <Window.DataContext>
+        <local:VersammlungLöschenDialogView />
+    </Window.DataContext>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition x:Name="Step1" Height="{Binding Step1Height}" />
+            <RowDefinition x:Name="Step2" Height="{Binding Step2Height}" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Label VerticalAlignment="Top"
+               Foreground="White"
+               Margin="0,10">
+            <TextBlock Text="Du hast zwei Möglichkeiten. Entweder kannst du die Versammlung mit allen Rednern löschen,
+die in der Vergangenheit gehaltenen Vorträge werden dann auf 'Unbekannter Redner' umgeschlüsselt.
+Oder du kannst die Versammlung mit einer anderen Versammlung zusammenlegen."
+                       TextWrapping="Wrap" />
+        </Label>
+        <StackPanel Grid.Row="1"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Width="250">
+            <dx:SimpleButton Content="Versammlung zusammenführen"
+                             Glyph="/Images/Merge_32x32.png"
+                             HorizontalContentAlignment="Left"
+                             Command="{Binding ChoiseMergeCommand}"
+                             Margin="5"
+                             Height="50" />
+            <dx:SimpleButton Content="Versammlung löschen"
+                             Glyph="/Images/Delete_Red_32x32.png"
+                             Command="{Binding DeleteCommand}"
+                             CommandParameter="{Binding ElementName=VersammlungBearbeiten}"
+                             HorizontalContentAlignment="Left"
+                             Margin="5"
+                             Height="50" />
+        </StackPanel>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="150" />
+                <RowDefinition Height="60" />
+            </Grid.RowDefinitions>
+            <GroupBox Grid.Column="0"
+                        Header="Zielversammlung">
+                <dxe:AutoSuggestEdit x:Name="VersammlungenFilter"
+                                Grid.Row="2"
+                                ImmediatePopup="True"
+                                SelectAllOnMouseUp="True"
+                                SelectAllOnGotFocus="True"
+                                AllowPopupTextHighlighting="True"
+                                DisplayMember="Name"
+                                TextMember="Name"
+                                Width="200"
+                                Height="30"
+                                Margin="10"
+                                PopupHighlightedTextCriteria="Regex"
+                                NullText="🔎 Versammlung suchen"
+                                QuerySubmitted="VersammlungenFilter_QuerySubmitted"
+                                ItemsSource="{Binding ListeFilteredVersammlungen}"
+                                EditValue="{Binding SelectedConregationName, UpdateSourceTrigger=PropertyChanged}"
+                                AllowNullInput="True" />
+            </GroupBox>
+            <GroupBox Grid.Column="1"
+                      Header="Der neue Koordinator">
+                <StackPanel VerticalAlignment="Center">
+                    <RadioButton Content="{Binding Merge1Koordinator}"
+                                 GroupName="Koordinator"
+                                 Command="{Binding KoordinatorSelectCommand}"
+                                 CommandParameter="1"
+                                 Margin="10,0,0,10"
+                                 Foreground="White" />
+                    <RadioButton Content="{Binding Merge2Koordinator}"
+                                 GroupName="Koordinator"
+                                 Command="{Binding KoordinatorSelectCommand}"
+                                 CommandParameter="2"
+                                 Foreground="White"
+                                 Margin="10,0" />
+                </StackPanel>
+            </GroupBox>
+            <dx:SimpleButton Grid.Row="1"
+                             Grid.ColumnSpan="2"
+                             Width="250"
+                             Content="Versammlung zusammenführen"
+                             Glyph="/Images/Merge_32x32.png"
+                             HorizontalContentAlignment="Center"
+                             Command="{Binding MergeCommand}"
+                             CommandParameter="{Binding ElementName=VersammlungBearbeiten}"
+                             IsEnabled="{Binding MergeEnabled}"
+                             ToolTip="{Binding MergeHint}"
+                             Margin="5"
+                             Height="50" />
+        </Grid>
+        <dx:SimpleButton Grid.Row="3"
+                             Content="Abbrechen"
+                             Glyph="{dx:DXImage SvgImages/Outlook Inspired/Cancel.svg}"
+                             GlyphAlignment="Left"
+                             Command="{Binding CancelCommand}"
+                             CommandParameter="{Binding ElementName=VersammlungBearbeiten}"
+                             HorizontalAlignment="Right" Width="150" />
+    </Grid>
+</Window>
