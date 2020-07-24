@@ -4,7 +4,7 @@ title: "Verwaltung"
 Der Bereich Verwaltung besteht aus 4 unterschiedlichen Teilen:
 
 [![link3](/images/menu_icon_06.png)](/Vortragsmanager/ListenAusgeben){: .align-left}
-[![link3](/images/menu_icon_07.png)](/Vortragsmanager/Verwsammlungen){: .align-left}
+[![link3](/images/menu_icon_07.png)](/Vortragsmanager/Versammlungen){: .align-left}
 
 <br clear="all" />
 

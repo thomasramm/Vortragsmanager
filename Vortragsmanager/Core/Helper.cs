@@ -1,4 +1,9 @@
-﻿using System;
+﻿using DevExpress.Mvvm;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using Vortragsmanager.Datamodels;
+using Vortragsmanager.Views;
 
 namespace Vortragsmanager.Core
 {
@@ -14,6 +19,34 @@ namespace Vortragsmanager.Core
             return date;
         }
 
-        public static int CurrentVersion => 5;
+        public static int CurrentVersion => 7;
+
+        public class EigeneKreisNameComparer : IComparer<Conregation>
+        {
+            public int Compare(Conregation x, Conregation y)
+            {
+                var eigene = DataContainer.MeineVersammlung;
+                var eigenerKreis = eigene.Kreis;
+                string value1 = (x.Kreis == eigenerKreis ? "0" : "1") + (x == eigene ? "0" : "1") + x.Kreis + x.Name;
+                string value2 = (y.Kreis == eigenerKreis ? "0" : "1") + (y == eigene ? "0" : "1") + y.Kreis + y.Name;
+                return string.Compare(value1, value2, StringComparison.InvariantCulture);
+            }
+        }
+
+        public static MyGloabalSettings GlobalSettings { get; set; }
+
+        private static int _displayedYear = DateTime.Now.Year;
+
+        public static int DisplayedYear
+        {
+            get => _displayedYear;
+            set
+            {
+                _displayedYear = value;
+                Messenger.Default.Send(Messages.DisplayYearChanged);
+            }
+        }
+
+        public static CultureInfo German { get; } = new CultureInfo("de-DE");
     }
 }

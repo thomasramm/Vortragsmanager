@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.Core
 {
@@ -29,12 +30,12 @@ namespace Vortragsmanager.Core
                         break;
 
                     //Versammlung
-                    var rednerVersammlung = DataContainer.FindOrAddConregation(vers.ToString());
+                    var rednerVersammlung = DataContainer.ConregationFindOrAdd(vers.ToString());
 
-                    var s = DataContainer.FindSpeaker(name.ToString(), rednerVersammlung);
+                    var s = DataContainer.SpeakerFind(name.ToString(), rednerVersammlung);
                     if (s == null)
                     {
-                        s = new Models.Speaker
+                        s = new Speaker
                         {
                             Name = name.ToString(),
                             Id = id,
@@ -48,10 +49,10 @@ namespace Vortragsmanager.Core
                     var meineVotrgäge = vort.ToString().Split(new[] { ';', ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var v in meineVotrgäge)
                     {
-                        var nr = int.Parse(v, DataContainer.German);
-                        var t = DataContainer.FindTalk(nr);
-                        if (!(t is null) && (!s.Vorträge.Contains(t)))
-                            s.Vorträge.Add(t);
+                        var nr = int.Parse(v, Helper.German);
+                        var t = DataContainer.TalkFind(nr);
+                        if (!(t is null) && !s.Vorträge.Select(y => y.Vortrag).Contains(t))
+                            s.Vorträge.Add(new TalkSong(t));
                     }
 
                     row++;
@@ -63,13 +64,13 @@ namespace Vortragsmanager.Core
         {
             public static int Kreis { get; set; } = -1;
 
-            public static List<Models.Conregation> Conregations = new List<Models.Conregation>();
+            public static List<Conregation> Conregations = new List<Conregation>();
 
             public static bool ImportKoordinatoren(string filename)
             {
                 Log.Info(nameof(ImportKoordinatoren), filename);
                 var file = new FileInfo(filename);
-                Conregations = new List<Models.Conregation>();
+                Conregations = new List<Conregation>();
 
                 try
                 {
@@ -79,7 +80,7 @@ namespace Vortragsmanager.Core
                         ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
                         var pos = worksheet.Name.LastIndexOf(' ');
                         var kreisString = worksheet.Name.Substring(pos + 1, worksheet.Name.Length - pos - 1);
-                        Kreis = int.Parse(kreisString, DataContainer.German);
+                        Kreis = int.Parse(kreisString, Helper.German);
 
                         var row = 2;
                         var id = 1;
@@ -104,7 +105,7 @@ namespace Vortragsmanager.Core
                             if (verString.Length > 23 && verString.Substring(0, 23) == "Hinweis zum Datenschutz")
                                 break;
 
-                            var v = new Models.Conregation
+                            var v = new Conregation
                             {
                                 Id = id,
                                 Kreis = Kreis,
@@ -149,9 +150,9 @@ namespace Vortragsmanager.Core
                 return true;
             }
 
-            public static List<Models.IEvent> MeinPlan { get; } = new List<Models.IEvent>();
+            public static List<IEvent> MeinPlan { get; } = new List<IEvent>();
 
-            public static List<Models.Outside> ExternerPlan { get; } = new List<Models.Outside>();
+            public static List<Outside> ExternerPlan { get; } = new List<Outside>();
 
             public static bool ImportEigenePlanungen(string filename)
             {
@@ -188,37 +189,37 @@ namespace Vortragsmanager.Core
 
                             if (redner == null) //Special Event eintragen
                             {
-                                var se = new Models.SpecialEvent
+                                var se = new SpecialEvent
                                 {
-                                    Datum = DateTime.Parse(datum.ToString(), DataContainer.German),
-                                    Typ = Models.SpecialEventTyp.Sonstiges,
+                                    Datum = DateTime.Parse(datum.ToString(), Helper.German),
+                                    Typ = SpecialEventTyp.Sonstiges,
                                 };
                                 var typ = thema.ToString();
                                 if (typ.Contains("Weltzentrale"))
                                 {
-                                    se.Typ = Models.SpecialEventTyp.Streaming;
+                                    se.Typ = SpecialEventTyp.Streaming;
                                     se.Name = typ;
                                 }
                                 else if (typ.Contains("Kreiskongress"))
                                 {
-                                    se.Typ = Models.SpecialEventTyp.Kreiskongress;
+                                    se.Typ = SpecialEventTyp.Kreiskongress;
                                 }
                                 else if (typ.Contains("Sondervortrag"))
                                 {
-                                    se.Typ = Models.SpecialEventTyp.Streaming;
+                                    se.Typ = SpecialEventTyp.Streaming;
                                     se.Name = typ;
                                 }
                                 else if (typ.Contains("Regionaler Kongress"))
                                 {
-                                    se.Typ = Models.SpecialEventTyp.RegionalerKongress;
+                                    se.Typ = SpecialEventTyp.RegionalerKongress;
                                 }
                                 MeinPlan.Add(se);
                                 continue;
                             }
 
-                            var i = new Models.Invitation
+                            var i = new Invitation
                             {
-                                Datum = DateTime.Parse(datum.ToString(), DataContainer.German)
+                                Datum = DateTime.Parse(datum.ToString(), Helper.German)
                             };
 
                             //Versammlung
@@ -226,10 +227,10 @@ namespace Vortragsmanager.Core
 
                             if (v1 == "Kreisaufseher")
                             {
-                                var se = new Models.SpecialEvent
+                                var se = new SpecialEvent
                                 {
                                     Datum = i.Datum,
-                                    Typ = Models.SpecialEventTyp.Dienstwoche,
+                                    Typ = SpecialEventTyp.Dienstwoche,
                                     Vortragender = redner?.ToString() ?? "Kreisaufseher",
                                     Thema = thema?.ToString()
                                 };
@@ -237,8 +238,8 @@ namespace Vortragsmanager.Core
                                 continue;
                             }
 
-                            var v = DataContainer.FindOrAddConregation(v1);
-                            var r = DataContainer.FindOrAddSpeaker(redner.ToString(), v);
+                            var v = DataContainer.ConregationFindOrAdd(v1);
+                            var r = DataContainer.SpeakerFindOrAdd(redner.ToString(), v);
                             i.Ältester = r;
 
                             if (string.IsNullOrEmpty(i.Ältester.Telefon) && !string.IsNullOrEmpty(rednerTelefon))
@@ -247,11 +248,11 @@ namespace Vortragsmanager.Core
                                 i.Ältester.Mobil = rednerHandy;
 
                             //Vortrag
-                            var vn = int.Parse(vortrag.ToString(), DataContainer.German);
-                            var t = DataContainer.FindTalk(vn);
-                            i.Vortrag = t;
-                            if (!i.Ältester.Vorträge.Contains(t))
-                                i.Ältester.Vorträge.Add(t);
+                            var vn = int.Parse(vortrag.ToString(), Helper.German);
+                            var t = DataContainer.TalkFind(vn);
+                            i.Vortrag = new TalkSong(t);
+                            if (!i.Ältester.Vorträge.Select(y => y.Vortrag).Contains(t))
+                                i.Ältester.Vorträge.Add(i.Vortrag);
 
                             MeinPlan.Add(i);
                         }
@@ -276,7 +277,7 @@ namespace Vortragsmanager.Core
                 try
                 {
                     var file = new FileInfo(filename);
-                    Conregations = new List<Models.Conregation>();
+                    Conregations = new List<Conregation>();
 
                     using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     using (ExcelPackage package = new ExcelPackage(fs))
@@ -301,13 +302,13 @@ namespace Vortragsmanager.Core
                             if (redner == null)
                                 continue;
 
-                            var i = new Models.Outside
+                            var i = new Outside
                             {
-                                Datum = DateTime.Parse(datum.ToString(), DataContainer.German)
+                                Datum = DateTime.Parse(datum.ToString(), Helper.German)
                             };
 
                             //Redner
-                            var r = DataContainer.FindOrAddSpeaker(redner.ToString(), DataContainer.MeineVersammlung);
+                            var r = DataContainer.SpeakerFindOrAdd(redner.ToString(), DataContainer.MeineVersammlung);
                             if (r == null)
                                 continue;
 
@@ -316,16 +317,16 @@ namespace Vortragsmanager.Core
                             //Gast-Versammlung
                             var v1 = versammlung?.ToString() ?? "Unbekannt";
                             if (v1 == "Urlaub")
-                                i.Reason = Models.OutsideReason.NotAvailable;
-                            var v = DataContainer.FindOrAddConregation(v1);
+                                i.Reason = OutsideReason.NotAvailable;
+                            var v = DataContainer.ConregationFindOrAdd(v1);
                             i.Versammlung = v;
 
                             //Vortrag
-                            var vn = string.IsNullOrEmpty(vortrag?.ToString()) ? -1 : int.Parse(vortrag.ToString(), DataContainer.German);
-                            var t = DataContainer.FindTalk(vn);
-                            i.Vortrag = t;
-                            if (!i.Ältester.Vorträge.Contains(t))
-                                i.Ältester.Vorträge.Add(t);
+                            var vn = string.IsNullOrEmpty(vortrag?.ToString()) ? -1 : int.Parse(vortrag.ToString(), Helper.German);
+                            var t = DataContainer.TalkFind(vn);
+                            i.Vortrag = new TalkSong(t);
+                            if (!i.Ältester.Vorträge.Select(y => y.Vortrag).Contains(t))
+                                i.Ältester.Vorträge.Add(i.Vortrag);
 
                             ExternerPlan.Add(i);
                         }

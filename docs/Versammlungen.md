@@ -31,7 +31,7 @@ im Rechten Bereich die Redner die zu der Versammlung angelegt wurden.
 Die Oberste Funktion "Eigene Versammlung" Ja / Nein kann nur einmal auf Ja gesetzt werden. Du legst deine eigene Versammlung ganz normal wie jede andere Versammlung auch an, aktivierst aber diesen Schalter.
 
 Die Entfernung (km) kannst du entweder selber eingeben, oder mit **Berechnen** durch Google berechnen lassen. Bei deiner eigenen Versammlung gibst du hier einfach eine 0 ein.
-Lässt du das Feld leer, kannst du auch im Bereich [Programm](+programm) die Entfernung für alle Versammlungen mit einem Klick berechnen lassen.
+Lässt du das Feld leer, kannst du auch im Bereich [Programm](ProgrammEinstellungen.md) die Entfernung für alle Versammlungen mit einem Klick berechnen lassen.
 
 ### Koordinator
 
@@ -43,11 +43,16 @@ Hier wird der Tag und die Uhrzeit für die Zusammenkunft mit dem öffentlichen V
 
 ### Sonstiges
 
-Als letztes hast du hier noch die Option einen Neuen Redner anlegen und die komplette Versammlung inkl. aller angelegten Redner zu löschen.
+Als letztes hast du hier noch die Option einen Neuen Redner anlegen.
+Der Menüpunkt "Versammlung löschen" bietet dir die Möglichkeit entweder die Versammlung inkl. aller Redner zu löschen
+oder die Versammlung mit einer anderen Versammlung zusammenzulegen. Adresse und weitere Informationen werden von der Zielversammlung übernommen,
+bei den Kontaktdaten des Koordinator kann man wählen welcher der beiden Koordinatoren man in den Daten behalten möchte.
 
 Zuteilungen der Vergangenheit werden dann abgeändert, der Vortrag bleibt weiterhin gespeichert, aber als Redner und Versammlung wird "unbekannt" eingetragen.
 
 ### Rednerliste
+
+Die Redner können auch über das Hauptmenü [Redner](Redner.md) angezeigt und bearbeitet werden.
 
 Im rechten Bereich werden die angelegten Redner angezeigt. Dargestellt werden folgende Informationen:
 
@@ -100,4 +105,4 @@ Die Liste der Vorträge die ein Diener ausgearbeitet hat.
 
 UNDER CONSTRUCTION
 
-[zurück](ListenAusgeben.md){: .btn .btn--inverse}  [weiter](Vorlagen.md){: .btn .btn--inverse}
+[zurück](ListenAusgeben.md){: .btn .btn--inverse}  [weiter](Redner.md){: .btn .btn--inverse}

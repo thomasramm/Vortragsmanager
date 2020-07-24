@@ -120,7 +120,7 @@ namespace Vortragsmanager.Core
             ServerDate = new DateTime(2000, 1, 1);
             foreach (var version in versionen)
             {
-                var v = DateTime.Parse(version, DataContainer.German);
+                var v = DateTime.Parse(version, Helper.German);
                 if (v > ServerDate)
                     ServerDate = v;
             }

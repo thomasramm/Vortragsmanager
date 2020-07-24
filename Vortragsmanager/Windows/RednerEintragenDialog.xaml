@@ -1,0 +1,61 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Vortragsmanager.Views"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    x:Class="Vortragsmanager.Views.RednerEintragenDialog"
+        mc:Ignorable="d"
+        Title="Ereignis eintragen" Height="300" Width="500"
+        DataContext="{dxmvvm:ViewModelSource {x:Type local:RednerEintragenView}}"
+        x:Name="EreignisBearbeitenWindow">
+    <Window.Resources>
+        <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <dxlc:LayoutControl Orientation="Vertical" Margin="50,30">
+            <dxlc:LayoutItem Label="Versammlung">
+                <dxe:ComboBoxEdit ItemsSource="{Binding Versammlungen}"
+                                  SelectedItem="{Binding SelectedVersammlung, Mode=TwoWay}"
+                                  DisplayMember="Name"
+                                  AutoComplete="True"
+                                  IsTextEditable="False">
+                </dxe:ComboBoxEdit>
+            </dxlc:LayoutItem>
+            <dxlc:LayoutItem Label="Redner">
+                <dxe:ComboBoxEdit ItemsSource="{Binding Redner}"
+                                  SelectedItem="{Binding SelectedRedner, Mode=TwoWay}"
+                                  DisplayMember="Name"
+                                  AutoComplete="True"
+                                  IsTextEditable="False" />
+            </dxlc:LayoutItem>
+            <dxlc:LayoutItem Label="Vortrag">
+                <dxe:ComboBoxEdit ItemsSource="{Binding Vortrag}"
+                                  SelectedItem="{Binding SelectedVortrag, Mode=TwoWay}"
+                                  DisplayMember="Vortrag.NumberTopicShort"
+                                  AutoComplete="True"
+                                  IsTextEditable="True" />
+            </dxlc:LayoutItem>
+        </dxlc:LayoutControl>
+        <dx:SimpleButton Grid.Row="1" Content="Speichern"
+                             Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}"
+                             GlyphAlignment="Left"
+                             Command="{Binding SaveCommand}"
+                             CommandParameter="{Binding ElementName=EreignisBearbeitenWindow}"
+                             HorizontalAlignment="Right" Width="150" Margin="5,5,160,5" />
+        <dx:SimpleButton Grid.Row="1" Content="Abbrechen"
+                             Glyph="{dx:DXImage SvgImages/Outlook Inspired/Cancel.svg}"
+                             GlyphAlignment="Left"
+                             Command="{Binding CloseCommand}"
+                             CommandParameter="{Binding ElementName=EreignisBearbeitenWindow}"
+                             HorizontalAlignment="Right" Width="150" Margin="5" />
+    </Grid>
+</Window>

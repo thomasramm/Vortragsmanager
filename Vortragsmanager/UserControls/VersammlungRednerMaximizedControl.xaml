@@ -1,0 +1,139 @@
+﻿<UserControl x:Class="Vortragsmanager.Views.VersammlungRednerMaximizedControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <dxlc:LayoutControl ItemSpace="6">
+        <dxlc:LayoutControl.GroupBoxStyle>
+            <Style TargetType="dxlc:GroupBox">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="dxlc:GroupBox">
+                            <GroupBox Header="{TemplateBinding Header}" Content="{TemplateBinding Content}" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </dxlc:LayoutControl.GroupBoxStyle>
+        <dxlc:LayoutGroup Orientation="Vertical">
+            <dxlc:LayoutGroup Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <dxlc:LayoutGroup Orientation="Vertical">
+                    <dxlc:LayoutGroup Header="Daten des Redner" View="GroupBox" Orientation="Vertical">
+                        <dxlc:LayoutItem Label="Typ:">
+                            <dxe:ToggleSwitch ContentPlacement="Near"
+                                              CheckedStateContent="Ältester" UncheckedStateContent="DAG"
+                                              IsChecked="{Binding Ältester, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="Aktiv:">
+                            <dxe:ToggleSwitch ContentPlacement="Near"
+                                              CheckedStateContent="Ja" UncheckedStateContent="Nein"
+                                              IsChecked="{Binding Redner.Aktiv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="Einladen:">
+                            <dxe:ToggleSwitch ContentPlacement="Near"
+                                              CheckedStateContent="Ja" UncheckedStateContent="Nein"
+                                              IsChecked="{Binding Redner.Einladen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="Name:">
+                            <TextBox Text="{Binding Redner.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="E-Mail:">
+                            <TextBox Text="{Binding Redner.Mail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="JwPub.org:">
+                            <TextBox Text="{Binding Redner.JwMail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="Telefon:">
+                            <TextBox Text="{Binding Redner.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="Handy">
+                            <TextBox Text="{Binding Redner.Mobil, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="Vertrauliche Notiz">
+                            <TextBox Text="{Binding Redner.InfoPrivate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="Öffentlicher Hinweis">
+                            <TextBox Text="{Binding Redner.InfoPublic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="Terminabstand:">
+                            <TextBox Text="Under Construction" Foreground="Orange" />
+                        </dxlc:LayoutItem>
+                    </dxlc:LayoutGroup>
+                    <dxlc:LayoutGroup Header="Redner Aktionen" Orientation="Vertical" View="GroupBox">
+                        <dxlc:LayoutItem Label="Redner löschen">
+                            <dx:SimpleButton Content="Löschen"
+                                             Glyph="{dx:DXImage 'SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg'}"
+                                             Command="{Binding DeleteCommand}"
+                                             Height="23" />
+                        </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="Redner verschieben">
+                            <dxe:ComboBoxEdit ItemsSource="{Binding Versammlungen}"
+                                            DisplayMember="Name"
+                                            IsTextEditable="False"
+                                            SelectedItem="{Binding SelectedVersammlung, Mode=TwoWay}"
+                                            IsPopupOpen="{Binding VersammlungenPopUp, Mode=TwoWay}"
+                                            PopupFooterButtons="OkCancel">
+                                <dxe:ComboBoxEdit.StyleSettings>
+                                    <dxe:RadioComboBoxStyleSettings />
+                                </dxe:ComboBoxEdit.StyleSettings>
+                            </dxe:ComboBoxEdit>
+                        </dxlc:LayoutItem>
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutGroup>
+                <dxlc:LayoutGroup Header="Vorträge" View="GroupBox" Orientation="Vertical">
+                    <ListBox ItemsSource="{Binding Vorträge}"
+                             SelectedItem="{Binding GewählterVortrag}"
+                             HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Height="20">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="35" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding Path=Vortrag.Nummer}" HorizontalAlignment="Right" Margin="0,0,5,0" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Path=Vortrag.Thema}" />
+                                    <TextBox Grid.Column="2" Text="{Binding Path=Lied, Mode=TwoWay}" HorizontalContentAlignment="Center" Margin="2,0" ToolTip="Lied zum Vortrag" />
+                                    <TextBox Grid.Column="3" Text="{Binding Path=LiedErsatz,Mode=TwoWay}" HorizontalContentAlignment="Center" Margin="2,0" ToolTip="Ersatzlied" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <dxlc:LayoutGroup Orientation="Vertical">
+                        <Button Content="gewählten Vortrag löschen"
+                                Command="{Binding VortragLöschenCommand}"
+                                Height="26" />
+                        <dxlc:LayoutItem Label="Neuen Vortrag hinzufügen:" LabelPosition="Top" Margin="0,10,0,0">
+                            <dxe:ComboBoxEdit ItemsSource="{Binding Vortragsliste}"
+                                            SelectedItem="{Binding NeuerVortrag}"
+                                            DisplayMember="NumberTopicShort"
+                                            IsTextEditable="False"
+                                            AutoComplete="True"
+                                            IsPopupOpen="True" KeyUp="ComboBoxEdit_KeyUp" />
+                        </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="Kommagetrennte Liste von Vorträgen zum hinzufügen:" LabelPosition="Top" Margin="0,10,0,0">
+                            <dxe:TextEdit EditValue="{Binding NeueVorträgeListe}"
+                                          ValidateOnEnterKeyPressed="True"
+                                          ValidateOnTextInput="False"
+                                          Validate="NeueVorträgeListe_Validate" />
+                        </dxlc:LayoutItem>
+                        <Button Content="Hinzufügen"
+                                Command="{Binding NeuerVortragCommand}"
+                                Height="26" />
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutGroup>
+                <dxlc:LayoutGroup Header="Abwesenheiten" View="GroupBox" Orientation="Vertical">
+                    <Label Content="Under Construction" Foreground="Orange" />
+                </dxlc:LayoutGroup>
+            </dxlc:LayoutGroup>
+        </dxlc:LayoutGroup>
+    </dxlc:LayoutControl>
+</UserControl>

@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Net;
 using System.Windows;
-using Vortragsmanager.Models;
+using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.Core
 {
@@ -60,7 +60,7 @@ namespace Vortragsmanager.Core
 
         public static int? GetDistance(Conregation start, Conregation end)
         {
-            if ((start is null) || (end is null))
+            if (start is null || end is null)
             {
                 Log.Info(nameof(GetDistance), $"start oder end is null");
                 return null;

@@ -12,6 +12,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Vortragsmanager.Core;
 
 public class Ini
 {
@@ -43,7 +44,7 @@ public class Ini
     /// </summary>
     public void Load(string content)
     {
-        Vortragsmanager.Core.Log.Info(nameof(Load), content);
+        Log.Info(nameof(Load), content);
         if (string.IsNullOrEmpty(content))
             return;
 
@@ -112,7 +113,7 @@ public class Ini
     /// <returns></returns>
     public string GetValue(string key, string section, string @default)
     {
-        Vortragsmanager.Core.Log.Info(nameof(GetValue), $"key={key}, section={section}, default={@default}");
+        Log.Info(nameof(GetValue), $"key={key}, section={section}, default={@default}");
         if (!ini.ContainsKey(section))
             return @default;
 
@@ -127,7 +128,7 @@ public class Ini
     /// </summary>
     public void Save()
     {
-        Vortragsmanager.Core.Log.Info(nameof(Save));
+        Log.Info(nameof(Save));
         var sb = new StringBuilder();
         foreach (var section in ini)
         {
@@ -188,7 +189,7 @@ public class Ini
     /// <param name="value">parameter value</param>
     public void WriteValue(string key, string section, string value)
     {
-        Vortragsmanager.Core.Log.Info(nameof(WriteValue), $"key={key}, section={section}, value={value}");
+        Log.Info(nameof(WriteValue), $"key={key}, section={section}, value={value}");
         Dictionary<string, string> currentSection;
         if (!ini.ContainsKey(section))
         {
@@ -208,7 +209,7 @@ public class Ini
     /// <returns></returns>
     public string[] GetKeys(string section)
     {
-        Vortragsmanager.Core.Log.Info(nameof(GetKeys), section);
+        Log.Info(nameof(GetKeys), section);
         if (!ini.ContainsKey(section))
             return Array.Empty<string>();
 
@@ -221,7 +222,7 @@ public class Ini
     /// <returns></returns>
     public string[] GetSections()
     {
-        Vortragsmanager.Core.Log.Info(nameof(GetSections));
+        Log.Info(nameof(GetSections));
         return ini.Keys.Where(t => !string.IsNullOrEmpty(t)).ToArray();
     }
 }

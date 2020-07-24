@@ -2206,8 +2206,8 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Vortragsmanager"
-        "ProductCode" = "8:{E63F8C6C-CA44-4B3C-9153-D9F723A70B2A}"
-        "PackageCode" = "8:{7FC89721-AAAC-4C3D-880D-BEFDE801D069}"
+        "ProductCode" = "8:{2A25C0FD-B65D-4A09-8643-DF8DAF8FD358}"
+        "PackageCode" = "8:{1F157DC5-4EEA-438B-9960-F262792AA47F}"
         "UpgradeCode" = "8:{09BD3326-8025-447B-B3ED-AA9A44497F97}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
