@@ -1,4 +1,4 @@
-[21.07.2020]
+[24.07.2020]
 
 Neues System zum speichern der Vorlagen. Als neue Vorlage wurde "Signatur" hinzugefügt. Die Signatur kann wiederum in allen anderen Vorlagen benutzt werden.
 Wird eine Vorlage verändert, kann sie nun wieder auf den Originaltext zurückgesetzt werden.  
@@ -10,6 +10,7 @@ Neue Redner Einstellungen:
 
 Neue Versammlungseinstellungen:
 * Zu jeder Versammlung können die Zoom Zugangsdaten gespeichert werden.
+* Versammlungen können nun zusammengelegt werden.
 
 Neuer Menübereich:
 * Auf dem Dashboard gibt es einen neuen Menüpunkt "Redner" mit Schnellzugriff auf alle Redner.
@@ -20,6 +21,7 @@ Sonstige Fehlerbehebungen und Verbesserungen:
 * Fehler in Rednersuche behoben (Filtereinstellungen)
 * Fehlerbehebung in Berechnung wann ein Vortrag zuletzt gehalten wurde
 * Handbuch Anzeige im Web optimiert
+* Verbessertes löschen von Rednern und Versammlungen (intern)
 
 [14.05.2020]
 Handbuch Ergänzungen
