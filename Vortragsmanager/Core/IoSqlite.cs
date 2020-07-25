@@ -30,6 +30,7 @@ namespace Vortragsmanager.Core
                 ReadEvents(db);
                 ReadAnfragen(db);
                 ReadCancelation(db);
+                ReadActivity(db);
 
                 DataContainer.UpdateTalkDate();
                 DataContainer.IsInitialized = true;
@@ -64,6 +65,7 @@ namespace Vortragsmanager.Core
                     SaveExternerPlan(db);
                     SaveTemplates(db);
                     SaveCancelation(db);
+                    SaveActivity(db);
                     transaction.Commit();
                 }
                 db.Close();
@@ -247,6 +249,15 @@ namespace Vortragsmanager.Core
                 IdLastStatus INTEGER)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Activity (
+                    Id INTEGER,
+                    Datum INTEGER,
+                    Type INTEGER,
+                    Objekt TEXT,
+                    Kommentar TEXT)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
         }
 
         #region READ
@@ -305,6 +316,18 @@ namespace Vortragsmanager.Core
                 cmd.Dispose();
 
                 cmd = new SQLiteCommand(@"DELETE FROM Templates;", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+            }
+
+            if (DataContainer.Version < 8)
+            {
+                var cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Activity (
+                    Id INTEGER,
+                    Datum INTEGER,
+                    Type INTEGER,
+                    Objekt TEXT,
+                    Kommentar TEXT)", db);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
             }
@@ -719,6 +742,31 @@ namespace Vortragsmanager.Core
             }
         }
 
+        private static void ReadActivity(SQLiteConnection db)
+        {
+            DataContainer.Aktivitäten.Clear();
+            using (var cmd = new SQLiteCommand("SELECT Id, Datum, Type, Object, Kommentar FROM Activity", db))
+            {
+                SQLiteDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    var v = new Activity
+                    {
+                        Id = rdr.GetInt32(0),
+                        Datum = rdr.GetDateTime(1),
+                        Type = (ActivityType)rdr.GetInt32(2),
+                        Objekt = rdr.GetString(3),
+                        Kommentar = rdr.GetString(4),
+                    };
+
+                    DataContainer.Aktivitäten.Add(v);
+                }
+
+                rdr.Close();
+            }
+        }
+
         #endregion READ
 
         #region SAVE
@@ -1060,6 +1108,31 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[0].Value = absage.Datum;
                 cmd.Parameters[1].Value = absage.Ältester.Id;
                 cmd.Parameters[2].Value = (int)absage.LetzterStatus;
+                cmd.ExecuteNonQuery();
+            }
+
+            cmd.Dispose();
+        }
+
+        private static void SaveActivity(SQLiteConnection db)
+        {
+            var cmd = new SQLiteCommand("INSERT INTO Activity(Id, Datum, Typ, Object, Kommentar) " +
+    "VALUES (@Id, @Datum, @Typ, @Objekt, @Kommentar)", db);
+
+            cmd.Parameters.Add("@Id", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
+            cmd.Parameters.Add("@Typ", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@Objekt", System.Data.DbType.String);
+            cmd.Parameters.Add("@Kommentar", System.Data.DbType.String);
+
+            foreach (var a in DataContainer.Aktivitäten)
+            {
+                cmd.Parameters[0].Value = a.Id;
+                cmd.Parameters[1].Value = a.Datum;
+                cmd.Parameters[2].Value = (int)a.Type;
+                cmd.Parameters[3].Value = a.Objekt;
+                cmd.Parameters[4].Value = a.Kommentar;
+
                 cmd.ExecuteNonQuery();
             }
 

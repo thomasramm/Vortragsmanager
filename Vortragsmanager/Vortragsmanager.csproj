@@ -133,6 +133,7 @@
     <Compile Include="Core\IoSqlite.cs" />
     <Compile Include="Core\Log.cs" />
     <Compile Include="Core\Security.cs" />
+    <Compile Include="Datamodels\Activity.cs" />
     <Compile Include="Datamodels\Templates.cs" />
     <Compile Include="Core\Updater.cs" />
     <Compile Include="Datamodels\Event.cs" />
