@@ -138,6 +138,10 @@
     <Compile Include="Core\Updater.cs" />
     <Compile Include="Datamodels\Event.cs" />
     <Compile Include="Datamodels\ICloseable.cs" />
+    <Compile Include="UserControls\ActivityItem.xaml.cs">
+      <DependentUpon>ActivityItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ActivityViewModel.cs" />
     <Compile Include="UserControls\DashboardViewModel.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
@@ -294,6 +298,10 @@
     <Compile Include="MeinPlan\MeinPlanView.xaml.cs">
       <DependentUpon>MeinPlanView.xaml</DependentUpon>
     </Compile>
+    <Page Include="UserControls\ActivityItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\AntwortEintragenControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

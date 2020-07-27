@@ -253,6 +253,7 @@ namespace Vortragsmanager.Core
             cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Activity (
                     Id INTEGER,
                     Datum INTEGER,
+                    VersammlungId INTEGER,
                     Type INTEGER,
                     Objekt TEXT,
                     Kommentar TEXT)", db);
@@ -325,6 +326,7 @@ namespace Vortragsmanager.Core
                 var cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Activity (
                     Id INTEGER,
                     Datum INTEGER,
+                    VersammlungId INTEGER,
                     Type INTEGER,
                     Objekt TEXT,
                     Kommentar TEXT)", db);
@@ -745,19 +747,25 @@ namespace Vortragsmanager.Core
         private static void ReadActivity(SQLiteConnection db)
         {
             DataContainer.Aktivitäten.Clear();
-            using (var cmd = new SQLiteCommand("SELECT Id, Datum, Type, Object, Kommentar FROM Activity", db))
+            using (var cmd = new SQLiteCommand("SELECT Id, Datum, VersammlungId, Type, Objekt, Kommentar FROM Activity", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read())
                 {
+                    var versId = rdr.GetInt32(2);
+                    var vers = DataContainer.Versammlungen.FirstOrDefault(x => x.Id == versId);
+                    if (vers == null)
+                        vers = DataContainer.ConregationGetUnknown();
+
                     var v = new Activity
                     {
                         Id = rdr.GetInt32(0),
                         Datum = rdr.GetDateTime(1),
-                        Type = (ActivityType)rdr.GetInt32(2),
-                        Objekt = rdr.GetString(3),
-                        Kommentar = rdr.GetString(4),
+                        Versammlung = vers,
+                        Typ = (ActivityType)rdr.GetInt32(3),
+                        Objekt = rdr.GetString(4),
+                        Kommentar = rdr.GetString(5),
                     };
 
                     DataContainer.Aktivitäten.Add(v);
@@ -1116,11 +1124,12 @@ namespace Vortragsmanager.Core
 
         private static void SaveActivity(SQLiteConnection db)
         {
-            var cmd = new SQLiteCommand("INSERT INTO Activity(Id, Datum, Typ, Object, Kommentar) " +
-    "VALUES (@Id, @Datum, @Typ, @Objekt, @Kommentar)", db);
+            var cmd = new SQLiteCommand("INSERT INTO Activity(Id, Datum, VersammlungId, Type, Objekt, Kommentar) " +
+    "VALUES (@Id, @Datum, @VersammlungId, @Typ, @Objekt, @Kommentar)", db);
 
             cmd.Parameters.Add("@Id", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
+            cmd.Parameters.Add("@VersammlungId", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Typ", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Objekt", System.Data.DbType.String);
             cmd.Parameters.Add("@Kommentar", System.Data.DbType.String);
@@ -1129,9 +1138,10 @@ namespace Vortragsmanager.Core
             {
                 cmd.Parameters[0].Value = a.Id;
                 cmd.Parameters[1].Value = a.Datum;
-                cmd.Parameters[2].Value = (int)a.Type;
-                cmd.Parameters[3].Value = a.Objekt;
-                cmd.Parameters[4].Value = a.Kommentar;
+                cmd.Parameters[2].Value = a.Versammlung.Id;
+                cmd.Parameters[3].Value = (int)a.Typ;
+                cmd.Parameters[4].Value = a.Objekt;
+                cmd.Parameters[5].Value = a.Kommentar;
 
                 cmd.ExecuteNonQuery();
             }

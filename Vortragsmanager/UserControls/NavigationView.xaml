@@ -6,6 +6,12 @@
              xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+             xmlns:dxa="http://schemas.devexpress.com/winfx/2008/xaml/accordion"
+             xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
+             xmlns:dxnav="http://schemas.devexpress.com/winfx/2008/xaml/navigation"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:local="clr-namespace:Vortragsmanager.UserControls"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -47,12 +53,97 @@
         </Navi:FrameAnimationSelector>
         <dx:BoolToObjectConverter x:Key="boolToObjectConverter" TrueValue="{StaticResource frameAnimationSelector}" />
         <dx:BoolInverseConverter x:Key="boolInverseConverter" />
+        <dxmvvm:ObjectToObjectConverter x:Key="accordionPanelWidthConverter" DefaultTarget="Auto">
+            <dxmvvm:MapItem Source="True" Target="220" />
+        </dxmvvm:ObjectToObjectConverter>
+        <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
-    <DockPanel>
-        <dxwui:NavigationFrame x:Name="frame"
-                               Source="DashboardView"
-                               BackNavigationMode="Root"
-                               AnimationType="SlideHorizontal"
-                               AnimationSpeedRatio="1" />
-    </DockPanel>
+    <UserControl.DataContext>
+        <local:ActivityViewModel />
+    </UserControl.DataContext>
+    <dxdo:DockLayoutManager x:Name="dlm" FloatingMode="Desktop">
+        <dxdo:LayoutGroup>
+            <dxdo:LayoutPanel ShowBorder="False" ShowCaption="False">
+                <dxwui:NavigationFrame x:Name="frame"
+                            Source="DashboardView"
+                            BackNavigationMode="Root"
+                            AnimationType="SlideHorizontal"
+                            AnimationSpeedRatio="1" />
+            </dxdo:LayoutPanel>
+            <dxdo:LayoutPanel ItemWidth="{Binding ElementName=accordion, Path=IsExpanded, Converter={StaticResource accordionPanelWidthConverter}}"
+                              ShowCaption="False"
+                              AllowSizing="False">
+                <dxa:AccordionControl x:Name="accordion"
+                                      SelectionMode="None"
+                                      CollapsedItemClickAction="ShowItems"
+                                      SummaryItemHeader="Aktivitäten Log"
+                                      SummaryItemGlyph="{dx:DXImage 'Images/Chart/HorizontalAxisLogScale_16x16.png'}"
+                                      AutoExpandAllItems="False"
+                                      IsCollapseButtonVisible="True"
+                                      IsExpanded="False"
+                                      ShowSearchControl="False"
+                                      Margin="1"
+                                      ViewMode="Accordion">
+                    <dxa:AccordionControl.Items>
+                        <dxa:AccordionItem Header="Filter"
+                                           BorderThickness="5"
+                                           BorderBrush="Green"
+                                           Glyph="{dx:DXImage 'Images/Filter/MasterFilter_16x16.png'}"
+                                           GlyphPosition="Left">
+                            <dxe:AutoSuggestEdit x:Name="VersammlungenFilter"
+                                                 ImmediatePopup="True"
+                                                 SelectAllOnMouseUp="True"
+                                                 SelectAllOnGotFocus="True"
+                                                 AllowPopupTextHighlighting="True"
+                                                 PopupHighlightedTextCriteria="Regex"
+                                                 NullText="🔎 Versammlung filtern"
+                                                 QuerySubmitted="VersammlungenFilter_QuerySubmitted"
+                                                 ItemsSource="{Binding ListeFilteredVersammlungen}"
+                                                 EditValue="{Binding FilterVersammlung, UpdateSourceTrigger=PropertyChanged}"
+                                                 AllowNullInput="True"
+                                                 FontWeight="Normal" />
+                            <ComboBox SelectedItem="{Binding FilterAktivität}"
+                                      FontWeight="Normal"
+                                      Margin="0,0,0,10">
+                                <ComboBoxItem Content="Alle" IsSelected="True" />
+                                <ComboBoxItem Content="Mein Plan" />
+                                <ComboBoxItem Content="Meine Redner" />
+                                <ComboBoxItem Content="Sonstige" />
+                            </ComboBox>
+                        </dxa:AccordionItem>
+                        <dxa:AccordionItem ItemsSource="{Binding Heute}">
+                            <dxa:AccordionItem.Header>
+                                <TextBlock Text="{Binding HeuteHeader, Mode=OneWay}" FontWeight="Normal" />
+                            </dxa:AccordionItem.Header>
+                        </dxa:AccordionItem>
+                        <dxa:AccordionItem ItemsSource="{Binding DieseWoche}">
+                            <dxa:AccordionItem.Header>
+                                <TextBlock Text="{Binding DieseWocheHeader, Mode=OneWay}" FontWeight="Normal" />
+                            </dxa:AccordionItem.Header>
+                        </dxa:AccordionItem>
+                        <dxa:AccordionItem ItemsSource="{Binding DieserMonat}">
+                            <dxa:AccordionItem.Header>
+                                <TextBlock Text="{Binding DieserMonatHeader, Mode=OneWay}" FontWeight="Normal" />
+                            </dxa:AccordionItem.Header>
+                        </dxa:AccordionItem>
+                        <dxa:AccordionItem ItemsSource="{Binding LetzterMonat}">
+                            <dxa:AccordionItem.Header>
+                                <TextBlock Text="{Binding LetzterMonatHeader, Mode=OneWay}" FontWeight="Normal" />
+                            </dxa:AccordionItem.Header>
+                        </dxa:AccordionItem>
+                        <dxa:AccordionItem ItemsSource="{Binding DiesesJahr}">
+                            <dxa:AccordionItem.Header>
+                                <TextBlock Text="{Binding DiesesJahrHeader, Mode=OneWay}" FontWeight="Normal" />
+                            </dxa:AccordionItem.Header>
+                        </dxa:AccordionItem>
+                        <dxa:AccordionItem ItemsSource="{Binding Älter}">
+                            <dxa:AccordionItem.Header>
+                                <TextBlock Text="{Binding ÄlterHeader, Mode=OneWay}" FontWeight="Normal" />
+                            </dxa:AccordionItem.Header>
+                        </dxa:AccordionItem>
+                    </dxa:AccordionControl.Items>
+                </dxa:AccordionControl>
+            </dxdo:LayoutPanel>
+        </dxdo:LayoutGroup>
+    </dxdo:DockLayoutManager>
 </UserControl>
