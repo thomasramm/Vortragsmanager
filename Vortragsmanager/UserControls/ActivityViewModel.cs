@@ -33,7 +33,7 @@ namespace Vortragsmanager.UserControls
                 var item = new ActivityItem(a);
                 Alle.Add(item);
 
-                if (a.Datum == DateTime.Today)
+                if (a.Datum.Date == DateTime.Today)
                     Heute.Add(item);
                 else if (a.Datum.Year == DateTime.Today.Year)
                 {
@@ -148,6 +148,8 @@ namespace Vortragsmanager.UserControls
 
         private void OnNewLog(Activity message)
         {
+            DataContainer.Aktivitäten.Add(message);
+
             var item = new ActivityItem(message);
             Heute.Add(item);
             Alle.Add(item);
@@ -163,5 +165,23 @@ namespace Vortragsmanager.UserControls
         {
             Messenger.Default.Send(log, Messages.ActivityAdd);
         }
+
+        public static void AddActivityOutside(Outside buchung, string mailtext1, string mailtext2, bool bestätigen)
+        {
+            var log = new Activity
+            {
+                Typ = bestätigen ? ActivityType.ExterneAnfrageBestätigen : ActivityType.ExterneAnfrageAblehnen,
+                Versammlung = buchung?.Versammlung,
+                Redner = buchung?.Ältester,
+                Mails = mailtext1,
+                Objekt = $"{buchung?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)} : {buchung?.Vortrag?.Vortrag.ToString()}",
+            };
+            if (!string.IsNullOrEmpty(mailtext2))
+                log.Mails += _mailDelimiter + mailtext2;
+
+            AddActivity(log);
+        }
+
+        private const string _mailDelimiter = "\r\n=========================\r\n";
     }
 }

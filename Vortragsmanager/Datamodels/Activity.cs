@@ -10,12 +10,20 @@ namespace Vortragsmanager.Datamodels
         private DateTime _datum;
         private int _id;
         private Conregation _versammlung;
+        private Speaker _redner;
         private ActivityType _typ;
         private string _objekt;
         private string _kommentar;
+        private string _mails;
 
         public Activity()
         {
+            Datum = DateTime.Now;
+        }
+
+        public Activity(DateTime datum)
+        {
+            Datum = datum;
         }
 
         public Activity(int id, DateTime datum, Conregation versammlung, ActivityType typ, string objekt, string kommentar, bool sichtbar)
@@ -49,9 +57,20 @@ namespace Vortragsmanager.Datamodels
 
         public Conregation Versammlung
         {
-            get => _versammlung; set
+            get => _versammlung;
+            set
             {
                 _versammlung = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public Speaker Redner
+        {
+            get => _redner;
+            set
+            {
+                _redner = value;
                 RaisePropertyChanged();
             }
         }
@@ -77,9 +96,20 @@ namespace Vortragsmanager.Datamodels
 
         public string Kommentar
         {
-            get => _kommentar; set
+            get => _kommentar;
+            set
             {
                 _kommentar = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string Mails
+        {
+            get => _mails;
+            set
+            {
+                _mails = value;
                 RaisePropertyChanged();
             }
         }
@@ -95,6 +125,76 @@ namespace Vortragsmanager.Datamodels
         }
 
         public BitmapImage Symbol => ActivityTypeSymbols.GetImage(Typ);
+
+        public string ToolTipHeader
+        {
+            get
+            {
+                switch (Typ)
+                {
+                    case ActivityType.VortragAnfragen:
+                        break;
+
+                    case ActivityType.VortragsanfrageBestätigen:
+                        break;
+
+                    case ActivityType.VortragLöschen:
+                        break;
+
+                    case ActivityType.VortragTauschen:
+                        break;
+
+                    case ActivityType.MailSenden:
+                        break;
+
+                    case ActivityType.ExterneAnfrageAblehnen:
+                        return "Abgelehnte Redneranfrage";
+
+                    case ActivityType.ExterneAnfrageBestätigen:
+                        return "Bestätigte Redneranfrage";
+                }
+                return "NOT IMPLEMENTED";
+            }
+        }
+
+        public string ToolTip
+        {
+            get
+            {
+                switch (Typ)
+                {
+                    case ActivityType.VortragAnfragen:
+                        break;
+
+                    case ActivityType.VortragsanfrageBestätigen:
+
+                        break;
+
+                    case ActivityType.VortragLöschen:
+                        break;
+
+                    case ActivityType.VortragTauschen:
+                        break;
+
+                    case ActivityType.MailSenden:
+                        break;
+
+                    case ActivityType.ExterneAnfrageBestätigen:
+                    case ActivityType.ExterneAnfrageAblehnen:
+                        return $"Vortragsanfrage von:{Environment.NewLine}" +
+                            $"{Versammlung.NameMitKoordinator}{Environment.NewLine}{Environment.NewLine}" +
+                            $"für: {Environment.NewLine}" +
+                            $"{Redner.Name}{Environment.NewLine}" +
+                            $"{Objekt}";
+
+                    default:
+                        break;
+                }
+                return "NOT IMPLEMENTED";
+            }
+        }
+
+        public string ToolTipMailtext => Mails;
     }
 
     public enum ActivityType
@@ -114,6 +214,8 @@ namespace Vortragsmanager.Datamodels
         private static readonly BitmapImage MeineRedner = new BitmapImage(new Uri("/Images/Person_64x64.png", UriKind.Relative));
         private static readonly BitmapImage MailAntwort = new BitmapImage(new Uri("/Images/MailAntwort_64x64.png", UriKind.Relative));
         private static readonly BitmapImage Sonstige = new BitmapImage(new Uri("/Images/Sonstige_64x64.png", UriKind.Relative));
+        private static readonly BitmapImage MeineRednerBestätigen = new BitmapImage(new Uri("/Images/MeineRednerBestätigen1_32x32.png", UriKind.Relative));
+        private static readonly BitmapImage MeineRednerAblehnen = new BitmapImage(new Uri("/Images/MeineRednerAbgelehnt1_32x32.png", UriKind.Relative));
 
         public static BitmapImage GetImage(ActivityType typ)
         {
@@ -135,10 +237,10 @@ namespace Vortragsmanager.Datamodels
                     return MailAntwort;
 
                 case ActivityType.ExterneAnfrageAblehnen:
-                    return MeineRedner;
+                    return MeineRednerAblehnen;
 
                 case ActivityType.ExterneAnfrageBestätigen:
-                    return MeineRedner;
+                    return MeineRednerBestätigen;
 
                 default:
                     return Sonstige;

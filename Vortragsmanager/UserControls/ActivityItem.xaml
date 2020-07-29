@@ -19,24 +19,28 @@
         <Grid.ToolTip>
             <Grid>
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="{Binding Path=Typ}" />
-                    <TextBlock Text="{Binding Path=Versammlung.Koordinator}" />
+                    <TextBlock Text="{Binding Path=Datum}" />
+                    <TextBlock Text="{Binding Path=ToolTipHeader}" FontWeight="Bold" Margin="0,0,0,5" />
+                    <TextBlock Text="{Binding Path=ToolTip}" />
                 </StackPanel>
             </Grid>
         </Grid.ToolTip>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50" />
             <ColumnDefinition Width="75" />
-            <ColumnDefinition Width="30" />
-            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="32" />
+            <ColumnDefinition Width="32" />
+            <ColumnDefinition Width="32" />
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"
                    Text="{Binding Path=Datum, StringFormat='{}{0:dd.MM.yy}'}" FontWeight="Normal" />
         <TextBlock Grid.Column="1"
                    Text="{Binding Path=Versammlung.Name}" FontWeight="Normal"
-                   ToolTip="{Binding Path=Versammlung.Name}" />
+                   ToolTip="{Binding Path=Versammlung.NameMitKoordinator}" />
         <Image Grid.Column="2" Source="{Binding Path=Symbol}" />
-        <dx:SimpleButton Grid.Column="3"
+        <Image Grid.Column="3" Source="{dx:DXImage 'GrayScaleImages/Mail/SendFile_32x32.png'}"
+               ToolTip="{Binding ToolTipMailtext}" />
+        <dx:SimpleButton Grid.Column="4"
                          Glyph="{dx:DXImage SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg}"
                          Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.DeleteCommand}"
                          CommandParameter="{Binding}" />

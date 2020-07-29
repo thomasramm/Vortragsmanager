@@ -254,9 +254,11 @@ namespace Vortragsmanager.Core
                     Id INTEGER,
                     Datum INTEGER,
                     VersammlungId INTEGER,
+                    RednerId INTEGER,
                     Type INTEGER,
                     Objekt TEXT,
-                    Kommentar TEXT)", db);
+                    Kommentar TEXT,
+                    Mails TEXT)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
         }
@@ -327,9 +329,11 @@ namespace Vortragsmanager.Core
                     Id INTEGER,
                     Datum INTEGER,
                     VersammlungId INTEGER,
+                    RednerId INTEGER,
                     Type INTEGER,
                     Objekt TEXT,
-                    Kommentar TEXT)", db);
+                    Kommentar TEXT,
+                    Mails TEXT)", db);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
             }
@@ -747,7 +751,7 @@ namespace Vortragsmanager.Core
         private static void ReadActivity(SQLiteConnection db)
         {
             DataContainer.Aktivitäten.Clear();
-            using (var cmd = new SQLiteCommand("SELECT Id, Datum, VersammlungId, Type, Objekt, Kommentar FROM Activity", db))
+            using (var cmd = new SQLiteCommand("SELECT Id, Datum, VersammlungId, RednerId, Type, Objekt, Kommentar, Mails FROM Activity", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
 
@@ -758,14 +762,21 @@ namespace Vortragsmanager.Core
                     if (vers == null)
                         vers = DataContainer.ConregationGetUnknown();
 
+                    var rednId = rdr.IsDBNull(3) ? -1 : rdr.GetInt32(3);
+                    var redn = DataContainer.Redner.FirstOrDefault(x => x.Id == rednId);
+                    if (redn == null)
+                        redn = DataContainer.SpeakerGetUnknown();
+
                     var v = new Activity
                     {
                         Id = rdr.GetInt32(0),
                         Datum = rdr.GetDateTime(1),
                         Versammlung = vers,
-                        Typ = (ActivityType)rdr.GetInt32(3),
-                        Objekt = rdr.GetString(4),
-                        Kommentar = rdr.GetString(5),
+                        Redner = redn,
+                        Typ = (ActivityType)rdr.GetInt32(4),
+                        Objekt = rdr.GetString(5),
+                        Kommentar = rdr.IsDBNull(6) ? null : rdr.GetString(6),
+                        Mails = rdr.IsDBNull(7) ? null : rdr.GetString(7)
                     };
 
                     DataContainer.Aktivitäten.Add(v);
@@ -1124,24 +1135,28 @@ namespace Vortragsmanager.Core
 
         private static void SaveActivity(SQLiteConnection db)
         {
-            var cmd = new SQLiteCommand("INSERT INTO Activity(Id, Datum, VersammlungId, Type, Objekt, Kommentar) " +
-    "VALUES (@Id, @Datum, @VersammlungId, @Typ, @Objekt, @Kommentar)", db);
+            var cmd = new SQLiteCommand("INSERT INTO Activity(Id, Datum, VersammlungId, RednerId, Type, Objekt, Kommentar, Mails) " +
+    "VALUES (@Id, @Datum, @VersammlungId, @RednerId, @Typ, @Objekt, @Kommentar, @Mails)", db);
 
             cmd.Parameters.Add("@Id", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
             cmd.Parameters.Add("@VersammlungId", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@RednerId", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Typ", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Objekt", System.Data.DbType.String);
             cmd.Parameters.Add("@Kommentar", System.Data.DbType.String);
+            cmd.Parameters.Add("@Mails", System.Data.DbType.String);
 
             foreach (var a in DataContainer.Aktivitäten)
             {
                 cmd.Parameters[0].Value = a.Id;
                 cmd.Parameters[1].Value = a.Datum;
                 cmd.Parameters[2].Value = a.Versammlung.Id;
-                cmd.Parameters[3].Value = (int)a.Typ;
-                cmd.Parameters[4].Value = a.Objekt;
-                cmd.Parameters[5].Value = a.Kommentar;
+                cmd.Parameters[3].Value = a.Redner.Id;
+                cmd.Parameters[4].Value = (int)a.Typ;
+                cmd.Parameters[5].Value = a.Objekt;
+                cmd.Parameters[6].Value = a.Kommentar;
+                cmd.Parameters[7].Value = a.Mails;
 
                 cmd.ExecuteNonQuery();
             }

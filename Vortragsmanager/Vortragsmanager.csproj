@@ -504,7 +504,12 @@
   <ItemGroup>
     <Resource Include="Images\Merge_32x32.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\MeineRednerAbgelehnt1_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MeineRednerBestätigen1_32x32.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

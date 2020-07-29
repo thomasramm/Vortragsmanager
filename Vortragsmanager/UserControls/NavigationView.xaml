@@ -102,7 +102,7 @@
                                                  EditValue="{Binding FilterVersammlung, UpdateSourceTrigger=PropertyChanged}"
                                                  AllowNullInput="True"
                                                  FontWeight="Normal" />
-                            <ComboBox SelectedItem="{Binding FilterAktivität}"
+                            <ComboBox Text="{Binding FilterAktivität}"
                                       FontWeight="Normal"
                                       Margin="0,0,0,10">
                                 <ComboBoxItem Content="Alle" IsSelected="True" />
