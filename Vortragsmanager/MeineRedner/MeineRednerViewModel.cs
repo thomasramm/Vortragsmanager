@@ -14,7 +14,7 @@ namespace Vortragsmanager.MeineRedner
     {
         public MeineRednerViewModel()
         {
-            Messenger.Default.Register<Messages>(this, OnMessage);
+            Messenger.Default.Register<int>(this, Messages.DisplayYearChanged, OnMessage);
             ChangeYear = new DelegateCommand<int>(ChangeCurrentYear);
             ChangeView = new DelegateCommand<RednerViewType>(ChangeCurrentView);
             ListeSenden = new DelegateCommand(ListeVersenden);
@@ -130,22 +130,14 @@ namespace Vortragsmanager.MeineRedner
         }
 
         public bool ViewStateYear { get; set; }
+
         public bool ViewStateAgenda { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]
         public int CurrentYear => Helper.DisplayedYear;
 
-        private void OnMessage(Messages message)
+        private void OnMessage(int year)
         {
-            switch (message)
-            {
-                case Messages.DisplayYearChanged:
-                    RaisePropertyChanged(nameof(CurrentYear));
-                    break;
-
-                default:
-                    break;
-            }
+            RaisePropertyChanged(nameof(CurrentYear));
         }
 
         public List<CheckBox> Redner { get; private set; }

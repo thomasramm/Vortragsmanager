@@ -15,7 +15,7 @@ namespace Vortragsmanager.MeinPlan
     {
         public SearchSpeakerViewModel()
         {
-            Messenger.Default.Register<GroupConregation>(this, LoadModul2);
+            Messenger.Default.Register<GroupConregation>(this, Messages.DisplayModuleAskForSpeaker, LoadModul2);
             AnfrageSpeichernCommand = new DelegateCommand(AnfrageSpeichern);
             CopyToClipboardCommand = new DelegateCommand(CopyToClipboard);
 
@@ -557,7 +557,7 @@ namespace Vortragsmanager.MeinPlan
 
         public void AskForSpeaker()
         {
-            Messenger.Default.Send(this);
+            Messenger.Default.Send(this, Messages.DisplayModuleAskForSpeaker);
         }
 
         public Conregation Versammlung { get; set; }

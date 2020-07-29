@@ -28,7 +28,7 @@ namespace Vortragsmanager.MeinPlan
             Monate.Add(new MonthViewModel(11, "November", Monate));
             Monate.Add(new MonthViewModel(12, "Dezember", Monate));
 
-            Messenger.Default.Register<Messages>(this, OnMessage);
+            Messenger.Default.Register<int>(this, Messages.DisplayYearChanged, OnMessage);
             UpdateMonate();
         }
 
@@ -48,18 +48,10 @@ namespace Vortragsmanager.MeinPlan
             }
         }
 
-        private void OnMessage(Messages message)
+        private void OnMessage(int year)
         {
-            switch (message)
-            {
-                case Messages.DisplayYearChanged:
-                    RaisePropertyChanged(nameof(CurrentYear));
-                    UpdateMonate();
-                    break;
-
-                default:
-                    break;
-            }
+            RaisePropertyChanged(nameof(CurrentYear));
+            UpdateMonate();
         }
 
         public void ChangeCurrentYear(int step)
@@ -291,7 +283,7 @@ namespace Vortragsmanager.MeinPlan
             var data = (AntwortEintragenViewModel)dev.Control.DataContext;
             data.LoadData(Zuteilung as Inquiry);
             dev.ShowDialog();
-            Messenger.Default.Send(Messages.DisplayYearChanged);
+            Messenger.Default.Send(0, Messages.DisplayYearChanged);
         }
 
         public void RednerSuchen()

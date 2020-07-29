@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Vortragsmanager.Datamodels;
-using Vortragsmanager.Views;
 
 namespace Vortragsmanager.Core
 {
@@ -43,7 +42,7 @@ namespace Vortragsmanager.Core
             set
             {
                 _displayedYear = value;
-                Messenger.Default.Send(Messages.DisplayYearChanged);
+                Messenger.Default.Send(_displayedYear, Messages.DisplayYearChanged);
             }
         }
 

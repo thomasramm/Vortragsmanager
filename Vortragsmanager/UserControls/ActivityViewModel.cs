@@ -13,6 +13,7 @@ namespace Vortragsmanager.UserControls
     {
         public ActivityViewModel()
         {
+            Messenger.Default.Register<Activity>(this, Messages.ActivityAdd, OnNewLog);
             var versNamen = DataContainer.Versammlungen.OrderBy(x => x, new Helper.EigeneKreisNameComparer()).Select(x => x.NameMitKoordinator).ToList();
             versNamen.Insert(0, "Alle");
             ListeAllerVersammlungen = new ObservableCollection<string>(versNamen);
@@ -64,7 +65,7 @@ namespace Vortragsmanager.UserControls
             SetFilter();
         }
 
-        private void SetFilter()
+        public void SetFilter()
         {
             foreach (var a in Alle)
             {
@@ -157,5 +158,23 @@ namespace Vortragsmanager.UserControls
         public string LetzterMonatHeader => $"Letzter Monat ({LetzterMonat.Count(x => x.Aktiv)})";
         public string DiesesJahrHeader => $"Dieses Jahr ({DiesesJahr.Count(x => x.Aktiv)})";
         public string ÄlterHeader => $"Älter ({Älter.Count(x => x.Aktiv)})";
+
+        private void OnNewLog(Activity message)
+        {
+            var item = new ActivityItem(message);
+            Heute.Add(item);
+            Alle.Add(item);
+            RaisePropertyChanged(nameof(HeuteHeader));
+        }
+
+        public static Activity CreateDummy()
+        {
+            return new Activity() { Id = 1, Typ = ActivityType.MailSenden, Datum = DateTime.Today, Kommentar = "Eintrag 1", Objekt = "Details", Versammlung = DataContainer.MeineVersammlung };
+        }
+
+        public static void AddActivity(Activity log)
+        {
+            Messenger.Default.Send(log, Messages.ActivityAdd);
+        }
     }
 }
