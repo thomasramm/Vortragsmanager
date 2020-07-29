@@ -1,4 +1,4 @@
-﻿namespace Vortragsmanager.Views
+﻿namespace Vortragsmanager.Datamodels
 {
     public interface ICloseable
     {

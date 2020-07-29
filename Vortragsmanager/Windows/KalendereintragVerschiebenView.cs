@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using Vortragsmanager.Core;
+using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.Views
 {

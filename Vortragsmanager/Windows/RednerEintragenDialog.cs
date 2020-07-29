@@ -5,7 +5,7 @@ namespace Vortragsmanager.Views
     /// <summary>
     /// Interaktionslogik für BuchungLöschenCommandDialog.xaml
     /// </summary>
-    public partial class RednerEintragenDialog : Window, ICloseable
+    public partial class RednerEintragenDialog : Window, Datamodels.ICloseable
     {
         public RednerEintragenDialog()
         {

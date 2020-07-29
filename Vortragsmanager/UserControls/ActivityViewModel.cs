@@ -18,19 +18,6 @@ namespace Vortragsmanager.UserControls
             versNamen.Insert(0, "Alle");
             ListeAllerVersammlungen = new ObservableCollection<string>(versNamen);
             ListeFilteredVersammlungen = new ObservableCollection<string>(ListeAllerVersammlungen);
-            var y = ListeAllerVersammlungen.Count();
-            Console.WriteLine(y);
-
-            DataContainer.Aktivitäten.Clear();
-            DataContainer.Aktivitäten.Add(new Datamodels.Activity() { Id = 1, Typ = Datamodels.ActivityType.ExterneAnfrageAblehnen, Datum = DateTime.Today, Kommentar = "Eintrag 1", Objekt = "Details", Versammlung = Datamodels.DataContainer.MeineVersammlung });
-            DataContainer.Aktivitäten.Add(new Datamodels.Activity() { Id = 2, Typ = Datamodels.ActivityType.VortragAnfragen, Datum = (DateTime.Today.AddDays(-2)), Kommentar = "Eintrag 2", Objekt = "Details", Versammlung = Datamodels.DataContainer.ConregationFind("Kassel-Nord") });
-            DataContainer.Aktivitäten.Add(new Datamodels.Activity() { Id = 3, Typ = Datamodels.ActivityType.MailSenden, Datum = (DateTime.Today.AddDays(-3)), Kommentar = "Eintrag 3", Objekt = "Details", Versammlung = Datamodels.DataContainer.ConregationGetUnknown() });
-            DataContainer.Aktivitäten.Add(new Datamodels.Activity() { Id = 4, Typ = Datamodels.ActivityType.ExterneAnfrageAblehnen, Datum = (DateTime.Today.AddDays(-10)), Kommentar = "Eintrag 1", Objekt = "Details", Versammlung = Datamodels.DataContainer.MeineVersammlung });
-            DataContainer.Aktivitäten.Add(new Datamodels.Activity() { Id = 5, Typ = Datamodels.ActivityType.VortragAnfragen, Datum = (DateTime.Today.AddDays(-40)), Kommentar = "Eintrag 2", Objekt = "Details", Versammlung = Datamodels.DataContainer.ConregationFind("Kassel-Nord") });
-            DataContainer.Aktivitäten.Add(new Datamodels.Activity() { Id = 6, Typ = Datamodels.ActivityType.MailSenden, Datum = (DateTime.Today.AddDays(-3)), Kommentar = "Eintrag 3", Objekt = "Details", Versammlung = Datamodels.DataContainer.ConregationGetUnknown() });
-            DataContainer.Aktivitäten.Add(new Datamodels.Activity() { Id = 7, Typ = Datamodels.ActivityType.ExterneAnfrageAblehnen, Datum = (DateTime.Today.AddDays(-100)), Kommentar = "Eintrag 1", Objekt = "Details", Versammlung = Datamodels.DataContainer.MeineVersammlung });
-            DataContainer.Aktivitäten.Add(new Datamodels.Activity() { Id = 8, Typ = Datamodels.ActivityType.VortragAnfragen, Datum = (DateTime.Today.AddDays(-200)), Kommentar = "Eintrag 2", Objekt = "Details", Versammlung = Datamodels.DataContainer.ConregationFind("Kassel-Nord") });
-            DataContainer.Aktivitäten.Add(new Datamodels.Activity() { Id = 9, Typ = Datamodels.ActivityType.MailSenden, Datum = (DateTime.Today.AddDays(-500)), Kommentar = "Eintrag 3", Objekt = "Details", Versammlung = Datamodels.DataContainer.ConregationGetUnknown() });
 
             Heute.Clear();
             DieseWoche.Clear();

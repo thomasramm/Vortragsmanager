@@ -5,7 +5,7 @@ namespace Vortragsmanager.Views
     /// <summary>
     /// Interaction logic for VersammlungLöschenDialog.xaml
     /// </summary>
-    public partial class VersammlungLöschenDialog : Window, ICloseable
+    public partial class VersammlungLöschenDialog : Window, Datamodels.ICloseable
     {
         private readonly VersammlungLöschenDialogView DataModel;
 
