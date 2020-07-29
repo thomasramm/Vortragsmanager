@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Controls;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.UserControls;
 using Vortragsmanager.Views;
 
 namespace Vortragsmanager.MeineRedner
@@ -173,18 +174,12 @@ namespace Vortragsmanager.MeineRedner
 
         public DelegateCommand ListeSenden { get; private set; }
 
-        private string GetListeMailText()
+        private string GetListeMailText(List<Speaker> listeRedner)
         {
             var mt = Templates.GetTemplate(Templates.TemplateName.RednerTermineMailText).Inhalt;
-            var listeRedner = new List<Speaker>();
+
             var mails = "";
             var termine = "";
-
-            foreach (var einladung in Talks)
-            {
-                if (!listeRedner.Contains(einladung.Ältester))
-                    listeRedner.Add(einladung.Ältester);
-            }
 
             foreach (var ä in listeRedner)
             {
@@ -219,10 +214,20 @@ namespace Vortragsmanager.MeineRedner
             var w = new InfoAnRednerUndKoordinatorWindow();
             var data = (InfoAnRednerUndKoordinatorViewModel)w.DataContext;
             data.Titel = "Liste der Vortragseinladungen versenden";
-            data.MailTextRedner = GetListeMailText();
+
+            var listeRedner = new List<Speaker>();
+            foreach (var einladung in Talks)
+            {
+                if (!listeRedner.Contains(einladung.Ältester))
+                    listeRedner.Add(einladung.Ältester);
+            }
+            data.MailTextRedner = GetListeMailText(listeRedner);
             data.DisableCancelButton();
 
             w.ShowDialog();
+
+            var einRedner = listeRedner.Count() == 1 ? listeRedner[0] : null;
+            ActivityViewModel.AddActivityOutsideSendList(einRedner, data.MailTextRedner);
         }
 
         public void Absagen()
@@ -238,6 +243,7 @@ namespace Vortragsmanager.MeineRedner
             {
                 DataContainer.ExternerPlan.Remove(SelectedTalk);
                 Talks.Remove(SelectedTalk);
+                ActivityViewModel.AddActivityOutside(SelectedTalk, data.MailTextKoordinator, data.MailTextRedner, false);
             }
         }
     }

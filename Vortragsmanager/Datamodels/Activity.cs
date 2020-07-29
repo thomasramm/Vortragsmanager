@@ -132,28 +132,19 @@ namespace Vortragsmanager.Datamodels
             {
                 switch (Typ)
                 {
-                    case ActivityType.VortragAnfragen:
-                        break;
-
-                    case ActivityType.VortragsanfrageBestätigen:
-                        break;
-
-                    case ActivityType.VortragLöschen:
-                        break;
-
-                    case ActivityType.VortragTauschen:
-                        break;
-
-                    case ActivityType.MailSenden:
-                        break;
-
                     case ActivityType.ExterneAnfrageAblehnen:
                         return "Abgelehnte Redneranfrage";
 
                     case ActivityType.ExterneAnfrageBestätigen:
                         return "Bestätigte Redneranfrage";
+
+                    case ActivityType.ExterneAnfrageListeSenden:
+                        return "Einladungsliste für meine Redner";
+
+                    case ActivityType.Sonstige:
+                    default:
+                        return "NOT IMPLEMENTED";
                 }
-                return "NOT IMPLEMENTED";
             }
         }
 
@@ -163,22 +154,6 @@ namespace Vortragsmanager.Datamodels
             {
                 switch (Typ)
                 {
-                    case ActivityType.VortragAnfragen:
-                        break;
-
-                    case ActivityType.VortragsanfrageBestätigen:
-
-                        break;
-
-                    case ActivityType.VortragLöschen:
-                        break;
-
-                    case ActivityType.VortragTauschen:
-                        break;
-
-                    case ActivityType.MailSenden:
-                        break;
-
                     case ActivityType.ExterneAnfrageBestätigen:
                     case ActivityType.ExterneAnfrageAblehnen:
                         return $"Vortragsanfrage von:{Environment.NewLine}" +
@@ -187,10 +162,13 @@ namespace Vortragsmanager.Datamodels
                             $"{Redner.Name}{Environment.NewLine}" +
                             $"{Objekt}";
 
+                    case ActivityType.ExterneAnfrageListeSenden:
+                        return Mails;
+
+                    case ActivityType.Sonstige:
                     default:
-                        break;
+                        return "NOT IMPLEMENTED";
                 }
-                return "NOT IMPLEMENTED";
             }
         }
 
@@ -199,13 +177,10 @@ namespace Vortragsmanager.Datamodels
 
     public enum ActivityType
     {
-        VortragAnfragen,
-        VortragsanfrageBestätigen,
-        VortragLöschen,
-        VortragTauschen,
-        MailSenden,
+        Sonstige,
         ExterneAnfrageAblehnen,
         ExterneAnfrageBestätigen,
+        ExterneAnfrageListeSenden,
     }
 
     public static class ActivityTypeSymbols
@@ -216,31 +191,21 @@ namespace Vortragsmanager.Datamodels
         private static readonly BitmapImage Sonstige = new BitmapImage(new Uri("/Images/Sonstige_64x64.png", UriKind.Relative));
         private static readonly BitmapImage MeineRednerBestätigen = new BitmapImage(new Uri("/Images/MeineRednerBestätigen1_32x32.png", UriKind.Relative));
         private static readonly BitmapImage MeineRednerAblehnen = new BitmapImage(new Uri("/Images/MeineRednerAbgelehnt1_32x32.png", UriKind.Relative));
+        private static readonly BitmapImage MeineRednerMail = new BitmapImage(new Uri("/Images/MeineRednerMail_32x32.png", UriKind.Relative));
+        private static readonly BitmapImage Mail = new BitmapImage(new Uri("/Images/Mail_32x32.png", UriKind.Relative));
 
         public static BitmapImage GetImage(ActivityType typ)
         {
             switch (typ)
             {
-                case ActivityType.VortragAnfragen:
-                    return MeinPlan;
-
-                case ActivityType.VortragsanfrageBestätigen:
-                    return MeinPlan;
-
-                case ActivityType.VortragLöschen:
-                    return MeinPlan;
-
-                case ActivityType.VortragTauschen:
-                    return MeinPlan;
-
-                case ActivityType.MailSenden:
-                    return MailAntwort;
-
                 case ActivityType.ExterneAnfrageAblehnen:
                     return MeineRednerAblehnen;
 
                 case ActivityType.ExterneAnfrageBestätigen:
                     return MeineRednerBestätigen;
+
+                case ActivityType.ExterneAnfrageListeSenden:
+                    return MeineRednerMail;
 
                 default:
                     return Sonstige;

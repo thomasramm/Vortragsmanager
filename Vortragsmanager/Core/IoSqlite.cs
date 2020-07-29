@@ -767,17 +767,16 @@ namespace Vortragsmanager.Core
                     if (redn == null)
                         redn = DataContainer.SpeakerGetUnknown();
 
-                    var v = new Activity
-                    {
-                        Id = rdr.GetInt32(0),
-                        Datum = rdr.GetDateTime(1),
-                        Versammlung = vers,
-                        Redner = redn,
-                        Typ = (ActivityType)rdr.GetInt32(4),
-                        Objekt = rdr.GetString(5),
-                        Kommentar = rdr.IsDBNull(6) ? null : rdr.GetString(6),
-                        Mails = rdr.IsDBNull(7) ? null : rdr.GetString(7)
-                    };
+                    var v = new Activity();
+
+                    v.Id = rdr.GetInt32(0);
+                    v.Datum = rdr.GetDateTime(1);
+                    v.Versammlung = vers;
+                    v.Redner = redn;
+                    v.Typ = (ActivityType)rdr.GetInt32(4);
+                    v.Objekt = rdr.IsDBNull(5) ? null : rdr.GetString(5);
+                    v.Kommentar = rdr.IsDBNull(6) ? null : rdr.GetString(6);
+                    v.Mails = rdr.IsDBNull(7) ? null : rdr.GetString(7);
 
                     DataContainer.Aktivitäten.Add(v);
                 }
@@ -1152,7 +1151,7 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[0].Value = a.Id;
                 cmd.Parameters[1].Value = a.Datum;
                 cmd.Parameters[2].Value = a.Versammlung.Id;
-                cmd.Parameters[3].Value = a.Redner.Id;
+                cmd.Parameters[3].Value = a.Redner?.Id;
                 cmd.Parameters[4].Value = (int)a.Typ;
                 cmd.Parameters[5].Value = a.Objekt;
                 cmd.Parameters[6].Value = a.Kommentar;

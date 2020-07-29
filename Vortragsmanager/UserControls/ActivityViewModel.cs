@@ -57,9 +57,9 @@ namespace Vortragsmanager.UserControls
             foreach (var a in Alle)
             {
                 if (_filterAktivität == "Alle"
-                    || (_filterAktivität == "Meine Redner" && (a.Typ == ActivityType.ExterneAnfrageAblehnen || a.Typ == ActivityType.ExterneAnfrageBestätigen))
-                    || (_filterAktivität == "Mein Plan" && (a.Typ == ActivityType.VortragAnfragen || a.Typ == ActivityType.VortragLöschen || a.Typ == ActivityType.VortragsanfrageBestätigen || a.Typ == ActivityType.VortragTauschen))
-                    || (_filterAktivität == "Sonstige" && (a.Typ == ActivityType.MailSenden)))
+                    || (_filterAktivität == "Meine Redner" && (a.Typ == ActivityType.ExterneAnfrageAblehnen || a.Typ == ActivityType.ExterneAnfrageBestätigen || a.Typ == ActivityType.ExterneAnfrageListeSenden))
+                    || (_filterAktivität == "Mein Plan" && (a.Typ == ActivityType.Sonstige || a.Typ == ActivityType.Sonstige))
+                    || (_filterAktivität == "Sonstige" && (a.Typ == ActivityType.Sonstige || a.Typ == ActivityType.ExterneAnfrageListeSenden)))
                 {
                     if (FilterVersammlung == "Alle"
                         || string.IsNullOrEmpty(FilterVersammlung)
@@ -156,11 +156,6 @@ namespace Vortragsmanager.UserControls
             RaisePropertyChanged(nameof(HeuteHeader));
         }
 
-        public static Activity CreateDummy()
-        {
-            return new Activity() { Id = 1, Typ = ActivityType.MailSenden, Datum = DateTime.Today, Kommentar = "Eintrag 1", Objekt = "Details", Versammlung = DataContainer.MeineVersammlung };
-        }
-
         public static void AddActivity(Activity log)
         {
             Messenger.Default.Send(log, Messages.ActivityAdd);
@@ -179,6 +174,18 @@ namespace Vortragsmanager.UserControls
             if (!string.IsNullOrEmpty(mailtext2))
                 log.Mails += _mailDelimiter + mailtext2;
 
+            AddActivity(log);
+        }
+
+        public static void AddActivityOutsideSendList(Speaker redner, string mailtext)
+        {
+            var log = new Activity
+            {
+                Typ = ActivityType.ExterneAnfrageListeSenden,
+                Redner = redner,
+                Versammlung = DataContainer.MeineVersammlung,
+                Mails = mailtext
+            };
             AddActivity(log);
         }
 
