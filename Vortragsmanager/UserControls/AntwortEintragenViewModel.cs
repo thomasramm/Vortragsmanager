@@ -1,9 +1,11 @@
 ﻿using DevExpress.Mvvm;
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.UserControls;
 
 namespace Vortragsmanager.Views
 {
@@ -186,21 +188,36 @@ namespace Vortragsmanager.Views
             DataContainer.MeinPlan.Add(i);
             _base.BaseAnfrage.RednerVortrag.Remove(_redner);
             _base.Wochen.Remove(SelectedDatum);
+            bool anfrageGelöscht = false;
             if ((_base.BaseAnfrage.RednerVortrag.Count == 0) || _base.Wochen.Count == 0)
+            {
                 DataContainer.OffeneAnfragen.Remove(_base.BaseAnfrage);
+                anfrageGelöscht = true;
+            }
+
+            ActivityViewModel.AddActivityRednerAnfrageZugesagt(i, _base.BaseAnfrage.Mailtext, anfrageGelöscht);
         }
 
         public void Absagen()
         {
             Log.Info(nameof(Absagen));
             Sichtbar = false;
+            var vortrag = _base.BaseAnfrage.RednerVortrag[_redner].ToString();
             _base.BaseAnfrage.RednerVortrag.Remove(_redner);
+            string wochen = string.Empty;
             foreach (var w in _base.BaseAnfrage.Wochen)
             {
                 DataContainer.Absagen.Add(new Cancelation(w, _redner, EventStatus.Anfrage));
+                wochen += w.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) + ", ";
             }
+            bool anfrageGelöscht = false;
             if (_base.BaseAnfrage.RednerVortrag.Count == 0)
+            {
                 DataContainer.OffeneAnfragen.Remove(_base.BaseAnfrage);
+                anfrageGelöscht = true;
+            }
+
+            ActivityViewModel.AddActivityRednerAnfrageAbgelehnt(_redner, vortrag, wochen, _base.BaseAnfrage.Mailtext, anfrageGelöscht);
         }
     }
 }

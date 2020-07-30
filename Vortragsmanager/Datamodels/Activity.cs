@@ -1,5 +1,6 @@
 ﻿using DevExpress.Mvvm;
 using System;
+using System.Globalization;
 using System.Windows.Media.Imaging;
 
 namespace Vortragsmanager.Datamodels
@@ -144,6 +145,12 @@ namespace Vortragsmanager.Datamodels
                     case ActivityType.SendMail:
                         return Objekt;
 
+                    case ActivityType.RednerAnfrageBestätigt:
+                        return "Bestätigung für Vortragseinladung am " + Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+
+                    case ActivityType.RednerAnfrageAbgesagt:
+                        return "Ablehnung einer Vortragseinladung";
+
                     case ActivityType.Sonstige:
                     default:
                         return "NOT IMPLEMENTED";
@@ -169,6 +176,14 @@ namespace Vortragsmanager.Datamodels
                     case ActivityType.SendMail:
                         return Mails;
 
+                    case ActivityType.RednerAnfrageBestätigt:
+                    case ActivityType.RednerAnfrageAbgesagt:
+                        return $"Vortragseinladung an:{Environment.NewLine}" +
+                            $"{Versammlung.NameMitKoordinator}{Environment.NewLine}{Environment.NewLine}" +
+                            $"für: {Environment.NewLine}" +
+                            $"{Redner.Name}{Environment.NewLine}" +
+                            $"{Objekt}";
+
                     case ActivityType.Sonstige:
                     default:
                         return "NOT IMPLEMENTED";
@@ -186,11 +201,16 @@ namespace Vortragsmanager.Datamodels
         ExterneAnfrageBestätigen,
         ExterneAnfrageListeSenden,
         SendMail,
+        RednerAnfrageBestätigt,
+        RednerAnfrageAbgesagt
     }
 
     public static class ActivityTypeSymbols
     {
         private static readonly BitmapImage MeinPlan = new BitmapImage(new Uri("/Images/Kalender_64x64.png", UriKind.Relative));
+        private static readonly BitmapImage MeinPlanMailAbsage = new BitmapImage(new Uri("/Images/MeinPlanMailAbsage_32x32.png", UriKind.Relative));
+        private static readonly BitmapImage MeinPlanMailZusage = new BitmapImage(new Uri("/Images/MeinPlanMailZusage_32x32.png", UriKind.Relative));
+
         private static readonly BitmapImage MeineRedner = new BitmapImage(new Uri("/Images/Person_64x64.png", UriKind.Relative));
         private static readonly BitmapImage MailAntwort = new BitmapImage(new Uri("/Images/MailAntwort_64x64.png", UriKind.Relative));
         private static readonly BitmapImage Sonstige = new BitmapImage(new Uri("/Images/Sonstige_64x64.png", UriKind.Relative));
@@ -214,6 +234,12 @@ namespace Vortragsmanager.Datamodels
 
                 case ActivityType.SendMail:
                     return Mail;
+
+                case ActivityType.RednerAnfrageBestätigt:
+                    return MeinPlanMailZusage;
+
+                case ActivityType.RednerAnfrageAbgesagt:
+                    return MeinPlanMailAbsage;
 
                 default:
                     return Sonstige;

@@ -201,6 +201,41 @@ namespace Vortragsmanager.UserControls
             AddActivity(log);
         }
 
+        public static void AddActivityRednerAnfrageAbgelehnt(Speaker redner, string vortrag, string wochen, string mailtext, bool anfrageGelöscht)
+        {
+            var log = new Activity
+            {
+                Typ = ActivityType.RednerAnfrageAbgesagt,
+                Versammlung = redner?.Versammlung,
+                Redner = redner,
+                Mails = mailtext,
+                Objekt = $"Datum:   {wochen}{Environment.NewLine}" +
+                         $"Vortrag: {vortrag}",
+            };
+
+            if (anfrageGelöscht)
+                log.Objekt += Environment.NewLine + "Die komplette Anfrage wurde daraufhin gelöscht, da keine weiteres Datum oder weiterer Redner angefragt wurde";
+
+            AddActivity(log);
+        }
+
+        public static void AddActivityRednerAnfrageZugesagt(Invitation einladung, string mailtext, bool anfrageGelöscht)
+        {
+            var log = new Activity
+            {
+                Typ = ActivityType.RednerAnfrageBestätigt,
+                Versammlung = einladung?.Ältester.Versammlung,
+                Redner = einladung?.Ältester,
+                Objekt = $"Datum:   {einladung?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}{Environment.NewLine}" +
+                         $"Vortrag: {einladung?.Vortrag?.Vortrag.ToString()}",
+                Mails = mailtext,
+            };
+            if (anfrageGelöscht)
+                log.Objekt += Environment.NewLine + "Die komplette Anfrage wurde daraufhin gelöscht, da keine weiteres Datum oder weiterer Redner angefragt wurde";
+
+            AddActivity(log);
+        }
+
         private const string _mailDelimiter = "\r\n=========================\r\n";
     }
 }
