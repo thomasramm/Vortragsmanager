@@ -28,7 +28,7 @@ namespace Vortragsmanager.UserControls
 
             var week = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(DateTime.Today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
 
-            foreach (var a in DataContainer.Aktivitäten)
+            foreach (var a in DataContainer.Aktivitäten.OrderByDescending(x => x.Datum))
             {
                 var item = new ActivityItem(a);
                 Alle.Add(item);
@@ -151,7 +151,7 @@ namespace Vortragsmanager.UserControls
             DataContainer.Aktivitäten.Add(message);
 
             var item = new ActivityItem(message);
-            Heute.Add(item);
+            Heute.Insert(0, item);
             Alle.Add(item);
             RaisePropertyChanged(nameof(HeuteHeader));
         }
