@@ -141,6 +141,9 @@ namespace Vortragsmanager.Datamodels
                     case ActivityType.ExterneAnfrageListeSenden:
                         return "Einladungsliste für meine Redner";
 
+                    case ActivityType.SendMail:
+                        return Objekt;
+
                     case ActivityType.Sonstige:
                     default:
                         return "NOT IMPLEMENTED";
@@ -163,6 +166,7 @@ namespace Vortragsmanager.Datamodels
                             $"{Objekt}";
 
                     case ActivityType.ExterneAnfrageListeSenden:
+                    case ActivityType.SendMail:
                         return Mails;
 
                     case ActivityType.Sonstige:
@@ -181,6 +185,7 @@ namespace Vortragsmanager.Datamodels
         ExterneAnfrageAblehnen,
         ExterneAnfrageBestätigen,
         ExterneAnfrageListeSenden,
+        SendMail,
     }
 
     public static class ActivityTypeSymbols
@@ -206,6 +211,9 @@ namespace Vortragsmanager.Datamodels
 
                 case ActivityType.ExterneAnfrageListeSenden:
                     return MeineRednerMail;
+
+                case ActivityType.SendMail:
+                    return Mail;
 
                 default:
                     return Sonstige;

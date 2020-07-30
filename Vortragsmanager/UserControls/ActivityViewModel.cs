@@ -189,6 +189,18 @@ namespace Vortragsmanager.UserControls
             AddActivity(log);
         }
 
+        public static void AddActivitySendMail(string mailtext, int? maxEntfernung)
+        {
+            var log = new Activity
+            {
+                Typ = ActivityType.SendMail,
+                Versammlung = DataContainer.MeineVersammlung,
+                Mails = mailtext,
+                Objekt = (maxEntfernung == null) ? "Mail an alle Koordinatoren im Kreis" : $"Mail an alle Koordinatoren im Umkreis von {maxEntfernung} km",
+            };
+            AddActivity(log);
+        }
+
         private const string _mailDelimiter = "\r\n=========================\r\n";
     }
 }

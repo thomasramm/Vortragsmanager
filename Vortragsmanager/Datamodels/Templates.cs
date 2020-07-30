@@ -145,7 +145,7 @@ namespace Vortragsmanager.Datamodels
                 return "Fehler beim verarbeiten der Vorlage";
 
             var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnKoordinatorMailText).Inhalt;
-            var vers = Zuteilung.Ältester?.Versammlung ?? Datamodels.DataContainer.ConregationFind("Unbekannt");
+            var vers = Zuteilung.Ältester?.Versammlung ?? DataContainer.ConregationFind("Unbekannt");
 
             mt = ReplaceVersammlungsparameter(mt, vers);
             mt = mt
@@ -210,7 +210,7 @@ namespace Vortragsmanager.Datamodels
                 return string.Empty;
 
             if (Versammlung is null)
-                Versammlung = Datamodels.DataContainer.ConregationFind("Unbekannt");
+                Versammlung = DataContainer.ConregationFind("Unbekannt");
 
             if (Versammlung is null)
                 return "Fehler beim verarbeiten der Vorlage '" + Mailtext + "'";

@@ -33,7 +33,7 @@ namespace Vortragsmanager.Views
                 window.Close();
         }
 
-        public List<Conregation> Versammlungen => Datamodels.DataContainer.Versammlungen.OrderBy(x => x.Name).ToList();
+        public List<Conregation> Versammlungen => DataContainer.Versammlungen.OrderBy(x => x.Name).ToList();
 
         private Conregation _selectedVersammlung;
 
@@ -48,7 +48,7 @@ namespace Vortragsmanager.Views
                 _selectedVersammlung = value;
                 if (value != null)
                 {
-                    Redner = Datamodels.DataContainer.Redner.Where(x => x.Versammlung == _selectedVersammlung).OrderBy(x => x.Name).ToList();
+                    Redner = DataContainer.Redner.Where(x => x.Versammlung == _selectedVersammlung).OrderBy(x => x.Name).ToList();
                     SelectedRedner = null;
                 }
             }

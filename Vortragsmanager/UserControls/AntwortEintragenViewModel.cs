@@ -12,7 +12,7 @@ namespace Vortragsmanager.Views
         public void LoadData()
         {
             Log.Info(nameof(LoadData));
-            inquiryList = Datamodels.DataContainer.OffeneAnfragen;
+            inquiryList = DataContainer.OffeneAnfragen;
             LoadInquiryUI();
         }
 
@@ -120,7 +120,7 @@ namespace Vortragsmanager.Views
             var endDate = startDate.AddYears(1);
             while (startDate < endDate)
             {
-                if (!Datamodels.DataContainer.MeinPlan.Any(x => x.Datum == startDate))
+                if (!DataContainer.MeinPlan.Any(x => x.Datum == startDate))
                     _base.Wochen.Add(startDate);
                 startDate = startDate.AddDays(7);
             }
@@ -183,11 +183,11 @@ namespace Vortragsmanager.Views
                 Vortrag = _redner.Vorträge.First(x => x.Vortrag.Nummer == _vortrag.Nummer),
                 Ältester = _redner
             };
-            Datamodels.DataContainer.MeinPlan.Add(i);
+            DataContainer.MeinPlan.Add(i);
             _base.BaseAnfrage.RednerVortrag.Remove(_redner);
             _base.Wochen.Remove(SelectedDatum);
             if ((_base.BaseAnfrage.RednerVortrag.Count == 0) || _base.Wochen.Count == 0)
-                Datamodels.DataContainer.OffeneAnfragen.Remove(_base.BaseAnfrage);
+                DataContainer.OffeneAnfragen.Remove(_base.BaseAnfrage);
         }
 
         public void Absagen()
@@ -197,10 +197,10 @@ namespace Vortragsmanager.Views
             _base.BaseAnfrage.RednerVortrag.Remove(_redner);
             foreach (var w in _base.BaseAnfrage.Wochen)
             {
-                Datamodels.DataContainer.Absagen.Add(new Cancelation(w, _redner, EventStatus.Anfrage));
+                DataContainer.Absagen.Add(new Cancelation(w, _redner, EventStatus.Anfrage));
             }
             if (_base.BaseAnfrage.RednerVortrag.Count == 0)
-                Datamodels.DataContainer.OffeneAnfragen.Remove(_base.BaseAnfrage);
+                DataContainer.OffeneAnfragen.Remove(_base.BaseAnfrage);
         }
     }
 }

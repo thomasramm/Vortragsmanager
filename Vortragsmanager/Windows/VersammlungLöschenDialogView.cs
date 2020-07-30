@@ -24,7 +24,7 @@ namespace Vortragsmanager.Views
             {
                 _versammlung = value;
 
-                ListeAllerVersammlungen = new ObservableCollection<Conregation>(Datamodels.DataContainer.Versammlungen.Where(x => x != Versammlung).OrderBy(x => x, new Helper.EigeneKreisNameComparer()));
+                ListeAllerVersammlungen = new ObservableCollection<Conregation>(DataContainer.Versammlungen.Where(x => x != Versammlung).OrderBy(x => x, new Helper.EigeneKreisNameComparer()));
                 ListeFilteredVersammlungen = new ObservableCollection<Conregation>(ListeAllerVersammlungen);
 
                 RaisePropertyChanged(nameof(Merge1Koordinator));
@@ -134,7 +134,7 @@ namespace Vortragsmanager.Views
                 _selectedConregationName = value;
                 if (!string.IsNullOrEmpty(value))
                 {
-                    _selectedConregation = Datamodels.DataContainer.ConregationFind(value);
+                    _selectedConregation = DataContainer.ConregationFind(value);
                 }
                 RaisePropertyChanged(nameof(Merge2Koordinator));
                 CheckMergeStatus();
@@ -183,14 +183,14 @@ namespace Vortragsmanager.Views
                 MessageBoxImage.Warning) == MessageBoxResult.No)
                 return;
 
-            Datamodels.DataContainer.ConregationRemove(Versammlung);
+            DataContainer.ConregationRemove(Versammlung);
 
             CloseWindow(window, false);
         }
 
         private void Merge(ICloseable window)
         {
-            var redner = Datamodels.DataContainer.Redner.Where(x => x.Versammlung == Versammlung).OrderBy(x => x.Name).ToList();
+            var redner = DataContainer.Redner.Where(x => x.Versammlung == Versammlung).OrderBy(x => x.Name).ToList();
 
             //Redner in die neue Versammlung verschieben
             foreach (var r in redner)
@@ -199,7 +199,7 @@ namespace Vortragsmanager.Views
             }
 
             //Fest geplante Einladungen (auch der Zukunft) auf neue Versammlung unbenennen
-            var einladungen = Datamodels.DataContainer.MeinPlan
+            var einladungen = DataContainer.MeinPlan
                 .Where(x => x.Status == EventStatus.Zugesagt)
                 .Cast<Invitation>()
                 .Where(x => x.AnfrageVersammlung == Versammlung)
@@ -210,14 +210,14 @@ namespace Vortragsmanager.Views
             }
 
             //Anfragen
-            var anfragen = Datamodels.DataContainer.OffeneAnfragen.Where(x => x.Versammlung == Versammlung).ToList();
+            var anfragen = DataContainer.OffeneAnfragen.Where(x => x.Versammlung == Versammlung).ToList();
             foreach (var anfrage in anfragen)
             {
                 anfrage.Versammlung = _selectedConregation;
             }
 
             //Externe Vorträge in dieser Versammlung
-            var externeE = Datamodels.DataContainer.ExternerPlan.Where(x => x.Versammlung == Versammlung);
+            var externeE = DataContainer.ExternerPlan.Where(x => x.Versammlung == Versammlung);
             foreach (var outside in externeE)
             {
                 outside.Versammlung = _selectedConregation;
@@ -233,7 +233,7 @@ namespace Vortragsmanager.Views
                 _selectedConregation.KoordinatorTelefon = Versammlung.KoordinatorTelefon;
             }
 
-            Datamodels.DataContainer.Versammlungen.Remove(Versammlung);
+            DataContainer.Versammlungen.Remove(Versammlung);
 
             CloseWindow(window, false);
         }

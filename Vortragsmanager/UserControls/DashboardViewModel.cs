@@ -60,7 +60,7 @@ namespace Vortragsmanager.Navigation
 
         private void GetProgramOfWeek()
         {
-            var prog = Datamodels.DataContainer.MeinPlan.FirstOrDefault(x => x.Datum == _datum);
+            var prog = DataContainer.MeinPlan.FirstOrDefault(x => x.Datum == _datum);
             if (prog == null)
             {
                 ShowMeinPlanDetails(false);
@@ -87,7 +87,7 @@ namespace Vortragsmanager.Navigation
 
         private void GetRednerProgram()
         {
-            var nextRedner = Datamodels.DataContainer.ExternerPlan.Where(x => x.Datum > DateTime.Today).OrderBy(x => x.Datum);
+            var nextRedner = DataContainer.ExternerPlan.Where(x => x.Datum > DateTime.Today).OrderBy(x => x.Datum);
             if (!nextRedner.Any())
             {
                 ShowRednerDetails(false);

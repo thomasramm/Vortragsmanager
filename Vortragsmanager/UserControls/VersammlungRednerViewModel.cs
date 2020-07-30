@@ -44,7 +44,7 @@ namespace Vortragsmanager.Views
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                Datamodels.DataContainer.SpeakerRemove(Redner);
+                DataContainer.SpeakerRemove(Redner);
                 Sichtbar = Visibility.Collapsed;
                 RaisePropertyChanged(nameof(Sichtbar));
             }
@@ -69,7 +69,7 @@ namespace Vortragsmanager.Views
                 bool isNum = int.TryParse(nr, out int num);
                 if (!isNum)
                     continue;
-                var neuerV = Datamodels.DataContainer.TalkFind(num);
+                var neuerV = DataContainer.TalkFind(num);
                 if (neuerV == null)
                     continue;
                 if (!Redner.Vorträge.Select(x => x.Vortrag).Contains(neuerV))
@@ -123,7 +123,7 @@ namespace Vortragsmanager.Views
             get => new ObservableCollection<TalkSong>(Redner.Vorträge.OrderBy(x => x.Vortrag.Nummer));
         }
 
-        public static ObservableCollection<Talk> Vortragsliste => Datamodels.DataContainer.Vorträge;
+        public static ObservableCollection<Talk> Vortragsliste => DataContainer.Vorträge;
 
         public bool Ältester
         {
@@ -146,7 +146,7 @@ namespace Vortragsmanager.Views
         public Speaker Redner { get; private set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]
-        public ObservableCollection<Conregation> Versammlungen => new ObservableCollection<Conregation>(Datamodels.DataContainer.Versammlungen);
+        public ObservableCollection<Conregation> Versammlungen => new ObservableCollection<Conregation>(DataContainer.Versammlungen);
 
         public bool VersammlungenPopUp { get; set; }
 

@@ -19,16 +19,16 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand<ICloseable> CloseCommand { get; private set; }
 
-        public void LadeStartDatum(Datamodels.IEvent ereignis)
+        public void LadeStartDatum(IEvent ereignis)
         {
             if (ereignis is null)
                 return;
 
             StartEvent = ereignis;
 
-            if (ereignis.Status == Datamodels.EventStatus.Zugesagt)
+            if (ereignis.Status == EventStatus.Zugesagt)
             {
-                var invitation = (ereignis as Datamodels.Invitation);
+                var invitation = (ereignis as Invitation);
                 if (invitation is null) return;
                 StartTyp = "Versammlung";
                 StartName = invitation.Ältester.Name;
@@ -36,9 +36,9 @@ namespace Vortragsmanager.Views
                 StartVersammlung = invitation.Ältester.Versammlung.Name;
             }
 
-            if (ereignis.Status == Datamodels.EventStatus.Ereignis)
+            if (ereignis.Status == EventStatus.Ereignis)
             {
-                var special = (ereignis as Datamodels.SpecialEvent);
+                var special = (ereignis as SpecialEvent);
                 if (special is null) return;
                 StartTyp = "Ereignis";
                 StartVersammlung = special.Anzeigetext;
@@ -199,24 +199,24 @@ namespace Vortragsmanager.Views
 
         private void LadeInterneZielBuchung()
         {
-            var woche = Datamodels.DataContainer.MeinPlan.FirstOrDefault(x => x.Datum == ZielDatum);
+            var woche = DataContainer.MeinPlan.FirstOrDefault(x => x.Datum == ZielDatum);
 
             ZielBuchungBelegt = (woche != null);
 
             if (ZielBuchungBelegt)
             {
-                if (woche.Status == Datamodels.EventStatus.Zugesagt)
+                if (woche.Status == EventStatus.Zugesagt)
                 {
-                    var invitation = (woche as Datamodels.Invitation);
+                    var invitation = (woche as Invitation);
                     ZielTyp = "Versammlung";
                     ZielVersammlung = invitation.Ältester.Versammlung.Name;
                     ZielName = invitation.Ältester.Name;
                     ZielVortrag = invitation.Vortrag.Vortrag.ToString();
                 }
 
-                if (woche.Status == Datamodels.EventStatus.Ereignis)
+                if (woche.Status == EventStatus.Ereignis)
                 {
-                    var ereignis = (woche as Datamodels.SpecialEvent);
+                    var ereignis = (woche as SpecialEvent);
                     ZielTyp = "Ereignis";
                     ZielVersammlung = ereignis.Anzeigetext;
                     ZielName = ereignis.Vortragender;
@@ -231,7 +231,7 @@ namespace Vortragsmanager.Views
                 return;
             }
 
-            var anfrage = Datamodels.DataContainer.OffeneAnfragen.FirstOrDefault(x => x.Datum == ZielDatum);
+            var anfrage = DataContainer.OffeneAnfragen.FirstOrDefault(x => x.Datum == ZielDatum);
             if (anfrage == null)
                 return;
 
@@ -242,9 +242,9 @@ namespace Vortragsmanager.Views
             ZielBuchungBelegt = true;
         }
 
-        private Datamodels.IEvent ZielEvent { get; set; }
+        private IEvent ZielEvent { get; set; }
 
-        private Datamodels.IEvent StartEvent { get; set; }
+        private IEvent StartEvent { get; set; }
 
         public Kalenderart KalenderTyp { get; set; }
 
@@ -289,18 +289,18 @@ namespace Vortragsmanager.Views
             mailsData.DisableCancelButton();
 
             //MAIL WEGEN STARTBUCHUNG
-            if (StartEvent.Status == Datamodels.EventStatus.Zugesagt)
+            if (StartEvent.Status == EventStatus.Zugesagt)
             {
-                var ev = (StartEvent as Datamodels.Invitation);
-                if (ev.Ältester.Versammlung == Datamodels.DataContainer.MeineVersammlung)
+                var ev = (StartEvent as Invitation);
+                if (ev.Ältester.Versammlung == DataContainer.MeineVersammlung)
                 {
                     mailsData.InfoAnKoordinatorTitel = "Info an Redner";
-                    mailsData.MailTextKoordinator = Datamodels.Templates.GetMailTextEreignisTauschenAnRedner(ev.Ältester, startDatum, ZielDatum, ev.Vortrag.Vortrag.ToString(), ev.Ältester.Versammlung.Name);
+                    mailsData.MailTextKoordinator = Templates.GetMailTextEreignisTauschenAnRedner(ev.Ältester, startDatum, ZielDatum, ev.Vortrag.Vortrag.ToString(), ev.Ältester.Versammlung.Name);
                 }
                 else
                 {
                     mailsData.InfoAnKoordinatorTitel = "Info an Koordinator";
-                    mailsData.MailTextKoordinator = Datamodels.Templates.GetMailTextEreignisTauschenAnKoordinator(ev.Ältester.Versammlung, startDatum, ZielDatum, ev.Ältester.Name, ev.Vortrag.Vortrag.ToString(), ev.Ältester.Versammlung.Name);
+                    mailsData.MailTextKoordinator = Templates.GetMailTextEreignisTauschenAnKoordinator(ev.Ältester.Versammlung, startDatum, ZielDatum, ev.Ältester.Name, ev.Vortrag.Vortrag.ToString(), ev.Ältester.Versammlung.Name);
                 }
 
                 sendMail = true;
@@ -311,29 +311,29 @@ namespace Vortragsmanager.Views
             {
                 if (ZielbuchungTauschenChecked)
                 {
-                    if (ZielEvent.Status == Datamodels.EventStatus.Anfrage)
+                    if (ZielEvent.Status == EventStatus.Anfrage)
                     {
-                        var ev = (ZielEvent as Datamodels.Inquiry);
+                        var ev = (ZielEvent as Inquiry);
                         ev.Wochen.Remove(ZielDatum);
                         ev.Wochen.Add(startDatum);
                     }
-                    else if (ZielEvent.Status == Datamodels.EventStatus.Ereignis)
+                    else if (ZielEvent.Status == EventStatus.Ereignis)
                     {
                         ZielEvent.Datum = startDatum;
                     }
                     else
                     {
                         ZielEvent.Datum = startDatum;
-                        var ev = (ZielEvent as Datamodels.Invitation);
-                        if (ev.Ältester.Versammlung == Datamodels.DataContainer.MeineVersammlung)
+                        var ev = (ZielEvent as Invitation);
+                        if (ev.Ältester.Versammlung == DataContainer.MeineVersammlung)
                         {
                             mailsData.InfoAnRednerTitel = "Info an Redner";
-                            mailsData.MailTextRedner = Datamodels.Templates.GetMailTextEreignisTauschenAnRedner(ev.Ältester, ZielDatum, startDatum, ev.Vortrag.Vortrag.ToString(), ev.Ältester.Versammlung.Name);
+                            mailsData.MailTextRedner = Templates.GetMailTextEreignisTauschenAnRedner(ev.Ältester, ZielDatum, startDatum, ev.Vortrag.Vortrag.ToString(), ev.Ältester.Versammlung.Name);
                         }
                         else
                         {
                             mailsData.InfoAnRednerTitel = "Info an Koordinator";
-                            mailsData.MailTextRedner = Datamodels.Templates.GetMailTextEreignisTauschenAnKoordinator(ev.Ältester.Versammlung, ZielDatum, startDatum, ev.Ältester.Name, ev.Vortrag.Vortrag.ToString(), ev.Ältester.Versammlung.Name);
+                            mailsData.MailTextRedner = Templates.GetMailTextEreignisTauschenAnKoordinator(ev.Ältester.Versammlung, ZielDatum, startDatum, ev.Ältester.Name, ev.Vortrag.Vortrag.ToString(), ev.Ältester.Versammlung.Name);
                         }
                         sendMail = true;
                     }
@@ -342,33 +342,33 @@ namespace Vortragsmanager.Views
                 {
                     switch (ZielEvent.Status)
                     {
-                        case Datamodels.EventStatus.Anfrage:
-                            var ev = (ZielEvent as Datamodels.Inquiry);
+                        case EventStatus.Anfrage:
+                            var ev = (ZielEvent as Inquiry);
                             ev.Wochen.Remove(ZielDatum);
                             if (ev.Wochen.Count == 0)
-                                Datamodels.DataContainer.OffeneAnfragen.Remove(ev);
+                                DataContainer.OffeneAnfragen.Remove(ev);
                             //ToDo: Info an Versammlung über doppelbuchung der Anfrage??
                             break;
 
-                        case Datamodels.EventStatus.Zugesagt:
-                            var inv = (ZielEvent as Datamodels.Invitation);
-                            if (inv.Ältester.Versammlung == Datamodels.DataContainer.MeineVersammlung)
+                        case EventStatus.Zugesagt:
+                            var inv = (ZielEvent as Invitation);
+                            if (inv.Ältester.Versammlung == DataContainer.MeineVersammlung)
                             {
                                 mailsData.InfoAnRednerTitel = "Info an Redner";
-                                mailsData.MailTextRedner = Datamodels.Templates.GetMailTextAblehnenRedner(inv);
+                                mailsData.MailTextRedner = Templates.GetMailTextAblehnenRedner(inv);
                             }
                             else
                             {
                                 mailsData.InfoAnRednerTitel = "Info an Koordinator";
-                                mailsData.MailTextRedner = Datamodels.Templates.GetMailTextAblehnenKoordinator(inv);
+                                mailsData.MailTextRedner = Templates.GetMailTextAblehnenKoordinator(inv);
                             }
-                            Datamodels.DataContainer.Absagen.Add(new Datamodels.Cancelation(ZielDatum, inv.Ältester, Datamodels.EventStatus.Zugesagt));
-                            Datamodels.DataContainer.MeinPlan.Remove(inv);
+                            DataContainer.Absagen.Add(new Cancelation(ZielDatum, inv.Ältester, EventStatus.Zugesagt));
+                            DataContainer.MeinPlan.Remove(inv);
                             sendMail = true;
                             break;
 
-                        case Datamodels.EventStatus.Ereignis:
-                            Datamodels.DataContainer.MeinPlan.Remove(ZielEvent);
+                        case EventStatus.Ereignis:
+                            DataContainer.MeinPlan.Remove(ZielEvent);
                             break;
 
                         default:
