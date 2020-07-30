@@ -456,8 +456,6 @@ namespace Vortragsmanager.MeinPlan
 
             AktuelleAnfrage = inhalt;
 
-            var mt = Templates.GetTemplate(Templates.TemplateName.RednerAnfragenMailText).Inhalt;
-
             var stringFreieTermine = "\t";
             var anzahl = 1;
             foreach (var ft in FreieTermine.Where(x => x.Aktiv))
@@ -479,14 +477,7 @@ namespace Vortragsmanager.MeinPlan
                 stringRedner += $"\t{r.Name}, Vortrag Nr. {v.Nummer} ({v.Thema})" + Environment.NewLine;
             }
 
-            mt = mt
-                .Replace("{Freie Termine}", stringFreieTermine)
-                .Replace("{Liste Redner}", stringRedner)
-                .Replace("{Koordinator Mail}", $"{inhalt.Versammlung.KoordinatorJw}; {inhalt.Versammlung.KoordinatorMail}")
-                .Replace("{Koordinator Name}", inhalt.Versammlung.Koordinator)
-                .Replace("{Versammlung}", inhalt.Versammlung.Name);
-
-            MailText = mt;
+            MailText = Templates.GetMailTextRednerAnfragen(inhalt.Versammlung, stringRedner, stringFreieTermine);
         }
 
         public void CopyToClipboard()

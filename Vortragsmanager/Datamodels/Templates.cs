@@ -203,6 +203,26 @@ namespace Vortragsmanager.Datamodels
             return mt;
         }
 
+        public static string GetMailTextRednerAnfragen(Conregation versammlung, string rednerListe, string terminListe)
+        {
+            Log.Info(nameof(GetMailTextRednerAnfragen));
+
+            if (versammlung == null)
+                return string.Empty;
+
+            var mt = Templates.GetTemplate(Templates.TemplateName.RednerAnfragenMailText).Inhalt;
+
+            mt = mt
+                .Replace("{Freie Termine}", terminListe)
+                .Replace("{Liste Redner}", rednerListe)
+                .Replace("{Koordinator Mail}", $"{versammlung.KoordinatorJw}; {versammlung.KoordinatorMail}")
+                .Replace("{Koordinator Name}", versammlung.Koordinator)
+                .Replace("{Versammlung}", versammlung.Name)
+                .Replace("{Signatur}", GetTemplate(TemplateName.Signatur).Inhalt);
+
+            return mt;
+        }
+
         public static string ReplaceVersammlungsparameter(string Mailtext, Conregation Versammlung)
         {
             Log.Info(nameof(ReplaceVersammlungsparameter));
