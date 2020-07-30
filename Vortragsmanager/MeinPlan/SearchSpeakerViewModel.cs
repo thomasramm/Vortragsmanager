@@ -432,7 +432,7 @@ namespace Vortragsmanager.MeinPlan
             anfrage.Mailtext = MailText;
             DataContainer.OffeneAnfragen.Add(anfrage);
 
-            ActivityLog.Activities.AddActivityRednerAnfragen(anfrage);
+            ActivityLog.AddActivity.RednerAnfragen(anfrage);
 
             LoadModul1();
         }

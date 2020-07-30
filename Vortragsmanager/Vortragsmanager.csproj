@@ -125,6 +125,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ActivityLog\AddActivities.cs" />
     <Compile Include="ActivityLog\Symbols.cs" />
     <Compile Include="ActivityLog\Types.cs" />
     <Compile Include="Core\GeoApi.cs" />

@@ -226,7 +226,7 @@ namespace Vortragsmanager.MeineRedner
             w.ShowDialog();
 
             var einRedner = listeRedner.Count() == 1 ? listeRedner[0] : null;
-            ActivityLog.Activities.AddActivityOutsideSendList(einRedner, data.MailTextRedner);
+            ActivityLog.AddActivity.OutsideSendList(einRedner, data.MailTextRedner);
         }
 
         public void Absagen()
@@ -242,7 +242,7 @@ namespace Vortragsmanager.MeineRedner
             {
                 DataContainer.ExternerPlan.Remove(SelectedTalk);
                 Talks.Remove(SelectedTalk);
-                ActivityLog.Activities.AddActivityOutside(SelectedTalk, data.MailTextKoordinator, data.MailTextRedner, false);
+                ActivityLog.AddActivity.Outside(SelectedTalk, data.MailTextKoordinator, data.MailTextRedner, false);
             }
         }
     }

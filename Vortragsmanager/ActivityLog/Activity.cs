@@ -32,7 +32,8 @@ namespace Vortragsmanager.ActivityLog
 
         public DateTime Datum
         {
-            get => _datum; set
+            get => _datum;
+            set
             {
                 _datum = value;
                 RaisePropertyChanged();

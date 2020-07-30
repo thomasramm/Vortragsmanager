@@ -54,7 +54,7 @@ namespace Vortragsmanager.MeineRedner
                 if (data.Speichern)
                 {
                     DataContainer.ExternerPlan.Add(buchung);
-                    ActivityLog.Activities.AddActivityOutside(buchung, data.MailTextKoordinator, data.MailTextRedner, true);
+                    ActivityLog.AddActivity.Outside(buchung, data.MailTextKoordinator, data.MailTextRedner, true);
                 }
             }
             //Anfrage ablehnen
@@ -67,7 +67,7 @@ namespace Vortragsmanager.MeineRedner
 
                 if (data.Speichern)
                 {
-                    ActivityLog.Activities.AddActivityOutside(buchung, data.MailTextKoordinator, null, false);
+                    ActivityLog.AddActivity.Outside(buchung, data.MailTextKoordinator, null, false);
                 }
             }
         }
