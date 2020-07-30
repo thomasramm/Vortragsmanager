@@ -9,9 +9,9 @@ using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.UserControls
 {
-    public class ActivityViewModel : ViewModelBase
+    public class ActivityList : ViewModelBase
     {
-        public ActivityViewModel()
+        public ActivityList()
         {
             Messenger.Default.Register<Activity>(this, Messages.ActivityAdd, OnNewLog);
             var versNamen = DataContainer.Versammlungen.OrderBy(x => x, new Helper.EigeneKreisNameComparer()).Select(x => x.NameMitKoordinator).ToList();
@@ -232,6 +232,35 @@ namespace Vortragsmanager.UserControls
             };
             if (anfrageGelöscht)
                 log.Objekt += Environment.NewLine + "Die komplette Anfrage wurde daraufhin gelöscht, da keine weiteres Datum oder weiterer Redner angefragt wurde";
+
+            AddActivity(log);
+        }
+
+        public static void AddActivityRednerAnfragen(Inquiry anfrage)
+        {
+            if (anfrage == null)
+                return;
+            var objekt = "Datum: ";
+            foreach (var d in anfrage.Wochen)
+            {
+                objekt += d.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) + ", ";
+            }
+            objekt += Environment.NewLine + "Redner: ";
+            foreach (var r in anfrage.RednerVortrag)
+            {
+                objekt += $"{r.Key.Name} | {r.Value.NumberTopicShort}{Environment.NewLine}";
+            }
+
+            var redner = (anfrage.RednerVortrag.Keys.Distinct().Count() == 1) ? anfrage.RednerVortrag.Keys.ElementAt(0) : null;
+
+            var log = new Activity
+            {
+                Typ = ActivityType.RednerAnfragen,
+                Versammlung = anfrage.Versammlung,
+                Objekt = objekt,
+                Mails = anfrage.Mailtext,
+                Redner = redner,
+            };
 
             AddActivity(log);
         }

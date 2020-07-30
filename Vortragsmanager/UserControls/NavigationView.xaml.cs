@@ -11,13 +11,13 @@ namespace Vortragsmanager.Navigation
     /// </summary>
     public partial class NavigationView : UserControl
     {
-        private ActivityViewModel DataModel;
+        private ActivityList DataModel;
 
         public NavigationView()
         {
             InitializeComponent();
             Frame = frame;
-            DataModel = (ActivityViewModel)DataContext;
+            DataModel = (ActivityList)DataContext;
         }
 
         public static NavigationFrame Frame { get; set; }

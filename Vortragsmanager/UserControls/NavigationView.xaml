@@ -59,7 +59,7 @@
         <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <UserControl.DataContext>
-        <local:ActivityViewModel />
+        <local:ActivityList />
     </UserControl.DataContext>
     <dxdo:DockLayoutManager x:Name="dlm" FloatingMode="Desktop">
         <dxdo:LayoutGroup>

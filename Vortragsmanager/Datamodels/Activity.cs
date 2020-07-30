@@ -151,6 +151,9 @@ namespace Vortragsmanager.Datamodels
                     case ActivityType.RednerAnfrageAbgesagt:
                         return "Ablehnung einer Vortragseinladung";
 
+                    case ActivityType.RednerAnfragen:
+                        return "Redneranfrage an Versammlung " + Versammlung.Name;
+
                     case ActivityType.Sonstige:
                     default:
                         return "NOT IMPLEMENTED";
@@ -174,6 +177,7 @@ namespace Vortragsmanager.Datamodels
 
                     case ActivityType.ExterneAnfrageListeSenden:
                     case ActivityType.SendMail:
+                    case ActivityType.RednerAnfragen:
                         return Mails;
 
                     case ActivityType.RednerAnfrageBestätigt:
@@ -202,7 +206,8 @@ namespace Vortragsmanager.Datamodels
         ExterneAnfrageListeSenden,
         SendMail,
         RednerAnfrageBestätigt,
-        RednerAnfrageAbgesagt
+        RednerAnfrageAbgesagt,
+        RednerAnfragen,
     }
 
     public static class ActivityTypeSymbols
@@ -210,6 +215,7 @@ namespace Vortragsmanager.Datamodels
         private static readonly BitmapImage MeinPlan = new BitmapImage(new Uri("/Images/Kalender_64x64.png", UriKind.Relative));
         private static readonly BitmapImage MeinPlanMailAbsage = new BitmapImage(new Uri("/Images/MeinPlanMailAbsage_32x32.png", UriKind.Relative));
         private static readonly BitmapImage MeinPlanMailZusage = new BitmapImage(new Uri("/Images/MeinPlanMailZusage_32x32.png", UriKind.Relative));
+        private static readonly BitmapImage MeinPlanMailAnfrage = new BitmapImage(new Uri("/Images/MeinPlanMailAnfrage_32x32.png", UriKind.Relative));
 
         private static readonly BitmapImage MeineRedner = new BitmapImage(new Uri("/Images/Person_64x64.png", UriKind.Relative));
         private static readonly BitmapImage MailAntwort = new BitmapImage(new Uri("/Images/MailAntwort_64x64.png", UriKind.Relative));
@@ -240,6 +246,9 @@ namespace Vortragsmanager.Datamodels
 
                 case ActivityType.RednerAnfrageAbgesagt:
                     return MeinPlanMailAbsage;
+
+                case ActivityType.RednerAnfragen:
+                    return MeinPlanMailAnfrage;
 
                 default:
                     return Sonstige;

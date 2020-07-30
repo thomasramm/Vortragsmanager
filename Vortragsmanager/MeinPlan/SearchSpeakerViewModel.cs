@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Properties;
+using Vortragsmanager.UserControls;
 
 namespace Vortragsmanager.MeinPlan
 {
@@ -431,6 +432,9 @@ namespace Vortragsmanager.MeinPlan
             anfrage.Kommentar = Kommentar;
             anfrage.Mailtext = MailText;
             DataContainer.OffeneAnfragen.Add(anfrage);
+
+            ActivityList.AddActivityRednerAnfragen(anfrage);
+
             LoadModul1();
         }
 

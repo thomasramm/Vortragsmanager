@@ -274,7 +274,7 @@ namespace Vortragsmanager.MeineVerwaltung
                       + mailadressenFuß;
 
             dialog.ShowDialog();
-            ActivityViewModel.AddActivitySendMail(data.Text, maxEntfernung);
+            ActivityList.AddActivitySendMail(data.Text, maxEntfernung);
         }
 
         public static void CalculateRoute(bool alle)

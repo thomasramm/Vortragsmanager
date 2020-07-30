@@ -522,6 +522,9 @@
   <ItemGroup>
     <Resource Include="Images\MeinPlanMailZusage_32x32.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MeinPlanMailAnfrage_32x32.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

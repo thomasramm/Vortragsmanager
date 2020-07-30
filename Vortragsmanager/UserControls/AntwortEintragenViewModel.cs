@@ -195,7 +195,7 @@ namespace Vortragsmanager.Views
                 anfrageGelöscht = true;
             }
 
-            ActivityViewModel.AddActivityRednerAnfrageZugesagt(i, _base.BaseAnfrage.Mailtext, anfrageGelöscht);
+            ActivityList.AddActivityRednerAnfrageZugesagt(i, _base.BaseAnfrage.Mailtext, anfrageGelöscht);
         }
 
         public void Absagen()
@@ -217,7 +217,7 @@ namespace Vortragsmanager.Views
                 anfrageGelöscht = true;
             }
 
-            ActivityViewModel.AddActivityRednerAnfrageAbgelehnt(_redner, vortrag, wochen, _base.BaseAnfrage.Mailtext, anfrageGelöscht);
+            ActivityList.AddActivityRednerAnfrageAbgelehnt(_redner, vortrag, wochen, _base.BaseAnfrage.Mailtext, anfrageGelöscht);
         }
     }
 }
