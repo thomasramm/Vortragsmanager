@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows.Controls;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
-using Vortragsmanager.UserControls;
 using Vortragsmanager.Views;
 
 namespace Vortragsmanager.MeineRedner
@@ -227,7 +226,7 @@ namespace Vortragsmanager.MeineRedner
             w.ShowDialog();
 
             var einRedner = listeRedner.Count() == 1 ? listeRedner[0] : null;
-            ActivityList.AddActivityOutsideSendList(einRedner, data.MailTextRedner);
+            ActivityLog.Activities.AddActivityOutsideSendList(einRedner, data.MailTextRedner);
         }
 
         public void Absagen()
@@ -243,7 +242,7 @@ namespace Vortragsmanager.MeineRedner
             {
                 DataContainer.ExternerPlan.Remove(SelectedTalk);
                 Talks.Remove(SelectedTalk);
-                ActivityList.AddActivityOutside(SelectedTalk, data.MailTextKoordinator, data.MailTextRedner, false);
+                ActivityLog.Activities.AddActivityOutside(SelectedTalk, data.MailTextKoordinator, data.MailTextRedner, false);
             }
         }
     }

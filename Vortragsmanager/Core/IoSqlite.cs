@@ -767,13 +767,13 @@ namespace Vortragsmanager.Core
                     if (redn == null)
                         redn = DataContainer.SpeakerGetUnknown();
 
-                    var v = new Activity();
+                    var v = new ActivityLog.Activity();
 
                     v.Id = rdr.GetInt32(0);
                     v.Datum = rdr.GetDateTime(1);
                     v.Versammlung = vers;
                     v.Redner = redn;
-                    v.Typ = (ActivityType)rdr.GetInt32(4);
+                    v.Typ = (ActivityLog.Types)rdr.GetInt32(4);
                     v.Objekt = rdr.IsDBNull(5) ? null : rdr.GetString(5);
                     v.Kommentar = rdr.IsDBNull(6) ? null : rdr.GetString(6);
                     v.Mails = rdr.IsDBNull(7) ? null : rdr.GetString(7);

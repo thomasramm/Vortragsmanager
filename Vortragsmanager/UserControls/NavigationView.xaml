@@ -11,7 +11,7 @@
              xmlns:dxnav="http://schemas.devexpress.com/winfx/2008/xaml/navigation"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-             xmlns:local="clr-namespace:Vortragsmanager.UserControls"
+             xmlns:local="clr-namespace:Vortragsmanager.ActivityLog"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -59,7 +59,7 @@
         <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <UserControl.DataContext>
-        <local:ActivityList />
+        <local:Activities />
     </UserControl.DataContext>
     <dxdo:DockLayoutManager x:Name="dlm" FloatingMode="Desktop">
         <dxdo:LayoutGroup>

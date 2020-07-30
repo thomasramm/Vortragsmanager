@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Windows.Forms;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
-using Vortragsmanager.UserControls;
 
 namespace Vortragsmanager.MeineVerwaltung
 {
@@ -274,7 +273,7 @@ namespace Vortragsmanager.MeineVerwaltung
                       + mailadressenFuß;
 
             dialog.ShowDialog();
-            ActivityList.AddActivitySendMail(data.Text, maxEntfernung);
+            ActivityLog.Activities.AddActivitySendMail(data.Text, maxEntfernung);
         }
 
         public static void CalculateRoute(bool alle)

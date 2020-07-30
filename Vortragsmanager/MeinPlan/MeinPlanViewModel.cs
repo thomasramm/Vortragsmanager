@@ -168,9 +168,8 @@ namespace Vortragsmanager.MeinPlan
 
         private void EreignisEintragen()
         {
-            var ev = Zuteilung as SpecialEvent;
             var neu = false;
-            if (ev == null)
+            if (!(Zuteilung is SpecialEvent ev))
             {
                 ev = new SpecialEvent() { Datum = Tag };
                 neu = true;

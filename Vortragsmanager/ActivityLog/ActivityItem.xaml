@@ -1,48 +1,45 @@
-﻿<UserControl x:Class="Vortragsmanager.UserControls.ActivityItem"
+﻿<UserControl x:Class="Vortragsmanager.ActivityLog.Item"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-             xmlns:local="clr-namespace:Vortragsmanager.UserControls"
-             xmlns:datamodels="clr-namespace:Vortragsmanager.Datamodels"
+             xmlns:local="clr-namespace:Vortragsmanager.ActivityLog"
              mc:Ignorable="d"
+             x:Name="myUserControlItem"
              d:DesignHeight="25" d:DesignWidth="200">
     <UserControl.Resources>
         <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <UserControl.DataContext>
-        <datamodels:Activity />
+        <local:Activity />
     </UserControl.DataContext>
-    <Grid Height="20" Visibility="{Binding Sichtbar, Converter={StaticResource BooleanToVisibilityConverter}}">
+    <Grid Height="18" x:Name="Sichtbarkeit">
         <Grid.ToolTip>
             <Grid>
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="{Binding Path=Datum}" />
-                    <TextBlock Text="{Binding Path=ToolTipHeader}" FontWeight="Bold" Margin="0,0,0,5" />
-                    <TextBlock Text="{Binding Path=ToolTip}" />
+                    <TextBlock x:Name="ToolTipHeader" FontWeight="Bold" Margin="0,0,0,5" />
+                    <TextBlock x:Name="ToolTipBody" />
                 </StackPanel>
             </Grid>
         </Grid.ToolTip>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50" />
-            <ColumnDefinition Width="75" />
-            <ColumnDefinition Width="32" />
-            <ColumnDefinition Width="32" />
-            <ColumnDefinition Width="32" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="24" />
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"
                    Text="{Binding Path=Datum, StringFormat='{}{0:dd.MM.yy}'}" FontWeight="Normal" />
         <TextBlock Grid.Column="1"
                    Text="{Binding Path=Versammlung.Name}" FontWeight="Normal"
                    ToolTip="{Binding Path=Versammlung.NameMitKoordinator}" />
-        <Image Grid.Column="2" Source="{Binding Path=Symbol}" />
-        <Image Grid.Column="3" Source="{dx:DXImage 'GrayScaleImages/Mail/SendFile_32x32.png'}"
-               ToolTip="{Binding ToolTipMailtext}" />
-        <dx:SimpleButton Grid.Column="4"
-                         Glyph="{dx:DXImage SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg}"
-                         Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.DeleteCommand}"
-                         CommandParameter="{Binding}" />
+        <Image Grid.Column="2" x:Name="Symbol"
+               HorizontalAlignment="Left" />
+        <Image Grid.Column="3" Source="/Images/MailGrau_32x32.png"
+               HorizontalAlignment="Left"
+               ToolTip="{Binding Path=Mails}" />
     </Grid>
 </UserControl>

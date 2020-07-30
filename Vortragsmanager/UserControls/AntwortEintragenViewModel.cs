@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
-using Vortragsmanager.UserControls;
 
 namespace Vortragsmanager.Views
 {
@@ -83,11 +82,11 @@ namespace Vortragsmanager.Views
 
     public class AnfrageDetail : ViewModelBase
     {
-        private Speaker _redner;
+        private readonly Speaker _redner;
 
-        private Talk _vortrag;
+        private readonly Talk _vortrag;
 
-        private Anfrage _base;
+        private readonly Anfrage _base;
 
         public AnfrageDetail(Anfrage Base, Speaker Redner, Talk Vortrag)
         {
@@ -195,7 +194,7 @@ namespace Vortragsmanager.Views
                 anfrageGelöscht = true;
             }
 
-            ActivityList.AddActivityRednerAnfrageZugesagt(i, _base.BaseAnfrage.Mailtext, anfrageGelöscht);
+            ActivityLog.Activities.AddActivityRednerAnfrageZugesagt(i, _base.BaseAnfrage.Mailtext, anfrageGelöscht);
         }
 
         public void Absagen()
@@ -217,7 +216,7 @@ namespace Vortragsmanager.Views
                 anfrageGelöscht = true;
             }
 
-            ActivityList.AddActivityRednerAnfrageAbgelehnt(_redner, vortrag, wochen, _base.BaseAnfrage.Mailtext, anfrageGelöscht);
+            ActivityLog.Activities.AddActivityRednerAnfrageAbgelehnt(_redner, vortrag, wochen, _base.BaseAnfrage.Mailtext, anfrageGelöscht);
         }
     }
 }

@@ -4,7 +4,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Vortragsmanager.Datamodels;
-using Vortragsmanager.UserControls;
 using Vortragsmanager.Views;
 
 namespace Vortragsmanager.MeineRedner
@@ -55,7 +54,7 @@ namespace Vortragsmanager.MeineRedner
                 if (data.Speichern)
                 {
                     DataContainer.ExternerPlan.Add(buchung);
-                    ActivityList.AddActivityOutside(buchung, data.MailTextKoordinator, data.MailTextRedner, true);
+                    ActivityLog.Activities.AddActivityOutside(buchung, data.MailTextKoordinator, data.MailTextRedner, true);
                 }
             }
             //Anfrage ablehnen
@@ -68,7 +67,7 @@ namespace Vortragsmanager.MeineRedner
 
                 if (data.Speichern)
                 {
-                    ActivityList.AddActivityOutside(buchung, data.MailTextKoordinator, null, false);
+                    ActivityLog.Activities.AddActivityOutside(buchung, data.MailTextKoordinator, null, false);
                 }
             }
         }

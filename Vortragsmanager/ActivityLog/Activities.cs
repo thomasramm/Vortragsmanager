@@ -7,11 +7,11 @@ using System.Text.RegularExpressions;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 
-namespace Vortragsmanager.UserControls
+namespace Vortragsmanager.ActivityLog
 {
-    public class ActivityList : ViewModelBase
+    public class Activities : ViewModelBase
     {
-        public ActivityList()
+        public Activities()
         {
             Messenger.Default.Register<Activity>(this, Messages.ActivityAdd, OnNewLog);
             var versNamen = DataContainer.Versammlungen.OrderBy(x => x, new Helper.EigeneKreisNameComparer()).Select(x => x.NameMitKoordinator).ToList();
@@ -30,7 +30,7 @@ namespace Vortragsmanager.UserControls
 
             foreach (var a in DataContainer.Aktivitäten.OrderByDescending(x => x.Datum))
             {
-                var item = new ActivityItem(a);
+                var item = new Item(a);
                 Alle.Add(item);
 
                 if (a.Datum.Date == DateTime.Today)
@@ -57,9 +57,9 @@ namespace Vortragsmanager.UserControls
             foreach (var a in Alle)
             {
                 if (_filterAktivität == "Alle"
-                    || (_filterAktivität == "Meine Redner" && (a.Typ == ActivityType.ExterneAnfrageAblehnen || a.Typ == ActivityType.ExterneAnfrageBestätigen || a.Typ == ActivityType.ExterneAnfrageListeSenden))
-                    || (_filterAktivität == "Mein Plan" && (a.Typ == ActivityType.Sonstige || a.Typ == ActivityType.Sonstige))
-                    || (_filterAktivität == "Sonstige" && (a.Typ == ActivityType.Sonstige || a.Typ == ActivityType.ExterneAnfrageListeSenden)))
+                    || (_filterAktivität == "Meine Redner" && (a.Typ == Types.ExterneAnfrageAblehnen || a.Typ == Types.ExterneAnfrageBestätigen || a.Typ == Types.ExterneAnfrageListeSenden))
+                    || (_filterAktivität == "Mein Plan" && (a.Typ == Types.Sonstige || a.Typ == Types.Sonstige))
+                    || (_filterAktivität == "Sonstige" && (a.Typ == Types.Sonstige || a.Typ == Types.ExterneAnfrageListeSenden)))
                 {
                     if (FilterVersammlung == "Alle"
                         || string.IsNullOrEmpty(FilterVersammlung)
@@ -125,19 +125,19 @@ namespace Vortragsmanager.UserControls
 
         public ObservableCollection<string> ListeFilteredVersammlungen { get; private set; }
 
-        public ObservableCollection<ActivityItem> Alle { get; private set; } = new ObservableCollection<ActivityItem>();
+        public ObservableCollection<Item> Alle { get; private set; } = new ObservableCollection<Item>();
 
-        public ObservableCollection<ActivityItem> Heute { get; private set; } = new ObservableCollection<ActivityItem>();
+        public ObservableCollection<Item> Heute { get; private set; } = new ObservableCollection<Item>();
 
-        public ObservableCollection<ActivityItem> DieseWoche { get; private set; } = new ObservableCollection<ActivityItem>();
+        public ObservableCollection<Item> DieseWoche { get; private set; } = new ObservableCollection<Item>();
 
-        public ObservableCollection<ActivityItem> DieserMonat { get; private set; } = new ObservableCollection<ActivityItem>();
+        public ObservableCollection<Item> DieserMonat { get; private set; } = new ObservableCollection<Item>();
 
-        public ObservableCollection<ActivityItem> LetzterMonat { get; private set; } = new ObservableCollection<ActivityItem>();
+        public ObservableCollection<Item> LetzterMonat { get; private set; } = new ObservableCollection<Item>();
 
-        public ObservableCollection<ActivityItem> DiesesJahr { get; private set; } = new ObservableCollection<ActivityItem>();
+        public ObservableCollection<Item> DiesesJahr { get; private set; } = new ObservableCollection<Item>();
 
-        public ObservableCollection<ActivityItem> Älter { get; private set; } = new ObservableCollection<ActivityItem>();
+        public ObservableCollection<Item> Älter { get; private set; } = new ObservableCollection<Item>();
 
         public string HeuteHeader => $"Heute ({Heute.Count(x => x.Aktiv)})";
         public string DieseWocheHeader => $"Diese Woche ({DieseWoche.Count(x => x.Aktiv)})";
@@ -150,13 +150,13 @@ namespace Vortragsmanager.UserControls
         {
             DataContainer.Aktivitäten.Add(message);
 
-            var item = new ActivityItem(message);
+            var item = new Item(message);
             Heute.Insert(0, item);
             Alle.Add(item);
             RaisePropertyChanged(nameof(HeuteHeader));
         }
 
-        public static void AddActivity(Activity log)
+        private static void AddActivity(Activity log)
         {
             Messenger.Default.Send(log, Messages.ActivityAdd);
         }
@@ -165,7 +165,7 @@ namespace Vortragsmanager.UserControls
         {
             var log = new Activity
             {
-                Typ = bestätigen ? ActivityType.ExterneAnfrageBestätigen : ActivityType.ExterneAnfrageAblehnen,
+                Typ = bestätigen ? Types.ExterneAnfrageBestätigen : Types.ExterneAnfrageAblehnen,
                 Versammlung = buchung?.Versammlung,
                 Redner = buchung?.Ältester,
                 Mails = mailtext1,
@@ -181,7 +181,7 @@ namespace Vortragsmanager.UserControls
         {
             var log = new Activity
             {
-                Typ = ActivityType.ExterneAnfrageListeSenden,
+                Typ = Types.ExterneAnfrageListeSenden,
                 Redner = redner,
                 Versammlung = DataContainer.MeineVersammlung,
                 Mails = mailtext
@@ -193,7 +193,7 @@ namespace Vortragsmanager.UserControls
         {
             var log = new Activity
             {
-                Typ = ActivityType.SendMail,
+                Typ = Types.SendMail,
                 Versammlung = DataContainer.MeineVersammlung,
                 Mails = mailtext,
                 Objekt = (maxEntfernung == null) ? "Mail an alle Koordinatoren im Kreis" : $"Mail an alle Koordinatoren im Umkreis von {maxEntfernung} km",
@@ -205,7 +205,7 @@ namespace Vortragsmanager.UserControls
         {
             var log = new Activity
             {
-                Typ = ActivityType.RednerAnfrageAbgesagt,
+                Typ = Types.RednerAnfrageAbgesagt,
                 Versammlung = redner?.Versammlung,
                 Redner = redner,
                 Mails = mailtext,
@@ -223,7 +223,7 @@ namespace Vortragsmanager.UserControls
         {
             var log = new Activity
             {
-                Typ = ActivityType.RednerAnfrageBestätigt,
+                Typ = Types.RednerAnfrageBestätigt,
                 Versammlung = einladung?.Ältester.Versammlung,
                 Redner = einladung?.Ältester,
                 Objekt = $"Datum:   {einladung?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}{Environment.NewLine}" +
@@ -255,7 +255,7 @@ namespace Vortragsmanager.UserControls
 
             var log = new Activity
             {
-                Typ = ActivityType.RednerAnfragen,
+                Typ = Types.RednerAnfragen,
                 Versammlung = anfrage.Versammlung,
                 Objekt = objekt,
                 Mails = anfrage.Mailtext,

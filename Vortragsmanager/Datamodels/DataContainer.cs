@@ -48,7 +48,7 @@ namespace Vortragsmanager.Datamodels
 
         public static ObservableCollection<Cancelation> Absagen { get; } = new ObservableCollection<Cancelation>();
 
-        public static ObservableCollection<Activity> Aktivitäten { get; } = new ObservableCollection<Activity>();
+        public static ObservableCollection<ActivityLog.Activity> Aktivitäten { get; } = new ObservableCollection<ActivityLog.Activity>();
 
         public static Conregation ConregationFind(string name)
         {

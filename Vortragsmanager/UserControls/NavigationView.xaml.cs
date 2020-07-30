@@ -2,7 +2,6 @@
 using System;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
-using Vortragsmanager.UserControls;
 
 namespace Vortragsmanager.Navigation
 {
@@ -11,13 +10,13 @@ namespace Vortragsmanager.Navigation
     /// </summary>
     public partial class NavigationView : UserControl
     {
-        private ActivityList DataModel;
+        private readonly ActivityLog.Activities DataModel;
 
         public NavigationView()
         {
             InitializeComponent();
             Frame = frame;
-            DataModel = (ActivityList)DataContext;
+            DataModel = (ActivityLog.Activities)DataContext;
         }
 
         public static NavigationFrame Frame { get; set; }
