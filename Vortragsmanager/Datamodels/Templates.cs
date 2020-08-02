@@ -166,7 +166,7 @@ namespace Vortragsmanager.Datamodels
             var EmpfängerName = Zuteilung.Ältester.Name;
             var EmpfängerMail = GetMailadresseRedner(Zuteilung.Ältester);
 
-            if (string.IsNullOrWhiteSpace(EmpfängerMail))
+            if (EmpfängerMail == "unbekannt")
             {
                 EmpfängerName = Zuteilung.Ältester.Versammlung.Koordinator;
                 EmpfängerMail = GetMailadresseKoordinator(Zuteilung.Ältester.Versammlung);
