@@ -156,6 +156,19 @@ namespace Vortragsmanager.ActivityLog
             Add(log);
         }
 
+        public static void RednerEintragen(Invitation buchung)
+        {
+            var log = new Activity
+            {
+                Typ = Types.RednerEintragen,
+                Versammlung = buchung.Ältester.Versammlung,
+                Redner = buchung.Ältester,
+                Objekt = $"Datum: {buchung?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}" +
+                         $"{Environment.NewLine}Vortrag: {buchung.Vortrag?.ToString()}"
+            };
+            Add(log);
+        }
+
         public static void RednerAnfragen(Inquiry anfrage)
         {
             if (anfrage == null)
@@ -180,6 +193,21 @@ namespace Vortragsmanager.ActivityLog
                 Objekt = objekt,
                 Mails = anfrage.Mailtext,
                 Redner = redner,
+            };
+
+            Add(log);
+        }
+
+        public static void RednerErinnern(Invitation buchung, string mailtext)
+        {
+            var log = new Activity
+            {
+                Typ = Types.RednerErinnern,
+                Versammlung = buchung.Ältester.Versammlung,
+                Redner = buchung.Ältester,
+                Mails = mailtext,
+                Objekt = $"Datum:   {buchung?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}{Environment.NewLine}" +
+             $"Vortrag: {buchung?.Vortrag?.Vortrag.ToString()}",
             };
 
             Add(log);

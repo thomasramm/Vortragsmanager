@@ -18,22 +18,21 @@
         RednerAnfrageBestätigt,
         RednerAnfrageAbgesagt,
         RednerAnfragen,
+        RednerEintragen,
         BuchungLöschen,
         EreignisLöschen,
         EreignisAnlegen,
         EreignisBearbeiten,
         EinladungBearbeiten,
+        RednerErinnern,
     }
 
     /*ToDo: MeinPlan Command:
 
      BuchungVerschieben
-     RednerSuchen
-     RednerEintragen
-
-     BuchungBearbeiten
      BuchungErinnern
 
+     RednerEintragen
      AnfrageBearbeiten -> ok
      BuchungLöschen-> ok
      EreignisEintragen (neu)-> ok

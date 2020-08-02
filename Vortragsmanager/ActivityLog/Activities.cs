@@ -73,10 +73,13 @@ namespace Vortragsmanager.ActivityLog
                         || a.Typ == Types.EreignisBearbeiten
                         || a.Typ == Types.EreignisLöschen
                         || a.Typ == Types.EinladungBearbeiten
+                        || a.Typ == Types.RednerEintragen
+                        || a.Typ == Types.RednerErinnern
                         ))
                     || (_filterAktivität == "Sonstige"
                         && (a.Typ == Types.Sonstige
                         || a.Typ == Types.SendMail
+                        || a.Typ == Types.RednerErinnern
                         || a.Typ == Types.ExterneAnfrageListeSenden
                         ))
                     )

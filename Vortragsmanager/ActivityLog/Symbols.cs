@@ -42,6 +42,7 @@ namespace Vortragsmanager.ActivityLog
                     return MeinPlanMailAbsage;
 
                 case Types.RednerAnfragen:
+                case Types.RednerErinnern:
                     return MeinPlanMailAnfrage;
 
                 case Types.EreignisLöschen:
@@ -49,6 +50,7 @@ namespace Vortragsmanager.ActivityLog
                     return MeinPlanBuchungLöschen;
 
                 case Types.EreignisAnlegen:
+                case Types.RednerEintragen:
                     return MeinPlanBuchungNeu;
 
                 case Types.EinladungBearbeiten:

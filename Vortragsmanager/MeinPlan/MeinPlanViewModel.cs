@@ -204,6 +204,7 @@ namespace Vortragsmanager.MeinPlan
             };
             Zuteilung = i;
             DataContainer.MeinPlan.Add(i);
+            ActivityLog.AddActivity.RednerEintragen(i);
             Monat.GetWeeks(Jahr);
         }
 
@@ -307,6 +308,7 @@ namespace Vortragsmanager.MeinPlan
             data.MailTextKoordinator = Templates.GetMailTextRednerErinnerung(Zuteilung as Invitation);
             data.DisableCancelButton();
             mail.ShowDialog();
+            ActivityLog.AddActivity.RednerErinnern(Zuteilung as Invitation, data.MailTextKoordinator);
         }
 
         public IEvent Zuteilung { get; set; }
