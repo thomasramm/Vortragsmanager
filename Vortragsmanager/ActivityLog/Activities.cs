@@ -62,16 +62,24 @@ namespace Vortragsmanager.ActivityLog
                     || (_filterAktivität == "Meine Redner"
                         && (a.Typ == Types.ExterneAnfrageAblehnen
                         || a.Typ == Types.ExterneAnfrageBestätigen
-                        || a.Typ == Types.ExterneAnfrageListeSenden))
+                        || a.Typ == Types.ExterneAnfrageListeSenden
+                        ))
                     || (_filterAktivität == "Mein Plan"
                         && (a.Typ == Types.RednerAnfragen
                         || a.Typ == Types.RednerAnfrageBestätigt
                         || a.Typ == Types.RednerAnfrageAbgesagt
-                        || a.Typ == Types.BuchungLöschen))
+                        || a.Typ == Types.BuchungLöschen
+                        || a.Typ == Types.EreignisAnlegen
+                        || a.Typ == Types.EreignisBearbeiten
+                        || a.Typ == Types.EreignisLöschen
+                        || a.Typ == Types.EinladungBearbeiten
+                        ))
                     || (_filterAktivität == "Sonstige"
                         && (a.Typ == Types.Sonstige
                         || a.Typ == Types.SendMail
-                        || a.Typ == Types.ExterneAnfrageListeSenden)))
+                        || a.Typ == Types.ExterneAnfrageListeSenden
+                        ))
+                    )
                 {
                     if (FilterVersammlung == "Alle"
                         || string.IsNullOrEmpty(FilterVersammlung)

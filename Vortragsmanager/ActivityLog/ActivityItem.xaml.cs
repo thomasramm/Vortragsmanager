@@ -94,6 +94,22 @@ namespace Vortragsmanager.ActivityLog
                     ToolTipBody.Text = _log.Objekt;
                     break;
 
+                case Types.EreignisBearbeiten:
+                    ToolTipHeader.Text = "Ereignis bearbeitet";
+                    ToolTipBody.Text = _log.Objekt;
+                    break;
+
+                case Types.EreignisAnlegen:
+                    ToolTipHeader.Text = "Ereignis erstellt";
+                    ToolTipBody.Text = _log.Objekt;
+                    break;
+
+                case Types.EinladungBearbeiten:
+                    ToolTipHeader.Text = "Rednereinladung geändert";
+                    ToolTipBody.Text = _log.Objekt;
+
+                    break;
+
                 case Types.Sonstige:
                 default:
                     ToolTipHeader.Text = "NOT IMPLEMENTED";

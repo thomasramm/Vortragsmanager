@@ -176,11 +176,12 @@ namespace Vortragsmanager.MeinPlan
             data.Event = ev;
 
             dialog.ShowDialog();
-            //var data = (AnfrageBestätigenViewModel)dialog.DataContext;
+
             if (data.Speichern)
             {
                 if (neu)
                     DataContainer.MeinPlan.Add(ev);
+                ActivityLog.AddActivity.EreignisBearbeiten(ev, neu ? ActivityLog.Types.EreignisAnlegen : ActivityLog.Types.EreignisBearbeiten);
                 Zuteilung = ev;
                 Monat.GetWeeks(Jahr);
             }
@@ -211,7 +212,8 @@ namespace Vortragsmanager.MeinPlan
             if (Zuteilung.Status == EventStatus.Ereignis)
             {
                 DataContainer.MeinPlan.Remove(Zuteilung);
-                ActivityLog.AddActivity.EreignisLöschen(Zuteilung);
+                var ereignis = (Zuteilung as SpecialEvent);
+                ActivityLog.AddActivity.EreignisBearbeiten(ereignis, ActivityLog.Types.EreignisLöschen);
                 Monat.GetWeeks(Jahr);
                 return;
             }
@@ -220,7 +222,7 @@ namespace Vortragsmanager.MeinPlan
 
             var w = new InfoAnRednerUndKoordinatorWindow();
             var data = (InfoAnRednerUndKoordinatorViewModel)w.DataContext;
-            var mailtext = string.Empty;
+            string mailtext;
             if (zuteilung.Ältester.Versammlung == DataContainer.MeineVersammlung)
             {
                 data.MailTextRedner = Templates.GetMailTextAblehnenRedner(zuteilung);
@@ -276,6 +278,8 @@ namespace Vortragsmanager.MeinPlan
             dialog.ShowDialog();
             if (!data.Speichern)
                 return;
+
+            ActivityLog.AddActivity.EinladungBearbeiten(Einladung, data.SelectedRedner, data.SelectedVortrag);
 
             Einladung.Ältester = data.SelectedRedner;
             Einladung.Vortrag = data.SelectedVortrag;

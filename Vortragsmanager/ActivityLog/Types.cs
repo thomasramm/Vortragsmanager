@@ -20,17 +20,22 @@
         RednerAnfragen,
         BuchungLöschen,
         EreignisLöschen,
+        EreignisAnlegen,
+        EreignisBearbeiten,
+        EinladungBearbeiten,
     }
 
     /*ToDo: MeinPlan Command:
-     BuchungLöschen-> TeilA: Invitation, TeilB: Ereignisse wird alles angezeigt, nach Ereignistyp und Vortrag=null filtern!
+
      BuchungVerschieben
      RednerSuchen
      RednerEintragen
-     EreignisEintragen
+
      BuchungBearbeiten
      BuchungErinnern
 
-     AnfrageBearbeiten -> ok;
+     AnfrageBearbeiten -> ok
+     BuchungLöschen-> ok
+     EreignisEintragen (neu)-> ok
      */
 }

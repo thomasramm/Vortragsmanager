@@ -104,30 +104,54 @@ namespace Vortragsmanager.ActivityLog
             Add(log);
         }
 
-        public static void EreignisLöschen(IEvent ereignis)
+        public static void EreignisBearbeiten(SpecialEvent ereignis, Types typ)
         {
-            var specialEvent = (SpecialEvent)ereignis;
-            if (specialEvent == null)
+            if (ereignis == null)
                 return;
 
-            var objekt = $"Datum: {specialEvent?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}{Environment.NewLine}";
-            if (!string.IsNullOrEmpty(specialEvent.Name))
-                objekt += $"Ereignis: {specialEvent.Name}{Environment.NewLine}"; //EventName
+            var objekt = $"Datum: {ereignis?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}{Environment.NewLine}";
+            if (!string.IsNullOrEmpty(ereignis.Name))
+                objekt += $"Ereignis: {ereignis.Name}{Environment.NewLine}"; //EventName
             else
-                objekt += $"Ereignis: { specialEvent.Typ}{Environment.NewLine}"; //EventName
-            if (!string.IsNullOrEmpty(specialEvent.Vortragender))
-                objekt += $"Redner: {specialEvent.Vortragender}{Environment.NewLine}"; //Redner
-            if (specialEvent.Vortrag != null)
-                objekt += $"Thema: {specialEvent.Vortrag.Vortrag.NumberTopicShort}";
-            else if (!string.IsNullOrEmpty(specialEvent.Thema))
-                objekt += $"Thema: {specialEvent.Thema}";
+                objekt += $"Ereignis: { ereignis.Typ}{Environment.NewLine}"; //EventName
+            if (!string.IsNullOrEmpty(ereignis.Vortragender))
+                objekt += $"Redner: {ereignis.Vortragender}{Environment.NewLine}"; //Redner
+            if (ereignis.Vortrag != null)
+                objekt += $"Thema: {ereignis.Vortrag.Vortrag.NumberTopicShort}";
+            else if (!string.IsNullOrEmpty(ereignis.Thema))
+                objekt += $"Thema: {ereignis.Thema}";
 
             var log = new Activity
             {
-                Typ = Types.EreignisLöschen,
+                Typ = typ,
                 Versammlung = DataContainer.MeineVersammlung,
                 Objekt = objekt
             };
+
+            Add(log);
+        }
+
+        public static void EinladungBearbeiten(Invitation buchung, Speaker rednerNeu, TalkSong vortragNeu)
+        {
+            var log = new Activity
+            {
+                Typ = Types.EinladungBearbeiten,
+                Versammlung = rednerNeu.Versammlung,
+                Redner = rednerNeu,
+                Objekt = $"Datum: {buchung?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}",
+            };
+
+            log.Objekt += $"{Environment.NewLine}Versammlung: {rednerNeu.Versammlung.NameMitKoordinator}";
+            if (rednerNeu.Versammlung != buchung.Ältester.Versammlung)
+                log.Objekt += $"{Environment.NewLine} | vorher: {buchung.Ältester.Versammlung.Name}";
+
+            log.Objekt += $"{Environment.NewLine}Vortrag: {vortragNeu?.Vortrag?.ToString()}";
+            if (vortragNeu.Vortrag.Nummer != buchung.Vortrag.Vortrag.Nummer)
+                log.Objekt += $"{Environment.NewLine} | vorher: {buchung?.Vortrag?.Vortrag?.ToString()}";
+
+            log.Objekt += $"{Environment.NewLine}Redner: {rednerNeu.Name}";
+            if (rednerNeu != buchung.Ältester)
+                log.Objekt += $"{Environment.NewLine} | vorher: {buchung.Ältester.Name}";
 
             Add(log);
         }
