@@ -305,10 +305,11 @@ namespace Vortragsmanager.Views
 
                 sendMail = true;
             }
-
+            string startBuchungInfo = string.Empty;
             //MAIL & TODO WEGEN ZIELBUCHUNG
             if (ZielBuchungBelegt)
             {
+                var headerText = string.Empty;
                 if (ZielbuchungTauschenChecked)
                 {
                     if (ZielEvent.Status == EventStatus.Anfrage)
@@ -337,6 +338,8 @@ namespace Vortragsmanager.Views
                         }
                         sendMail = true;
                     }
+                    startBuchungInfo = "Die Buchung am neuen Datum wurde mit dem bisherigen Datum getauscht.";
+                    headerText = "Diese Buchung wurde verschoben";
                 }
                 else if (ZielbuchungLöschenChecked)
                 {
@@ -374,13 +377,23 @@ namespace Vortragsmanager.Views
                         default:
                             break;
                     }
+                    startBuchungInfo = "Die Buchung am neuen Datum wurde gelöscht.";
+                    headerText = "Diese Buchung wurde gelöscht";
                 }
+                ActivityLog.AddActivity.BuchungVerschieben(ZielEvent, mailsData.MailTextRedner, StartEvent.Datum, "Eine andere Buchung wurde auf das bisherige Datum verschoben.", headerText);
             }
+            else
+            {
+                startBuchungInfo = "Das neue Datum war in der Planung offen.";
+            }
+
             if (sendMail)
             {
                 mails.ShowDialog();
             }
 
+            ActivityLog.AddActivity.BuchungVerschieben(StartEvent, mailsData.MailTextKoordinator, startDatum, startBuchungInfo, "Buchung wurde verschoben"); // Event1
+            //Event2
             Speichern = true;
             window?.Close();
         }

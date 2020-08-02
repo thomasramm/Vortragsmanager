@@ -11,30 +11,24 @@
     public enum Types
     {
         Sonstige,
+        SendMail,
+
         ExterneAnfrageAblehnen,
         ExterneAnfrageBestätigen,
         ExterneAnfrageListeSenden,
-        SendMail,
+
         RednerAnfrageBestätigt,
         RednerAnfrageAbgesagt,
         RednerAnfragen,
         RednerEintragen,
+        RednerErinnern,
+        RednerBearbeiten,
+
         BuchungLöschen,
+        BuchungVerschieben,
+
         EreignisLöschen,
         EreignisAnlegen,
         EreignisBearbeiten,
-        EinladungBearbeiten,
-        RednerErinnern,
     }
-
-    /*ToDo: MeinPlan Command:
-
-     BuchungVerschieben
-     BuchungErinnern
-
-     RednerEintragen
-     AnfrageBearbeiten -> ok
-     BuchungLöschen-> ok
-     EreignisEintragen (neu)-> ok
-     */
 }

@@ -11,6 +11,7 @@ namespace Vortragsmanager.ActivityLog
         private static readonly BitmapImage MeinPlanBuchungLöschen = new BitmapImage(new Uri("/Images/MeinPlanBuchungLöschen_32x32.png", UriKind.Relative));
         private static readonly BitmapImage MeinPlanBuchungBearbeiten = new BitmapImage(new Uri("/Images/MeinPlanBuchungBearbeiten_32x32.png", UriKind.Relative));
         private static readonly BitmapImage MeinPlanBuchungNeu = new BitmapImage(new Uri("/Images/MeinPlanBuchungNeu_32x32.png", UriKind.Relative));
+        private static readonly BitmapImage MeinPlanBuchungVerschieben = new BitmapImage(new Uri("/Images/MeinPlanBuchungVerschieben_32x32.png", UriKind.Relative));
 
         private static readonly BitmapImage MeineRednerBestätigen = new BitmapImage(new Uri("/Images/MeineRednerBestätigen1_32x32.png", UriKind.Relative));
         private static readonly BitmapImage MeineRednerAblehnen = new BitmapImage(new Uri("/Images/MeineRednerAbgelehnt1_32x32.png", UriKind.Relative));
@@ -53,9 +54,12 @@ namespace Vortragsmanager.ActivityLog
                 case Types.RednerEintragen:
                     return MeinPlanBuchungNeu;
 
-                case Types.EinladungBearbeiten:
+                case Types.RednerBearbeiten:
                 case Types.EreignisBearbeiten:
                     return MeinPlanBuchungBearbeiten;
+
+                case Types.BuchungVerschieben:
+                    return MeinPlanBuchungVerschieben;
 
                 default:
                     return Sonstige;

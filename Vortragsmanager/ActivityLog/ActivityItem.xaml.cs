@@ -89,6 +89,14 @@ namespace Vortragsmanager.ActivityLog
                         $"Versammlung: {_log.Versammlung.NameMitKoordinator}";
                     break;
 
+                case Types.BuchungVerschieben:
+                    ToolTipHeader.Text = _log.Kommentar;
+                    ToolTipBody.Text = $"{_log.Objekt}{Environment.NewLine}";
+                    if (_log.Redner != null)
+                        ToolTipBody.Text += $"Redner: {_log.Redner.Name}{Environment.NewLine}";
+                    ToolTipBody.Text += $"Versammlung: {_log.Versammlung.NameMitKoordinator}{Environment.NewLine}";
+                    break;
+
                 case Types.RednerEintragen:
                     ToolTipHeader.Text = "Redner direkt im Plan eingetragen";
                     ToolTipBody.Text = $"Redner: {_log.Redner.Name}{Environment.NewLine}" +
@@ -118,7 +126,7 @@ namespace Vortragsmanager.ActivityLog
                     ToolTipBody.Text = _log.Objekt;
                     break;
 
-                case Types.EinladungBearbeiten:
+                case Types.RednerBearbeiten:
                     ToolTipHeader.Text = "Rednereinladung geändert";
                     ToolTipBody.Text = _log.Objekt;
                     break;

@@ -135,7 +135,7 @@ namespace Vortragsmanager.ActivityLog
         {
             var log = new Activity
             {
-                Typ = Types.EinladungBearbeiten,
+                Typ = Types.RednerBearbeiten,
                 Versammlung = rednerNeu.Versammlung,
                 Redner = rednerNeu,
                 Objekt = $"Datum: {buchung?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}",
@@ -208,6 +208,57 @@ namespace Vortragsmanager.ActivityLog
                 Mails = mailtext,
                 Objekt = $"Datum:   {buchung?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}{Environment.NewLine}" +
              $"Vortrag: {buchung?.Vortrag?.Vortrag.ToString()}",
+            };
+
+            Add(log);
+        }
+
+        public static void BuchungVerschieben(IEvent buchung, string mailtext, DateTime datumAlt, string zielBuchung, string header)
+        {
+            Conregation versammlung = null;
+            Speaker redner = null;
+            var objekt = $"{zielBuchung}{Environment.NewLine}" +
+                         $"Datum: " + datumAlt.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
+                         + " → " + buchung.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+
+            var rednereinladung = (buchung as Invitation);
+            if (rednereinladung != null)
+            {
+                redner = rednereinladung.Ältester;
+                versammlung = redner.Versammlung;
+                objekt += $"{Environment.NewLine}Vortrag: {rednereinladung.Vortrag.Vortrag.NumberTopicShort}";
+            }
+
+            var ereignis = (buchung as SpecialEvent);
+            if (ereignis != null)
+            {
+                versammlung = DataContainer.MeineVersammlung;
+                if (!string.IsNullOrEmpty(ereignis.Name))
+                    objekt += $"{Environment.NewLine}Ereignis: {ereignis.Name}{Environment.NewLine}"; //EventName
+                else
+                    objekt += $"{Environment.NewLine}Ereignis: {ereignis.Typ}{Environment.NewLine}"; //EventName
+                if (!string.IsNullOrEmpty(ereignis.Vortragender))
+                    objekt += $"Redner: {ereignis.Vortragender}{Environment.NewLine}"; //Redner
+                if (ereignis.Vortrag != null)
+                    objekt += $"Thema: {ereignis.Vortrag.Vortrag.NumberTopicShort}";
+                else if (!string.IsNullOrEmpty(ereignis.Thema))
+                    objekt += $"Thema: {ereignis.Thema}";
+            }
+
+            var anfrage = (buchung as Inquiry);
+            if (anfrage != null)
+            {
+                versammlung = anfrage.Versammlung;
+            }
+
+            var log = new Activity
+            {
+                Typ = Types.BuchungVerschieben,
+                Versammlung = versammlung,
+                Redner = redner,
+                Mails = mailtext,
+                Objekt = objekt,
+                Kommentar = header
             };
 
             Add(log);

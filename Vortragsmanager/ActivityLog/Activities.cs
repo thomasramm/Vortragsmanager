@@ -69,10 +69,11 @@ namespace Vortragsmanager.ActivityLog
                         || a.Typ == Types.RednerAnfrageBestätigt
                         || a.Typ == Types.RednerAnfrageAbgesagt
                         || a.Typ == Types.BuchungLöschen
+                        || a.Typ == Types.BuchungVerschieben
                         || a.Typ == Types.EreignisAnlegen
                         || a.Typ == Types.EreignisBearbeiten
                         || a.Typ == Types.EreignisLöschen
-                        || a.Typ == Types.EinladungBearbeiten
+                        || a.Typ == Types.RednerBearbeiten
                         || a.Typ == Types.RednerEintragen
                         || a.Typ == Types.RednerErinnern
                         ))
