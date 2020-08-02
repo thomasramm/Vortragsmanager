@@ -82,9 +82,22 @@ namespace Vortragsmanager.ActivityLog
                     ToolTipBody.Text = _log.Mails;
                     break;
 
+                case Types.BuchungLöschen:
+                    ToolTipHeader.Text = "Buchung gelöscht";
+                    ToolTipBody.Text = $"Redner: {_log.Redner.Name}{Environment.NewLine}" +
+                        $"{_log.Objekt}" +
+                        $"Versammlung: {_log.Versammlung.NameMitKoordinator}";
+                    break;
+
+                case Types.EreignisLöschen:
+                    ToolTipHeader.Text = "Ereignis gelöscht";
+                    ToolTipBody.Text = _log.Objekt;
+                    break;
+
                 case Types.Sonstige:
                 default:
                     ToolTipHeader.Text = "NOT IMPLEMENTED";
+                    ToolTipBody.Text = string.Empty;
                     break;
             }
 

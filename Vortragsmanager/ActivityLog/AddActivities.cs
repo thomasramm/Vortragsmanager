@@ -82,8 +82,52 @@ namespace Vortragsmanager.ActivityLog
                          $"Vortrag: {einladung?.Vortrag?.Vortrag.ToString()}",
                 Mails = mailtext,
             };
+
             if (anfrageGelöscht)
                 log.Objekt += Environment.NewLine + "Die komplette Anfrage wurde daraufhin gelöscht, da keine weiteres Datum oder weiterer Redner angefragt wurde";
+
+            Add(log);
+        }
+
+        public static void BuchungLöschen(Invitation buchung, string mailtext)
+        {
+            var log = new Activity
+            {
+                Typ = Types.BuchungLöschen,
+                Versammlung = buchung.Ältester.Versammlung,
+                Redner = buchung.Ältester,
+                Mails = mailtext,
+                Objekt = $"Datum:   {buchung?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}{Environment.NewLine}" +
+                         $"Vortrag: {buchung?.Vortrag?.Vortrag.ToString()}",
+            };
+
+            Add(log);
+        }
+
+        public static void EreignisLöschen(IEvent ereignis)
+        {
+            var specialEvent = (SpecialEvent)ereignis;
+            if (specialEvent == null)
+                return;
+
+            var objekt = $"Datum: {specialEvent?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}{Environment.NewLine}";
+            if (!string.IsNullOrEmpty(specialEvent.Name))
+                objekt += $"Ereignis: {specialEvent.Name}{Environment.NewLine}"; //EventName
+            else
+                objekt += $"Ereignis: { specialEvent.Typ}{Environment.NewLine}"; //EventName
+            if (!string.IsNullOrEmpty(specialEvent.Vortragender))
+                objekt += $"Redner: {specialEvent.Vortragender}{Environment.NewLine}"; //Redner
+            if (specialEvent.Vortrag != null)
+                objekt += $"Thema: {specialEvent.Vortrag.Vortrag.NumberTopicShort}";
+            else if (!string.IsNullOrEmpty(specialEvent.Thema))
+                objekt += $"Thema: {specialEvent.Thema}";
+
+            var log = new Activity
+            {
+                Typ = Types.EreignisLöschen,
+                Versammlung = DataContainer.MeineVersammlung,
+                Objekt = objekt
+            };
 
             Add(log);
         }

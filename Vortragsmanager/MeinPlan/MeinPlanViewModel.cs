@@ -110,9 +110,8 @@ namespace Vortragsmanager.MeinPlan
 
             AnzahlAuswärtigeRedner = DataContainer.ExternerPlan?.Count(x => x.Datum == tag) ?? 0;
 
-            AnfrageLöschenCommand = new DelegateCommand(AnfrageLöschen);
             BuchungVerschiebenCommand = new DelegateCommand(BuchungVerschieben);
-            BuchungLöschenCommand = new DelegateCommand(AnfrageLöschen);
+            BuchungLöschenCommand = new DelegateCommand(BuchungLöschen);
             RednerSuchenCommand = new DelegateCommand(RednerSuchen);
             RednerEintragenCommand = new DelegateCommand(RednerEintragen);
             EreignisEintragenCommand = new DelegateCommand(EreignisEintragen);
@@ -147,8 +146,6 @@ namespace Vortragsmanager.MeinPlan
         public DelegateCommand ClosePopupCommand { get; private set; }
 
         public DelegateCommand ClickCommand { get; private set; }
-
-        public DelegateCommand AnfrageLöschenCommand { get; private set; }
 
         public DelegateCommand EreignisEintragenCommand { get; private set; }
 
@@ -209,11 +206,12 @@ namespace Vortragsmanager.MeinPlan
             Monat.GetWeeks(Jahr);
         }
 
-        public void AnfrageLöschen()
+        public void BuchungLöschen()
         {
             if (Zuteilung.Status == EventStatus.Ereignis)
             {
                 DataContainer.MeinPlan.Remove(Zuteilung);
+                ActivityLog.AddActivity.EreignisLöschen(Zuteilung);
                 Monat.GetWeeks(Jahr);
                 return;
             }
@@ -222,10 +220,17 @@ namespace Vortragsmanager.MeinPlan
 
             var w = new InfoAnRednerUndKoordinatorWindow();
             var data = (InfoAnRednerUndKoordinatorViewModel)w.DataContext;
+            var mailtext = string.Empty;
             if (zuteilung.Ältester.Versammlung == DataContainer.MeineVersammlung)
+            {
                 data.MailTextRedner = Templates.GetMailTextAblehnenRedner(zuteilung);
+                mailtext = data.MailTextRedner;
+            }
             else
+            {
                 data.MailTextKoordinator = Templates.GetMailTextAblehnenKoordinator(zuteilung);
+                mailtext = data.MailTextKoordinator;
+            }
 
             w.ShowDialog();
             if (!data.Speichern)
@@ -233,6 +238,7 @@ namespace Vortragsmanager.MeinPlan
 
             DataContainer.MeinPlan.Remove(Zuteilung);
             DataContainer.Absagen.Add(new Cancelation(zuteilung.Datum, zuteilung.Ältester, zuteilung.Status));
+            ActivityLog.AddActivity.BuchungLöschen(zuteilung, mailtext);
             Monat.GetWeeks(Jahr);
         }
 

@@ -18,5 +18,19 @@
         RednerAnfrageBestätigt,
         RednerAnfrageAbgesagt,
         RednerAnfragen,
+        BuchungLöschen,
+        EreignisLöschen,
     }
+
+    /*ToDo: MeinPlan Command:
+     BuchungLöschen-> TeilA: Invitation, TeilB: Ereignisse wird alles angezeigt, nach Ereignistyp und Vortrag=null filtern!
+     BuchungVerschieben
+     RednerSuchen
+     RednerEintragen
+     EreignisEintragen
+     BuchungBearbeiten
+     BuchungErinnern
+
+     AnfrageBearbeiten -> ok;
+     */
 }

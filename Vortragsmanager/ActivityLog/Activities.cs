@@ -66,7 +66,8 @@ namespace Vortragsmanager.ActivityLog
                     || (_filterAktivität == "Mein Plan"
                         && (a.Typ == Types.RednerAnfragen
                         || a.Typ == Types.RednerAnfrageBestätigt
-                        || a.Typ == Types.RednerAnfrageAbgesagt))
+                        || a.Typ == Types.RednerAnfrageAbgesagt
+                        || a.Typ == Types.BuchungLöschen))
                     || (_filterAktivität == "Sonstige"
                         && (a.Typ == Types.Sonstige
                         || a.Typ == Types.SendMail
