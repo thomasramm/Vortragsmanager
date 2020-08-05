@@ -255,58 +255,52 @@ namespace Vortragsmanager.Core
         {
             if (DataContainer.Version < 2)
             {
-                var cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Cancelation (
+                UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Cancelation (
                     Datum INTEGER,
                     IdSpeaker INTEGER,
-                    IdLastStatus INTEGER)", db);
-                cmd.ExecuteNonQuery();
-                cmd.Dispose();
+                    IdLastStatus INTEGER)");
             }
 
             if (DataContainer.Version < 3)
             {
-                var cmd = new SQLiteCommand(@"ALTER TABLE Speaker ADD Einladen INTEGER;", db);
-                cmd.ExecuteNonQuery();
-                cmd.Dispose();
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker ADD Einladen INTEGER;");
             }
 
             if (DataContainer.Version < 4)
             {
-                var cmd = new SQLiteCommand(@"ALTER TABLE Inquiry ADD Mailtext STRING;", db);
-                cmd.ExecuteNonQuery();
-                cmd.Dispose();
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Inquiry ADD Mailtext STRING;");
             }
 
             //Version 5 hat nur C# Updates an den Daten
 
             if (DataContainer.Version < 6)
             {
-                var cmd = new SQLiteCommand(@"ALTER TABLE Speaker_Vortrag ADD IdSong1 INTEGER;", db);
-                cmd.ExecuteNonQuery();
-                cmd.Dispose();
-
-                cmd = new SQLiteCommand(@"ALTER TABLE Speaker_Vortrag ADD IdSong2 INTEGER;", db);
-                cmd.ExecuteNonQuery();
-                cmd.Dispose();
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker_Vortrag ADD IdSong1 INTEGER;");
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker_Vortrag ADD IdSong2 INTEGER;");
             }
 
             if (DataContainer.Version < 7)
             {
-                var cmd = new SQLiteCommand(@"ALTER TABLE Conregation ADD Zoom TEXT;", db);
-                cmd.ExecuteNonQuery();
-                cmd.Dispose();
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Conregation ADD Zoom TEXT;");
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker ADD JwMail TEXT;");
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Events ADD IdVortrag INTEGER;");
+                UpdateCommand(DataContainer.Version, db, @"DELETE FROM Templates;");
+            }
+        }
 
-                cmd = new SQLiteCommand(@"ALTER TABLE Speaker ADD JwMail TEXT;", db);
+        private static void UpdateCommand(int version, SQLiteConnection db, string command)
+        {
+            try
+            {
+#pragma warning disable CA2100 // Review SQL queries for security vulnerabilities
+                var cmd = new SQLiteCommand(command, db);
+#pragma warning restore CA2100 // Review SQL queries for security vulnerabilities
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
-
-                cmd = new SQLiteCommand(@"ALTER TABLE Events ADD IdVortrag INTEGER;", db);
-                cmd.ExecuteNonQuery();
-                cmd.Dispose();
-
-                cmd = new SQLiteCommand(@"DELETE FROM Templates;", db);
-                cmd.ExecuteNonQuery();
-                cmd.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Update der Datenbank von Version {version} fehlgeschlagen.", ex.Message);
             }
         }
 
