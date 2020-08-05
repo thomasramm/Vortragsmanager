@@ -1,3 +1,7 @@
+[05.08.2020]
+
+Hotfix: Fehlertoleranterer Updatemechanismus.
+
 [24.07.2020]
 
 Neues System zum speichern der Vorlagen. Als neue Vorlage wurde "Signatur" hinzugefügt. Die Signatur kann wiederum in allen anderen Vorlagen benutzt werden.
