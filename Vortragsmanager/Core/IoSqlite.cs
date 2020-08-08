@@ -1142,7 +1142,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@VersammlungId", System.Data.DbType.Int32);
             cmd.Parameters.Add("@RednerId", System.Data.DbType.Int32);
             cmd.Parameters.Add("@VortragId", System.Data.DbType.Int32);
-            cmd.Parameters.Add("@KalenderDatum", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@KalenderDatum", System.Data.DbType.Date);
             cmd.Parameters.Add("@Typ", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Objekt", System.Data.DbType.String);
             cmd.Parameters.Add("@Kommentar", System.Data.DbType.String);
