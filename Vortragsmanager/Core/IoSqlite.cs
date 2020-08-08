@@ -269,41 +269,23 @@ namespace Vortragsmanager.Core
 
         private static void UpdateDatabase(SQLiteConnection db)
         {
-            if (DataContainer.Version < 2)
-            {
-                UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Cancelation (
-                    Datum INTEGER,
-                    IdSpeaker INTEGER,
-                    IdLastStatus INTEGER)");
-            }
-
-            if (DataContainer.Version < 3)
-            {
-                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker ADD Einladen INTEGER;");
-            }
-
-            if (DataContainer.Version < 4)
-            {
-                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Inquiry ADD Mailtext STRING;");
-            }
-
-            //Version 5 hat nur C# Updates an den Daten
-
-            if (DataContainer.Version < 6)
-            {
-                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker_Vortrag ADD IdSong1 INTEGER;");
-                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker_Vortrag ADD IdSong2 INTEGER;");
-            }
-
             if (DataContainer.Version < 7)
             {
+                UpdateCommand(DataContainer.Version, db, @"DELETE FROM Templates;");
+            }
+
+            //Updates aus alten Version werden nochmal wiederholt (kann ja nichts passieren, außer einem Log-Eintrag)
+            if (DataContainer.Version < 8)
+            {
+                UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Cancelation (Datum INTEGER, IdSpeaker INTEGER, IdLastStatus INTEGER)");
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker ADD Einladen INTEGER;");
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Inquiry ADD Mailtext STRING;");
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker_Vortrag ADD IdSong1 INTEGER;");
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker_Vortrag ADD IdSong2 INTEGER;");
                 UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Conregation ADD Zoom TEXT;");
                 UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker ADD JwMail TEXT;");
                 UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Events ADD IdVortrag INTEGER;");
-                UpdateCommand(DataContainer.Version, db, @"DELETE FROM Templates;");
-            }
-            if (DataContainer.Version < 8)
-            {
+                //Die eigentlichen v8 Updates
                 UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Activity (
                     Id INTEGER,
                     Datum INTEGER,

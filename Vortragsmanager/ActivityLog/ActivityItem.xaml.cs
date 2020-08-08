@@ -1,9 +1,6 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.ActivityLog
 {
