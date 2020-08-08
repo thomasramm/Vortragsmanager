@@ -21,7 +21,8 @@ namespace Vortragsmanager.ActivityLog
                 Versammlung = buchung?.Versammlung,
                 Redner = buchung?.Ältester,
                 Mails = mailtext1,
-                Objekt = $"{buchung?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)} : {buchung?.Vortrag?.Vortrag.ToString()}",
+                KalenderDatum = buchung?.Datum ?? DateTime.MinValue,
+                Vortrag = buchung?.Vortrag?.Vortrag,
             };
             if (!string.IsNullOrEmpty(mailtext2))
                 log.Mails += _mailDelimiter + mailtext2;
@@ -53,7 +54,7 @@ namespace Vortragsmanager.ActivityLog
             Add(log);
         }
 
-        public static void RednerAnfrageAbgelehnt(Speaker redner, string vortrag, string wochen, string mailtext, bool anfrageGelöscht)
+        public static void RednerAnfrageAbgelehnt(Speaker redner, Talk vortrag, string wochen, string mailtext, bool anfrageGelöscht)
         {
             var log = new Activity
             {
@@ -61,12 +62,12 @@ namespace Vortragsmanager.ActivityLog
                 Versammlung = redner?.Versammlung,
                 Redner = redner,
                 Mails = mailtext,
-                Objekt = $"Datum:   {wochen}{Environment.NewLine}" +
-                         $"Vortrag: {vortrag}",
+                Vortrag = vortrag,
+                Objekt = $"Datum: {wochen}{Environment.NewLine}"
             };
 
             if (anfrageGelöscht)
-                log.Objekt += Environment.NewLine + "Die komplette Anfrage wurde daraufhin gelöscht, da keine weiteres Datum oder weiterer Redner angefragt wurde";
+                log.Kommentar = "Die komplette Anfrage wurde daraufhin gelöscht, da keine weiteres Datum oder weiterer Redner angefragt wurde";
 
             Add(log);
         }
@@ -78,13 +79,13 @@ namespace Vortragsmanager.ActivityLog
                 Typ = Types.RednerAnfrageBestätigt,
                 Versammlung = einladung?.Ältester.Versammlung,
                 Redner = einladung?.Ältester,
-                Objekt = $"Datum:   {einladung?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}{Environment.NewLine}" +
-                         $"Vortrag: {einladung?.Vortrag?.Vortrag.ToString()}",
+                KalenderDatum = einladung?.Datum ?? DateTime.MinValue,
+                Vortrag = einladung?.Vortrag?.Vortrag,
                 Mails = mailtext,
             };
 
             if (anfrageGelöscht)
-                log.Objekt += Environment.NewLine + "Die komplette Anfrage wurde daraufhin gelöscht, da keine weiteres Datum oder weiterer Redner angefragt wurde";
+                log.Kommentar = Environment.NewLine + "Die komplette Anfrage wurde daraufhin gelöscht, da keine weiteres Datum oder weiterer Redner angefragt wurde";
 
             Add(log);
         }
@@ -97,8 +98,8 @@ namespace Vortragsmanager.ActivityLog
                 Versammlung = buchung.Ältester.Versammlung,
                 Redner = buchung.Ältester,
                 Mails = mailtext,
-                Objekt = $"Datum:   {buchung?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}{Environment.NewLine}" +
-                         $"Vortrag: {buchung?.Vortrag?.Vortrag.ToString()}",
+                KalenderDatum = buchung?.Datum ?? DateTime.MinValue,
+                Vortrag = buchung?.Vortrag?.Vortrag,
             };
 
             Add(log);
@@ -109,22 +110,20 @@ namespace Vortragsmanager.ActivityLog
             if (ereignis == null)
                 return;
 
-            var objekt = $"Datum: {ereignis?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}{Environment.NewLine}";
-            if (!string.IsNullOrEmpty(ereignis.Name))
-                objekt += $"Ereignis: {ereignis.Name}{Environment.NewLine}"; //EventName
-            else
-                objekt += $"Ereignis: { ereignis.Typ}{Environment.NewLine}"; //EventName
+            var objekt = (!string.IsNullOrEmpty(ereignis.Name))
+                ? $"Ereignis: {ereignis.Name}{Environment.NewLine}" //EventName
+                : $"Ereignis: { ereignis.Typ}{Environment.NewLine}"; //EventName
             if (!string.IsNullOrEmpty(ereignis.Vortragender))
                 objekt += $"Redner: {ereignis.Vortragender}{Environment.NewLine}"; //Redner
-            if (ereignis.Vortrag != null)
-                objekt += $"Thema: {ereignis.Vortrag.Vortrag.NumberTopicShort}";
-            else if (!string.IsNullOrEmpty(ereignis.Thema))
+            if (ereignis.Vortrag == null && !string.IsNullOrEmpty(ereignis.Thema))
                 objekt += $"Thema: {ereignis.Thema}";
 
             var log = new Activity
             {
                 Typ = typ,
                 Versammlung = DataContainer.MeineVersammlung,
+                KalenderDatum = ereignis?.Datum ?? DateTime.MinValue,
+                Vortrag = ereignis.Vortrag?.Vortrag,
                 Objekt = objekt
             };
 
@@ -138,20 +137,21 @@ namespace Vortragsmanager.ActivityLog
                 Typ = Types.RednerBearbeiten,
                 Versammlung = rednerNeu.Versammlung,
                 Redner = rednerNeu,
-                Objekt = $"Datum: {buchung?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}",
+                KalenderDatum = buchung.Datum,
+                Vortrag = buchung.Vortrag.Vortrag,
             };
 
-            log.Objekt += $"{Environment.NewLine}Versammlung: {rednerNeu.Versammlung.NameMitKoordinator}";
+            log.Objekt = string.Empty;
             if (rednerNeu.Versammlung != buchung.Ältester.Versammlung)
-                log.Objekt += $"{Environment.NewLine} | vorher: {buchung.Ältester.Versammlung.Name}";
+                log.Objekt += $"{Environment.NewLine} | Versammlung: {buchung.Ältester.Versammlung.Name}";
 
-            log.Objekt += $"{Environment.NewLine}Vortrag: {vortragNeu?.Vortrag?.ToString()}";
             if (vortragNeu.Vortrag.Nummer != buchung.Vortrag.Vortrag.Nummer)
-                log.Objekt += $"{Environment.NewLine} | vorher: {buchung?.Vortrag?.Vortrag?.ToString()}";
+                log.Objekt += $"{Environment.NewLine} | Vortrag: {buchung?.Vortrag?.Vortrag?.ToString()}";
 
-            log.Objekt += $"{Environment.NewLine}Redner: {rednerNeu.Name}";
             if (rednerNeu != buchung.Ältester)
-                log.Objekt += $"{Environment.NewLine} | vorher: {buchung.Ältester.Name}";
+                log.Objekt += $"{Environment.NewLine} | Redner: {buchung.Ältester.Name}";
+            if (!string.IsNullOrEmpty(log.Objekt))
+                log.Objekt = $"Bisherige Daten:{Environment.NewLine}" + log.Objekt;
 
             Add(log);
         }
@@ -163,8 +163,8 @@ namespace Vortragsmanager.ActivityLog
                 Typ = Types.RednerEintragen,
                 Versammlung = buchung.Ältester.Versammlung,
                 Redner = buchung.Ältester,
-                Objekt = $"Datum: {buchung?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}" +
-                         $"{Environment.NewLine}Vortrag: {buchung.Vortrag?.ToString()}"
+                KalenderDatum = buchung.Datum,
+                Vortrag = buchung.Vortrag.Vortrag,
             };
             Add(log);
         }
@@ -173,27 +173,38 @@ namespace Vortragsmanager.ActivityLog
         {
             if (anfrage == null)
                 return;
-            var objekt = "Datum: ";
-            foreach (var d in anfrage.Wochen)
-            {
-                objekt += d.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) + ", ";
-            }
-            objekt += Environment.NewLine + "Redner: ";
-            foreach (var r in anfrage.RednerVortrag)
-            {
-                objekt += $"{r.Key.Name} | {r.Value.NumberTopicShort}{Environment.NewLine}";
-            }
-
-            var redner = (anfrage.RednerVortrag.Keys.Distinct().Count() == 1) ? anfrage.RednerVortrag.Keys.ElementAt(0) : null;
 
             var log = new Activity
             {
                 Typ = Types.RednerAnfragen,
                 Versammlung = anfrage.Versammlung,
-                Objekt = objekt,
+                Objekt = string.Empty,
                 Mails = anfrage.Mailtext,
-                Redner = redner,
             };
+
+            if (anfrage.Wochen.Count() == 1)
+                log.KalenderDatum = anfrage.Wochen.First();
+            else
+            {
+                log.Objekt = "Datum: ";
+                foreach (var d in anfrage.Wochen)
+                {
+                    log.Objekt += d.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) + ", ";
+                }
+            }
+            if (anfrage.RednerVortrag.Keys.Distinct().Count() == 1)
+            {
+                log.Redner = anfrage.RednerVortrag.Keys.ElementAt(0);
+                log.Vortrag = anfrage.RednerVortrag.Values.ElementAt(0);
+            }
+            else
+            {
+                log.Objekt += Environment.NewLine + "Redner: ";
+                foreach (var r in anfrage.RednerVortrag)
+                {
+                    log.Objekt += $"{r.Key.Name} | {r.Value.NumberTopicShort}{Environment.NewLine}";
+                }
+            }
 
             Add(log);
         }
@@ -206,8 +217,8 @@ namespace Vortragsmanager.ActivityLog
                 Versammlung = buchung.Ältester.Versammlung,
                 Redner = buchung.Ältester,
                 Mails = mailtext,
-                Objekt = $"Datum:   {buchung?.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}{Environment.NewLine}" +
-             $"Vortrag: {buchung?.Vortrag?.Vortrag.ToString()}",
+                KalenderDatum = buchung.Datum,
+                Vortrag = buchung.Vortrag?.Vortrag,
             };
 
             Add(log);
@@ -217,6 +228,9 @@ namespace Vortragsmanager.ActivityLog
         {
             Conregation versammlung = null;
             Speaker redner = null;
+            Talk vortrag = null;
+            DateTime datum = buchung.Datum;
+
             var objekt = $"{zielBuchung}{Environment.NewLine}" +
                          $"Datum: " + datumAlt.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
                          + " → " + buchung.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
@@ -226,6 +240,7 @@ namespace Vortragsmanager.ActivityLog
             {
                 redner = rednereinladung.Ältester;
                 versammlung = redner.Versammlung;
+                vortrag = rednereinladung.Vortrag.Vortrag;
                 objekt += $"{Environment.NewLine}Vortrag: {rednereinladung.Vortrag.Vortrag.NumberTopicShort}";
             }
 
@@ -240,7 +255,10 @@ namespace Vortragsmanager.ActivityLog
                 if (!string.IsNullOrEmpty(ereignis.Vortragender))
                     objekt += $"Redner: {ereignis.Vortragender}{Environment.NewLine}"; //Redner
                 if (ereignis.Vortrag != null)
+                {
+                    vortrag = ereignis.Vortrag.Vortrag;
                     objekt += $"Thema: {ereignis.Vortrag.Vortrag.NumberTopicShort}";
+                }
                 else if (!string.IsNullOrEmpty(ereignis.Thema))
                     objekt += $"Thema: {ereignis.Thema}";
             }
@@ -257,6 +275,8 @@ namespace Vortragsmanager.ActivityLog
                 Versammlung = versammlung,
                 Redner = redner,
                 Mails = mailtext,
+                KalenderDatum = datum,
+                Vortrag = vortrag,
                 Objekt = objekt,
                 Kommentar = header
             };

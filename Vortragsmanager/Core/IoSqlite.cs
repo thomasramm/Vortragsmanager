@@ -255,6 +255,8 @@ namespace Vortragsmanager.Core
                     Datum INTEGER,
                     VersammlungId INTEGER,
                     RednerId INTEGER,
+                    VortragId INGERER,
+                    KalenderDatum INTEGER,
                     Type INTEGER,
                     Objekt TEXT,
                     Kommentar TEXT,
@@ -325,11 +327,25 @@ namespace Vortragsmanager.Core
 
             if (DataContainer.Version < 8)
             {
-                var cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Activity (
+                var cmd = new SQLiteCommand(@"ALTER TABLE Activity ADD VortragId INTEGER;", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                cmd = new SQLiteCommand(@"ALTER TABLE Activity ADD KalenderDatum INTEGER;", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                cmd = new SQLiteCommand(@"DELETE FROM Activity;", db);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Activity (
                     Id INTEGER,
                     Datum INTEGER,
                     VersammlungId INTEGER,
                     RednerId INTEGER,
+                    VortragId INGERER,
+                    KalenderDatum INTEGER,
                     Type INTEGER,
                     Objekt TEXT,
                     Kommentar TEXT,
@@ -751,7 +767,7 @@ namespace Vortragsmanager.Core
         private static void ReadActivity(SQLiteConnection db)
         {
             DataContainer.Aktivitäten.Clear();
-            using (var cmd = new SQLiteCommand("SELECT Id, Datum, VersammlungId, RednerId, Type, Objekt, Kommentar, Mails FROM Activity", db))
+            using (var cmd = new SQLiteCommand("SELECT Id, Datum, VersammlungId, RednerId, VortragId, KalenderDatum, Type, Objekt, Kommentar, Mails FROM Activity", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
 
@@ -767,16 +783,21 @@ namespace Vortragsmanager.Core
                     if (redn == null)
                         redn = DataContainer.SpeakerGetUnknown();
 
+                    var vortrId = rdr.IsDBNull(4) ? -1 : rdr.GetInt32(4);
+                    var vortr = DataContainer.TalkFind(vortrId);
+
                     var v = new ActivityLog.Activity();
 
                     v.Id = rdr.GetInt32(0);
                     v.Datum = rdr.GetDateTime(1);
                     v.Versammlung = vers;
                     v.Redner = redn;
-                    v.Typ = (ActivityLog.Types)rdr.GetInt32(4);
-                    v.Objekt = rdr.IsDBNull(5) ? null : rdr.GetString(5);
-                    v.Kommentar = rdr.IsDBNull(6) ? null : rdr.GetString(6);
-                    v.Mails = rdr.IsDBNull(7) ? null : rdr.GetString(7);
+                    v.Vortrag = vortr;
+                    v.KalenderDatum = rdr.IsDBNull(5) ? DateTime.MinValue : rdr.GetDateTime(5);
+                    v.Typ = (ActivityLog.Types)rdr.GetInt32(6);
+                    v.Objekt = rdr.IsDBNull(7) ? null : rdr.GetString(7);
+                    v.Kommentar = rdr.IsDBNull(8) ? null : rdr.GetString(8);
+                    v.Mails = rdr.IsDBNull(9) ? null : rdr.GetString(9);
 
                     DataContainer.Aktivitäten.Add(v);
                 }
@@ -1134,13 +1155,15 @@ namespace Vortragsmanager.Core
 
         private static void SaveActivity(SQLiteConnection db)
         {
-            var cmd = new SQLiteCommand("INSERT INTO Activity(Id, Datum, VersammlungId, RednerId, Type, Objekt, Kommentar, Mails) " +
-    "VALUES (@Id, @Datum, @VersammlungId, @RednerId, @Typ, @Objekt, @Kommentar, @Mails)", db);
+            var cmd = new SQLiteCommand("INSERT INTO Activity(Id, Datum, VersammlungId, RednerId, VortragId, KalenderDatum, Type, Objekt, Kommentar, Mails) " +
+    "VALUES (@Id, @Datum, @VersammlungId, @RednerId, @VortragId, @KalenderDatum, @Typ, @Objekt, @Kommentar, @Mails)", db);
 
             cmd.Parameters.Add("@Id", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
             cmd.Parameters.Add("@VersammlungId", System.Data.DbType.Int32);
             cmd.Parameters.Add("@RednerId", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@VortragId", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@KalenderDatum", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Typ", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Objekt", System.Data.DbType.String);
             cmd.Parameters.Add("@Kommentar", System.Data.DbType.String);
@@ -1152,10 +1175,12 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[1].Value = a.Datum;
                 cmd.Parameters[2].Value = a.Versammlung.Id;
                 cmd.Parameters[3].Value = a.Redner?.Id;
-                cmd.Parameters[4].Value = (int)a.Typ;
-                cmd.Parameters[5].Value = a.Objekt;
-                cmd.Parameters[6].Value = a.Kommentar;
-                cmd.Parameters[7].Value = a.Mails;
+                cmd.Parameters[4].Value = a.Vortrag?.Nummer;
+                cmd.Parameters[5].Value = a.KalenderDatum;
+                cmd.Parameters[6].Value = (int)a.Typ;
+                cmd.Parameters[7].Value = a.Objekt;
+                cmd.Parameters[8].Value = a.Kommentar;
+                cmd.Parameters[9].Value = a.Mails;
 
                 cmd.ExecuteNonQuery();
             }

@@ -201,7 +201,7 @@ namespace Vortragsmanager.Views
         {
             Log.Info(nameof(Absagen));
             Sichtbar = false;
-            var vortrag = _base.BaseAnfrage.RednerVortrag[_redner].ToString();
+            var vortrag = _base.BaseAnfrage.RednerVortrag[_redner];
             _base.BaseAnfrage.RednerVortrag.Remove(_redner);
             string wochen = string.Empty;
             foreach (var w in _base.BaseAnfrage.Wochen)
