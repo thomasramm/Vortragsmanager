@@ -173,41 +173,6 @@ namespace Vortragsmanager.MeineRedner
 
         public DelegateCommand ListeSenden { get; private set; }
 
-        private string GetListeMailText(List<Speaker> listeRedner)
-        {
-            var mt = Templates.GetTemplate(Templates.TemplateName.RednerTermineMailText).Inhalt;
-
-            var mails = "";
-            var termine = "";
-
-            foreach (var ä in listeRedner)
-            {
-                mails += $"{ä.Mail}; ";
-                termine += "-----------------------------------------------------" + Environment.NewLine;
-                termine += ä.Name + Environment.NewLine;
-
-                foreach (var einladung in Talks)
-                {
-                    if (einladung.Ältester != ä)
-                        continue;
-
-                    termine += $"\tDatum:\t{einladung.Datum:dd.MM.yyyy}" + Environment.NewLine;
-                    termine += $"\tVortrag:\t{einladung.Vortrag.Vortrag}" + Environment.NewLine;
-                    termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Versammlung.GetZusammenkunftszeit(einladung.Datum.Year)}" + Environment.NewLine;
-                    termine += Environment.NewLine;
-                }
-                termine += Environment.NewLine;
-            }
-
-            mails = mails.Substring(0, mails.Length - 2);
-
-            mt = mt
-                .Replace("{Redner Mail}", mails)
-                .Replace("{Redner Termine}", termine);
-
-            return mt;
-        }
-
         public void ListeVersenden()
         {
             var w = new InfoAnRednerUndKoordinatorWindow();
@@ -220,7 +185,7 @@ namespace Vortragsmanager.MeineRedner
                 if (!listeRedner.Contains(einladung.Ältester))
                     listeRedner.Add(einladung.Ältester);
             }
-            data.MailTextRedner = GetListeMailText(listeRedner);
+            data.MailTextRedner = Templates.GetRednerlisteMailText(listeRedner, Talks);
             data.DisableCancelButton();
 
             w.ShowDialog();

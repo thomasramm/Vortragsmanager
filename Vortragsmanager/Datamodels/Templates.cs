@@ -223,6 +223,45 @@ namespace Vortragsmanager.Datamodels
             return mt;
         }
 
+        public static string GetRednerlisteMailText(List<Speaker> listeRedner, IEnumerable<Outside> talks)
+        {
+            if (listeRedner == null || talks == null)
+                return null;
+
+            var mt = GetTemplate(TemplateName.RednerTermineMailText).Inhalt;
+
+            var mails = "";
+            var termine = "";
+
+            foreach (var ä in listeRedner)
+            {
+                mails += $"{ä.Mail}; ";
+                termine += "-----------------------------------------------------" + Environment.NewLine;
+                termine += ä.Name + Environment.NewLine;
+
+                foreach (var einladung in talks)
+                {
+                    if (einladung.Ältester != ä)
+                        continue;
+
+                    termine += $"\tDatum:\t{einladung.Datum:dd.MM.yyyy}" + Environment.NewLine;
+                    termine += $"\tVortrag:\t{einladung.Vortrag.Vortrag}" + Environment.NewLine;
+                    termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Versammlung.GetZusammenkunftszeit(einladung.Datum.Year)}" + Environment.NewLine;
+                    termine += Environment.NewLine;
+                }
+                termine += Environment.NewLine;
+            }
+
+            mails = mails.Substring(0, mails.Length - 2);
+
+            mt = mt
+                .Replace("{Redner Mail}", mails)
+                .Replace("{Redner Termine}", termine)
+                .Replace("{Signatur}", GetTemplate(TemplateName.Signatur).Inhalt);
+
+            return mt;
+        }
+
         public static string ReplaceVersammlungsparameter(string Mailtext, Conregation Versammlung)
         {
             Log.Info(nameof(ReplaceVersammlungsparameter));
