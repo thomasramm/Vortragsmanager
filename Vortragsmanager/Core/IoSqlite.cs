@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Mvvm;
+using System;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
@@ -41,6 +42,8 @@ namespace Vortragsmanager.Core
 
                 db.Close();
             }
+
+            Messenger.Default.Send(true, Messages.NewDatabaseOpened);
         }
 
         public static string SaveContainer(string file, bool createBackup)
@@ -728,6 +731,7 @@ namespace Vortragsmanager.Core
         private static void ReadActivity(SQLiteConnection db)
         {
             DataContainer.Aktivitäten.Clear();
+
             using (var cmd = new SQLiteCommand("SELECT Id, Datum, VersammlungId, RednerId, VortragId, KalenderDatum, Type, Objekt, Kommentar, Mails FROM Activity", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();

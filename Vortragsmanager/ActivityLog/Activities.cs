@@ -12,46 +12,13 @@ namespace Vortragsmanager.ActivityLog
 {
     public class Activities : ViewModelBase
     {
-        private List<string> _listeAllerVersammlungen;
+        private static List<string> _listeAllerVersammlungen;
 
         public Activities()
         {
+            Initialize();
             Messenger.Default.Register<Activity>(this, Messages.ActivityAdd, OnNewLog);
-            _listeAllerVersammlungen = DataContainer.Versammlungen.OrderBy(x => x, new Helper.EigeneKreisNameComparer()).Select(x => x.NameMitKoordinator).ToList();
-            _listeAllerVersammlungen.Insert(0, "Alle");
-            ListeFilteredVersammlungen = new ObservableCollection<string>(_listeAllerVersammlungen);
-
-            Heute.Clear();
-            DieseWoche.Clear();
-            DieserMonat.Clear();
-            DiesesJahr.Clear();
-            Älter.Clear();
-            Alle.Clear();
-
-            var week = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(DateTime.Today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-
-            foreach (var a in DataContainer.Aktivitäten.OrderByDescending(x => x.Datum))
-            {
-                var item = new Item(a);
-                Alle.Add(item);
-
-                if (a.Datum.Date == DateTime.Today)
-                    Heute.Add(item);
-                else if (a.Datum.Year == DateTime.Today.Year)
-                {
-                    if (week == CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(a.Datum, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday))
-                        DieseWoche.Add(item);
-                    else if (a.Datum.Month == DateTime.Today.Month)
-                        DieserMonat.Add(item);
-                    else if (a.Datum.Month == ((DateTime.Today.Month == 1) ? 12 : DateTime.Today.Month - 1))
-                        LetzterMonat.Add(item);
-                    else
-                        DiesesJahr.Add(item);
-                }
-                else
-                    Älter.Add(item);
-            }
-            SetFilter();
+            Messenger.Default.Register<bool>(this, Messages.NewDatabaseOpened, OnOpenDatabase);
         }
 
         private void SetFilter()
@@ -145,7 +112,52 @@ namespace Vortragsmanager.ActivityLog
             }
         }
 
-        public ObservableCollection<string> ListeFilteredVersammlungen { get; private set; }
+        public void Initialize()
+        {
+            Heute.Clear();
+            DieseWoche.Clear();
+            DieserMonat.Clear();
+            DiesesJahr.Clear();
+            Älter.Clear();
+            Alle.Clear();
+
+            _listeAllerVersammlungen = DataContainer.Versammlungen.OrderBy(x => x, new Helper.EigeneKreisNameComparer()).Select(x => x.NameMitKoordinator).ToList();
+            _listeAllerVersammlungen.Insert(0, "Alle");
+
+            ListeFilteredVersammlungen.Clear();
+            foreach (var vers in _listeAllerVersammlungen)
+            {
+                ListeFilteredVersammlungen.Add(vers);
+            }
+
+            var week = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(DateTime.Today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            foreach (var a in DataContainer.Aktivitäten.OrderByDescending(x => x.Datum))
+            {
+                var item = new Item(a);
+                Alle.Add(item);
+
+                if (a.Datum.Date == DateTime.Today)
+                    Heute.Add(item);
+                else if (a.Datum.Year == DateTime.Today.Year)
+                {
+                    if (week == CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(a.Datum, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday))
+                        DieseWoche.Add(item);
+                    else if (a.Datum.Month == DateTime.Today.Month)
+                        DieserMonat.Add(item);
+                    else if (a.Datum.Month == ((DateTime.Today.Month == 1) ? 12 : DateTime.Today.Month - 1))
+                        LetzterMonat.Add(item);
+                    else
+                        DiesesJahr.Add(item);
+                }
+                else
+                    Älter.Add(item);
+            }
+
+            FilterVersammlung = string.Empty;
+        }
+
+        public ObservableCollection<string> ListeFilteredVersammlungen { get; private set; } = new ObservableCollection<string>();
 
         public ObservableCollection<Item> Alle { get; private set; } = new ObservableCollection<Item>();
 
@@ -176,6 +188,11 @@ namespace Vortragsmanager.ActivityLog
             Heute.Insert(0, item);
             Alle.Add(item);
             RaisePropertyChanged(nameof(HeuteHeader));
+        }
+
+        private void OnOpenDatabase(bool opened)
+        {
+            Initialize();
         }
     }
 }

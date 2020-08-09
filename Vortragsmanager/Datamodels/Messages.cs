@@ -5,6 +5,7 @@
         DisplayYearChanged,
         DisplayModuleAskForSpeaker,
         MeinPlanChanged,
-        ActivityAdd
+        ActivityAdd,
+        NewDatabaseOpened,
     }
 }
