@@ -1,3 +1,11 @@
+[09.08.2020]
+
+Aktivitäten Log:
+* Ab sofort werden alle wichtigen Änderungen deiner Planungen mitgeschrieben und können im Log nachvollzogen werden.
+
+Sonstiges:
+* Kleinere Fehlerbehebungen
+
 [05.08.2020]
 
 Hotfix: Fehlertoleranterer Updatemechanismus.
