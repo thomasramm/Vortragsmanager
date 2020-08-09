@@ -293,17 +293,17 @@ namespace Vortragsmanager.Views
                     return;
 
                 //löschen des bereits erfolgten imports für den Kreis
-                var anzahlVersammlungen = Datamodels.DataContainer.Versammlungen.Count;
+                var anzahlVersammlungen = DataContainer.Versammlungen.Count;
                 for (int i = anzahlVersammlungen - 1; i > 0; i--)
                 {
-                    if (Datamodels.DataContainer.Versammlungen[i].Kreis == IoExcel.Vplanung.Kreis)
-                        Datamodels.DataContainer.Versammlungen.RemoveAt(i);
+                    if (DataContainer.Versammlungen[i].Kreis == IoExcel.Vplanung.Kreis)
+                        DataContainer.Versammlungen.RemoveAt(i);
                 }
                 ImportierteKoordinatorenliste.Remove(new Kreis(IoExcel.Vplanung.Kreis));
             }
             foreach (var item in IoExcel.Vplanung.Conregations)
             {
-                Datamodels.DataContainer.Versammlungen.Add(item);
+                DataContainer.Versammlungen.Add(item);
             }
             ImportierteKoordinatorenliste.Add(new Kreis(IoExcel.Vplanung.Kreis, IoExcel.Vplanung.Conregations.Count));
             CanGoNext = true;
@@ -400,22 +400,22 @@ namespace Vortragsmanager.Views
             {
                 if (hasMatch) //ich muss das nur prüfen wenn hasMatch=true ist, sonst gibt es keine Einträge im Zeitraum
                 {
-                    var exist = Datamodels.DataContainer.ExternerPlan.FirstOrDefault(x => x.Datum == item.Datum);
+                    var exist = DataContainer.ExternerPlan.FirstOrDefault(x => x.Datum == item.Datum);
                     if (exist != null)
-                        Datamodels.DataContainer.ExternerPlan.Remove(exist);
+                        DataContainer.ExternerPlan.Remove(exist);
                 }
-                Datamodels.DataContainer.ExternerPlan.Add(item);
+                DataContainer.ExternerPlan.Add(item);
             }
 
             foreach (var item in IoExcel.Vplanung.MeinPlan)
             {
                 if (hasMatch) //ich muss das nur prüfen wenn hasMatch=true ist, sonst gibt es keine Einträge im Zeitraum
                 {
-                    var exist = Datamodels.DataContainer.MeinPlan.FirstOrDefault(x => x.Datum == item.Datum);
+                    var exist = DataContainer.MeinPlan.FirstOrDefault(x => x.Datum == item.Datum);
                     if (exist != null)
-                        Datamodels.DataContainer.MeinPlan.Remove(exist);
+                        DataContainer.MeinPlan.Remove(exist);
                 }
-                Datamodels.DataContainer.MeinPlan.Add(item);
+                DataContainer.MeinPlan.Add(item);
             }
             foreach (var item in jahr)
             {

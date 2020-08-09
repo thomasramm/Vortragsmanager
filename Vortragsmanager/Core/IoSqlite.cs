@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Mvvm;
+using System;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace Vortragsmanager.Core
                 ReadEvents(db);
                 ReadAnfragen(db);
                 ReadCancelation(db);
+                ReadActivity(db);
 
                 DataContainer.UpdateTalkDate();
                 DataContainer.IsInitialized = true;
@@ -40,6 +42,8 @@ namespace Vortragsmanager.Core
 
                 db.Close();
             }
+
+            Messenger.Default.Send(true, Messages.NewDatabaseOpened);
         }
 
         public static string SaveContainer(string file, bool createBackup)
@@ -64,6 +68,7 @@ namespace Vortragsmanager.Core
                     SaveExternerPlan(db);
                     SaveTemplates(db);
                     SaveCancelation(db);
+                    SaveActivity(db);
                     transaction.Commit();
                 }
                 db.Close();
@@ -247,44 +252,54 @@ namespace Vortragsmanager.Core
                 IdLastStatus INTEGER)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Activity (
+                    Id INTEGER,
+                    Datum INTEGER,
+                    VersammlungId INTEGER,
+                    RednerId INTEGER,
+                    VortragId INGERER,
+                    KalenderDatum INTEGER,
+                    Type INTEGER,
+                    Objekt TEXT,
+                    Kommentar TEXT,
+                    Mails TEXT)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
         }
 
         #region READ
 
         private static void UpdateDatabase(SQLiteConnection db)
         {
-            if (DataContainer.Version < 2)
-            {
-                UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Cancelation (
-                    Datum INTEGER,
-                    IdSpeaker INTEGER,
-                    IdLastStatus INTEGER)");
-            }
-
-            if (DataContainer.Version < 3)
-            {
-                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker ADD Einladen INTEGER;");
-            }
-
-            if (DataContainer.Version < 4)
-            {
-                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Inquiry ADD Mailtext STRING;");
-            }
-
-            //Version 5 hat nur C# Updates an den Daten
-
-            if (DataContainer.Version < 6)
-            {
-                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker_Vortrag ADD IdSong1 INTEGER;");
-                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker_Vortrag ADD IdSong2 INTEGER;");
-            }
-
             if (DataContainer.Version < 7)
             {
+                UpdateCommand(DataContainer.Version, db, @"DELETE FROM Templates;");
+            }
+
+            //Updates aus alten Version werden nochmal wiederholt (kann ja nichts passieren, außer einem Log-Eintrag)
+            if (DataContainer.Version < 8)
+            {
+                UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Cancelation (Datum INTEGER, IdSpeaker INTEGER, IdLastStatus INTEGER)");
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker ADD Einladen INTEGER;");
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Inquiry ADD Mailtext STRING;");
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker_Vortrag ADD IdSong1 INTEGER;");
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker_Vortrag ADD IdSong2 INTEGER;");
                 UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Conregation ADD Zoom TEXT;");
                 UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker ADD JwMail TEXT;");
                 UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Events ADD IdVortrag INTEGER;");
-                UpdateCommand(DataContainer.Version, db, @"DELETE FROM Templates;");
+                //Die eigentlichen v8 Updates
+                UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Activity (
+                    Id INTEGER,
+                    Datum INTEGER,
+                    VersammlungId INTEGER,
+                    RednerId INTEGER,
+                    VortragId INGERER,
+                    KalenderDatum INTEGER,
+                    Type INTEGER,
+                    Objekt TEXT,
+                    Kommentar TEXT,
+                    Mails TEXT)");
             }
         }
 
@@ -713,6 +728,49 @@ namespace Vortragsmanager.Core
             }
         }
 
+        private static void ReadActivity(SQLiteConnection db)
+        {
+            DataContainer.Aktivitäten.Clear();
+
+            using (var cmd = new SQLiteCommand("SELECT Id, Datum, VersammlungId, RednerId, VortragId, KalenderDatum, Type, Objekt, Kommentar, Mails FROM Activity", db))
+            {
+                SQLiteDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    var versId = rdr.GetInt32(2);
+                    var vers = DataContainer.Versammlungen.FirstOrDefault(x => x.Id == versId);
+                    if (vers == null)
+                        vers = DataContainer.ConregationGetUnknown();
+
+                    var rednId = rdr.IsDBNull(3) ? -1 : rdr.GetInt32(3);
+                    var redn = DataContainer.Redner.FirstOrDefault(x => x.Id == rednId);
+                    if (redn == null)
+                        redn = DataContainer.SpeakerGetUnknown();
+
+                    var vortrId = rdr.IsDBNull(4) ? -1 : rdr.GetInt32(4);
+                    var vortr = DataContainer.TalkFind(vortrId);
+
+                    var v = new ActivityLog.Activity();
+
+                    v.Id = rdr.GetInt32(0);
+                    v.Datum = rdr.GetDateTime(1);
+                    v.Versammlung = vers;
+                    v.Redner = redn;
+                    v.Vortrag = vortr;
+                    v.KalenderDatum = rdr.IsDBNull(5) ? DateTime.MinValue : rdr.GetDateTime(5);
+                    v.Typ = (ActivityLog.Types)rdr.GetInt32(6);
+                    v.Objekt = rdr.IsDBNull(7) ? null : rdr.GetString(7);
+                    v.Kommentar = rdr.IsDBNull(8) ? null : rdr.GetString(8);
+                    v.Mails = rdr.IsDBNull(9) ? null : rdr.GetString(9);
+
+                    DataContainer.Aktivitäten.Add(v);
+                }
+
+                rdr.Close();
+            }
+        }
+
         #endregion READ
 
         #region SAVE
@@ -1054,6 +1112,41 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[0].Value = absage.Datum;
                 cmd.Parameters[1].Value = absage.Ältester.Id;
                 cmd.Parameters[2].Value = (int)absage.LetzterStatus;
+                cmd.ExecuteNonQuery();
+            }
+
+            cmd.Dispose();
+        }
+
+        private static void SaveActivity(SQLiteConnection db)
+        {
+            var cmd = new SQLiteCommand("INSERT INTO Activity(Id, Datum, VersammlungId, RednerId, VortragId, KalenderDatum, Type, Objekt, Kommentar, Mails) " +
+    "VALUES (@Id, @Datum, @VersammlungId, @RednerId, @VortragId, @KalenderDatum, @Typ, @Objekt, @Kommentar, @Mails)", db);
+
+            cmd.Parameters.Add("@Id", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
+            cmd.Parameters.Add("@VersammlungId", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@RednerId", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@VortragId", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@KalenderDatum", System.Data.DbType.Date);
+            cmd.Parameters.Add("@Typ", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@Objekt", System.Data.DbType.String);
+            cmd.Parameters.Add("@Kommentar", System.Data.DbType.String);
+            cmd.Parameters.Add("@Mails", System.Data.DbType.String);
+
+            foreach (var a in DataContainer.Aktivitäten)
+            {
+                cmd.Parameters[0].Value = a.Id;
+                cmd.Parameters[1].Value = a.Datum;
+                cmd.Parameters[2].Value = a.Versammlung.Id;
+                cmd.Parameters[3].Value = a.Redner?.Id;
+                cmd.Parameters[4].Value = a.Vortrag?.Nummer;
+                cmd.Parameters[5].Value = a.KalenderDatum;
+                cmd.Parameters[6].Value = (int)a.Typ;
+                cmd.Parameters[7].Value = a.Objekt;
+                cmd.Parameters[8].Value = a.Kommentar;
+                cmd.Parameters[9].Value = a.Mails;
+
                 cmd.ExecuteNonQuery();
             }
 

@@ -6,7 +6,7 @@ namespace Vortragsmanager.Views
     /// <summary>
     /// Interaktionslogik für BuchungLöschenCommandDialog.xaml
     /// </summary>
-    public partial class SetupWizardDialog : Window, ICloseable
+    public partial class SetupWizardDialog : Window, Datamodels.ICloseable
     {
         public SetupWizardDialog()
         {

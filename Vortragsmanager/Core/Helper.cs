@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Vortragsmanager.Datamodels;
-using Vortragsmanager.Views;
 
 namespace Vortragsmanager.Core
 {
@@ -19,7 +18,7 @@ namespace Vortragsmanager.Core
             return date;
         }
 
-        public static int CurrentVersion => 7;
+        public static int CurrentVersion => 8;
 
         public class EigeneKreisNameComparer : IComparer<Conregation>
         {
@@ -43,7 +42,7 @@ namespace Vortragsmanager.Core
             set
             {
                 _displayedYear = value;
-                Messenger.Default.Send(Messages.DisplayYearChanged);
+                Messenger.Default.Send(_displayedYear, Messages.DisplayYearChanged);
             }
         }
 

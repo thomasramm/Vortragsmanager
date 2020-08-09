@@ -54,6 +54,7 @@ namespace Vortragsmanager.MeineRedner
                 if (data.Speichern)
                 {
                     DataContainer.ExternerPlan.Add(buchung);
+                    ActivityLog.AddActivity.Outside(buchung, data.MailTextKoordinator, data.MailTextRedner, true);
                 }
             }
             //Anfrage ablehnen
@@ -63,6 +64,11 @@ namespace Vortragsmanager.MeineRedner
                 data.MailTextKoordinator = Templates.GetMailTextAblehnenKoordinator(buchung);
                 data.MailTextRedner = null;
                 w.ShowDialog();
+
+                if (data.Speichern)
+                {
+                    ActivityLog.AddActivity.Outside(buchung, data.MailTextKoordinator, null, false);
+                }
             }
         }
 

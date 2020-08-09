@@ -46,7 +46,7 @@ namespace Vortragsmanager.Views
 
         public void NewPerson()
         {
-            var redner = Datamodels.DataContainer.SpeakerFindOrAdd("Neuer Redner", Versammlung);
+            var redner = DataContainer.SpeakerFindOrAdd("Neuer Redner", Versammlung);
             var rednerModel = new SpeakerViewModel(redner);
             RednerListe.Add(rednerModel);
             rednerModel.Select();
@@ -54,7 +54,7 @@ namespace Vortragsmanager.Views
 
         public void CalculateDistance()
         {
-            var start = Datamodels.DataContainer.MeineVersammlung;
+            var start = DataContainer.MeineVersammlung;
             var end = Versammlung;
             Entfernung = GeoApi.GetDistance(start, end);
         }
@@ -129,7 +129,7 @@ namespace Vortragsmanager.Views
         {
             get
             {
-                return (Datamodels.DataContainer.MeineVersammlung == Versammlung);
+                return (DataContainer.MeineVersammlung == Versammlung);
             }
             set
             {
@@ -138,7 +138,7 @@ namespace Vortragsmanager.Views
                     "Willst du diese Versammlung wirklich als deine eigene Versammlung setzen?",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning) == MessageBoxResult.Yes))
-                    Datamodels.DataContainer.MeineVersammlung = Versammlung;
+                    DataContainer.MeineVersammlung = Versammlung;
             }
         }
 

@@ -1,9 +1,11 @@
-﻿namespace Vortragsmanager.Views
+﻿namespace Vortragsmanager.Datamodels
 {
     public enum Messages
     {
         DisplayYearChanged,
         DisplayModuleAskForSpeaker,
         MeinPlanChanged,
+        ActivityAdd,
+        NewDatabaseOpened,
     }
 }

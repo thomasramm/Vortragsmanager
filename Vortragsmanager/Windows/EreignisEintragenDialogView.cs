@@ -47,7 +47,7 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand<ICloseable> SaveCommand { get; private set; }
 
-        public ObservableCollection<Talk> Vortragsliste => Datamodels.DataContainer.Vorträge;
+        public ObservableCollection<Talk> Vortragsliste => DataContainer.Vorträge;
 
         public Talk NeuerVortrag
         {

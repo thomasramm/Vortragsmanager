@@ -19,10 +19,10 @@ namespace Vortragsmanager.MeineVerwaltung
             AddTalkCommand = new DelegateCommand(TalkAdd);
             DeleteTalkCommand = new DelegateCommand<TalkSong>(TalkDelete);
 
-            ListeAllerVersammlungen = new ObservableCollection<Conregation>(Datamodels.DataContainer.Versammlungen.OrderBy(x => x, new Helper.EigeneKreisNameComparer()));
+            ListeAllerVersammlungen = new ObservableCollection<Conregation>(DataContainer.Versammlungen.OrderBy(x => x, new Helper.EigeneKreisNameComparer()));
             ListeFilteredVersammlungen = new ObservableCollection<Conregation>(ListeAllerVersammlungen);
 
-            ListeAllerRedner = new ObservableCollection<Speaker>(Datamodels.DataContainer.Redner.OrderBy(x => x.Name));
+            ListeAllerRedner = new ObservableCollection<Speaker>(DataContainer.Redner.OrderBy(x => x.Name));
             ListeFilteredRedner = new ObservableCollection<Speaker>(ListeAllerRedner);
         }
 
@@ -34,7 +34,7 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public ObservableCollection<Speaker> ListeFilteredRedner { get; private set; }
 
-        public ObservableCollection<Talk> Vortragsliste => Datamodels.DataContainer.Vorträge;
+        public ObservableCollection<Talk> Vortragsliste => DataContainer.Vorträge;
 
         public ObservableCollection<TalkSong> Vorträge => new ObservableCollection<TalkSong>(Redner.Vorträge);
 
@@ -116,7 +116,7 @@ namespace Vortragsmanager.MeineVerwaltung
                 Redner = null;
                 return;
             }
-            var redner = Datamodels.DataContainer.Redner.Where(x => x.Name == _selectedSpeakerName).ToList();
+            var redner = DataContainer.Redner.Where(x => x.Name == _selectedSpeakerName).ToList();
             if (redner.Count > 1 && !string.IsNullOrWhiteSpace(_selectedConregationName))
             {
                 redner = redner.Where(x => x.Versammlung.Name == _selectedConregationName).ToList();
@@ -159,7 +159,7 @@ namespace Vortragsmanager.MeineVerwaltung
             if (DialogResult.No == MessageBox.Show($"Soll der Redner '{Redner.Name}' wirklich gelöscht werden?", "Achtung!", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                 return;
 
-            Datamodels.DataContainer.SpeakerRemove(Redner);
+            DataContainer.SpeakerRemove(Redner);
 
             ListeAllerRedner.Remove(Redner);
             ListeFilteredRedner.Remove(Redner);
@@ -170,12 +170,12 @@ namespace Vortragsmanager.MeineVerwaltung
         {
             Conregation vers = null;
             if (!string.IsNullOrEmpty(SelectedConregationName))
-                vers = Datamodels.DataContainer.ConregationFind(SelectedConregationName);
+                vers = DataContainer.ConregationFind(SelectedConregationName);
 
             if (vers is null)
             {
                 ThemedMessageBox.Show("Im Filter ist aktuell keine Versammlung gewählt. Bitte für den neuen Redner unter Aktionen -> Versammlung verschieben die Versammlung zuweisen.");
-                vers = Datamodels.DataContainer.ConregationFind("Unbekannt");
+                vers = DataContainer.ConregationFind("Unbekannt");
             }
 
             Speaker redner = new Speaker();
@@ -183,9 +183,9 @@ namespace Vortragsmanager.MeineVerwaltung
             while (redner != null)
             {
                 i++;
-                redner = Datamodels.DataContainer.SpeakerFind($"Neuer Redner #{i}", vers);
+                redner = DataContainer.SpeakerFind($"Neuer Redner #{i}", vers);
             }
-            redner = Datamodels.DataContainer.SpeakerFindOrAdd($"Neuer Redner #{i}", vers);
+            redner = DataContainer.SpeakerFindOrAdd($"Neuer Redner #{i}", vers);
 
             SelectedSpeakerName = redner.Name;
         }
@@ -211,7 +211,7 @@ namespace Vortragsmanager.MeineVerwaltung
                 bool isNum = int.TryParse(nr, out int num);
                 if (!isNum)
                     continue;
-                var neuerV = Datamodels.DataContainer.TalkFind(num);
+                var neuerV = DataContainer.TalkFind(num);
                 if (neuerV == null)
                     continue;
                 if (!Redner.Vorträge.Select(x => x.Vortrag).Contains(neuerV))

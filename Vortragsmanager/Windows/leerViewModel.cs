@@ -1,5 +1,6 @@
 ﻿using DevExpress.Mvvm;
 using System.Windows;
+using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.Views
 {

@@ -15,7 +15,7 @@ namespace Vortragsmanager.MeinPlan
     {
         public SearchSpeakerViewModel()
         {
-            Messenger.Default.Register<GroupConregation>(this, LoadModul2);
+            Messenger.Default.Register<GroupConregation>(this, Messages.DisplayModuleAskForSpeaker, LoadModul2);
             AnfrageSpeichernCommand = new DelegateCommand(AnfrageSpeichern);
             CopyToClipboardCommand = new DelegateCommand(CopyToClipboard);
 
@@ -431,6 +431,9 @@ namespace Vortragsmanager.MeinPlan
             anfrage.Kommentar = Kommentar;
             anfrage.Mailtext = MailText;
             DataContainer.OffeneAnfragen.Add(anfrage);
+
+            ActivityLog.AddActivity.RednerAnfragen(anfrage);
+
             LoadModul1();
         }
 
@@ -456,8 +459,6 @@ namespace Vortragsmanager.MeinPlan
 
             AktuelleAnfrage = inhalt;
 
-            var mt = Templates.GetTemplate(Templates.TemplateName.RednerAnfragenMailText).Inhalt;
-
             var stringFreieTermine = "\t";
             var anzahl = 1;
             foreach (var ft in FreieTermine.Where(x => x.Aktiv))
@@ -479,14 +480,7 @@ namespace Vortragsmanager.MeinPlan
                 stringRedner += $"\t{r.Name}, Vortrag Nr. {v.Nummer} ({v.Thema})" + Environment.NewLine;
             }
 
-            mt = mt
-                .Replace("{Freie Termine}", stringFreieTermine)
-                .Replace("{Liste Redner}", stringRedner)
-                .Replace("{Koordinator Mail}", $"{inhalt.Versammlung.KoordinatorJw}; {inhalt.Versammlung.KoordinatorMail}")
-                .Replace("{Koordinator Name}", inhalt.Versammlung.Koordinator)
-                .Replace("{Versammlung}", inhalt.Versammlung.Name);
-
-            MailText = mt;
+            MailText = Templates.GetMailTextRednerAnfragen(inhalt.Versammlung, stringRedner, stringFreieTermine);
         }
 
         public void CopyToClipboard()
@@ -557,7 +551,7 @@ namespace Vortragsmanager.MeinPlan
 
         public void AskForSpeaker()
         {
-            Messenger.Default.Send(this);
+            Messenger.Default.Send(this, Messages.DisplayModuleAskForSpeaker);
         }
 
         public Conregation Versammlung { get; set; }

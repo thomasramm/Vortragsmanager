@@ -239,7 +239,7 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public static void EmergencyMail(int? maxEntfernung)
         {
-            IEnumerable<Datamodels.Conregation> empfänger;
+            IEnumerable<Conregation> empfänger;
             if (maxEntfernung is null)
                 empfänger = DataContainer.Versammlungen.Where(x => x.Kreis == DataContainer.MeineVersammlung.Kreis);
             else
@@ -273,6 +273,7 @@ namespace Vortragsmanager.MeineVerwaltung
                       + mailadressenFuß;
 
             dialog.ShowDialog();
+            ActivityLog.AddActivity.SendMail(data.Text, maxEntfernung);
         }
 
         public static void CalculateRoute(bool alle)

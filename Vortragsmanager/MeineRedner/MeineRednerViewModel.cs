@@ -14,7 +14,7 @@ namespace Vortragsmanager.MeineRedner
     {
         public MeineRednerViewModel()
         {
-            Messenger.Default.Register<Messages>(this, OnMessage);
+            Messenger.Default.Register<int>(this, Messages.DisplayYearChanged, OnMessage);
             ChangeYear = new DelegateCommand<int>(ChangeCurrentYear);
             ChangeView = new DelegateCommand<RednerViewType>(ChangeCurrentView);
             ListeSenden = new DelegateCommand(ListeVersenden);
@@ -130,22 +130,14 @@ namespace Vortragsmanager.MeineRedner
         }
 
         public bool ViewStateYear { get; set; }
+
         public bool ViewStateAgenda { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]
         public int CurrentYear => Helper.DisplayedYear;
 
-        private void OnMessage(Messages message)
+        private void OnMessage(int year)
         {
-            switch (message)
-            {
-                case Messages.DisplayYearChanged:
-                    RaisePropertyChanged(nameof(CurrentYear));
-                    break;
-
-                default:
-                    break;
-            }
+            RaisePropertyChanged(nameof(CurrentYear));
         }
 
         public List<CheckBox> Redner { get; private set; }
@@ -181,56 +173,25 @@ namespace Vortragsmanager.MeineRedner
 
         public DelegateCommand ListeSenden { get; private set; }
 
-        private string GetListeMailText()
-        {
-            var mt = Templates.GetTemplate(Templates.TemplateName.RednerTermineMailText).Inhalt;
-            var listeRedner = new List<Speaker>();
-            var mails = "";
-            var termine = "";
-
-            foreach (var einladung in Talks)
-            {
-                if (!listeRedner.Contains(einladung.Ältester))
-                    listeRedner.Add(einladung.Ältester);
-            }
-
-            foreach (var ä in listeRedner)
-            {
-                mails += $"{ä.Mail}; ";
-                termine += "-----------------------------------------------------" + Environment.NewLine;
-                termine += ä.Name + Environment.NewLine;
-
-                foreach (var einladung in Talks)
-                {
-                    if (einladung.Ältester != ä)
-                        continue;
-
-                    termine += $"\tDatum:\t{einladung.Datum:dd.MM.yyyy}" + Environment.NewLine;
-                    termine += $"\tVortrag:\t{einladung.Vortrag.Vortrag}" + Environment.NewLine;
-                    termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Versammlung.GetZusammenkunftszeit(einladung.Datum.Year)}" + Environment.NewLine;
-                    termine += Environment.NewLine;
-                }
-                termine += Environment.NewLine;
-            }
-
-            mails = mails.Substring(0, mails.Length - 2);
-
-            mt = mt
-                .Replace("{Redner Mail}", mails)
-                .Replace("{Redner Termine}", termine);
-
-            return mt;
-        }
-
         public void ListeVersenden()
         {
             var w = new InfoAnRednerUndKoordinatorWindow();
             var data = (InfoAnRednerUndKoordinatorViewModel)w.DataContext;
             data.Titel = "Liste der Vortragseinladungen versenden";
-            data.MailTextRedner = GetListeMailText();
+
+            var listeRedner = new List<Speaker>();
+            foreach (var einladung in Talks)
+            {
+                if (!listeRedner.Contains(einladung.Ältester))
+                    listeRedner.Add(einladung.Ältester);
+            }
+            data.MailTextRedner = Templates.GetRednerlisteMailText(listeRedner, Talks);
             data.DisableCancelButton();
 
             w.ShowDialog();
+
+            var einRedner = listeRedner.Count() == 1 ? listeRedner[0] : null;
+            ActivityLog.AddActivity.OutsideSendList(einRedner, data.MailTextRedner);
         }
 
         public void Absagen()
@@ -246,6 +207,7 @@ namespace Vortragsmanager.MeineRedner
             {
                 DataContainer.ExternerPlan.Remove(SelectedTalk);
                 Talks.Remove(SelectedTalk);
+                ActivityLog.AddActivity.Outside(SelectedTalk, data.MailTextKoordinator, data.MailTextRedner, false);
             }
         }
     }

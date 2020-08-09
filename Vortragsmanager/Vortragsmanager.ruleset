@@ -10,6 +10,7 @@
     <Rule Id="CA1061" Action="Warning" />
     <Rule Id="CA1063" Action="Warning" />
     <Rule Id="CA1301" Action="Warning" />
+    <Rule Id="CA1303" Action="Hidden" />
     <Rule Id="CA1400" Action="Warning" />
     <Rule Id="CA1401" Action="Warning" />
     <Rule Id="CA1403" Action="Warning" />
@@ -70,6 +71,6 @@
     <Rule Id="CA1065" Action="None" />
   </Rules>
   <Rules AnalyzerId="Microsoft.NetCore.Analyzers" RuleNamespace="Microsoft.NetCore.Analyzers">
-    <Rule Id="CA1303" Action="None" />
+    <Rule Id="CA1303" Action="Hidden" />
   </Rules>
 </RuleSet>

@@ -17,6 +17,9 @@ main:
 
 - title: Verwaltung
   url: /Verwaltung/
+
+- title: Aktivitäten Log
+  url: /Log/
   
 - title: Konzepte
   url: /Konzept/
@@ -74,6 +77,9 @@ lmenu:
         url: /Vorlagen/
       - title: Programm Einstellungen
         url: /ProgrammEinstellungen/
+
+  - title: Aktivitäten Log
+    url: /Log/
     
   - title: Konzepte
     url: /Konzept/

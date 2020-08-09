@@ -28,7 +28,7 @@ namespace Vortragsmanager.MeinPlan
             Monate.Add(new MonthViewModel(11, "November", Monate));
             Monate.Add(new MonthViewModel(12, "Dezember", Monate));
 
-            Messenger.Default.Register<Messages>(this, OnMessage);
+            Messenger.Default.Register<int>(this, Messages.DisplayYearChanged, OnMessage);
             UpdateMonate();
         }
 
@@ -48,18 +48,10 @@ namespace Vortragsmanager.MeinPlan
             }
         }
 
-        private void OnMessage(Messages message)
+        private void OnMessage(int year)
         {
-            switch (message)
-            {
-                case Messages.DisplayYearChanged:
-                    RaisePropertyChanged(nameof(CurrentYear));
-                    UpdateMonate();
-                    break;
-
-                default:
-                    break;
-            }
+            RaisePropertyChanged(nameof(CurrentYear));
+            UpdateMonate();
         }
 
         public void ChangeCurrentYear(int step)
@@ -118,9 +110,8 @@ namespace Vortragsmanager.MeinPlan
 
             AnzahlAuswärtigeRedner = DataContainer.ExternerPlan?.Count(x => x.Datum == tag) ?? 0;
 
-            AnfrageLöschenCommand = new DelegateCommand(AnfrageLöschen);
             BuchungVerschiebenCommand = new DelegateCommand(BuchungVerschieben);
-            BuchungLöschenCommand = new DelegateCommand(AnfrageLöschen);
+            BuchungLöschenCommand = new DelegateCommand(BuchungLöschen);
             RednerSuchenCommand = new DelegateCommand(RednerSuchen);
             RednerEintragenCommand = new DelegateCommand(RednerEintragen);
             EreignisEintragenCommand = new DelegateCommand(EreignisEintragen);
@@ -156,8 +147,6 @@ namespace Vortragsmanager.MeinPlan
 
         public DelegateCommand ClickCommand { get; private set; }
 
-        public DelegateCommand AnfrageLöschenCommand { get; private set; }
-
         public DelegateCommand EreignisEintragenCommand { get; private set; }
 
         public DelegateCommand BuchungLöschenCommand { get; private set; }
@@ -176,9 +165,8 @@ namespace Vortragsmanager.MeinPlan
 
         private void EreignisEintragen()
         {
-            var ev = Zuteilung as SpecialEvent;
             var neu = false;
-            if (ev == null)
+            if (!(Zuteilung is SpecialEvent ev))
             {
                 ev = new SpecialEvent() { Datum = Tag };
                 neu = true;
@@ -188,11 +176,12 @@ namespace Vortragsmanager.MeinPlan
             data.Event = ev;
 
             dialog.ShowDialog();
-            //var data = (AnfrageBestätigenViewModel)dialog.DataContext;
+
             if (data.Speichern)
             {
                 if (neu)
                     DataContainer.MeinPlan.Add(ev);
+                ActivityLog.AddActivity.EreignisBearbeiten(ev, neu ? ActivityLog.Types.EreignisAnlegen : ActivityLog.Types.EreignisBearbeiten);
                 Zuteilung = ev;
                 Monat.GetWeeks(Jahr);
             }
@@ -215,14 +204,17 @@ namespace Vortragsmanager.MeinPlan
             };
             Zuteilung = i;
             DataContainer.MeinPlan.Add(i);
+            ActivityLog.AddActivity.RednerEintragen(i);
             Monat.GetWeeks(Jahr);
         }
 
-        public void AnfrageLöschen()
+        public void BuchungLöschen()
         {
             if (Zuteilung.Status == EventStatus.Ereignis)
             {
                 DataContainer.MeinPlan.Remove(Zuteilung);
+                var ereignis = (Zuteilung as SpecialEvent);
+                ActivityLog.AddActivity.EreignisBearbeiten(ereignis, ActivityLog.Types.EreignisLöschen);
                 Monat.GetWeeks(Jahr);
                 return;
             }
@@ -231,10 +223,17 @@ namespace Vortragsmanager.MeinPlan
 
             var w = new InfoAnRednerUndKoordinatorWindow();
             var data = (InfoAnRednerUndKoordinatorViewModel)w.DataContext;
+            string mailtext;
             if (zuteilung.Ältester.Versammlung == DataContainer.MeineVersammlung)
+            {
                 data.MailTextRedner = Templates.GetMailTextAblehnenRedner(zuteilung);
+                mailtext = data.MailTextRedner;
+            }
             else
+            {
                 data.MailTextKoordinator = Templates.GetMailTextAblehnenKoordinator(zuteilung);
+                mailtext = data.MailTextKoordinator;
+            }
 
             w.ShowDialog();
             if (!data.Speichern)
@@ -242,6 +241,7 @@ namespace Vortragsmanager.MeinPlan
 
             DataContainer.MeinPlan.Remove(Zuteilung);
             DataContainer.Absagen.Add(new Cancelation(zuteilung.Datum, zuteilung.Ältester, zuteilung.Status));
+            ActivityLog.AddActivity.BuchungLöschen(zuteilung, mailtext);
             Monat.GetWeeks(Jahr);
         }
 
@@ -280,6 +280,8 @@ namespace Vortragsmanager.MeinPlan
             if (!data.Speichern)
                 return;
 
+            ActivityLog.AddActivity.EinladungBearbeiten(Einladung, data.SelectedRedner, data.SelectedVortrag);
+
             Einladung.Ältester = data.SelectedRedner;
             Einladung.Vortrag = data.SelectedVortrag;
             Monat.GetWeeks(Jahr);
@@ -291,7 +293,7 @@ namespace Vortragsmanager.MeinPlan
             var data = (AntwortEintragenViewModel)dev.Control.DataContext;
             data.LoadData(Zuteilung as Inquiry);
             dev.ShowDialog();
-            Messenger.Default.Send(Messages.DisplayYearChanged);
+            Messenger.Default.Send(0, Messages.DisplayYearChanged);
         }
 
         public void RednerSuchen()
@@ -306,6 +308,7 @@ namespace Vortragsmanager.MeinPlan
             data.MailTextKoordinator = Templates.GetMailTextRednerErinnerung(Zuteilung as Invitation);
             data.DisableCancelButton();
             mail.ShowDialog();
+            ActivityLog.AddActivity.RednerErinnern(Zuteilung as Invitation, data.MailTextKoordinator);
         }
 
         public IEvent Zuteilung { get; set; }
