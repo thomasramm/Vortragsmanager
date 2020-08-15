@@ -56,7 +56,7 @@ namespace Vortragsmanager.MeineVerwaltung
             set
             {
                 _selectedConregationName = value;
-                SetRednerfilter(value);
+                SetRednerfilter();
                 FindSpeaker();
             }
         }
