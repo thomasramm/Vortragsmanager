@@ -13,6 +13,7 @@ namespace Vortragsmanager.ActivityLog
     public class Activities : ViewModelBase
     {
         private static List<string> _listeAllerVersammlungen;
+        private static int _nextId;
 
         public Activities()
         {
@@ -121,6 +122,8 @@ namespace Vortragsmanager.ActivityLog
             Älter.Clear();
             Alle.Clear();
 
+            _nextId = DataContainer.Aktivitäten.Select(x => x.Id).DefaultIfEmpty(0).Max() + 1;
+
             _listeAllerVersammlungen = DataContainer.Versammlungen.OrderBy(x => x, new Helper.EigeneKreisNameComparer()).Select(x => x.NameMitKoordinator).ToList();
             _listeAllerVersammlungen.Insert(0, "Alle");
 
@@ -182,6 +185,7 @@ namespace Vortragsmanager.ActivityLog
 
         private void OnNewLog(Activity message)
         {
+            message.Id = _nextId++;
             DataContainer.Aktivitäten.Add(message);
 
             var item = new Item(message);
