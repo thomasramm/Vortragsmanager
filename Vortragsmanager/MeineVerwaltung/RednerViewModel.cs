@@ -24,6 +24,8 @@ namespace Vortragsmanager.MeineVerwaltung
 
             ListeAllerRedner = new ObservableCollection<Speaker>(DataContainer.Redner.OrderBy(x => x.Name));
             ListeFilteredRedner = new ObservableCollection<Speaker>(ListeAllerRedner);
+
+            RednerAktivitäten = new ObservableCollection<Core.ClassHelper.DateWithConregation>();
         }
 
         public ObservableCollection<Conregation> ListeAllerVersammlungen { get; private set; }
@@ -46,7 +48,7 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public DelegateCommand AddTalkCommand { get; private set; }
 
-        #region Versammlung
+        #region Filter Versammlung
 
         private string _selectedConregationName;
 
@@ -79,7 +81,7 @@ namespace Vortragsmanager.MeineVerwaltung
             }
         }
 
-        #endregion Versammlung
+        #endregion Filter Versammlung
 
         #region Filter Redner
 
@@ -106,6 +108,7 @@ namespace Vortragsmanager.MeineVerwaltung
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(RednerSelektiert));
                 RaisePropertyChanged(nameof(Vorträge));
+                RednerAktivitätenUpdate();
             }
         }
 
@@ -239,5 +242,25 @@ namespace Vortragsmanager.MeineVerwaltung
         public string NeuerVortrag { get; set; }
 
         #endregion Vortrag
+
+        private void RednerAktivitätenUpdate()
+        {
+            RednerAktivitäten.Clear();
+            if (Redner == null)
+                return;
+
+            var erg = DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester == Redner).Select(x => new Core.ClassHelper.DateWithConregation(x.Datum, DataContainer.MeineVersammlung.Name));
+            erg = erg.Union(DataContainer.ExternerPlan.Where(x => x.Ältester == Redner).Select(x => new Core.ClassHelper.DateWithConregation(x.Datum, x.Versammlung.Name)));
+            var anzahl = 10;
+            foreach (var item in erg.OrderByDescending(x => x.Datum))
+            {
+                RednerAktivitäten.Add(item);
+                anzahl--;
+                if (anzahl == 0)
+                    break;
+            }
+            
+        }
+        public ObservableCollection<Core.ClassHelper.DateWithConregation> RednerAktivitäten { get; private set; }
     }
 }

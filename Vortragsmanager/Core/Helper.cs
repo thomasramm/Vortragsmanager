@@ -47,5 +47,27 @@ namespace Vortragsmanager.Core
         }
 
         public static CultureInfo German { get; } = new CultureInfo("de-DE");
+
+    }
+}
+
+namespace Vortragsmanager.Core.ClassHelper
+{ 
+    public class DateWithConregation
+    {
+        public DateWithConregation(DateTime datum, string versammlung)
+        {
+            Datum = datum;
+            Versammlung = versammlung;
+        }
+
+        public DateTime Datum { get; set; }
+
+        public string Versammlung { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Datum:dd.MM.yyyy} {Versammlung}";
+        }
     }
 }
