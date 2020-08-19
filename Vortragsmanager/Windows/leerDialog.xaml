@@ -18,7 +18,7 @@
             <RowDefinition Height="1*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <TextBox Text="{Binding Text}" />
+        <TextBox Text="{Binding Text}" AcceptsReturn="True"/>
         <StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
             <dx:SimpleButton Content="{Binding CloseButtonText}"
                              Glyph="{dx:DXImage SvgImages/Outlook Inspired/Cancel.svg}"
