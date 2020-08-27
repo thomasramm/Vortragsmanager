@@ -1,6 +1,8 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -24,6 +26,8 @@ namespace Vortragsmanager.MeineVerwaltung
 
             ListeAllerRedner = new ObservableCollection<Speaker>(DataContainer.Redner.OrderBy(x => x.Name));
             ListeFilteredRedner = new ObservableCollection<Speaker>(ListeAllerRedner);
+
+            RednerAktivitäten = new ObservableCollection<Core.DataHelper.DateWithConregation>();
         }
 
         public ObservableCollection<Conregation> ListeAllerVersammlungen { get; private set; }
@@ -46,7 +50,7 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public DelegateCommand AddTalkCommand { get; private set; }
 
-        #region Versammlung
+        #region Filter Versammlung
 
         private string _selectedConregationName;
 
@@ -56,7 +60,7 @@ namespace Vortragsmanager.MeineVerwaltung
             set
             {
                 _selectedConregationName = value;
-                SetRednerfilter(value);
+                SetRednerfilter();
                 FindSpeaker();
             }
         }
@@ -79,7 +83,7 @@ namespace Vortragsmanager.MeineVerwaltung
             }
         }
 
-        #endregion Versammlung
+        #endregion Filter Versammlung
 
         #region Filter Redner
 
@@ -106,6 +110,7 @@ namespace Vortragsmanager.MeineVerwaltung
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(RednerSelektiert));
                 RaisePropertyChanged(nameof(Vorträge));
+                RednerAktivitätenUpdate();
             }
         }
 
@@ -239,5 +244,21 @@ namespace Vortragsmanager.MeineVerwaltung
         public string NeuerVortrag { get; set; }
 
         #endregion Vortrag
+
+        private void RednerAktivitätenUpdate()
+        {
+            RednerAktivitäten.Clear();
+
+            var erg = DataContainer.SpeakerGetActivities(Redner, 10);
+            
+            if (erg == null)
+                return;
+
+            foreach (var item in erg)
+            {
+                RednerAktivitäten.Add(item);
+            }
+        }
+        public ObservableCollection<Core.DataHelper.DateWithConregation> RednerAktivitäten { get; private set; }
     }
 }

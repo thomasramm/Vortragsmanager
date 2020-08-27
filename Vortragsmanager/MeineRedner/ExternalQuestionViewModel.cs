@@ -1,6 +1,8 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
+using DevExpress.XtraPrinting.Native;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Vortragsmanager.Datamodels;
@@ -14,7 +16,7 @@ namespace Vortragsmanager.MeineRedner
         {
             Redner = new ObservableCollection<Speaker>(DataContainer.Redner.Where(X => X.Versammlung == DataContainer.MeineVersammlung));
             Versammlungen = DataContainer.Versammlungen;
-            SelectedRednerTalks = new ObservableCollection<DateTime>();
+            SelectedRednerTalks = new ObservableCollection<string>();
             SelectedDatumTalks = new ObservableCollection<Outside>();
             SelectedDatum = DateTime.Today;
             Speichern = new DelegateCommand<bool>(AnfrageSpeichern);
@@ -119,11 +121,7 @@ namespace Vortragsmanager.MeineRedner
 
         private void ParameterValidieren()
         {
-            ParameterValidiert = SelectedVortrag != null
-                && SelectedRedner != null
-                && SelectedDatum != null
-                && SelectedVersammlung != null;
-
+            ParameterValidiert = SelectedRedner != null && SelectedDatum != null;
             Hinweis = string.Empty;
 
             if (!_parameterValidiert)
@@ -144,7 +142,7 @@ namespace Vortragsmanager.MeineRedner
             //1 Vortrag pro Monat
             var vorher = SelectedDatum.AddMonths(-1);
             var nachher = SelectedDatum.AddMonths(1);
-            foreach (var t in SelectedRednerTalks)
+            foreach (var t in _selectedRednerTalkDates)
             {
                 if (t >= vorher && t <= nachher)
                 {
@@ -183,14 +181,18 @@ namespace Vortragsmanager.MeineRedner
 
         private void SelectedRednerChanged()
         {
-            var vorträge = DataContainer.ExternerPlan.Where(x => x.Ältester == SelectedRedner && x.Datum >= DateTime.Today).Select(x => x.Datum);
-            vorträge = vorträge.Union(DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Zugesagt && x.Datum >= DateTime.Today).Cast<Invitation>().Where(x => x.Ältester == SelectedRedner).Select(x => x.Datum));
-            SelectedRednerTalks = new ObservableCollection<DateTime>(vorträge.OrderBy(x => x));
+            //var vorträge = DataContainer.ExternerPlan.Where(x => x.Ältester == SelectedRedner && x.Datum >= DateTime.Today).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, x.Versammlung.Name, x.Vortrag?.Vortrag?.Nummer));
+            var vorträge = DataContainer.SpeakerGetActivities(SelectedRedner,10);
+            //vorträge = vorträge.Union(DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Zugesagt && x.Datum >= DateTime.Today).Cast<Invitation>().Where(x => x.Ältester == SelectedRedner).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, DataContainer.MeineVersammlung.Name, x.Vortrag?.Vortrag?.Nummer)));
+            _selectedRednerTalkDates = new ObservableCollection<DateTime>(vorträge.Select(x => x.Datum));
+            SelectedRednerTalks = new ObservableCollection<string>(vorträge.Select(x => x.ToString()));
             RaisePropertyChanged(nameof(SelectedRednerTalks));
             ParameterValidieren();
         }
 
-        public ObservableCollection<DateTime> SelectedRednerTalks { get; private set; }
+        private IEnumerable<DateTime> _selectedRednerTalkDates;
+
+        public ObservableCollection<string> SelectedRednerTalks { get; private set; }
 
         public ObservableCollection<Outside> SelectedDatumTalks { get; private set; }
     }

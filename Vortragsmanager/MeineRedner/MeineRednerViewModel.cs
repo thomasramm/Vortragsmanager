@@ -205,9 +205,9 @@ namespace Vortragsmanager.MeineRedner
 
             if (data.Speichern)
             {
+                ActivityLog.AddActivity.Outside(SelectedTalk, data.MailTextKoordinator, data.MailTextRedner, false);
                 DataContainer.ExternerPlan.Remove(SelectedTalk);
                 Talks.Remove(SelectedTalk);
-                ActivityLog.AddActivity.Outside(SelectedTalk, data.MailTextKoordinator, data.MailTextRedner, false);
             }
         }
     }

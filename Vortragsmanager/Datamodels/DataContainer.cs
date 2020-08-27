@@ -1,6 +1,8 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -276,6 +278,21 @@ namespace Vortragsmanager.Datamodels
                 if (evt.Datum > evt.Vortrag.Vortrag.ZuletztGehalten || evt.Vortrag.Vortrag.ZuletztGehalten == null)
                     evt.Vortrag.Vortrag.ZuletztGehalten = evt.Datum;
             }
+        }
+
+        public static IEnumerable<Core.DataHelper.DateWithConregation> SpeakerGetActivities(Speaker redner, int anzahl)
+        {
+            if (redner == null)
+                return null;
+
+            IEnumerable<Core.DataHelper.DateWithConregation> erg;
+
+            erg = DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, DataContainer.MeineVersammlung.Name, x.Vortrag?.Vortrag?.Nummer));
+            
+            if (redner.Versammlung == DataContainer.MeineVersammlung)
+                erg = erg.Union(DataContainer.ExternerPlan.Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, x.Versammlung.Name, x.Vortrag?.Vortrag?.Nummer)));
+                
+            return erg.OrderByDescending(x => x.Datum).Take(anzahl);
         }
     }
 }

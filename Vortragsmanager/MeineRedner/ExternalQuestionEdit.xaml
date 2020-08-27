@@ -62,7 +62,6 @@
                                         <TextBlock>zukünftige Einladungen: <Run Text="{Binding SelectedRedner.Name}" /></TextBlock>
                                     </dxlc:LayoutItem.Label>
                                     <ListBox ItemsSource="{Binding SelectedRednerTalks}"
-                                             ItemStringFormat="dd.MM.yyyy"
                                              MinHeight="40" />
                                 </dxlc:LayoutItem>
                             </dxlc:LayoutGroup>

@@ -1,3 +1,9 @@
+[27.08.2020]
+
+Redner: Anzeige der letzen 10 Aktivitäten
+Mailtexte: können im Programm geändert werden, die geänderten Mailtexte werden dann auch im Activitäten Log gespeichert.
+kleinere Fehler behoben und Stabilitätsverbesserungen
+
 [09.08.2020]
 
 Aktivitäten Log:

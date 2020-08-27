@@ -104,7 +104,7 @@
                             <dxlc:LayoutItem Label="Typ:">
                                 <dxe:ToggleSwitch ContentPlacement="Near"
                                             CheckedStateContent="Ältester" UncheckedStateContent="DAG"
-                                            IsChecked="{Binding Ältester, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            IsChecked="{Binding Redner.Ältester, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </dxlc:LayoutItem>
                             <dxlc:LayoutItem Label="Aktiv:">
                                 <dxe:ToggleSwitch ContentPlacement="Near"
@@ -163,6 +163,9 @@
                                 </dxe:ComboBoxEdit>
                             </dxlc:LayoutItem>
                         </dxlc:LayoutControl>
+                    </dxa:AccordionItem>
+                    <dxa:AccordionItem Header="Aktivitäten">
+                        <ListBox  ItemsSource="{Binding RednerAktivitäten}"/>
                     </dxa:AccordionItem>
                     <dxa:AccordionItem Header="Abwesenheiten">
                         <dxlc:LayoutControl Orientation="Vertical" IsEnabled="{Binding RednerSelektiert}">

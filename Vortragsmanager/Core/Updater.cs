@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Net;
 using System.Reflection;
+using System.Text;
 using Vortragsmanager.Views;
 
 namespace Vortragsmanager.Core
@@ -90,6 +91,7 @@ namespace Vortragsmanager.Core
             {
                 using (WebClient client = new WebClient())
                 {
+                    client.Encoding = Encoding.UTF8;
                     client.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.Reload);
                     iniString = client.DownloadString(Properties.Settings.Default.ChangelogPfad);
                 }

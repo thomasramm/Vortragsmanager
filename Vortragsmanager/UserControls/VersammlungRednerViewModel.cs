@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.Views
@@ -61,7 +60,9 @@ namespace Vortragsmanager.Views
         public void NeuenVortragSpeichern()
         {
             if (string.IsNullOrWhiteSpace(NeueVorträgeListe))
-                NeueVorträgeListe = NeuerVortrag.Vortrag.Nummer.ToString(Helper.German);
+            {
+                NeueVorträgeListe = SelectedVortragName.Substring(1, SelectedVortragName.IndexOf(")", StringComparison.InvariantCulture) - 1);
+            }
 
             var nummern = NeueVorträgeListe.Split(new char[] { ',', ' ', ';' });
             foreach (var nr in nummern)
@@ -116,14 +117,14 @@ namespace Vortragsmanager.Views
 
         public TalkSong GewählterVortrag { get; set; }
 
-        public TalkSong NeuerVortrag { get; set; }
+        public string SelectedVortragName { get; set; }
 
         public ObservableCollection<TalkSong> Vorträge
         {
             get => new ObservableCollection<TalkSong>(Redner.Vorträge.OrderBy(x => x.Vortrag.Nummer));
         }
 
-        public static ObservableCollection<Talk> Vortragsliste => DataContainer.Vorträge;
+        public ObservableCollection<Talk> Vortragsliste => DataContainer.Vorträge;
 
         public bool Ältester
         {

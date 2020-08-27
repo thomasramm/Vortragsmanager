@@ -22,8 +22,8 @@
         </Grid.ColumnDefinitions>
         <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding InfoAnRednerTitel}" />
         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding InfoAnKoordinatorTitel}" />
-        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding MailTextRedner}" />
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding MailTextKoordinator}" />
+        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding MailTextRedner}" AcceptsReturn="True"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding MailTextKoordinator}" AcceptsReturn="True" />
         <dx:SimpleButton Content="Kopieren"
                          Command="{Binding CopyCommand, Mode=OneWay}"
                          Glyph="{dx:DXImage 'SvgImages/Edit/Paste.svg'}"
