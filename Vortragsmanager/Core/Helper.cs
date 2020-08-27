@@ -51,23 +51,26 @@ namespace Vortragsmanager.Core
     }
 }
 
-namespace Vortragsmanager.Core.ClassHelper
+namespace Vortragsmanager.Core.DataHelper
 { 
     public class DateWithConregation
     {
-        public DateWithConregation(DateTime datum, string versammlung)
+        public DateWithConregation(DateTime datum, string versammlung, int? vortrag)
         {
             Datum = datum;
             Versammlung = versammlung;
+            Vortrag = vortrag?.ToString(Helper.German) ?? "";
         }
 
         public DateTime Datum { get; set; }
 
         public string Versammlung { get; set; }
 
+        public string Vortrag { get; set; }
+
         public override string ToString()
         {
-            return $"{Datum:dd.MM.yyyy} {Versammlung}";
+            return $"{Datum:dd.MM.yyyy} {Versammlung} | {Vortrag}";
         }
     }
 }

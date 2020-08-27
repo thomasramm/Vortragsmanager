@@ -205,6 +205,7 @@ namespace Vortragsmanager.MeinPlan
             Zuteilung = i;
             DataContainer.MeinPlan.Add(i);
             ActivityLog.AddActivity.RednerEintragen(i);
+
             Monat.GetWeeks(Jahr);
         }
 

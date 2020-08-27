@@ -165,7 +165,7 @@
                         </dxlc:LayoutControl>
                     </dxa:AccordionItem>
                     <dxa:AccordionItem Header="Aktivitäten">
-                        <ListBox IsEnabled="False" ItemsSource="{Binding RednerAktivitäten}"/>
+                        <ListBox  ItemsSource="{Binding RednerAktivitäten}"/>
                     </dxa:AccordionItem>
                     <dxa:AccordionItem Header="Abwesenheiten">
                         <dxlc:LayoutControl Orientation="Vertical" IsEnabled="{Binding RednerSelektiert}">

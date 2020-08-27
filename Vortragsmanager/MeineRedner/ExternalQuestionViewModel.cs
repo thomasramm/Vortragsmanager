@@ -181,10 +181,11 @@ namespace Vortragsmanager.MeineRedner
 
         private void SelectedRednerChanged()
         {
-            var vorträge = DataContainer.ExternerPlan.Where(x => x.Ältester == SelectedRedner && x.Datum >= DateTime.Today).Select(x => new Core.ClassHelper.DateWithConregation(x.Datum, x.Versammlung.Name));
-            vorträge = vorträge.Union(DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Zugesagt && x.Datum >= DateTime.Today).Cast<Invitation>().Where(x => x.Ältester == SelectedRedner).Select(x => new Core.ClassHelper.DateWithConregation(x.Datum, DataContainer.MeineVersammlung.Name)));
-            _selectedRednerTalkDates = new ObservableCollection<DateTime>(vorträge.Select(x => x.Datum).OrderBy(x => x));
-            SelectedRednerTalks = new ObservableCollection<string>(vorträge.OrderBy(x => x.Datum).Select(x => $"{x.Datum:dd.MM.yyyy} {x.Versammlung}"));
+            //var vorträge = DataContainer.ExternerPlan.Where(x => x.Ältester == SelectedRedner && x.Datum >= DateTime.Today).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, x.Versammlung.Name, x.Vortrag?.Vortrag?.Nummer));
+            var vorträge = DataContainer.SpeakerGetActivities(SelectedRedner,10);
+            //vorträge = vorträge.Union(DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Zugesagt && x.Datum >= DateTime.Today).Cast<Invitation>().Where(x => x.Ältester == SelectedRedner).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, DataContainer.MeineVersammlung.Name, x.Vortrag?.Vortrag?.Nummer)));
+            _selectedRednerTalkDates = new ObservableCollection<DateTime>(vorträge.Select(x => x.Datum));
+            SelectedRednerTalks = new ObservableCollection<string>(vorträge.Select(x => x.ToString()));
             RaisePropertyChanged(nameof(SelectedRednerTalks));
             ParameterValidieren();
         }
