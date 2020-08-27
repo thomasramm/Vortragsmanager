@@ -37,6 +37,12 @@ Außerdem hat man rechts die Möglichkeit einen neuen Redner für die im Versamm
   Hier kann ein Redner (z.B. nach Versammlungswechsel) einer anderen Versammlung zugeordnet werden.  
   Seine Vortragseinladungen (historische und zukünftige) bleiben dabei gespeichert.
 
+## Aktivitäten
+
+Eine Liste der letzten 10 Aktivitäten des Redners
+
+* Vorträge die in meiner Versammlung gehalten wurden
+* Vorträge meiner Redner
 
 ## Vorträge
 
