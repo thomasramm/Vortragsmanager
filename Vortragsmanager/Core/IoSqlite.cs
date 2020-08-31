@@ -452,7 +452,7 @@ namespace Vortragsmanager.Core
             DataContainer.Redner.Clear();
 
             using (var cmd = new SQLiteCommand("SELECT Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic, Einladen, JwMail FROM Speaker", db))
-            using (var cmd2 = new SQLiteCommand("SELECT IdTalk, IdSong1, IdSong2 FROM Speaker_Vortrag WHERE IdSpeaker = @IdSpeaker", db))
+            using (var cmd2 = new SQLiteCommand("SELECT IdTalk, IdSong1, IdSong2 FROM Speaker_Vortrag WHERE IdSpeaker = @IdSpeaker ORDER BY IdTalk", db))
             {
                 cmd2.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
                 SQLiteDataReader rdr = cmd.ExecuteReader();
@@ -490,6 +490,7 @@ namespace Vortragsmanager.Core
                         r.Vorträge.Add(new TalkSong(vortrag, song1, song2));
                     }
                     rdr2.Close();
+                    r.Vorträge.Sort();
                     DataContainer.Redner.Add(r);
                 }
 
