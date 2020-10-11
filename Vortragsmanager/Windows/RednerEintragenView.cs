@@ -1,6 +1,9 @@
 ﻿using DevExpress.Mvvm;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
+using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.Views
@@ -33,8 +36,6 @@ namespace Vortragsmanager.Views
                 window.Close();
         }
 
-        public List<Conregation> Versammlungen => DataContainer.Versammlungen.OrderBy(x => x.Name).ToList();
-
         private Conregation _selectedVersammlung;
 
         public Conregation SelectedVersammlung
@@ -53,6 +54,8 @@ namespace Vortragsmanager.Views
                 }
             }
         }
+
+
 
         private List<Speaker> _redner;
 

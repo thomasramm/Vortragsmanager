@@ -56,5 +56,8 @@
     <Setting Name="ListCreate_OpenFile" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="ApplicationThemeName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Office2016White</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

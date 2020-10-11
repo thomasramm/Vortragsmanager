@@ -1,0 +1,154 @@
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Controls;
+using Vortragsmanager.Core;
+using Vortragsmanager.Datamodels;
+
+namespace Vortragsmanager.UserControls
+{
+    /// <summary>
+    /// Interaktionslogik für DropDownVersammlung.xaml
+    /// </summary>
+    public partial class DropDownRedner : UserControl, INotifyPropertyChanged
+    {
+        public DropDownRedner()
+        {
+            var items = DataContainer.Redner.OrderBy(x => x.Name);
+            foreach (var item in items)
+            {
+                ListeAlle.Add(item);
+                ListeFilteredItems.Add(item);
+            }
+            InitializeComponent();
+        }
+
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
+  nameof(SelectedItem),
+  typeof(Speaker),
+  typeof(DropDownRedner),
+  new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, SpeakerChanged));
+
+        public Speaker SelectedItem
+        {
+            get { return (Speaker)GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
+        }
+
+        private static void SpeakerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sh = (DropDownRedner)d;
+            Speaker oldC = (Speaker)e.OldValue;
+            Speaker newC = (Speaker)e.NewValue;
+            sh.SpeakerChanged(oldC, newC);
+        }
+
+
+        public ObservableCollection<Speaker> ListeAlle { get; private set; } = new ObservableCollection<Speaker>();
+
+        public ObservableCollection<Speaker> ListeFilteredItems { get; private set; } = new ObservableCollection<Speaker>();
+
+        private void AutoSuggestEdit_QuerySubmitted(object sender, DevExpress.Xpf.Editors.AutoSuggestEditQuerySubmittedEventArgs e)
+        {
+            SetFilter(e.Text);
+        }
+
+        private void SetFilter(string filter = null)
+        {
+            ListeFilteredItems.Clear();
+            var items = ListeAlle.Count;
+            var newCount = 0;
+            for (int i = 0; i < items; i++)
+            {
+                if (SelectedVersammlung == null || ListeAlle[i].Versammlung == SelectedVersammlung)
+                {
+                    if (string.IsNullOrEmpty(filter) || (Regex.IsMatch(ListeAlle[i].Name, Regex.Escape(filter), RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace)))
+                    {
+                        ListeFilteredItems.Add(ListeAlle[i]);
+                        newCount++;
+                        if (newCount == 10)
+                            break;
+                    }
+                }
+            }
+            if (SelectedItem == null || SelectedVersammlung == null || SelectedItem.Versammlung == SelectedVersammlung)
+                return;
+
+            SelectedItem = null;
+            RaisePropertyChanged("SelectedName");
+        }
+
+        public string SelectedName
+        {
+            get => SelectedItem?.Name;
+            set
+            {
+                var vers = value != null ? DataContainer.SpeakerFind(value, SelectedVersammlung) : null;
+                SelectedItem = vers;
+                RaisePropertyChanged();
+            }
+
+        }
+
+        // RoutedEvent
+        public static readonly RoutedEvent OnSpeakerChangedEvent = EventManager.RegisterRoutedEvent("OnSpeakerChanged", RoutingStrategy.Bubble,
+              typeof(RoutedPropertyChangedEventHandler<Speaker>), typeof(DropDownRedner));
+
+        public event RoutedPropertyChangedEventHandler<Speaker> OnSpeakerChanged
+        {
+            add { AddHandler(OnSpeakerChangedEvent, value); }
+            remove { RemoveHandler(OnSpeakerChangedEvent, value); }
+        }
+
+        private void SpeakerChanged(Speaker oldValue, Speaker newValue)
+        {
+            RoutedPropertyChangedEventArgs<Speaker> args = new RoutedPropertyChangedEventArgs<Speaker>(oldValue, newValue);
+            args.RoutedEvent = DropDownRedner.OnSpeakerChangedEvent;
+            RaiseEvent(args);
+        }
+
+        public static readonly DependencyProperty SelectedVersammlungProperty = DependencyProperty.Register(
+nameof(SelectedVersammlung),
+typeof(Conregation),
+typeof(DropDownRedner),
+new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, ConregationChanged));
+
+        public Conregation SelectedVersammlung
+        {
+            get { return (Conregation)GetValue(SelectedVersammlungProperty); }
+            set 
+            { 
+                SetValue(SelectedVersammlungProperty, value);
+                SetFilter();
+            }
+        }
+
+        private static void ConregationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue == e.NewValue)
+                return;
+            return;
+
+            Conregation newC = (Conregation)e.NewValue;
+
+            var sh = (DropDownRedner)d;
+            sh.ConregationChanged(newC);
+        }
+
+        private void ConregationChanged(Conregation newValue)
+        {
+            //Hier habe ich dauernd schon den korrekten wert
+            //SelectedVersammlung = newValue;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}

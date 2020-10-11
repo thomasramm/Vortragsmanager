@@ -7,9 +7,17 @@ namespace Vortragsmanager.MeineRedner
     /// </summary>
     public partial class ExternalQuestionEdit : UserControl
     {
+        private ExternalQuestionViewModel _model;
+
         public ExternalQuestionEdit()
         {
             InitializeComponent();
+            _model = (ExternalQuestionViewModel)DataContext;
+        }
+
+        private void DropDownVersammlung_ConregationChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<Datamodels.Conregation> e)
+        {
+            _model.SelectedVersammlung = e.NewValue;
         }
     }
 }

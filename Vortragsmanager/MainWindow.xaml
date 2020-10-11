@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
     xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
-    Width="1250" Title="{Binding Titel, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+    Width="1250" 
+    Height="610"
+    Title="{Binding Titel, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
     <Navi:NavigationView />
 </dxc:ThemedWindow>

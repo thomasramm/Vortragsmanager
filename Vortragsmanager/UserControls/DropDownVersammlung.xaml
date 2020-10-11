@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="Vortragsmanager.UserControls.DropDownVersammlung"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="300"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Grid>
+        <dxe:AutoSuggestEdit x:Name="VersammlungenFilter"
+                                    ImmediatePopup="True"
+                                    SelectAllOnMouseUp="True"
+                                    SelectAllOnGotFocus="True"
+                                    AllowPopupTextHighlighting="True"
+                                    DisplayMember="NameMitKoordinator"
+                                    TextMember="Name"
+                                    PopupHighlightedTextCriteria="Regex"
+                                    NullText="🔎 Versammlung suchen"
+                                    QuerySubmitted="AutoSuggestEdit_QuerySubmitted"
+                                    ItemsSource="{Binding ListeFilteredItems}"
+                                    EditValue="{Binding SelectedName, UpdateSourceTrigger=PropertyChanged}"
+                                    AllowNullInput="True" />
+    </Grid>
+</UserControl>

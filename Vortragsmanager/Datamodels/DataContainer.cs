@@ -185,7 +185,7 @@ namespace Vortragsmanager.Datamodels
             Log.Info(nameof(SpeakerFind), $"name={name}, conregation={versammlung?.Id}, {versammlung?.Name}");
             foreach (var s in Redner)
             {
-                if (s.Name == name && s.Versammlung == versammlung)
+                if (s.Name == name && (s.Versammlung == versammlung || versammlung == null))
                     return s;
             }
 

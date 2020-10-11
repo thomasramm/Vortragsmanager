@@ -9,7 +9,8 @@
     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     x:Class="Vortragsmanager.MeineRedner.ExternalQuestionEdit"
-    xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
+    xmlns:Navi="clr-namespace:Vortragsmanager.Navigation" 
+    xmlns:uc="clr-namespace:Vortragsmanager.UserControls"
     mc:Ignorable="d"
     d:DesignHeight="500" d:DesignWidth="800">
     <UserControl.DataContext>
@@ -48,10 +49,7 @@
                                               DisplayMember="Vortrag" />
                         </dxlc:LayoutItem>
                         <dxlc:LayoutItem Label="Versammlung">
-                            <dxe:ComboBoxEdit ItemsSource="{Binding Versammlungen}"
-                                              DisplayMember="NameMitKoordinator"
-                                              AutoComplete="True"
-                                              SelectedItem="{Binding SelectedVersammlung}" />
+                            <uc:DropDownVersammlung ConregationChanged="DropDownVersammlung_ConregationChanged" />
                         </dxlc:LayoutItem>
                     </dxlc:LayoutGroup>
                     <dxlc:LayoutGroup Orientation="Horizontal">
