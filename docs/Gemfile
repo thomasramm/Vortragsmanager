@@ -18,6 +18,7 @@ source "https://rubygems.org"
 gem "github-pages", group: :jekyll_plugins
 gem "minimal-mistakes-jekyll", :github => "mmistakes/minimal-mistakes"
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
+gem "activesupport", ">= 4.1.11"
 
 # The following plugins are automatically loaded by the theme-gem:
 #   gem "jekyll-paginate"
