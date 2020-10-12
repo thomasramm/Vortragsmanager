@@ -594,6 +594,8 @@ namespace Vortragsmanager.MeinPlan
         }
 
         public string LetzterBesuch => LetzteEinladung == null ? string.Empty : LetzteEinladung.ToString("dd.MM.yyyy", Core.Helper.German);
+
+        public string InfoPrivate => Redner.InfoPrivate;
     }
 
     /// <summary>

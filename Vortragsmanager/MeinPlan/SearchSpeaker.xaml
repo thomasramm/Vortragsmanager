@@ -210,12 +210,12 @@
                                                                     <ColumnDefinition Width="*" />
                                                                     <ColumnDefinition Width="100" />
                                                                 </Grid.ColumnDefinitions>
-                                                                <ListBox Grid.Column="0" ItemsSource="{Binding Redner, Mode=OneWay}"  BorderThickness="0">
+                                                                <ListBox Grid.Column="0" ItemsSource="{Binding Redner, Mode=OneWay}"  BorderThickness="0" FontWeight="Regular">
                                                                     <ListBox.ItemTemplate>
                                                                         <DataTemplate>
                                                                             <StackPanel Orientation="Horizontal">
-                                                                                <CheckBox IsChecked="{Binding Gewählt, Mode=TwoWay}" />
-                                                                                <Label Content="{Binding Name}" Width="170" Height="30" />
+                                                                                <CheckBox IsChecked="{Binding Gewählt, Mode=TwoWay}" VerticalContentAlignment="Center" />
+                                                                                <Label Content="{Binding Name}" Width="170" Height="30" VerticalContentAlignment="Center"/>
                                                                                 <dxg:LookUpEdit Name="lookUpEdit"
                                                                                                 VerticalAlignment="Center"
                                                                                                 AutoPopulateColumns="False"
@@ -229,8 +229,9 @@
                                                                                                 ImmediatePopup="False"
                                                                                                 AutoComplete="False"
                                                                                                 IncrementalFiltering="False"
-                                                                                                Width="300" />
-                                                                                <Label Content="{Binding LetzterBesuch}" Width="200" Height="30" Margin="10,0,0,0" ToolTip="letzter Besuch" />
+                                                                                                Width="300"/>
+                                                                                <Label Content="{Binding LetzterBesuch}" Width="70" Height="30" Margin="10,0,0,0" ToolTip="letzter Besuch" VerticalContentAlignment="Center" />
+                                                                                <Label Content="{Binding InfoPrivate}" Height="30" Margin="10,0,0,0" ToolTip="{Binding InfoPrivate}" VerticalContentAlignment="Center" />
                                                                             </StackPanel>
                                                                         </DataTemplate>
                                                                     </ListBox.ItemTemplate>
