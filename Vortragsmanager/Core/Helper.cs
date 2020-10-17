@@ -18,7 +18,7 @@ namespace Vortragsmanager.Core
             return date;
         }
 
-        public static int CurrentVersion => 8;
+        public static int CurrentVersion => 9;
 
         public class EigeneKreisNameComparer : IComparer<Conregation>
         {

@@ -130,7 +130,6 @@ new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRend
         {
             if (e.OldValue == e.NewValue)
                 return;
-            return;
 
             Conregation newC = (Conregation)e.NewValue;
 
@@ -142,6 +141,7 @@ new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRend
         {
             //Hier habe ich dauernd schon den korrekten wert
             //SelectedVersammlung = newValue;
+            SetFilter();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -149,6 +149,34 @@ new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRend
         private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public static readonly DependencyProperty InfoProperty = DependencyProperty.Register(
+nameof(Info),
+typeof(object),
+typeof(DropDownRedner),
+new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnInfoChanged));
+
+        public object Info
+        {
+            get { return (object)GetValue(InfoProperty); }
+            set { SetValue(InfoProperty, value); }
+        }
+
+        private static void OnInfoChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue == e.NewValue)
+                return;
+
+            var sh = (DropDownRedner)d;
+            sh.OnInfoChanged(e.NewValue);
+        }
+
+        private void OnInfoChanged(object newValue)
+        {
+            //Hier habe ich dauernd schon den korrekten wert
+            //SelectedVersammlung = newValue;
+            Info = newValue;
         }
     }
 }

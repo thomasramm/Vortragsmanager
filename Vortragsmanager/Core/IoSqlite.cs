@@ -32,6 +32,7 @@ namespace Vortragsmanager.Core
                 ReadAnfragen(db);
                 ReadCancelation(db);
                 ReadActivity(db);
+                ReadAufgaben(db);
 
                 DataContainer.UpdateTalkDate();
                 DataContainer.IsInitialized = true;
@@ -69,6 +70,7 @@ namespace Vortragsmanager.Core
                     SaveTemplates(db);
                     SaveCancelation(db);
                     SaveActivity(db);
+                    SaveAufgaben(db);
                     transaction.Commit();
                 }
                 db.Close();
@@ -266,6 +268,28 @@ namespace Vortragsmanager.Core
                     Mails TEXT)", db);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Aufgaben (
+                    Id INTEGER,
+                    PersonName TEXT,
+                    IsVorsitz INTEGER,
+                    IsLeser INTEGER,
+                    SpeakerId INTEGER)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Aufgaben_Vorsitz (
+                    PersonId INTEGER,
+                    Datum INTEGER)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
+
+            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Aufgaben_Kalender (
+                    Datum INTEGER,
+                    VorsitzId INTEGER,
+                    LeserId INTEGER)", db);
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
         }
 
         #region READ
@@ -300,6 +324,12 @@ namespace Vortragsmanager.Core
                     Objekt TEXT,
                     Kommentar TEXT,
                     Mails TEXT)");
+            }
+
+            if (DataContainer.Version < 9)
+            {
+                UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Aufgaben(Id INTEGER, PersonName TEXT, IsVorsitz INTEGER, IsLeser INTEGER, SpeakerId INTEGER)");
+                UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Aufgaben_Kalender (Datum INTEGER, VorsitzId INTEGER, LeserId INTEGER)");
             }
         }
 
@@ -772,6 +802,54 @@ namespace Vortragsmanager.Core
             }
         }
 
+        private static void ReadAufgaben(SQLiteConnection db)
+        {
+            DataContainer.AufgabenPersonZuordnung.Clear();
+
+            using (var cmd = new SQLiteCommand("SELECT Id, PersonName, IsVorsitz, IsLeser, SpeakerId FROM Aufgaben", db))
+            {
+                SQLiteDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    var id = rdr.GetInt32(0);
+                    var name = rdr.IsDBNull(1) ? null : rdr.GetString(1);
+                    var isVorsitz = rdr.GetBoolean(2);
+                    var isLeser = rdr.GetBoolean(3);
+                    var speakerId = rdr.IsDBNull(4) ? -1 : rdr.GetInt32(4);
+                    var speaker = DataContainer.Redner.FirstOrDefault(x => x.Id == speakerId);
+
+                    var erg = new AufgabenZuordnung(id)
+                    {
+                        PersonName = name,
+                        IsVorsitz = isVorsitz,
+                        IsLeser = isLeser,
+                        VerknüpftePerson = speaker
+                    };
+
+                    DataContainer.AufgabenPersonZuordnung.Add(erg);
+                }
+
+                rdr.Close();
+            }
+
+            DataContainer.AufgabenPersonKalender.Clear();
+            using (var cmd = new SQLiteCommand("SELECT Datum, VorsitzId, LeserId FROM Aufgaben_Kalender", db))
+            {
+                SQLiteDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    var datum = rdr.GetDateTime(0);
+                    var vorsitz = rdr.IsDBNull(1) ? null : DataContainer.AufgabenPersonZuordnung.FirstOrDefault(x => x.Id == rdr.GetInt32(1));
+                    var leser = rdr.IsDBNull(2) ? null : DataContainer.AufgabenPersonZuordnung.FirstOrDefault(x => x.Id == rdr.GetInt32(2));
+                    DataContainer.AufgabenPersonKalender.Add(new AufgabenKalender(datum, vorsitz, leser));
+                }
+
+                rdr.Close();
+            }
+        }
+
         #endregion READ
 
         #region SAVE
@@ -1147,6 +1225,49 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[7].Value = a.Objekt;
                 cmd.Parameters[8].Value = a.Kommentar;
                 cmd.Parameters[9].Value = a.Mails;
+
+                cmd.ExecuteNonQuery();
+            }
+
+            cmd.Dispose();
+        }
+
+        private static void SaveAufgaben(SQLiteConnection db)
+        {
+            // new SQLiteCommand("SELECT Id, PersonName, IsVorsitz, IsLeser, SpeakerId FROM Aufgaben", db))
+            var cmd = new SQLiteCommand("INSERT INTO Aufgaben(Id, PersonName, IsVorsitz, IsLeser, SpeakerId) " +
+                                        "VALUES (@Id, @Name, @IsVorsitz, @IsLeser, @SpeakerId)", db);
+
+            cmd.Parameters.Add("@Id", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@Name", System.Data.DbType.String);
+            cmd.Parameters.Add("@IsVorsitz", System.Data.DbType.Boolean);
+            cmd.Parameters.Add("@IsLeser", System.Data.DbType.Boolean);
+            cmd.Parameters.Add("@SpeakerId", System.Data.DbType.Int32);
+
+            foreach (var a in DataContainer.AufgabenPersonZuordnung)
+            {
+                cmd.Parameters[0].Value = a.Id;
+                cmd.Parameters[1].Value = (a.VerknüpftePerson == null) ? a.PersonName : a.VerknüpftePerson.Name;
+                cmd.Parameters[2].Value = a.IsVorsitz;
+                cmd.Parameters[3].Value = a.IsLeser;
+                cmd.Parameters[4].Value = a.VerknüpftePerson?.Id;
+
+                cmd.ExecuteNonQuery();
+            }
+
+            cmd.Dispose();
+
+            cmd = new SQLiteCommand("INSERT INTO Aufgaben_Kalender(Datum, VorsitzId, LeserId) VALUES (@Datum, @IdVorsitz, @IdLeser)", db);
+
+            cmd.Parameters.Add("@Datum", System.Data.DbType.DateTime);
+            cmd.Parameters.Add("@IdVorsitz", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@IdLeser", System.Data.DbType.Int32);
+
+            foreach (var a in DataContainer.AufgabenPersonKalender.Where(x => x.Vorsitz != null || x.Leser != null))
+            {
+                cmd.Parameters[0].Value = a.Datum;
+                cmd.Parameters[1].Value = a.Vorsitz?.Id;
+                cmd.Parameters[2].Value = a.Leser?.Id;
 
                 cmd.ExecuteNonQuery();
             }

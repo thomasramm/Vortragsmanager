@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="Vortragsmanager.UserControls.SonntagEinstellungenItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Vortragsmanager.UserControls" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="450">
+    <Grid>
+        <StackPanel Orientation="Horizontal"
+                    Background="{Binding Hintergrund}"
+                    ToolTip="{Binding Hinweis}">
+            <TextBox x:Name="DisplayNameEdit" 
+                     Text="{Binding Person.PersonName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     Width="200" Margin="5,0" 
+                     Background="{Binding Hintergrund}"/>
+            <CheckBox IsChecked="{Binding Person.IsVorsitz}" Margin="10,0" VerticalAlignment="Center"/>
+            <CheckBox IsChecked="{Binding Person.IsLeser}" Margin="30,0" VerticalAlignment="Center"/>
+            <local:DropDownRedner x:Name="RednerDropDown" 
+                                  SelectedVersammlung="{x:Static local:SonntagEinstellungenItem.Versammlung}" 
+                                  SelectedItem="{Binding Person.VerknüpftePerson}"
+                                  Width="200"
+                                  OnSpeakerChanged="DropDownRedner_OnSpeakerChanged" 
+                                  Background="{Binding Hintergrund}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
