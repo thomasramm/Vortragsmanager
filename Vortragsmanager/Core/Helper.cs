@@ -48,6 +48,8 @@ namespace Vortragsmanager.Core
 
         public static CultureInfo German { get; } = new CultureInfo("de-DE");
 
+        public static string TemplateFolder => AppDomain.CurrentDomain.BaseDirectory + @"Templates\";
+
     }
 }
 

@@ -144,9 +144,21 @@ namespace Vortragsmanager.UserControls
         private void FilterWt()
         {
             var a = SelectedVorsitz;
-            Vorsitz.Clear();
-            foreach (var item in listeAlleLeiter.Where(x => x != zuteilung?.Leser))
-                Vorsitz.Add(item);
+            //Vorsitz.Clear();
+            //foreach (var item in listeAlleLeiter.Where(x => x != zuteilung?.Leser))
+            //    Vorsitz.Add(item);
+            
+            //entfernen der geäwhlten Person aus der Liste
+            foreach (var item in Vorsitz)
+            {
+                if (item == SelectedLeser)
+                {
+                    Vorsitz.Remove(item);
+                    break;
+                }
+
+            }
+            //hinzufügen der frei gewordenen Person
             SelectedVorsitz = a;
         }
 

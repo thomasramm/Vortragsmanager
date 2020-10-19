@@ -317,5 +317,21 @@ namespace Vortragsmanager.Datamodels
             }
             return ergebnis;
         }
+
+        public static string GetRednerAuswärts(DateTime datum)
+        {
+            Log.Info(nameof(GetRednerAuswärts), datum);
+            var e = DataContainer.ExternerPlan.Where(x => x.Datum == datum).ToList();
+            if (e.Count == 0)
+                return "";
+
+            var ausgabe = "Redner Auswärts: ";
+            foreach (var r in e)
+            {
+                ausgabe += $"{r.Ältester.Name} in {r.Versammlung.Name}, ";
+            }
+
+            return ausgabe.Substring(0, ausgabe.Length - 2);
+        }
     }
 }

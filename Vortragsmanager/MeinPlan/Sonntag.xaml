@@ -95,6 +95,12 @@
                     HorizontalAlignment="Left"
                     Command="{Binding Hauptseite}"/>
             <local:SonntagEinstellungenView Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"/>
+            <Button Grid.Column="0" Grid.Row="3" 
+                    Width="150"
+                    Margin="0,5"
+                    VerticalAlignment="Top" HorizontalAlignment="Right" 
+                    Content="Plan ausgeben"
+                    Command="{Binding PlanAusgeben}"/>
         </Grid>
     </dxwui:PageAdornerControl>
 </UserControl>
