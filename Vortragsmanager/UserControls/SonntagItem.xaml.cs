@@ -42,10 +42,8 @@ namespace Vortragsmanager.UserControls
             get { return zuteilung.Leser; }
             set
             {
-                var old = zuteilung.Leser;
+                FilterOtherList(Vorsitz, zuteilung.Leser, value);
                 zuteilung.Leser = value;
-                if (zuteilung.Leser != old)
-                    FilterWt();
             }
         }
 
@@ -54,10 +52,8 @@ namespace Vortragsmanager.UserControls
             get { return zuteilung.Vorsitz; }
             set
             {
-                var old = zuteilung.Vorsitz;
+                FilterOtherList(Leser, zuteilung.Vorsitz, value);
                 zuteilung.Vorsitz = value;
-                if (zuteilung.Vorsitz != old)
-                    FilterLeser();
             }
         }
 
@@ -93,6 +89,9 @@ namespace Vortragsmanager.UserControls
             if (AuswärtigeRedner.Length > 2)
                 AuswärtigeRedner = AuswärtigeRedner.Substring(0, AuswärtigeRedner.Length - 2);
 
+            //zuteilungen
+            zuteilung = DataContainer.AufgabenPersonKalenderFindOrAdd(Datum);
+
             //DropDown Vorsitz + Leser
             foreach (var az in DataContainer.AufgabenPersonZuordnung)
             {
@@ -114,59 +113,37 @@ namespace Vortragsmanager.UserControls
                     }
                 }
 
-                if (az.IsLeser)
+                if (az.IsLeser && az != zuteilung.Vorsitz)
                 {
-                    listeAlleLeser.Add(az);
+                    Leser.Add(az);
                 }
 
-                if (az.IsVorsitz)
+                if (az.IsVorsitz && az != zuteilung.Leser)
                 {
-                    listeAlleLeiter.Add(az);
+                    Vorsitz.Add(az);
                 }
             }
 
-            //zuteilungen
-            zuteilung = DataContainer.AufgabenPersonKalenderFindOrAdd(Datum);
-
-            FilterLeser();
-            FilterWt();
-        }
-
-        private void FilterLeser()
-        {
-            var a = SelectedLeser;
-            Leser.Clear();
-            foreach (var item in listeAlleLeser.Where(x => x != zuteilung?.Vorsitz))
-                Leser.Add(item);
-            SelectedLeser = a;
-        }
-
-        private void FilterWt()
-        {
-            var a = SelectedVorsitz;
-            //Vorsitz.Clear();
-            //foreach (var item in listeAlleLeiter.Where(x => x != zuteilung?.Leser))
-            //    Vorsitz.Add(item);
             
-            //entfernen der geäwhlten Person aus der Liste
-            foreach (var item in Vorsitz)
-            {
-                if (item == SelectedLeser)
-                {
-                    Vorsitz.Remove(item);
-                    break;
-                }
 
-            }
-            //hinzufügen der frei gewordenen Person
-            SelectedVorsitz = a;
+            FilterOtherList(Leser, null, SelectedVorsitz);
+            FilterOtherList(Vorsitz, null, SelectedLeser);
         }
 
-        private readonly List<AufgabenZuordnung> listeAlleLeser = new List<AufgabenZuordnung>();
+        private void FilterOtherList(ObservableCollection<AufgabenZuordnung> liste, AufgabenZuordnung oldValue, AufgabenZuordnung newValue)
+        {
+            if (oldValue == newValue)
+                return;
+
+            //entfernen der geählten Person aus der Liste
+            if (liste.Contains(newValue))
+                liste.Remove(newValue);
+            //hinzufügen der frei gewordenen Person
+            if ((oldValue != null) && !liste.Contains(oldValue) && ((newValue.IsLeser && liste == Leser) || (newValue.IsVorsitz && liste == Vorsitz)))
+                liste.Add(oldValue);
+        }
 
         public ObservableCollection<AufgabenZuordnung> Leser { get; } = new ObservableCollection<AufgabenZuordnung>();
-
-        private readonly List<AufgabenZuordnung> listeAlleLeiter = new List<AufgabenZuordnung>();
 
         public ObservableCollection<AufgabenZuordnung> Vorsitz { get; } = new ObservableCollection<AufgabenZuordnung>();
 
