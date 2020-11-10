@@ -25,6 +25,7 @@ namespace Vortragsmanager.MeinPlan
             Einstellungen = new DelegateCommand(OpenEinstellungen);
             Hauptseite = new DelegateCommand(OpenHauptseite);
             PlanAusgeben = new DelegateCommand(PlanErstellen);
+            SonntagCalculateCommand = new DelegateCommand(SonntagCalculate);
 
             OpenHauptseite();
         }
@@ -152,10 +153,28 @@ namespace Vortragsmanager.MeinPlan
             IoExcel.File.Save(tempFile, "Aushang.xlsx", true);
         }
 
+        private void SonntagCalculate()
+        {
+            foreach (var person in DataContainer.AufgabenPersonZuordnung)
+            {
+                var a = DataContainer.AufgabenPersonKalender.Where(x => x.Leser == person || x.Vorsitz == person).Select(x => x.Datum).Max();
+                var b = DataContainer.AufgabenPersonKalender.Where(x => x.Leser == person || x.Vorsitz == person).Select(x => x.Datum).Min();
+                var datumLetzterEinsatz = DataContainer.AufgabenPersonKalender.Where(x => x.Leser == person || x.Vorsitz == person).Select(x => x.Datum).Max();
+                var tage = (DateTime.Today - datumLetzterEinsatz).Days;
+                person.LetzterEinsatz = tage;
+            }
+            while(true)
+            {
+
+            }
+        }
+
         public DelegateCommand Einstellungen { get; private set; }
 
         public DelegateCommand Hauptseite { get; private set; }
 
         public DelegateCommand PlanAusgeben { get; private set; }
+
+        public DelegateCommand SonntagCalculateCommand { get; private set; }
     }
 }

@@ -8,7 +8,7 @@
              xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
              mc:Ignorable="d" 
              d:DesignHeight="400" 
-             d:DesignWidth="800"
+             d:DesignWidth="1500"
              >
     <UserControl.DataContext>
         <local:SonntagViewModel/>
@@ -28,27 +28,26 @@
         </dxwui:PageAdornerControl.HeaderTemplate>
         <Grid>
             <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{Binding HauptseiteWidth}"/>
-                    <ColumnDefinition Width="{Binding EinstellungenWidth}"/>
-                </Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{Binding HauptseiteWidth}"/>
+                <ColumnDefinition Width="{Binding EinstellungenWidth}"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="35"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="50"/>
-                </Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition/>
+                <RowDefinition Height="28"/>
+            </Grid.RowDefinitions>
             <Button Grid.Row="0" Grid.Column="0"
                 Content="⮜ voriger Monat"
-                HorizontalAlignment="Center"
-                Margin="0,0,300,0"
+                HorizontalAlignment="Left"
+                Margin="150,0,0,0"
                 Width="150"
                 Command="{Binding ChangeMonth}"
                 CommandParameter="-1"/>
-            <TextBlock Grid.Row="0" Grid.Column="0" Width="150"
+            <TextBlock Grid.Row="0" Grid.Column="0"
                    ToolTip="zurück zum aktuellen Monat"
-                   VerticalAlignment="Top"
                    TextAlignment="Center"
-                   FontSize="14">
+                   FontSize="14" Margin="300,0,300,11">
                 <Hyperlink Command="{Binding ChangeMonth}" 
                        CommandParameter="0"
                        TextDecorations="None" 
@@ -57,11 +56,11 @@
                            Text="{Binding Monat, StringFormat={}{0:MMMM}, ConverterCulture=de-DE}" />
                 </Hyperlink>
             </TextBlock>
-            <TextBlock Grid.Row="0" Grid.Column="0" Width="150"
+            <TextBlock Grid.Row="0" Grid.Column="0"
                    ToolTip="zurück zum aktuellen Monat"
                    TextAlignment="Center"
                    VerticalAlignment="Bottom"
-                   FontSize="10">
+                   FontSize="10" Height="13" Margin="300,0,300,0">
                 <Hyperlink Command="{Binding ChangeMonth}" 
                        CommandParameter="0"
                        TextDecorations="None" 
@@ -71,36 +70,42 @@
             </TextBlock>
             <Button Grid.Row="0"  Grid.Column="0"
                 Content="nächster Monat ⮞"
-                HorizontalAlignment="Center"
+                HorizontalAlignment="Right"
                 Width="150"
-                Margin="300,0,0,0"
+                Margin="0,0,150,0"
                 Command="{Binding ChangeMonth}"
-                CommandParameter="1"/>
+                CommandParameter="1" />
             <Button Grid.Row="0" Grid.Column="0"
                     Content="Einstellungen"
                     Width="100"
                     HorizontalAlignment="Right"
                     Command="{Binding Einstellungen}"/>
-            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="5,10,0,0">
-                    <Label Content="Datum" Width="100" FontWeight="Bold"/>
-                    <Label Content="Vortragsredner"  Width="150" FontWeight="Bold"/>
-                    <Label Content="Auswärtige Redner" Width="200" FontWeight="Bold"/>
-                    <Label Content="Vorsitz" Width="150" FontWeight="Bold"/>
-                    <Label Content="WT Leser" Width="150" FontWeight="Bold"/>
-                </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="5,10,0,0" >
+                <Label Content="Datum" Width="100" FontWeight="Bold"/>
+                <Label Content="Vortragsredner"  Width="150" FontWeight="Bold"/>
+                <Label Content="Auswärtige Redner" Width="200" FontWeight="Bold"/>
+                <Label Content="Vorsitz" Width="150" FontWeight="Bold"/>
+                <Label Content="WT Leser" Width="150" FontWeight="Bold"/>
+            </StackPanel>
             <ListBox Grid.Row="2" Grid.Column="0" ItemsSource="{Binding Wochen}" />
             <Button Grid.Row="0" Grid.Column="1" 
                     Width="150"
                     Content="Zurück"
                     HorizontalAlignment="Left"
-                    Command="{Binding Hauptseite}"/>
+                    Command="{Binding Hauptseite}" />
             <local:SonntagEinstellungenView Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"/>
             <Button Grid.Column="0" Grid.Row="3" 
                     Width="150"
-                    Margin="0,5"
+                    Margin="0,5,0,0"
                     VerticalAlignment="Top" HorizontalAlignment="Right" 
                     Content="Plan ausgeben"
-                    Command="{Binding PlanAusgeben}"/>
+                    Command="{Binding PlanAusgeben}" />
+            <Button Grid.Column="0" Grid.Row="3" 
+                    Width="150"
+                    Margin="0,5,160,0"
+                    VerticalAlignment="Top" HorizontalAlignment="Right" 
+                    Content="Vorschläge generieren"
+                    Command="{Binding SonntagCalculateCommand}" />
         </Grid>
     </dxwui:PageAdornerControl>
 </UserControl>

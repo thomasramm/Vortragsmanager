@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Vortragsmanager.Datamodels
 {
@@ -22,6 +18,11 @@ namespace Vortragsmanager.Datamodels
         public bool IsLeser { get; set; }
 
         public Speaker VerknüpftePerson { get; set; }
+
+        //Wert zwischen 1 - 5
+        public int Häufigkeit { get; set; } = 3;
+
+        public int LetzterEinsatz { get; set; }
     }
 
     public class AufgabenKalender

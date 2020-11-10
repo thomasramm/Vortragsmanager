@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Windows.Data;
 using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.Core
@@ -50,6 +51,19 @@ namespace Vortragsmanager.Core
 
         public static string TemplateFolder => AppDomain.CurrentDomain.BaseDirectory + @"Templates\";
 
+    }
+
+    public class DoubleToIntConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return System.Convert.ToInt32(value, culture);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return System.Convert.ToDouble(value, culture);
+        }
     }
 }
 
