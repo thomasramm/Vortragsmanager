@@ -39,15 +39,15 @@
             </Grid.RowDefinitions>
             <Button Grid.Row="0" Grid.Column="0"
                 Content="⮜ voriger Monat"
-                HorizontalAlignment="Left"
-                Margin="150,0,0,0"
+                HorizontalAlignment="Center"
+                Margin="0,0,300,0"
                 Width="150"
                 Command="{Binding ChangeMonth}"
                 CommandParameter="-1"/>
             <TextBlock Grid.Row="0" Grid.Column="0"
                    ToolTip="zurück zum aktuellen Monat"
                    TextAlignment="Center"
-                   FontSize="14" Margin="300,0,300,11">
+                   FontSize="14" Margin="0,0,0,11">
                 <Hyperlink Command="{Binding ChangeMonth}" 
                        CommandParameter="0"
                        TextDecorations="None" 
@@ -60,7 +60,7 @@
                    ToolTip="zurück zum aktuellen Monat"
                    TextAlignment="Center"
                    VerticalAlignment="Bottom"
-                   FontSize="10" Height="13" Margin="300,0,300,0">
+                   FontSize="10" Height="13" Margin="0,0,0,0">
                 <Hyperlink Command="{Binding ChangeMonth}" 
                        CommandParameter="0"
                        TextDecorations="None" 
@@ -70,9 +70,9 @@
             </TextBlock>
             <Button Grid.Row="0"  Grid.Column="0"
                 Content="nächster Monat ⮞"
-                HorizontalAlignment="Right"
+                HorizontalAlignment="Center"
                 Width="150"
-                Margin="0,0,150,0"
+                Margin="300,0,0,0"
                 Command="{Binding ChangeMonth}"
                 CommandParameter="1" />
             <Button Grid.Row="0" Grid.Column="0"

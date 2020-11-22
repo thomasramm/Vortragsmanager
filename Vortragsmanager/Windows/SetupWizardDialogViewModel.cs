@@ -128,7 +128,7 @@ namespace Vortragsmanager.Views
             }
         }
 
-        private bool _datenbankÖffnenChecked = false;
+        private bool _datenbankÖffnenChecked;
 
         public bool DatenbankÖffnenChecked
         {
@@ -154,7 +154,7 @@ namespace Vortragsmanager.Views
             }
         }
 
-        private bool _neuBeginnenChecked = false;
+        private bool _neuBeginnenChecked;
 
         public bool NeuBeginnenChecked
         {
@@ -476,7 +476,7 @@ namespace Vortragsmanager.Views
                 const int HashingMultiplier = 16777619;
 
                 int hash = HashingBase;
-                hash = (hash * HashingMultiplier) ^ (!object.ReferenceEquals(null, Nr) ? Nr.GetHashCode() : 0);
+                hash = (hash * HashingMultiplier) ^ (Nr.GetHashCode());
                 return hash;
             }
         }

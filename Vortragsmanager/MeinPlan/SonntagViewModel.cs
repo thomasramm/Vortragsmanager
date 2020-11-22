@@ -48,6 +48,7 @@ namespace Vortragsmanager.MeinPlan
             EinstellungenWidth = new GridLength(0);
             RaisePropertiesChanged(nameof(HauptseiteWidth));
             RaisePropertiesChanged(nameof(EinstellungenWidth));
+            RefreshLastActivity();
             WochenLoad();
         }
 
@@ -80,6 +81,26 @@ namespace Vortragsmanager.MeinPlan
         }
 
         public ObservableCollection<SonntagItem> Wochen { get; private set; } = new ObservableCollection<SonntagItem>();
+
+        private static void RefreshLastActivity()
+        {
+            foreach (var person in DataContainer.AufgabenPersonZuordnung)
+            {
+                DateTime datumLetzterEinsatz;
+
+                var a1 = DataContainer.AufgabenPersonKalender.Where(x => x.Leser == person || x.Vorsitz == person);
+                if (a1.Any())
+                {
+                    var a2 = a1?.Select(x => x.Datum);
+                    datumLetzterEinsatz = a2.Max();
+                }
+                else
+                    datumLetzterEinsatz = new DateTime(1);
+
+                var tage = (DateTime.Today - datumLetzterEinsatz).Days;
+                person.LetzterEinsatz = tage * person.Häufigkeit;
+            }
+        }
 
         private void WochenLoad()
         {
@@ -155,17 +176,36 @@ namespace Vortragsmanager.MeinPlan
 
         private void SonntagCalculate()
         {
-            foreach (var person in DataContainer.AufgabenPersonZuordnung)
+            if (!DataContainer.AufgabenPersonZuordnung.Any())
             {
-                var a = DataContainer.AufgabenPersonKalender.Where(x => x.Leser == person || x.Vorsitz == person).Select(x => x.Datum).Max();
-                var b = DataContainer.AufgabenPersonKalender.Where(x => x.Leser == person || x.Vorsitz == person).Select(x => x.Datum).Min();
-                var datumLetzterEinsatz = DataContainer.AufgabenPersonKalender.Where(x => x.Leser == person || x.Vorsitz == person).Select(x => x.Datum).Max();
-                var tage = (DateTime.Today - datumLetzterEinsatz).Days;
-                person.LetzterEinsatz = tage;
+                System.Windows.Forms.MessageBox.Show("Bitte zuerst Personen für Vorsitz + Lesen anlegen");
+                return;
             }
-            while(true)
+            if (!DataContainer.AufgabenPersonZuordnung.Any(x => x.IsVorsitz))
             {
+                System.Windows.Forms.MessageBox.Show("Bitte zuerst Personen für Funktion Vorsitz anlegen");
+                return;
+            }
+            if (!DataContainer.AufgabenPersonZuordnung.Any(x => x.IsLeser))
+            {
+                System.Windows.Forms.MessageBox.Show("Bitte zuerst Personen Funktion Lesen anlegen");
+                return;
+            }
 
+            foreach(var woche in Wochen.OrderBy(x => x.Datum))
+            {
+                //Vorsitz
+                if (woche.SelectedVorsitz == null)
+                {
+                    var nextPerson = woche.Vorsitz.OrderByDescending(x => x.LetzterEinsatz).First();
+                    woche.SelectedVorsitz = nextPerson;
+                }
+
+                if (woche.SelectedLeser == null)
+                {
+                    var person = woche.Leser.OrderByDescending(x => x.LetzterEinsatz).First();
+                    woche.SelectedLeser = person;
+                }
             }
         }
 

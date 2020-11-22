@@ -289,7 +289,7 @@ namespace Vortragsmanager.Core
 
             if (DataContainer.Version < 9)
             {
-                UpdateCommand(DataContainer.Version, db, @"DROP TABLE Aufgaben");
+                UpdateCommand(DataContainer.Version, db, @"DROP TABLE IF EXISTS Aufgaben");
                 UpdateCommand(DataContainer.Version, db, @"CREATE TABLE Aufgaben(Id INTEGER, PersonName TEXT, IsVorsitz INTEGER, IsLeser INTEGER, SpeakerId INTEGER, Rating INTEGER)");
                 UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Aufgaben_Kalender (Datum INTEGER, VorsitzId INTEGER, LeserId INTEGER)");
             }

@@ -5,7 +5,7 @@
     xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
     xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
     Width="1250" 
-    Height="610"
+    Height="620"
     Title="{Binding Titel, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
     <Navi:NavigationView />
 </dxc:ThemedWindow>

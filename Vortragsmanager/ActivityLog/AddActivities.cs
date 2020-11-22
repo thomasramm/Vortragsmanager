@@ -182,7 +182,7 @@ namespace Vortragsmanager.ActivityLog
                 Mails = anfrage.Mailtext,
             };
 
-            if (anfrage.Wochen.Count() == 1)
+            if (anfrage.Wochen.Count == 1)
                 log.KalenderDatum = anfrage.Wochen.First();
             else
             {

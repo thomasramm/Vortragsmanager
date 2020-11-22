@@ -3,23 +3,51 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Vortragsmanager.UserControls"
+             xmlns:local="clr-namespace:Vortragsmanager.UserControls" 
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
+             xmlns:datamodels="clr-namespace:Vortragsmanager.Datamodels"
              mc:Ignorable="d" 
              d:DesignHeight="50" 
              d:DesignWidth="800">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="vorsitzOrder" Source="{Binding Vorsitz}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="LetzterEinsatz" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        <CollectionViewSource x:Key="leserOrder" Source="{Binding Leser}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="LetzterEinsatz" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
     <Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Label Content="{Binding Datum}" Width="100"/>
             <Label Content="{Binding Vortragsredner}"  Width="150"/>
             <Label Content="{Binding AuswärtigeRedner}" Width="200"/>
-            <ComboBox ItemsSource="{Binding Vorsitz}" 
-                      SelectedItem="{Binding SelectedVorsitz}" 
+            <ComboBox SelectedItem="{Binding SelectedVorsitz, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                       DisplayMemberPath="PersonName"
-                      Width="150"/>
-            <ComboBox ItemsSource="{Binding Leser}" 
-                      SelectedItem="{Binding SelectedLeser}"
+                      IsEnabled="{Binding IsVorsitz}"
+                      Width="150">
+                <ComboBox.ItemsSource>
+                    <CompositeCollection>
+                        <datamodels:AufgabenZuordnung PersonName="Bitte Person auswählen..."/>
+                        <CollectionContainer Collection="{Binding Source={StaticResource vorsitzOrder}}"/>
+                    </CompositeCollection>
+                </ComboBox.ItemsSource>
+            </ComboBox>
+            <ComboBox SelectedItem="{Binding SelectedLeser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       DisplayMemberPath="PersonName"
-                      Width="150"/>
+                      IsEnabled="{Binding IsLeser}"
+                      Width="150">
+                <ComboBox.ItemsSource>
+                    <CompositeCollection>
+                        <datamodels:AufgabenZuordnung PersonName="Bitte Person auswählen..."/>
+                        <CollectionContainer Collection="{Binding Source={StaticResource leserOrder}}"/>
+                    </CompositeCollection>
+                </ComboBox.ItemsSource>
+            </ComboBox>
         </StackPanel>
     </Grid>
 </UserControl>

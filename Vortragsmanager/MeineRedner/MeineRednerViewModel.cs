@@ -190,7 +190,7 @@ namespace Vortragsmanager.MeineRedner
 
             w.ShowDialog();
 
-            var einRedner = listeRedner.Count() == 1 ? listeRedner[0] : null;
+            var einRedner = listeRedner.Count == 1 ? listeRedner[0] : null;
             ActivityLog.AddActivity.OutsideSendList(einRedner, data.MailTextRedner);
         }
 

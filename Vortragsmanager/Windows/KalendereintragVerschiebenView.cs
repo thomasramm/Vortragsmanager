@@ -142,7 +142,7 @@ namespace Vortragsmanager.Views
             }
         }
 
-        private bool _zielBuchungBelegt = false;
+        private bool _zielBuchungBelegt;
 
         public bool ZielBuchungBelegt
         {
@@ -250,7 +250,7 @@ namespace Vortragsmanager.Views
 
         public bool Speichern { get; set; }
 
-        private bool _zielbuchungLöschenChecked = false;
+        private bool _zielbuchungLöschenChecked;
 
         public bool ZielbuchungLöschenChecked
         {

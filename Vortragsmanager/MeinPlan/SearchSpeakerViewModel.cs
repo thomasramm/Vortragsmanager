@@ -575,7 +575,7 @@ namespace Vortragsmanager.MeinPlan
 
         public List<GroupTalk> Vorträge { get; } = new List<GroupTalk>();
 
-        public int SelectedIndex { get; set; } = 0;
+        public int SelectedIndex { get; set; }
 
         public DateTime LetzteEinladung { get; set; }
 

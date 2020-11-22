@@ -19,7 +19,7 @@ namespace Vortragsmanager.Datamodels
 
         public string Anreise { get; set; }
 
-        public int Entfernung { get; set; } = 0;
+        public int Entfernung { get; set; }
 
         public string Zoom { get; set; }
 

@@ -184,6 +184,9 @@
     <Compile Include="UserControls\SonntagItem.xaml.cs">
       <DependentUpon>SonntagItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\SonntagItemViewModel.cs">
+      <DependentUpon>SonntagItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\VersammlungRednerViewModel.cs">
       <DependentUpon>VersammlungRednerMaximizedControl.xaml</DependentUpon>
     </Compile>

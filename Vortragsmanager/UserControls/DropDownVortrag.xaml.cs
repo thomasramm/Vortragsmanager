@@ -78,6 +78,11 @@ namespace Vortragsmanager.UserControls
             get => SelectedItem.NumberTopicShort;
             set
             {
+                if (value == null)
+                {
+
+                    return;
+                }
                 var trenner = value.IndexOf(' ');
                 if (trenner == -1)
                     trenner = value.Length;

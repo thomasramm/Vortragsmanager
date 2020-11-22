@@ -78,7 +78,7 @@ namespace Vortragsmanager.UserControls
                 return;
 
             SelectedItem = null;
-            RaisePropertyChanged("SelectedName");
+            RaisePropertyChanged(nameof(SelectedName));
         }
 
         public string SelectedName
@@ -130,14 +130,13 @@ new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRend
         {
             if (e.OldValue == e.NewValue)
                 return;
-
-            Conregation newC = (Conregation)e.NewValue;
+            _ = (Conregation)e.NewValue;
 
             var sh = (DropDownRedner)d;
-            sh.ConregationChanged(newC);
+            sh.ConregationChanged();
         }
 
-        private void ConregationChanged(Conregation newValue)
+        private void ConregationChanged()
         {
             //Hier habe ich dauernd schon den korrekten wert
             //SelectedVersammlung = newValue;
