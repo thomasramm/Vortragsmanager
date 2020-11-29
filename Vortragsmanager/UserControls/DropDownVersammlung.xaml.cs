@@ -75,7 +75,7 @@ namespace Vortragsmanager.UserControls
 
         public string SelectedName
         {
-            get => SelectedItem.Name;
+            get => SelectedItem?.Name;
             set
             {
                 var vers = value != null ? DataContainer.ConregationFind(value) : null;

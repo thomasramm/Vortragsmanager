@@ -74,7 +74,7 @@
                                 <Label Content="{Binding SelectedDatum}" ContentStringFormat="dd.MM.yyyy" />
                             </dxlc:LayoutItem>
                             <dxlc:LayoutItem Label="Redner:" LabelPosition="Left">
-                                <Label Content="{Binding MeineVersammlung.Ältester.Name}" />
+                                <Label Content="{Binding MeineVersammlung.Anzeigetext}" />
                             </dxlc:LayoutItem>
                             <dxlc:LayoutItem Label="Versammlung:" LabelPosition="Left">
                                 <Label Content="{Binding MeineVersammlung.Ältester.Versammlung.Name}" />
