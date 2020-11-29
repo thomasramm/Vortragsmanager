@@ -47,6 +47,8 @@ lmenu:
         url: /MeinPlan/#redner-suchen
       - title: Antwort eintragen
         url: /AntwortEintragen/
+      - title: Weitere Plannungen
+        url: /WeiterePlannungen
 
   - title: Meine Redner
     url: /MeineRedner/
