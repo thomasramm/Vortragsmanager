@@ -413,9 +413,9 @@ namespace Vortragsmanager.Views
                 {
                     var exist = DataContainer.MeinPlan.FirstOrDefault(x => x.Datum == item.Datum);
                     if (exist != null)
-                        DataContainer.MeinPlan.Remove(exist);
+                        DataContainer.MeinPlanRemove(exist);
                 }
-                DataContainer.MeinPlan.Add(item);
+                DataContainer.MeinPlanAdd(item);
             }
             foreach (var item in jahr)
             {

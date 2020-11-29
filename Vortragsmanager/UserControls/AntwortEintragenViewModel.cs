@@ -197,7 +197,8 @@ namespace Vortragsmanager.Views
                 Vortrag = vortrag,
                 Ältester = _redner
             };
-            DataContainer.MeinPlan.Add(i);
+            DataContainer.MeinPlanAdd(i);
+
             _base.BaseAnfrage.RednerVortrag.Remove(_redner);
             _base.Wochen.Remove(SelectedDatum);
             bool anfrageGelöscht = false;

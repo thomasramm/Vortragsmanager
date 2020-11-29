@@ -44,6 +44,19 @@ namespace Vortragsmanager.Datamodels
 
         public static ObservableCollection<IEvent> MeinPlan { get; } = new ObservableCollection<IEvent>();
 
+        public static void MeinPlanAdd(IEvent newEvent)
+        {
+            MeinPlan.Add(newEvent);
+            if (newEvent?.Vortrag?.Vortrag != null && newEvent.Vortrag.Vortrag.ZuletztGehalten < newEvent.Datum)
+                newEvent.Vortrag.Vortrag.ZuletztGehalten = newEvent.Datum;
+        }
+
+        public static void MeinPlanRemove(IEvent oldEvent)
+        {
+            MeinPlan.Remove(oldEvent);
+            UpdateTalkDate(oldEvent?.Vortrag?.Vortrag);
+        }
+
         public static ObservableCollection<Inquiry> OffeneAnfragen { get; } = new ObservableCollection<Inquiry>();
 
         public static ObservableCollection<Outside> ExternerPlan { get; } = new ObservableCollection<Outside>();
@@ -140,7 +153,7 @@ namespace Vortragsmanager.Datamodels
                 }
                 else
                 {
-                    MeinPlan.Remove(einladung);
+                    MeinPlanRemove(einladung);
                 }
             }
 
@@ -237,7 +250,7 @@ namespace Vortragsmanager.Datamodels
                     einladung.Ältester = unbekannterRedner;
                 }
                 else
-                    MeinPlan.Remove(einladung);
+                    MeinPlanRemove(einladung);
             }
             //Offene Anfragen
             var anfragen = OffeneAnfragen
@@ -278,6 +291,16 @@ namespace Vortragsmanager.Datamodels
                 if (evt.Datum > evt.Vortrag.Vortrag.ZuletztGehalten || evt.Vortrag.Vortrag.ZuletztGehalten == null)
                     evt.Vortrag.Vortrag.ZuletztGehalten = evt.Datum;
             }
+        }
+
+        public static void UpdateTalkDate(Talk talk)
+        {
+            if (talk == null)
+                return;
+
+            Log.Info(nameof(UpdateTalkDate), talk.Nummer);
+            var gehaltene = MeinPlan.Where(x => x.Vortrag?.Vortrag == talk).DefaultIfEmpty(null).Max(x => x?.Datum);
+            talk.ZuletztGehalten = gehaltene;
         }
 
         public static IEnumerable<Core.DataHelper.DateWithConregation> SpeakerGetActivities(Speaker redner, int anzahl)

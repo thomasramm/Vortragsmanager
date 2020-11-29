@@ -366,12 +366,12 @@ namespace Vortragsmanager.Views
                                 mailsData.MailTextRedner = Templates.GetMailTextAblehnenKoordinator(inv);
                             }
                             DataContainer.Absagen.Add(new Cancelation(ZielDatum, inv.Ältester, EventStatus.Zugesagt));
-                            DataContainer.MeinPlan.Remove(inv);
+                            DataContainer.MeinPlanRemove(inv);
                             sendMail = true;
                             break;
 
                         case EventStatus.Ereignis:
-                            DataContainer.MeinPlan.Remove(ZielEvent);
+                            DataContainer.MeinPlanRemove(ZielEvent);
                             break;
 
                         default:
@@ -391,6 +391,9 @@ namespace Vortragsmanager.Views
             {
                 mails.ShowDialog();
             }
+
+            DataContainer.UpdateTalkDate(StartEvent?.Vortrag?.Vortrag);
+            DataContainer.UpdateTalkDate(ZielEvent?.Vortrag?.Vortrag);
 
             ActivityLog.AddActivity.BuchungVerschieben(StartEvent, mailsData.MailTextKoordinator, startDatum, startBuchungInfo, "Buchung wurde verschoben"); // Event1
             //Event2
