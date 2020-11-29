@@ -1,8 +1,10 @@
 ﻿using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Windows;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 
@@ -176,12 +178,23 @@ namespace Vortragsmanager.Views
         {
             Log.Info(nameof(Zusagen));
             Sichtbar = false;
+            var vortrag = _redner.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == _vortrag.Nummer);
+            if (vortrag == null)
+            {
+                vortrag = _redner.Vorträge.First();
+                ThemedMessageBox.Show("Fehler",
+    $"Der gewählte Vortrag ist für den Redner nicht mehr verfügbar!" + Environment.NewLine +
+    $"Als gewählter Vortrag wurde statt dessen Vortrag #{vortrag.Vortrag.Nummer} ausgewählt." + Environment.NewLine +
+    "Bitte Prüfen und ggfs. korrigieren",
+    MessageBoxButton.OK,
+    MessageBoxImage.Warning);
+            }
             var i = new Invitation
             {
                 Datum = SelectedDatum,
                 LetzteAktion = DateTime.Today,
                 Status = EventStatus.Zugesagt,
-                Vortrag = _redner.Vorträge.First(x => x.Vortrag.Nummer == _vortrag.Nummer),
+                Vortrag = vortrag,
                 Ältester = _redner
             };
             DataContainer.MeinPlan.Add(i);
