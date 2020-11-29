@@ -32,6 +32,7 @@ namespace Vortragsmanager.Core
                 ReadAnfragen(db);
                 ReadCancelation(db);
                 ReadActivity(db);
+                ReadAufgaben(db);
 
                 DataContainer.UpdateTalkDate();
                 DataContainer.IsInitialized = true;
@@ -69,6 +70,7 @@ namespace Vortragsmanager.Core
                     SaveTemplates(db);
                     SaveCancelation(db);
                     SaveActivity(db);
+                    SaveAufgaben(db);
                     transaction.Commit();
                 }
                 db.Close();
@@ -124,13 +126,11 @@ namespace Vortragsmanager.Core
         {
             Log.Info(nameof(CreateEmptyDatabase), "connection");
 
-            var cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Parameter (
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Parameter (
                 Name TEXT,
                 Wert TEXT)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Conregation (
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Conregation (
                 Id INTEGER,
                 Kreis INTEGER,
                 Name TEXT,
@@ -145,17 +145,13 @@ namespace Vortragsmanager.Core
                 KoordinatorMail TEXT,
                 KoordinatorJw TEXT,
                 Zoom TEXT)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Conregation_Zusammenkunftszeiten (
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Conregation_Zusammenkunftszeiten (
                     IdConregation INTEGER,
                     Jahr INTEGER,
                     Zeit TEXT)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Invitation (
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Invitation (
                 IdAltester INTEGER,
                 IdVortrag INTEGER,
                 IdConregation INTEGER,
@@ -163,29 +159,23 @@ namespace Vortragsmanager.Core
                 Status INTEGER,
                 LetzteAktion TEXT,
                 Kommentar TEXT)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Events (
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Events (
                 Typ INTEGER,
                 Name TEXT,
                 Thema TEXT,
                 VORTRAGENDER TEXT,
                 Datum INTEGER,
                 IdVortrag INTEGER)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Outside (
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Outside (
                 IdSpeaker INTEGER,
                 IdConregation INTEGER,
                 Datum INTEGER,
                 Reason INTEGER,
                 IdTalk INTEGER)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Speaker (
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Speaker (
                 Id INTEGER,
                 Name TEXT,
                 IdConregation INTEGER,
@@ -198,62 +188,46 @@ namespace Vortragsmanager.Core
                 InfoPublic TEXT,
                 Einladen INTEGER,
                 JwMail TEXT)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Speaker_Vortrag (
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Speaker_Vortrag (
                 IdSpeaker INTEGER,
                 IdTalk INTEGER,
                 IdSong1 INTEGER,
                 IdSong2 INTEGER)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Talks (
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Talks (
                 Nummer INTEGER,
                 Thema TEXT,
                 Gultig INTEGER,
                 ZuletztGehalten INTEGER)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Templates (
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Templates (
                 Id INTEGER,
                 Inhalt STRING)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Inquiry (
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Inquiry (
                 Id INTEGER,
                 IdConregation INTEGER,
                 Status INTEGER,
                 AnfrageDatum INTEGER,
                 Kommentar STRING,
                 Mailtext STRING)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Inquiry_Dates (
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Inquiry_Dates (
                 IdInquiry INTEGER,
                 Datum INTEGER)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Inquiry_SpeakerTalk (
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Inquiry_SpeakerTalk (
                 IdInquiry INTEGER,
                 IdSpeaker INTEGER,
                 IdTalk INTEGER)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Cancelation (
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Cancelation (
                 Datum INTEGER,
                 IdSpeaker INTEGER,
                 IdLastStatus INTEGER)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-
-            cmd = new SQLiteCommand(@"CREATE TABLE IF NOT EXISTS Activity (
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Activity (
                     Id INTEGER,
                     Datum INTEGER,
                     VersammlungId INTEGER,
@@ -264,8 +238,19 @@ namespace Vortragsmanager.Core
                     Objekt TEXT,
                     Kommentar TEXT,
                     Mails TEXT)", db);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Aufgaben (
+                    Id INTEGER,
+                    PersonName TEXT,
+                    IsVorsitz INTEGER,
+                    IsLeser INTEGER,
+                    SpeakerId INTEGER,
+                    Rating INTEGER)", db);
+            
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Aufgaben_Kalender (
+                    Datum INTEGER,
+                    VorsitzId INTEGER,
+                    LeserId INTEGER)", db);
         }
 
         #region READ
@@ -301,6 +286,13 @@ namespace Vortragsmanager.Core
                     Kommentar TEXT,
                     Mails TEXT)");
             }
+
+            if (DataContainer.Version < 9)
+            {
+                UpdateCommand(DataContainer.Version, db, @"DROP TABLE IF EXISTS Aufgaben");
+                UpdateCommand(DataContainer.Version, db, @"CREATE TABLE Aufgaben(Id INTEGER, PersonName TEXT, IsVorsitz INTEGER, IsLeser INTEGER, SpeakerId INTEGER, Rating INTEGER)");
+                UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Aufgaben_Kalender (Datum INTEGER, VorsitzId INTEGER, LeserId INTEGER)");
+            }
         }
 
         private static void UpdateCommand(int version, SQLiteConnection db, string command)
@@ -317,6 +309,15 @@ namespace Vortragsmanager.Core
             {
                 Log.Error($"Update der Datenbank von Version {version} fehlgeschlagen.", ex.Message);
             }
+        }
+
+        private static void ExecCommand(string command, SQLiteConnection db)
+        {
+#pragma warning disable CA2100 // Review SQL queries for security vulnerabilities
+            var cmd = new SQLiteCommand(command, db);
+#pragma warning restore CA2100 // Review SQL queries for security vulnerabilities
+            cmd.ExecuteNonQuery();
+            cmd.Dispose();
         }
 
         private static void ReadParameter(SQLiteConnection db)
@@ -772,6 +773,56 @@ namespace Vortragsmanager.Core
             }
         }
 
+        private static void ReadAufgaben(SQLiteConnection db)
+        {
+            DataContainer.AufgabenPersonZuordnung.Clear();
+
+            using (var cmd = new SQLiteCommand("SELECT Id, PersonName, IsVorsitz, IsLeser, SpeakerId, Rating FROM Aufgaben", db))
+            {
+                SQLiteDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    var id = rdr.GetInt32(0);
+                    var name = rdr.IsDBNull(1) ? null : rdr.GetString(1);
+                    var isVorsitz = rdr.GetBoolean(2);
+                    var isLeser = rdr.GetBoolean(3);
+                    var speakerId = rdr.IsDBNull(4) ? -1 : rdr.GetInt32(4);
+                    var speaker = DataContainer.Redner.FirstOrDefault(x => x.Id == speakerId);
+                    var rating = rdr.IsDBNull(5) ? 3 : rdr.GetInt32(5);
+
+                    var erg = new AufgabenZuordnung(id)
+                    {
+                        PersonName = name,
+                        IsVorsitz = isVorsitz,
+                        IsLeser = isLeser,
+                        VerknüpftePerson = speaker,
+                        Häufigkeit = rating
+                    };
+
+                    DataContainer.AufgabenPersonZuordnung.Add(erg);
+                }
+
+                rdr.Close();
+            }
+
+            DataContainer.AufgabenPersonKalender.Clear();
+            using (var cmd = new SQLiteCommand("SELECT Datum, VorsitzId, LeserId FROM Aufgaben_Kalender", db))
+            {
+                SQLiteDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    var datum = rdr.GetDateTime(0);
+                    var vorsitz = rdr.IsDBNull(1) ? null : DataContainer.AufgabenPersonZuordnung.FirstOrDefault(x => x.Id == rdr.GetInt32(1));
+                    var leser = rdr.IsDBNull(2) ? null : DataContainer.AufgabenPersonZuordnung.FirstOrDefault(x => x.Id == rdr.GetInt32(2));
+                    DataContainer.AufgabenPersonKalender.Add(new AufgabenKalender(datum, vorsitz, leser));
+                }
+
+                rdr.Close();
+            }
+        }
+
         #endregion READ
 
         #region SAVE
@@ -1147,6 +1198,51 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[7].Value = a.Objekt;
                 cmd.Parameters[8].Value = a.Kommentar;
                 cmd.Parameters[9].Value = a.Mails;
+
+                cmd.ExecuteNonQuery();
+            }
+
+            cmd.Dispose();
+        }
+
+        private static void SaveAufgaben(SQLiteConnection db)
+        {
+            // new SQLiteCommand("SELECT Id, PersonName, IsVorsitz, IsLeser, SpeakerId FROM Aufgaben", db))
+            var cmd = new SQLiteCommand("INSERT INTO Aufgaben(Id, PersonName, IsVorsitz, IsLeser, SpeakerId, Rating) " +
+                                        "VALUES (@Id, @Name, @IsVorsitz, @IsLeser, @SpeakerId, @Oft)", db);
+
+            cmd.Parameters.Add("@Id", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@Name", System.Data.DbType.String);
+            cmd.Parameters.Add("@IsVorsitz", System.Data.DbType.Boolean);
+            cmd.Parameters.Add("@IsLeser", System.Data.DbType.Boolean);
+            cmd.Parameters.Add("@SpeakerId", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@Oft", System.Data.DbType.Int32);
+
+            foreach (var a in DataContainer.AufgabenPersonZuordnung)
+            {
+                cmd.Parameters[0].Value = a.Id;
+                cmd.Parameters[1].Value = (a.VerknüpftePerson == null) ? a.PersonName : a.VerknüpftePerson.Name;
+                cmd.Parameters[2].Value = a.IsVorsitz;
+                cmd.Parameters[3].Value = a.IsLeser;
+                cmd.Parameters[4].Value = a.VerknüpftePerson?.Id;
+                cmd.Parameters[5].Value = a.Häufigkeit;
+
+                cmd.ExecuteNonQuery();
+            }
+
+            cmd.Dispose();
+
+            cmd = new SQLiteCommand("INSERT INTO Aufgaben_Kalender(Datum, VorsitzId, LeserId) VALUES (@Datum, @IdVorsitz, @IdLeser)", db);
+
+            cmd.Parameters.Add("@Datum", System.Data.DbType.DateTime);
+            cmd.Parameters.Add("@IdVorsitz", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@IdLeser", System.Data.DbType.Int32);
+
+            foreach (var a in DataContainer.AufgabenPersonKalender.Where(x => x.Vorsitz != null || x.Leser != null))
+            {
+                cmd.Parameters[0].Value = a.Datum;
+                cmd.Parameters[1].Value = a.Vorsitz?.Id;
+                cmd.Parameters[2].Value = a.Leser?.Id;
 
                 cmd.ExecuteNonQuery();
             }

@@ -152,7 +152,7 @@ namespace Vortragsmanager.MeineRedner
             }
         }
 
-        private bool _parameterValidiert = false;
+        private bool _parameterValidiert;
 
         public bool ParameterValidiert
         {

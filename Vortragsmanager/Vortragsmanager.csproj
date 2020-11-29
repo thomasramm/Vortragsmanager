@@ -142,6 +142,7 @@
     <Compile Include="Core\Log.cs" />
     <Compile Include="Core\Security.cs" />
     <Compile Include="ActivityLog\Activity.cs" />
+    <Compile Include="Datamodels\AufgabenZuordnung.cs" />
     <Compile Include="Datamodels\Templates.cs" />
     <Compile Include="Core\Updater.cs" />
     <Compile Include="Datamodels\Event.cs" />
@@ -150,6 +151,21 @@
       <DependentUpon>ActivityItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="ActivityLog\Activities.cs" />
+    <Compile Include="MeinPlan\SonntagEinstellungenView.xaml.cs">
+      <DependentUpon>SonntagEinstellungenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeinPlan\SonntagEinstellungenViewModel.cs">
+      <DependentUpon>SonntagEinstellungenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeinPlan\Sonntag.xaml.cs">
+      <DependentUpon>Sonntag.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeinPlan\SonntagViewModel.cs">
+      <DependentUpon>Sonntag.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SonntagEinstellungenItem.xaml.cs">
+      <DependentUpon>SonntagEinstellungenItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\DashboardViewModel.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
@@ -164,6 +180,12 @@
     </Compile>
     <Compile Include="UserControls\DropDownVortrag.xaml.cs">
       <DependentUpon>DropDownVortrag.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SonntagItem.xaml.cs">
+      <DependentUpon>SonntagItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SonntagItemViewModel.cs">
+      <DependentUpon>SonntagItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\VersammlungRednerViewModel.cs">
       <DependentUpon>VersammlungRednerMaximizedControl.xaml</DependentUpon>
@@ -319,7 +341,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MeinPlan\SonntagEinstellungenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MeinPlan\Sonntag.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\AntwortEintragenControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SonntagEinstellungenItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -332,6 +366,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\DropDownVortrag.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SonntagItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -569,6 +607,9 @@
     <Analyzer Include="..\packages\Microsoft.NetCore.Analyzers.3.3.0\analyzers\dotnet\cs\Microsoft.NetCore.CSharp.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.3.3.0\analyzers\dotnet\cs\Microsoft.NetFramework.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.3.3.0\analyzers\dotnet\cs\Microsoft.NetFramework.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Sonntag4_64x64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

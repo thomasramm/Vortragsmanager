@@ -42,6 +42,7 @@
                     </dxlc:LayoutGroup>
                 </Grid>
             </dxlc:Tile>
+
             <dxlc:Tile Size="Small"
                        Header="Redner suchen"
                        Background="#e65a1e"
@@ -49,6 +50,7 @@
                        dxlc:TileLayoutControl.GroupHeader="Aktionen">
                 <Image Source="/Images/Search_64x64.png" Margin="10" />
             </dxlc:Tile>
+            
             <dxlc:Tile Size="Small"
                        Header="Antwort eintragen"
                        Background="#ff8c00"
@@ -57,6 +59,14 @@
                 <Image Source="/Images/MailAntwort_64x64.png" Margin="10" />
             </dxlc:Tile>
 
+            <dxlc:Tile Size="Small"
+                       Header="Vorsitz &amp; Leser"
+                       Background="DarkMagenta"
+                       dxwuin:Navigation.NavigateTo="Sonntag"
+                       dxlc:TileLayoutControl.GroupHeader="Aktionen">
+                <Image Source="/Images/Sonntag4_64x64.png" Margin="10" />
+            </dxlc:Tile>
+            
             <dxlc:Tile Size="{Binding RednerTileSize}"
                        Header="Rednerplan"
                        Background="#1e8cff"

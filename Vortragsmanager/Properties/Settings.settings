@@ -59,5 +59,8 @@
     <Setting Name="ApplicationThemeName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Office2016White</Value>
     </Setting>
+    <Setting Name="SonntagAnzeigeMonate" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -294,5 +294,44 @@ namespace Vortragsmanager.Datamodels
                 
             return erg.OrderByDescending(x => x.Datum).Take(anzahl);
         }
+
+        public static AufgabenZuordnung AufgabenZuordnungAdd()
+        {
+            var id = AufgabenPersonZuordnung.Count > 0 ? AufgabenPersonZuordnung.Select(x => x.Id).Max() + 1 : 1;
+            var az = new AufgabenZuordnung(id);
+            AufgabenPersonZuordnung.Add(az);
+            return az;
+        }
+
+        public static ObservableCollection<AufgabenZuordnung> AufgabenPersonZuordnung { get; private set; } = new ObservableCollection<AufgabenZuordnung>();
+
+        public static ObservableCollection<AufgabenKalender> AufgabenPersonKalender { get; private set; } = new ObservableCollection<AufgabenKalender>();
+
+        public static AufgabenKalender AufgabenPersonKalenderFindOrAdd(DateTime datum)
+        {
+            var ergebnis = AufgabenPersonKalender.FirstOrDefault(x => x.Datum == datum);
+            if (ergebnis == null)
+            {
+                ergebnis = new AufgabenKalender(datum);
+                AufgabenPersonKalender.Add(ergebnis);
+            }
+            return ergebnis;
+        }
+
+        public static string GetRednerAuswärts(DateTime datum)
+        {
+            Log.Info(nameof(GetRednerAuswärts), datum);
+            var e = DataContainer.ExternerPlan.Where(x => x.Datum == datum).ToList();
+            if (e.Count == 0)
+                return "";
+
+            var ausgabe = "Redner Auswärts: ";
+            foreach (var r in e)
+            {
+                ausgabe += $"{r.Ältester.Name} in {r.Versammlung.Name}, ";
+            }
+
+            return ausgabe.Substring(0, ausgabe.Length - 2);
+        }
     }
 }

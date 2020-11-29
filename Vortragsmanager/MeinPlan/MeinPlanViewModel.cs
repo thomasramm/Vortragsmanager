@@ -363,7 +363,7 @@ namespace Vortragsmanager.MeinPlan
 
         public bool IsOffen => Zuteilung == null;
 
-        public bool DetailView { get; set; } = false;
+        public bool DetailView { get; set; }
 
         public override string ToString()
         {
