@@ -44,10 +44,14 @@
                 Width="150"
                 Command="{Binding ChangeMonth}"
                 CommandParameter="-1"/>
-            <TextBlock Grid.Row="0" Grid.Column="0"
-                   ToolTip="zurück zum aktuellen Monat"
-                   TextAlignment="Center"
-                   FontSize="14" Margin="0,0,0,11">
+            <TextBlock Grid.Row="0" 
+                       Grid.Column="0"
+                       ToolTip="zurück zum aktuellen Monat"
+                       TextAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Width="150"
+                       FontSize="14" 
+                       Margin="0,0,0,11">
                 <Hyperlink Command="{Binding ChangeMonth}" 
                        CommandParameter="0"
                        TextDecorations="None" 
@@ -60,6 +64,8 @@
                    ToolTip="zurück zum aktuellen Monat"
                    TextAlignment="Center"
                    VerticalAlignment="Bottom"
+                       HorizontalAlignment="Center"
+                       Width="150"
                    FontSize="10" Height="13" Margin="0,0,0,0">
                 <Hyperlink Command="{Binding ChangeMonth}" 
                        CommandParameter="0"
