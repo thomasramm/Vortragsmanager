@@ -20,8 +20,6 @@ namespace Vortragsmanager.Views
             var groupBox = (GroupBox)sender;
             if (groupBox.State == GroupBoxState.Normal)
                 groupBox.State = GroupBoxState.Maximized;
-            else if (e.OriginalSource is DevExpress.Xpf.Core.DXBorder)
-                groupBox.State = GroupBoxState.Normal;
         }
     }
 }

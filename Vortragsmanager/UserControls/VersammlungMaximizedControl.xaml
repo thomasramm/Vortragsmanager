@@ -7,7 +7,7 @@
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:core="clr-namespace:Vortragsmanager.Core"
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="800">
     <UserControl.Resources>
@@ -122,7 +122,7 @@
                                     MaximizedElementPosition="Top">
                 <dxlc:FlowLayoutControl.ItemTemplate>
                     <DataTemplate>
-                        <dxlc:GroupBox Header="{Binding}"
+                        <core:MyGroupBox Header="{Binding}"
                                     Content="{Binding}"
                                     Width="200"
                                     Height="100"
@@ -157,7 +157,7 @@
                                     <local:VersammlungRednerMaximizedControl DataContext="{Binding}" />
                                 </DataTemplate>
                             </dxlc:GroupBox.MaximizedContentTemplate>
-                        </dxlc:GroupBox>
+                        </core:MyGroupBox>
                     </DataTemplate>
                 </dxlc:FlowLayoutControl.ItemTemplate>
             </dxlc:FlowLayoutControl>

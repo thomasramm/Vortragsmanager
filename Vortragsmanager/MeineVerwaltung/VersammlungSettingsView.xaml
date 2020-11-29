@@ -8,7 +8,7 @@
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
              xmlns:local="clr-namespace:Vortragsmanager.MeineVerwaltung"
-             xmlns:views="clr-namespace:Vortragsmanager.Views"
+             xmlns:views="clr-namespace:Vortragsmanager.Views" xmlns:core="clr-namespace:Vortragsmanager.Core"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
@@ -51,18 +51,18 @@
                                     MaximizedElementChanged="Lc_MaximizedElementChanged">
                 <dxlc:FlowLayoutControl.ItemTemplate>
                     <DataTemplate>
-                        <dxlc:GroupBox  Header="{Binding}"
-                        Content="{Binding}"
-                        Visibility="{Binding Sichtbarkeit}"
-                        State="{Binding IsSelected}"
-                        Width="200"
-                        Height="250"
-                        Padding="0"
-                        MaximizeElementVisibility="Visible"
-                        FontFamily="Segoe UI Light"
-                        FontSize="14"
-                        Cursor="Hand"
-                        MouseLeftButtonUp="GroupBox_MouseLeftButtonUp">
+                        <core:MyGroupBox  Header="{Binding}"
+                                        Content="{Binding}"
+                                        Visibility="{Binding Sichtbarkeit}"
+                                        State="{Binding IsSelected}"
+                                        Width="200"
+                                        Height="250"
+                                        Padding="0"
+                                        MaximizeElementVisibility="Visible"
+                                        FontFamily="Segoe UI Light"
+                                        FontSize="14"
+                                        Cursor="Hand"
+                                        MouseLeftButtonUp="GroupBox_MouseLeftButtonUp">
                             <dxlc:GroupBox.HeaderTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="1">Kreis <Run Text="{Binding Versammlung.Kreis}" /></TextBlock>
@@ -86,7 +86,7 @@
                                     <views:VersammlungMaximizedControl DataContext="{Binding}" />
                                 </DataTemplate>
                             </dxlc:GroupBox.MaximizedContentTemplate>
-                        </dxlc:GroupBox>
+                        </core:MyGroupBox>
                     </DataTemplate>
                 </dxlc:FlowLayoutControl.ItemTemplate>
             </dxlc:FlowLayoutControl>
