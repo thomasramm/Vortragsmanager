@@ -10,7 +10,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
-    xmlns:local="clr-namespace:Vortragsmanager.MeineVerwaltung"
+    xmlns:local="clr-namespace:Vortragsmanager.MeineVerwaltung" 
+    xmlns:uc="clr-namespace:Vortragsmanager.UserControls"
     x:Class="Vortragsmanager.MeineVerwaltung.RednerView"
     mc:Ignorable="d"
     d:DesignHeight="600"
@@ -46,34 +47,12 @@
                     <StackPanel Grid.Row="0"
                         HorizontalAlignment="Left"
                         Orientation="Horizontal">
-                        <dxe:AutoSuggestEdit x:Name="RednerFilter"
-                                             ImmediatePopup="True"
-                                             SelectAllOnMouseUp="True"
-                                             SelectAllOnGotFocus="True"
-                                             AllowPopupTextHighlighting="True"
-                                             DisplayMember="Name"
-                                             TextMember="Name"
-                                             Width="200"
-                                             Margin="0,0,15,0"
-                                             PopupHighlightedTextCriteria="Regex"
-                                             NullText="🔎 Redner suchen"
-                                             QuerySubmitted="Redner_AutoSuggestEdit_QuerySubmitted"
-                                             ItemsSource="{Binding ListeFilteredRedner}"
-                                             EditValue="{Binding SelectedSpeakerName, UpdateSourceTrigger=PropertyChanged}" />
-                        <dxe:AutoSuggestEdit x:Name="VersammlungenFilter"
-                                             ImmediatePopup="True"
-                                             SelectAllOnMouseUp="True"
-                                             SelectAllOnGotFocus="True"
-                                             AllowPopupTextHighlighting="True"
-                                             DisplayMember="Name"
-                                             TextMember="Name"
-                                             Width="200"
-                                             PopupHighlightedTextCriteria="Regex"
-                                             NullText="🔎 Versammlung suchen"
-                                             QuerySubmitted="Versammlung_AutoSuggestEdit_QuerySubmitted"
-                                             ItemsSource="{Binding ListeFilteredVersammlungen}"
-                                             EditValue="{Binding SelectedConregationName, UpdateSourceTrigger=PropertyChanged}"
-                                             AllowNullInput="True" />
+                        <uc:DropDownRedner OnSpeakerChanged="DropDownRedner_OnSpeakerChanged"
+                                           SelectedVersammlung="{Binding SelectedConregation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           Width="200"
+                                           x:Name="RednerSelect"/>
+                        <uc:DropDownVersammlung ConregationChanged="DropDownVersammlung_ConregationChanged" 
+                                                Width="200"/>
                     </StackPanel>
                     <Button Grid.Row="0"
                             Grid.Column="1"
@@ -203,8 +182,8 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" Text="{Binding Path=Vortrag.Nummer}" HorizontalAlignment="Right" Margin="0,0,5,0" />
                                     <TextBlock Grid.Column="1" Text="{Binding Path=Vortrag.Thema}" />
-                                    <TextBox Grid.Column="2" Text="{Binding Path=Lied, Mode=TwoWay}" HorizontalContentAlignment="Center" Margin="2,0" />
-                                    <TextBox Grid.Column="3" Text="{Binding Path=LiedErsatz,Mode=TwoWay}" HorizontalContentAlignment="Center" Margin="2,0" />
+                                    <TextBox Grid.Column="2" Text="{Binding Path=Lied, Mode=TwoWay}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="2,0" />
+                                    <TextBox Grid.Column="3" Text="{Binding Path=LiedErsatz,Mode=TwoWay}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Margin="2,0" />
                                     <dx:SimpleButton Grid.Column="4"
                                                      Margin="15,0,0,0"
                                                      Glyph="{dx:DXImage SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg}"
@@ -216,12 +195,13 @@
                     </ListBox>
                     <dxlc:LayoutGroup Orientation="Horizontal">
                         <dxlc:LayoutItem Label="Neuen Vortrag hinzufügen:" LabelPosition="Top" Margin="0,10,0,0">
-                            <dxe:ComboBoxEdit ItemsSource="{Binding Vortragsliste}"
+                            <!--<dxe:ComboBoxEdit ItemsSource="{Binding Vortragsliste}"
                                     SelectedItem="{Binding NeuerVortrag}"
                                     DisplayMember="NumberTopicShort"
                                     IsTextEditable="False"
                                     AutoComplete="True"
-                                    IsPopupOpen="True" />
+                                    IsPopupOpen="True" />-->
+                            <uc:DropDownVortrag OnSelectedItemChanged="DropDownVortrag_OnSelectedItemChanged"/>
                         </dxlc:LayoutItem>
                         <Label Content="oder" Height="20" Width="40" HorizontalContentAlignment="Center" VerticalAlignment="Center" />
                         <dxlc:LayoutItem Label="Kommagetrennte Liste von Vortragsnr. zum hinzufügen:" LabelPosition="Top" Margin="0,10,0,0">

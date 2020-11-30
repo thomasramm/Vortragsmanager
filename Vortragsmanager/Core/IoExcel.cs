@@ -5,11 +5,55 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Vortragsmanager.Datamodels;
+using System.Windows.Forms;
+using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.Core
 {
     internal class IoExcel
     {
+        public static class File
+        {
+            public static void Save(string tempName, string sugestedName, bool open)
+            {
+                Log.Info(nameof(Save), $"tempName={tempName}, sugestedName={sugestedName}");
+                var saveFileDialog1 = new SaveFileDialog
+                {
+                    Filter = Resources.DateifilterExcel,
+                    FilterIndex = 1,
+                    RestoreDirectory = false,
+                    FileName = sugestedName,
+                };
+
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    Log.Info(nameof(Save), $"{saveFileDialog1.FileName}");
+                    var fi = new FileInfo(saveFileDialog1.FileName);
+                    var filename = fi.FullName;
+                    var i = 0;
+                    try
+                    {
+                        System.IO.File.Delete(filename);
+                    }
+                    catch
+                    {
+                        while (System.IO.File.Exists(filename))
+                        {
+                            i++;
+                            filename = $"{fi.DirectoryName}\\{fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length)} ({i}){fi.Extension}";
+                        }
+                    }
+                    finally
+                    {
+                        System.IO.File.Move(tempName, filename);
+                        if (open)
+                            System.Diagnostics.Process.Start(filename);
+                    }
+                }
+                saveFileDialog1.Dispose();
+            }
+        }
+
         public static void UpdateSpeakers(string File)
         {
             Log.Info(nameof(UpdateSpeakers), File);

@@ -180,7 +180,7 @@ namespace Vortragsmanager.MeinPlan
             if (data.Speichern)
             {
                 if (neu)
-                    DataContainer.MeinPlan.Add(ev);
+                    DataContainer.MeinPlanAdd(ev);
                 ActivityLog.AddActivity.EreignisBearbeiten(ev, neu ? ActivityLog.Types.EreignisAnlegen : ActivityLog.Types.EreignisBearbeiten);
                 Zuteilung = ev;
                 Monat.GetWeeks(Jahr);
@@ -203,7 +203,7 @@ namespace Vortragsmanager.MeinPlan
                 Vortrag = data.SelectedVortrag
             };
             Zuteilung = i;
-            DataContainer.MeinPlan.Add(i);
+            DataContainer.MeinPlanAdd(i);
             ActivityLog.AddActivity.RednerEintragen(i);
 
             Monat.GetWeeks(Jahr);
@@ -213,7 +213,8 @@ namespace Vortragsmanager.MeinPlan
         {
             if (Zuteilung.Status == EventStatus.Ereignis)
             {
-                DataContainer.MeinPlan.Remove(Zuteilung);
+                
+                DataContainer.MeinPlanRemove(Zuteilung);
                 var ereignis = (Zuteilung as SpecialEvent);
                 ActivityLog.AddActivity.EreignisBearbeiten(ereignis, ActivityLog.Types.EreignisLöschen);
                 Monat.GetWeeks(Jahr);
@@ -240,7 +241,7 @@ namespace Vortragsmanager.MeinPlan
             if (!data.Speichern)
                 return;
 
-            DataContainer.MeinPlan.Remove(Zuteilung);
+            DataContainer.MeinPlanRemove(Zuteilung);
             DataContainer.Absagen.Add(new Cancelation(zuteilung.Datum, zuteilung.Ältester, zuteilung.Status));
             ActivityLog.AddActivity.BuchungLöschen(zuteilung, mailtext);
             Monat.GetWeeks(Jahr);
@@ -284,6 +285,11 @@ namespace Vortragsmanager.MeinPlan
             ActivityLog.AddActivity.EinladungBearbeiten(Einladung, data.SelectedRedner, data.SelectedVortrag);
 
             Einladung.Ältester = data.SelectedRedner;
+            if (Einladung.Vortrag?.Vortrag != data.SelectedVortrag?.Vortrag)
+            {
+                DataContainer.UpdateTalkDate(Einladung.Vortrag?.Vortrag);
+                DataContainer.UpdateTalkDate(data.SelectedVortrag?.Vortrag);
+            }
             Einladung.Vortrag = data.SelectedVortrag;
             Monat.GetWeeks(Jahr);
         }
@@ -363,7 +369,7 @@ namespace Vortragsmanager.MeinPlan
 
         public bool IsOffen => Zuteilung == null;
 
-        public bool DetailView { get; set; } = false;
+        public bool DetailView { get; set; }
 
         public override string ToString()
         {

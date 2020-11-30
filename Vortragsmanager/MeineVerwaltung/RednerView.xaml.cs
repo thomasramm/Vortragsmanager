@@ -16,14 +16,22 @@ namespace Vortragsmanager.MeineVerwaltung
         }
 
         //Vorschlagsliste aktualisieren
-        private void Versammlung_AutoSuggestEdit_QuerySubmitted(object sender, DevExpress.Xpf.Editors.AutoSuggestEditQuerySubmittedEventArgs e)
+
+
+        private void DropDownVersammlung_ConregationChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<Datamodels.Conregation> e)
         {
-            DataModel.SetVersammlungfilter(e.Text);
+            DataModel.SelectedConregation = e.NewValue;
+            RednerSelect.SelectedVersammlung = e.NewValue;
         }
 
-        private void Redner_AutoSuggestEdit_QuerySubmitted(object sender, DevExpress.Xpf.Editors.AutoSuggestEditQuerySubmittedEventArgs e)
+        private void DropDownRedner_OnSpeakerChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<Datamodels.Speaker> e)
         {
-            DataModel.SetRednerfilter(e.Text);
+            DataModel.Redner = e.NewValue;
+        }
+
+        private void DropDownVortrag_OnSelectedItemChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<Datamodels.Talk> e)
+        {
+            DataModel.NeuerVortrag = e.NewValue;
         }
     }
 }

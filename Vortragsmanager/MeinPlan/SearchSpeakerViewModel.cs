@@ -575,7 +575,7 @@ namespace Vortragsmanager.MeinPlan
 
         public List<GroupTalk> Vorträge { get; } = new List<GroupTalk>();
 
-        public int SelectedIndex { get; set; } = 0;
+        public int SelectedIndex { get; set; }
 
         public DateTime LetzteEinladung { get; set; }
 
@@ -594,6 +594,8 @@ namespace Vortragsmanager.MeinPlan
         }
 
         public string LetzterBesuch => LetzteEinladung == null ? string.Empty : LetzteEinladung.ToString("dd.MM.yyyy", Core.Helper.German);
+
+        public string InfoPrivate => Redner.InfoPrivate;
     }
 
     /// <summary>

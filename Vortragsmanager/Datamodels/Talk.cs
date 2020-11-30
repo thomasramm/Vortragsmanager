@@ -25,7 +25,7 @@ namespace Vortragsmanager.Datamodels
         public string NumberTopicDate => $"{Nummer} {Thema} | " + ZuletztGehalten?.ToShortDateString() ?? "nie gehalten";
     }
 
-    public class TalkSong
+    public class TalkSong : IComparable<TalkSong>
     {
         public TalkSong(Talk vortrag, int? lied, int? ersatz)
         {
@@ -63,6 +63,11 @@ namespace Vortragsmanager.Datamodels
                 erg += $" (♪ {LiedErsatz})";
 
             return erg;
+        }
+
+        public int CompareTo(TalkSong other)
+        {
+            return Vortrag.Nummer.CompareTo(other?.Vortrag.Nummer);
         }
     }
 }

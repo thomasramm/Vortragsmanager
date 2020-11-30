@@ -26,7 +26,7 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand CalculateDistanceCommand { get; private set; }
 
-        private bool _deleted = false;
+        private bool _deleted;
 
         public void Delete(object lca)
         {

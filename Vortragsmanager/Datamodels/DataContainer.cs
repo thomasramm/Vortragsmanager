@@ -44,6 +44,19 @@ namespace Vortragsmanager.Datamodels
 
         public static ObservableCollection<IEvent> MeinPlan { get; } = new ObservableCollection<IEvent>();
 
+        public static void MeinPlanAdd(IEvent newEvent)
+        {
+            MeinPlan.Add(newEvent);
+            if (newEvent?.Vortrag?.Vortrag != null && newEvent.Vortrag.Vortrag.ZuletztGehalten < newEvent.Datum)
+                newEvent.Vortrag.Vortrag.ZuletztGehalten = newEvent.Datum;
+        }
+
+        public static void MeinPlanRemove(IEvent oldEvent)
+        {
+            MeinPlan.Remove(oldEvent);
+            UpdateTalkDate(oldEvent?.Vortrag?.Vortrag);
+        }
+
         public static ObservableCollection<Inquiry> OffeneAnfragen { get; } = new ObservableCollection<Inquiry>();
 
         public static ObservableCollection<Outside> ExternerPlan { get; } = new ObservableCollection<Outside>();
@@ -140,7 +153,7 @@ namespace Vortragsmanager.Datamodels
                 }
                 else
                 {
-                    MeinPlan.Remove(einladung);
+                    MeinPlanRemove(einladung);
                 }
             }
 
@@ -185,7 +198,7 @@ namespace Vortragsmanager.Datamodels
             Log.Info(nameof(SpeakerFind), $"name={name}, conregation={versammlung?.Id}, {versammlung?.Name}");
             foreach (var s in Redner)
             {
-                if (s.Name == name && s.Versammlung == versammlung)
+                if (s.Name == name && (s.Versammlung == versammlung || versammlung == null))
                     return s;
             }
 
@@ -237,7 +250,7 @@ namespace Vortragsmanager.Datamodels
                     einladung.Ältester = unbekannterRedner;
                 }
                 else
-                    MeinPlan.Remove(einladung);
+                    MeinPlanRemove(einladung);
             }
             //Offene Anfragen
             var anfragen = OffeneAnfragen
@@ -280,6 +293,16 @@ namespace Vortragsmanager.Datamodels
             }
         }
 
+        public static void UpdateTalkDate(Talk talk)
+        {
+            if (talk == null)
+                return;
+
+            Log.Info(nameof(UpdateTalkDate), talk.Nummer);
+            var gehaltene = MeinPlan.Where(x => x.Vortrag?.Vortrag == talk).DefaultIfEmpty(null).Max(x => x?.Datum);
+            talk.ZuletztGehalten = gehaltene;
+        }
+
         public static IEnumerable<Core.DataHelper.DateWithConregation> SpeakerGetActivities(Speaker redner, int anzahl)
         {
             if (redner == null)
@@ -293,6 +316,45 @@ namespace Vortragsmanager.Datamodels
                 erg = erg.Union(DataContainer.ExternerPlan.Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, x.Versammlung.Name, x.Vortrag?.Vortrag?.Nummer)));
                 
             return erg.OrderByDescending(x => x.Datum).Take(anzahl);
+        }
+
+        public static AufgabenZuordnung AufgabenZuordnungAdd()
+        {
+            var id = AufgabenPersonZuordnung.Count > 0 ? AufgabenPersonZuordnung.Select(x => x.Id).Max() + 1 : 1;
+            var az = new AufgabenZuordnung(id);
+            AufgabenPersonZuordnung.Add(az);
+            return az;
+        }
+
+        public static ObservableCollection<AufgabenZuordnung> AufgabenPersonZuordnung { get; private set; } = new ObservableCollection<AufgabenZuordnung>();
+
+        public static ObservableCollection<AufgabenKalender> AufgabenPersonKalender { get; private set; } = new ObservableCollection<AufgabenKalender>();
+
+        public static AufgabenKalender AufgabenPersonKalenderFindOrAdd(DateTime datum)
+        {
+            var ergebnis = AufgabenPersonKalender.FirstOrDefault(x => x.Datum == datum);
+            if (ergebnis == null)
+            {
+                ergebnis = new AufgabenKalender(datum);
+                AufgabenPersonKalender.Add(ergebnis);
+            }
+            return ergebnis;
+        }
+
+        public static string GetRednerAuswärts(DateTime datum)
+        {
+            Log.Info(nameof(GetRednerAuswärts), datum);
+            var e = DataContainer.ExternerPlan.Where(x => x.Datum == datum).ToList();
+            if (e.Count == 0)
+                return "";
+
+            var ausgabe = "Redner Auswärts: ";
+            foreach (var r in e)
+            {
+                ausgabe += $"{r.Ältester.Name} in {r.Versammlung.Name}, ";
+            }
+
+            return ausgabe.Substring(0, ausgabe.Length - 2);
         }
     }
 }

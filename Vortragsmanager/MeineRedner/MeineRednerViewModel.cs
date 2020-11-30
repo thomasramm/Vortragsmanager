@@ -68,9 +68,9 @@ namespace Vortragsmanager.MeineRedner
         public void ApplyFilter()
         {
             //Jahr
-            List<Outside> list = DataContainer.ExternerPlan.Where(x => x.Datum.Year == CurrentYear).ToList();
+            List<Outside> list = DataContainer.ExternerPlan.Where(x => x.Datum.Year >= CurrentYear).ToList();
             //ToDo2: interne sind auch externe!!!
-            var listIntern = DataContainer.MeinPlan.Where(x => x.Datum.Year == CurrentYear && x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester.Versammlung == DataContainer.MeineVersammlung);
+            var listIntern = DataContainer.MeinPlan.Where(x => x.Datum.Year >= CurrentYear && x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester.Versammlung == DataContainer.MeineVersammlung);
 
             if (!History)
             {
@@ -190,7 +190,7 @@ namespace Vortragsmanager.MeineRedner
 
             w.ShowDialog();
 
-            var einRedner = listeRedner.Count() == 1 ? listeRedner[0] : null;
+            var einRedner = listeRedner.Count == 1 ? listeRedner[0] : null;
             ActivityLog.AddActivity.OutsideSendList(einRedner, data.MailTextRedner);
         }
 

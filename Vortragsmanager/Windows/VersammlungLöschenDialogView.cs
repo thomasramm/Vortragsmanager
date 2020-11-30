@@ -165,7 +165,7 @@ namespace Vortragsmanager.Views
                     ? "Bitte zuerst Versammlung auswählen!"
                     : $"{_selectedConregation.Koordinator} (Versammlung {SelectedConregationName})";
 
-        private int _koordinatorSelect = 0;
+        private int _koordinatorSelect;
 
         public void KoordinatorSelect(int select)
         {

@@ -1,13 +1,11 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.MeineVerwaltung
@@ -21,22 +19,8 @@ namespace Vortragsmanager.MeineVerwaltung
             AddTalkCommand = new DelegateCommand(TalkAdd);
             DeleteTalkCommand = new DelegateCommand<TalkSong>(TalkDelete);
 
-            ListeAllerVersammlungen = new ObservableCollection<Conregation>(DataContainer.Versammlungen.OrderBy(x => x, new Helper.EigeneKreisNameComparer()));
-            ListeFilteredVersammlungen = new ObservableCollection<Conregation>(ListeAllerVersammlungen);
-
-            ListeAllerRedner = new ObservableCollection<Speaker>(DataContainer.Redner.OrderBy(x => x.Name));
-            ListeFilteredRedner = new ObservableCollection<Speaker>(ListeAllerRedner);
-
             RednerAktivitäten = new ObservableCollection<Core.DataHelper.DateWithConregation>();
         }
-
-        public ObservableCollection<Conregation> ListeAllerVersammlungen { get; private set; }
-
-        public ObservableCollection<Conregation> ListeFilteredVersammlungen { get; private set; }
-
-        public ObservableCollection<Speaker> ListeAllerRedner { get; private set; }
-
-        public ObservableCollection<Speaker> ListeFilteredRedner { get; private set; }
 
         public ObservableCollection<Talk> Vortragsliste => DataContainer.Vorträge;
 
@@ -52,52 +36,22 @@ namespace Vortragsmanager.MeineVerwaltung
 
         #region Filter Versammlung
 
-        private string _selectedConregationName;
+        private Conregation _selectedConregation;
 
-        public string SelectedConregationName
+        public Conregation SelectedConregation
         {
-            get => _selectedConregationName;
+            get => _selectedConregation;
             set
             {
-                _selectedConregationName = value;
-                SetRednerfilter();
-                FindSpeaker();
-            }
-        }
-
-        public void SetVersammlungfilter(string versammlungFilter = null)
-        {
-            ListeFilteredVersammlungen.Clear();
-            var items = ListeAllerVersammlungen.Count;
-            var newCount = 0;
-            var maxCount = (versammlungFilter == null) ? items : 10;
-            for (int i = 0; i < items; i++)
-            {
-                if (string.IsNullOrEmpty(versammlungFilter) || (Regex.IsMatch(ListeAllerVersammlungen[i].Name, Regex.Escape(versammlungFilter), RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace)))
-                {
-                    ListeFilteredVersammlungen.Add(ListeAllerVersammlungen[i]);
-                    newCount++;
-                    if (newCount == maxCount)
-                        break;
-                }
+                _selectedConregation = value;
+                RaisePropertyChanged();
+                //SetRednerfilter();
             }
         }
 
         #endregion Filter Versammlung
 
         #region Filter Redner
-
-        private string _selectedSpeakerName;
-
-        public string SelectedSpeakerName
-        {
-            get => _selectedSpeakerName;
-            set
-            {
-                _selectedSpeakerName = value;
-                FindSpeaker();
-            }
-        }
 
         private Speaker _redner;
 
@@ -113,51 +67,9 @@ namespace Vortragsmanager.MeineVerwaltung
                 RednerAktivitätenUpdate();
             }
         }
-
-        private void FindSpeaker()
-        {
-            if (string.IsNullOrWhiteSpace(_selectedSpeakerName))
-            {
-                Redner = null;
-                return;
-            }
-            var redner = DataContainer.Redner.Where(x => x.Name == _selectedSpeakerName).ToList();
-            if (redner.Count > 1 && !string.IsNullOrWhiteSpace(_selectedConregationName))
-            {
-                redner = redner.Where(x => x.Versammlung.Name == _selectedConregationName).ToList();
-            }
-            if (redner.Count > 1)
-            {
-                MessageBox.Show("Mehr als 1 Redner mit diesem Namen gefunden, bitte über den Versammlungsfilter eingrenzen.");
-                Redner = null;
-            }
-            else if (redner.Count == 0)
-                Redner = null;
-            else if (redner.Count == 1)
-                Redner = redner[0];
-        }
+               
 
         public bool RednerSelektiert => (Redner != null);
-
-        public void SetRednerfilter(string rednerFilter = null)
-        {
-            ListeFilteredRedner.Clear();
-            var items = ListeAllerRedner.Count;
-            var newCount = 0;
-            for (int i = 0; i < items; i++)
-            {
-                if (SelectedConregationName == null || ListeAllerRedner[i].Versammlung.Name == SelectedConregationName)
-                {
-                    if (string.IsNullOrEmpty(rednerFilter) || (Regex.IsMatch(ListeAllerRedner[i].Name, Regex.Escape(rednerFilter), RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace)))
-                    {
-                        ListeFilteredRedner.Add(ListeAllerRedner[i]);
-                        newCount++;
-                        if (newCount == 10)
-                            break;
-                    }
-                }
-            }
-        }
 
         public void SpeakerDelete()
         {
@@ -166,21 +78,17 @@ namespace Vortragsmanager.MeineVerwaltung
 
             DataContainer.SpeakerRemove(Redner);
 
-            ListeAllerRedner.Remove(Redner);
-            ListeFilteredRedner.Remove(Redner);
+            //ListeAllerRedner.Remove(Redner);
+            //ListeFilteredRedner.Remove(Redner);
             Redner = null;
         }
 
         public void SpeakerAdd()
         {
-            Conregation vers = null;
-            if (!string.IsNullOrEmpty(SelectedConregationName))
-                vers = DataContainer.ConregationFind(SelectedConregationName);
-
-            if (vers is null)
+            if (SelectedConregation is null)
             {
                 ThemedMessageBox.Show("Im Filter ist aktuell keine Versammlung gewählt. Bitte für den neuen Redner unter Aktionen -> Versammlung verschieben die Versammlung zuweisen.");
-                vers = DataContainer.ConregationFind("Unbekannt");
+                SelectedConregation = DataContainer.ConregationFind("Unbekannt");
             }
 
             Speaker redner = new Speaker();
@@ -188,11 +96,11 @@ namespace Vortragsmanager.MeineVerwaltung
             while (redner != null)
             {
                 i++;
-                redner = DataContainer.SpeakerFind($"Neuer Redner #{i}", vers);
+                redner = DataContainer.SpeakerFind($"Neuer Redner #{i}", SelectedConregation);
             }
-            redner = DataContainer.SpeakerFindOrAdd($"Neuer Redner #{i}", vers);
+            redner = DataContainer.SpeakerFindOrAdd($"Neuer Redner #{i}", SelectedConregation);
 
-            SelectedSpeakerName = redner.Name;
+            Redner = redner;
         }
 
         #endregion Filter Redner
@@ -208,9 +116,12 @@ namespace Vortragsmanager.MeineVerwaltung
         public void TalkAdd()
         {
             if (string.IsNullOrWhiteSpace(NeueVorträgeListe))
-                NeueVorträgeListe = NeuerVortrag.Substring(1, NeuerVortrag.IndexOf(")", StringComparison.InvariantCulture) - 1);
+                NeueVorträgeListe = NeuerVortrag?.Nummer.ToString(CultureInfo.InvariantCulture);
 
-            var nummern = NeueVorträgeListe.Split(new char[] { ',', ' ', ';' });
+            if (string.IsNullOrWhiteSpace(NeueVorträgeListe))
+                return;
+
+            var nummern = NeueVorträgeListe?.Split(new char[] { ',', ' ', ';' });
             foreach (var nr in nummern)
             {
                 bool isNum = int.TryParse(nr, out int num);
@@ -241,7 +152,7 @@ namespace Vortragsmanager.MeineVerwaltung
             }
         }
 
-        public string NeuerVortrag { get; set; }
+        public Talk NeuerVortrag { get; set; }
 
         #endregion Vortrag
 

@@ -4,7 +4,6 @@ using OfficeOpenXml.Table;
 using System;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Properties;
@@ -13,8 +12,6 @@ namespace Vortragsmanager.MeineVerwaltung
 {
     public class ListCreateViewModel : ViewModelBase
     {
-        private static string templateFolder;
-
         public ListCreateViewModel()
         {
             Log.Info(nameof(ListCreateViewModel), "");
@@ -23,7 +20,6 @@ namespace Vortragsmanager.MeineVerwaltung
             CreateExchangeRednerListCommand = new DelegateCommand(CreateExchangeRednerList);
             CreateOverviewTalkCountCommand = new DelegateCommand(CreateOverviewTalkCount);
             CreateSpeakerOverviewCommand = new DelegateCommand(CreateSpeakerOverview);
-            templateFolder = AppDomain.CurrentDomain.BaseDirectory + @"Templates\";
         }
 
         public DelegateCommand CreateAushangCommand { get; private set; }
@@ -46,27 +42,11 @@ namespace Vortragsmanager.MeineVerwaltung
             }
         }
 
-        private static string GetRednerAuswärts(DateTime datum)
-        {
-            Log.Info(nameof(GetRednerAuswärts), datum);
-            var e = DataContainer.ExternerPlan.Where(x => x.Datum == datum).ToList();
-            if (e.Count == 0)
-                return "";
-
-            var ausgabe = "Redner Auswärts: ";
-            foreach (var r in e)
-            {
-                ausgabe += $"{r.Ältester.Name} in {r.Versammlung.Name}, ";
-            }
-
-            return ausgabe.Substring(0, ausgabe.Length - 2);
-        }
-
         public void CreateAushang()
         {
             Log.Info(nameof(CreateAushang), "");
             //laden der Excel-Datei
-            var template = $"{templateFolder}AushangExcel.xlsx";
+            var template = $"{Core.Helper.TemplateFolder}AushangExcel.xlsx";
             var tempFile = Path.GetTempFileName();
             File.Copy(template, tempFile, true);
             var excel = new FileInfo(tempFile);
@@ -78,20 +58,24 @@ namespace Vortragsmanager.MeineVerwaltung
                 worksheet.Cells[1, 1].Value = titel;
                 var row = 3;
                 var next10 = DataContainer.MeinPlan.Where(x => x.Datum > DateTime.Today).OrderBy(x => x.Datum).Take(10).ToList();
+                
                 foreach (var evt in next10)
                 {
+                    var sonntagEinteilung = DataContainer.AufgabenPersonKalender.FirstOrDefault(x => x.Datum == evt.Datum);
+
                     worksheet.Cells[row, 1].Value = evt.Datum; //Datum
 
                     if (evt.Status == EventStatus.Ereignis)
                     {
                         var sonntag = (evt as SpecialEvent);
                         worksheet.Cells[row, 2].Value = sonntag.Name ?? sonntag.Typ.ToString(); //EventName
+                        worksheet.Cells[row, 6].Value = sonntagEinteilung?.Vorsitz?.PersonName;
                         row++;
                         worksheet.Cells[row, 3].Value = sonntag.Vortragender; //Vortragsredner
                         worksheet.Cells[row, 4].Value = sonntag.Thema; //Vortragsredner, Versammlung
-                                                                       //worksheet.Cells[row, 6].Value = wt-leser;
+                        worksheet.Cells[row, 6].Value = sonntagEinteilung?.Leser?.PersonName;
                         row++;
-                        worksheet.Cells[row, 2].Value = GetRednerAuswärts(sonntag.Datum);//auswärts
+                        worksheet.Cells[row, 2].Value = DataContainer.GetRednerAuswärts(sonntag.Datum);//auswärts
                         row++;
                         row++;
                     }
@@ -104,21 +88,20 @@ namespace Vortragsmanager.MeineVerwaltung
                         if (v == null)
                             v = sonntag.Vortrag;
                         worksheet.Cells[row, 2].Value = v.VortragMitLied; //Vortragsthema
-                                                                          //worksheet.Cells[row, 6].Value = vorsitz;
+                        worksheet.Cells[row, 6].Value = sonntagEinteilung?.Vorsitz?.PersonName;
                         row++;
                         worksheet.Cells[row, 3].Value = sonntag.Ältester?.Name; //Vortragsredner
                         worksheet.Cells[row, 4].Value = sonntag.Ältester?.Versammlung?.Name; //Vortragsredner, Versammlung
-                                                                                             //worksheet.Cells[row, 6].Value = wt-leser;
+                        worksheet.Cells[row, 6].Value = sonntagEinteilung?.Leser?.PersonName;
                         row++;
-                        worksheet.Cells[row, 2].Value = GetRednerAuswärts(sonntag.Datum);//auswärts
+                        worksheet.Cells[row, 2].Value = DataContainer.GetRednerAuswärts(sonntag.Datum);//auswärts
                         row++;
                         row++;
                     }
                 }
                 package.Save();
             }
-
-            SaveExcelFile(tempFile, "Aushang.xlsx");
+            IoExcel.File.Save(tempFile, "Aushang.xlsx", ListeÖffnen);
         }
 
         public void CreateContactList()
@@ -199,7 +182,7 @@ namespace Vortragsmanager.MeineVerwaltung
                 }
                 package.SaveAs(excel);
             }
-            SaveExcelFile(tempFile, "Kontaktdaten.xlsx");
+            IoExcel.File.Save(tempFile, "Kontaktdaten.xlsx", ListeÖffnen);
         }
 
         public void CreateExchangeRednerList()
@@ -330,7 +313,7 @@ namespace Vortragsmanager.MeineVerwaltung
 
                 package.SaveAs(excel);
             }
-            SaveExcelFile(tempFile, "Rednerliste.xlsx");
+            IoExcel.File.Save(tempFile, "Rednerliste.xlsx", ListeÖffnen);
         }
 
         public void CreateOverviewTalkCount()
@@ -382,7 +365,7 @@ namespace Vortragsmanager.MeineVerwaltung
 
                 package.SaveAs(excel);
             }
-            SaveExcelFile(tempFile, "Vortragsthemen.xlsx");
+            IoExcel.File.Save(tempFile, "Vortragsthemen.xlsx", ListeÖffnen);
         }
 
         public void CreateSpeakerOverview()
@@ -466,46 +449,8 @@ namespace Vortragsmanager.MeineVerwaltung
 
                 package.SaveAs(excel);
             }
-            SaveExcelFile(tempFile, "Vortragsredner.xlsx");
+            IoExcel.File.Save(tempFile, "Vortragsredner.xlsx", ListeÖffnen);
         }
-
-        private void SaveExcelFile(string tempName, string sugestedName)
-        {
-            Log.Info(nameof(SaveExcelFile), $"tempName={tempName}, sugestedName={sugestedName}");
-            var saveFileDialog1 = new SaveFileDialog
-            {
-                Filter = Resources.DateifilterExcel,
-                FilterIndex = 1,
-                RestoreDirectory = false,
-                FileName = sugestedName,
-            };
-
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                Log.Info(nameof(SaveExcelFile), $"{saveFileDialog1.FileName}");
-                var fi = new FileInfo(saveFileDialog1.FileName);
-                var filename = fi.FullName;
-                var i = 0;
-                try
-                {
-                    File.Delete(filename);
-                }
-                catch
-                {
-                    while (File.Exists(filename))
-                    {
-                        i++;
-                        filename = $"{fi.DirectoryName}\\{fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length)} ({i}){fi.Extension}";
-                    }
-                }
-                finally
-                {
-                    File.Move(tempName, filename);
-                    if (ListeÖffnen)
-                        System.Diagnostics.Process.Start(filename);
-                }
-            }
-            saveFileDialog1.Dispose();
-        }
+        
     }
 }

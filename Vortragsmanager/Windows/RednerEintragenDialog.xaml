@@ -7,8 +7,9 @@
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
-        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-    x:Class="Vortragsmanager.Views.RednerEintragenDialog"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
+        xmlns:uc="clr-namespace:Vortragsmanager.UserControls"
+        x:Class="Vortragsmanager.Views.RednerEintragenDialog"
         mc:Ignorable="d"
         Title="Ereignis eintragen" Height="300" Width="500"
         DataContext="{dxmvvm:ViewModelSource {x:Type local:RednerEintragenView}}"
@@ -23,12 +24,9 @@
         </Grid.RowDefinitions>
         <dxlc:LayoutControl Orientation="Vertical" Margin="50,30">
             <dxlc:LayoutItem Label="Versammlung">
-                <dxe:ComboBoxEdit ItemsSource="{Binding Versammlungen}"
-                                  SelectedItem="{Binding SelectedVersammlung, Mode=TwoWay}"
-                                  DisplayMember="Name"
-                                  AutoComplete="True"
-                                  IsTextEditable="False">
-                </dxe:ComboBoxEdit>
+                <uc:DropDownVersammlung 
+                    ConregationChanged="DropDownVersammlung_ConregationChanged"
+                    />
             </dxlc:LayoutItem>
             <dxlc:LayoutItem Label="Redner">
                 <dxe:ComboBoxEdit ItemsSource="{Binding Redner}"

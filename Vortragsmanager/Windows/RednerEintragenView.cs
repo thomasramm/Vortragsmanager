@@ -33,8 +33,6 @@ namespace Vortragsmanager.Views
                 window.Close();
         }
 
-        public List<Conregation> Versammlungen => DataContainer.Versammlungen.OrderBy(x => x.Name).ToList();
-
         private Conregation _selectedVersammlung;
 
         public Conregation SelectedVersammlung
