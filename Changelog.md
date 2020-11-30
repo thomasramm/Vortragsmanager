@@ -1,3 +1,17 @@
+[30.11.2020]
+
+Neu: Verwalten des Vorsitzenden und des WT Lesers im Programm. Siehe dazu auch das Handbuch.
+
+Sonstige Fehlerbehebungen und Verbesserungen:
+* Meine Redner: es werden alle Zukünftigen Vorträge ab dem gewählten Jahr angezeigt (Hilfreich kurz vor Jahreswechsel)
+* Neue Externe Anfrage: Im Rechten Bereich wird bei Ereignissen dieses im Feld Redner angezeigt (bisher keine Anzeige)
+* Redner: Vorträge werden nach der Nr sortiert angezeigt
+* Neue DropDown Elemente mit verbesserter Such- und Filterfunktion (z.B. bei den Rednernamen). Beginnt man zu tippen, werden die Einträge im Menü gefiltert.
+* Rednersuche: Anzeige der Privaten Info
+* Verwaltung -> Versammlung: Elemente werden nur noch über die Titelleiste minimiert
+* Prüft ob bei der Zusage eines Vortragsredners der Vortrag noch vorhanden ist.
+* MeinPlan: Neuberechnen der Zeiträume wann ein Vortrag das letzte mal gehalten wurde nicht nur beim Programmstart
+ 
 [27.08.2020]
 
 Redner: Anzeige der letzen 10 Aktivitäten

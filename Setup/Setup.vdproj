@@ -2449,15 +2449,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Vortragsmanager"
-        "ProductCode" = "8:{D4941C3C-A79F-4E2C-9E68-7926403F4722}"
-        "PackageCode" = "8:{B3F08058-3F9C-479F-B2D4-685C5C4737D4}"
+        "ProductCode" = "8:{29142380-167F-4622-AE51-CA29C8A40B1D}"
+        "PackageCode" = "8:{26EA2D58-7254-497C-BB3A-362271545601}"
         "UpgradeCode" = "8:{09BD3326-8025-447B-B3ED-AA9A44497F97}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.22"
+        "ProductVersion" = "8:0.23"
         "Manufacturer" = "8:ThomasRamm"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/thomasramm/Vortragsmanager/issues"
@@ -2611,7 +2611,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_6F5520B2AA844708A7A83BDC68537EFF"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Willkommen"
+                    "DisplayName" = "8:Welcome"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdWelcomeDlg.wid"
@@ -2659,7 +2659,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_F238DC4467734B428E5030A4B42FC0F2"
                     {
                     "Sequence" = "3:300"
-                    "DisplayName" = "8:Installation bestätigen"
+                    "DisplayName" = "8:Confirm Installation"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdConfirmDlg.wid"
@@ -2681,7 +2681,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_F2E4DF4B2B7C49389F3B5DF96BC1284E"
                     {
                     "Sequence" = "3:200"
-                    "DisplayName" = "8:Installationsordner"
+                    "DisplayName" = "8:Installation Folder"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdFolderDlg.wid"
@@ -2725,7 +2725,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_C706B991804241B49F962B4DB29CB328"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Fertig"
+                    "DisplayName" = "8:Finished"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminFinishedDlg.wid"
@@ -2756,7 +2756,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_C93B964C59CA4CB9A6FD02CDE6BBDF9D"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Status"
+                    "DisplayName" = "8:Progress"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminProgressDlg.wid"
@@ -2806,7 +2806,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_374C54074F1C4076A325FC0608CEB84D"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Fertig"
+                    "DisplayName" = "8:Finished"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdFinishedDlg.wid"
@@ -2850,7 +2850,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_562AA0ABE75B43408D12D1205936A780"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Willkommen"
+                    "DisplayName" = "8:Welcome"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminWelcomeDlg.wid"
@@ -2898,7 +2898,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_7DEE6FB4257C47048689173375FA4FAD"
                     {
                     "Sequence" = "3:200"
-                    "DisplayName" = "8:Installationsordner"
+                    "DisplayName" = "8:Installation Folder"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminFolderDlg.wid"
@@ -2920,7 +2920,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_CC6BF2AE2BE4424DB9AB6BBC862C99E9"
                     {
                     "Sequence" = "3:300"
-                    "DisplayName" = "8:Installation bestätigen"
+                    "DisplayName" = "8:Confirm Installation"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdAdminConfirmDlg.wid"
@@ -2957,7 +2957,7 @@
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_8101947633234F35928B67EF41AA82AF"
                     {
                     "Sequence" = "3:100"
-                    "DisplayName" = "8:Status"
+                    "DisplayName" = "8:Progress"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
                     "SourcePath" = "8:<VsdDialogDir>\\VsdProgressDlg.wid"
@@ -3055,7 +3055,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5A205827448543B2B787011A7A15A22E"
             {
-            "SourcePath" = "8:..\\Vortragsmanager\\obj\\Release\\Vortragsmanager.exe"
+            "SourcePath" = "8:..\\Vortragsmanager\\obj\\Debug\\Vortragsmanager.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_EEAB03C88F544F0788AA141F7AF2DDDE"
@@ -3111,7 +3111,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_BAD3ED101F71422EBFBECE3CF1BFAE1C"
             {
-            "SourcePath" = "8:..\\Vortragsmanager\\obj\\Release\\Vortragsmanager.exe"
+            "SourcePath" = "8:..\\Vortragsmanager\\obj\\Debug\\Vortragsmanager.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_EEAB03C88F544F0788AA141F7AF2DDDE"
