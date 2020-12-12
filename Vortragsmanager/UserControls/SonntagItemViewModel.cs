@@ -141,6 +141,12 @@ namespace Vortragsmanager.UserControls
                     {
                         continue;
                     }
+
+                    //Urlaub...
+                    if (DataContainer.Abwesenheiten.Any(x => x.Datum == Datum && x.Redner == az.VerknüpftePerson))
+                    {
+                        continue;
+                    }
                 }
 
                 if (az.IsLeser && az != zuteilung.Vorsitz)
