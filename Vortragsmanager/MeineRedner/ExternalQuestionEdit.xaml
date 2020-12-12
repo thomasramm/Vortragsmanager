@@ -54,6 +54,11 @@
                     </dxlc:LayoutGroup>
                     <dxlc:LayoutGroup Orientation="Horizontal">
                         <dxlc:LayoutGroup Orientation="Vertical">
+                            <dxlc:LayoutGroup Header="Hinweis" View="GroupBox">
+                                <TextBlock Text="{Binding Hinweis, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                           Foreground="Orange"
+                                           TextWrapping="Wrap" MinHeight="20" />
+                            </dxlc:LayoutGroup>
                             <dxlc:LayoutGroup Header="Redner" View="GroupBox" Orientation="Vertical">
                                 <dxlc:LayoutItem  LabelPosition="Top">
                                     <dxlc:LayoutItem.Label>
@@ -62,11 +67,6 @@
                                     <ListBox ItemsSource="{Binding SelectedRednerTalks}"
                                              MinHeight="40" />
                                 </dxlc:LayoutItem>
-                            </dxlc:LayoutGroup>
-                            <dxlc:LayoutGroup Header="Hinweis" View="GroupBox">
-                                <TextBlock Text="{Binding Hinweis}"
-                                           Foreground="Orange"
-                                           TextWrapping="Wrap" />
                             </dxlc:LayoutGroup>
                         </dxlc:LayoutGroup>
                         <dxlc:LayoutGroup Header="Versammlung" View="GroupBox" Orientation="Vertical">
