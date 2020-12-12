@@ -90,6 +90,8 @@ namespace Vortragsmanager.UserControls
             if (person == null)
                 return;
 
+
+
             var startrange = new DateTime(_year - 1, 12, 1);
             var endrange = new DateTime(_year + 1, 2, 1);
 
@@ -131,6 +133,19 @@ namespace Vortragsmanager.UserControls
                     item.Text += Environment.NewLine;
                     item.Text += (busy.Leser?.VerknüpftePerson == person) ? "Leser" : "Vorsitzender";
                 }
+            }
+
+            //Abwesenheit, für das Ändern muß die Person zugeordnet werden
+            foreach(var item in _calendar)
+            {
+                item.Value.SetPerson(person);
+            }
+
+            //Vorhandene Abwesenheiten eintragen
+            foreach(var busy in DataContainer.Abwesenheiten.Where(x => x.Datum.Year == _year && x.Redner == person))
+            {
+                var item = _calendar[busy.Datum];
+                item.SetAbwesenheit(busy);
             }
 
             //Urlaub

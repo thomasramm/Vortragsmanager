@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.UserControls
 {
@@ -28,6 +29,7 @@ namespace Vortragsmanager.UserControls
         private string text;
         private DateTime _date;
         private readonly bool isMonth;
+        private Busy _abwesenheit;
 
         public CalendarYearShortItem()
         {
@@ -115,6 +117,17 @@ namespace Vortragsmanager.UserControls
             }
         }
 
+        public void SetPerson(Speaker person)
+        {
+            _abwesenheit = new Busy(person, _date);
+        }
+
+        public void SetAbwesenheit(Busy abwesenheit)
+        {
+            _abwesenheit = abwesenheit;
+            IsHoliday = true;
+        }
+
         public void Reset()
         {
             IsHoliday = false;
@@ -160,6 +173,10 @@ namespace Vortragsmanager.UserControls
         {
             IsHoliday = !IsHoliday;
             UpdateUi();
+            if (IsHoliday)
+                DataContainer.Abwesenheiten.Add(_abwesenheit);
+            else
+                DataContainer.Abwesenheiten.Remove(_abwesenheit);
         }
     }
 }

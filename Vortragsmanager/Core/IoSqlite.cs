@@ -33,6 +33,7 @@ namespace Vortragsmanager.Core
                 ReadCancelation(db);
                 ReadActivity(db);
                 ReadAufgaben(db);
+                ReadAbwesenheiten(db);
 
                 DataContainer.UpdateTalkDate();
                 DataContainer.IsInitialized = true;
@@ -71,6 +72,7 @@ namespace Vortragsmanager.Core
                     SaveCancelation(db);
                     SaveActivity(db);
                     SaveAufgaben(db);
+                    SaveAbwesenheiten(db);
                     transaction.Commit();
                 }
                 db.Close();
@@ -251,6 +253,10 @@ namespace Vortragsmanager.Core
                     Datum INTEGER,
                     VorsitzId INTEGER,
                     LeserId INTEGER)", db);
+
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Abwesenheiten (
+                    PersonId INTEGER,
+                    Datum INTEGER)", db);
         }
 
         #region READ
@@ -292,6 +298,11 @@ namespace Vortragsmanager.Core
                 UpdateCommand(DataContainer.Version, db, @"DROP TABLE IF EXISTS Aufgaben");
                 UpdateCommand(DataContainer.Version, db, @"CREATE TABLE Aufgaben(Id INTEGER, PersonName TEXT, IsVorsitz INTEGER, IsLeser INTEGER, SpeakerId INTEGER, Rating INTEGER)");
                 UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Aufgaben_Kalender (Datum INTEGER, VorsitzId INTEGER, LeserId INTEGER)");
+            }
+
+            if (DataContainer.Version < 10)
+            {
+                UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Abwesenheiten (PersonId INTEGER,Datum INTEGER)");
             }
         }
 
@@ -823,6 +834,30 @@ namespace Vortragsmanager.Core
             }
         }
 
+        private static void ReadAbwesenheiten(SQLiteConnection db)
+        {
+            DataContainer.Abwesenheiten.Clear();
+
+            using (var cmd = new SQLiteCommand("SELECT PersonId, Datum FROM Abwesenheiten", db))
+            {
+                SQLiteDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    var rednId = rdr.GetInt32(0);
+                    var datum = rdr.GetDateTime(1);
+
+                    var redn = DataContainer.Redner.FirstOrDefault(x => x.Id == rednId);
+                    if (redn == null || datum.Year < DateTime.Today.Year)
+                    {
+                        //Alte Abwesenheiten (Vorjahre) werden nicht mehr eingelesen und damit gelöscht.
+                        continue;
+                    }
+                    DataContainer.Abwesenheiten.Add(new Busy(redn, datum));
+                }
+            }
+        }
+
         #endregion READ
 
         #region SAVE
@@ -1244,6 +1279,22 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[1].Value = a.Vorsitz?.Id;
                 cmd.Parameters[2].Value = a.Leser?.Id;
 
+                cmd.ExecuteNonQuery();
+            }
+
+            cmd.Dispose();
+        }
+
+        private static void SaveAbwesenheiten(SQLiteConnection db)
+        {
+            var cmd = new SQLiteCommand("INSERT INTO Abwesenheiten(PersonId, Datum) VALUES (@PersonId, @Datum)", db);
+            cmd.Parameters.Add("@PersonId", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@Datum", System.Data.DbType.DateTime);
+
+            foreach (var a in DataContainer.Abwesenheiten)
+            {
+                cmd.Parameters[0].Value = a.Redner.Id;
+                cmd.Parameters[1].Value = a.Datum;
                 cmd.ExecuteNonQuery();
             }
 

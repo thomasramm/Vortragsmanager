@@ -44,6 +44,8 @@ namespace Vortragsmanager.Datamodels
 
         public static ObservableCollection<IEvent> MeinPlan { get; } = new ObservableCollection<IEvent>();
 
+        public static List<Busy> Abwesenheiten { get; } = new List<Busy>();
+
         public static void MeinPlanAdd(IEvent newEvent)
         {
             MeinPlan.Add(newEvent);
