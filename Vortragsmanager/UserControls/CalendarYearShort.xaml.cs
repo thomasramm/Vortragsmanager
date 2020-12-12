@@ -23,7 +23,6 @@ namespace Vortragsmanager.UserControls
     public partial class CalendarYearShort : UserControl
     {
         private Dictionary<DateTime, CalendarYearShortItem> _calendar = new Dictionary<DateTime, CalendarYearShortItem>(53);
-        private Speaker person;
         private int _year;
 
         public CalendarYearShort()
@@ -32,15 +31,31 @@ namespace Vortragsmanager.UserControls
             LoadYear(Core.Helper.DisplayedYear);
         }
 
+
+        public static readonly DependencyProperty PersonProperty = DependencyProperty.Register("Person", typeof(Speaker), typeof(CalendarYearShort), new PropertyMetadata(null));
+
         public Speaker Person
         {
-            get => person; 
+            get
+            {
+                return (Speaker) GetValue(PersonProperty);
+            }
             set
             {
-                person = value;
+                SetValue(PersonProperty, value);
                 UpdateCalendar();
             }
         }
+
+        //public Speaker Person
+        //{
+        //    get => person; 
+        //    set
+        //    {
+        //        person = value;
+        //        UpdateCalendar();
+        //    }
+        //}
 
         private void LoadYear(int year)
         {
@@ -87,7 +102,7 @@ namespace Vortragsmanager.UserControls
             }
 
 
-            if (person == null)
+            if (Person == null)
                 return;
 
 
@@ -126,23 +141,23 @@ namespace Vortragsmanager.UserControls
             //Vorsitz oder Leser
             foreach(var busy in DataContainer.AufgabenPersonKalender.Where(x => x.Datum.Year == _year))
             {
-                if (busy.Leser?.VerknüpftePerson == person || busy.Vorsitz?.VerknüpftePerson == person)
+                if (busy.Leser?.VerknüpftePerson == Person || busy.Vorsitz?.VerknüpftePerson == Person)
                 {
                     var item = _calendar[busy.Datum];
                     item.IsBusy = true;
                     item.Text += Environment.NewLine;
-                    item.Text += (busy.Leser?.VerknüpftePerson == person) ? "Leser" : "Vorsitzender";
+                    item.Text += (busy.Leser?.VerknüpftePerson == Person) ? "Leser" : "Vorsitzender";
                 }
             }
 
             //Abwesenheit, für das Ändern muß die Person zugeordnet werden
             foreach(var item in _calendar)
             {
-                item.Value.SetPerson(person);
+                item.Value.SetPerson(Person);
             }
 
             //Vorhandene Abwesenheiten eintragen
-            foreach(var busy in DataContainer.Abwesenheiten.Where(x => x.Datum.Year == _year && x.Redner == person))
+            foreach(var busy in DataContainer.Abwesenheiten.Where(x => x.Datum.Year == _year && x.Redner == Person))
             {
                 var item = _calendar[busy.Datum];
                 item.SetAbwesenheit(busy);

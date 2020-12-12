@@ -30,16 +30,16 @@
                          Click="NextYear_Click" />
         <dxlc:FlowLayoutControl x:Name="flowLayout" Grid.Row="1" Orientation="Horizontal" />
         <Border Grid.Row="2" Width="90" Height="20" Background="#5C4033" ToolTip="4 Wochen um einen Vortrag" HorizontalAlignment="Left">
-                <Label Content="Geblockt" HorizontalAlignment="Center"/>
+                <Label Content="Geblockt" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0"/>
             </Border>
         <Border Grid.Row="2" Width="90" Height="20" Background="OrangeRed" ToolTip="Vortrag, Vorsitz oder WT Leser" HorizontalAlignment="Right">
-                <Label Content="Gebucht" HorizontalAlignment="Center"/>
+            <Label Content="Gebucht" HorizontalAlignment="Center" Padding="0" VerticalAlignment="Center"/>
             </Border>
         <Border Grid.Row="3" Width="90" Height="20" Background="SlateGray" ToolTip="Event der eigenen Versammlung" HorizontalAlignment="Left">
-                <Label Content="Event" HorizontalAlignment="Center"/>
+                <Label Content="Event" HorizontalAlignment="Center" Padding="0" VerticalAlignment="Center"/>
             </Border>
         <Border Grid.Row="3" Width="90" Height="20" Background="DodgerBlue" ToolTip="Abwesenheit gebucht, auf Datum Klicken zum ändern" HorizontalAlignment="Right">
-                <Label Content="Abwesend" HorizontalAlignment="Center"/>
+                <Label Content="Abwesend" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0"/>
             </Border>
     </Grid>
 </UserControl>
