@@ -13,7 +13,7 @@
             <RowDefinition Height="25"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <dx:SimpleButton Glyph="pack://application:,,,/DevExpress.Images.v20.2;component/Office2013/Arrows/Prev_32x32.png" 
+        <dx:SimpleButton Glyph="pack://application:,,,/Images/Prev_32x32.png" 
                          Width="20" 
                          Click="PreviousYear_Click" 
                          HorizontalAlignment="Left"/>
@@ -24,7 +24,7 @@
                VerticalAlignment="Center" 
                Foreground="Orange" 
                MouseDown="ResetYear_MouseDown" />
-        <dx:SimpleButton Glyph="pack://application:,,,/DevExpress.Images.v20.2;component/Office2013/Arrows/Next_32x32.png" 
+        <dx:SimpleButton Glyph="pack://application:,,,/Images/Next_32x32.png" 
                          Width="20" 
                          HorizontalAlignment="Right"
                          Click="NextYear_Click" />

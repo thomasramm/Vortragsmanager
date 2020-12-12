@@ -26,7 +26,7 @@
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding MailTextKoordinator}" AcceptsReturn="True" />
         <dx:SimpleButton Content="Kopieren"
                          Command="{Binding CopyCommand, Mode=OneWay}"
-                         Glyph="{dx:DXImage 'SvgImages/Edit/Paste.svg'}"
+                         Glyph="{dx:SvgImageSource Uri='/Images/Zwischenablage2.svg'}"
                          Grid.Row="2"
                          Grid.Column="0"
                          CommandParameter="1"
@@ -36,7 +36,7 @@
         <dx:SimpleButton Content="Kopieren"
                          Command="{Binding CopyCommand, Mode=OneWay}"
                          CommandParameter="2"
-                         Glyph="{dx:DXImage 'SvgImages/Edit/Paste.svg'}"
+                         Glyph="{dx:SvgImageSource Uri='/Images/Zwischenablage2.svg'}"
                          Grid.Row="2"
                          Grid.Column="1"
                          HorizontalAlignment="Left" Width="120" Margin="10"
@@ -47,14 +47,14 @@
                     Grid.ColumnSpan="2">
             <dx:SimpleButton Content="Speichern"
                          Command="{Binding SaveCommand, Mode=OneWay}"
-                         Glyph="{dx:DXImage 'SvgImages/XAF/Action_SaveScript.svg'}"
+                         Glyph="{dx:SvgImageSource Uri='/Images/Save_green.svg'}"
                          CommandParameter="{Binding ElementName=AnfrageBestätigenWindow}"
                          Visibility="{Binding ShowSaveCancelButton, Mode=OneWay}"
                          Width="120" Margin="0" />
             <dx:SimpleButton Content="Abbrechen"
                          Command="{Binding CloseCommand, Mode=OneWay}"
                          CommandParameter="{Binding ElementName=AnfrageBestätigenWindow}"
-                         Glyph="{dx:DXImage 'SvgImages/Outlook Inspired/Cancel.svg'}"
+                         Glyph="{dx:SvgImageSource Uri='/Images/Cancel_red.svg'}"
                          Visibility="{Binding ShowSaveCancelButton, Mode=OneWay}"
                          Width="120" Margin="0" />
             <dx:SimpleButton Content="Schließen"

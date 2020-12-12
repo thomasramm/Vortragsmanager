@@ -90,14 +90,14 @@
                 </dxlc:LayoutGroup>
             </dxlc:LayoutControl>
             <dx:SimpleButton Grid.Row="1" Content="Speichern"
-                             Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}"
+                             Glyph="{dx:SvgImageSource Uri='/Images/Ok_green.svg'}"
                              GlyphAlignment="Left"
                              Command="{Binding Speichern}"
                              IsEnabled="{Binding ParameterValidiert}"
                              CommandParameter="True"
                              HorizontalAlignment="Right" Width="120" Margin="10,10,140,10" />
             <dx:SimpleButton Grid.Row="1" Content="Ablehnen"
-                             Glyph="{dx:DXImage SvgImages/Outlook Inspired/Cancel.svg}"
+                             Glyph="{dx:SvgImageSource Uri='/Images/Cancel_red.svg'}"
                              GlyphAlignment="Left"
                              Command="{Binding Speichern}"
                              IsEnabled="{Binding ParameterValidiert}"

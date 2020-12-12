@@ -79,9 +79,6 @@
     <Reference Include="DevExpress.DataAccess.v20.2, Version=20.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.DataAccess.20.2.4\lib\net452\DevExpress.DataAccess.v20.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Images.v20.2, Version=20.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Images.20.2.4\lib\net452\DevExpress.Images.v20.2.dll</HintPath>
-    </Reference>
     <Reference Include="DevExpress.Mvvm.v20.2, Version=20.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Mvvm.20.2.4\lib\net452\DevExpress.Mvvm.v20.2.dll</HintPath>
     </Reference>
@@ -211,6 +208,7 @@
     <Compile Include="Core\Security.cs" />
     <Compile Include="ActivityLog\Activity.cs" />
     <Compile Include="Datamodels\AufgabenZuordnung.cs" />
+    <Compile Include="Datamodels\Busy.cs" />
     <Compile Include="Datamodels\Templates.cs" />
     <Compile Include="Core\Updater.cs" />
     <Compile Include="Datamodels\Event.cs" />
@@ -695,6 +693,33 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Sonntag4_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Next_32x32.png" />
+    <Resource Include="Images\Prev_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Actions_Send.svg" />
+    <Resource Include="Images\AddDataSource.svg" />
+    <Resource Include="Images\CalendarAdd.svg" />
+    <Resource Include="Images\Delete_Mülleimer.svg" />
+    <Resource Include="Images\Delete_Mülleimer_sw.svg" />
+    <Resource Include="Images\MasterFilter_16x16.png" />
+    <Resource Include="Images\Log_16x16.png" />
+    <Resource Include="Images\NewEmployee.svg" />
+    <Resource Include="Images\Open.svg" />
+    <Resource Include="Images\Reset.svg" />
+    <Resource Include="Images\SaveAs.svg" />
+    <Resource Include="Images\Save_green.svg" />
+    <Resource Include="Images\Travel_MapPointer.svg" />
+    <Resource Include="Images\UpdateList.svg" />
+    <Resource Include="Images\X_red.svg" />
+    <Resource Include="Images\Zwischenablage2.svg" />
+    <Resource Include="Images\AgendaView_32x32.png" />
+    <Resource Include="Images\Calendar_32x32.png" />
+    <Resource Include="Images\Cancel_red.svg" />
+    <Resource Include="Images\Ok_green.svg" />
+    <Resource Include="Images\Technology_16x16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

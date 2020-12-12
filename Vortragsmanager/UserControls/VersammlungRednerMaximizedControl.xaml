@@ -67,7 +67,7 @@
                     <dxlc:LayoutGroup Header="Redner Aktionen" Orientation="Vertical" View="GroupBox">
                         <dxlc:LayoutItem Label="Redner löschen">
                             <dx:SimpleButton Content="Löschen"
-                                             Glyph="{dx:DXImage 'SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg'}"
+                                             Glyph="{dx:SvgImageSource Uri='/Images/Delete_Mülleimer.svg'}"
                                              Command="{Binding DeleteCommand}"
                                              Height="23" />
                         </dxlc:LayoutItem>

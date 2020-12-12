@@ -33,7 +33,7 @@
                      TextWrapping="Wrap" />
         </StackPanel>
         <dx:SimpleButton Grid.Row="1" Content="Schließen"
-                         Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}"
+                         Glyph="{dx:SvgImageSource Uri='/Images/Ok_green.svg'}"
                          GlyphAlignment="Left"
                          Command="{Binding CloseCommand, Mode=OneWay}"
                          CommandParameter="{Binding ElementName=UpdateWindow}"

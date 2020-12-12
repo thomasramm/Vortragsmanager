@@ -79,7 +79,7 @@
                                         SelectionMode="None"
                                         CollapsedItemClickAction="ShowItems"
                                         SummaryItemHeader="Filter"
-                                        SummaryItemGlyph="{dx:DXImage Image=Technology_16x16.png}"
+                                        SummaryItemGlyph="pack://application:,,,/Images/Technology_16x16.png"
                                         AutoExpandAllItems="True"
                                         IsCollapseButtonVisible="True"
                                         ShowSearchControl="False"
@@ -262,7 +262,7 @@
                                 <Border Grid.Row="1" Background="Snow" />
                                 <dx:SimpleButton Grid.Row="1"
                                                  Content="Anfrage speichern"
-                                                 Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}"
+                                                 Glyph="{dx:SvgImageSource Uri='/Images/Ok_green.svg'}"
                                                  GlyphAlignment="Left"
                                                  Command="{Binding AnfrageSpeichernCommand}"
                                                  CommandParameter="True"
