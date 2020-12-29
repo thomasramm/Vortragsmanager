@@ -244,9 +244,13 @@ namespace Vortragsmanager.Datamodels
                     if (einladung.Ältester != ä)
                         continue;
 
+                    var zoom = einladung.Versammlung.Zoom;
+                    if (!string.IsNullOrWhiteSpace(zoom))
+                        zoom = $", Zoom: " + zoom;
+
                     termine += $"\tDatum:\t{einladung.Datum:dd.MM.yyyy}" + Environment.NewLine;
                     termine += $"\tVortrag:\t{einladung.Vortrag.Vortrag}" + Environment.NewLine;
-                    termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Versammlung.GetZusammenkunftszeit(einladung.Datum.Year)}, Zoom: {einladung.Versammlung.Zoom}" + Environment.NewLine;
+                    termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Versammlung.GetZusammenkunftszeit(einladung.Datum.Year)}{zoom}" + Environment.NewLine;
                     termine += Environment.NewLine;
                 }
                 termine += Environment.NewLine;
