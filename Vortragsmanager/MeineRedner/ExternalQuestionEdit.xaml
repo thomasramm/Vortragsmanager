@@ -54,6 +54,11 @@
                     </dxlc:LayoutGroup>
                     <dxlc:LayoutGroup Orientation="Horizontal">
                         <dxlc:LayoutGroup Orientation="Vertical">
+                            <dxlc:LayoutGroup Header="Hinweis" View="GroupBox">
+                                <TextBlock Text="{Binding Hinweis, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                           Foreground="Orange"
+                                           TextWrapping="Wrap" MinHeight="20" />
+                            </dxlc:LayoutGroup>
                             <dxlc:LayoutGroup Header="Redner" View="GroupBox" Orientation="Vertical">
                                 <dxlc:LayoutItem  LabelPosition="Top">
                                     <dxlc:LayoutItem.Label>
@@ -62,11 +67,6 @@
                                     <ListBox ItemsSource="{Binding SelectedRednerTalks}"
                                              MinHeight="40" />
                                 </dxlc:LayoutItem>
-                            </dxlc:LayoutGroup>
-                            <dxlc:LayoutGroup Header="Hinweis" View="GroupBox">
-                                <TextBlock Text="{Binding Hinweis}"
-                                           Foreground="Orange"
-                                           TextWrapping="Wrap" />
                             </dxlc:LayoutGroup>
                         </dxlc:LayoutGroup>
                         <dxlc:LayoutGroup Header="Versammlung" View="GroupBox" Orientation="Vertical">
@@ -90,14 +90,14 @@
                 </dxlc:LayoutGroup>
             </dxlc:LayoutControl>
             <dx:SimpleButton Grid.Row="1" Content="Speichern"
-                             Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}"
+                             Glyph="{dx:SvgImageSource Uri='/Images/Ok_green.svg'}"
                              GlyphAlignment="Left"
                              Command="{Binding Speichern}"
                              IsEnabled="{Binding ParameterValidiert}"
                              CommandParameter="True"
                              HorizontalAlignment="Right" Width="120" Margin="10,10,140,10" />
             <dx:SimpleButton Grid.Row="1" Content="Ablehnen"
-                             Glyph="{dx:DXImage SvgImages/Outlook Inspired/Cancel.svg}"
+                             Glyph="{dx:SvgImageSource Uri='/Images/Cancel_red.svg'}"
                              GlyphAlignment="Left"
                              Command="{Binding Speichern}"
                              IsEnabled="{Binding ParameterValidiert}"

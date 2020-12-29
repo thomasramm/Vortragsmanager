@@ -1,5 +1,6 @@
 ﻿using Vortragsmanager.Datamodels;
 using Vortragsmanager.Views;
+using System.Linq;
 
 namespace Vortragsmanager.Core
 {
@@ -60,7 +61,7 @@ namespace Vortragsmanager.Core
             l.Add(new Talk(21, "Das Vorrecht schätzen, zu Gottes Königreich zu gehören"));
             l.Add(new Talk(22, "Ziehen wir vollen Nutzen aus allem, wofür Jehova sorgt?"));
             l.Add(new Talk(23, "Unser Leben hat einen Sinn"));
-            l.Add(new Talk(24, "Was Gottes Herrschaft für uns bewirken kann"));
+            l.Add(new Talk(24, "Was Gottes Herrschaft für uns bewirken kann") { Gültig = true });
             l.Add(new Talk(27, "Ein guter Anfang für die Ehe"));
             l.Add(new Talk(28, "In der Ehe Respekt und Liebe bekunden"));
             l.Add(new Talk(29, "Eltern sein - eine dankbare, aber verantwortungsvolle Aufgabe"));
@@ -238,6 +239,11 @@ namespace Vortragsmanager.Core
                 DataContainer.Vorträge.Add(new Talk(56, "Wessen Führung kannst du vertrauen?"));
                 DataContainer.Vorträge.Add(new Talk(-1, "Unbekannt") { Gültig = false });
             }
+
+            //if (DataContainer.Version < 10)
+            //{
+            //    DataContainer.Vorträge.First(x => x.Nummer == 24).Gültig = false;
+            //}
 
             //auf aktuellste Version setzen
             DataContainer.Version = Helper.CurrentVersion;

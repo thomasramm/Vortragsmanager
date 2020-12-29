@@ -44,6 +44,8 @@ namespace Vortragsmanager.Datamodels
 
         public static ObservableCollection<IEvent> MeinPlan { get; } = new ObservableCollection<IEvent>();
 
+        public static List<Busy> Abwesenheiten { get; } = new List<Busy>();
+
         public static void MeinPlanAdd(IEvent newEvent)
         {
             MeinPlan.Add(newEvent);
@@ -303,7 +305,7 @@ namespace Vortragsmanager.Datamodels
             talk.ZuletztGehalten = gehaltene;
         }
 
-        public static IEnumerable<Core.DataHelper.DateWithConregation> SpeakerGetActivities(Speaker redner, int anzahl)
+        public static IEnumerable<Core.DataHelper.DateWithConregation> SpeakerGetActivities(Speaker redner)
         {
             if (redner == null)
                 return null;
@@ -315,7 +317,7 @@ namespace Vortragsmanager.Datamodels
             if (redner.Versammlung == DataContainer.MeineVersammlung)
                 erg = erg.Union(DataContainer.ExternerPlan.Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, x.Versammlung.Name, x.Vortrag?.Vortrag?.Nummer)));
                 
-            return erg.OrderByDescending(x => x.Datum).Take(anzahl);
+            return erg;
         }
 
         public static AufgabenZuordnung AufgabenZuordnungAdd()

@@ -160,7 +160,7 @@ namespace Vortragsmanager.MeineVerwaltung
         {
             RednerAktivitäten.Clear();
 
-            var erg = DataContainer.SpeakerGetActivities(Redner, 10);
+            var erg = DataContainer.SpeakerGetActivities(Redner).OrderByDescending(x => x.Datum).Take(10);
             
             if (erg == null)
                 return;

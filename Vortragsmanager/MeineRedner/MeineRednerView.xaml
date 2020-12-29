@@ -46,7 +46,7 @@
                                         SelectionMode="None"
                                         CollapsedItemClickAction="ShowItems"
                                         SummaryItemHeader="Menü"
-                                        SummaryItemGlyph="{dx:DXImage Image=Technology_16x16.png}"
+                                        SummaryItemGlyph="pack://application:,,,/Images/Technology_16x16.png"
                                         AutoExpandAllItems="True"
                                         IsCollapseButtonVisible="True"
                                         ShowSearchControl="False"
@@ -55,16 +55,16 @@
                             <dxa:AccordionControl.Items>
                                 <dxa:AccordionItem Header="Jahr">
                                     <StackPanel  Grid.Row="0" Orientation="Horizontal" Height="30">
-                                        <dx:SimpleButton Glyph="pack://application:,,,/DevExpress.Images.v20.1;component/Office2013/Arrows/Prev_32x32.png" Width="20" Command="{Binding ChangeYear}" CommandParameter="-1" />
+                                        <dx:SimpleButton Glyph="pack://application:,,,/Images/Prev_32x32.png" Width="20" Command="{Binding ChangeYear}" CommandParameter="-1" />
                                         <Label Content="{Binding CurrentYear}" FontWeight="Bold" Margin="10,0" FontSize="14" VerticalContentAlignment="Center" />
-                                        <dx:SimpleButton Glyph="pack://application:,,,/DevExpress.Images.v20.1;component/Office2013/Arrows/Next_32x32.png" Width="20"  Command="{Binding ChangeYear}" CommandParameter="1" />
+                                        <dx:SimpleButton Glyph="pack://application:,,,/Images/Next_32x32.png" Width="20"  Command="{Binding ChangeYear}" CommandParameter="1" />
                                     </StackPanel>
                                     <CheckBox Content="Historische Einträge" FontWeight="Regular" IsChecked="{Binding History, Mode=TwoWay}" />
                                 </dxa:AccordionItem>
                                 <dxa:AccordionItem Header="Ansicht">
                                     <StackPanel>
-                                        <dx:SimpleButton Content="Termine" Height="40" ButtonKind="Toggle" IsChecked="{Binding ViewStateAgenda}" Glyph="{dx:DXImage Images/Scheduling/AgendaView_32x32.png}" Command="{Binding ChangeView}" CommandParameter="Agenda" GlyphAlignment="Left" HorizontalContentAlignment="Left" />
-                                        <dx:SimpleButton IsEnabled="False" Content="Jahresplan" Height="40" ButtonKind="Toggle" IsChecked="{Binding ViewStateYear}" Glyph="{dx:DXImage Images/Scheduling/Calendar_32x32.png}" Command="{Binding ChangeView}" CommandParameter="Year" GlyphAlignment="Left" HorizontalContentAlignment="Left" />
+                                        <dx:SimpleButton Content="Termine" Height="40" ButtonKind="Toggle" IsChecked="{Binding ViewStateAgenda}" Glyph="pack://application:,,,/Images/AgendaView_32x32.png" Command="{Binding ChangeView}" CommandParameter="Agenda" GlyphAlignment="Left" HorizontalContentAlignment="Left" />
+                                        <dx:SimpleButton IsEnabled="False" Content="Jahresplan" Height="40" ButtonKind="Toggle" IsChecked="{Binding ViewStateYear}" Glyph="pack://application:,,,/Images/Calendar_32x32.png" Command="{Binding ChangeView}" CommandParameter="Year" GlyphAlignment="Left" HorizontalContentAlignment="Left" />
                                     </StackPanel>
                                 </dxa:AccordionItem>
                                 <dxa:AccordionItem Header="Redner"
@@ -95,7 +95,7 @@
                             <Border Grid.Row="1" Background="Snow" />
                             <dx:SimpleButton Content="Vortrag absagen"
                                              Command="{Binding VortragAbsagen}"
-                                             Glyph="{dx:DXImage 'SvgImages/Dashboards/Delete.svg'}"
+                                             Glyph="{dx:SvgImageSource Uri='/Images/X_red.svg'}"
                                              HorizontalAlignment="Left"
                                              Margin="5"
                                              Grid.Row="1"
@@ -105,7 +105,7 @@
                                              Width="150"
                                              HorizontalAlignment="Right"
                                              Margin="5"
-                                             Glyph="{dx:DXImage 'SvgImages/Icon Builder/Actions_Send.svg'}"
+                                             Glyph="{dx:SvgImageSource Uri='/Images/Actions_Send.svg'}"
                                              ToolTip="Die angezeigten Termine versenden"
                                              Command="{Binding ListeSenden}" />
                         </Grid>

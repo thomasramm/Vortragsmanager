@@ -74,14 +74,14 @@
                                                                       Margin="0" Height="24" />
                                                     </dxlc:LayoutItem>
                                                     <dx:SimpleButton Content="Redner eintragen"
-                                                                         Glyph="{dx:DXImage 'SvgImages/Icon Builder/Actions_CheckCircled.svg'}"
+                                                                         Glyph="{dx:SvgImageSource Uri='/Images/Actions_Send.svg'}"
                                                                          Grid.Column="2" Height="24"
                                                                          VerticalAlignment="Top"
                                                                          HorizontalContentAlignment="Left"
                                                                          Command="{Binding SaveCommand}"
                                                                          Visibility="{Binding Aktiv, Converter={StaticResource BoolToVisibilityConverter}}" />
                                                     <dx:SimpleButton Content="Redner wurde abgesagt"
-                                                                         Glyph="{dx:DXImage 'SvgImages/Outlook Inspired/Cancel.svg'}"
+                                                                         Glyph="{dx:SvgImageSource Uri='/Images/Cancel_red.svg'}"
                                                                          Command="{Binding CancelCommand}"
                                                                          Visibility="{Binding Aktiv, Converter={StaticResource BoolToVisibilityConverter}}"
                                                                          Grid.Column="2"
@@ -90,7 +90,7 @@
                                                                          VerticalAlignment="Bottom" />
                                                     <dx:SimpleButton Content="Redner an anderem Datum eintragen"
                                                                      Command="{Binding AlleDatenFreigeben}"
-                                                                     Glyph="{dx:DXImage 'SvgImages/Scheduling/OpenCalendar.svg'}"
+                                                                     Glyph="{dx:SvgImageSource Uri='/Images/CalendarAdd.svg'}"
                                                                      Visibility="{Binding Aktiv, Converter={StaticResource BoolToVisibilityConverter}}"
                                                                      ToolTip="Redner wurde für ein anderes Datum bestätigt"
                                                                      Grid.Column="3"

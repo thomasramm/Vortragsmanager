@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" 
+             xmlns:usercontrols="clr-namespace:Vortragsmanager.UserControls"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <dxlc:LayoutControl ItemSpace="6">
@@ -67,7 +68,7 @@
                     <dxlc:LayoutGroup Header="Redner Aktionen" Orientation="Vertical" View="GroupBox">
                         <dxlc:LayoutItem Label="Redner löschen">
                             <dx:SimpleButton Content="Löschen"
-                                             Glyph="{dx:DXImage 'SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg'}"
+                                             Glyph="{dx:SvgImageSource Uri='/Images/Delete_Mülleimer.svg'}"
                                              Command="{Binding DeleteCommand}"
                                              Height="23" />
                         </dxlc:LayoutItem>
@@ -129,8 +130,8 @@
                                 Height="26" />
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutGroup>
-                <dxlc:LayoutGroup Header="Abwesenheiten" View="GroupBox" Orientation="Vertical">
-                    <Label Content="Under Construction" Foreground="Orange" />
+                <dxlc:LayoutGroup Header="Abwesenheiten" View="GroupBox" Orientation="Vertical" Width="210">
+                    <usercontrols:CalendarYearShort  x:Name="calendar" Person="{Binding Path=Redner, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>
         </dxlc:LayoutGroup>

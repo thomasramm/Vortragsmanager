@@ -62,7 +62,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBox Text="{Binding Versammlung.Entfernung}" Grid.Column="0" />
                         <dx:SimpleButton Content="Berechnen"
-                                        Glyph="{dx:DXImage 'SvgImages/Icon Builder/Travel_MapPointer.svg'}"
+                                         Glyph="{dx:SvgImageSource Uri='/Images/Travel_MapPointer.svg'}"
                                         Command="{Binding CalculateDistanceCommand}"
                                         Grid.Column="1"
                                         Height="24" />
@@ -105,15 +105,15 @@
             <dxlc:LayoutItem>
                 <dx:SimpleButton Content="Neuen Redner anlegen"
                             Command="{Binding NewPersonCommand}"
-                            Glyph="{dx:DXImage 'SvgImages/Outlook Inspired/NewEmployee.svg'}" />
+                            Glyph="{dx:SvgImageSource Uri='/Images/NewEmployee.svg'}" />
             </dxlc:LayoutItem>
             <dxlc:LayoutItem>
                 <dx:SimpleButton Content="Versammlung löschen"
                                 Command="{Binding DeleteCommand}"
                                 CommandParameter="{Binding ElementName=lc}"
                                 IsEnabled="{Binding EigeneVersammlung, Converter={StaticResource BooleanNegationConverter}}"
-                                Glyph="{dx:DXImage 'SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Delete.svg'}"
-                                 ToolTip="Versammlung löschen oder zusammenlegen" />
+                                Glyph="{dx:SvgImageSource Uri='/Images/Delete_Mülleimer_sw.svg'}"
+                                ToolTip="Versammlung löschen oder zusammenlegen" />
             </dxlc:LayoutItem>
         </dxlc:LayoutGroup>
         <dxlc:LayoutGroup Header="Redner" View="GroupBox" Orientation="Horizontal">

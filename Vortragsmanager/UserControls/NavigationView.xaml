@@ -77,7 +77,7 @@
                                       SelectionMode="None"
                                       CollapsedItemClickAction="ShowItems"
                                       SummaryItemHeader="Aktivitäten Log"
-                                      SummaryItemGlyph="{dx:DXImage 'Images/Chart/HorizontalAxisLogScale_16x16.png'}"
+                                      SummaryItemGlyph="pack://application:,,,/Images/Log_16x16.png"
                                       AutoExpandAllItems="False"
                                       IsCollapseButtonVisible="True"
                                       IsExpanded="False"
@@ -88,7 +88,7 @@
                         <dxa:AccordionItem Header="Filter"
                                            BorderThickness="5"
                                            BorderBrush="Green"
-                                           Glyph="{dx:DXImage 'Images/Filter/MasterFilter_16x16.png'}"
+                                           Glyph="pack://application:,,,/Images/MasterFilter_16x16.png"
                                            GlyphPosition="Left">
                             <dxe:AutoSuggestEdit x:Name="VersammlungenFilter"
                                                  ImmediatePopup="True"
