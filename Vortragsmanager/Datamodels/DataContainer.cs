@@ -187,12 +187,35 @@ namespace Vortragsmanager.Datamodels
         public static Talk TalkFind(int Nummer)
         {
             Log.Info(nameof(TalkFind), $"Nummer={Nummer}");
-            foreach (var t in Vorträge)
+            foreach (var t in Vorträge.Where(x => x.Gültig))
+            {
+                if (t.Nummer == Nummer)
+                    return t;
+            }
+            foreach (var t in Vorträge.Where(x => !x.Gültig))
             {
                 if (t.Nummer == Nummer)
                     return t;
             }
             return TalkFind(-1);
+        }
+
+        public static bool TalkAdd(int nummer, string thema, bool gültig = true)
+        {
+            if (Vorträge.Any(x => x.Nummer == nummer))
+                return false;
+            Vorträge.Add(new Talk(nummer, thema) { Gültig = gültig });
+            return true;
+        }
+
+        public static ObservableCollection<Talk> TalkGetAll()
+        {
+            return new ObservableCollection<Talk>(Vorträge.OrderByDescending(x => x.Gültig).ThenBy(x => x.Nummer));
+        }
+
+        public static void TalkClear()
+        {
+            Vorträge.Clear();
         }
 
         public static Speaker SpeakerFind(string name, Conregation versammlung)

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 using Vortragsmanager.Datamodels;
+using System.Linq;
 
 namespace Vortragsmanager.Views
 {
@@ -41,13 +42,14 @@ namespace Vortragsmanager.Views
         {
             CloseCommand = new DelegateCommand<ICloseable>(Schließen);
             SaveCommand = new DelegateCommand<ICloseable>(Save);
+            Vortragsliste = DataContainer.TalkGetAll();
         }
 
         public DelegateCommand<ICloseable> CloseCommand { get; private set; }
 
         public DelegateCommand<ICloseable> SaveCommand { get; private set; }
 
-        public ObservableCollection<Talk> Vortragsliste => DataContainer.Vorträge;
+        public ObservableCollection<Talk> Vortragsliste { get; }
 
         public Talk NeuerVortrag
         {

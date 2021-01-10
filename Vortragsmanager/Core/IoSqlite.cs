@@ -304,6 +304,17 @@ namespace Vortragsmanager.Core
             {
                 UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Abwesenheiten (PersonId INTEGER,Datum INTEGER)");
             }
+
+            if (DataContainer.Version < 11)
+            {
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Invitation SET IdVortrag = -24 WHERE IdVortrag = 24");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Events SET IdVortrag = -24 WHERE IdVortrag = 24");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Outside SET IdTalk = -24 WHERE IdTalk = 24");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Speaker_Vortrag SET IdTalk = -24 WHERE IdTalk = 24");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Inquiry_SpeakerTalk SET IdTalk = -24 WHERE IdTalk = 24");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Activity SET VortragId = -24 WHERE VortragId = 24");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Talks SET Nummer = -24, Gultig = 0 WHERE Nummer = 24");
+            }
         }
 
         private static void UpdateCommand(int version, SQLiteConnection db, string command)
