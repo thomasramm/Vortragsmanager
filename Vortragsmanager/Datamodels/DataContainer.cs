@@ -334,14 +334,18 @@ namespace Vortragsmanager.Datamodels
 
             return ausgabe.Substring(0, ausgabe.Length - 2);
         }
-
-
     }
 
     public static class TalkList
     {
         private static List<Talk> Vorträge { get; } = new List<Talk>();
 
+        /// <summary>
+        /// Sucht nach der übergebenen Vortragsnummer und gibt den entsprechenden Vortrag zurück.
+        /// Es werden zuerst die gültigen Vorträge durchsucht, danach die nicht mehr gültigen.
+        /// </summary>
+        /// <param name="Nummer">Nummer des gesuchten Vortrags</param>
+        /// <returns>Den Vortrag zur übergebenen Nummer.</returns>
         public static Talk Find(int Nummer)
         {
             Log.Info(nameof(TalkList.Find), $"Nummer={Nummer}");
@@ -358,6 +362,13 @@ namespace Vortragsmanager.Datamodels
             return Find(-1);
         }
 
+        /// <summary>
+        /// Prüft ob die Vortragsnummer bereits existiert und fügt den Vortrag zur Liste hinzu.
+        /// </summary>
+        /// <param name="nummer">Vortrags Nummer</param>
+        /// <param name="thema">Vortrags Thema</param>
+        /// <param name="gültig"></param>
+        /// <returns>True wenn der Vortrag hinzugefügt wurde, False wenn der Vortrag bereits in der Liste existiert.</returns>
         public static bool Add(int nummer, string thema, bool gültig = true)
         {
             if (Vorträge.Any(x => x.Nummer == nummer))
@@ -366,6 +377,10 @@ namespace Vortragsmanager.Datamodels
             return true;
         }
 
+        /// <summary>
+        /// Fügt einen neuen Vortrag ohne Prüfung zur Liste hinzu.
+        /// </summary>
+        /// <param name="talk"></param>
         public static void Add(Talk talk)
         {
             Vorträge.Add(talk);
@@ -380,11 +395,18 @@ namespace Vortragsmanager.Datamodels
             return Vorträge.OrderByDescending(x => x.Gültig).ThenBy(x => x.Nummer);
         }
 
+        /// <summary>
+        /// Listet alle gültigen Vorträge auf, sortiert nach der Vortragsnummer
+        /// </summary>
+        /// <returns>Liste der Vorträge</returns>
         public static IOrderedEnumerable<Talk> GetValid()
         {
             return Vorträge.Where(x => x.Gültig).OrderBy(x => x.Nummer);
         }
 
+        /// <summary>
+        /// Aktualisiert das Datum wann der Vortrag das letzte mal gehalten wurde.
+        /// </summary>
         public static void UpdateDate()
         {
             Log.Info(nameof(UpdateDate), "");
@@ -398,6 +420,9 @@ namespace Vortragsmanager.Datamodels
             }
         }
 
+        /// <summary>
+        /// Löscht alle Vorträge aus der Liste
+        /// </summary>
         public static void Clear()
         {
             Vorträge.Clear();
