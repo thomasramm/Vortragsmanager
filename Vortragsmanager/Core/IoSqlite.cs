@@ -33,8 +33,9 @@ namespace Vortragsmanager.Core
                 ReadCancelation(db);
                 ReadActivity(db);
                 ReadAufgaben(db);
+                ReadAbwesenheiten(db);
 
-                DataContainer.UpdateTalkDate();
+                TalkList.UpdateDate();
                 DataContainer.IsInitialized = true;
 
                 //Falls es jetzt noch weitere Updates gibt die am Container durchgeführt
@@ -71,6 +72,7 @@ namespace Vortragsmanager.Core
                     SaveCancelation(db);
                     SaveActivity(db);
                     SaveAufgaben(db);
+                    SaveAbwesenheiten(db);
                     transaction.Commit();
                 }
                 db.Close();
@@ -251,6 +253,10 @@ namespace Vortragsmanager.Core
                     Datum INTEGER,
                     VorsitzId INTEGER,
                     LeserId INTEGER)", db);
+
+            ExecCommand(@"CREATE TABLE IF NOT EXISTS Abwesenheiten (
+                    PersonId INTEGER,
+                    Datum INTEGER)", db);
         }
 
         #region READ
@@ -292,6 +298,22 @@ namespace Vortragsmanager.Core
                 UpdateCommand(DataContainer.Version, db, @"DROP TABLE IF EXISTS Aufgaben");
                 UpdateCommand(DataContainer.Version, db, @"CREATE TABLE Aufgaben(Id INTEGER, PersonName TEXT, IsVorsitz INTEGER, IsLeser INTEGER, SpeakerId INTEGER, Rating INTEGER)");
                 UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Aufgaben_Kalender (Datum INTEGER, VorsitzId INTEGER, LeserId INTEGER)");
+            }
+
+            if (DataContainer.Version < 10)
+            {
+                UpdateCommand(DataContainer.Version, db, @"CREATE TABLE IF NOT EXISTS Abwesenheiten (PersonId INTEGER,Datum INTEGER)");
+            }
+
+            if (DataContainer.Version < 11)
+            {
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Invitation SET IdVortrag = -24 WHERE IdVortrag = 24");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Events SET IdVortrag = -24 WHERE IdVortrag = 24");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Outside SET IdTalk = -24 WHERE IdTalk = 24");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Speaker_Vortrag SET IdTalk = -24 WHERE IdTalk = 24");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Inquiry_SpeakerTalk SET IdTalk = -24 WHERE IdTalk = 24");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Activity SET VortragId = -24 WHERE VortragId = 24");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Talks SET Nummer = -24, Gultig = 0 WHERE Nummer = 24");
             }
         }
 
@@ -420,7 +442,7 @@ namespace Vortragsmanager.Core
         private static void ReadVorträge(SQLiteConnection db)
         {
             Log.Info(nameof(ReadVorträge));
-            DataContainer.Vorträge.Clear();
+            TalkList.Clear();
 
             using (var cmd = new SQLiteCommand("SELECT Nummer, Thema, Gultig, ZuletztGehalten FROM Talks", db))
             {
@@ -435,7 +457,7 @@ namespace Vortragsmanager.Core
                         Gültig = rdr.GetBoolean(2),
                         ZuletztGehalten = rdr.IsDBNull(3) ? (DateTime?)null : rdr.GetDateTime(3)
                     };
-                    DataContainer.Vorträge.Add(t);
+                    TalkList.Add(t);
                 }
 
                 rdr.Close();
@@ -487,7 +509,7 @@ namespace Vortragsmanager.Core
                         var id = rdr2.GetInt32(0);
                         var song1 = rdr2.IsDBNull(1) ? (int?)null : rdr2.GetInt32(1);
                         var song2 = rdr2.IsDBNull(2) ? (int?)null : rdr2.GetInt32(2);
-                        var vortrag = DataContainer.Vorträge.First(x => x.Nummer == id);
+                        var vortrag = TalkList.Find(id);
                         r.Vorträge.Add(new TalkSong(vortrag, song1, song2));
                     }
                     rdr2.Close();
@@ -530,7 +552,7 @@ namespace Vortragsmanager.Core
                     {
                         i.Vortrag = i.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == IdVortrag);
                         if (!(i.Vortrag is null))
-                            i.Vortrag = new TalkSong(DataContainer.TalkFind((int)IdVortrag), -1, -1);
+                            i.Vortrag = new TalkSong(TalkList.Find((int)IdVortrag), -1, -1);
                     }
                     if (!(IdConregation is null))
                         i.AnfrageVersammlung = DataContainer.Versammlungen.First(x => x.Id == IdConregation);
@@ -569,7 +591,7 @@ namespace Vortragsmanager.Core
                         o.Versammlung = DataContainer.Versammlungen.First(x => x.Id == IdConregation);
                     o.Vortrag = o.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == IdTalk);
                     if (o.Vortrag is null)
-                        o.Vortrag = new TalkSong(DataContainer.TalkFind(IdTalk));
+                        o.Vortrag = new TalkSong(TalkList.Find(IdTalk));
 
                     DataContainer.ExternerPlan.Add(o);
                 }
@@ -630,7 +652,7 @@ namespace Vortragsmanager.Core
                         Thema = rdr.IsDBNull(2) ? null : rdr.GetString(2),
                         Vortragender = rdr.IsDBNull(3) ? null : rdr.GetString(3),
                         Datum = rdr.GetDateTime(4),
-                        Vortrag = rdr.IsDBNull(5) ? null : new TalkSong(DataContainer.TalkFind(rdr.GetInt32(5)))
+                        Vortrag = rdr.IsDBNull(5) ? null : new TalkSong(TalkList.Find(rdr.GetInt32(5)))
                     };
 
                     DataContainer.MeinPlan.Add(v);
@@ -689,7 +711,7 @@ namespace Vortragsmanager.Core
                         var idTalk = rdr3.GetInt32(1);
 
                         var s = DataContainer.Redner.First(x => x.Id == idSpeaker);
-                        var t = DataContainer.Vorträge.First(x => x.Nummer == idTalk);
+                        var t = TalkList.Find(idTalk);
                         v.RednerVortrag.Add(s, t);
                     }
                     rdr3.Close();
@@ -751,7 +773,7 @@ namespace Vortragsmanager.Core
                         redn = DataContainer.SpeakerGetUnknown();
 
                     var vortrId = rdr.IsDBNull(4) ? -1 : rdr.GetInt32(4);
-                    var vortr = DataContainer.TalkFind(vortrId);
+                    var vortr = TalkList.Find(vortrId);
 
                     var v = new ActivityLog.Activity();
 
@@ -820,6 +842,30 @@ namespace Vortragsmanager.Core
                 }
 
                 rdr.Close();
+            }
+        }
+
+        private static void ReadAbwesenheiten(SQLiteConnection db)
+        {
+            DataContainer.Abwesenheiten.Clear();
+
+            using (var cmd = new SQLiteCommand("SELECT PersonId, Datum FROM Abwesenheiten", db))
+            {
+                SQLiteDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    var rednId = rdr.GetInt32(0);
+                    var datum = rdr.GetDateTime(1);
+
+                    var redn = DataContainer.Redner.FirstOrDefault(x => x.Id == rednId);
+                    if (redn == null || datum.Year < DateTime.Today.Year)
+                    {
+                        //Alte Abwesenheiten (Vorjahre) werden nicht mehr eingelesen und damit gelöscht.
+                        continue;
+                    }
+                    DataContainer.Abwesenheiten.Add(new Busy(redn, datum));
+                }
             }
         }
 
@@ -1093,7 +1139,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@Gultig", System.Data.DbType.Boolean);
             cmd.Parameters.Add("@ZuletztGehalten", System.Data.DbType.Date);
 
-            foreach (var vort in DataContainer.Vorträge)
+            foreach (var vort in TalkList.Get())
             {
                 cmd.Parameters[0].Value = vort.Nummer;
                 cmd.Parameters[1].Value = vort.Thema;
@@ -1244,6 +1290,22 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[1].Value = a.Vorsitz?.Id;
                 cmd.Parameters[2].Value = a.Leser?.Id;
 
+                cmd.ExecuteNonQuery();
+            }
+
+            cmd.Dispose();
+        }
+
+        private static void SaveAbwesenheiten(SQLiteConnection db)
+        {
+            var cmd = new SQLiteCommand("INSERT INTO Abwesenheiten(PersonId, Datum) VALUES (@PersonId, @Datum)", db);
+            cmd.Parameters.Add("@PersonId", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@Datum", System.Data.DbType.DateTime);
+
+            foreach (var a in DataContainer.Abwesenheiten)
+            {
+                cmd.Parameters[0].Value = a.Redner.Id;
+                cmd.Parameters[1].Value = a.Datum;
                 cmd.ExecuteNonQuery();
             }
 

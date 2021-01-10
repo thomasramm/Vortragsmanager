@@ -17,7 +17,7 @@ namespace Vortragsmanager.UserControls
     {
         public DropDownVortrag()
         {
-            ListeAlle = DataContainer.Vorträge.Where(x => x.Gültig).OrderBy(x => x.Nummer).ToList();
+            ListeAlle = TalkList.Get().ToList();
             foreach (var item in ListeAlle)
             {
                 ListeFilteredItems.Add(item);
@@ -91,7 +91,7 @@ namespace Vortragsmanager.UserControls
                 int inr;
                 if (int.TryParse(nr, out inr))
                 {
-                    t = DataContainer.TalkFind(inr);
+                    t = TalkList.Find(inr);
                     SelectedItem = t;
                 }
                 else

@@ -94,7 +94,7 @@ namespace Vortragsmanager.Core
                     foreach (var v in meineVotrgäge)
                     {
                         var nr = int.Parse(v, Helper.German);
-                        var t = DataContainer.TalkFind(nr);
+                        var t = TalkList.Find(nr);
                         if (!(t is null) && !s.Vorträge.Select(y => y.Vortrag).Contains(t))
                             s.Vorträge.Add(new TalkSong(t));
                     }
@@ -293,7 +293,7 @@ namespace Vortragsmanager.Core
 
                             //Vortrag
                             var vn = int.Parse(vortrag.ToString(), Helper.German);
-                            var t = DataContainer.TalkFind(vn);
+                            var t = TalkList.Find(vn);
                             i.Vortrag = new TalkSong(t);
                             if (!i.Ältester.Vorträge.Select(y => y.Vortrag).Contains(t))
                                 i.Ältester.Vorträge.Add(i.Vortrag);
@@ -367,7 +367,7 @@ namespace Vortragsmanager.Core
 
                             //Vortrag
                             var vn = string.IsNullOrEmpty(vortrag?.ToString()) ? -1 : int.Parse(vortrag.ToString(), Helper.German);
-                            var t = DataContainer.TalkFind(vn);
+                            var t = TalkList.Find(vn);
                             i.Vortrag = new TalkSong(t);
                             if (!i.Ältester.Vorträge.Select(y => y.Vortrag).Contains(t))
                                 i.Ältester.Vorträge.Add(i.Vortrag);

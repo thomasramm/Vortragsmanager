@@ -27,6 +27,7 @@ namespace Vortragsmanager.MeineVerwaltung
         private void DropDownRedner_OnSpeakerChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<Datamodels.Speaker> e)
         {
             DataModel.Redner = e.NewValue;
+            calendar.Person = e.NewValue;
         }
 
         private void DropDownVortrag_OnSelectedItemChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<Datamodels.Talk> e)

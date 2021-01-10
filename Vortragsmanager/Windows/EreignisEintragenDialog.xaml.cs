@@ -7,9 +7,12 @@ namespace Vortragsmanager.Views
     /// </summary>
     public partial class EreignisEintragenCommandDialog : Window, Datamodels.ICloseable
     {
+        private EreignisEintragenCommandDialogView DataModel;
+
         public EreignisEintragenCommandDialog()
         {
             InitializeComponent();
+            DataModel = (EreignisEintragenCommandDialogView)DataContext;
         }
     }
 }

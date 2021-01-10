@@ -240,7 +240,7 @@ namespace Vortragsmanager.MeinPlan
         {
             var gewählt = new List<object>(150);
             VortragListe.Clear();
-            foreach (var t in DataContainer.Vorträge.Where(x => x.Nummer >= 0 && x.Gültig).OrderBy(x => x.Nummer))
+            foreach (var t in TalkList.GetValid())
             {
                 if (VortragCheckFuture && t.ZuletztGehalten != null && t.ZuletztGehalten > DateTime.Today)
                     continue;
