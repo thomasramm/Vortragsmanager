@@ -342,7 +342,7 @@ namespace Vortragsmanager.MeineVerwaltung
                 sheet.Cells[2, 5].Value = "zuletzt gehört";
 
                 var row = 3;
-                foreach (var v in DataContainer.Vorträge.OrderBy(x => x.Nummer))
+                foreach (var v in TalkList.Get())
                 {
                     sheet.Cells[row, 1].Value = v.Nummer;
                     sheet.Cells[row, 2].Value = v.Thema;

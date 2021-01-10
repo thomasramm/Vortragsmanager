@@ -11,7 +11,7 @@
         mc:Ignorable="d"
         Title="Einrichtungsassistent" Height="450" Width="800"
         x:Name="SetupWizardWindow"
-        Icon="{dx:DXImage SvgImages/Spreadsheet/AddDataSource.svg}"
+        Icon="{dx:SvgImageSource Uri='/Images/AddDatasource.svg'}"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
         Background="#333333"

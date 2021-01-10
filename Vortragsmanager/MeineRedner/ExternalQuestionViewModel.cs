@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Vortragsmanager.Core.DataHelper;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Views;
 
@@ -104,7 +105,14 @@ namespace Vortragsmanager.MeineRedner
             foreach (var x in DataContainer.ExternerPlan.Where(x => x.Datum == SelectedDatum))
                 SelectedDatumTalks.Add(x);
 
+            LoadRednerTalksZumAngefragtenDatum();
+
             ParameterValidieren();
+        }
+
+        private bool IsAbwesend()
+        {
+            return DataContainer.Abwesenheiten.Any(x => x.Redner == SelectedRedner && x.Datum == SelectedDatum);
         }
 
         public Speaker SelectedRedner
@@ -136,19 +144,18 @@ namespace Vortragsmanager.MeineRedner
             if (SelectedDatumTalks.Any(x => x.Ältester == SelectedRedner))
                 Hinweis += $"{SelectedRedner.Name} ist bereits in einer anderen Versammlung eingeladen" + Environment.NewLine;
 
+            if (IsAbwesend())
+                Hinweis += $"{SelectedRedner.Name} ist als Abwesend gekennzeichnet" + Environment.NewLine;
+
             if (SelectedDatumTalks.Count >= 2)
                 Hinweis += $"Es sind bereits {SelectedDatumTalks.Count} Redner in anderen Versammlungen" + Environment.NewLine;
 
             //1 Vortrag pro Monat
             var vorher = SelectedDatum.AddMonths(-1);
             var nachher = SelectedDatum.AddMonths(1);
-            foreach (var t in _selectedRednerTalkDates)
+            foreach(var zuDicht in _selectedRednerAllTalks.Where(x => x.Datum >= vorher && x.Datum <= nachher))
             {
-                if (t >= vorher && t <= nachher)
-                {
-                    Hinweis += $"Angefragtes Datum ist zu dicht an Vortrag vom {t:dd.MM.yyyy}" + Environment.NewLine;
-                    break;
-                }
+                Hinweis += $"Angefragtes Datum ist zu dicht an Vortrag vom {zuDicht.Datum:dd.MM.yyyy}" + Environment.NewLine;
             }
         }
 
@@ -176,21 +183,30 @@ namespace Vortragsmanager.MeineRedner
         public string Hinweis
         {
             get { return GetProperty(() => Hinweis); }
-            set { SetProperty(() => Hinweis, value); }
+            set {
+                if (SetProperty(() => Hinweis, value))
+                    RaisePropertyChanged(() => Hinweis);
+                }
         }
 
         private void SelectedRednerChanged()
         {
             //var vorträge = DataContainer.ExternerPlan.Where(x => x.Ältester == SelectedRedner && x.Datum >= DateTime.Today).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, x.Versammlung.Name, x.Vortrag?.Vortrag?.Nummer));
-            var vorträge = DataContainer.SpeakerGetActivities(SelectedRedner,10);
-            //vorträge = vorträge.Union(DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Zugesagt && x.Datum >= DateTime.Today).Cast<Invitation>().Where(x => x.Ältester == SelectedRedner).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, DataContainer.MeineVersammlung.Name, x.Vortrag?.Vortrag?.Nummer)));
-            _selectedRednerTalkDates = new ObservableCollection<DateTime>(vorträge.Select(x => x.Datum));
-            SelectedRednerTalks = new ObservableCollection<string>(vorträge.Select(x => x.ToString()));
+            _selectedRednerAllTalks = DataContainer.SpeakerGetActivities(SelectedRedner);
+            LoadRednerTalksZumAngefragtenDatum();
             RaisePropertyChanged(nameof(SelectedRednerTalks));
             ParameterValidieren();
         }
 
-        private IEnumerable<DateTime> _selectedRednerTalkDates;
+        private void LoadRednerTalksZumAngefragtenDatum()
+        {
+            if (_selectedRednerAllTalks != null)
+                SelectedRednerTalks = new ObservableCollection<string>(_selectedRednerAllTalks?.Where(x => x.Datum >= SelectedDatum.AddMonths(-1))?.OrderByDescending(x => x.Datum).Select(x => x.ToString()));
+            else
+                SelectedRednerTalks.Clear();
+        }
+
+        private IEnumerable<DateWithConregation> _selectedRednerAllTalks;
 
         public ObservableCollection<string> SelectedRednerTalks { get; private set; }
 

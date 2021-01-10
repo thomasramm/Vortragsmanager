@@ -21,14 +21,14 @@
         <TextBox Text="{Binding Text}" AcceptsReturn="True"/>
         <StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
             <dx:SimpleButton Content="{Binding CloseButtonText}"
-                             Glyph="{dx:DXImage SvgImages/Outlook Inspired/Cancel.svg}"
+                             Glyph="{dx:SvgImageSource Uri='/Images/Cancel_red.svg'}"
                              GlyphAlignment="Right"
                              Command="{Binding CloseCommand}"
                              CommandParameter="{Binding ElementName=LeerWindow}"
                              Visibility="{Binding ShowCloseButton, Converter={StaticResource BoolToVisibilityConverter}}"
                              HorizontalAlignment="Right" Width="150" Margin="5" />
             <dx:SimpleButton Content="Speichern"
-                         Glyph="{dx:DXImage SvgImages/XAF/Demo_Security_FullAccess.svg}"
+                         Glyph="{dx:SvgImageSource Uri='/Images/Ok_green.svg'}"
                          GlyphAlignment="Right"
                          Command="{Binding SaveCommand}"
                          CommandParameter="{Binding ElementName=LeerWindow}"

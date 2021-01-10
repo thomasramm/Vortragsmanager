@@ -22,8 +22,6 @@ namespace Vortragsmanager.MeineVerwaltung
             RednerAktivitäten = new ObservableCollection<Core.DataHelper.DateWithConregation>();
         }
 
-        public ObservableCollection<Talk> Vortragsliste => DataContainer.Vorträge;
-
         public ObservableCollection<TalkSong> Vorträge => new ObservableCollection<TalkSong>(Redner.Vorträge);
 
         public DelegateCommand DeleteSpeakerCommand { get; private set; }
@@ -127,7 +125,7 @@ namespace Vortragsmanager.MeineVerwaltung
                 bool isNum = int.TryParse(nr, out int num);
                 if (!isNum)
                     continue;
-                var neuerV = DataContainer.TalkFind(num);
+                var neuerV = TalkList.Find(num);
                 if (neuerV == null)
                     continue;
                 if (!Redner.Vorträge.Select(x => x.Vortrag).Contains(neuerV))
@@ -160,7 +158,7 @@ namespace Vortragsmanager.MeineVerwaltung
         {
             RednerAktivitäten.Clear();
 
-            var erg = DataContainer.SpeakerGetActivities(Redner, 10);
+            var erg = DataContainer.SpeakerGetActivities(Redner).OrderByDescending(x => x.Datum).Take(10);
             
             if (erg == null)
                 return;
