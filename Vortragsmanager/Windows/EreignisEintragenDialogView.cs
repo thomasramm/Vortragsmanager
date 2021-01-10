@@ -42,7 +42,7 @@ namespace Vortragsmanager.Views
         {
             CloseCommand = new DelegateCommand<ICloseable>(Schließen);
             SaveCommand = new DelegateCommand<ICloseable>(Save);
-            Vortragsliste = DataContainer.TalkGetAll();
+            Vortragsliste = new ObservableCollection<Talk>(TalkList.Get());
         }
 
         public DelegateCommand<ICloseable> CloseCommand { get; private set; }

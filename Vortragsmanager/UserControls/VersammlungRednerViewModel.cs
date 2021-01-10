@@ -21,7 +21,9 @@ namespace Vortragsmanager.Views
             VortragLöschenCommand = new DelegateCommand(VortragLöschen);
             DeleteCommand = new DelegateCommand(RednerLöschen);
             _selectedVersammlung = Redner.Versammlung;
+            Vortragsliste = new ObservableCollection<Talk>(TalkList.Get());
         }
+        
 
         public DelegateCommand DeleteCommand { get; set; }
 
@@ -70,7 +72,7 @@ namespace Vortragsmanager.Views
                 bool isNum = int.TryParse(nr, out int num);
                 if (!isNum)
                     continue;
-                var neuerV = DataContainer.TalkFind(num);
+                var neuerV = TalkList.Find(num);
                 if (neuerV == null)
                     continue;
                 if (!Redner.Vorträge.Select(x => x.Vortrag).Contains(neuerV))
@@ -124,7 +126,7 @@ namespace Vortragsmanager.Views
             get => new ObservableCollection<TalkSong>(Redner.Vorträge.OrderBy(x => x.Vortrag.Nummer));
         }
 
-        public ObservableCollection<Talk> Vortragsliste => DataContainer.Vorträge;
+        public ObservableCollection<Talk> Vortragsliste { get; }
 
         public bool Ältester
         {

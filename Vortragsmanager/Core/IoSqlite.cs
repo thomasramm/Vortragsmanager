@@ -35,7 +35,7 @@ namespace Vortragsmanager.Core
                 ReadAufgaben(db);
                 ReadAbwesenheiten(db);
 
-                DataContainer.UpdateTalkDate();
+                TalkList.UpdateDate();
                 DataContainer.IsInitialized = true;
 
                 //Falls es jetzt noch weitere Updates gibt die am Container durchgeführt
@@ -442,7 +442,7 @@ namespace Vortragsmanager.Core
         private static void ReadVorträge(SQLiteConnection db)
         {
             Log.Info(nameof(ReadVorträge));
-            DataContainer.Vorträge.Clear();
+            TalkList.Clear();
 
             using (var cmd = new SQLiteCommand("SELECT Nummer, Thema, Gultig, ZuletztGehalten FROM Talks", db))
             {
@@ -457,7 +457,7 @@ namespace Vortragsmanager.Core
                         Gültig = rdr.GetBoolean(2),
                         ZuletztGehalten = rdr.IsDBNull(3) ? (DateTime?)null : rdr.GetDateTime(3)
                     };
-                    DataContainer.Vorträge.Add(t);
+                    TalkList.Add(t);
                 }
 
                 rdr.Close();
@@ -509,7 +509,7 @@ namespace Vortragsmanager.Core
                         var id = rdr2.GetInt32(0);
                         var song1 = rdr2.IsDBNull(1) ? (int?)null : rdr2.GetInt32(1);
                         var song2 = rdr2.IsDBNull(2) ? (int?)null : rdr2.GetInt32(2);
-                        var vortrag = DataContainer.Vorträge.First(x => x.Nummer == id);
+                        var vortrag = TalkList.Find(id);
                         r.Vorträge.Add(new TalkSong(vortrag, song1, song2));
                     }
                     rdr2.Close();
@@ -552,7 +552,7 @@ namespace Vortragsmanager.Core
                     {
                         i.Vortrag = i.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == IdVortrag);
                         if (!(i.Vortrag is null))
-                            i.Vortrag = new TalkSong(DataContainer.TalkFind((int)IdVortrag), -1, -1);
+                            i.Vortrag = new TalkSong(TalkList.Find((int)IdVortrag), -1, -1);
                     }
                     if (!(IdConregation is null))
                         i.AnfrageVersammlung = DataContainer.Versammlungen.First(x => x.Id == IdConregation);
@@ -591,7 +591,7 @@ namespace Vortragsmanager.Core
                         o.Versammlung = DataContainer.Versammlungen.First(x => x.Id == IdConregation);
                     o.Vortrag = o.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == IdTalk);
                     if (o.Vortrag is null)
-                        o.Vortrag = new TalkSong(DataContainer.TalkFind(IdTalk));
+                        o.Vortrag = new TalkSong(TalkList.Find(IdTalk));
 
                     DataContainer.ExternerPlan.Add(o);
                 }
@@ -652,7 +652,7 @@ namespace Vortragsmanager.Core
                         Thema = rdr.IsDBNull(2) ? null : rdr.GetString(2),
                         Vortragender = rdr.IsDBNull(3) ? null : rdr.GetString(3),
                         Datum = rdr.GetDateTime(4),
-                        Vortrag = rdr.IsDBNull(5) ? null : new TalkSong(DataContainer.TalkFind(rdr.GetInt32(5)))
+                        Vortrag = rdr.IsDBNull(5) ? null : new TalkSong(TalkList.Find(rdr.GetInt32(5)))
                     };
 
                     DataContainer.MeinPlan.Add(v);
@@ -711,7 +711,7 @@ namespace Vortragsmanager.Core
                         var idTalk = rdr3.GetInt32(1);
 
                         var s = DataContainer.Redner.First(x => x.Id == idSpeaker);
-                        var t = DataContainer.Vorträge.First(x => x.Nummer == idTalk);
+                        var t = TalkList.Find(idTalk);
                         v.RednerVortrag.Add(s, t);
                     }
                     rdr3.Close();
@@ -773,7 +773,7 @@ namespace Vortragsmanager.Core
                         redn = DataContainer.SpeakerGetUnknown();
 
                     var vortrId = rdr.IsDBNull(4) ? -1 : rdr.GetInt32(4);
-                    var vortr = DataContainer.TalkFind(vortrId);
+                    var vortr = TalkList.Find(vortrId);
 
                     var v = new ActivityLog.Activity();
 
@@ -1139,7 +1139,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@Gultig", System.Data.DbType.Boolean);
             cmd.Parameters.Add("@ZuletztGehalten", System.Data.DbType.Date);
 
-            foreach (var vort in DataContainer.Vorträge)
+            foreach (var vort in TalkList.Get())
             {
                 cmd.Parameters[0].Value = vort.Nummer;
                 cmd.Parameters[1].Value = vort.Thema;

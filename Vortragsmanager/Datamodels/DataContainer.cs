@@ -34,8 +34,6 @@ namespace Vortragsmanager.Datamodels
 
         public static int Version { get; set; }
 
-        public static ObservableCollection<Talk> Vorträge { get; } = new ObservableCollection<Talk>();
-
         public static Conregation MeineVersammlung { get; set; }
 
         public static ObservableCollection<Conregation> Versammlungen { get; } = new ObservableCollection<Conregation>();
@@ -184,39 +182,7 @@ namespace Vortragsmanager.Datamodels
             Versammlungen.Remove(Versammlung);
         }
 
-        public static Talk TalkFind(int Nummer)
-        {
-            Log.Info(nameof(TalkFind), $"Nummer={Nummer}");
-            foreach (var t in Vorträge.Where(x => x.Gültig))
-            {
-                if (t.Nummer == Nummer)
-                    return t;
-            }
-            foreach (var t in Vorträge.Where(x => !x.Gültig))
-            {
-                if (t.Nummer == Nummer)
-                    return t;
-            }
-            return TalkFind(-1);
-        }
 
-        public static bool TalkAdd(int nummer, string thema, bool gültig = true)
-        {
-            if (Vorträge.Any(x => x.Nummer == nummer))
-                return false;
-            Vorträge.Add(new Talk(nummer, thema) { Gültig = gültig });
-            return true;
-        }
-
-        public static ObservableCollection<Talk> TalkGetAll()
-        {
-            return new ObservableCollection<Talk>(Vorträge.OrderByDescending(x => x.Gültig).ThenBy(x => x.Nummer));
-        }
-
-        public static void TalkClear()
-        {
-            Vorträge.Clear();
-        }
 
         public static Speaker SpeakerFind(string name, Conregation versammlung)
         {
@@ -305,19 +271,6 @@ namespace Vortragsmanager.Datamodels
             Redner.Remove(redner);
         }
 
-        public static void UpdateTalkDate()
-        {
-            Log.Info(nameof(UpdateTalkDate), "");
-            Vorträge.ForEach(x => x.ZuletztGehalten = null);
-            foreach (var evt in MeinPlan)
-            {
-                if (evt.Vortrag is null || evt.Vortrag.Vortrag is null)
-                    continue;
-                if (evt.Datum > evt.Vortrag.Vortrag.ZuletztGehalten || evt.Vortrag.Vortrag.ZuletztGehalten == null)
-                    evt.Vortrag.Vortrag.ZuletztGehalten = evt.Datum;
-            }
-        }
-
         public static void UpdateTalkDate(Talk talk)
         {
             if (talk == null)
@@ -380,6 +333,74 @@ namespace Vortragsmanager.Datamodels
             }
 
             return ausgabe.Substring(0, ausgabe.Length - 2);
+        }
+
+
+    }
+
+    public static class TalkList
+    {
+        private static List<Talk> Vorträge { get; } = new List<Talk>();
+
+        public static Talk Find(int Nummer)
+        {
+            Log.Info(nameof(TalkList.Find), $"Nummer={Nummer}");
+            foreach (var t in Vorträge.Where(x => x.Gültig))
+            {
+                if (t.Nummer == Nummer)
+                    return t;
+            }
+            foreach (var t in Vorträge.Where(x => !x.Gültig))
+            {
+                if (t.Nummer == Nummer)
+                    return t;
+            }
+            return Find(-1);
+        }
+
+        public static bool Add(int nummer, string thema, bool gültig = true)
+        {
+            if (Vorträge.Any(x => x.Nummer == nummer))
+                return false;
+            Vorträge.Add(new Talk(nummer, thema) { Gültig = gültig });
+            return true;
+        }
+
+        public static void Add(Talk talk)
+        {
+            Vorträge.Add(talk);
+        }
+
+        /// <summary>
+        /// Listet alle Vorträge auf, zuerst Gültige, dann Ungültige, sortiert nach der Vortragsnummer
+        /// </summary>
+        /// <returns>Liste der Vorträge</returns>
+        public static IOrderedEnumerable<Talk> Get()
+        {
+            return Vorträge.OrderByDescending(x => x.Gültig).ThenBy(x => x.Nummer);
+        }
+
+        public static IOrderedEnumerable<Talk> GetValid()
+        {
+            return Vorträge.Where(x => x.Gültig).OrderBy(x => x.Nummer);
+        }
+
+        public static void UpdateDate()
+        {
+            Log.Info(nameof(UpdateDate), "");
+            Vorträge.ForEach(x => x.ZuletztGehalten = null);
+            foreach (var evt in DataContainer.MeinPlan)
+            {
+                if (evt.Vortrag is null || evt.Vortrag.Vortrag is null)
+                    continue;
+                if (evt.Datum > evt.Vortrag.Vortrag.ZuletztGehalten || evt.Vortrag.Vortrag.ZuletztGehalten == null)
+                    evt.Vortrag.Vortrag.ZuletztGehalten = evt.Datum;
+            }
+        }
+
+        public static void Clear()
+        {
+            Vorträge.Clear();
         }
     }
 }
