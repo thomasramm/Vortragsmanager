@@ -1,3 +1,12 @@
+[10.01.2021]
+
+Neue Abwesenheitsverwaltung für Redner.
+
+* Kalenderanzeige im Menü Redner und Versammlung.
+* Berücksichtigung der Abwesenheiten bei Vortragsanfragen und Zuteilungen, bei Vorsitz und Leser
+* Liste der Einladung für eigene Redner um Zoom Information erweitert
+* Neuer Sondervortrag 24
+
 [30.11.2020]
 
 Neu: Verwalten des Vorsitzenden und des WT Lesers im Programm. Siehe dazu auch das Handbuch.
