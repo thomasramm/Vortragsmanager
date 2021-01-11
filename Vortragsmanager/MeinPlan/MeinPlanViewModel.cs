@@ -343,6 +343,19 @@ namespace Vortragsmanager.MeinPlan
             }
         }
 
+        public SolidColorBrush FontColor
+        {
+            get
+            {
+                var c = Colors.White;
+
+                if (Einladung?.Ältester?.Versammlung == DataContainer.MeineVersammlung)
+                    c = Colors.LightGreen; 
+
+                return new SolidColorBrush(c);
+            }
+        }
+
         public int AnzahlAuswärtigeRedner
         {
             get { return GetProperty(() => AnzahlAuswärtigeRedner); }
