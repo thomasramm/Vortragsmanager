@@ -44,6 +44,11 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public void CreateAushang()
         {
+            CreateAushang(ListeÖffnen);
+        }
+
+        public static void CreateAushang(bool listeÖffnen)
+        {
             Log.Info(nameof(CreateAushang), "");
             //laden der Excel-Datei
             var template = $"{Core.Helper.TemplateFolder}AushangExcel.xlsx";
@@ -68,12 +73,17 @@ namespace Vortragsmanager.MeineVerwaltung
                     if (evt.Status == EventStatus.Ereignis)
                     {
                         var sonntag = (evt as SpecialEvent);
-                        worksheet.Cells[row, 2].Value = sonntag.Name ?? sonntag.Typ.ToString(); //EventName
-                        worksheet.Cells[row, 6].Value = sonntagEinteilung?.Vorsitz?.PersonName;
+                        var zeile1 = sonntag.Name ?? sonntag.Typ.ToString();
+                        if (sonntag.Vortrag != null)
+                            zeile1 += ":" + sonntag.Vortrag.Vortrag.Thema;
+
+                        worksheet.Cells[row, 2].Value = zeile1; //EventName
+                        
+                        worksheet.Cells[row, 6].Value = sonntagEinteilung?.Vorsitz?.PersonName; //Rechts: Vorsitz 
                         row++;
                         worksheet.Cells[row, 3].Value = sonntag.Vortragender; //Vortragsredner
-                        worksheet.Cells[row, 4].Value = sonntag.Thema; //Vortragsredner, Versammlung
-                        worksheet.Cells[row, 6].Value = sonntagEinteilung?.Leser?.PersonName;
+                        worksheet.Cells[row, 4].Value = sonntag.Thema; //Versammlung
+                        worksheet.Cells[row, 6].Value = sonntagEinteilung?.Leser?.PersonName; //Rechts: Leser
                         row++;
                         worksheet.Cells[row, 2].Value = DataContainer.GetRednerAuswärts(sonntag.Datum);//auswärts
                         row++;
@@ -101,7 +111,7 @@ namespace Vortragsmanager.MeineVerwaltung
                 }
                 package.Save();
             }
-            IoExcel.File.Save(tempFile, "Aushang.xlsx", ListeÖffnen);
+            IoExcel.File.Save(tempFile, "Aushang.xlsx", listeÖffnen);
         }
 
         public void CreateContactList()
