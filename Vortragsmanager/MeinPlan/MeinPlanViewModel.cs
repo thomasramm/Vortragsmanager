@@ -87,9 +87,10 @@ namespace Vortragsmanager.MeinPlan
             var endDate = startDate.AddMonths(1);
             while (startDate < endDate)
             {
-                if (startDate.DayOfWeek == DayOfWeek.Sunday)
+                if (startDate.DayOfWeek == Helper.Wochentag)
                 {
-                    Wochen.Add(new WeekViewModel(jahr, this, startDate));
+                    var kw = Helper.CalculateWeek(startDate);
+                    Wochen.Add(new WeekViewModel(jahr, this, kw));
                 }
                 startDate = startDate.AddDays(1);
             }
@@ -99,16 +100,18 @@ namespace Vortragsmanager.MeinPlan
     //ToDo: Detailansicht bei Klick/Doppelklick zur Vortragsbuchung
     public class WeekViewModel : ViewModelBase
     {
-        public WeekViewModel(int jahr, MonthViewModel monat, DateTime tag)
+        private int _kalenderwoche;
+
+        public WeekViewModel(int jahr, MonthViewModel monat, int kw)
         {
             Jahr = jahr;
             Monat = monat;
-            Tag = tag;
-            Zuteilung = DataContainer.MeinPlan?.FirstOrDefault(x => x.Datum == tag) ?? null;
+            Kalenderwoche = kw;
+            Zuteilung = DataContainer.MeinPlan?.FirstOrDefault(x => x.Kw == kw) ?? null;
             if (Zuteilung == null)
-                Zuteilung = DataContainer.OffeneAnfragen?.FirstOrDefault(x => x.Wochen.Contains(tag)) ?? null;
+                Zuteilung = DataContainer.OffeneAnfragen?.FirstOrDefault(x => x.Kws.Contains(kw)) ?? null;
 
-            AnzahlAuswärtigeRedner = DataContainer.ExternerPlan?.Count(x => x.Datum == tag) ?? 0;
+            AnzahlAuswärtigeRedner = DataContainer.ExternerPlan?.Count(x => x.Kw == kw) ?? 0;
 
             BuchungVerschiebenCommand = new DelegateCommand(BuchungVerschieben);
             BuchungLöschenCommand = new DelegateCommand(BuchungLöschen);
@@ -168,7 +171,7 @@ namespace Vortragsmanager.MeinPlan
             var neu = false;
             if (!(Zuteilung is SpecialEvent ev))
             {
-                ev = new SpecialEvent() { Datum = Tag };
+                ev = new SpecialEvent() { Kw = Kalenderwoche };
                 neu = true;
             }
             var dialog = new EreignisEintragenCommandDialog();
@@ -197,7 +200,7 @@ namespace Vortragsmanager.MeinPlan
 
             var i = new Invitation
             {
-                Datum = Tag,
+                Kw = Kalenderwoche,
                 Status = EventStatus.Zugesagt,
                 Ältester = data.SelectedRedner,
                 Vortrag = data.SelectedVortrag
@@ -213,7 +216,7 @@ namespace Vortragsmanager.MeinPlan
         {
             if (Zuteilung.Status == EventStatus.Ereignis)
             {
-                
+
                 DataContainer.MeinPlanRemove(Zuteilung);
                 var ereignis = (Zuteilung as SpecialEvent);
                 ActivityLog.AddActivity.EreignisBearbeiten(ereignis, ActivityLog.Types.EreignisLöschen);
@@ -242,7 +245,7 @@ namespace Vortragsmanager.MeinPlan
                 return;
 
             DataContainer.MeinPlanRemove(Zuteilung);
-            DataContainer.Absagen.Add(new Cancelation(zuteilung.Datum, zuteilung.Ältester, zuteilung.Status));
+            DataContainer.Absagen.Add(new Cancelation(zuteilung.Kw, zuteilung.Ältester, zuteilung.Status));
             ActivityLog.AddActivity.BuchungLöschen(zuteilung, mailtext);
             Monat.GetWeeks(Jahr);
         }
@@ -326,7 +329,17 @@ namespace Vortragsmanager.MeinPlan
 
         public MonthViewModel Monat { get; }
 
-        public DateTime Tag { get; set; }
+        public int Kalenderwoche
+        {
+            get => _kalenderwoche;
+            set
+            {
+                _kalenderwoche = value;
+                Tag = Helper.CalculateWeek(value);
+            }
+        }
+
+        public DateTime Tag { get; private set; }
 
         public SolidColorBrush Background
         {
@@ -350,7 +363,7 @@ namespace Vortragsmanager.MeinPlan
                 var c = Colors.White;
 
                 if (Einladung?.Ältester?.Versammlung == DataContainer.MeineVersammlung)
-                    c = Colors.LightGreen; 
+                    c = Colors.LightGreen;
 
                 return new SolidColorBrush(c);
             }

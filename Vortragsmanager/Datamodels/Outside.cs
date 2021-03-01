@@ -8,7 +8,9 @@ namespace Vortragsmanager.Datamodels
 
         public Conregation Versammlung { get; set; }
 
-        public DateTime Datum { get; set; }
+        public int Kw { get; set; }
+
+        public DateTime Datum => Core.Helper.CalculateWeek(Kw);
 
         public OutsideReason Reason { get; set; } = OutsideReason.Talk;
 

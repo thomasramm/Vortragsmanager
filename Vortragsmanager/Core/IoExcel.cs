@@ -231,11 +231,13 @@ namespace Vortragsmanager.Core
                             if (redner == null && thema == null) //Keine Planung eingetragen
                                 continue;
 
+                            var kw = Core.Helper.CalculateWeek(DateTime.Parse(datum.ToString(), Helper.German));
+
                             if (redner == null) //Special Event eintragen
                             {
                                 var se = new SpecialEvent
                                 {
-                                    Datum = DateTime.Parse(datum.ToString(), Helper.German),
+                                    Kw = kw,
                                     Typ = SpecialEventTyp.Sonstiges,
                                 };
                                 var typ = thema.ToString();
@@ -263,7 +265,7 @@ namespace Vortragsmanager.Core
 
                             var i = new Invitation
                             {
-                                Datum = DateTime.Parse(datum.ToString(), Helper.German)
+                                Kw = kw
                             };
 
                             //Versammlung
@@ -273,7 +275,7 @@ namespace Vortragsmanager.Core
                             {
                                 var se = new SpecialEvent
                                 {
-                                    Datum = i.Datum,
+                                    Kw = kw,
                                     Typ = SpecialEventTyp.Dienstwoche,
                                     Vortragender = redner?.ToString() ?? "Kreisaufseher",
                                     Thema = thema?.ToString()
@@ -346,9 +348,11 @@ namespace Vortragsmanager.Core
                             if (redner == null)
                                 continue;
 
+                            var kw = Core.Helper.CalculateWeek(DateTime.Parse(datum.ToString(), Helper.German));
+
                             var i = new Outside
                             {
-                                Datum = DateTime.Parse(datum.ToString(), Helper.German)
+                                Kw = kw
                             };
 
                             //Redner

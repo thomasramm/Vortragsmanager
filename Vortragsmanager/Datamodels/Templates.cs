@@ -75,7 +75,7 @@ namespace Vortragsmanager.Datamodels
                 vortrag = Buchung.Vortrag;
             mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
             mt = mt
-                .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Datum}", $"{Helper.CalculateWeek(Buchung.Kw):dd.MM.yyyy}, ")
                 .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
                 .Replace("{Vortrag}", vortrag.VortragMitNummerUndLied)
                 .Replace("{Signatur}", GetTemplate(TemplateName.Signatur).Inhalt);
@@ -95,9 +95,9 @@ namespace Vortragsmanager.Datamodels
                 .Replace("{Redner Mail}", GetMailadresseRedner(Buchung.Ältester))
                 .Replace("{Redner Versammlung}", Buchung.Ältester?.Versammlung.Name ?? "unbekannt")
                 .Replace("{Vortrag}", Buchung.Vortrag.Vortrag.ToString())
-                .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Datum}", $"{Helper.CalculateWeek(Buchung.Kw):dd.MM.yyyy}, ")
                 .Replace("{Signatur}", GetTemplate(TemplateName.Signatur).Inhalt)
-                .Replace("{Versammlung Zusammenkunftszeit}", Buchung.Versammlung.GetZusammenkunftszeit(Buchung.Datum))
+                .Replace("{Versammlung Zusammenkunftszeit}", Buchung.Versammlung.GetZusammenkunftszeit(Buchung.Kw/100))
                 .Replace("{Signatur}", GetTemplate(TemplateName.Signatur).Inhalt);
 
             return mt;
@@ -112,7 +112,7 @@ namespace Vortragsmanager.Datamodels
             var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnKoordinatorMailText).Inhalt;
             mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
             mt = mt
-                .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Datum}", $"{Helper.CalculateWeek(Buchung.Kw):dd.MM.yyyy}, ")
                 .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
                 .Replace("{Vortrag}", Buchung.Vortrag.Vortrag.ToString())
                 .Replace("{Signatur}", GetTemplate(TemplateName.Signatur).Inhalt);
@@ -129,7 +129,7 @@ namespace Vortragsmanager.Datamodels
             var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnRednerMailText).Inhalt;
             mt = ReplaceVersammlungsparameter(mt, Buchung.Versammlung);
             mt = mt
-                .Replace("{Datum}", $"{Buchung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Datum}", $"{Helper.CalculateWeek(Buchung.Kw):dd.MM.yyyy}, ")
                 .Replace("{Redner}", Buchung.Ältester?.Name ?? "unbekannt")
                 .Replace("{Vortrag}", Buchung.Vortrag.Vortrag.ToString())
                 .Replace("{Redner Mail}", GetMailadresseRedner(Buchung.Ältester))
@@ -149,7 +149,7 @@ namespace Vortragsmanager.Datamodels
 
             mt = ReplaceVersammlungsparameter(mt, vers);
             mt = mt
-                .Replace("{Datum}", $"{Zuteilung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Datum}", $"{Helper.CalculateWeek(Zuteilung.Kw):dd.MM.yyyy}, ")
                 .Replace("{Redner}", Zuteilung.Ältester?.Name ?? "unbekannt")
                 .Replace("{Vortrag}", Zuteilung.Vortrag?.Vortrag?.ToString() ?? "unbekannt")
                 .Replace("{Signatur}", GetTemplate(TemplateName.Signatur).Inhalt);
@@ -177,7 +177,7 @@ namespace Vortragsmanager.Datamodels
             mt = mt
                 .Replace("{MailEmpfänger}", EmpfängerMail)
                 .Replace("{MailName}", EmpfängerName)
-                .Replace("{Datum}", $"{Zuteilung.Datum:dd.MM.yyyy}")
+                .Replace("{Datum}", $"{Helper.CalculateWeek(Zuteilung.Kw):dd.MM.yyyy}")
                 .Replace("{Redner}", $"{Zuteilung.Ältester.Name ?? "unbekannt"}")
                 .Replace("{Vortrag}", Zuteilung.Vortrag.Vortrag.ToString())
                 .Replace("{Signatur}", GetTemplate(TemplateName.Signatur).Inhalt);
@@ -194,7 +194,7 @@ namespace Vortragsmanager.Datamodels
             var mt = GetTemplate(TemplateName.ExterneAnfrageAblehnenInfoAnRednerMailText).Inhalt;
             mt = ReplaceVersammlungsparameter(mt, Zuteilung.Ältester?.Versammlung);
             mt = mt
-                .Replace("{Datum}", $"{Zuteilung.Datum:dd.MM.yyyy}, ")
+                .Replace("{Datum}", $"{Helper.CalculateWeek(Zuteilung.Kw):dd.MM.yyyy}, ")
                 .Replace("{Redner}", Zuteilung.Ältester?.Name ?? "unbekannt")
                 .Replace("{Vortrag}", Zuteilung.Vortrag.Vortrag.ToString())
                 .Replace("{Redner Mail}", GetMailadresseRedner(Zuteilung.Ältester))
@@ -248,9 +248,9 @@ namespace Vortragsmanager.Datamodels
                     if (!string.IsNullOrWhiteSpace(zoom))
                         zoom = $", Zoom: " + zoom;
 
-                    termine += $"\tDatum:\t{einladung.Datum:dd.MM.yyyy}" + Environment.NewLine;
+                    termine += $"\tDatum:\t{Helper.CalculateWeek(einladung.Kw):dd.MM.yyyy}" + Environment.NewLine;
                     termine += $"\tVortrag:\t{einladung.Vortrag.Vortrag}" + Environment.NewLine;
-                    termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Versammlung.GetZusammenkunftszeit(einladung.Datum.Year)}{zoom}" + Environment.NewLine;
+                    termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Versammlung.GetZusammenkunftszeit(einladung.Kw/100)}{zoom}" + Environment.NewLine;
                     termine += Environment.NewLine;
                 }
                 termine += Environment.NewLine;

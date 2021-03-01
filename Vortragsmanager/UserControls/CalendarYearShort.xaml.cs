@@ -2,17 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.UserControls
@@ -64,7 +56,7 @@ namespace Vortragsmanager.UserControls
             flowLayout.Children.Clear();
             _year = year;
 
-            var start = Core.Helper.GetSunday(new DateTime(year, 1, 1));
+            var start = Core.Helper.GetConregationDay(new DateTime(year, 1, 1));
             var currentMonth = 0;
             while (start.Year == year)
             {
@@ -94,9 +86,10 @@ namespace Vortragsmanager.UserControls
             }
 
             //Events
-            foreach(var myEvent in DataContainer.MeinPlan.Where(x => x.Datum.Year == _year && x.Status == EventStatus.Ereignis).Cast<SpecialEvent>())
+            foreach(var myEvent in DataContainer.MeinPlan.Where(x => x.Kw/100 == _year && x.Status == EventStatus.Ereignis).Cast<SpecialEvent>())
             {
-                var item = _calendar[myEvent.Datum];
+                var datum = Core.Helper.CalculateWeek(myEvent.Kw);
+                var item = _calendar[datum];
                 item.IsEvent = true;
                 item.Text += Environment.NewLine + myEvent.Anzeigetext;
             }
@@ -107,43 +100,46 @@ namespace Vortragsmanager.UserControls
 
 
 
-            var startrange = new DateTime(_year - 1, 12, 1);
-            var endrange = new DateTime(_year + 1, 2, 1);
+            var startrange = (_year - 1) * 100 + 50;
+            var endrange = (_year + 1) * 100 + 1;
 
             //Vortrag in meiner Versammlung
-            foreach (var busy in DataContainer.MeinPlan.Where(x => (x.Datum >= startrange && x.Datum < endrange ) && x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester == Person))
+            foreach (var busy in DataContainer.MeinPlan.Where(x => (x.Kw >= startrange && x.Kw < endrange ) && x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester == Person))
             {
-                if (busy.Datum.Year == _year)
+                var datum = Core.Helper.CalculateWeek(busy.Kw);
+                if (datum.Year == _year)
                 {
-                    var item = _calendar[busy.Datum];
+                    var item = _calendar[datum];
                     item.IsBusy = true;
                     item.Text += Environment.NewLine + $"Vortrag in {DataContainer.MeineVersammlung.Name}";
                 }
 
                 //4 Wochen um das Datum herum...
-                CalculateAroundTalk(busy.Datum);
+                CalculateAroundTalk(datum);
             }
 
             //Vortrag in anderer Versammlung
-            foreach (var busy in DataContainer.ExternerPlan.Where(x => x.Ältester == Person && (x.Datum >= startrange && x.Datum < endrange)))
+            foreach (var busy in DataContainer.ExternerPlan.Where(x => x.Ältester == Person && (x.Kw >= startrange && x.Kw < endrange)))
             {
-                if (busy.Datum.Year == _year)
+                var datum = Core.Helper.CalculateWeek(busy.Kw);
+                if (datum.Year == _year)
                 {
-                    var item = _calendar[busy.Datum];
+                    var item = _calendar[datum];
                     item.IsBusy = true;
                     item.Text += Environment.NewLine + $"Vortrag in {busy.Versammlung.Name}";
                 }
 
                 //4 Wochen um das Datum herum...
-                CalculateAroundTalk(busy.Datum);
+                CalculateAroundTalk(datum);
             }
 
             //Vorsitz oder Leser
-            foreach(var busy in DataContainer.AufgabenPersonKalender.Where(x => x.Datum.Year == _year))
+            foreach(var busy in DataContainer.AufgabenPersonKalender.Where(x => x.Kw >= startrange && x.Kw < endrange))
             {
                 if (busy.Leser?.VerknüpftePerson == Person || busy.Vorsitz?.VerknüpftePerson == Person)
                 {
-                    var item = _calendar[busy.Datum];
+                    var datum = Core.Helper.CalculateWeek(busy.Kw);
+                    var item = _calendar[datum];
                     item.IsBusy = true;
                     item.Text += Environment.NewLine;
                     item.Text += (busy.Leser?.VerknüpftePerson == Person) ? "Leser" : "Vorsitzender";
@@ -157,9 +153,10 @@ namespace Vortragsmanager.UserControls
             }
 
             //Vorhandene Abwesenheiten eintragen
-            foreach(var busy in DataContainer.Abwesenheiten.Where(x => x.Datum.Year == _year && x.Redner == Person))
+            foreach(var busy in DataContainer.Abwesenheiten.Where(x => x.Kw/100 == _year && x.Redner == Person))
             {
-                var item = _calendar[busy.Datum];
+                var datum = Core.Helper.CalculateWeek(busy.Kw);
+                var item = _calendar[datum];
                 item.SetAbwesenheit(busy);
             }
 

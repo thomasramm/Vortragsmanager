@@ -1,6 +1,5 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
-using DevExpress.XtraPrinting.Native;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -34,13 +33,13 @@ namespace Vortragsmanager.MeineRedner
             {
                 Ältester = SelectedRedner,
                 Versammlung = SelectedVersammlung,
-                Datum = SelectedDatum,
+                Kw = Kalenderwoche,
                 Reason = OutsideReason.Talk,
                 Vortrag = SelectedVortrag
             };
 
-            var doppelbuchung = DataContainer.ExternerPlan.Any(x => x.Ältester == SelectedRedner && x.Datum == SelectedDatum)
-                || DataContainer.MeinPlan.Where(x => x.Datum == SelectedDatum && x.Status == EventStatus.Zugesagt).Cast<Invitation>().Any(x => x.Ältester == SelectedRedner);
+            var doppelbuchung = DataContainer.ExternerPlan.Any(x => x.Ältester == SelectedRedner && x.Kw == Kalenderwoche)
+                || DataContainer.MeinPlan.Where(x => x.Kw == Kalenderwoche && x.Status == EventStatus.Zugesagt).Cast<Invitation>().Any(x => x.Ältester == SelectedRedner);
 
             if (doppelbuchung)
                 if (ThemedMessageBox.Show("Warnung", "Für diesen Redner gibt es an dem Datum schon eine Buchung. Trotzdem Buchung speichern?", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Warning) == System.Windows.MessageBoxResult.No)
@@ -91,18 +90,22 @@ namespace Vortragsmanager.MeineRedner
             set { SetProperty(() => SelectedDatum, value, CorrectDate); }
         }
 
+        //wird beim setzen von SelectedDatum über CorrectDate aktualisiert
+        private int Kalenderwoche = -1;
+
         private void CorrectDate()
         {
-            if (SelectedDatum.DayOfWeek != DayOfWeek.Sunday)
+            if (SelectedDatum.DayOfWeek != Core.Helper.Wochentag)
             {
-                SelectedDatum = SelectedDatum.AddDays(7 - (int)SelectedDatum.DayOfWeek);
+                SelectedDatum = Core.Helper.GetConregationDay(SelectedDatum);
                 return;
             }
+            Kalenderwoche = Core.Helper.CalculateWeek(SelectedDatum);
 
-            MeineVersammlung = DataContainer.MeinPlan.FirstOrDefault(x => x.Datum == SelectedDatum);
+            MeineVersammlung = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == Kalenderwoche);
 
             SelectedDatumTalks.Clear();
-            foreach (var x in DataContainer.ExternerPlan.Where(x => x.Datum == SelectedDatum))
+            foreach (var x in DataContainer.ExternerPlan.Where(x => x.Kw == Kalenderwoche))
                 SelectedDatumTalks.Add(x);
 
             LoadRednerTalksZumAngefragtenDatum();
@@ -112,7 +115,7 @@ namespace Vortragsmanager.MeineRedner
 
         private bool IsAbwesend()
         {
-            return DataContainer.Abwesenheiten.Any(x => x.Redner == SelectedRedner && x.Datum == SelectedDatum);
+            return DataContainer.Abwesenheiten.Any(x => x.Redner == SelectedRedner && x.Kw == Kalenderwoche);
         }
 
         public Speaker SelectedRedner
@@ -151,11 +154,11 @@ namespace Vortragsmanager.MeineRedner
                 Hinweis += $"Es sind bereits {SelectedDatumTalks.Count} Redner in anderen Versammlungen" + Environment.NewLine;
 
             //1 Vortrag pro Monat
-            var vorher = SelectedDatum.AddMonths(-1);
-            var nachher = SelectedDatum.AddMonths(1);
-            foreach(var zuDicht in _selectedRednerAllTalks.Where(x => x.Datum >= vorher && x.Datum <= nachher))
+            var vorher = Kalenderwoche - 4;
+            var nachher = Kalenderwoche + 4;
+            foreach(var zuDicht in _selectedRednerAllTalks.Where(x => x.Kalenderwoche >= vorher && x.Kalenderwoche <= nachher))
             {
-                Hinweis += $"Angefragtes Datum ist zu dicht an Vortrag vom {zuDicht.Datum:dd.MM.yyyy}" + Environment.NewLine;
+                Hinweis += $"Angefragtes Datum ist zu dicht an Vortrag vom {Core.Helper.CalculateWeek(zuDicht.Kalenderwoche):dd.MM.yyyy}" + Environment.NewLine;
             }
         }
 
@@ -201,7 +204,7 @@ namespace Vortragsmanager.MeineRedner
         private void LoadRednerTalksZumAngefragtenDatum()
         {
             if (_selectedRednerAllTalks != null)
-                SelectedRednerTalks = new ObservableCollection<string>(_selectedRednerAllTalks?.Where(x => x.Datum >= SelectedDatum.AddMonths(-1))?.OrderByDescending(x => x.Datum).Select(x => x.ToString()));
+                SelectedRednerTalks = new ObservableCollection<string>(_selectedRednerAllTalks?.Where(x => x.Kalenderwoche >= Kalenderwoche - 4)?.OrderByDescending(x => x.Kalenderwoche).Select(x => x.ToString()));
             else
                 SelectedRednerTalks.Clear();
         }

@@ -230,6 +230,31 @@ namespace Vortragsmanager.MeineVerwaltung
             }
         }
 
+        public DayOfWeek ConregationDayOfWeek
+        {
+            get
+            {
+                return Helper.Wochentag;
+            }
+            set
+            {
+                Helper.Wochentag = value;
+                RaisePropertyChanged();
+                DateTime dat1 = new DateTime(2021, 1, 1);
+                var week = Helper.German.Calendar.GetWeekOfYear(dat1, System.Globalization.CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Sunday);
+                var year = dat1.Year;
+                if (dat1.Month == 1 & week > 51)
+                    year++;
+                else if (dat1.Month == 12 & week == 1)
+                    year++;
+
+                Console.WriteLine($"Datum {dat1} ist KW {week} von {year}");
+
+            }
+        }
+
+        public IEnumerable<DayOfWeek> DaysOfWeek => Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>();
+
         public DelegateCommand SearchUpdateCommand { get; private set; }
 
         public static void SearchUpdate()
