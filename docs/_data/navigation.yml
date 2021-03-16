@@ -62,7 +62,7 @@ lmenu:
       - title: Zuteilung Ausgeben
         url: /MeineRedner/#ausgeben
       - title: Neue externe Anfrage
-        url: /ExteneAnfrage/
+        url: /ExterneAnfrage/
 
   - title: Verwaltung
     url: /Verwaltung/
