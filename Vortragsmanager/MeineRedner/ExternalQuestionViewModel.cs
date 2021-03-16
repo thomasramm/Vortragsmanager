@@ -130,11 +130,24 @@ namespace Vortragsmanager.MeineRedner
             set { SetProperty(() => SelectedVortrag, value, ParameterValidieren); }
         }
 
+        public string SelectedVersammlungZeit
+        {
+            get
+            {
+                if (SelectedDatum != null && SelectedVersammlung != null)
+                    return SelectedVersammlung.Zeit.Get(SelectedDatum.Year).ToString();
+                else
+                    return string.Empty;
+            }
+        }
+
         private void ParameterValidieren()
         {
-            ParameterValidiert = SelectedRedner != null && SelectedDatum != null;
             Hinweis = string.Empty;
+            RaisePropertyChanged(nameof(SelectedVersammlungZeit));
 
+            //Hinweis zum gewählten Redner
+            ParameterValidiert = SelectedRedner != null && SelectedDatum != null;
             if (!_parameterValidiert)
                 return;
 
@@ -150,9 +163,6 @@ namespace Vortragsmanager.MeineRedner
             if (IsAbwesend())
                 Hinweis += $"{SelectedRedner.Name} ist als Abwesend gekennzeichnet" + Environment.NewLine;
 
-            if (SelectedDatumTalks.Count >= 2)
-                Hinweis += $"Es sind bereits {SelectedDatumTalks.Count} Redner in anderen Versammlungen" + Environment.NewLine;
-
             //1 Vortrag pro Monat
             var vorher = Kalenderwoche - 4;
             var nachher = Kalenderwoche + 4;
@@ -160,6 +170,10 @@ namespace Vortragsmanager.MeineRedner
             {
                 Hinweis += $"Angefragtes Datum ist zu dicht an Vortrag vom {zuDicht.Datum:dd.MM.yyyy}" + Environment.NewLine;
             }
+
+            if (SelectedDatumTalks.Count >= 2)
+                Hinweis += Environment.NewLine + $"Es sind bereits {SelectedDatumTalks.Count} Redner in anderen Versammlungen" + Environment.NewLine;
+
         }
 
         private bool _parameterValidiert;

@@ -54,6 +54,17 @@
                     </dxlc:LayoutGroup>
                     <dxlc:LayoutGroup Orientation="Horizontal">
                         <dxlc:LayoutGroup Orientation="Vertical">
+                            <dxlc:LayoutGroup Header="{Binding SelectedVersammlung.Name}" View="GroupBox" Orientation="Vertical">
+                                <dxlc:LayoutItem Label="Zeit:" LabelPosition="Left" Margin="0,-5">
+                                    <Label Content="{Binding SelectedVersammlungZeit}" ContentStringFormat="dd.MM.yyyy" />
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="Entfernung:" LabelPosition="Left" Margin="0,-5">
+                                    <Label Content="{Binding SelectedVersammlung.Entfernung}" ContentStringFormat="~ {0} km" />
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="Anschrift:" LabelPosition="Left" Margin="0,-5">
+                                    <Label Content="{Binding SelectedVersammlung.Anschrift1}" />
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
                             <dxlc:LayoutGroup Header="Hinweis" View="GroupBox">
                                 <TextBlock Text="{Binding Hinweis, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                            Foreground="Orange"
@@ -69,7 +80,7 @@
                                 </dxlc:LayoutItem>
                             </dxlc:LayoutGroup>
                         </dxlc:LayoutGroup>
-                        <dxlc:LayoutGroup Header="Versammlung" View="GroupBox" Orientation="Vertical">
+                        <dxlc:LayoutGroup Header="Meine Versammlung" View="GroupBox" Orientation="Vertical">
                             <dxlc:LayoutItem Label="Datum:" LabelPosition="Left">
                                 <Label Content="{Binding SelectedDatum}" ContentStringFormat="dd.MM.yyyy" />
                             </dxlc:LayoutItem>
