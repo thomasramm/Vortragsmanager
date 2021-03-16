@@ -41,6 +41,10 @@ Da ich kein Unbegrenztes Limit an Berechnungen bei Google habe, bitte ich diese 
 
 ## Sonstiges
 
+### Wochentag deiner Versammlung
+
+Hier kann der Wochentag für deine eigene Versammlung, für das aktuelle Jahr geändert werden.
+
 ### Detailansichten auf der Startseite anzeigen
 
 Durch diese Funktion wird auf der Startseite die nächste Vortragseinladung in deiner Versammlung, sowie der nächste externe Vortrag deiner Redner angezeigt. 

@@ -9,12 +9,13 @@ Nach Bestätigung oder Ablehnung der Anfrage bleibt das Fenster offen, so dass w
 
 ![Oberfläche](images/meineredner_02.png)
 
-Dieser Menüpunkt besteht aus 4 Bereichen
+Dieser Menüpunkt besteht aus 5 Bereichen
 
 1. [zu prüfende Anfrage](#zu-prüfende-anfrage)
-2. [Redner](#redner)
-3. [Versammlung](#versammlung)
-4. [Hinweise](#hinweise)
+2. [Anfragende Versammlung](#versammlungextern)
+3. [Redner](#redner)
+4. [Deine Versammlung](#versammlung)
+5. [Hinweise](#hinweise)
 
 ## zu prüfende Anfrage
 
@@ -26,6 +27,12 @@ im oberen Bereich müssen die 4 Felder ausgefüllt werden:
 4. Name der anfragenden Versammlung
 
 Sind alle Felder ausgewählt, wird geprüft ob die Einladung bestätigt werden kann. Dabei wird geprüft ob sie aus Sicht des Redners als auch aus Sicht der Versammlung ok ist.
+
+## Versammlung (extern)
+Hier werden einige weitere Informationen zur Anfragenden Versammlung angezeigt:
+1. Versammlungszeit
+2. Entfernung in km (von deinem Saal zum Saal der Versammlung)
+3. Anschrift der Versammlung
 
 ## Redner
 

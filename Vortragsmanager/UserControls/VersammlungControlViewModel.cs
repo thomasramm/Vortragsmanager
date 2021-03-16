@@ -1,23 +1,47 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.MeineVerwaltung;
+using Vortragsmanager.UserControls;
+using System.Linq;
+using Vortragsmanager.Core.DataHelper;
 
 namespace Vortragsmanager.Views
 {
     public class ConregationViewModel : ViewModelBase
     {
+        private bool _myConregation;
+
         public ConregationViewModel(Conregation versammlung)
         {
             Versammlung = versammlung;
+            _myConregation = versammlung == DataContainer.MeineVersammlung;
             RednerListe = new SpeakersViewModelCollection(versammlung);
             DeleteCommand = new DelegateCommand<object>(Delete);
             NewPersonCommand = new DelegateCommand(NewPerson);
             CalculateDistanceCommand = new DelegateCommand(CalculateDistance);
+            AddZeitCommand = new DelegateCommand(AddZusammenkunftszeit);
+
+            _zusammenkunftszeitenItems = new ObservableCollection<ZeitItem>();
+            var zeitItems = new List<Zusammenkunftszeit>(1)
+            {
+                Versammlung.Zeit.Get(DateTime.Today.Year)
+            };
+            zeitItems.AddRange(Versammlung.Zeit.Items.Where(x => x.Jahr >= DateTime.Today.Year && x != zeitItems[0]));
+            if (zeitItems.Count == 0)
+                zeitItems.Add(Versammlung.Zeit.GetLastItem());
+
+            foreach (var eintrag in zeitItems)
+            {
+                var uiItem = new ZeitItem(eintrag, _zusammenkunftszeitenItems, Versammlung.Zeit, _myConregation);
+                _zusammenkunftszeitenItems.Add(uiItem);
+            }
         }
 
         public DelegateCommand<object> DeleteCommand { get; private set; }
@@ -25,6 +49,8 @@ namespace Vortragsmanager.Views
         public DelegateCommand NewPersonCommand { get; private set; }
 
         public DelegateCommand CalculateDistanceCommand { get; private set; }
+
+        public DelegateCommand AddZeitCommand { get; private set; }
 
         private bool _deleted;
 
@@ -75,54 +101,23 @@ namespace Vortragsmanager.Views
             }
         }
 
-        public int Jahr1 { get; } = DateTime.Today.Year;
-
-        public int Jahr2 => Jahr1 + 1;
-
-        public int Jahr3 => Jahr1 + 2;
-
-        public string ZusammenkunftszeitJahr1
+        private readonly ObservableCollection<ZeitItem> _zusammenkunftszeitenItems;
+        public ObservableCollection<ZeitItem> ZusammenkunftszeitenItems
         {
             get
             {
-                return Versammlung.GetZusammenkunftszeit(Jahr1);
-            }
-            set
-            {
-                if (value != ZusammenkunftszeitJahr1)
-                    Versammlung.SetZusammenkunftszeit(Jahr1, value);
-                RaisePropertyChanged(ZusammenkunftszeitJahr1);
+                return _zusammenkunftszeitenItems;
             }
         }
 
-        public string ZusammenkunftszeitJahr2
+        public void AddZusammenkunftszeit()
         {
-            get
-            {
-                return Versammlung.GetZusammenkunftszeit(Jahr2);
-            }
-            set
-            {
-                if ((value != ZusammenkunftszeitJahr1) && (value != Versammlung.GetZusammenkunftszeit(Jahr2)))
-                    Versammlung.SetZusammenkunftszeit(Jahr2, value);
-                RaisePropertyChanged(ZusammenkunftszeitJahr2);
-            }
-        }
-
-        public string ZusammenkunftszeitJahr3
-        {
-            get
-            {
-                return Versammlung.GetZusammenkunftszeit(Jahr3);
-            }
-            set
-            {
-                if ((value != ZusammenkunftszeitJahr2) && (value != Versammlung.GetZusammenkunftszeit(Jahr3)))
-                    Versammlung.SetZusammenkunftszeit(Jahr3, value);
-                if (value != ZusammenkunftszeitJahr3 && value == ZusammenkunftszeitJahr2)
-                    Versammlung.Zusammenkunftszeiten.Remove(Jahr3);
-                RaisePropertyChanged(ZusammenkunftszeitJahr3);
-            }
+            var lastItem = Versammlung.Zeit.GetLastItem();
+            var nextYear = Math.Max(lastItem.Jahr+1, DateTime.Today.Year);
+            
+            // In beide Listen eintragen.
+            var newItem = Versammlung.Zeit.Add(nextYear, lastItem.Tag, lastItem.Zeit);
+            _zusammenkunftszeitenItems.Add(new ZeitItem(newItem, _zusammenkunftszeitenItems, Versammlung.Zeit, _myConregation));
         }
 
         public bool EigeneVersammlung

@@ -10,13 +10,10 @@ namespace Vortragsmanager.Navigation
 {
     public class DashboardViewModel : ViewModelBase
     {
-        private readonly DateTime _datum;
-
         public DashboardViewModel()
         {
             if (Properties.Settings.Default.DashboardShowDetails)
             {
-                _datum = Helper.GetSunday(DateTime.Today);
                 RaisePropertyChanged(nameof(Datum));
                 GetProgramOfWeek();
                 GetRednerProgram();
@@ -60,7 +57,7 @@ namespace Vortragsmanager.Navigation
 
         private void GetProgramOfWeek()
         {
-            var prog = DataContainer.MeinPlan.FirstOrDefault(x => x.Datum == _datum);
+            var prog = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == Helper.CurrentWeek);
             if (prog == null)
             {
                 ShowMeinPlanDetails(false);
@@ -87,7 +84,7 @@ namespace Vortragsmanager.Navigation
 
         private void GetRednerProgram()
         {
-            var nextRedner = DataContainer.ExternerPlan.Where(x => x.Datum > DateTime.Today).OrderBy(x => x.Datum);
+            var nextRedner = DataContainer.ExternerPlan.Where(x => x.Kw >= Helper.CurrentWeek).OrderBy(x => x.Kw);
             if (!nextRedner.Any())
             {
                 ShowRednerDetails(false);
@@ -95,19 +92,20 @@ namespace Vortragsmanager.Navigation
             else
             {
                 var message = string.Empty;
-                DateTime datum = DateTime.Today;
+                int kw = Helper.CurrentWeek;
                 var nr = 1;
                 foreach (var r in nextRedner)
                 {
-                    if (datum == DateTime.Today || datum == r.Datum)
+                    if (kw == Helper.CurrentWeek || kw == r.Kw)
                     {
-                        datum = r.Datum;
+                        kw = r.Kw;
                         if (nr > 2)
                         {
                             message += "...";
                             break;
                         }
-                        message += r.Datum.ToShortDateString() + " | " + r.Versammlung.GetZusammenkunftszeit(r.Datum) + Environment.NewLine
+                        var datum = Helper.CalculateWeek(r.Kw, r.Versammlung);
+                        message += datum.ToShortDateString() + " | " + r.Zeit.ToString() + Environment.NewLine
                             + r.Ältester.Name + " in " + r.Versammlung.Name + ", Nr. " + r.Vortrag?.Vortrag.Nummer + Environment.NewLine;
                         nr++;
                     }
@@ -118,7 +116,7 @@ namespace Vortragsmanager.Navigation
             RaisePropertyChanged(nameof(RednerProgramm));
         }
 
-        public string Datum => _datum.ToString("dd. MMM yyyy", Core.Helper.German);
+        public string Datum => DateTime.Today.ToString("dd. MMM yyyy", Helper.German);
 
         public string MeinPlanProgramm { get; set; }
 

@@ -131,6 +131,11 @@
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
                 <dxlc:LayoutGroup Header="Sonstiges" View="GroupBox" Orientation="Vertical">
+                    <dxlc:LayoutItem Label="Wochentag deiner Versammlung">
+                        <dxe:ComboBoxEdit SelectedItem="{Binding ConregationDayOfWeek}"
+                                          ItemsSource="{Binding DaysOfWeek}">
+                        </dxe:ComboBoxEdit>
+                    </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Detailansichten auf der Startseite anzeigen">
                         <dxe:ToggleSwitch CheckedStateContent="An"
                                       UncheckedStateContent="Aus"

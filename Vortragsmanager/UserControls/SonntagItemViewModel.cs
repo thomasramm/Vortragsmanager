@@ -11,13 +11,13 @@ namespace Vortragsmanager.UserControls
 {
     class SonntagItemViewModel : ViewModelBase
     {
-        public SonntagItemViewModel(DateTime datum)
+        public SonntagItemViewModel(int kw)
         {
-            Datum = datum;
+            Kalenderwoche = kw;
             LoadData();
         }
 
-        public DateTime Datum { get; set; }
+        public int Kalenderwoche { get; set; }
 
         private void RecalculateNewActivityPerson(AufgabenZuordnung removed, AufgabenZuordnung added)
         {
@@ -26,26 +26,26 @@ namespace Vortragsmanager.UserControls
             //Neue Person
             if (added != null)
             {
-                var tage = (DateTime.Today - Datum).Days;
+                var tage = Core.Helper.CurrentWeek - Kalenderwoche;
                 added.LetzterEinsatz = tage * added.Häufigkeit;
             }
 
             //Removed Person
             if (removed != null)
             {
-                DateTime datumLetzterEinsatz;
+                int kwLetzterEinsatz;
 
                 var a1 = DataContainer.AufgabenPersonKalender
-                    .Where(x => (x.Leser == removed || x.Vorsitz == removed) && x.Datum != Datum);
+                    .Where(x => (x.Leser == removed || x.Vorsitz == removed) && x.Kw != Kalenderwoche);
                 if (a1.Any())
                 {
-                    var a2 = a1?.Select(x => x.Datum);
-                    datumLetzterEinsatz = a2.Max();
+                    var a2 = a1?.Select(x => x.Kw);
+                    kwLetzterEinsatz = a2.Max();
                 }
                 else
-                    datumLetzterEinsatz = new DateTime(1);
+                    kwLetzterEinsatz = -1;
 
-                var tage = (DateTime.Today - datumLetzterEinsatz).Days;
+                var tage = Core.Helper.CurrentWeek - Kalenderwoche;
                 removed.LetzterEinsatz = tage * removed.Häufigkeit;
             }
         }
@@ -83,7 +83,7 @@ namespace Vortragsmanager.UserControls
         private void LoadData()
         {
             //Vortragsredner
-            var redner = DataContainer.MeinPlan.FirstOrDefault(x => x.Datum == Datum);
+            var redner = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == Kalenderwoche);
 
             switch (redner.Status)
             {
@@ -110,7 +110,7 @@ namespace Vortragsmanager.UserControls
             }
 
             //Auswärtige Redner
-            var auswärts = DataContainer.ExternerPlan.Where(x => x.Datum == Datum);
+            var auswärts = DataContainer.ExternerPlan.Where(x => x.Kw == Kalenderwoche);
             AuswärtigeRedner = string.Empty;
             foreach (var item in auswärts)
             {
@@ -120,7 +120,7 @@ namespace Vortragsmanager.UserControls
                 AuswärtigeRedner = AuswärtigeRedner.Substring(0, AuswärtigeRedner.Length - 2);
 
             //zuteilungen
-            zuteilung = DataContainer.AufgabenPersonKalenderFindOrAdd(Datum);
+            zuteilung = DataContainer.AufgabenPersonKalenderFindOrAdd(Kalenderwoche);
 
             //DropDown Vorsitz + Leser
             foreach (var az in DataContainer.AufgabenPersonZuordnung)
@@ -143,7 +143,7 @@ namespace Vortragsmanager.UserControls
                     }
 
                     //Urlaub...
-                    if (DataContainer.Abwesenheiten.Any(x => x.Datum == Datum && x.Redner == az.VerknüpftePerson))
+                    if (DataContainer.Abwesenheiten.Any(x => x.Kw == Kalenderwoche && x.Redner == az.VerknüpftePerson))
                     {
                         continue;
                     }

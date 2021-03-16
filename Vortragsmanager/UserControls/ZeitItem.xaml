@@ -1,0 +1,42 @@
+﻿<UserControl
+    x:Class="Vortragsmanager.UserControls.ZeitItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:hlp="clr-namespace:Vortragsmanager.Core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    mc:Ignorable="d" 
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    d:DesignHeight="22" Width="305.2">
+    <Grid>
+        <dxe:SpinEdit x:Name="JahrEdit"
+            HorizontalAlignment="Left" Margin="0,0,0,0" Width="60"
+                      MinValue="2010"
+                      MaxValue="2099"
+                      Value="{Binding Jahr, Mode=TwoWay}"
+                      Increment="1"
+                      IsFloatValue="False"
+                      MaskType="Numeric"
+                      Mask="D4"
+                      MaskUseAsDisplayFormat="True" />
+        <ComboBox x:Name="TagEdit"
+                  Margin="59,0,0,0" 
+                  HorizontalAlignment="Left" 
+                  Width="97"
+                  ItemsSource="{Binding Source={hlp:EnumBindingSource {x:Type hlp:DayOfWeeks}}}"
+                  SelectedItem="{Binding Wochentag, Mode=TwoWay}"/>
+
+        <TextBox x:Name="ZeitEdit"
+                 Text="{Binding Zeit, Mode=TwoWay}"
+            Margin="155,0,18,0"/>
+        <dx:SimpleButton 
+            Margin="0" 
+                HorizontalAlignment="Right" 
+                Width="18"
+                Command="{Binding DeleteCommand}"
+            Click="DeleteButtonClick"
+                Glyph="{dx:SvgImageSource Uri='/Images/Delete_Mülleimer.svg'}" />
+
+    </Grid>
+</UserControl>

@@ -73,7 +73,20 @@ namespace Vortragsmanager.Views
             w.ShowDialog();
         }
 
-        public ObservableCollection<DateTime> Wochen => BaseAnfrage.Wochen;
+        private ObservableCollection<DateTime> _wochen = new ObservableCollection<DateTime>();
+        public ObservableCollection<DateTime> Wochen
+        {
+            get
+            {
+                _wochen.Clear();
+                foreach(var w in BaseAnfrage.Kws)
+                {
+                    _wochen.Add(Helper.CalculateWeek(w));
+                }
+
+                return _wochen;
+            }
+        }
 
         public string Versammlung => BaseAnfrage.Versammlung.Name;
 
@@ -119,13 +132,16 @@ namespace Vortragsmanager.Views
         {
             Log.Info(nameof(LadeFreieTermine));
             _base.Wochen.Clear();
-            var startDate = Helper.GetSunday(DateTime.Today);
-            var endDate = startDate.AddYears(1);
+            var startDate = Helper.CurrentWeek;
+            var endDate = Helper.CurrentWeek + 100;
             while (startDate < endDate)
             {
-                if (!DataContainer.MeinPlan.Any(x => x.Datum == startDate))
-                    _base.Wochen.Add(startDate);
-                startDate = startDate.AddDays(7);
+                if (!DataContainer.MeinPlan.Any(x => x.Kw == startDate))
+                {
+                    var d = Helper.CalculateWeek(startDate);
+                    _base.Wochen.Add(d);
+                }
+                startDate += 1;
             }
         }
 
@@ -170,9 +186,12 @@ namespace Vortragsmanager.Views
             set
             {
                 _selectedDatum = value;
+                _selectedKw = (value != null) ? Helper.CalculateWeek(_selectedDatum) : -1;
                 RaisePropertyChanged();
             }
         }
+
+        private int _selectedKw = -1;
 
         public void Zusagen()
         {
@@ -191,7 +210,7 @@ namespace Vortragsmanager.Views
             }
             var i = new Invitation
             {
-                Datum = SelectedDatum,
+                Kw = _selectedKw,
                 LetzteAktion = DateTime.Today,
                 Status = EventStatus.Zugesagt,
                 Vortrag = vortrag,
@@ -218,10 +237,10 @@ namespace Vortragsmanager.Views
             var vortrag = _base.BaseAnfrage.RednerVortrag[_redner];
             _base.BaseAnfrage.RednerVortrag.Remove(_redner);
             string wochen = string.Empty;
-            foreach (var w in _base.BaseAnfrage.Wochen)
+            foreach (var w in _base.BaseAnfrage.Kws)
             {
                 DataContainer.Absagen.Add(new Cancelation(w, _redner, EventStatus.Anfrage));
-                wochen += w.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) + ", ";
+                wochen += Helper.CalculateWeek(w).ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) + ", ";
             }
             bool anfrageGelöscht = false;
             if (_base.BaseAnfrage.RednerVortrag.Count == 0)

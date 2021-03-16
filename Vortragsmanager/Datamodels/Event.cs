@@ -8,7 +8,7 @@ namespace Vortragsmanager.Datamodels
     {
         #region Interface
 
-        public DateTime Datum { get; set; }
+        public int Kw { get; set; }
 
         public EventStatus Status { get; set; } = EventStatus.Zugesagt;
 
@@ -50,7 +50,7 @@ namespace Vortragsmanager.Datamodels
     {
         #region Interface
 
-        public DateTime Datum { get; set; }
+        public int Kw { get; set; }
 
         public EventStatus Status { get; } = EventStatus.Ereignis;
 
@@ -82,7 +82,7 @@ namespace Vortragsmanager.Datamodels
                 Name = Name,
                 Thema = Thema,
                 Vortragender = Vortragender,
-                Datum = Datum,
+                Kw = Kw,
                 Vortrag = Vortrag,
             };
             return s;
@@ -122,16 +122,17 @@ namespace Vortragsmanager.Datamodels
             set => throw new NotImplementedException();
         }
 
-        private DateTime _datum = new DateTime(1);
+        private int _datum = -1;
 
-        public DateTime Datum
+        public int Kw
         {
             get { return _datum; }
-            set { _datum = new DateTime(1); }
+            //ToDo: Kann das richtig sein?
+            set { _datum = -1; }
         }
 
         //Angefragte Termin
-        public ObservableCollection<DateTime> Wochen { get; } = new ObservableCollection<DateTime>();
+        public ObservableCollection<int> Kws { get; } = new ObservableCollection<int>();
 
         public string Kommentar { get; set; }
 
@@ -140,7 +141,7 @@ namespace Vortragsmanager.Datamodels
 
     public interface IEvent
     {
-        DateTime Datum { get; set; }
+        int Kw { get; set; }
 
         EventStatus Status { get; }
 
@@ -155,14 +156,14 @@ namespace Vortragsmanager.Datamodels
         {
         }
 
-        public Cancelation(DateTime datum, Speaker person, EventStatus status)
+        public Cancelation(int kw, Speaker person, EventStatus status)
         {
-            Datum = datum;
+            Kw = kw;
             Ältester = person;
             LetzterStatus = status;
         }
 
-        public DateTime Datum { get; set; }
+        public int Kw { get; set; }
 
         public Speaker Ältester { get; set; }
 

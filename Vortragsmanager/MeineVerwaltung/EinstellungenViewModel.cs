@@ -230,6 +230,23 @@ namespace Vortragsmanager.MeineVerwaltung
             }
         }
 
+        public DayOfWeeks ConregationDayOfWeek
+        {
+            get
+            {
+                return Helper.Wochentag;
+            }
+            set
+            {
+                Helper.Wochentag = value;
+                var zeititem = DataContainer.MeineVersammlung.Zeit.Get(DateTime.Today.Year);
+                zeititem.Tag = Helper.Wochentag;
+                RaisePropertyChanged();
+            }
+        }
+
+        public IEnumerable<DayOfWeeks> DaysOfWeek => Enum.GetValues(typeof(DayOfWeeks)).Cast<DayOfWeeks>();
+
         public DelegateCommand SearchUpdateCommand { get; private set; }
 
         public static void SearchUpdate()

@@ -30,11 +30,23 @@ namespace Vortragsmanager.Datamodels
 
     public static class DataContainer
     {
+        private static Conregation meineVersammlung;
+
         public static bool IsInitialized { get; set; }
 
         public static int Version { get; set; }
 
-        public static Conregation MeineVersammlung { get; set; }
+        public static Conregation MeineVersammlung
+        {
+            get => meineVersammlung;
+            set
+            {
+                meineVersammlung = value;
+                if (value != null)
+                    //Default Wochentag setzen:
+                    Helper.Wochentag = DataContainer.MeineVersammlung.Zeit.Get(DateTime.Today.Year).Tag;
+            }
+        }
 
         public static ObservableCollection<Conregation> Versammlungen { get; } = new ObservableCollection<Conregation>();
 
@@ -47,8 +59,8 @@ namespace Vortragsmanager.Datamodels
         public static void MeinPlanAdd(IEvent newEvent)
         {
             MeinPlan.Add(newEvent);
-            if (newEvent?.Vortrag?.Vortrag != null && newEvent.Vortrag.Vortrag.ZuletztGehalten < newEvent.Datum)
-                newEvent.Vortrag.Vortrag.ZuletztGehalten = newEvent.Datum;
+            if (newEvent?.Vortrag?.Vortrag != null && newEvent.Vortrag.Vortrag.ZuletztGehalten < newEvent.Kw)
+                newEvent.Vortrag.Vortrag.ZuletztGehalten = newEvent.Kw;
         }
 
         public static void MeinPlanRemove(IEvent oldEvent)
@@ -146,7 +158,7 @@ namespace Vortragsmanager.Datamodels
                 .ToList();
             foreach (var einladung in einladungen)
             {
-                if (einladung.Datum <= DateTime.Today)
+                if (einladung.Kw <= Helper.CurrentWeek)
                 {
                     einladung.AnfrageVersammlung = unbekannteVersammlung;
                     einladung.Ältester = unbekannterRedner;
@@ -168,7 +180,7 @@ namespace Vortragsmanager.Datamodels
             var externeE = ExternerPlan.Where(x => x.Versammlung == Versammlung).ToList();
             foreach (var outside in externeE)
             {
-                if (outside.Datum <= DateTime.Today)
+                if (outside.Kw <= Helper.CurrentWeek)
                     outside.Versammlung = unbekannteVersammlung;
                 else
                     ExternerPlan.Remove(outside);
@@ -181,8 +193,6 @@ namespace Vortragsmanager.Datamodels
 
             Versammlungen.Remove(Versammlung);
         }
-
-
 
         public static Speaker SpeakerFind(string name, Conregation versammlung)
         {
@@ -235,7 +245,7 @@ namespace Vortragsmanager.Datamodels
                 .ToList();
             foreach (var einladung in einladungen)
             {
-                if (einladung.Datum < DateTime.Today)
+                if (einladung.Kw < Helper.CurrentWeek)
                 {
                     einladung.AnfrageVersammlung = unbekannteVersammlung;
                     einladung.Ältester = unbekannterRedner;
@@ -277,7 +287,7 @@ namespace Vortragsmanager.Datamodels
                 return;
 
             Log.Info(nameof(UpdateTalkDate), talk.Nummer);
-            var gehaltene = MeinPlan.Where(x => x.Vortrag?.Vortrag == talk).DefaultIfEmpty(null).Max(x => x?.Datum);
+            var gehaltene = MeinPlan.Where(x => x.Vortrag?.Vortrag == talk).DefaultIfEmpty(null).Max(x => x?.Kw) ?? -1;
             talk.ZuletztGehalten = gehaltene;
         }
 
@@ -288,11 +298,11 @@ namespace Vortragsmanager.Datamodels
 
             IEnumerable<Core.DataHelper.DateWithConregation> erg;
 
-            erg = DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, DataContainer.MeineVersammlung.Name, x.Vortrag?.Vortrag?.Nummer));
-            
+            erg = DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(Helper.CalculateWeek(x.Kw), DataContainer.MeineVersammlung.Name, x.Vortrag?.Vortrag?.Nummer));
+
             if (redner.Versammlung == DataContainer.MeineVersammlung)
                 erg = erg.Union(DataContainer.ExternerPlan.Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, x.Versammlung.Name, x.Vortrag?.Vortrag?.Nummer)));
-                
+
             return erg;
         }
 
@@ -308,21 +318,21 @@ namespace Vortragsmanager.Datamodels
 
         public static ObservableCollection<AufgabenKalender> AufgabenPersonKalender { get; private set; } = new ObservableCollection<AufgabenKalender>();
 
-        public static AufgabenKalender AufgabenPersonKalenderFindOrAdd(DateTime datum)
+        public static AufgabenKalender AufgabenPersonKalenderFindOrAdd(int kw)
         {
-            var ergebnis = AufgabenPersonKalender.FirstOrDefault(x => x.Datum == datum);
+            var ergebnis = AufgabenPersonKalender.FirstOrDefault(x => x.Kw == kw);
             if (ergebnis == null)
             {
-                ergebnis = new AufgabenKalender(datum);
+                ergebnis = new AufgabenKalender(kw);
                 AufgabenPersonKalender.Add(ergebnis);
             }
             return ergebnis;
         }
 
-        public static string GetRednerAuswärts(DateTime datum)
+        public static string GetRednerAuswärts(int kw)
         {
-            Log.Info(nameof(GetRednerAuswärts), datum);
-            var e = DataContainer.ExternerPlan.Where(x => x.Datum == datum).ToList();
+            Log.Info(nameof(GetRednerAuswärts), kw);
+            var e = DataContainer.ExternerPlan.Where(x => x.Kw == kw).ToList();
             if (e.Count == 0)
                 return "";
 
@@ -410,13 +420,13 @@ namespace Vortragsmanager.Datamodels
         public static void UpdateDate()
         {
             Log.Info(nameof(UpdateDate), "");
-            Vorträge.ForEach(x => x.ZuletztGehalten = null);
+            Vorträge.ForEach(x => x.ZuletztGehalten = -1);
             foreach (var evt in DataContainer.MeinPlan)
             {
                 if (evt.Vortrag is null || evt.Vortrag.Vortrag is null)
                     continue;
-                if (evt.Datum > evt.Vortrag.Vortrag.ZuletztGehalten || evt.Vortrag.Vortrag.ZuletztGehalten == null)
-                    evt.Vortrag.Vortrag.ZuletztGehalten = evt.Datum;
+                if (evt.Kw > evt.Vortrag.Vortrag.ZuletztGehalten || evt.Vortrag.Vortrag.ZuletztGehalten == -1)
+                    evt.Vortrag.Vortrag.ZuletztGehalten = evt.Kw;
             }
         }
 

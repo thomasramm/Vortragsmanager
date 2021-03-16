@@ -265,6 +265,9 @@
     <Compile Include="UserControls\VersammlungRednerViewModel.cs">
       <DependentUpon>VersammlungRednerMaximizedControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ZeitItem.xaml.cs">
+      <DependentUpon>ZeitItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AntwortEintragenDialog.xaml.cs">
       <DependentUpon>AntwortEintragenDialog.xaml</DependentUpon>
     </Compile>
@@ -453,6 +456,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\SonntagItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ZeitItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -720,6 +727,12 @@
     <Resource Include="Images\Cancel_red.svg" />
     <Resource Include="Images\Ok_green.svg" />
     <Resource Include="Images\Technology_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Add_20x20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Add.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

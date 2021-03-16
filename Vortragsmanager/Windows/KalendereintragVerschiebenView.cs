@@ -50,8 +50,8 @@ namespace Vortragsmanager.Views
                     StartVortrag = special.Thema;
             }
 
-            StartDatum = ereignis.Datum.ToShortDateString();
-            ZielDatum = ereignis.Datum;
+            ZielDatum = Helper.CalculateWeek(ereignis.Kw);
+            StartDatum = ZielDatum.ToShortDateString();
         }
 
         public string StartTyp { get; set; }
@@ -136,7 +136,7 @@ namespace Vortragsmanager.Views
             {
                 if (value == null)
                     return;
-                _zielDatum = Helper.GetSunday(value);
+                _zielDatum = Helper.GetConregationDay(value);
                 RaisePropertyChanged();
                 LadeZielBuchung();
             }
@@ -199,7 +199,8 @@ namespace Vortragsmanager.Views
 
         private void LadeInterneZielBuchung()
         {
-            var woche = DataContainer.MeinPlan.FirstOrDefault(x => x.Datum == ZielDatum);
+            var zielKw = Helper.CalculateWeek(ZielDatum);
+            var woche = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == zielKw);
 
             ZielBuchungBelegt = (woche != null);
 
@@ -231,7 +232,7 @@ namespace Vortragsmanager.Views
                 return;
             }
 
-            var anfrage = DataContainer.OffeneAnfragen.FirstOrDefault(x => x.Datum == ZielDatum);
+            var anfrage = DataContainer.OffeneAnfragen.FirstOrDefault(x => x.Kw == zielKw);
             if (anfrage == null)
                 return;
 
@@ -280,8 +281,11 @@ namespace Vortragsmanager.Views
 
         public void Save(ICloseable window)
         {
-            var startDatum = StartEvent.Datum;
-            StartEvent.Datum = ZielDatum;
+            var startKw = StartEvent.Kw;
+            var startDatum = Core.Helper.CalculateWeek(StartEvent.Kw);
+            var zielKw = Helper.CalculateWeek(ZielDatum);
+
+            StartEvent.Kw = zielKw;
             var sendMail = false;
 
             var mails = new InfoAnRednerUndKoordinatorWindow();
@@ -315,16 +319,16 @@ namespace Vortragsmanager.Views
                     if (ZielEvent.Status == EventStatus.Anfrage)
                     {
                         var ev = (ZielEvent as Inquiry);
-                        ev.Wochen.Remove(ZielDatum);
-                        ev.Wochen.Add(startDatum);
+                        ev.Kws.Remove(zielKw);
+                        ev.Kws.Add(startKw);
                     }
                     else if (ZielEvent.Status == EventStatus.Ereignis)
                     {
-                        ZielEvent.Datum = startDatum;
+                        ZielEvent.Kw = startKw;
                     }
                     else
                     {
-                        ZielEvent.Datum = startDatum;
+                        ZielEvent.Kw = startKw;
                         var ev = (ZielEvent as Invitation);
                         if (ev.Ältester.Versammlung == DataContainer.MeineVersammlung)
                         {
@@ -347,8 +351,8 @@ namespace Vortragsmanager.Views
                     {
                         case EventStatus.Anfrage:
                             var ev = (ZielEvent as Inquiry);
-                            ev.Wochen.Remove(ZielDatum);
-                            if (ev.Wochen.Count == 0)
+                            ev.Kws.Remove(zielKw);
+                            if (ev.Kws.Count == 0)
                                 DataContainer.OffeneAnfragen.Remove(ev);
                             //ToDo: Info an Versammlung über doppelbuchung der Anfrage??
                             break;
@@ -365,7 +369,7 @@ namespace Vortragsmanager.Views
                                 mailsData.InfoAnRednerTitel = "Info an Koordinator";
                                 mailsData.MailTextRedner = Templates.GetMailTextAblehnenKoordinator(inv);
                             }
-                            DataContainer.Absagen.Add(new Cancelation(ZielDatum, inv.Ältester, EventStatus.Zugesagt));
+                            DataContainer.Absagen.Add(new Cancelation(zielKw, inv.Ältester, EventStatus.Zugesagt));
                             DataContainer.MeinPlanRemove(inv);
                             sendMail = true;
                             break;
@@ -380,7 +384,7 @@ namespace Vortragsmanager.Views
                     startBuchungInfo = "Die Buchung am neuen Datum wurde gelöscht.";
                     headerText = "Diese Buchung wurde gelöscht";
                 }
-                ActivityLog.AddActivity.BuchungVerschieben(ZielEvent, mailsData.MailTextRedner, StartEvent.Datum, "Eine andere Buchung wurde auf das bisherige Datum verschoben.", headerText);
+                ActivityLog.AddActivity.BuchungVerschieben(ZielEvent, mailsData.MailTextRedner, ZielDatum, "Eine andere Buchung wurde auf das bisherige Datum verschoben.", headerText);
             }
             else
             {

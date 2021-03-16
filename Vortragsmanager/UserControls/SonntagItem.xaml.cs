@@ -36,11 +36,12 @@ namespace Vortragsmanager.UserControls
         public SonntagItem(DateTime datum)
         {
             InitializeComponent();
-            _model = new SonntagItemViewModel(datum);
+            var kw = Core.Helper.CalculateWeek(datum);
+            _model = new SonntagItemViewModel(kw);
             DataContext = _model;
         }
 
-        public DateTime Datum => _model.Datum;
+        public DateTime Datum => Core.Helper.CalculateWeek(_model.Kalenderwoche);
 
         public AufgabenZuordnung SelectedLeser
         {

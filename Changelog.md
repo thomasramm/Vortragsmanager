@@ -1,3 +1,17 @@
+[16.03.2021]
+
+Einstellungen für Wochentage je Versammlung
+
+In den Versammlungen können nun die Wochentage getrennt von der Uhrzeit eingestellt werden.
+Listen und Kalenderanzeigen berücksichtigen den Eingestellten Tag der eigenen Versammlung,
+Vortragseinladungen von anderen Versammlungen berücksichtigen in der Mail an deinen Redner den entsprechenden Wochentag.
+
+Nach dem Update werden die aktuellen Zeiten ausgelesen und versucht der Wochentag auszulesen. Wenn du ihn mit vollem Namen eingetragen hast,
+wird er direkt korrekt eingetragen und aus dem Text entfernt.
+Wird kein Wochentag erkannt, wird der Sonntag eingetragen und du musst evtl. für die Versammlungen den Tag nachträglich einstellen.
+
+Außerdem werden Vorträge in deiner Versammlung von Ältesten deiner eigenen Versammlung in deinem Plan in grün hervorgehoben.
+
 [10.01.2021]
 
 Neue Abwesenheitsverwaltung für Redner.

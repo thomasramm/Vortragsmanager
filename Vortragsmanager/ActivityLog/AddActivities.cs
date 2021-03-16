@@ -21,7 +21,7 @@ namespace Vortragsmanager.ActivityLog
                 Versammlung = buchung?.Versammlung,
                 Redner = buchung?.Ältester,
                 Mails = mailtext1,
-                KalenderDatum = buchung?.Datum ?? DateTime.MinValue,
+                KalenderKw = buchung?.Kw ?? -1,
                 Vortrag = buchung?.Vortrag?.Vortrag,
             };
             if (!string.IsNullOrEmpty(mailtext2))
@@ -79,7 +79,7 @@ namespace Vortragsmanager.ActivityLog
                 Typ = Types.RednerAnfrageBestätigt,
                 Versammlung = einladung?.Ältester.Versammlung,
                 Redner = einladung?.Ältester,
-                KalenderDatum = einladung?.Datum ?? DateTime.MinValue,
+                KalenderKw = einladung?.Kw ?? -1,
                 Vortrag = einladung?.Vortrag?.Vortrag,
                 Mails = mailtext,
             };
@@ -98,7 +98,7 @@ namespace Vortragsmanager.ActivityLog
                 Versammlung = buchung.Ältester.Versammlung,
                 Redner = buchung.Ältester,
                 Mails = mailtext,
-                KalenderDatum = buchung?.Datum ?? DateTime.MinValue,
+                KalenderKw = buchung?.Kw ?? -1,
                 Vortrag = buchung?.Vortrag?.Vortrag,
             };
 
@@ -122,7 +122,7 @@ namespace Vortragsmanager.ActivityLog
             {
                 Typ = typ,
                 Versammlung = DataContainer.MeineVersammlung,
-                KalenderDatum = ereignis?.Datum ?? DateTime.MinValue,
+                KalenderKw = ereignis?.Kw ?? -1,
                 Vortrag = ereignis.Vortrag?.Vortrag,
                 Objekt = objekt
             };
@@ -137,7 +137,7 @@ namespace Vortragsmanager.ActivityLog
                 Typ = Types.RednerBearbeiten,
                 Versammlung = rednerNeu.Versammlung,
                 Redner = rednerNeu,
-                KalenderDatum = buchung.Datum,
+                KalenderKw = buchung.Kw,
                 Vortrag = buchung.Vortrag.Vortrag,
             };
 
@@ -163,7 +163,7 @@ namespace Vortragsmanager.ActivityLog
                 Typ = Types.RednerEintragen,
                 Versammlung = buchung.Ältester.Versammlung,
                 Redner = buchung.Ältester,
-                KalenderDatum = buchung.Datum,
+                KalenderKw = buchung.Kw,
                 Vortrag = buchung.Vortrag.Vortrag,
             };
             Add(log);
@@ -182,14 +182,14 @@ namespace Vortragsmanager.ActivityLog
                 Mails = anfrage.Mailtext,
             };
 
-            if (anfrage.Wochen.Count == 1)
-                log.KalenderDatum = anfrage.Wochen.First();
+            if (anfrage.Kws.Count == 1)
+                log.KalenderKw = anfrage.Kws.First();
             else
             {
                 log.Objekt = "Datum: ";
-                foreach (var d in anfrage.Wochen)
+                foreach (var d in anfrage.Kws)
                 {
-                    log.Objekt += d.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) + ", ";
+                    log.Objekt += Core.Helper.CalculateWeek(d).ToString("dd.MM.yyyy", CultureInfo.InvariantCulture) + ", ";
                 }
             }
             if (anfrage.RednerVortrag.Keys.Distinct().Count() == 1)
@@ -217,7 +217,7 @@ namespace Vortragsmanager.ActivityLog
                 Versammlung = buchung.Ältester.Versammlung,
                 Redner = buchung.Ältester,
                 Mails = mailtext,
-                KalenderDatum = buchung.Datum,
+                KalenderKw = buchung.Kw,
                 Vortrag = buchung.Vortrag?.Vortrag,
             };
 
@@ -229,11 +229,11 @@ namespace Vortragsmanager.ActivityLog
             Conregation versammlung = null;
             Speaker redner = null;
             Talk vortrag = null;
-            DateTime datum = buchung.Datum;
+            int kw = buchung.Kw;
 
             var objekt = $"{zielBuchung}{Environment.NewLine}" +
                          $"Datum: " + datumAlt.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
-                         + " → " + buchung.Datum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+                         + " → " + Core.Helper.CalculateWeek(buchung.Kw).ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
 
             var rednereinladung = (buchung as Invitation);
             if (rednereinladung != null)
@@ -275,7 +275,7 @@ namespace Vortragsmanager.ActivityLog
                 Versammlung = versammlung,
                 Redner = redner,
                 Mails = mailtext,
-                KalenderDatum = datum,
+                KalenderKw = kw,
                 Vortrag = vortrag,
                 Objekt = objekt,
                 Kommentar = header
