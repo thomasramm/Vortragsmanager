@@ -57,6 +57,8 @@ namespace Vortragsmanager.UserControls
             _year = year;
 
             var start = Core.Helper.GetConregationDay(new DateTime(year, 1, 1));
+            if (start.Year < year)
+                start = start.AddDays(7);
             var currentMonth = 0;
             while (start.Year == year)
             {
@@ -139,10 +141,13 @@ namespace Vortragsmanager.UserControls
                 if (busy.Leser?.VerknüpftePerson == Person || busy.Vorsitz?.VerknüpftePerson == Person)
                 {
                     var datum = Core.Helper.CalculateWeek(busy.Kw);
-                    var item = _calendar[datum];
-                    item.IsBusy = true;
-                    item.Text += Environment.NewLine;
-                    item.Text += (busy.Leser?.VerknüpftePerson == Person) ? "Leser" : "Vorsitzender";
+                    if (_calendar.ContainsKey(datum))
+                    {
+                        var item = _calendar[datum];
+                        item.IsBusy = true;
+                        item.Text += Environment.NewLine;
+                        item.Text += (busy.Leser?.VerknüpftePerson == Person) ? "Leser" : "Vorsitzender";
+                    }
                 }
             }
 
