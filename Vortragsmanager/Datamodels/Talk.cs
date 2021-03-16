@@ -16,13 +16,13 @@ namespace Vortragsmanager.Datamodels
 
         public bool Gültig { get; set; } = true;
 
-        public DateTime? ZuletztGehalten { get; set; }
+        public int ZuletztGehalten { get; set; }
 
         public override string ToString() => $"({Nummer}) {Thema}";
 
         public string NumberTopicShort => $"{Nummer} {Thema}";
 
-        public string NumberTopicDate => $"{Nummer} {Thema} | " + ZuletztGehalten?.ToShortDateString() ?? "nie gehalten";
+        public string NumberTopicDate => $"{Nummer} {Thema} | " + ((ZuletztGehalten == -1) ? "nie gehalten" : Core.Helper.CalculateWeek(ZuletztGehalten).ToShortDateString());
     }
 
     public class TalkSong : IComparable<TalkSong>

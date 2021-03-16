@@ -67,15 +67,16 @@ namespace Vortragsmanager.MeineRedner
 
         public void ApplyFilter()
         {
+            var firstWeekOfYear = Helper.GetFirstWeekOfYear(CurrentYear);
             //Jahr
-            List<Outside> list = DataContainer.ExternerPlan.Where(x => x.Datum.Year >= CurrentYear).ToList();
+            List<Outside> list = DataContainer.ExternerPlan.Where(x => x.Kw >= firstWeekOfYear).ToList();
             //ToDo2: interne sind auch externe!!!
-            var listIntern = DataContainer.MeinPlan.Where(x => x.Datum.Year >= CurrentYear && x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester.Versammlung == DataContainer.MeineVersammlung);
+            var listIntern = DataContainer.MeinPlan.Where(x => x.Kw >= firstWeekOfYear && x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester.Versammlung == DataContainer.MeineVersammlung);
 
             if (!History)
             {
-                list = list.Where(x => x.Datum >= DateTime.Today).ToList();
-                listIntern = listIntern.Where(x => x.Datum >= DateTime.Today);
+                list = list.Where(x => x.Kw >= Helper.CurrentWeek).ToList();
+                listIntern = listIntern.Where(x => x.Kw >= Helper.CurrentWeek);
             }
 
             foreach (var item in listIntern)
@@ -84,7 +85,7 @@ namespace Vortragsmanager.MeineRedner
                 {
                     Ältester = item.Ältester,
                     Versammlung = DataContainer.MeineVersammlung,
-                    Datum = item.Datum,
+                    Kw = item.Kw,
                     Reason = OutsideReason.Talk,
                     Vortrag = item.Vortrag
                 });
@@ -96,12 +97,12 @@ namespace Vortragsmanager.MeineRedner
                 var list2 = list.Join(Redner,
                     li => li.Ältester.Name,
                     fi => fi.Content.ToString(),
-                    (li, fi) => new { Redner = li, fi.IsChecked }).Where(x => x.IsChecked == true).Select(x => x.Redner).OrderBy(x => x.Datum);
+                    (li, fi) => new { Redner = li, fi.IsChecked }).Where(x => x.IsChecked == true).Select(x => x.Redner).OrderBy(x => x.Kw);
                 Talks = new ObservableCollection<Outside>(list2);
             }
             else
             {
-                Talks = new ObservableCollection<Outside>(list.OrderBy(x => x.Datum));
+                Talks = new ObservableCollection<Outside>(list.OrderBy(x => x.Kw));
             }
             RaisePropertyChanged(nameof(Talks));
         }

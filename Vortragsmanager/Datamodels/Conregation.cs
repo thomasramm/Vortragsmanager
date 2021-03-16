@@ -35,36 +35,10 @@ namespace Vortragsmanager.Datamodels
 
         public string KoordinatorJw { get; set; }
 
-        public string GetZusammenkunftszeit(int Jahr)
-        {
-            Log.Info(nameof(GetZusammenkunftszeit), Jahr);
-            if (Zusammenkunftszeiten.Count == 0)
-                return "unbekannt";
-            if (Zusammenkunftszeiten.ContainsKey(Jahr))
-                return Zusammenkunftszeiten[Jahr];
-            var letztesJahr = Zusammenkunftszeiten.Where(x => x.Key <= Jahr).Max(y => y.Key);
-            return Zusammenkunftszeiten[letztesJahr];
-        }
-
-        public string GetZusammenkunftszeit(DateTime Datum)
-        {
-            Log.Info(nameof(GetZusammenkunftszeit), Datum);
-            return GetZusammenkunftszeit(Datum.Year);
-        }
-
-        public void SetZusammenkunftszeit(int Jahr, string Zeit)
-        {
-            Log.Info(nameof(SetZusammenkunftszeit), $"jahr={Jahr}, Zeit={Zeit}");
-            if (Zusammenkunftszeiten.ContainsKey(Jahr))
-                Zusammenkunftszeiten[Jahr] = Zeit;
-            else
-                Zusammenkunftszeiten.Add(Jahr, Zeit);
-        }
-
         public string NameMitKoordinator => $"{Name} ({Koordinator})";
 
         public override string ToString() => $"Versammlung {Name}";
 
-        public Dictionary<int, string> Zusammenkunftszeiten { get; } = new Dictionary<int, string>(1);
+        public Core.DataHelper.Zusammenkunftszeiten Zeit { get; } = new Core.DataHelper.Zusammenkunftszeiten();
     }
 }

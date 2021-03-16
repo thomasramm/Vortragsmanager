@@ -41,14 +41,14 @@ namespace Vortragsmanager.Datamodels
         private AufgabenZuordnung vorsitz;
         private AufgabenZuordnung leser;
 
-        public AufgabenKalender(DateTime datum)
+        public AufgabenKalender(int kw)
         {
-            Datum = datum;
+            Kw = kw;
         }
 
-        public AufgabenKalender(DateTime datum, AufgabenZuordnung vorsitz, AufgabenZuordnung leser)
+        public AufgabenKalender(int kw, AufgabenZuordnung vorsitz, AufgabenZuordnung leser)
         {
-            Datum = datum;
+            Kw = kw;
             Vorsitz = vorsitz;
             Leser = leser;
         }
@@ -73,6 +73,6 @@ namespace Vortragsmanager.Datamodels
             }
         }
 
-        public DateTime Datum { get; set; }
+        public int Kw { get; set; }
     }
 }

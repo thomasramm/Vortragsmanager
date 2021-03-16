@@ -28,7 +28,7 @@ namespace Vortragsmanager.ActivityLog
         private void SetToolTip()
         {
             string nl = Environment.NewLine;
-            string datum = (_log.KalenderDatum == DateTime.MinValue) ? "" : $"Datum: {_log.KalenderDatum.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}{nl}";
+            string datum = (_log.KalenderKw == -1) ? "" : $"Datum: {Core.Helper.CalculateWeek(_log.KalenderKw).ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}{nl}";
             string vortrag = ((_log.Vortrag?.Nummer ?? 0) < 1) ? "" : $"Vortrag: {_log.Vortrag}{nl}";
             string redner = (_log.Redner == null) ? "" : $"Redner: {_log.Redner.Name}{nl}";
             string versammlung = (_log.Versammlung == null) ? "" : $"Versammlung {_log.Versammlung.NameMitKoordinator}{nl}";

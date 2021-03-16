@@ -51,7 +51,7 @@ namespace Vortragsmanager.MeineVerwaltung
         {
             Log.Info(nameof(CreateAushang), "");
             //laden der Excel-Datei
-            var template = $"{Core.Helper.TemplateFolder}AushangExcel.xlsx";
+            var template = $"{Helper.TemplateFolder}AushangExcel.xlsx";
             var tempFile = Path.GetTempFileName();
             File.Copy(template, tempFile, true);
             var excel = new FileInfo(tempFile);
@@ -62,13 +62,14 @@ namespace Vortragsmanager.MeineVerwaltung
                 var titel = $"Öffentliche Vorträge der Versammlung {DataContainer.MeineVersammlung.Name}";
                 worksheet.Cells[1, 1].Value = titel;
                 var row = 3;
-                var next10 = DataContainer.MeinPlan.Where(x => x.Datum > DateTime.Today).OrderBy(x => x.Datum).Take(10).ToList();
+                var aktuelleKw = Helper.CalculateWeek(DateTime.Today);
+                var next10 = DataContainer.MeinPlan.Where(x => x.Kw > aktuelleKw).OrderBy(x => x.Kw).Take(10).ToList();
                 
                 foreach (var evt in next10)
                 {
-                    var sonntagEinteilung = DataContainer.AufgabenPersonKalender.FirstOrDefault(x => x.Datum == evt.Datum);
+                    var sonntagEinteilung = DataContainer.AufgabenPersonKalender.FirstOrDefault(x => x.Kw == evt.Kw);
 
-                    worksheet.Cells[row, 1].Value = evt.Datum; //Datum
+                    worksheet.Cells[row, 1].Value = Helper.CalculateWeek(evt.Kw); //Datum
 
                     if (evt.Status == EventStatus.Ereignis)
                     {
@@ -85,7 +86,7 @@ namespace Vortragsmanager.MeineVerwaltung
                         worksheet.Cells[row, 4].Value = sonntag.Thema; //Versammlung
                         worksheet.Cells[row, 6].Value = sonntagEinteilung?.Leser?.PersonName; //Rechts: Leser
                         row++;
-                        worksheet.Cells[row, 2].Value = DataContainer.GetRednerAuswärts(sonntag.Datum);//auswärts
+                        worksheet.Cells[row, 2].Value = DataContainer.GetRednerAuswärts(sonntag.Kw);//auswärts
                         row++;
                         row++;
                     }
@@ -104,7 +105,7 @@ namespace Vortragsmanager.MeineVerwaltung
                         worksheet.Cells[row, 4].Value = sonntag.Ältester?.Versammlung?.Name; //Vortragsredner, Versammlung
                         worksheet.Cells[row, 6].Value = sonntagEinteilung?.Leser?.PersonName;
                         row++;
-                        worksheet.Cells[row, 2].Value = DataContainer.GetRednerAuswärts(sonntag.Datum);//auswärts
+                        worksheet.Cells[row, 2].Value = DataContainer.GetRednerAuswärts(sonntag.Kw);//auswärts
                         row++;
                         row++;
                     }
@@ -121,7 +122,8 @@ namespace Vortragsmanager.MeineVerwaltung
             var excel = new FileInfo(tempFile);
             using (ExcelPackage package = new ExcelPackage())
             {
-                var maxJahr = DataContainer.MeinPlan.Select(x => x.Datum.Year).Max();
+                var maxJahr = DataContainer.MeinPlan.Select(x => x.Kw).Max();
+                maxJahr /= 100;
                 for (var i = DateTime.Today.Year; i <= maxJahr; i++)
                 {
                     ExcelWorksheet sheet = package.Workbook.Worksheets.Add($"Mein Plan {i}");
@@ -146,13 +148,14 @@ namespace Vortragsmanager.MeineVerwaltung
                     //Daten
                     var startDate = new DateTime(i, 1, 1);
                     var endDate = new DateTime(i, 12, 31);
-                    while (startDate.DayOfWeek != DayOfWeek.Sunday)
+                    while ((int)startDate.DayOfWeek != (int)Helper.Wochentag)
                         startDate = startDate.AddDays(1);
                     var row = 2;
                     while (startDate < endDate)
                     {
+                        var kw = Helper.CalculateWeek(startDate);
                         sheet.Cells[row, 1].Value = startDate;
-                        var einladung = DataContainer.MeinPlan.FirstOrDefault(x => x.Datum == startDate);
+                        var einladung = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == kw);
                         if (einladung is null)
                         {
                             row++;
@@ -270,10 +273,10 @@ namespace Vortragsmanager.MeineVerwaltung
                 sheet.Cells[row, 1].Value = "Zusammenkunftszeiten";
                 row++;
 
-                sheet.Cells[row, 1].Value = $"{jahr}: {DataContainer.MeineVersammlung.GetZusammenkunftszeit(jahr)}";
+                sheet.Cells[row, 1].Value = $"{jahr}: {DataContainer.MeineVersammlung.Zeit.Get(jahr)}";
                 row++;
 
-                sheet.Cells[row, 1].Value = $"{jahr + 1}: {DataContainer.MeineVersammlung.GetZusammenkunftszeit(jahr + 1)}";
+                sheet.Cells[row, 1].Value = $"{jahr + 1}: {DataContainer.MeineVersammlung.Zeit.Get(jahr + 1)}";
                 row += 2;
 
                 sheet.Cells[row, 1, row, 3].Style.Font.Bold = true;
@@ -360,7 +363,10 @@ namespace Vortragsmanager.MeineVerwaltung
                     sheet.Cells[row, 4].Value = DataContainer.Redner.Where(x => x.Versammlung.Kreis == kreis && x.Vorträge.Select(y => y.Vortrag).Contains(v)).Count();
                     var wochen = DataContainer.MeinPlan.Where(x => x.Vortrag?.Vortrag?.Nummer == v.Nummer);
                     if (wochen.Any())
-                        sheet.Cells[row, 5].Value = wochen.Select(x => x.Datum).Max();
+                    {
+                        var zuletzt = wochen.Select(x => x.Kw).Max();
+                        sheet.Cells[row, 5].Value = Core.Helper.CalculateWeek(zuletzt);
+                    }
 
                     row++;
                 }
@@ -432,7 +438,12 @@ namespace Vortragsmanager.MeineVerwaltung
                     sheet.Cells[row, 6].Value = v.Einladen ? "X" : "";
 
                     var b = rednerListe.Cast<Invitation>()?.Where(x => x.Ältester == v);
-                    var letzterVortrag = b.Any() ? b.Select(x => x.Datum)?.Max().ToShortDateString() : "n.a.";
+                    var letzterVortrag = "n.a.";
+                    if (b.Any())
+                    {
+                        Helper.CalculateWeek(b.Select(x => x.Kw)?.Max() ?? -1).ToShortDateString();
+                    }
+
                     sheet.Cells[row, 7].Value = letzterVortrag;
 
                     var vortragsliste = string.Empty;

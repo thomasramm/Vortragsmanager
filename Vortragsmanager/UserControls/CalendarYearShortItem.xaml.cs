@@ -119,7 +119,7 @@ namespace Vortragsmanager.UserControls
 
         public void SetPerson(Speaker person)
         {
-            _abwesenheit = new Busy(person, _date);
+            _abwesenheit = new Busy(person, Core.Helper.CalculateWeek(_date));
         }
 
         public void SetAbwesenheit(Busy abwesenheit)

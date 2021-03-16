@@ -242,10 +242,10 @@ namespace Vortragsmanager.MeinPlan
             VortragListe.Clear();
             foreach (var t in TalkList.GetValid())
             {
-                if (VortragCheckFuture && t.ZuletztGehalten != null && t.ZuletztGehalten > DateTime.Today)
+                if (VortragCheckFuture && t.ZuletztGehalten != -1 && t.ZuletztGehalten > Core.Helper.CurrentWeek)
                     continue;
 
-                if (VortragCheckHistory && t.ZuletztGehalten != null && t.ZuletztGehalten > DateTime.Today.AddYears(-1))
+                if (VortragCheckHistory && t.ZuletztGehalten != -1 && t.ZuletztGehalten > Core.Helper.CurrentWeek + 100)
                     continue;
 
                 VortragListe.Add(t);
@@ -281,23 +281,22 @@ namespace Vortragsmanager.MeinPlan
                 };
                 var vorträge = einladungen.Where(x => x.Ältester == r).ToList();
 
-                if (vorträge.Count > 0)
-                    gr.LetzteEinladung = vorträge.Max(x => x.Datum);
+                gr.LetzteEinladungKw = vorträge.Count > 0 ? vorträge.Max(x => x.Kw) : -1;
 
-                if (RednerCheckFuture && gr.LetzteEinladung > DateTime.Today)
+                if (RednerCheckFuture && gr.LetzteEinladungKw > Core.Helper.CurrentWeek)
                     continue;
 
                 if (RednerCheckFuture && DataContainer.OffeneAnfragen.Any(x => x.RednerVortrag.ContainsKey(r)))
                     continue;
 
-                if (RednerCheckHistory && vorträge.Where(x => x.Datum >= DateTime.Today.AddYears(-1) && x.Datum <= DateTime.Today).Any())
+                if (RednerCheckHistory && vorträge.Where(x => x.Kw >= Core.Helper.CurrentWeek -100 && x.Kw <= Core.Helper.CurrentWeek).Any())
                     continue;
 
                 if (RednerCheckCancelation && DataContainer.Absagen.Any(x => x.Ältester == r))
                     continue;
 
                 var anzahlVorträge = 0;
-                foreach (var t in r.Vorträge.Where(x => selektierteVorträge.Contains(x.Vortrag.Nummer)).OrderBy(x => x.Vortrag.ZuletztGehalten ?? DateTime.MinValue))
+                foreach (var t in r.Vorträge.Where(x => selektierteVorträge.Contains(x.Vortrag.Nummer)).OrderBy(x => x.Vortrag.ZuletztGehalten))
                 {
                     var gt = new GroupTalk();
                     var gehalten = DataContainer.MeinPlan.Where(x => x.Vortrag?.Vortrag?.Nummer == t.Vortrag.Nummer).ToList();
@@ -329,20 +328,17 @@ namespace Vortragsmanager.MeinPlan
         {
             FreieTermine.Clear();
 
-            var start = DateTime.Today;
-            if (start.DayOfWeek != DayOfWeek.Sunday)
-            {
-                start = start.AddDays(7 - (int)start.DayOfWeek);
-            }
+            var start = Core.Helper.GetConregationDay(DateTime.Today);
             var ende = start.AddYears(1);
             var datum = start;
             var month = datum.AddMonths(-1).Month;
             while (datum < ende)
             {
-                if (!DataContainer.MeinPlan.Any(x => x.Datum == datum) &&
-                    !DataContainer.OffeneAnfragen.Any(x => x.Wochen.Contains(datum)))
+                var kw = Core.Helper.CalculateWeek(datum);
+                if (!DataContainer.MeinPlan.Any(x => x.Kw == kw) &&
+                    !DataContainer.OffeneAnfragen.Any(x => x.Kws.Contains(kw)))
                 {
-                    var t = new Termin(datum) { IsFirstDateOfMonth = datum.Month != month };
+                    var t = new Termin(datum, kw) { IsFirstDateOfMonth = datum.Month != month };
                     FreieTermine.Add(t);
                     month = datum.Month;
                 }
@@ -363,11 +359,7 @@ namespace Vortragsmanager.MeinPlan
             //2 = 3 Monate
             //3 = 6 Monate
             //4 = 12 Monate
-            var maxTermin = DateTime.Today;
-            if (maxTermin.DayOfWeek != DayOfWeek.Sunday)
-            {
-                maxTermin = maxTermin.AddDays(7 - (int)maxTermin.DayOfWeek);
-            }
+            var maxTermin = Core.Helper.GetConregationDay(DateTime.Today);
             switch (SelectedTermine)
             {
                 case 1:
@@ -423,10 +415,10 @@ namespace Vortragsmanager.MeinPlan
                 anfrage.RednerVortrag.Add(r.Redner, v);
                 Kommentar += $"\t{r.Name}, Vortrag Nr. {v.Nummer} ({v.Thema})" + Environment.NewLine;
             }
-            anfrage.Wochen.Clear();
-            foreach (var d in FreieTermine.Where(x => x.Aktiv).Select(x => x.Datum))
+            anfrage.Kws.Clear();
+            foreach (var d in FreieTermine.Where(x => x.Aktiv).Select(x => x.Kalenderwoche))
             {
-                anfrage.Wochen.Add(d);
+                anfrage.Kws.Add(d);
             }
             anfrage.Kommentar = Kommentar;
             anfrage.Mailtext = MailText;
@@ -504,12 +496,15 @@ namespace Vortragsmanager.MeinPlan
     {
         private bool isChecked = true;
 
-        public Termin(DateTime datum)
+        public Termin(DateTime datum, int kw)
         {
             Datum = datum;
+            Kalenderwoche = kw;
         }
 
         public DateTime Datum { get; set; }
+
+        public int Kalenderwoche { get; set; }
 
         public bool IsChecked
         {
@@ -577,7 +572,7 @@ namespace Vortragsmanager.MeinPlan
 
         public int SelectedIndex { get; set; }
 
-        public DateTime LetzteEinladung { get; set; }
+        public int LetzteEinladungKw { get; set; }
 
         public Invitation LetzterVortrag { get; set; }
 
@@ -593,7 +588,7 @@ namespace Vortragsmanager.MeinPlan
             set { SetProperty(() => Gewählt, value); }
         }
 
-        public string LetzterBesuch => LetzteEinladung == null ? string.Empty : LetzteEinladung.ToString("dd.MM.yyyy", Core.Helper.German);
+        public string LetzterBesuch => LetzteEinladungKw == -1 ? string.Empty : Core.Helper.CalculateWeek(LetzteEinladungKw).ToString("dd.MM.yyyy", Core.Helper.German);
 
         public string InfoPrivate => Redner.InfoPrivate;
     }
@@ -617,10 +612,10 @@ namespace Vortragsmanager.MeinPlan
         {
             get
             {
-                if (Vortrag.ZuletztGehalten is null)
+                if (Vortrag.ZuletztGehalten == -1)
                     return "nicht gehalten";
 
-                var datum = (DateTime)Vortrag.ZuletztGehalten;
+                var datum = Core.Helper.CalculateWeek(Vortrag.ZuletztGehalten);
                 return $"{datum.ToString("dd.MM.yyyy", Core.Helper.German)}";
             }
         }

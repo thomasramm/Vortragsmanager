@@ -13,7 +13,7 @@ namespace Vortragsmanager.UserControls
         {
             Calendar = new List<CalendarYearShortItem>(53);
 
-            var start = Core.Helper.GetSunday(new DateTime(Core.Helper.DisplayedYear, 1, 1));
+            var start = Core.Helper.GetConregationDay(new DateTime(Core.Helper.DisplayedYear, 1, 1));
             while (start.Year == Core.Helper.DisplayedYear)
             {
                 var item = new CalendarYearShortItem(start);

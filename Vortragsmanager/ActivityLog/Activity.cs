@@ -11,7 +11,7 @@ namespace Vortragsmanager.ActivityLog
         private Conregation _versammlung;
         private Speaker _redner;
         private Talk _vortrag;
-        private DateTime _calendarDate = DateTime.MinValue;
+        private int _calendarDate = -1;
         private Types _typ;
         private string _objekt;
         private string _kommentar;
@@ -75,7 +75,7 @@ namespace Vortragsmanager.ActivityLog
             }
         }
 
-        public DateTime KalenderDatum
+        public int KalenderKw
         {
             get
             {

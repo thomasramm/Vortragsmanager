@@ -381,7 +381,7 @@ namespace Vortragsmanager.Views
                 !IoExcel.Vplanung.ImportRednerPlanungen(ImportExcelFile))
                 return;
 
-            var jahr = IoExcel.Vplanung.MeinPlan.Select(x => x.Datum.Year);
+            var jahr = IoExcel.Vplanung.MeinPlan.Select(x => x.Kw/100);
 
             bool hasMatch = ImportierteJahreliste.Any(x => jahr.Any(y => y.ToString(Core.Helper.German) == x));
 
@@ -400,7 +400,7 @@ namespace Vortragsmanager.Views
             {
                 if (hasMatch) //ich muss das nur prüfen wenn hasMatch=true ist, sonst gibt es keine Einträge im Zeitraum
                 {
-                    var exist = DataContainer.ExternerPlan.FirstOrDefault(x => x.Datum == item.Datum);
+                    var exist = DataContainer.ExternerPlan.FirstOrDefault(x => x.Kw == item.Kw);
                     if (exist != null)
                         DataContainer.ExternerPlan.Remove(exist);
                 }
@@ -411,7 +411,7 @@ namespace Vortragsmanager.Views
             {
                 if (hasMatch) //ich muss das nur prüfen wenn hasMatch=true ist, sonst gibt es keine Einträge im Zeitraum
                 {
-                    var exist = DataContainer.MeinPlan.FirstOrDefault(x => x.Datum == item.Datum);
+                    var exist = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == item.Kw);
                     if (exist != null)
                         DataContainer.MeinPlanRemove(exist);
                 }

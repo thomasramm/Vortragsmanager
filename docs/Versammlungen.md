@@ -15,7 +15,7 @@ Im Bereich Versammlungen werden diverse Informationen gepflegt:
 
 Oben Rechts hast du die Möglichkeit die Liste der Versammlungen zu filtern. Du kannst entweder den Namen der Versammlung, des Koordinators oder die Kreisnummer eingeben. Die Versammlungen werden direkt während der Eingabe gefiltert.
 
-Unten Rechts hast du über das gründe + -Zeichen die Möglichkeit eine neue Versammlung anzulegen.
+Unten Rechts hast du über das grüne + -Zeichen die Möglichkeit eine neue Versammlung anzulegen.
 
 Klickst du auf das grüne + -Zeichen, oder auf eine Versammlung, wird diese Versammlung vergrößert und dir werden Details zu der Versammlung angezeigt, die du hier auch direkt bearbeiten kannst.
 
@@ -39,7 +39,7 @@ Die Kontaktdaten des Koordinator werden hier erfasst. JwPub steht für die Maila
 
 ### Zusammenkunftszeit
 
-Hier wird der Tag und die Uhrzeit für die Zusammenkunft mit dem öffentlichen Vortrag eingegeben, z.B. "Sonntag 10:00 Uhr". Ändern sich die Zusammenkunftszeiten im jahres-Turnus, kannst du hier auch direkt die Zeiten für die nächsten Jahre eingeben.
+Hier wird der Tag und die Uhrzeit für die Zusammenkunft mit dem öffentlichen Vortrag eingegeben, z.B. "Sonntag" + "10:00 Uhr". Ändern sich die Zusammenkunftszeiten im Jahres-Turnus, kannst du hier auch direkt die Zeiten für die nächsten Jahre eingeben.
 
 ### Sonstiges
 

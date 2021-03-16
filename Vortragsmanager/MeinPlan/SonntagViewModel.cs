@@ -86,26 +86,26 @@ namespace Vortragsmanager.MeinPlan
         {
             foreach (var person in DataContainer.AufgabenPersonZuordnung)
             {
-                DateTime datumLetzterEinsatz;
+                int kwLetzterEinsatz;
 
                 var a1 = DataContainer.AufgabenPersonKalender.Where(x => x.Leser == person || x.Vorsitz == person);
                 if (a1.Any())
                 {
-                    var a2 = a1?.Select(x => x.Datum);
-                    datumLetzterEinsatz = a2.Max();
+                    var a2 = a1?.Select(x => x.Kw);
+                    kwLetzterEinsatz = a2.Max();
                 }
                 else
-                    datumLetzterEinsatz = new DateTime(1);
+                    kwLetzterEinsatz = -1;
 
-                var tage = (DateTime.Today - datumLetzterEinsatz).Days;
-                person.LetzterEinsatz = tage * person.Häufigkeit;
+                var wochen = (Helper.CurrentWeek - kwLetzterEinsatz);
+                person.LetzterEinsatz = wochen * person.Häufigkeit;
             }
         }
 
         private void WochenLoad()
         {
             Wochen.Clear();
-            var tag = Core.Helper.GetSunday(Monat);
+            var tag = Core.Helper.GetConregationDay(Monat);
             var nMonat = Monat.AddMonths(Properties.Settings.Default.SonntagAnzeigeMonate);
             while (tag < nMonat)
             {

@@ -8,13 +8,13 @@ namespace Vortragsmanager.Datamodels
 {
     public class Busy
     {
-        public Busy(Speaker person, DateTime tag)
+        public Busy(Speaker person, int woche)
         {
             Redner = person;
-            Datum = tag;
+            Kw = woche;
         }
 
         public Speaker Redner { get; set; }
-        public DateTime Datum { get; set; }
+        public int Kw { get; set; }
     }
 }

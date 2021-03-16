@@ -1,5 +1,6 @@
 ﻿using DevExpress.Mvvm;
 using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
@@ -151,6 +152,7 @@ namespace Vortragsmanager.Core
             ExecCommand(@"CREATE TABLE IF NOT EXISTS Conregation_Zusammenkunftszeiten (
                     IdConregation INTEGER,
                     Jahr INTEGER,
+                    Tag INTEGER,
                     Zeit TEXT)", db);
             
             ExecCommand(@"CREATE TABLE IF NOT EXISTS Invitation (
@@ -315,6 +317,68 @@ namespace Vortragsmanager.Core
                 UpdateCommand(DataContainer.Version, db, @"UPDATE Activity SET VortragId = -24 WHERE VortragId = 24");
                 UpdateCommand(DataContainer.Version, db, @"UPDATE Talks SET Nummer = -24, Gultig = 0 WHERE Nummer = 24");
             }
+
+            if (DataContainer.Version < 12)
+            {
+
+                UpdateV12DateColumn(db, "Invitation", "Datum");
+                UpdateV12DateColumn(db, "Talks", "ZuletztGehalten");
+                UpdateV12DateColumn(db, "Outside", "Datum");
+                UpdateV12DateColumn(db, "Events", "Datum");
+                UpdateV12DateColumn(db, "Inquiry_Dates", "Datum");
+                UpdateV12DateColumn(db, "Cancelation", "Datum");
+                UpdateV12DateColumn(db, "Activity", "KalenderDatum");
+                UpdateV12DateColumn(db, "Aufgaben_Kalender", "Datum");
+                UpdateV12DateColumn(db, "Abwesenheiten", "Datum");
+            }
+
+            if (DataContainer.Version < 13)
+            {
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Conregation_Zusammenkunftszeiten ADD Tag INTEGER;");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 1,Zeit = TRIM(REPLACE(Zeit,'Montag','')) WHERE ZEIT LIKE '%Montag%';");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 2,Zeit = TRIM(REPLACE(Zeit,'Dienstag','')) WHERE ZEIT LIKE '%Dienstag%';");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 3,Zeit = TRIM(REPLACE(Zeit,'Mittwoch','')) WHERE ZEIT LIKE '%Mittwoch%';");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 4,Zeit = TRIM(REPLACE(Zeit,'Donnerstag','')) WHERE ZEIT LIKE '%Donnerstag%';");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 5,Zeit = TRIM(REPLACE(Zeit,'Freitag','')) WHERE ZEIT LIKE '%Freitag%';");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 6,Zeit = TRIM(REPLACE(Zeit,'Samstag','')) WHERE ZEIT LIKE '%Samstag%';");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 0,Zeit = TRIM(REPLACE(Zeit,'Sonntag','')) WHERE Tag IS NULL;");
+            }
+        }
+
+        private static void UpdateV12DateColumn(SQLiteConnection db, string tablename, string columname)
+        {
+#pragma warning disable CA2100 // SQL-Abfragen auf Sicherheitsrisiken überprüfen
+            UpdateCommand(DataContainer.Version, db, $"ALTER TABLE {tablename} RENAME COLUMN {columname} TO {columname}OLDDATE");
+            UpdateCommand(DataContainer.Version, db, $"ALTER TABLE {tablename} ADD COLUMN {columname} INTEGER");
+            UpdateCommand(DataContainer.Version, db, $"UPDATE {tablename} SET {columname} = -1");
+            List<DateTime> dates = new List<DateTime>();
+            using (var cmd = new SQLiteCommand($"SELECT DISTINCT {columname}OLDDATE FROM {tablename}", db))
+            {
+                SQLiteDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    if (!rdr.IsDBNull(0))
+                        dates.Add(rdr.GetDateTime(0));
+                }
+            }
+
+            using (var cmd = new SQLiteCommand($"UPDATE {tablename} SET {columname} = @Kw WHERE {columname}OLDDATE = @Datum", db))
+            {
+                cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
+                cmd.Parameters.Add("@Kw", System.Data.DbType.Int32);
+                foreach (var dat in dates)
+                {
+                    cmd.Parameters[0].Value = dat;
+                    cmd.Parameters[1].Value = Helper.CalculateWeek(dat);
+                    cmd.ExecuteNonQuery();
+                }
+                cmd.Parameters[0].Value = null;
+                cmd.Parameters[1].Value = -1;
+                cmd.ExecuteNonQuery();
+            }
+
+            UpdateCommand(DataContainer.Version, db, $"UPDATE {tablename} SET {columname} = -1 WHERE {columname} = 101");
+#pragma warning restore CA2100 // SQL-Abfragen auf Sicherheitsrisiken überprüfen
         }
 
         private static void UpdateCommand(int version, SQLiteConnection db, string command)
@@ -373,6 +437,10 @@ namespace Vortragsmanager.Core
                             Helper.DisplayedYear = int.Parse(value, Helper.German);
                             break;
 
+                        case "Wochentag":
+                            Helper.Wochentag = (DayOfWeeks)int.Parse(value, Helper.German);
+                            break;
+
                         default:
                             break;
                     }
@@ -393,7 +461,7 @@ namespace Vortragsmanager.Core
 
             var vers = int.Parse(ReadParameter(Parameter.MeineVersammlung, db), Helper.German);
             using (var cmd1 = new SQLiteCommand("SELECT Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Entfernung, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw, Zoom FROM Conregation", db))
-            using (var cmd2 = new SQLiteCommand("SELECT Jahr, Zeit FROM Conregation_Zusammenkunftszeiten WHERE IdConregation = @Id", db))
+            using (var cmd2 = new SQLiteCommand("SELECT Jahr, Tag, Zeit FROM Conregation_Zusammenkunftszeiten WHERE IdConregation = @Id", db))
             {
                 cmd2.Parameters.Add("@Id", System.Data.DbType.Int32);
 
@@ -426,13 +494,16 @@ namespace Vortragsmanager.Core
                     while (rdr2.Read())
                     {
                         var jahr = rdr2.GetInt32(0);
-                        var zeit = rdr2.GetString(1);
-                        c.SetZusammenkunftszeit(jahr, zeit);
+                        var tag = rdr2.GetInt32(1);
+                        var zeit = rdr2.GetString(2);
+                        c.Zeit.Add(jahr, tag, zeit);
                     }
                     rdr2.Close();
 
                     if (c.Id == vers)
+                    {
                         DataContainer.MeineVersammlung = c;
+                    }
                 }
 
                 rdr.Close();
@@ -452,10 +523,12 @@ namespace Vortragsmanager.Core
                 {
                     var nr = rdr.GetInt32(0);
                     var th = rdr.GetString(1);
+                    var gültig = rdr.GetBoolean(2);
+                    var datum = rdr.GetInt32(3);
                     var t = new Talk(nr, th)
                     {
-                        Gültig = rdr.GetBoolean(2),
-                        ZuletztGehalten = rdr.IsDBNull(3) ? (DateTime?)null : rdr.GetDateTime(3)
+                        Gültig = gültig,
+                        ZuletztGehalten = datum,
                     };
                     TalkList.Add(t);
                 }
@@ -541,7 +614,7 @@ namespace Vortragsmanager.Core
                     var IdAltester = rdr.IsDBNull(0) ? (int?)null : rdr.GetInt32(0);
                     var IdVortrag = rdr.IsDBNull(1) ? (int?)null : rdr.GetInt32(1);
                     var IdConregation = rdr.IsDBNull(2) ? (int?)null : rdr.GetInt32(2);
-                    i.Datum = rdr.GetDateTime(3);
+                    i.Kw = rdr.GetInt32(3);
                     i.Status = (EventStatus)rdr.GetInt32(4);
                     i.LetzteAktion = rdr.GetDateTime(5);
                     i.Kommentar = rdr.IsDBNull(6) ? null : rdr.GetString(6);
@@ -582,7 +655,7 @@ namespace Vortragsmanager.Core
                     var o = new Outside();
                     var IdSpeaker = rdr.GetInt32(0);
                     var IdConregation = rdr.IsDBNull(1) ? (int?)null : rdr.GetInt32(1);
-                    o.Datum = rdr.GetDateTime(2);
+                    o.Kw = rdr.GetInt32(2);
                     o.Reason = (OutsideReason)rdr.GetInt32(3);
                     var IdTalk = rdr.GetInt32(4);
 
@@ -651,7 +724,7 @@ namespace Vortragsmanager.Core
                         Name = rdr.IsDBNull(1) ? null : rdr.GetString(1),
                         Thema = rdr.IsDBNull(2) ? null : rdr.GetString(2),
                         Vortragender = rdr.IsDBNull(3) ? null : rdr.GetString(3),
-                        Datum = rdr.GetDateTime(4),
+                        Kw = rdr.GetInt32(4),
                         Vortrag = rdr.IsDBNull(5) ? null : new TalkSong(TalkList.Find(rdr.GetInt32(5)))
                     };
 
@@ -698,8 +771,8 @@ namespace Vortragsmanager.Core
                     SQLiteDataReader rdr2 = cmd2.ExecuteReader();
                     while (rdr2.Read())
                     {
-                        var datum = rdr2.GetDateTime(0);
-                        v.Wochen.Add(datum);
+                        var datum = rdr2.GetInt32(0);
+                        v.Kws.Add(datum);
                     }
                     rdr2.Close();
 
@@ -726,7 +799,10 @@ namespace Vortragsmanager.Core
         private static void ReadCancelation(SQLiteConnection db)
         {
             DataContainer.Absagen.Clear();
-            using (var cmd = new SQLiteCommand("SELECT Datum, IdSpeaker, IdLastStatus FROM Cancelation WHERE Datum >= date('now')", db))
+            var aktuelleKw = Core.Helper.CalculateWeek(DateTime.Today);
+#pragma warning disable CA2100 // SQL-Abfragen auf Sicherheitsrisiken überprüfen
+            using (var cmd = new SQLiteCommand("SELECT Datum, IdSpeaker, IdLastStatus FROM Cancelation WHERE Datum >= " + aktuelleKw, db))
+#pragma warning restore CA2100 // SQL-Abfragen auf Sicherheitsrisiken überprüfen
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
 
@@ -740,7 +816,7 @@ namespace Vortragsmanager.Core
 
                     var v = new Cancelation
                     {
-                        Datum = rdr.GetDateTime(0),
+                        Kw = rdr.GetInt32(0),
                         Ältester = Altester,
                         LetzterStatus = (EventStatus)rdr.GetInt32(2)
                     };
@@ -775,18 +851,19 @@ namespace Vortragsmanager.Core
                     var vortrId = rdr.IsDBNull(4) ? -1 : rdr.GetInt32(4);
                     var vortr = TalkList.Find(vortrId);
 
-                    var v = new ActivityLog.Activity();
-
-                    v.Id = rdr.GetInt32(0);
-                    v.Datum = rdr.GetDateTime(1);
-                    v.Versammlung = vers;
-                    v.Redner = redn;
-                    v.Vortrag = vortr;
-                    v.KalenderDatum = rdr.IsDBNull(5) ? DateTime.MinValue : rdr.GetDateTime(5);
-                    v.Typ = (ActivityLog.Types)rdr.GetInt32(6);
-                    v.Objekt = rdr.IsDBNull(7) ? null : rdr.GetString(7);
-                    v.Kommentar = rdr.IsDBNull(8) ? null : rdr.GetString(8);
-                    v.Mails = rdr.IsDBNull(9) ? null : rdr.GetString(9);
+                    var v = new ActivityLog.Activity
+                    {
+                        Id = rdr.GetInt32(0),
+                        Datum = rdr.GetDateTime(1),
+                        Versammlung = vers,
+                        Redner = redn,
+                        Vortrag = vortr,
+                        KalenderKw = rdr.GetInt32(5),
+                        Typ = (ActivityLog.Types)rdr.GetInt32(6),
+                        Objekt = rdr.IsDBNull(7) ? null : rdr.GetString(7),
+                        Kommentar = rdr.IsDBNull(8) ? null : rdr.GetString(8),
+                        Mails = rdr.IsDBNull(9) ? null : rdr.GetString(9)
+                    };
 
                     DataContainer.Aktivitäten.Add(v);
                 }
@@ -835,7 +912,7 @@ namespace Vortragsmanager.Core
 
                 while (rdr.Read())
                 {
-                    var datum = rdr.GetDateTime(0);
+                    var datum = rdr.GetInt32(0);
                     var vorsitz = rdr.IsDBNull(1) ? null : DataContainer.AufgabenPersonZuordnung.FirstOrDefault(x => x.Id == rdr.GetInt32(1));
                     var leser = rdr.IsDBNull(2) ? null : DataContainer.AufgabenPersonZuordnung.FirstOrDefault(x => x.Id == rdr.GetInt32(2));
                     DataContainer.AufgabenPersonKalender.Add(new AufgabenKalender(datum, vorsitz, leser));
@@ -856,10 +933,11 @@ namespace Vortragsmanager.Core
                 while (rdr.Read())
                 {
                     var rednId = rdr.GetInt32(0);
-                    var datum = rdr.GetDateTime(1);
+                    var datum = rdr.GetInt32(1);
 
                     var redn = DataContainer.Redner.FirstOrDefault(x => x.Id == rednId);
-                    if (redn == null || datum.Year < DateTime.Today.Year)
+                    var year = datum / 100;
+                    if (redn == null || year < DateTime.Today.Year)
                     {
                         //Alte Abwesenheiten (Vorjahre) werden nicht mehr eingelesen und damit gelöscht.
                         continue;
@@ -914,20 +992,22 @@ namespace Vortragsmanager.Core
             }
             conregationInsertCommand.Dispose();
 
-            SQLiteCommand zusammenkunfzszeitenInsertCommand = new SQLiteCommand("INSERT INTO Conregation_Zusammenkunftszeiten(IdConregation, Jahr, Zeit) " +
-                "VALUES (@Id, @Jahr, @Zeit)", db);
+            SQLiteCommand zusammenkunfzszeitenInsertCommand = new SQLiteCommand("INSERT INTO Conregation_Zusammenkunftszeiten(IdConregation, Jahr, Tag, Zeit) " +
+                "VALUES (@Id, @Jahr, @Tag, @Zeit)", db);
 
             zusammenkunfzszeitenInsertCommand.Parameters.Add("@Id", System.Data.DbType.Int32);
             zusammenkunfzszeitenInsertCommand.Parameters.Add("@Jahr", System.Data.DbType.Int32);
+            zusammenkunfzszeitenInsertCommand.Parameters.Add("@Tag", System.Data.DbType.Int32);
             zusammenkunfzszeitenInsertCommand.Parameters.Add("@Zeit", System.Data.DbType.String);
 
             foreach (var vers in DataContainer.Versammlungen)
             {
-                foreach (var j in vers.Zusammenkunftszeiten)
+                foreach (var j in vers.Zeit.Items)
                 {
                     zusammenkunfzszeitenInsertCommand.Parameters[0].Value = vers.Id;
-                    zusammenkunfzszeitenInsertCommand.Parameters[1].Value = j.Key;
-                    zusammenkunfzszeitenInsertCommand.Parameters[2].Value = j.Value;
+                    zusammenkunfzszeitenInsertCommand.Parameters[1].Value = j.Jahr;
+                    zusammenkunfzszeitenInsertCommand.Parameters[2].Value = (int)j.Tag;
+                    zusammenkunfzszeitenInsertCommand.Parameters[3].Value = j.Zeit;
                     zusammenkunfzszeitenInsertCommand.ExecuteNonQuery();
                 }
             }
@@ -944,7 +1024,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@IdAltester", System.Data.DbType.Int32);
             cmd.Parameters.Add("@IdVortrag", System.Data.DbType.Int32);
             cmd.Parameters.Add("@IdConregation", System.Data.DbType.Int32);
-            cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
+            cmd.Parameters.Add("@Datum", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Status", System.Data.DbType.Int32);
             cmd.Parameters.Add("@LetzteAktion", System.Data.DbType.Date);
             cmd.Parameters.Add("@Kommentar", System.Data.DbType.String);
@@ -955,7 +1035,7 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[0].Value = con.Ältester?.Id;
                 cmd.Parameters[1].Value = con.Vortrag?.Vortrag.Nummer;
                 cmd.Parameters[2].Value = con.Ältester?.Versammlung?.Id ?? con.AnfrageVersammlung?.Id;
-                cmd.Parameters[3].Value = con.Datum;
+                cmd.Parameters[3].Value = con.Kw;
                 cmd.Parameters[4].Value = (int)con.Status;
                 cmd.Parameters[5].Value = con.LetzteAktion;
                 cmd.Parameters[6].Value = con.Kommentar;
@@ -971,7 +1051,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@Name", System.Data.DbType.String);
             cmd.Parameters.Add("@Thema", System.Data.DbType.String);
             cmd.Parameters.Add("@Vortragender", System.Data.DbType.String);
-            cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
+            cmd.Parameters.Add("@Datum", System.Data.DbType.Int32);
             cmd.Parameters.Add("@IdVortrag", System.Data.DbType.Int32);
 
             foreach (var er in DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Ereignis))
@@ -981,7 +1061,7 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[1].Value = evt.Name;
                 cmd.Parameters[2].Value = evt.Thema;
                 cmd.Parameters[3].Value = evt.Vortragender;
-                cmd.Parameters[4].Value = evt.Datum;
+                cmd.Parameters[4].Value = evt.Kw;
                 cmd.Parameters[5].Value = evt.Vortrag?.Vortrag?.Nummer;
                 cmd.ExecuteNonQuery();
             }
@@ -1004,7 +1084,7 @@ namespace Vortragsmanager.Core
             cmd1.Parameters.Add("@Mailtext", System.Data.DbType.String);
 
             cmd2.Parameters.Add("@IdInquiry", System.Data.DbType.Int32);
-            cmd2.Parameters.Add("@Datum", System.Data.DbType.Date);
+            cmd2.Parameters.Add("@Datum", System.Data.DbType.Int32);
 
             cmd3.Parameters.Add("@IdInquiry", System.Data.DbType.Int32);
             cmd3.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
@@ -1021,7 +1101,7 @@ namespace Vortragsmanager.Core
                 cmd1.ExecuteNonQuery();
 
                 cmd2.Parameters[0].Value = con.Id;
-                foreach (var d in con.Wochen)
+                foreach (var d in con.Kws)
                 {
                     cmd2.Parameters[1].Value = d;
                     cmd2.ExecuteNonQuery();
@@ -1049,7 +1129,7 @@ namespace Vortragsmanager.Core
 
             cmd.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
             cmd.Parameters.Add("@IdConregation", System.Data.DbType.Int32);
-            cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
+            cmd.Parameters.Add("@Datum", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Reason", System.Data.DbType.Int32);
             cmd.Parameters.Add("@IdTalk", System.Data.DbType.Int32);
 
@@ -1057,7 +1137,7 @@ namespace Vortragsmanager.Core
             {
                 cmd.Parameters[0].Value = plan.Ältester.Id;
                 cmd.Parameters[1].Value = plan.Versammlung?.Id;
-                cmd.Parameters[2].Value = plan.Datum;
+                cmd.Parameters[2].Value = plan.Kw;
                 cmd.Parameters[3].Value = (int)plan.Reason;
                 cmd.Parameters[4].Value = plan.Vortrag.Vortrag.Nummer;
                 cmd.ExecuteNonQuery();
@@ -1137,7 +1217,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@Nummer", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Thema", System.Data.DbType.String);
             cmd.Parameters.Add("@Gultig", System.Data.DbType.Boolean);
-            cmd.Parameters.Add("@ZuletztGehalten", System.Data.DbType.Date);
+            cmd.Parameters.Add("@ZuletztGehalten", System.Data.DbType.Int32);
 
             foreach (var vort in TalkList.Get())
             {
@@ -1176,6 +1256,10 @@ namespace Vortragsmanager.Core
             cmd.Parameters[1].Value = Helper.DisplayedYear;
             cmd.ExecuteNonQuery();
 
+            cmd.Parameters[0].Value = "Wochentag";
+            cmd.Parameters[1].Value = (int)Helper.Wochentag;
+            cmd.ExecuteNonQuery();
+
             cmd.Dispose();
         }
 
@@ -1201,13 +1285,13 @@ namespace Vortragsmanager.Core
             var cmd = new SQLiteCommand("INSERT INTO Cancelation(Datum, IdSpeaker, IdLastStatus) " +
     "VALUES (@Datum, @IdSpeaker, @IdLastStatus)", db);
 
-            cmd.Parameters.Add("@Datum", System.Data.DbType.Date);
+            cmd.Parameters.Add("@Datum", System.Data.DbType.Int32);
             cmd.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
             cmd.Parameters.Add("@IdLastStatus", System.Data.DbType.Int32);
 
             foreach (var absage in DataContainer.Absagen)
             {
-                cmd.Parameters[0].Value = absage.Datum;
+                cmd.Parameters[0].Value = absage.Kw;
                 cmd.Parameters[1].Value = absage.Ältester.Id;
                 cmd.Parameters[2].Value = (int)absage.LetzterStatus;
                 cmd.ExecuteNonQuery();
@@ -1226,7 +1310,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@VersammlungId", System.Data.DbType.Int32);
             cmd.Parameters.Add("@RednerId", System.Data.DbType.Int32);
             cmd.Parameters.Add("@VortragId", System.Data.DbType.Int32);
-            cmd.Parameters.Add("@KalenderDatum", System.Data.DbType.Date);
+            cmd.Parameters.Add("@KalenderDatum", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Typ", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Objekt", System.Data.DbType.String);
             cmd.Parameters.Add("@Kommentar", System.Data.DbType.String);
@@ -1239,7 +1323,7 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[2].Value = a.Versammlung.Id;
                 cmd.Parameters[3].Value = a.Redner?.Id;
                 cmd.Parameters[4].Value = a.Vortrag?.Nummer;
-                cmd.Parameters[5].Value = a.KalenderDatum;
+                cmd.Parameters[5].Value = a.KalenderKw;
                 cmd.Parameters[6].Value = (int)a.Typ;
                 cmd.Parameters[7].Value = a.Objekt;
                 cmd.Parameters[8].Value = a.Kommentar;
@@ -1280,13 +1364,13 @@ namespace Vortragsmanager.Core
 
             cmd = new SQLiteCommand("INSERT INTO Aufgaben_Kalender(Datum, VorsitzId, LeserId) VALUES (@Datum, @IdVorsitz, @IdLeser)", db);
 
-            cmd.Parameters.Add("@Datum", System.Data.DbType.DateTime);
+            cmd.Parameters.Add("@Datum", System.Data.DbType.Int32);
             cmd.Parameters.Add("@IdVorsitz", System.Data.DbType.Int32);
             cmd.Parameters.Add("@IdLeser", System.Data.DbType.Int32);
 
             foreach (var a in DataContainer.AufgabenPersonKalender.Where(x => x.Vorsitz != null || x.Leser != null))
             {
-                cmd.Parameters[0].Value = a.Datum;
+                cmd.Parameters[0].Value = a.Kw;
                 cmd.Parameters[1].Value = a.Vorsitz?.Id;
                 cmd.Parameters[2].Value = a.Leser?.Id;
 
@@ -1300,12 +1384,14 @@ namespace Vortragsmanager.Core
         {
             var cmd = new SQLiteCommand("INSERT INTO Abwesenheiten(PersonId, Datum) VALUES (@PersonId, @Datum)", db);
             cmd.Parameters.Add("@PersonId", System.Data.DbType.Int32);
-            cmd.Parameters.Add("@Datum", System.Data.DbType.DateTime);
+            cmd.Parameters.Add("@Datum", System.Data.DbType.Int32);
 
             foreach (var a in DataContainer.Abwesenheiten)
             {
+                if (a is null)
+                    continue;
                 cmd.Parameters[0].Value = a.Redner.Id;
-                cmd.Parameters[1].Value = a.Datum;
+                cmd.Parameters[1].Value = a.Kw;
                 cmd.ExecuteNonQuery();
             }
 
@@ -1320,6 +1406,7 @@ namespace Vortragsmanager.Core
             IsInitialized,
             MeineVersammlung,
             DisplayedYear,
+            Wochentag,
         }
     }
 }
