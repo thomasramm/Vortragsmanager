@@ -104,8 +104,8 @@ namespace Vortragsmanager.Navigation
                             message += "...";
                             break;
                         }
-                        var datum = Helper.CalculateWeek(r.Kw);
-                        message += datum.ToShortDateString() + " | " + r.Versammlung.GetZusammenkunftszeit(kw/100) + Environment.NewLine
+                        var datum = Helper.CalculateWeek(r.Kw, r.Versammlung);
+                        message += datum.ToShortDateString() + " | " + r.Zeit.ToString() + Environment.NewLine
                             + r.Ältester.Name + " in " + r.Versammlung.Name + ", Nr. " + r.Vortrag?.Vortrag.Nummer + Environment.NewLine;
                         nr++;
                     }

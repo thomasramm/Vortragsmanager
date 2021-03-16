@@ -230,7 +230,7 @@ namespace Vortragsmanager.MeineVerwaltung
             }
         }
 
-        public DayOfWeek ConregationDayOfWeek
+        public DayOfWeeks ConregationDayOfWeek
         {
             get
             {
@@ -239,21 +239,13 @@ namespace Vortragsmanager.MeineVerwaltung
             set
             {
                 Helper.Wochentag = value;
+                var zeititem = DataContainer.MeineVersammlung.Zeit.Get(DateTime.Today.Year);
+                zeititem.Tag = Helper.Wochentag;
                 RaisePropertyChanged();
-                DateTime dat1 = new DateTime(2021, 1, 1);
-                var week = Helper.German.Calendar.GetWeekOfYear(dat1, System.Globalization.CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Sunday);
-                var year = dat1.Year;
-                if (dat1.Month == 1 & week > 51)
-                    year++;
-                else if (dat1.Month == 12 & week == 1)
-                    year++;
-
-                Console.WriteLine($"Datum {dat1} ist KW {week} von {year}");
-
             }
         }
 
-        public IEnumerable<DayOfWeek> DaysOfWeek => Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>();
+        public IEnumerable<DayOfWeeks> DaysOfWeek => Enum.GetValues(typeof(DayOfWeeks)).Cast<DayOfWeeks>();
 
         public DelegateCommand SearchUpdateCommand { get; private set; }
 

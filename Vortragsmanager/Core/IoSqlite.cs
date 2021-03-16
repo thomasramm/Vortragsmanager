@@ -152,6 +152,7 @@ namespace Vortragsmanager.Core
             ExecCommand(@"CREATE TABLE IF NOT EXISTS Conregation_Zusammenkunftszeiten (
                     IdConregation INTEGER,
                     Jahr INTEGER,
+                    Tag INTEGER,
                     Zeit TEXT)", db);
             
             ExecCommand(@"CREATE TABLE IF NOT EXISTS Invitation (
@@ -330,6 +331,18 @@ namespace Vortragsmanager.Core
                 UpdateV12DateColumn(db, "Aufgaben_Kalender", "Datum");
                 UpdateV12DateColumn(db, "Abwesenheiten", "Datum");
             }
+
+            if (DataContainer.Version < 13)
+            {
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Conregation_Zusammenkunftszeiten ADD Tag INTEGER;");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 1,Zeit = TRIM(REPLACE(Zeit,'Montag','')) WHERE ZEIT LIKE '%Montag%';");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 2,Zeit = TRIM(REPLACE(Zeit,'Dienstag','')) WHERE ZEIT LIKE '%Dienstag%';");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 3,Zeit = TRIM(REPLACE(Zeit,'Mittwoch','')) WHERE ZEIT LIKE '%Mittwoch%';");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 4,Zeit = TRIM(REPLACE(Zeit,'Donnerstag','')) WHERE ZEIT LIKE '%Donnerstag%';");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 5,Zeit = TRIM(REPLACE(Zeit,'Freitag','')) WHERE ZEIT LIKE '%Freitag%';");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 6,Zeit = TRIM(REPLACE(Zeit,'Samstag','')) WHERE ZEIT LIKE '%Samstag%';");
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 0,Zeit = TRIM(REPLACE(Zeit,'Sonntag','')) WHERE Tag IS NULL;");
+            }
         }
 
         private static void UpdateV12DateColumn(SQLiteConnection db, string tablename, string columname)
@@ -425,7 +438,7 @@ namespace Vortragsmanager.Core
                             break;
 
                         case "Wochentag":
-                            Helper.Wochentag = (DayOfWeek)int.Parse(value, Helper.German);
+                            Helper.Wochentag = (DayOfWeeks)int.Parse(value, Helper.German);
                             break;
 
                         default:
@@ -448,7 +461,7 @@ namespace Vortragsmanager.Core
 
             var vers = int.Parse(ReadParameter(Parameter.MeineVersammlung, db), Helper.German);
             using (var cmd1 = new SQLiteCommand("SELECT Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Entfernung, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw, Zoom FROM Conregation", db))
-            using (var cmd2 = new SQLiteCommand("SELECT Jahr, Zeit FROM Conregation_Zusammenkunftszeiten WHERE IdConregation = @Id", db))
+            using (var cmd2 = new SQLiteCommand("SELECT Jahr, Tag, Zeit FROM Conregation_Zusammenkunftszeiten WHERE IdConregation = @Id", db))
             {
                 cmd2.Parameters.Add("@Id", System.Data.DbType.Int32);
 
@@ -481,13 +494,16 @@ namespace Vortragsmanager.Core
                     while (rdr2.Read())
                     {
                         var jahr = rdr2.GetInt32(0);
-                        var zeit = rdr2.GetString(1);
-                        c.SetZusammenkunftszeit(jahr, zeit);
+                        var tag = rdr2.GetInt32(1);
+                        var zeit = rdr2.GetString(2);
+                        c.Zeit.Add(jahr, tag, zeit);
                     }
                     rdr2.Close();
 
                     if (c.Id == vers)
+                    {
                         DataContainer.MeineVersammlung = c;
+                    }
                 }
 
                 rdr.Close();
@@ -976,20 +992,22 @@ namespace Vortragsmanager.Core
             }
             conregationInsertCommand.Dispose();
 
-            SQLiteCommand zusammenkunfzszeitenInsertCommand = new SQLiteCommand("INSERT INTO Conregation_Zusammenkunftszeiten(IdConregation, Jahr, Zeit) " +
-                "VALUES (@Id, @Jahr, @Zeit)", db);
+            SQLiteCommand zusammenkunfzszeitenInsertCommand = new SQLiteCommand("INSERT INTO Conregation_Zusammenkunftszeiten(IdConregation, Jahr, Tag, Zeit) " +
+                "VALUES (@Id, @Jahr, @Tag, @Zeit)", db);
 
             zusammenkunfzszeitenInsertCommand.Parameters.Add("@Id", System.Data.DbType.Int32);
             zusammenkunfzszeitenInsertCommand.Parameters.Add("@Jahr", System.Data.DbType.Int32);
+            zusammenkunfzszeitenInsertCommand.Parameters.Add("@Tag", System.Data.DbType.Int32);
             zusammenkunfzszeitenInsertCommand.Parameters.Add("@Zeit", System.Data.DbType.String);
 
             foreach (var vers in DataContainer.Versammlungen)
             {
-                foreach (var j in vers.Zusammenkunftszeiten)
+                foreach (var j in vers.Zeit.Items)
                 {
                     zusammenkunfzszeitenInsertCommand.Parameters[0].Value = vers.Id;
-                    zusammenkunfzszeitenInsertCommand.Parameters[1].Value = j.Key;
-                    zusammenkunfzszeitenInsertCommand.Parameters[2].Value = j.Value;
+                    zusammenkunfzszeitenInsertCommand.Parameters[1].Value = j.Jahr;
+                    zusammenkunfzszeitenInsertCommand.Parameters[2].Value = (int)j.Tag;
+                    zusammenkunfzszeitenInsertCommand.Parameters[3].Value = j.Zeit;
                     zusammenkunfzszeitenInsertCommand.ExecuteNonQuery();
                 }
             }

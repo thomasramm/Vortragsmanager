@@ -30,11 +30,23 @@ namespace Vortragsmanager.Datamodels
 
     public static class DataContainer
     {
+        private static Conregation meineVersammlung;
+
         public static bool IsInitialized { get; set; }
 
         public static int Version { get; set; }
 
-        public static Conregation MeineVersammlung { get; set; }
+        public static Conregation MeineVersammlung
+        {
+            get => meineVersammlung;
+            set
+            {
+                meineVersammlung = value;
+                if (value != null)
+                    //Default Wochentag setzen:
+                    Helper.Wochentag = DataContainer.MeineVersammlung.Zeit.Get(DateTime.Today.Year).Tag;
+            }
+        }
 
         public static ObservableCollection<Conregation> Versammlungen { get; } = new ObservableCollection<Conregation>();
 
@@ -286,11 +298,11 @@ namespace Vortragsmanager.Datamodels
 
             IEnumerable<Core.DataHelper.DateWithConregation> erg;
 
-            erg = DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(x.Kw, DataContainer.MeineVersammlung.Name, x.Vortrag?.Vortrag?.Nummer));
-            
+            erg = DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(Helper.CalculateWeek(x.Kw), DataContainer.MeineVersammlung.Name, x.Vortrag?.Vortrag?.Nummer));
+
             if (redner.Versammlung == DataContainer.MeineVersammlung)
-                erg = erg.Union(DataContainer.ExternerPlan.Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(x.Kw, x.Versammlung.Name, x.Vortrag?.Vortrag?.Nummer)));
-                
+                erg = erg.Union(DataContainer.ExternerPlan.Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, x.Versammlung.Name, x.Vortrag?.Vortrag?.Nummer)));
+
             return erg;
         }
 

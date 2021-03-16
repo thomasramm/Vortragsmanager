@@ -172,9 +172,9 @@ namespace Vortragsmanager.Core
                             var z20 = zeit2020.ToString();
                             if (z20 == "liegt nicht vor")
                                 z20 = z19;
-                            v.SetZusammenkunftszeit(2019, z19);
+                            v.Zeit.Set(2019, DayOfWeeks.Sonntag, z19);
                             if (z20 != z19)
-                                v.SetZusammenkunftszeit(2020, z19);
+                                v.Zeit.Set(2020, DayOfWeeks.Sonntag, z20);
 
                             Conregations.Add(v);
 

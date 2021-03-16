@@ -87,7 +87,7 @@ namespace Vortragsmanager.MeinPlan
             var endDate = startDate.AddMonths(1);
             while (startDate < endDate)
             {
-                if (startDate.DayOfWeek == Helper.Wochentag)
+                if ((int)startDate.DayOfWeek == (int)Helper.Wochentag)
                 {
                     var kw = Helper.CalculateWeek(startDate);
                     Wochen.Add(new WeekViewModel(jahr, this, kw));

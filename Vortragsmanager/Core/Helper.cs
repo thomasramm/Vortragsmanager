@@ -4,26 +4,33 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Data;
 using Vortragsmanager.Datamodels;
+using System.Linq;
+using System.Windows.Markup;
 
 namespace Vortragsmanager.Core
 {
     internal class Helper
     {
-        public static DateTime GetConregationDay(DateTime date)
+        public static DateTime GetConregationDay(DateTime date, DayOfWeeks day)
         {
             Log.Info(nameof(GetConregationDay), $"date={date}");
-            if (date.DayOfWeek != Wochentag)
+            if ((int)date.DayOfWeek != (int)day)
             {
                 //berechnen des nächsten Sonntag
                 date = date.AddDays(7 - (int)date.DayOfWeek);
 
                 //Abziehen von Tagen, falls anderer Wochentag als Sonntag
-                if (Wochentag != DayOfWeek.Sunday)
+                if (day != DayOfWeeks.Sonntag)
                 {
                     date = date.AddDays((int)Wochentag - 7);
                 }
             }
             return date;
+        }
+
+        public static DateTime GetConregationDay(DateTime date)
+        {
+            return GetConregationDay(date, Wochentag);
         }
 
         private static DateTime GetFirstMondayOfYear(int year)
@@ -59,26 +66,28 @@ namespace Vortragsmanager.Core
             return year * 100 + week;
         }
 
-        public static DateTime CalculateWeek(int week)
+        public static DateTime CalculateWeek(int week, Conregation versammlung)
         {
-            if (week < 200000)
-            {
-                var x = "error";
-            }
             //am ersten Montag im Jahr beginnt kw1
             var jahr = week / 100;
             var kw = week - jahr*100 - 1;
             DateTime tag1 = GetFirstMondayOfYear(jahr);
+            var day = versammlung.Zeit.Get(jahr).Tag;
 
             //Tag 1 + KW Wochen = Montag in der KW + Wochentag der Vers.
-            tag1 = tag1.AddDays((kw) * 7).AddDays((int)Wochentag - 1);
-            if (Wochentag == DayOfWeek.Sunday)
+            tag1 = tag1.AddDays((kw) * 7).AddDays((int)day - 1);
+            if (day == DayOfWeeks.Sonntag)
                 tag1 = tag1.AddDays(7);
 
             return tag1;
         }
 
-        private static int _currentWeek = CalculateWeek(DateTime.Today);
+        public static DateTime CalculateWeek(int week)
+        {
+            return CalculateWeek(week, DataContainer.MeineVersammlung);
+        }
+
+        private static readonly int _currentWeek = CalculateWeek(DateTime.Today);
         public static int CurrentWeek
         {
             get
@@ -94,7 +103,7 @@ namespace Vortragsmanager.Core
             return woche;
         }
 
-        public static int CurrentVersion => 12;
+        public static int CurrentVersion => 13;
 
         public class EigeneKreisNameComparer : IComparer<Conregation>
         {
@@ -122,7 +131,7 @@ namespace Vortragsmanager.Core
             }
         }
 
-        public static DayOfWeek Wochentag { get; set; } = DayOfWeek.Sunday;
+        public static DayOfWeeks Wochentag { get; set; } = DayOfWeeks.Sonntag;
 
         public static CultureInfo German { get; } = new CultureInfo("de-DE");
 
@@ -142,20 +151,84 @@ namespace Vortragsmanager.Core
             return System.Convert.ToDouble(value, culture);
         }
     }
+
+    public class EnumBindingSourceExtension : MarkupExtension
+    {
+        private Type _enumType;
+        public Type EnumType
+        {
+            get { return this._enumType; }
+            set
+            {
+                if (value != this._enumType)
+                {
+                    if (null != value)
+                    {
+                        Type enumType = Nullable.GetUnderlyingType(value) ?? value;
+                        if (!enumType.IsEnum)
+                            throw new ArgumentException("Type must be for an Enum.");
+                    }
+
+                    this._enumType = value;
+                }
+            }
+        }
+
+        public EnumBindingSourceExtension() { }
+
+        public EnumBindingSourceExtension(Type enumType)
+        {
+            this.EnumType = enumType;
+        }
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            if (null == this._enumType)
+                throw new InvalidOperationException("The EnumType must be specified.");
+
+            Type actualEnumType = Nullable.GetUnderlyingType(this._enumType) ?? this._enumType;
+            Array enumValues = Enum.GetValues(actualEnumType);
+
+            if (actualEnumType == this._enumType)
+                return enumValues;
+
+            Array tempArray = Array.CreateInstance(actualEnumType, enumValues.Length + 1);
+            enumValues.CopyTo(tempArray, 1);
+            return tempArray;
+        }
+        
+    }
+
+    public enum DayOfWeeks
+    {
+        Montag = 1,
+        Dienstag = 2,
+        Mittwoch = 3,
+        Donnerstag = 4,
+        Freitag = 5,
+        Samstag = 6,
+        Sonntag = 0,
+    }
 }
 
 namespace Vortragsmanager.Core.DataHelper
 { 
+    /// <summary>
+    /// Wird genutzt für Aktivitäten in meiner Versammlung (Redner)
+    /// </summary>
     public class DateWithConregation
     {
-        public DateWithConregation(int kw, string versammlung, int? vortrag)
+        public DateWithConregation(DateTime datum, string versammlung, int? vortrag)
         {
-            Kalenderwoche = kw;
+            Datum = datum;
+            Kalenderwoche = Helper.CalculateWeek(datum);
             Versammlung = versammlung;
             Vortrag = vortrag?.ToString(Helper.German) ?? "";
         }
 
         public int Kalenderwoche { get; set; }
+
+        public DateTime Datum { get; set; }
 
         public string Versammlung { get; set; }
 
@@ -163,7 +236,102 @@ namespace Vortragsmanager.Core.DataHelper
 
         public override string ToString()
         {
-            return $"{Helper.CalculateWeek(Kalenderwoche):dd.MM.yyyy} {Versammlung} | {Vortrag}";
+            return $"{Datum :dd.MM.yyyy} {Versammlung} | {Vortrag}";
+        }
+    }
+
+    public class Zusammenkunftszeit
+    {
+        public Zusammenkunftszeit(int jahr)
+        {
+            Jahr = jahr;
+            Tag = DayOfWeeks.Sonntag;
+            Zeit = "10:00 Uhr";
+        }
+
+        public Zusammenkunftszeit(int jahr, DayOfWeeks tag, string zeit)
+        {
+            Jahr = jahr;
+            Tag = tag;
+            Zeit = zeit;
+        }
+
+        public int Jahr { get; set; }
+
+        public DayOfWeeks Tag { get; set; }
+
+        public string Zeit { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Tag} {Zeit}";
+        }
+    }
+
+    public class Zusammenkunftszeiten
+    {
+        public List<Zusammenkunftszeit> Items { get; } = new List<Zusammenkunftszeit>();
+
+        public Zusammenkunftszeit Get(int Jahr)
+        {
+            Log.Info(nameof(Get), Jahr);
+            
+            //Das aktuelle Jahr abfragen
+            var myItem = Items.FirstOrDefault(x => x.Jahr == Jahr);
+            if (myItem != null)
+                return myItem;
+
+            //den letzen Eintrag vor meinem Jahr abfragen
+            myItem = Items.Where(x => x.Jahr <= Jahr).OrderByDescending(y => y.Jahr).FirstOrDefault();
+            if (myItem != null)
+                return myItem;
+
+            //das jüngste Jahr nach meinem Eintrag abfragen
+            myItem = Items.OrderBy(y => y.Jahr).FirstOrDefault();
+            if (myItem != null)
+                return myItem;
+
+            //Es gibt kein Jahr, neues Jahr erstellen
+            myItem = new Zusammenkunftszeit(Jahr);
+            Items.Add(myItem);
+            return myItem;
+        }
+
+        public Zusammenkunftszeit Set(int Jahr, DayOfWeeks Tag, string Zeit)
+        {
+            Log.Info(nameof(Set), $"jahr={Jahr}, Tag={Tag}, Zeit={Zeit}");
+            var myItem = Items.FirstOrDefault(x => x.Jahr == Jahr);
+            if (myItem == null) 
+            {
+                myItem = new Zusammenkunftszeit(Jahr, Tag, Zeit);
+                Items.Add(myItem);
+            }
+            else
+            {
+                myItem.Tag = Tag;
+                myItem.Zeit = Zeit;
+            }
+            return myItem;
+        }
+
+        public Zusammenkunftszeit Add(int Jahr, DayOfWeeks Tag, string Zeit)
+        {
+            return Set(Jahr, Tag, Zeit);
+        }
+
+        public Zusammenkunftszeit Add(int Jahr, int Tag, string Zeit)
+        {
+            return Set(Jahr, (DayOfWeeks)Tag, Zeit);
+        }
+
+        public void Remove(Zusammenkunftszeit zeit)
+        {
+            Items.Remove(zeit);
+        }
+
+        public Zusammenkunftszeit GetLastItem()
+        {
+            return Items.OrderByDescending(x => x.Jahr).FirstOrDefault();
         }
     }
 }

@@ -148,7 +148,7 @@ namespace Vortragsmanager.MeineVerwaltung
                     //Daten
                     var startDate = new DateTime(i, 1, 1);
                     var endDate = new DateTime(i, 12, 31);
-                    while (startDate.DayOfWeek != Core.Helper.Wochentag)
+                    while ((int)startDate.DayOfWeek != (int)Helper.Wochentag)
                         startDate = startDate.AddDays(1);
                     var row = 2;
                     while (startDate < endDate)
@@ -273,10 +273,10 @@ namespace Vortragsmanager.MeineVerwaltung
                 sheet.Cells[row, 1].Value = "Zusammenkunftszeiten";
                 row++;
 
-                sheet.Cells[row, 1].Value = $"{jahr}: {DataContainer.MeineVersammlung.GetZusammenkunftszeit(jahr)}";
+                sheet.Cells[row, 1].Value = $"{jahr}: {DataContainer.MeineVersammlung.Zeit.Get(jahr)}";
                 row++;
 
-                sheet.Cells[row, 1].Value = $"{jahr + 1}: {DataContainer.MeineVersammlung.GetZusammenkunftszeit(jahr + 1)}";
+                sheet.Cells[row, 1].Value = $"{jahr + 1}: {DataContainer.MeineVersammlung.Zeit.Get(jahr + 1)}";
                 row += 2;
 
                 sheet.Cells[row, 1, row, 3].Style.Font.Bold = true;

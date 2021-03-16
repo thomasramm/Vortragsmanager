@@ -95,7 +95,7 @@ namespace Vortragsmanager.MeineRedner
 
         private void CorrectDate()
         {
-            if (SelectedDatum.DayOfWeek != Core.Helper.Wochentag)
+            if ((int)SelectedDatum.DayOfWeek != (int)Core.Helper.Wochentag)
             {
                 SelectedDatum = Core.Helper.GetConregationDay(SelectedDatum);
                 return;
@@ -158,7 +158,7 @@ namespace Vortragsmanager.MeineRedner
             var nachher = Kalenderwoche + 4;
             foreach(var zuDicht in _selectedRednerAllTalks.Where(x => x.Kalenderwoche >= vorher && x.Kalenderwoche <= nachher))
             {
-                Hinweis += $"Angefragtes Datum ist zu dicht an Vortrag vom {Core.Helper.CalculateWeek(zuDicht.Kalenderwoche):dd.MM.yyyy}" + Environment.NewLine;
+                Hinweis += $"Angefragtes Datum ist zu dicht an Vortrag vom {zuDicht.Datum:dd.MM.yyyy}" + Environment.NewLine;
             }
         }
 
