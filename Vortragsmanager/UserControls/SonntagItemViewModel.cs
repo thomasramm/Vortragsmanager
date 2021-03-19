@@ -19,6 +19,8 @@ namespace Vortragsmanager.UserControls
 
         public int Kalenderwoche { get; set; }
 
+        public DateTime Datum => Core.Helper.CalculateWeek(Kalenderwoche);
+
         private void RecalculateNewActivityPerson(AufgabenZuordnung removed, AufgabenZuordnung added)
         {
             if (removed == added)
