@@ -102,7 +102,7 @@ namespace Vortragsmanager.Core
             TalkList.Add(67, "Nimm dir Zeit, über geistige Dinge nachzusinnen");
             TalkList.Add(68, "Hegst du Groll oder vergibst du?");
             TalkList.Add(69, "Den Geist der Selbstaufopferung beleben");
-            TalkList.Add(70, "Mache Jehova zu deiner Zuversicht");
+            TalkList.Add(70, "Voll und ganz auf Jehova vertrauen", false);
             TalkList.Add(71, "Wie man geistig wach bleibt");
             TalkList.Add(72, "Liebe - das Kennzeichen der wahren Christenversammlung");
             TalkList.Add(73, "Ein \"Herz der Weisheit\" erwerben");

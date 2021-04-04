@@ -140,13 +140,13 @@ namespace Vortragsmanager.MeinPlan
             foreach(var woche in Wochen.OrderBy(x => x.Datum))
             {
                 //Vorsitz
-                if (woche.SelectedVorsitz == null)
+                if (woche.SelectedVorsitz == null && woche.IsVorsitz)
                 {
                     var nextPerson = woche.Vorsitz.OrderByDescending(x => x.LetzterEinsatz).First();
                     woche.SelectedVorsitz = nextPerson;
                 }
 
-                if (woche.SelectedLeser == null)
+                if (woche.SelectedLeser == null && woche.IsLeser)
                 {
                     var person = woche.Leser.OrderByDescending(x => x.LetzterEinsatz).First();
                     woche.SelectedLeser = person;

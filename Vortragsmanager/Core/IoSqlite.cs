@@ -343,6 +343,11 @@ namespace Vortragsmanager.Core
                 UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 6,Zeit = TRIM(REPLACE(Zeit,'Samstag','')) WHERE ZEIT LIKE '%Samstag%';");
                 UpdateCommand(DataContainer.Version, db, @"UPDATE Conregation_Zusammenkunftszeiten SET Tag = 0,Zeit = TRIM(REPLACE(Zeit,'Sonntag','')) WHERE Tag IS NULL;");
             }
+
+            if (DataContainer.Version < 14)
+            {
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Talkes SET Gultig = 0, Thema = 'Voll und ganz auf Jehova vertrauen' WHERE Nummer = 70");
+            }
         }
 
         private static void UpdateV12DateColumn(SQLiteConnection db, string tablename, string columname)
@@ -525,11 +530,7 @@ namespace Vortragsmanager.Core
                     var th = rdr.GetString(1);
                     var gültig = rdr.GetBoolean(2);
                     var datum = rdr.GetInt32(3);
-                    var t = new Talk(nr, th)
-                    {
-                        Gültig = gültig,
-                        ZuletztGehalten = datum,
-                    };
+                    var t = new Talk(nr, th, gültig, datum);
                     TalkList.Add(t);
                 }
 

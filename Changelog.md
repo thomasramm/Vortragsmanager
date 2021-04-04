@@ -1,3 +1,10 @@
+[04.04.2021]
+
+Der Vortrag #70 soll ab dem 01.09.2021 nicht mehr gehalten werden und wurde deshalb deaktiviert. Bitte vorhandene Einteilungen prüfen und entfernen.
+
+* Fix: Datumsanzeige in Sonntagsplannung korrigiert
+* Fix: Keine Vorschlagsgenerierung bei Events ohne entsprechende Funktion (Leser, Leiter)
+
 [16.03.2021]
 
 Einstellungen für Wochentage je Versammlung

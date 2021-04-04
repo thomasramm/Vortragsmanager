@@ -39,9 +39,10 @@ namespace Vortragsmanager.UserControls
             var kw = Core.Helper.CalculateWeek(datum);
             _model = new SonntagItemViewModel(kw);
             DataContext = _model;
+            Datum = datum;
         }
 
-        public DateTime Datum => Core.Helper.CalculateWeek(_model.Kalenderwoche);
+        public DateTime Datum { get; private set; }
 
         public AufgabenZuordnung SelectedLeser
         {
@@ -58,5 +59,9 @@ namespace Vortragsmanager.UserControls
         public IEnumerable<AufgabenZuordnung> Leser => _model.Leser;
 
         public IEnumerable<AufgabenZuordnung> Vorsitz => _model.Vorsitz;
+
+        public bool IsVorsitz => _model.IsVorsitz;
+
+        public bool IsLeser => _model.IsLeser;
     }
 }
