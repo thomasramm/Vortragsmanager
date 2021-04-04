@@ -103,7 +103,7 @@ namespace Vortragsmanager.Core
             return woche;
         }
 
-        public static int CurrentVersion => 13;
+        public static int CurrentVersion => 14;
 
         public class EigeneKreisNameComparer : IComparer<Conregation>
         {

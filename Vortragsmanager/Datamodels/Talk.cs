@@ -10,6 +10,14 @@ namespace Vortragsmanager.Datamodels
             Thema = Title;
         }
 
+        public Talk(int Number, string Title, bool Valid, int LastPresented)
+        {
+            Nummer = Number;
+            Thema = Title;
+            Gültig = Valid;
+            ZuletztGehalten = LastPresented;
+        }
+
         public int Nummer { get; set; }
 
         public string Thema { get; set; }
