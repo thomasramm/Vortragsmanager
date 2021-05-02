@@ -54,4 +54,4 @@ Dazu entweder links einen Vortrag aus der Liste auswählen,
 oder rechts eine Kommagetrennte Liste von Vortragsnummern eingeben die dem Redner hinzugefügt werden sollen.
 Beide möglichkeiten werden dann über den Button "Hinzufügen" gespeichert und direkt im oberen Bereich angezeigt.
 
-[zurück](Versammlungen.md){: .btn .btn--inverse}  [weiter](Vorlagen.md){: .btn .btn--inverse}
+[zurück](Versammlungen.md){: .btn .btn--inverse}  [weiter](ListenAusgeben.md){: .btn .btn--inverse}
