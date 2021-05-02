@@ -54,7 +54,32 @@
                                         ReadOnly="True"
                                         Width="40" />
                         </dxg:GridControl>
-                    </dxlc:LayoutGroup>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                ToolTip="Bitte eine neue Vortragsnummer eingeben und auf + klicken. Vorhandene Vortragsnummern können nicht eingegeben werden.">
+                        <Label Content="Vortragsnummer: "/>
+                        <dxe:TextEdit x:Name="numericEditor"
+                                      MaskType="Numeric"
+                                      VerticalAlignment="Center"
+                                      Text="{Binding NewTalkNumber}"
+                                      Width="50"
+                                      ValidateOnTextInput="True"
+                                      Validate="numericEditor_Validate"
+                                      />
+                        <Button  Width="20" 
+                                 Height="22"
+                                 Margin="00"
+                                 Command="{Binding AddThemaCommand}"
+                                 x:Name="AddButton"
+                                 Content="+"  
+                                 FontSize="20" 
+                                 FontFamily="Arial" 
+                                 VerticalAlignment="Center" 
+                                 HorizontalAlignment="Center" 
+                                 Padding="-1"
+                                 Background="Aqua"
+                                 Foreground="Red"/>
+                    </StackPanel>
+                </dxlc:LayoutGroup>
                 <dxlc:LayoutGroup Orientation="Vertical" 
                                   HorizontalAlignment="Right" 
                                   VerticalAlignment="Top" 

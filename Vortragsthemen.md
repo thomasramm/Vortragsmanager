@@ -16,6 +16,11 @@ Für jeden Vortrag werden folgende Informationen angezeigt:
 
 Die Liste kann über die Kopfzeilen gefiltert und beliebig sortiert werden.
 
+#### Vortrag hinzufügen
+
+Unterhalb der Liste kann man eine neue Vortragsnummer eingeben und mit einem Klick auf das grüne + einen neuen Vortrag erstellen.
+Der Vortrag erscheint dann am Ende der Vortragsliste, dort kann dann das Thema und die Gültigkeit eingestellt werden.
+
 Im Rechten bzw. unteren Bereich (je nachdem wie breit das Fenster ist) werden weitere Optionen angezeigt.
 
 #### Aktionen + Optionen

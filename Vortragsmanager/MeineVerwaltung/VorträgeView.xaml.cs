@@ -35,5 +35,20 @@ namespace Vortragsmanager.MeineVerwaltung
                 }
             }
         }
+
+        private void numericEditor_Validate(object sender, DevExpress.Xpf.Editors.ValidationEventArgs e)
+        {
+            var nummer = int.Parse(e.Value.ToString(), Core.Helper.German);
+            if (Datamodels.TalkList.Find(nummer).Nummer != -1)
+            {
+                e.IsValid = false;
+                AddButton.Foreground = System.Windows.Media.Brushes.Red;
+            }
+            else
+            {
+                e.IsValid = true;
+                AddButton.Foreground = System.Windows.Media.Brushes.Green;
+            }
+        }
     }
 }

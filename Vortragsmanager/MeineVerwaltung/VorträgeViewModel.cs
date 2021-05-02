@@ -9,7 +9,7 @@ using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.MeineVerwaltung
 {
-    public class VorträgeViewModel
+    public class VorträgeViewModel : ViewModelBase
     {
         public ObservableCollection<Datamodels.Talk> Talks { get; private set; }
 
@@ -18,11 +18,15 @@ namespace Vortragsmanager.MeineVerwaltung
             Talks = new ObservableCollection<Datamodels.Talk>(Datamodels.TalkList.Get());
             ResetCommand = new DelegateCommand(Reset);
             CreateOverviewTalkCountCommand = new DelegateCommand(CreateOverviewTalkCount);
+            AddThemaCommand = new DelegateCommand(AddThema);
+            NewTalkNumber = Talks.Select(x => x.Nummer).Max()+1;
         }
 
         public DelegateCommand ResetCommand { get; private set; }
 
         public DelegateCommand CreateOverviewTalkCountCommand { get; private set; }
+
+        public DelegateCommand AddThemaCommand { get; private set; }
 
         public bool ListeÖffnen
         {
@@ -58,6 +62,31 @@ namespace Vortragsmanager.MeineVerwaltung
         public void CreateOverviewTalkCount()
         {
             Core.IoExcel.CreateReportOverviewTalkCount(ListeÖffnen);
+        }
+
+        public void AddThema()
+        {
+            if (Talks.Any(x => x.Nummer == NewTalkNumber))
+            {
+                return;
+            }
+            var newTalk = new Datamodels.Talk(NewTalkNumber, "Neues Vortragsthema");
+            Talks.Add(newTalk);
+            Datamodels.TalkList.Add(newTalk);
+        }
+
+        private int _newTalkNumber;
+        public int NewTalkNumber
+        {
+            get
+            {
+                return _newTalkNumber;
+            }
+            set
+            {
+                _newTalkNumber = value;
+                RaisePropertyChanged();
+            }
         }
     }
 }
