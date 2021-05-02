@@ -131,10 +131,10 @@
 
             <dxlc:Tile Size="Small"
                        Header="Vorträge"
-                       Background="#64be64"
+                       Background="#49b675"
                        Foreground="White"
                        dxwuin:Navigation.NavigateTo="VorträgeView">
-                <Image Source="/Images/ListePrint_64x64.png" Margin="20" />
+                <Image Source="/Images/ListeThemen_64x64.png" Margin="20" />
             </dxlc:Tile>
         </dxlc:TileLayoutControl>
     </Grid>

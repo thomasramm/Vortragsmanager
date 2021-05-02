@@ -791,6 +791,9 @@
   <ItemGroup>
     <Resource Include="Images\Add.svg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ListeThemen_64x64.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
