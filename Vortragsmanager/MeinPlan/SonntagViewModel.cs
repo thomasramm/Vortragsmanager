@@ -116,7 +116,7 @@ namespace Vortragsmanager.MeinPlan
 
         private void PlanErstellen()
         {
-            MeineVerwaltung.ListCreateViewModel.CreateAushang(true);
+            Core.IoExcel.CreateReportAushang(true);
         }
 
         private void SonntagCalculate()

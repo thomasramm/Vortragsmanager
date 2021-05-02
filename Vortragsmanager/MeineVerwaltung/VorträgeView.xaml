@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="Vortragsmanager.MeineVerwaltung.VorträgeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+             xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
+             xmlns:local="clr-namespace:Vortragsmanager.MeineVerwaltung"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="1000"
+             DataContext="{dxmvvm:ViewModelSource local:VorträgeViewModel}" 
+             SizeChanged="UserControl_SizeChanged"
+             >
+    <dxwui:PageAdornerControl Header="Vorträge verwalten">
+        <dxwui:PageAdornerControl.HeaderTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ContentPresenter Content="{Binding}" />
+                    <Navi:NavigatorView HorizontalAlignment="Right" Grid.Column="1" />
+                </Grid>
+            </DataTemplate>
+        </dxwui:PageAdornerControl.HeaderTemplate>
+        <Grid>
+                <dxlc:LayoutControl Margin="20" 
+                                    Orientation="Horizontal" 
+                                    x:Name="MasterLayoutControl">
+                    <dxlc:LayoutGroup Orientation="Vertical">
+                        <dxg:GridControl ItemsSource="{Binding Talks}" SelectionMode="Row" x:Name="Vortragsliste">
+                            <dxg:GridControl.View>
+                                <dxg:TableView AutoWidth="True" 
+                                            AllowGrouping="False" 
+                                            AllowColumnMoving="False" 
+                                            NavigationStyle="Cell" 
+                                            ShowGroupPanel="False"
+                                            GetIsEditorActivationAction="TableView_GetIsEditorActivationAction"/>
+                            </dxg:GridControl.View>
+                            <dxg:GridColumn FieldName="Nummer" IsSmart="True" AllowEditing="False" ReadOnly="True" Header="Nr" Width="40" AllowResizing="False" FixedWidth="True"/>
+                            <dxg:GridColumn FieldName="Thema" IsSmart="True" AllowEditing="True" Width="120*" AllowedSortOrders="All" />
+                            <dxg:GridColumn FieldName="Gültig" IsSmart="True" AllowEditing="True" Width="50" AllowResizing="False" FixedWidth="True">
+                                <dxg:GridColumn.EditSettings>
+                                    <dxe:CheckEditSettings/>
+                                </dxg:GridColumn.EditSettings>
+                            </dxg:GridColumn>
+                            <dxg:GridColumn FieldName="ZuletztGehaltenDatum" IsSmart="True" Header="Zuletzt Gehalten" AllowEditing="False" 
+                                        AllowCellMerge="False" 
+                                        ReadOnly="True"
+                                        Width="40" />
+                        </dxg:GridControl>
+                    </dxlc:LayoutGroup>
+                <dxlc:LayoutGroup Orientation="Vertical" 
+                                  HorizontalAlignment="Right" 
+                                  VerticalAlignment="Top" 
+                                  Header="Aktionen + Optionen" 
+                                  View="GroupBox">
+                    <dxlc:LayoutItem Label="Excel Vortragsliste">
+                        <Button Content="Erstellen" 
+                                Command="{Binding CreateOverviewTalkCountCommand}"
+                                Width="100" 
+                                HorizontalAlignment="Right" />
+                    </dxlc:LayoutItem>
+                    <dxe:ToggleSwitch x:Name="toggleSwitch" 
+                            CheckedStateContent="Liste nach dem Erstellen öffnen"
+                            UncheckedStateContent="Liste nur Erstellen"
+                            IsChecked="{Binding ListeÖffnen}" />
+                    <Border BorderThickness="0,0,0,1" 
+                            BorderBrush="White" 
+                            Height="10" />
+                    <dxlc:LayoutItem Label="Vorträge" Margin="0,10,0,0">
+                        <Button Content="Zurücksetzen" 
+                                HorizontalAlignment="Right" 
+                                ToolTip="Alle Änderungen werden gelöscht und die Vortragsthemen und Status auf den Auslieferungsstand zurückgesetzt."
+                                Command="{Binding ResetCommand}"
+                                Width="100" />
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+            </dxlc:LayoutControl>
+
+        </Grid>
+    </dxwui:PageAdornerControl>
+</UserControl>

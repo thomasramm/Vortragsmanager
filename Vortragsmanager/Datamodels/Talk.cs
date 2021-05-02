@@ -4,10 +4,11 @@ namespace Vortragsmanager.Datamodels
 {
     public class Talk
     {
-        public Talk(int Number, string Title)
+        public Talk(int Number, string Title, bool Aktiv = true)
         {
             Nummer = Number;
             Thema = Title;
+            Gültig = Aktiv;
         }
 
         public Talk(int Number, string Title, bool Valid, int LastPresented)
@@ -30,7 +31,9 @@ namespace Vortragsmanager.Datamodels
 
         public string NumberTopicShort => $"{Nummer} {Thema}";
 
-        public string NumberTopicDate => $"{Nummer} {Thema} | " + ((ZuletztGehalten == -1) ? "nie gehalten" : Core.Helper.CalculateWeek(ZuletztGehalten).ToShortDateString());
+        public string NumberTopicDate => $"{Nummer} {Thema} | " + ZuletztGehaltenDatum;
+    
+        public string ZuletztGehaltenDatum => ((ZuletztGehalten <= 0) ? "nie gehalten" : Core.Helper.CalculateWeek(ZuletztGehalten).ToShortDateString());
     }
 
     public class TalkSong : IComparable<TalkSong>
