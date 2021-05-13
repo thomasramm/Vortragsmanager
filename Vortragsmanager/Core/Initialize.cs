@@ -261,7 +261,11 @@ namespace Vortragsmanager.Core
                 TalkList.Add(24, "„Eine besonders kostbare Perle“ – habe ich sie gefunden?");
             }
 
-            //auf aktuellste Version setzen
+            if (DataContainer.Version < 15)
+            {
+                DataContainer.AufgabenPersonZuordnung.Add(new AufgabenZuordnung(-1) { PersonName = "Nicht Vorgesehen", IsVorsitz = true, IsLeser = true, Häufigkeit=1 });
+            }
+            //auf aktuellste Version setzen = 15
             DataContainer.Version = Helper.CurrentVersion;
         }
     }

@@ -769,7 +769,7 @@ namespace Vortragsmanager.Core
                 worksheet.Cells[1, 1].Value = titel;
                 var row = 3;
                 var aktuelleKw = Helper.CalculateWeek(DateTime.Today);
-                var next10 = DataContainer.MeinPlan.Where(x => x.Kw > aktuelleKw).OrderBy(x => x.Kw).Take(10).ToList();
+                var next10 = DataContainer.MeinPlan.Where(x => x.Kw >= aktuelleKw).OrderBy(x => x.Kw).Take(10).ToList();
 
                 foreach (var evt in next10)
                 {

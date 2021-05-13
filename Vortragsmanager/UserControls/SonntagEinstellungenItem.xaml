@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <core:DoubleToIntConverter x:Key="DoubleConverter" />
     </UserControl.Resources>
-    <Grid>
+    <Grid Visibility="{Binding Sichtbar}">
         <StackPanel Orientation="Horizontal"
                     Background="{Binding Hintergrund}"
                     ToolTip="{Binding Hinweis}">

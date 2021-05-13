@@ -12,11 +12,13 @@
     <UserControl.Resources>
         <CollectionViewSource x:Key="vorsitzOrder" Source="{Binding Vorsitz}">
             <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="SortOrder" Direction="Ascending"/>
                 <scm:SortDescription PropertyName="LetzterEinsatz" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
         <CollectionViewSource x:Key="leserOrder" Source="{Binding Leser}">
             <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="SortOrder" Direction="Ascending"/>
                 <scm:SortDescription PropertyName="LetzterEinsatz" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
@@ -32,7 +34,7 @@
                       Width="150">
                 <ComboBox.ItemsSource>
                     <CompositeCollection>
-                        <datamodels:AufgabenZuordnung PersonName="Bitte Person auswählen..."/>
+                        <datamodels:AufgabenZuordnung PersonName="Bitte Person auswählen..." Id="0"/>
                         <CollectionContainer Collection="{Binding Source={StaticResource vorsitzOrder}}"/>
                     </CompositeCollection>
                 </ComboBox.ItemsSource>
