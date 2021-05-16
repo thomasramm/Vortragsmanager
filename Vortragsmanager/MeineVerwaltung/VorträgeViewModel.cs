@@ -40,23 +40,7 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public void Reset()
         {
-            var defaultTalks = Core.Initialize.LoadDefaultTalks();
-            var gültigeVortragsNr = new List<int>(200);
-
-            //Vortragsnummern die in der default-Liste vorkommen auf default zurücksetzen
-            foreach (var defaultTalk in defaultTalks)
-            {
-                gültigeVortragsNr.Add(defaultTalk.Nummer);
-                var lokalerTalk = Talks.FirstOrDefault(x => x.Nummer == defaultTalk.Nummer);
-                lokalerTalk.Thema = defaultTalk.Thema;
-                lokalerTalk.Gültig = defaultTalk.Gültig;
-            }
-
-            //Vortragsnummern die NICHT in der default-Liste vorkommen
-            foreach(var lokalTalk in Talks.Where(x => !gültigeVortragsNr.Contains(x.Nummer)))
-            {
-                lokalTalk.Gültig = false;
-            }
+            Datamodels.TalkList.Reset();
         }
 
         public void CreateOverviewTalkCount()
