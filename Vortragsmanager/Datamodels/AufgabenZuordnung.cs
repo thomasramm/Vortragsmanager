@@ -15,7 +15,7 @@ namespace Vortragsmanager.Datamodels
             Id = -1;
         }
 
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
         public string PersonName { get; set; } = "Unbekannt";
 
@@ -24,6 +24,16 @@ namespace Vortragsmanager.Datamodels
         public bool IsLeser { get; set; }
 
         public Speaker VerknüpftePerson { get; set; }
+
+        public int SortOrder 
+        {
+            get
+            {
+                if (Id <= 0) return 2;
+                if (Häufigkeit == 1) return 1;
+                return 0;
+            }
+        }
 
         //Wert zwischen 1 - 5
         public int Häufigkeit { get; set; } = 3;

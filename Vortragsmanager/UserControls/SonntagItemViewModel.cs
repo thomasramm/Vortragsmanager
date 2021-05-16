@@ -28,8 +28,7 @@ namespace Vortragsmanager.UserControls
             //Neue Person
             if (added != null)
             {
-                var tage = Core.Helper.CurrentWeek - Kalenderwoche;
-                added.LetzterEinsatz = tage * added.Häufigkeit;
+                added.LetzterEinsatz = Kalenderwoche + added.Häufigkeit;
             }
 
             //Removed Person
@@ -47,8 +46,7 @@ namespace Vortragsmanager.UserControls
                 else
                     kwLetzterEinsatz = -1;
 
-                var tage = Core.Helper.CurrentWeek - Kalenderwoche;
-                removed.LetzterEinsatz = tage * removed.Häufigkeit;
+                removed.LetzterEinsatz = kwLetzterEinsatz + removed.Häufigkeit; ;
             }
         }
 
@@ -57,7 +55,7 @@ namespace Vortragsmanager.UserControls
             get { return zuteilung?.Leser; }
             set
             {
-                var neuerWert = (value?.Id == -1) ? null : value;
+                var neuerWert = (value?.Id == 0) ? null : value;
                 RecalculateNewActivityPerson(zuteilung.Leser, neuerWert);
                 FilterOtherList(Vorsitz, zuteilung.Leser, neuerWert);
                 zuteilung.Leser = neuerWert;
@@ -70,7 +68,7 @@ namespace Vortragsmanager.UserControls
             get { return zuteilung?.Vorsitz; }
             set
             {
-                var neuerWert = (value?.Id == -1) ? null : value;
+                var neuerWert = (value?.Id == 0) ? null : value;
                 RecalculateNewActivityPerson(zuteilung.Vorsitz, neuerWert);
                 FilterOtherList(Leser, zuteilung.Vorsitz, neuerWert);
                 zuteilung.Vorsitz = neuerWert;
@@ -87,28 +85,30 @@ namespace Vortragsmanager.UserControls
             //Vortragsredner
             var redner = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == Kalenderwoche);
 
-            switch (redner.Status)
+            if (redner != null)
             {
-                case EventStatus.Zugesagt:
-                    var zu = (redner as Invitation);
-                    Vortragsredner = zu.Ältester.Name;
-                    break;
-                case EventStatus.Ereignis:
-                    var er = (redner as SpecialEvent);
-                    Vortragsredner = er.Anzeigetext;
-                    if (er.Typ == SpecialEventTyp.Dienstwoche 
-                        || er.Typ == SpecialEventTyp.Kreiskongress
-                        || er.Typ == SpecialEventTyp.RegionalerKongress)
-                    {
-                        IsLeser = false;
-                        IsVorsitz = false;
-                    }
-                    if (er.Typ == SpecialEventTyp.Dienstwoche)
-                        IsVorsitz = true;
+                switch (redner.Status)
+                {
+                    case EventStatus.Zugesagt:
+                        var zu = (redner as Invitation);
+                        Vortragsredner = zu.Ältester.Name;
+                        break;
+                    case EventStatus.Ereignis:
+                        var er = (redner as SpecialEvent);
+                        Vortragsredner = er.Anzeigetext;
+                        if (er.Typ == SpecialEventTyp.Kreiskongress
+                            || er.Typ == SpecialEventTyp.RegionalerKongress)
+                        {
+                            IsLeser = false;
+                            IsVorsitz = false;
+                        }
+                        else if (er.Typ == SpecialEventTyp.Dienstwoche)
+                            IsLeser = false;
 
-                    break;
-                default:
-                    break;
+                        break;
+                    default:
+                        break;
+                }
             }
 
             //Auswärtige Redner
@@ -129,7 +129,7 @@ namespace Vortragsmanager.UserControls
             {
                 if (az.VerknüpftePerson != null)
                 {
-                    if (redner.Status == EventStatus.Zugesagt)
+                    if (redner?.Status == EventStatus.Zugesagt)
                     {
                         var ereignis = (redner as Invitation);
                         if (ereignis != null && (ereignis.Ältester == az.VerknüpftePerson))
@@ -151,12 +151,12 @@ namespace Vortragsmanager.UserControls
                     }
                 }
 
-                if (az.IsLeser && az != zuteilung.Vorsitz)
+                if (az.IsLeser) // && az) != zuteilung.Vorsitz)
                 {
                     Leser.Add(az);
                 }
 
-                if (az.IsVorsitz && az != zuteilung.Leser)
+                if (az.IsVorsitz) // && az != zuteilung.Leser)
                 {
                     Vorsitz.Add(az);
                 }
@@ -178,12 +178,12 @@ namespace Vortragsmanager.UserControls
             if (oldValue == newValue)
                 return;
 
-            //entfernen der geählten Person aus der Liste
-            if (newValue != null && liste.Contains(newValue))
+            //entfernen der gewählten Person aus der Liste
+            if (newValue != null && newValue.Id > 0 && liste.Contains(newValue))
                 liste.Remove(newValue);
 
             //hinzufügen der frei gewordenen Person
-            if ((oldValue != null) && !liste.Contains(oldValue) && (newValue == null || (newValue.IsLeser && liste == Leser) || (newValue.IsVorsitz && liste == Vorsitz)))
+            if ((oldValue != null) && !liste.Contains(oldValue) && ((oldValue.IsLeser && liste == Leser) || (oldValue.IsVorsitz && liste == Vorsitz)))
                 liste.Add(oldValue);
         }
 

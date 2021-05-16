@@ -1,3 +1,15 @@
+[16.05.2021]
+
+Zwei neue Funktionen
+
+Vortragsthemen:
+* Aktualisieren aller Vortragsthemen (Stand 16.05.2021)
+* Neue Verwaltungsmöglichkeit der Vortragsthemen
+
+Bereich WT Leiter und Leser:
+- "Nicht vorgesehen" kann für Vorsitz und Leser gespeichert werden
+- Personen mit einer Einsatzhäufigkeit von 1* werden nicht automatisiert zugeteilt, sondern nur manuell
+
 [04.04.2021]
 
 Der Vortrag #70 soll ab dem 01.09.2021 nicht mehr gehalten werden und wurde deshalb deaktiviert. Bitte vorhandene Einteilungen prüfen und entfernen.

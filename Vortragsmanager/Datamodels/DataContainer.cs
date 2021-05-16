@@ -437,5 +437,31 @@ namespace Vortragsmanager.Datamodels
         {
             Vorträge.Clear();
         }
+
+        public static void Reset()
+        {
+            var defaultTalks = Initialize.LoadDefaultTalks();
+            var gültigeVortragsNr = new List<int>(200);
+
+            //Vortragsnummern die in der default-Liste vorkommen auf default zurücksetzen
+            foreach (var defaultTalk in defaultTalks)
+            {
+                gültigeVortragsNr.Add(defaultTalk.Nummer);
+                var lokalerTalk = Vorträge.FirstOrDefault(x => x.Nummer == defaultTalk.Nummer);
+                if (lokalerTalk == null)
+                {
+                    lokalerTalk = defaultTalk;
+                    Add(defaultTalk);
+                }
+                lokalerTalk.Thema = defaultTalk.Thema;
+                lokalerTalk.Gültig = defaultTalk.Gültig;
+            }
+
+            //Vortragsnummern die NICHT in der default-Liste vorkommen
+            foreach (var lokalTalk in Vorträge.Where(x => !gültigeVortragsNr.Contains(x.Nummer)))
+            {
+                lokalTalk.Gültig = false;
+            }
+        }
     }
 }

@@ -105,4 +105,4 @@ Die Liste der Vorträge die ein Diener ausgearbeitet hat.
 
 UNDER CONSTRUCTION
 
-[zurück](ListenAusgeben.md){: .btn .btn--inverse}  [weiter](Redner.md){: .btn .btn--inverse}
+[zurück](Verwaltung.md){: .btn .btn--inverse}  [weiter](Redner.md){: .btn .btn--inverse}

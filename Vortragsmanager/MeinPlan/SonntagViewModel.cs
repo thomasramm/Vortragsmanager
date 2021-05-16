@@ -97,8 +97,8 @@ namespace Vortragsmanager.MeinPlan
                 else
                     kwLetzterEinsatz = -1;
 
-                var wochen = (Helper.CurrentWeek - kwLetzterEinsatz);
-                person.LetzterEinsatz = wochen * person.Häufigkeit;
+                var wochen = (kwLetzterEinsatz);
+                person.LetzterEinsatz = wochen + person.Häufigkeit;
             }
         }
 
@@ -116,7 +116,7 @@ namespace Vortragsmanager.MeinPlan
 
         private void PlanErstellen()
         {
-            MeineVerwaltung.ListCreateViewModel.CreateAushang(true);
+            Core.IoExcel.CreateReportAushang(true);
         }
 
         private void SonntagCalculate()
@@ -142,13 +142,13 @@ namespace Vortragsmanager.MeinPlan
                 //Vorsitz
                 if (woche.SelectedVorsitz == null && woche.IsVorsitz)
                 {
-                    var nextPerson = woche.Vorsitz.OrderByDescending(x => x.LetzterEinsatz).First();
+                    var nextPerson = woche.Vorsitz.Where(x => x.Häufigkeit > 1).OrderBy(x => x.LetzterEinsatz).First();
                     woche.SelectedVorsitz = nextPerson;
                 }
 
                 if (woche.SelectedLeser == null && woche.IsLeser)
                 {
-                    var person = woche.Leser.OrderByDescending(x => x.LetzterEinsatz).First();
+                    var person = woche.Leser.Where(x => x.Häufigkeit > 1).OrderBy(x => x.LetzterEinsatz).First();
                     woche.SelectedLeser = person;
                 }
             }

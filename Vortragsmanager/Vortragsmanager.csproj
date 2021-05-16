@@ -264,6 +264,12 @@
       <DependentUpon>ActivityItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="ActivityLog\Activities.cs" />
+    <Compile Include="MeineVerwaltung\VorträgeView.xaml.cs">
+      <DependentUpon>VorträgeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeineVerwaltung\VorträgeViewModel.cs">
+      <DependentUpon>VorträgeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MeinPlan\SonntagEinstellungenView.xaml.cs">
       <DependentUpon>SonntagEinstellungenView.xaml</DependentUpon>
     </Compile>
@@ -465,6 +471,10 @@
     <Page Include="ActivityLog\ActivityItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MeineVerwaltung\VorträgeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MeinPlan\SonntagEinstellungenView.xaml">
       <SubType>Designer</SubType>
@@ -780,6 +790,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Add.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ListeThemen_64x64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
