@@ -31,4 +31,4 @@ Zurücksetzen
 Abbrechen
 :   Die aktuellen Bearbeitungen der Vorlage werden wieder gelöscht und der zuletzt gespeicherte Inhalt wieder hergestellt.
 
-[zurück](Versammlungen.md){: .btn .btn--inverse} [weiter](ProgrammEinstellungen.md){: .btn .btn--inverse}
+[zurück](ListenAusgeben.md){: .btn .btn--inverse} [weiter](ProgrammEinstellungen.md){: .btn .btn--inverse}

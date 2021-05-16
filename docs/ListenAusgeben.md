@@ -29,4 +29,4 @@ Liste aller Vorträge mit Anzahl der Ausarbeitungen
 Liste aller gespeicherten Vortragsredner
 :   Eine Liste aller Vortragsredner die im Programm eingegeben worden sind mit den hinterlegten Informationen, sowie dem Datum wann sie das letzte mal in deiner Versammlung einen Vortrag gehalten haben.
 
-[zurück](Verwaltung.md){: .btn .btn--inverse}  [weiter](Versammlungen.md){: .btn .btn--inverse}
+[zurück](Redner.md){: .btn .btn--inverse}  [weiter](Vorlagen.md){: .btn .btn--inverse}

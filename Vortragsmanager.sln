@@ -31,6 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{6B067D4E-8
 		docs\Versammlungen.md = docs\Versammlungen.md
 		docs\Verwaltung.md = docs\Verwaltung.md
 		docs\Vorlagen.md = docs\Vorlagen.md
+		Vortragsthemen.md = Vortragsthemen.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{EBA8B2B4-5C0A-4F22-96C0-1B0D25F7A20F}"

@@ -26,7 +26,7 @@
             <Label Content="Vorsitz" Width="50" FontWeight="Bold"/>
             <Label Content="WT Leser" Width="65" FontWeight="Bold"/>
             <Label Content="Verknüpft mit..." Width="225" FontWeight="Bold"/>
-            <Label Content="Häufigkeit" Width="200" FontWeight="Bold"/>
+            <Label Content="Häufigkeit" Width="200" FontWeight="Bold" ToolTip="Personen mit Häufigkeit=1 werden nicht automatisiert eingeteilt, erscheinen aber im DropDown zur Manuellen Zuweisung"/>
         </StackPanel>
         <ListBox Grid.Row="1" 
                  ItemsSource="{Binding Personen, Mode=OneWay}"

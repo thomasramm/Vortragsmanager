@@ -20,6 +20,8 @@ namespace Vortragsmanager.UserControls
             RednerDropDown.SelectedName = Person?.VerknüpftePerson?.Name;
         }
 
+        public Visibility Sichtbar => Person.Id <= 0 ? Visibility.Collapsed : Visibility.Visible;
+
         public AufgabenZuordnung Person { get; set; }
 
         public static Conregation Versammlung => DataContainer.MeineVersammlung;
