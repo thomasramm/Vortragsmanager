@@ -138,6 +138,76 @@ namespace Vortragsmanager.Core
 
         public static string TemplateFolder => AppDomain.CurrentDomain.BaseDirectory + @"Templates\";
 
+        public static string ConvertToString(object input)
+        {
+            if (input == null)
+                return string.Empty;
+            return input.ToString().Trim();
+        }
+
+        public static bool CheckNegativListe(string input, string[] liste)
+        {
+            var u = input.ToUpperInvariant();
+            return !liste.Any(x => x == u);
+        }
+
+        public static bool GetDayOfWeeks(ref string input, DayOfWeeks day)
+        {
+            if (string.IsNullOrEmpty(input))
+                return false;
+
+            var test = day.ToString();
+
+            if (input.Contains(test))
+            {
+                input = input.Replace(test, "");
+                return true;
+            }
+
+            test = test.Substring(0, 3) + " ";
+            if (input.Contains(test))
+            {
+                input = input.Replace(test, "");
+                return true;
+            }
+
+            test = test.Substring(0, 3) + ".";
+            if (input.Contains(test))
+            {
+                input = input.Replace(test, "");
+                return true;
+            }
+
+            test = test.Substring(0, 3) + ",";
+            if (input.Contains(test))
+            {
+                input = input.Replace(test, "");
+                return true;
+            }
+
+            test = test.Substring(0, 2) + " ";
+            if (input.Contains(test))
+            {
+                input = input.Replace(test, "");
+                return true;
+            }
+
+            test = test.Substring(0, 2) + ".";
+            if (input.Contains(test))
+            {
+                input = input.Replace(test, "");
+                return true;
+            }
+
+            test = test.Substring(0, 2) + ",";
+            if (input.Contains(test))
+            {
+                input = input.Replace(test, "");
+                return true;
+            }
+
+            return false;
+        }
     }
 
     public class DoubleToIntConverter : IValueConverter

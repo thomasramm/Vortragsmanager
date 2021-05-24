@@ -10,7 +10,7 @@
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
         mc:Ignorable="d"
-        Title="Einrichtungsassistent" Height="450" Width="800"
+        Title="Einrichtungsassistent" Height="455" Width="800"
         x:Name="SetupWizardWindow"
         Icon="{dx:SvgImageSource Uri='/Images/AddDatasource.svg'}"
         ShowInTaskbar="False"
@@ -32,6 +32,8 @@
             AnimationType="SlideHorizontal"
             BorderThickness="1"
             AllowNext="{Binding CanGoNext}"
+            AllowBack="True"
+            ShowCancel="False"
             SelectedIndex="{Binding SelectedIndex}">
             <dxco:WelcomeWizardPage Header="Einrichtungsassistent"
                                     Title="Willkommen beim Vortragsmanager DeLuxe 1.0"
@@ -245,10 +247,32 @@
                             </Button>
                         </dxlc:LayoutItem>
                     </dxlc:LayoutGroup>
-                    <dxlc:LayoutGroup Header="importierte Versammlungen" View="GroupBox" Width="200">
+                    <dxlc:LayoutGroup Header="importierte Versammlungen" View="GroupBox" Width="200" Padding="-12">
                         <ListBox ItemsSource="{Binding ImportierteKoordinatorenliste}"></ListBox>
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutControl>
+            </dxco:WizardPage>
+            <dxco:WizardPage Header="Wähle deine Versammlung" Title="Import deiner Daten"
+                             ShowSideContent="True"
+                             Foreground="White"
+                             SideContent="{StaticResource ResourceKey=side}">
+                <Grid Margin="6">
+                    <TextBlock Text="Tipp: Du kannst die Anfangsbuchstaben deiner Versammlung eingeben, um deine Versammlung in der Liste schneller zu finden. Hast du deine eigene Versammlung nicht importiert, entferne den Haken." TextWrapping="Wrap"
+                           Margin="10" />
+                    <CheckBox Margin="10,50,10,10" 
+                              Content="Meine eigene Versammlung wurde ebenfalls importiert."
+                              IsChecked="{Binding MeineVersammlungIstImportiertChecked}"
+                              x:Name="MeineVersammlungIstImportiert"/>
+                    <dxe:ListBoxEdit ItemsSource="{Binding VersammlungsListe}"
+                                     SelectedItem="{Binding DeineVersammlung}"
+                                     IsEnabled="{Binding ElementName=MeineVersammlungIstImportiert, Path=IsChecked}"
+                                 Margin="10,80,10,10"
+                                 DisplayMember="Name">
+                        <dxe:ListBoxEdit.StyleSettings>
+                            <dxe:RadioListBoxEditStyleSettings />
+                        </dxe:ListBoxEdit.StyleSettings>
+                    </dxe:ListBoxEdit>
+                </Grid>
             </dxco:WizardPage>
             <dxco:WizardPage Header="Redner" Title="Import deiner Daten" 
                              Foreground="White" 
@@ -268,7 +292,7 @@
                                 </dxe:ButtonEdit>
                             </dxlc:LayoutItem>
                             <dxlc:LayoutItem Label="Gewählte Datei importieren">
-                                <Button Content="Importieren" Command="{Binding ExcelImportierenKoordinatorenCommand}" />
+                                <Button Content="Importieren" Command="{Binding ExcelImportierenRednerCommand}" />
                             </dxlc:LayoutItem>
                         </dxlc:LayoutGroup>
                         <dxlc:LayoutItem>
@@ -277,7 +301,7 @@
                         <dxlc:LayoutItem>
                             <TextBlock TextWrapping="Wrap" Text="Die Information können auch übersprungen werden, Beim importieren deiner Planung werden Redner und ihre Vorträge eingetragen sofern sie noch nicht angelegt sind. Die Rednerdaten sind dann jedoch unvollständig (es sind nur die Vorträge importiert, die in der Vergangenheit gehalten wurden)." />
                         </dxlc:LayoutItem>
-                        <dxlc:LayoutItem Label="Beispiel der benötigten ExcelDatei. Wenn du diese als Vorlage benutzt, bitte die Zeilen 2-6 löschen.">
+                        <dxlc:LayoutItem Label="Beispiel der benötigten ExcelDatei.">
                             <Button Width="60" HorizontalAlignment="Left"
                                     Command="{Binding OpenExcelExampleCommand}"
                                     CommandParameter="Import_Redner.xlsx">
@@ -285,13 +309,16 @@
                             </Button>
                         </dxlc:LayoutItem>
                     </dxlc:LayoutGroup>
+                    <dxlc:LayoutGroup Header="importierte Redner" View="GroupBox" Width="200" Padding="-12">
+                        <ListBox ItemsSource="{Binding ImportierteRednerliste}"/>
+                    </dxlc:LayoutGroup>
                 </dxlc:LayoutControl>
             </dxco:WizardPage>
             <dxco:WizardPage Header="Deine Vortragsplanung" Title="Import deiner Daten"
                              ShowSideContent="True"
                              Foreground="White"
                              SideContent="{StaticResource ResourceKey=side}">
-                <dxlc:LayoutControl Grid.Column="1">
+                <dxlc:LayoutControl>
                     <dxlc:LayoutGroup Orientation="Vertical">
                         <dxlc:LayoutGroup Header="Excel Datei auswählen" View="GroupBox" Orientation="Vertical">
                             <dxlc:LayoutItem>
@@ -314,7 +341,7 @@
                         <dxlc:LayoutItem>
                             <TextBlock TextWrapping="Wrap" Text="Nicht vorhandene Redner und Versammlungen werden neu angelegt. Ist das Feld Versammlung nicht gefüllt, wird versucht der Redner anhand seines Namens der Versammlung zuzuordnen. Das kann bei häufigen (doppelten) Namen zu Fehlern führen."/>
                         </dxlc:LayoutItem>
-                        <dxlc:LayoutItem Label="Beispiel der benötigten ExcelDatei. Wenn du diese als Vorlage benutzt, bitte die Zeilen 2-6 löschen.">
+                        <dxlc:LayoutItem Label="Beispiel der benötigten ExcelDatei.">
                             <Button Width="60" HorizontalAlignment="Left"
                                     Command="{Binding OpenExcelExampleCommand}"
                                     CommandParameter="Import_Planung.xlsx">
@@ -322,8 +349,8 @@
                             </Button>
                         </dxlc:LayoutItem>
                     </dxlc:LayoutGroup>
-                    <dxlc:LayoutGroup Header="importierte Jahre" View="GroupBox" Width="200">
-                        <ListBox ItemsSource="{Binding ImportierteJahreliste}"></ListBox>
+                    <dxlc:LayoutGroup Header="importierte Jahre" View="GroupBox" Width="200" Padding="-12">
+                        <ListBox ItemsSource="{Binding ImportierteJahreliste}"/>
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutControl>
             </dxco:WizardPage>
@@ -345,7 +372,7 @@
                                 </dxe:ButtonEdit>
                             </dxlc:LayoutItem>
                             <dxlc:LayoutItem Label="Gewählte Datei importieren">
-                                <Button Content="Importieren" Command="{Binding ExcelImportierenKoordinatorenCommand}" />
+                                <Button Content="Importieren" Command="{Binding ExcelImportierenPlannungExternCommand}" />
                             </dxlc:LayoutItem>
                         </dxlc:LayoutGroup>
                         <dxlc:LayoutItem>
@@ -354,7 +381,7 @@
                         <dxlc:LayoutItem>
                             <TextBlock TextWrapping="Wrap" Text="Der Import kann auch übersprungen werden und später manuell im Programm erfasst werden." />
                         </dxlc:LayoutItem>
-                        <dxlc:LayoutItem Label="Beispiel der benötigten ExcelDatei. Wenn du diese als Vorlage benutzt, bitte die Zeilen 2-6 löschen.">
+                        <dxlc:LayoutItem Label="Beispiel der benötigten ExcelDatei.">
                             <Button Width="60" HorizontalAlignment="Left"
                                     Command="{Binding OpenExcelExampleCommand}"
                                     CommandParameter="Import_Externe_Planung.xlsx">
@@ -362,25 +389,10 @@
                             </Button>
                         </dxlc:LayoutItem>
                     </dxlc:LayoutGroup>
+                    <dxlc:LayoutGroup Header="importierte Jahre" View="GroupBox" Width="200" Padding="-12">
+                        <ListBox ItemsSource="{Binding ImportierteJahreliste}"/>
+                    </dxlc:LayoutGroup>
                 </dxlc:LayoutControl>
-            </dxco:WizardPage>
-            <dxco:WizardPage Header="Wähle deine Versammlung" Title="Import deiner Daten"
-                             ShowSideContent="True"
-                             Foreground="White"
-                             SideContent="{StaticResource ResourceKey=side}">
-                <Grid Margin="6">
-                    <TextBlock Text="Tipp: Du kannst die Anfangsbuchstaben deiner Versammlung eingeben, um deine Versammlung in der Liste schneller zu finden." TextWrapping="Wrap"
-                           Margin="10" />
-                    <dxe:ListBoxEdit ItemsSource="{Binding VersammlungsListe}"
-                                 SelectedItem="{Binding DeineVersammlung}"
-                                 ShowCustomItems="True"
-                                 Margin="10,50,10,10"
-                                 DisplayMember="Name">
-                        <dxe:ListBoxEdit.StyleSettings>
-                            <dxe:RadioListBoxEditStyleSettings />
-                        </dxe:ListBoxEdit.StyleSettings>
-                    </dxe:ListBoxEdit>
-                </Grid>
             </dxco:WizardPage>
             <dxco:CompletionWizardPage Header="Fertig" Title="Import deiner Daten"
                                        ShowBack="False"

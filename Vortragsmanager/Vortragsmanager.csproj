@@ -654,6 +654,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Templates\Import_Externe_Planung.xlsx" />
+    <None Include="Templates\Import_Planung.xlsx" />
     <None Include="Templates\Import_Redner.xlsx" />
     <None Include="Templates\Import_Versammlungen.xlsx" />
     <None Include="Vortragsmanager.ruleset" />

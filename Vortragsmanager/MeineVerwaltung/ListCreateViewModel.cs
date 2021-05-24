@@ -44,27 +44,27 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public void CreateAushang()
         {
-            IoExcel.CreateReportAushang(ListeÖffnen);
+            IoExcel.Export.Aushang(ListeÖffnen);
         }
 
         public void CreateContactList()
         {
-            IoExcel.CreateReportContactList(ListeÖffnen);
+            IoExcel.Export.ContactList(ListeÖffnen);
         }
 
         public void CreateExchangeRednerList()
         {
-            IoExcel.CreateReportExchangeRednerList(ListeÖffnen);
+            IoExcel.Export.ExchangeRednerList(ListeÖffnen);
         }
 
         public void CreateOverviewTalkCount()
         {
-            IoExcel.CreateReportOverviewTalkCount(ListeÖffnen);
+            IoExcel.Export.OverviewTalkCount(ListeÖffnen);
         }
 
         public void CreateSpeakerOverview()
         {
-            IoExcel.CreateReportSpeakerOverview(ListeÖffnen);
+            IoExcel.Export.SpeakerOverview(ListeÖffnen);
         }
 
         

@@ -44,7 +44,7 @@ namespace Vortragsmanager.Datamodels
                 meineVersammlung = value;
                 if (value != null)
                     //Default Wochentag setzen:
-                    Helper.Wochentag = DataContainer.MeineVersammlung.Zeit.Get(DateTime.Today.Year).Tag;
+                    Helper.Wochentag = MeineVersammlung.Zeit.Get(DateTime.Today.Year).Tag;
             }
         }
 
@@ -58,6 +58,11 @@ namespace Vortragsmanager.Datamodels
 
         public static void MeinPlanAdd(IEvent newEvent)
         {
+            if (MeinPlan.Any(x => x.Kw == newEvent.Kw))
+            {
+                var alt = MeinPlan.First(x => x.Kw == newEvent.Kw);
+                MeinPlan.Remove(alt);
+            }
             MeinPlan.Add(newEvent);
             if (newEvent?.Vortrag?.Vortrag != null && newEvent.Vortrag.Vortrag.ZuletztGehalten < newEvent.Kw)
                 newEvent.Vortrag.Vortrag.ZuletztGehalten = newEvent.Kw;

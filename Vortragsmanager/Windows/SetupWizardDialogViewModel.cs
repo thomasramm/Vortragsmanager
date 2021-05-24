@@ -19,6 +19,8 @@ namespace Vortragsmanager.Views
             ExcelFileDialogCommand = new DelegateCommand(ExcelFileDialog);
             ExcelImportierenKoordinatorenCommand = new DelegateCommand(ExcelImportierenKoordinatoren);
             ExcelImportierenPlannungCommand = new DelegateCommand(ExcelImportierenPlannung);
+            ExcelImportierenPlannungExternCommand = new DelegateCommand(ExcelImportierenPlannungExtern);
+            ExcelImportierenRednerCommand = new DelegateCommand(ExcelImportierenRedner);
             OpenExcelExampleCommand = new DelegateCommand<string>(OpenExcelExample);
             VortragsmanagerdateiLadenCommand = new DelegateCommand(VortragsmanagerdateiLaden);
             DatabaseFileDialogCommand = new DelegateCommand(DatabaseFileDialog);
@@ -27,8 +29,66 @@ namespace Vortragsmanager.Views
         }
 
         private int _selectedIndex;
-        private string _importExcelFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Liste der Vortragskoordinatoren.xlsx";
+        private string _importExcelFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Versammlungen.xlsx";
         private bool _canGoNext;
+        private bool _datenbankÖffnenChecked;
+        private bool _vplanungChecked = true;
+        private string _importFile = string.Empty;
+        private Conregation _deineVersammlung;
+        private bool _meineVersammlungIstImportiertChecked = true;
+        private bool? dialogResult;
+
+        public DelegateCommand ExcelImportierenPlannungCommand { get; private set; }
+        public DelegateCommand ExcelImportierenPlannungExternCommand { get; private set; }
+        public DelegateCommand<ICloseable> CloseCommand { get; private set; }
+        public DelegateCommand VortragsmanagerdateiLadenCommand { get; private set; }
+        public DelegateCommand DatabaseFileDialogCommand { get; private set; }
+        public DelegateCommand ExcelImportierenKoordinatorenCommand { get; private set; }
+        public DelegateCommand ExcelImportierenRednerCommand { get; private set; }
+        public DelegateCommand<string> OpenExcelExampleCommand { get; private set; }
+        public DelegateCommand ExcelFileDialogCommand { get; private set; }
+
+        public ObservableCollection<Conregation> VersammlungsListe => DataContainer.Versammlungen;
+
+        public ObservableCollection<string> ImportierteJahreliste { get; } = new ObservableCollection<string>();
+
+        public ObservableCollection<Kreis> ImportierteKoordinatorenliste { get; } = new ObservableCollection<Kreis>();
+
+        public ObservableCollection<string> ImportierteRednerliste { get; } = new ObservableCollection<string>();
+               
+        public bool IsFinished { get; set; }
+
+        public bool DemoChecked { get; set; }
+
+        public bool NeuBeginnenChecked { get; set; }
+
+        public bool? DialogResult { get => dialogResult; set => SetValue(ref dialogResult, value); }
+
+        public bool MeineVersammlungIstImportiertChecked
+        {
+            get => _meineVersammlungIstImportiertChecked;
+            set
+            {
+                _meineVersammlungIstImportiertChecked = value;
+                CanGoNext = (_deineVersammlung != null || !_meineVersammlungIstImportiertChecked);
+                RaisePropertyChanged();
+            }
+        }
+
+        public Conregation DeineVersammlung
+        {
+            get
+            {
+                return _deineVersammlung;
+            }
+            set
+            {
+                _deineVersammlung = value;
+                CanGoNext = (_deineVersammlung != null || !_meineVersammlungIstImportiertChecked);
+                if (value != null)
+                    DataContainer.MeineVersammlung = _deineVersammlung;
+            }
+        }
 
         public int SelectedIndex
         {
@@ -44,7 +104,79 @@ namespace Vortragsmanager.Views
             }
         }
 
-        public DelegateCommand<ICloseable> CloseCommand { get; private set; }
+        public bool CanGoNext
+        {
+            get
+            {
+                return _canGoNext;
+            }
+            set
+            {
+                _canGoNext = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool DatenbankÖffnenChecked
+        {
+            get { return _datenbankÖffnenChecked; }
+            set
+            {
+                _datenbankÖffnenChecked = value;
+                DatenbankÖffnenHeight = value ? new GridLength(1, GridUnitType.Star) : new GridLength(0, GridUnitType.Pixel);
+                RaisePropertyChanged(nameof(DatenbankÖffnenHeight));
+            }
+        }
+
+        public bool VplanungChecked
+        {
+            get { return _vplanungChecked; }
+            set
+            {
+                _vplanungChecked = value;
+                VplanungCheckedHeight = value ? new GridLength(1, GridUnitType.Star) : new GridLength(0, GridUnitType.Pixel);
+                RaisePropertyChanged(nameof(VplanungCheckedHeight));
+            }
+        }
+
+        public GridLength DatenbankÖffnenHeight
+        {
+            get;
+            set;
+        }
+
+        public GridLength VplanungCheckedHeight
+        {
+            get;
+            set;
+        }
+
+        public string ImportFile
+        {
+            get
+            {
+                return _importFile;
+            }
+            set
+            {
+                _importFile = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string ImportExcelFile
+        {
+            get
+            {
+                return _importExcelFile;
+            }
+            set
+            {
+                _importExcelFile = value;
+                RaisePropertyChanged();
+            }
+        }
+
 
         public static void Schließen(ICloseable window)
         {
@@ -58,17 +190,21 @@ namespace Vortragsmanager.Views
 
             switch (SelectedIndex)
             {
+                //0 = Grundsätzliche Auswahl wie man starten soll, hier gibt es keine Optionen
+                case 0:
+                    break;
+                // 1 = Erste Seite nach der Auswahl.
+                // Option Demo+Leer haben keine weiteren Optionen. Die Tasks werden gestartet und der Wizard geschlossen
+                // Option Datenbank öffnen hat noch diese 1 Wizard-Seite, deshalb ist Next daktiviert
+                // Option Excel-Import ist der eigentliche "Echte" Wizard-Import.
                 case 1:
-                    if (VplanungChecked)
-                    {
-                        CanGoNext = true;
-                    }
-                    else if (DemoChecked)
+                    if (DemoChecked)
                     {
                         var quelle = $"{Helper.TemplateFolder}demo.sqlite3";
                         var ziel = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\demo.sqlite3";
                         File.Copy(quelle, ziel, true);
                         IoSqlite.ReadContainer(ziel);
+                        Initialize.DemoAktualisieren();
                         Properties.Settings.Default.sqlite = ziel;
 
                         IsFinished = true;
@@ -83,35 +219,51 @@ namespace Vortragsmanager.Views
                         IsFinished = true;
                         DialogResult = true;
                     }
-                    else 
+                    else if (DatenbankÖffnenChecked)
                     {
+                        //Hier gibt es noch keine Optionen die dynamisch gesetzt werden müssen.
                         CanGoNext = false;
                     }
-                    break;
-
-                case 2:
-                    foreach (var vers in DataContainer.Versammlungen)
+                    else if (VplanungChecked)
                     {
-                        if (ImportierteKoordinatorenliste.Any(x => x.Nr == vers.Kreis))
-                        {
-                            var item = ImportierteKoordinatorenliste.First(x => x.Nr == vers.Kreis);
-                            item.Anzahl += 1;
-                        }
-                        else
-                            ImportierteKoordinatorenliste.Add(new Kreis(vers.Kreis));
+                        //Hier gibt es noch keine Optionen die dynamisch gesetzt werden müssen.
+                        CanGoNext = true;
                     }
-                    CanGoNext = ImportierteKoordinatorenliste.Count > 0;
                     break;
-
+                //Seite "VERSAMMLUNGEN UND KOORDINATOREN"
+                case 2:
+                    ImportExcelFile = "Versammlungen.xlsx";
+                    DataContainer.Versammlungen.Clear();
+                    ImportierteKoordinatorenliste.Clear();
+                    CanGoNext = true;
+                    break;
+                //Seite "WÄHLE DEINE VERSAMMLUNG
                 case 3:
                     //VersammlungsListe = Core.DataContainer.Versammlungen;
-                    CanGoNext = (DeineVersammlung != null);
+                    CanGoNext = false;
                     break;
-
+                //Seite REDNER
                 case 4:
-                    CanGoNext = ImportierteJahreliste.Count > 0;
+                    ImportExcelFile = "Redner.xlsx";
+                    DataContainer.Redner.Clear();
+                    ImportierteRednerliste.Clear();
+                    CheckMeineVersammlung();
+                    CanGoNext = true;
                     break;
-
+                //Seite DEINE PLANUNG
+                case 5:
+                    ImportExcelFile = "MeinPlan.xlsx";
+                    DataContainer.MeinPlan.Clear();
+                    ImportierteJahreliste.Clear();
+                    break;
+                //Seite EXTERNE PLANUNG
+                case 6:
+                    ImportExcelFile = "Extern.xlsx";
+                    DataContainer.ExternerPlan.Clear();
+                    ImportierteJahreliste.Clear();
+                    break;
+                //Seite FINISH
+                case 7:
                 default:
                     CanGoNext = true;
                     break;
@@ -123,68 +275,6 @@ namespace Vortragsmanager.Views
             var quelle = $"{Helper.TemplateFolder}Dateiname";
             System.Diagnostics.Process.Start(quelle);
         }
-
-        public bool CanGoNext
-        {
-            get
-            {
-                return _canGoNext;
-            }
-            set
-            {
-                _canGoNext = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        private bool _datenbankÖffnenChecked;
-
-        public bool DatenbankÖffnenChecked
-        {
-            get { return _datenbankÖffnenChecked; }
-            set
-            {
-                _datenbankÖffnenChecked = value;
-                DatenbankÖffnenHeight = value ? new GridLength(1, GridUnitType.Star) : new GridLength(0, GridUnitType.Pixel);
-                RaisePropertyChanged(nameof(DatenbankÖffnenHeight));
-            }
-        }
-
-        private bool _vplanungChecked = true;
-
-        public bool VplanungChecked
-        {
-            get { return _vplanungChecked; }
-            set
-            {
-                _vplanungChecked = value;
-                VplanungCheckedHeight = value ? new GridLength(1, GridUnitType.Star) : new GridLength(0, GridUnitType.Pixel);
-                RaisePropertyChanged(nameof(VplanungCheckedHeight));
-            }
-        }
-
-        public bool DemoChecked { get; set; }
-
-        public bool NeuBeginnenChecked { get; set; }
-
-        //new GridLength(0, GridUnitType.Auto)
-        public GridLength DatenbankÖffnenHeight
-        {
-            get;
-            set;
-        }
-
-        public GridLength VplanungCheckedHeight
-        {
-            get;
-            set;
-        }
-
-        #region Datenbankdatei öffnen
-
-        public DelegateCommand VortragsmanagerdateiLadenCommand { get; private set; }
-
-        public DelegateCommand DatabaseFileDialogCommand { get; private set; }
 
         public void VortragsmanagerdateiLaden()
         {
@@ -219,144 +309,101 @@ namespace Vortragsmanager.Views
 
             openDialog.Dispose();
         }
-
-        private string _importFile = string.Empty;
-
-        public string ImportFile
-        {
-            get
-            {
-                return _importFile;
-            }
-            set
-            {
-                _importFile = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        #endregion Datenbankdatei öffnen
-
-        #region Koordinatoren
-
-        public DelegateCommand ExcelImportierenKoordinatorenCommand { get; private set; }
-
-        public DelegateCommand<string> OpenExcelExampleCommand { get; private set; }
-
-        public DelegateCommand ExcelFileDialogCommand { get; private set; }
-
-        public string ImportExcelFile
-        {
-            get
-            {
-                return _importExcelFile;
-            }
-            set
-            {
-                _importExcelFile = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public ObservableCollection<Kreis> ImportierteKoordinatorenliste { get; } = new ObservableCollection<Kreis>();
-
+              
         public void ExcelImportierenKoordinatoren()
         {
             if (!File.Exists(ImportExcelFile))
             {
                 ThemedMessageBox.Show(
-                    $"Die Datei '{ImportExcelFile}' wurde nicht gefunden.",
                     Properties.Resources.Achtung,
+                    $"Die Datei '{ImportExcelFile}' wurde nicht gefunden.",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
                 return;
             }
 
             //einlesen der Excel-Datei
-            if (!IoExcel.Vplanung.ImportKoordinatoren(ImportExcelFile))
+            if (!IoExcel.Import.Versammlung(ImportExcelFile, false))
                 return;
 
-            //prüfen ob Kreis bereits importiert wurde
-            if (ImportierteKoordinatorenliste.Any(x => x.Nr == IoExcel.Vplanung.Kreis))
-            {
-                if (ThemedMessageBox.Show(
-                    "Achtung!",
-                    $"Der Kreis '{IoExcel.Vplanung.Kreis}' wurde bereits importiert. Bestehende Daten löschen und neu importieren?",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Warning) != MessageBoxResult.Yes)
-                    return;
-
-                //löschen des bereits erfolgten imports für den Kreis
-                var anzahlVersammlungen = DataContainer.Versammlungen.Count;
-                for (int i = anzahlVersammlungen - 1; i > 0; i--)
-                {
-                    if (DataContainer.Versammlungen[i].Kreis == IoExcel.Vplanung.Kreis)
-                        DataContainer.Versammlungen.RemoveAt(i);
-                }
-                ImportierteKoordinatorenliste.Remove(new Kreis(IoExcel.Vplanung.Kreis));
-            }
-            foreach (var item in IoExcel.Vplanung.Conregations)
-            {
-                DataContainer.Versammlungen.Add(item);
-            }
-            ImportierteKoordinatorenliste.Add(new Kreis(IoExcel.Vplanung.Kreis, IoExcel.Vplanung.Conregations.Count));
-            CanGoNext = true;
+            ImportierteKoordinatorenliste.Clear();
+            foreach (var k in DataContainer.Versammlungen.GroupBy(info => info.Kreis)
+                        .Select(group => new Kreis(group.Key, group.Count()))
+                        .OrderBy(x => x.Anzahl))
+                ImportierteKoordinatorenliste.Add(k);
         }
+
+        public void ExcelImportierenRedner()
+        {
+            if (!File.Exists(ImportExcelFile))
+            {
+                ThemedMessageBox.Show(
+                    Properties.Resources.Achtung,
+                    $"Die Datei '{ImportExcelFile}' wurde nicht gefunden.",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
+            }
+
+            //einlesen der Excel-Datei
+            if (!IoExcel.Import.Redner(ImportExcelFile, false))
+                return;
+
+            ImportierteRednerliste.Clear();
+            foreach (var k in DataContainer.Redner.GroupBy(info => info.Versammlung)
+                        .Select(group => new { Versammlung = group.Key.Name, Anzahl = group.Count() })
+                        .OrderBy(x => x.Versammlung))
+            {
+                ImportierteRednerliste.Add($"{k.Versammlung} ({k.Anzahl} Redner)");
+            }
+        }
+
+        private string _lastFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
         public void ExcelFileDialog()
         {
-            var fi = new FileInfo(ImportExcelFile);
-            var dir = fi.Directory.Exists ? fi.DirectoryName : Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
+            string dir;
+            string fn;
+            if (!ImportExcelFile.Contains(@"\"))
+            {
+                dir = _lastFolder;
+                fn = string.IsNullOrEmpty(ImportExcelFile) ? "Excelfile.xlsx" : ImportExcelFile;
+            }
+            else
+            {
+                var fi = new FileInfo(ImportExcelFile);
+                dir = fi.Directory.Exists ? fi.DirectoryName : Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                fn = fi.Name;
+            }
             var openDialog = new OpenFileDialog
             {
                 Filter = Properties.Resources.DateifilterExcel,
                 FilterIndex = 1,
                 RestoreDirectory = false,
                 InitialDirectory = dir,
-                FileName = fi.Name,
+                FileName = fn,
                 CheckFileExists = true
             };
 
             if (openDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 ImportExcelFile = openDialog.FileName;
+                _lastFolder = new FileInfo(ImportExcelFile).DirectoryName;
             }
 
             openDialog.Dispose();
         }
 
-        #endregion Koordinatoren
-
-        #region DeineVersammlung
-
-        public DelegateCommand ExcelImportierenPlannungCommand { get; private set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]
-        public ObservableCollection<Conregation> VersammlungsListe => DataContainer.Versammlungen;
-
-        private Conregation _deineVersammlung;
-
-        public Conregation DeineVersammlung
+        private void CheckMeineVersammlung()
         {
-            get
-            {
-                return _deineVersammlung;
-            }
-            set
-            {
-                _deineVersammlung = value;
-                CanGoNext = (_deineVersammlung != null);
-                if (value != null)
-                    DataContainer.MeineVersammlung = _deineVersammlung;
-            }
+            //Wurde auf der vorigen Seite eine Versammlung ausgewählt?
+            if (_deineVersammlung != null)
+                return;
+
+            var c = DataContainer.ConregationFindOrAdd("Meine Versammlung");
+            c.Zeit.Add(DateTime.Today.Year, DayOfWeeks.Sonntag, "Unbekannt");
+            DeineVersammlung = c;
         }
-
-        #endregion DeineVersammlung
-
-        #region Planungen importieren
-
-        public ObservableCollection<string> ImportierteJahreliste { get; } = new ObservableCollection<string>();
 
         public void ExcelImportierenPlannung()
         {
@@ -371,13 +418,45 @@ namespace Vortragsmanager.Views
             }
 
             //einlesen der Excel-Datei
-            if (!IoExcel.Vplanung.ImportEigenePlanungen(ImportExcelFile) ||
-                !IoExcel.Vplanung.ImportRednerPlanungen(ImportExcelFile))
+            if (!IoExcel.Import.EigenePlanungen(ImportExcelFile))
                 return;
 
-            var jahr = IoExcel.Vplanung.MeinPlan.Select(x => x.Kw/100);
+            ImportierteJahreliste.Clear();
+            foreach (var j in DataContainer.MeinPlan.GroupBy(x => x.Kw / 100))
+            {
+                ImportierteJahreliste.Add(j.Key.ToString(Helper.German));
+            }
 
-            bool hasMatch = ImportierteJahreliste.Any(x => jahr.Any(y => y.ToString(Core.Helper.German) == x));
+            RaisePropertyChanged(nameof(ImportierteJahreliste));
+            CanGoNext = true;
+            IsFinished = true;
+        }
+
+        public void ExcelImportierenPlannungExtern()
+        {
+            if (!File.Exists(ImportExcelFile))
+            {
+                ThemedMessageBox.Show(
+                    $"Die Datei '{ImportExcelFile}' wurde nicht gefunden.",
+                    Properties.Resources.Achtung,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
+            }
+
+            //einlesen der Excel-Datei
+            if (!IoExcel.Import.ExternePlanungen(ImportExcelFile))
+                return;
+
+            ImportierteJahreliste.Clear();
+            foreach (var j in DataContainer.ExternerPlan.GroupBy(x => x.Kw / 100))
+            {
+                ImportierteJahreliste.Add(j.Key.ToString(Helper.German));
+            }
+
+            var jahr = IoExcel.Import.ExternerPlan.Select(x => x.Kw / 100);
+
+            bool hasMatch = ImportierteJahreliste.Any(x => jahr.Any(y => y.ToString(Helper.German) == x));
 
             //prüfen ob bereits importiert wurde
             if (hasMatch)
@@ -390,7 +469,7 @@ namespace Vortragsmanager.Views
                     return;
             }
 
-            foreach (var item in IoExcel.Vplanung.ExternerPlan)
+            foreach (var item in IoExcel.Import.ExternerPlan)
             {
                 if (hasMatch) //ich muss das nur prüfen wenn hasMatch=true ist, sonst gibt es keine Einträge im Zeitraum
                 {
@@ -401,16 +480,6 @@ namespace Vortragsmanager.Views
                 DataContainer.ExternerPlan.Add(item);
             }
 
-            foreach (var item in IoExcel.Vplanung.MeinPlan)
-            {
-                if (hasMatch) //ich muss das nur prüfen wenn hasMatch=true ist, sonst gibt es keine Einträge im Zeitraum
-                {
-                    var exist = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == item.Kw);
-                    if (exist != null)
-                        DataContainer.MeinPlanRemove(exist);
-                }
-                DataContainer.MeinPlanAdd(item);
-            }
             foreach (var item in jahr)
             {
                 var neu = item.ToString(Core.Helper.German);
@@ -422,14 +491,6 @@ namespace Vortragsmanager.Views
             CanGoNext = true;
             IsFinished = true;
         }
-
-        #endregion Planungen importieren
-
-        public bool IsFinished { get; set; }
-
-        private bool? dialogResult;
-
-        public bool? DialogResult { get => dialogResult; set => SetValue(ref dialogResult, value); }
     }
 
     public class Kreis

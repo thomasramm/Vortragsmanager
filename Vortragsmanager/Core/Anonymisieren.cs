@@ -12,7 +12,7 @@ namespace Vortragsmanager.Core
     {
         public static void Start()
         {
-            _ = new Anonymisieren();
+            //_ = new Anonymisieren();
         }
 
         public Anonymisieren()
@@ -20,13 +20,9 @@ namespace Vortragsmanager.Core
             LoadNamen();
             LoadCity();
             DatenAnonymisieren();
-            BasisJahrAktualisieren();
+            Core.Initialize.DemoAktualisieren();
 
             var file = Settings.Default.sqlite;
-            if (!file.Contains("anonymisiert"))
-            {
-                file = file.Replace(".sqlite3", "_anonymisiert.sqlite3");
-            }
 
             IoSqlite.SaveContainer(file, false);
             Settings.Default.sqlite = file;
@@ -434,61 +430,6 @@ namespace Vortragsmanager.Core
             }
 
             Datamodels.DataContainer.MeineVersammlung.Name = "Meine Versammlung";
-        }
-
-        private static void BasisJahrAktualisieren()
-        {
-            var yeardiff = DateTime.Today.Year - 2021; //in 2022 ist das ergebnis +1, also addYear(1)
-            var kwdiff = yeardiff * 100;
-
-            foreach(var m in Datamodels.DataContainer.MeinPlan)
-            {
-                m.Kw += kwdiff;
-
-                //Sonderfall Anfragen, hier gibt es eine Liste von Daten
-                if (m is Datamodels.Inquiry m1)
-                {
-                    m1.AnfrageDatum = m1.AnfrageDatum.AddYears(yeardiff);
-                    for (int i = 0; i < m1.Kws.Count; i++)
-                    {
-                        m1.Kws[i] += kwdiff;
-                    }
-                }
-            }
-
-            foreach(var m in Datamodels.DataContainer.Abwesenheiten)
-            {
-                m.Kw += kwdiff;
-            }
-
-            foreach(var m in Datamodels.DataContainer.OffeneAnfragen)
-            {
-                m.Kw += kwdiff;
-                for (int i = 0; i < m.Kws.Count; i++)
-                {
-                    m.Kws[i] += kwdiff;
-                }
-            }
-            
-            foreach(var m in Datamodels.DataContainer.ExternerPlan)
-            {
-                m.Kw += kwdiff;
-            }
-
-            foreach(var m in Datamodels.DataContainer.Absagen)
-            {
-                m.Kw += kwdiff;
-            }
-
-            foreach(var m in Datamodels.DataContainer.Aktivitäten)
-            {
-                m.Datum = m.Datum.AddYears(yeardiff);
-                m.KalenderKw += kwdiff;
-            }
-            foreach(var m in Datamodels.DataContainer.AufgabenPersonKalender)
-            {
-                m.Kw += kwdiff;
-            }
         }
     }
 }
