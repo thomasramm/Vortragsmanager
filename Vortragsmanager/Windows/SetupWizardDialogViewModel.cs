@@ -19,7 +19,8 @@ namespace Vortragsmanager.Views
             ExcelFileDialogCommand = new DelegateCommand(ExcelFileDialog);
             ExcelImportierenKoordinatorenCommand = new DelegateCommand(ExcelImportierenKoordinatoren);
             ExcelImportierenPlannungCommand = new DelegateCommand(ExcelImportierenPlannung);
-            VortragsmanagerdateiLadenCommand = new DelegateCommand<ICloseable>(VortragsmanagerdateiLaden);
+            OpenExcelExampleCommand = new DelegateCommand<string>(OpenExcelExample);
+            VortragsmanagerdateiLadenCommand = new DelegateCommand(VortragsmanagerdateiLaden);
             DatabaseFileDialogCommand = new DelegateCommand(DatabaseFileDialog);
             CanGoNext = true;
             DatenbankÖffnenHeight = new GridLength(0, GridUnitType.Pixel);
@@ -117,6 +118,12 @@ namespace Vortragsmanager.Views
             }
         }
 
+        public void OpenExcelExample(string Dateiname)
+        {
+            var quelle = $"{Helper.TemplateFolder}Dateiname";
+            System.Diagnostics.Process.Start(quelle);
+        }
+
         public bool CanGoNext
         {
             get
@@ -175,16 +182,16 @@ namespace Vortragsmanager.Views
 
         #region Datenbankdatei öffnen
 
-        public DelegateCommand<ICloseable> VortragsmanagerdateiLadenCommand { get; private set; }
+        public DelegateCommand VortragsmanagerdateiLadenCommand { get; private set; }
 
         public DelegateCommand DatabaseFileDialogCommand { get; private set; }
 
-        public void VortragsmanagerdateiLaden(ICloseable window)
+        public void VortragsmanagerdateiLaden()
         {
             IoSqlite.ReadContainer(ImportFile);
             Properties.Settings.Default.sqlite = ImportFile;
             IsFinished = true;
-            Schließen(window);
+            DialogResult = true;
         }
 
         public void DatabaseFileDialog()
@@ -203,8 +210,6 @@ namespace Vortragsmanager.Views
                 FileName = fi.Name,
                 CheckFileExists = true
             };
-
-
 
             if (openDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -235,6 +240,8 @@ namespace Vortragsmanager.Views
         #region Koordinatoren
 
         public DelegateCommand ExcelImportierenKoordinatorenCommand { get; private set; }
+
+        public DelegateCommand<string> OpenExcelExampleCommand { get; private set; }
 
         public DelegateCommand ExcelFileDialogCommand { get; private set; }
 
