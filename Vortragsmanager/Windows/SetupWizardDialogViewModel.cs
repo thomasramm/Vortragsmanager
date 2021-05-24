@@ -22,6 +22,7 @@ namespace Vortragsmanager.Views
             VortragsmanagerdateiLadenCommand = new DelegateCommand<ICloseable>(VortragsmanagerdateiLaden);
             DatabaseFileDialogCommand = new DelegateCommand(DatabaseFileDialog);
             NeuBeginnenCommand = new DelegateCommand<ICloseable>(NeuBeginnen);
+            DemoCommand = new DelegateCommand<ICloseable>(Demo);
             CanGoNext = true;
             DatenbankÖffnenHeight = new GridLength(0, GridUnitType.Pixel);
             NeuBeginnenHeight = new GridLength(0, GridUnitType.Pixel);
@@ -49,6 +50,8 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand<ICloseable> NeuBeginnenCommand { get; private set; }
 
+        public DelegateCommand<ICloseable> DemoCommand { get; private set; }
+
         public static void Schließen(ICloseable window)
         {
             if (window != null)
@@ -61,6 +64,14 @@ namespace Vortragsmanager.Views
             DataContainer.Versammlungen.Add(con);
             DataContainer.MeineVersammlung = con;
             DataContainer.IsInitialized = true;
+            IsFinished = true;
+            Schließen(window);
+        }
+
+        public void Demo(ICloseable window)
+        {
+            throw new NotImplementedException();
+
             IsFinished = true;
             Schließen(window);
         }
@@ -154,6 +165,19 @@ namespace Vortragsmanager.Views
             }
         }
 
+        private bool _demoDatenChecked;
+
+        public bool DemoDatenChecked
+        {
+            get { return _demoDatenChecked; }
+            set 
+            {
+                _demoDatenChecked = value;
+                DemoCheckedHeight = value ? new GridLength(1, GridUnitType.Star) : new GridLength(0, GridUnitType.Pixel);
+                RaisePropertyChanged(nameof(DemoCheckedHeight));
+            }
+        }
+
         private bool _neuBeginnenChecked;
 
         public bool NeuBeginnenChecked
@@ -182,6 +206,8 @@ namespace Vortragsmanager.Views
             get;
             set;
         }
+
+        public GridLength DemoCheckedHeight { get; set; }
 
         public GridLength NeuBeginnenHeight
         {

@@ -43,14 +43,15 @@
                                  Content="Ich habe eine Vortragsmanager Datenbank die ich öffnen möchte."
                                  IsChecked="{Binding DatenbankÖffnenChecked, Mode=TwoWay}" />
                     <RadioButton GroupName="Start"
+                                 IsChecked="{Binding VplanungDemo, Mode=TwoWay}"
+                                 Content="Ich möchte das Programm mit Beispieldaten testen." />
+                    <RadioButton GroupName="Start"
                                  IsChecked="{Binding VplanungChecked, Mode=TwoWay}"
-                                 Content="Ich habe die Daten von www.vplanung.net und möchte sie importieren." />
+                                 Content="Ich möchte Daten aus Excel-Listen importieren." />
                     <RadioButton GroupName="Start"
                                  IsChecked="{Binding NeuBeginnenChecked, Mode=TwoWay}"
                                  Content="Ich habe keine Daten und möchte mit einem leeren Programm starten." />
-                    <RadioButton GroupName="Start"
-                                 Visibility="Collapsed"
-                                 Content="Ich möchte von Programm X umsteigen und die Daten importieren." />
+                    
                 </StackPanel>
             </dxco:WelcomeWizardPage>
             <dxco:WizardPage Header="Import deiner Daten von www.vplanung.net"
@@ -62,6 +63,7 @@
                         <RowDefinition Height="{Binding VplanungCheckedHeight}" />
                         <RowDefinition Height="{Binding DatenbankÖffnenHeight}" />
                         <RowDefinition Height="{Binding NeuBeginnenHeight}" />
+                        <RowDefinition Height="{Binding DemoCheckedHeight}" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -111,6 +113,18 @@
                                            TextWrapping="Wrap" />
                                 <Button Content="Assistent beenden"
                                         Command="{Binding NeuBeginnenCommand}"
+                                        CommandParameter="{Binding ElementName=SetupWizardWindow}"
+                                        Height="26" />
+                            </StackPanel>
+                        </dxlc:LayoutGroup>
+                    </dxlc:LayoutControl>
+                    <dxlc:LayoutControl Grid.Row="3" Grid.ColumnSpan="2">
+                        <dxlc:LayoutGroup Header="mit Demodaten starten" View="GroupBox" Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="400">
+                                <TextBlock Text="Es werden Beispieldaten in eine Virtuelle Versammlung eingefügt. 'Deine' Versammlung heißt einfach nur 'Meine Versammlung'."
+                                           TextWrapping="Wrap" />
+                                <Button Content="Assistent beenden"
+                                        Command="{Binding DemoCommand}"
                                         CommandParameter="{Binding ElementName=SetupWizardWindow}"
                                         Height="26" />
                             </StackPanel>
