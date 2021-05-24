@@ -244,6 +244,7 @@
     <Compile Include="ActivityLog\AddActivities.cs" />
     <Compile Include="ActivityLog\Symbols.cs" />
     <Compile Include="ActivityLog\Types.cs" />
+    <Compile Include="Core\Anonymisieren.cs" />
     <Compile Include="Core\GeoApi.cs" />
     <Compile Include="Core\Helper.cs" />
     <Compile Include="Core\ini.cs" />

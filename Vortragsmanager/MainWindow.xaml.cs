@@ -47,6 +47,7 @@ namespace Vortragsmanager
                 Close();
             }
 
+            Anonymisieren.Start();
             InitializeComponent();
 
             Helper.GlobalSettings = new MyGloabalSettings();
