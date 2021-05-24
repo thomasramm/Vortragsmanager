@@ -650,6 +650,9 @@
     <None Include="Templates\AushangExcel.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Templates\demo.sqlite3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Vortragsmanager.ruleset" />
   </ItemGroup>
   <ItemGroup>
@@ -794,6 +797,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\ListeThemen_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DateiÖffnen_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DateiNeu_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DateiDemo_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DateiImport_64x64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

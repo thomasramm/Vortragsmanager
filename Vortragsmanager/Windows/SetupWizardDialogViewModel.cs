@@ -21,11 +21,8 @@ namespace Vortragsmanager.Views
             ExcelImportierenPlannungCommand = new DelegateCommand(ExcelImportierenPlannung);
             VortragsmanagerdateiLadenCommand = new DelegateCommand<ICloseable>(VortragsmanagerdateiLaden);
             DatabaseFileDialogCommand = new DelegateCommand(DatabaseFileDialog);
-            NeuBeginnenCommand = new DelegateCommand<ICloseable>(NeuBeginnen);
-            DemoCommand = new DelegateCommand<ICloseable>(Demo);
             CanGoNext = true;
             DatenbankÖffnenHeight = new GridLength(0, GridUnitType.Pixel);
-            NeuBeginnenHeight = new GridLength(0, GridUnitType.Pixel);
         }
 
         private int _selectedIndex;
@@ -48,32 +45,10 @@ namespace Vortragsmanager.Views
 
         public DelegateCommand<ICloseable> CloseCommand { get; private set; }
 
-        public DelegateCommand<ICloseable> NeuBeginnenCommand { get; private set; }
-
-        public DelegateCommand<ICloseable> DemoCommand { get; private set; }
-
         public static void Schließen(ICloseable window)
         {
             if (window != null)
                 window.Close();
-        }
-
-        private void NeuBeginnen(ICloseable window)
-        {
-            var con = new Conregation() { Name = "Meine Versammlung", Kreis = 309, Id = 1 };
-            DataContainer.Versammlungen.Add(con);
-            DataContainer.MeineVersammlung = con;
-            DataContainer.IsInitialized = true;
-            IsFinished = true;
-            Schließen(window);
-        }
-
-        public void Demo(ICloseable window)
-        {
-            throw new NotImplementedException();
-
-            IsFinished = true;
-            Schließen(window);
         }
 
         public void CheckWizardPage()
@@ -87,11 +62,27 @@ namespace Vortragsmanager.Views
                     {
                         CanGoNext = true;
                     }
-                    else if (DatenbankÖffnenChecked)
+                    else if (DemoChecked)
                     {
-                        CanGoNext = false;
+                        var quelle = $"{Helper.TemplateFolder}demo.sqlite3";
+                        var ziel = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\demo.sqlite3";
+                        File.Copy(quelle, ziel, true);
+                        IoSqlite.ReadContainer(ziel);
+                        Properties.Settings.Default.sqlite = ziel;
+
+                        IsFinished = true;
+                        DialogResult = true;
                     }
                     else if (NeuBeginnenChecked)
+                    {
+                        var con = new Conregation() { Name = "Meine Versammlung", Kreis = 1, Id = 1 };
+                        DataContainer.Versammlungen.Add(con);
+                        DataContainer.MeineVersammlung = con;
+                        DataContainer.IsInitialized = true;
+                        IsFinished = true;
+                        DialogResult = true;
+                    }
+                    else 
                     {
                         CanGoNext = false;
                     }
@@ -165,34 +156,9 @@ namespace Vortragsmanager.Views
             }
         }
 
-        private bool _demoDatenChecked;
+        public bool DemoChecked { get; set; }
 
-        public bool DemoDatenChecked
-        {
-            get { return _demoDatenChecked; }
-            set 
-            {
-                _demoDatenChecked = value;
-                DemoCheckedHeight = value ? new GridLength(1, GridUnitType.Star) : new GridLength(0, GridUnitType.Pixel);
-                RaisePropertyChanged(nameof(DemoCheckedHeight));
-            }
-        }
-
-        private bool _neuBeginnenChecked;
-
-        public bool NeuBeginnenChecked
-        {
-            get
-            {
-                return _neuBeginnenChecked;
-            }
-            set
-            {
-                _neuBeginnenChecked = value;
-                NeuBeginnenHeight = value ? new GridLength(1, GridUnitType.Star) : new GridLength(0, GridUnitType.Pixel);
-                RaisePropertyChanged(nameof(NeuBeginnenHeight));
-            }
-        }
+        public bool NeuBeginnenChecked { get; set; }
 
         //new GridLength(0, GridUnitType.Auto)
         public GridLength DatenbankÖffnenHeight
@@ -202,14 +168,6 @@ namespace Vortragsmanager.Views
         }
 
         public GridLength VplanungCheckedHeight
-        {
-            get;
-            set;
-        }
-
-        public GridLength DemoCheckedHeight { get; set; }
-
-        public GridLength NeuBeginnenHeight
         {
             get;
             set;
@@ -246,8 +204,11 @@ namespace Vortragsmanager.Views
                 CheckFileExists = true
             };
 
-            if (openDialog.ShowDialog() == DialogResult.OK)
+
+
+            if (openDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+
                 ImportFile = openDialog.FileName;
             }
 
@@ -350,7 +311,7 @@ namespace Vortragsmanager.Views
                 CheckFileExists = true
             };
 
-            if (openDialog.ShowDialog() == DialogResult.OK)
+            if (openDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 ImportExcelFile = openDialog.FileName;
             }
@@ -458,6 +419,10 @@ namespace Vortragsmanager.Views
         #endregion Planungen importieren
 
         public bool IsFinished { get; set; }
+
+        private bool? dialogResult;
+
+        public bool? DialogResult { get => dialogResult; set => SetValue(ref dialogResult, value); }
     }
 
     public class Kreis

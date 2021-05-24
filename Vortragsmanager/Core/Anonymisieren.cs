@@ -20,6 +20,7 @@ namespace Vortragsmanager.Core
             LoadNamen();
             LoadCity();
             DatenAnonymisieren();
+            BasisJahrAktualisieren();
 
             var file = Settings.Default.sqlite;
             if (!file.Contains("anonymisiert"))
@@ -362,26 +363,44 @@ namespace Vortragsmanager.Core
         {
             var i = 0;
             var erweiterung = string.Empty;
-            foreach (var redner in DataContainer.Redner)
+            foreach (var redner in Datamodels.DataContainer.Redner)
             {
                 redner.Name = Namen[i] + erweiterung;
                 redner.Mail = redner.Name.Replace(" ", ".") + "@mail.de";
                 redner.Mobil = "+49 150 123456";
                 redner.Telefon = "0561-123 456";
+                redner.InfoPrivate = "";
+                redner.JwMail = redner.Name.Replace(" ", ".") + "@jwpub.org";
+
                 i++;
                 if (i >= Namen.Count)
                 {
                     erweiterung = " jun.";
                     i = 0;
                 }
+
+                if (i >= Namen.Count*2)
+                {
+                    erweiterung = " sen.";
+                    i = 0;
+                }
             }
 
             i = 0;
             var lauf = 1;
-            foreach (var versammlung in DataContainer.Versammlungen)
+            foreach (var versammlung in Datamodels.DataContainer.Versammlungen)
             {
-                versammlung.Name = Städte[i] + ((lauf > 1) ? $" {lauf}" : "");
-                versammlung.Anschrift1 = "Zum Königreich 1";
+                var teil = "";
+                if (versammlung.Name.EndsWith("Nord"))
+                    teil = "-Nord";
+                if (versammlung.Name.EndsWith("Süd"))
+                    teil = "-Süd";
+                if (versammlung.Name.EndsWith("West"))
+                    teil = "-West";
+                if (versammlung.Name.EndsWith("Ost"))
+                    teil = "-Ost";
+                versammlung.Name = Städte[i] + teil + ((lauf > 1) ? $" {lauf}" : "");
+                versammlung.Anschrift1 = $"Zum Königreich {i}";
                 versammlung.Anschrift2 = "00000 " + Städte[i];
                 versammlung.Anreise = "https://goo.gl/maps/mCihsiqLXaoFUhF46";
                 versammlung.Koordinator = Namen[i];
@@ -389,6 +408,11 @@ namespace Vortragsmanager.Core
                 versammlung.KoordinatorMail = Namen[i].Replace(" ", ".") + "@mail.de";
                 versammlung.KoordinatorMobil = "+49 150 123456";
                 versammlung.KoordinatorTelefon = "0561-123 456";
+                versammlung.Zoom = "Id: 123 4567 8901 Passwort: geheim";
+
+                if (versammlung.Kreis == 209)
+                    versammlung.Kreis = 1;
+
                 i++;
 
                 if (i >= Städte.Count)
@@ -396,6 +420,74 @@ namespace Vortragsmanager.Core
                     i = 0;
                     lauf++;
                 }
+            }
+
+            i = 0;
+            foreach (var m in Datamodels.DataContainer.AufgabenPersonZuordnung)
+            {
+                if (m.VerknüpftePerson != null)
+                    m.PersonName = m.VerknüpftePerson.Name;
+                else
+                {
+                    m.PersonName = Namen[i++];
+                }
+            }
+
+            Datamodels.DataContainer.MeineVersammlung.Name = "Meine Versammlung";
+        }
+
+        private static void BasisJahrAktualisieren()
+        {
+            var yeardiff = DateTime.Today.Year - 2021; //in 2022 ist das ergebnis +1, also addYear(1)
+            var kwdiff = yeardiff * 100;
+
+            foreach(var m in Datamodels.DataContainer.MeinPlan)
+            {
+                m.Kw += kwdiff;
+
+                //Sonderfall Anfragen, hier gibt es eine Liste von Daten
+                if (m is Datamodels.Inquiry m1)
+                {
+                    m1.AnfrageDatum = m1.AnfrageDatum.AddYears(yeardiff);
+                    for (int i = 0; i < m1.Kws.Count; i++)
+                    {
+                        m1.Kws[i] += kwdiff;
+                    }
+                }
+            }
+
+            foreach(var m in Datamodels.DataContainer.Abwesenheiten)
+            {
+                m.Kw += kwdiff;
+            }
+
+            foreach(var m in Datamodels.DataContainer.OffeneAnfragen)
+            {
+                m.Kw += kwdiff;
+                for (int i = 0; i < m.Kws.Count; i++)
+                {
+                    m.Kws[i] += kwdiff;
+                }
+            }
+            
+            foreach(var m in Datamodels.DataContainer.ExternerPlan)
+            {
+                m.Kw += kwdiff;
+            }
+
+            foreach(var m in Datamodels.DataContainer.Absagen)
+            {
+                m.Kw += kwdiff;
+            }
+
+            foreach(var m in Datamodels.DataContainer.Aktivitäten)
+            {
+                m.Datum = m.Datum.AddYears(yeardiff);
+                m.KalenderKw += kwdiff;
+            }
+            foreach(var m in Datamodels.DataContainer.AufgabenPersonKalender)
+            {
+                m.Kw += kwdiff;
             }
         }
     }

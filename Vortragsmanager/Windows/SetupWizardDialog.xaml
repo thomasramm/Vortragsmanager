@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vortragsmanager.Views"
+        xmlns:core="clr-namespace:Vortragsmanager.Core"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxco="http://schemas.devexpress.com/winfx/2008/xaml/controls"
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
@@ -16,7 +17,8 @@
         WindowStartupLocation="CenterScreen"
         Background="#333333"
         dx:ThemeManager.Theme="MetropolisDark"
-        WindowStyle="None">
+        WindowStyle="None"
+        core:DialogCloser.DialogResult="{Binding DialogResult}">
     <Window.DataContext>
         <local:SetupWizardDialogViewModel />
     </Window.DataContext>
@@ -35,24 +37,118 @@
                                     Title="Willkommen beim Vortragsmanager DeLuxe 1.0"
                                     Foreground="White"
                                     SideContent="{StaticResource ResourceKey=side}">
-                <StackPanel Margin="10">
-                    <TextBlock Text="Dieser Assistent soll dir bei der Ersteinrichtung des Vortragsmanager helfen. Du hast hier folgende Möglichkeit um mit der Einrichtung vortzufahren."
+                <Grid Margin="15,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.Resources>
+                            <Style x:Key="FirstSelection" TargetType="RadioButton">
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                                <Setter Property="GroupName" Value="Start" />
+                            <Setter Property="Margin" Value="10" />
+                            <Setter Property="Width" Value="260" />
+                            <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="RadioButton">
+                                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Resources>
+                                    <Style TargetType="Label">
+                                        <Setter Property="Foreground" Value="Orange" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="Height" Value="20"/>
+                                    </Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Height" Value="64"/>
+                                    </Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                    </Style>
+                                    <Style TargetType="dxlc:LayoutGroup">
+                                        <Setter Property="Orientation" Value="Horizontal"/>
+                                        <Setter Property="View" Value="GroupBox"/>
+                                        <Setter Property="Padding" Value="-10"/>
+                                        <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="Width" Value="260" />
+                                    <Style.Resources>
+                                            <Style TargetType="dxlc:LayoutGroup">
+                                                <Setter Property="Orientation" Value="Vertical"/>
+                                                <Setter Property="View" Value="Group" />
+                                                <Setter Property="Width" Value="100"/>
+                                            </Style>
+                                        </Style.Resources>
+                                    </Style>
+                                </Style.Resources>
+                            </Style>
+                                                        
+                            <Style x:Key="Group2" TargetType="dxlc:LayoutGroup">
+                                <Setter Property="Orientation" Value="Vertical"/>
+                                <Setter Property="View" Value="Group" />
+                                <Setter Property="Width" Value="100"/>
+                            </Style>
+                        </Grid.Resources>
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="2"
+                               Text="Dieser Assistent soll dir bei der Ersteinrichtung des Vortragsmanager helfen. Du hast hier folgende Möglichkeiten um mit der Einrichtung vortzufahren:"
                                TextWrapping="Wrap"
                                Margin="0,10" />
-                    <RadioButton GroupName="Start"
-                                 Content="Ich habe eine Vortragsmanager Datenbank die ich öffnen möchte."
-                                 IsChecked="{Binding DatenbankÖffnenChecked, Mode=TwoWay}" />
-                    <RadioButton GroupName="Start"
-                                 IsChecked="{Binding VplanungDemo, Mode=TwoWay}"
-                                 Content="Ich möchte das Programm mit Beispieldaten testen." />
-                    <RadioButton GroupName="Start"
-                                 IsChecked="{Binding VplanungChecked, Mode=TwoWay}"
-                                 Content="Ich möchte Daten aus Excel-Listen importieren." />
-                    <RadioButton GroupName="Start"
-                                 IsChecked="{Binding NeuBeginnenChecked, Mode=TwoWay}"
-                                 Content="Ich habe keine Daten und möchte mit einem leeren Programm starten." />
-                    
-                </StackPanel>
+                    <RadioButton Grid.Row="1" Grid.Column="0" Style="{StaticResource FirstSelection}" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                                         ToolTip="Ich habe eine Vortragsmanager Datenbank die ich öffnen möchte."
+                                         IsChecked="{Binding DatenbankÖffnenChecked, Mode=TwoWay}">
+                            <dxlc:LayoutGroup>
+                                <dxlc:LayoutGroup>
+                                        <Image Source="/Images/DateiÖffnen_64x64.png" />
+                                        <Label Content="Öffnen" />
+                                    </dxlc:LayoutGroup>
+                                    <TextBlock Text="Öffne eine vorhandene Vortragsmanager Datei" />
+                                 </dxlc:LayoutGroup>
+                            </RadioButton>
+                    <RadioButton Grid.Row="2" Grid.Column="0" Style="{StaticResource FirstSelection}" VerticalAlignment="Top" HorizontalAlignment="Right"
+                                         ToolTip="Ich möchte das Programm mit Beispieldaten testen."
+                                         IsChecked="{Binding DemoChecked, Mode=TwoWay}">
+                            <dxlc:LayoutGroup>
+                                <dxlc:LayoutGroup>
+                                    <Image Source="/Images/DateiDemo_64x64.png" />
+                                    <Label Content="Demo"/>
+                                </dxlc:LayoutGroup>
+                                <TextBlock Text="Öffne eine Demodatei mit Beispieldaten (Empfohlen zum Testen der Funktionen)"/>
+                            </dxlc:LayoutGroup>
+                        </RadioButton>
+                    <RadioButton Grid.Row="1" Grid.Column="1" Style="{StaticResource FirstSelection}" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                                         ToolTip="Ich möchte Daten aus Excel-Listen importieren."
+                                         IsChecked="{Binding VplanungChecked, Mode=TwoWay}">
+                            <dxlc:LayoutGroup>
+                                <dxlc:LayoutGroup>
+                                    <Image Source="/Images/DateiImport_64x64.png" />
+                                    <Label Content="Neu (Excel)" />
+                                </dxlc:LayoutGroup>
+                                <TextBlock Text="Neu Anfangen, Importieren vorhandener Daten aus Excel-Dateien (Empfohlen bei Wechsel von einem anderen Programm)"/>
+                            </dxlc:LayoutGroup>
+                        </RadioButton>
+                    <RadioButton Grid.Row="2" Grid.Column="1" Style="{StaticResource FirstSelection}" VerticalAlignment="Top" HorizontalAlignment="Left"
+                                         ToolTip="Ich habe keine Daten und möchte mit einem leeren Programm starten."
+                                         IsChecked="{Binding NeuBeginnenChecked, Mode=TwoWay}">
+                            <dxlc:LayoutGroup>
+                                <dxlc:LayoutGroup>
+                                    <Image Source="/Images/DateiNeu_64x64.png" />
+                                    <Label Content="Neu (Leer)" />
+                                </dxlc:LayoutGroup>
+                                <TextBlock Text="Öffne das Programm ohne Daten" />
+                            </dxlc:LayoutGroup>
+                        </RadioButton>
+                </Grid>
             </dxco:WelcomeWizardPage>
             <dxco:WizardPage Header="Import deiner Daten von www.vplanung.net"
                                     Title="Willkommen beim Vortragsmanager DeLuxe"
@@ -62,8 +158,6 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="{Binding VplanungCheckedHeight}" />
                         <RowDefinition Height="{Binding DatenbankÖffnenHeight}" />
-                        <RowDefinition Height="{Binding NeuBeginnenHeight}" />
-                        <RowDefinition Height="{Binding DemoCheckedHeight}" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -104,30 +198,6 @@
                                         Command="{Binding VortragsmanagerdateiLadenCommand}"
                                         CommandParameter="{Binding ElementName=SetupWizardWindow}" />
                             </dxlc:LayoutItem>
-                        </dxlc:LayoutGroup>
-                    </dxlc:LayoutControl>
-                    <dxlc:LayoutControl Grid.Row="2" Grid.ColumnSpan="2">
-                        <dxlc:LayoutGroup Header="ohne Datenimport starten" View="GroupBox" Orientation="Horizontal">
-                            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="400">
-                                <TextBlock Text="Am besten startest du, indem du zuerst unter 'Versammlungen' die Angaben deiner Versammlung ausfüllst, deine Redner anlegst und einige weitere Versammlungen anlegst"
-                                           TextWrapping="Wrap" />
-                                <Button Content="Assistent beenden"
-                                        Command="{Binding NeuBeginnenCommand}"
-                                        CommandParameter="{Binding ElementName=SetupWizardWindow}"
-                                        Height="26" />
-                            </StackPanel>
-                        </dxlc:LayoutGroup>
-                    </dxlc:LayoutControl>
-                    <dxlc:LayoutControl Grid.Row="3" Grid.ColumnSpan="2">
-                        <dxlc:LayoutGroup Header="mit Demodaten starten" View="GroupBox" Orientation="Horizontal">
-                            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="400">
-                                <TextBlock Text="Es werden Beispieldaten in eine Virtuelle Versammlung eingefügt. 'Deine' Versammlung heißt einfach nur 'Meine Versammlung'."
-                                           TextWrapping="Wrap" />
-                                <Button Content="Assistent beenden"
-                                        Command="{Binding DemoCommand}"
-                                        CommandParameter="{Binding ElementName=SetupWizardWindow}"
-                                        Height="26" />
-                            </StackPanel>
                         </dxlc:LayoutGroup>
                     </dxlc:LayoutControl>
                 </Grid>
