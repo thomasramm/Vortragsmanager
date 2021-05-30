@@ -79,6 +79,8 @@ lmenu:
         url: /Vorlagen/
       - title: Programm Einstellungen
         url: /ProgrammEinstellungen/
+      - title: Vortragsthemen pflegen
+        url: /Vortragsthemen/
 
   - title: Aktivitäten Log
     url: /Log/
