@@ -2,7 +2,7 @@
 
 Als Ende 2019 die Information kam das die Plattform vplanung.net geschlossen wird, 
 war ich erstmal aufgeschmissen, 
-denn das umstellen meiner Planung auf Excel-Tabellen hat garnicht geklappt.  
+denn das umstellen meiner Planung auf Excel-Tabellen hat gar nicht geklappt.  
 Auch andere Programme konnten meine Wünsche nicht so recht erfüllen.
 Deshalb habe ich (in erster Linie für mich selbst) angefangen dieses Programm zu schreiben. 
 Die Zielsetzung ist:
@@ -20,11 +20,11 @@ denn das Programm auslesen kann.
 
 ## Entwicklungsstand ##
 
-Da die Zeit zwischen der Ankündigung bis zur Schließung extrem kurz war, konnte ich leider nicht ein voll ausgereiftes System in dieser kurzen Zeit erstellen.
-Mein Plan war es deshalb die notwendigen Grundfunktionen bis zum Jahresende 2019 bereitzustellen - ohne viel Schnick-Schnack, aber mit dem nötigen Funktionsumfang.
-Nun werden nach und nach alle weiteren Funktionen nachgeliefert, automatisiert soweit möglich oder hübscher und noch übersichtlicher dargestellt.
-Da jeder eine andere Arbeitsweise hat, bin ich für eure Vorschläge offen. Nutzt dazu wenn möglich  die Funktion "New Issue" auf der Seite https://github.com/thomasramm/Vortragsmanager/issues oder schreibt mir in einem der dort offenen Punkte ob ihr diese Funktion auch wichtig findet, das hilft mir natürlich auch bei der Priorisierung der Weiterentwicklung. Natürlich könnt ihr mir auch eine Mail schicken.
-
+Das Programm ist bei mir persönlich für meine Vortragsplanung seit 2019 im Einsatz. Inzwischen sind alle Funktionen die ich benötige im Programm eingebunden.
+Aufgrund unterschiedlicher Arbeitsweisen und Anforderungen an so einem Programm kann es natürlich sein das eine Funktion die dir wichtig wäre nicht vorhanden ist.
+Auch ich selber merke manchmal das eine bestimmte Funktion oder auch nur die Anzeige bestimmter Informationen an bestimmten Stellen hilfreich sind und baue es dann ein.
+Für Verbesserungsvorschläge bin ich immer dankbar, es sind schon einige in das Programm eingeflossen, an die ich selber nicht gedacht habe, die ich jetzt aber nicht mehr missen möchte.
+Bedenke bitte nur, das ich das Programm in meiner Freizeit pflege, Erweiterungen und Änderungswünsche können deshalb manchmal auch etwas länger dauern.
 Die neuesten Funktionen und Fehlerbehebungen kannst du im [Changelog](Changelog.md) Changelog nachverfolgen.
 
 ## Installation
@@ -34,7 +34,7 @@ Herunterladen des Programm
 
 Entpacken der beiden Setup-Dateien und starten von setup.exe
 Nach dem Start des Setup-Assistenten kommen von Windows einige Sicherheits-Warnungen, das das Programm von einer unbekannten Quelle kommt (ja, Microsoft kennt mich tatsächlich nicht). Diese müssen erst noch bestätigt werden, und dann werden die Programmdateien entpackt, eine Verknüpfung im Startmenü und auf dem Desktop angelegt und schon könnt ihr loslegen.
-Beim ersten starten des Programm wird ein Assistent geöffnet, bei dem man entweder eine Vortragsmanager Datenbank öffnen oder die vplanung.net Dateien importieren kann. 
+Beim ersten starten des Programm wird ein Assistent geöffnet, der einem beim Einrichten behilflich ist. 
 
 Zur [detailierten Installationsanleitung](https://thomasramm.github.io/Vortragsmanager/Installation/)
 

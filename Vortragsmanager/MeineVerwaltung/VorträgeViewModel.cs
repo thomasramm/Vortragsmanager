@@ -45,7 +45,7 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public void CreateOverviewTalkCount()
         {
-            Core.IoExcel.CreateReportOverviewTalkCount(ListeÖffnen);
+            Core.IoExcel.Export.OverviewTalkCount(ListeÖffnen);
         }
 
         public void AddThema()
