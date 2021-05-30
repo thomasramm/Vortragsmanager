@@ -454,39 +454,6 @@ namespace Vortragsmanager.Views
                 ImportierteJahreliste.Add(j.Key.ToString(Helper.German));
             }
 
-            var jahr = IoExcel.Import.ExternerPlan.Select(x => x.Kw / 100);
-
-            bool hasMatch = ImportierteJahreliste.Any(x => jahr.Any(y => y.ToString(Helper.German) == x));
-
-            //prüfen ob bereits importiert wurde
-            if (hasMatch)
-            {
-                if (ThemedMessageBox.Show(
-                    $"Es existieren bereits Einträge für das gewählte Jahr. Ereignisse zusammenführen? (Bestehende Einträge werden überschrieben)?",
-                    Properties.Resources.Achtung,
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Warning) != MessageBoxResult.Yes)
-                    return;
-            }
-
-            foreach (var item in IoExcel.Import.ExternerPlan)
-            {
-                if (hasMatch) //ich muss das nur prüfen wenn hasMatch=true ist, sonst gibt es keine Einträge im Zeitraum
-                {
-                    var exist = DataContainer.ExternerPlan.FirstOrDefault(x => x.Kw == item.Kw);
-                    if (exist != null)
-                        DataContainer.ExternerPlan.Remove(exist);
-                }
-                DataContainer.ExternerPlan.Add(item);
-            }
-
-            foreach (var item in jahr)
-            {
-                var neu = item.ToString(Core.Helper.German);
-                if (!ImportierteJahreliste.Contains(neu))
-                    ImportierteJahreliste.Add(neu);
-            }
-
             RaisePropertyChanged(nameof(ImportierteJahreliste));
             CanGoNext = true;
             IsFinished = true;

@@ -455,7 +455,8 @@ namespace Vortragsmanager.Core
                             if (!i.Ältester.Vorträge.Select(y => y.Vortrag).Contains(t))
                                 i.Ältester.Vorträge.Add(i.Vortrag);
 
-                            DataContainer.ExternerPlan.Add(i);
+                            if (!DataContainer.ExternerPlan.Any(x => x.Kw == i.Kw && x.Ältester == i.Ältester))
+                                DataContainer.ExternerPlan.Add(i);
                         }
                     }
                 }
