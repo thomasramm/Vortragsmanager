@@ -31,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{6B067D4E-8
 		docs\Versammlungen.md = docs\Versammlungen.md
 		docs\Verwaltung.md = docs\Verwaltung.md
 		docs\Vorlagen.md = docs\Vorlagen.md
-		Vortragsthemen.md = Vortragsthemen.md
+		docs\Vortragsthemen.md = docs\Vortragsthemen.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{EBA8B2B4-5C0A-4F22-96C0-1B0D25F7A20F}"
@@ -79,6 +79,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{EBA8B2
 		docs\images\verwaltung_30.png = docs\images\verwaltung_30.png
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_data", "_data", "{EACFEAA0-5D24-42E2-BF24-D16F59F9D1BF}"
+	ProjectSection(SolutionItems) = preProject
+		docs\_data\navigation.yml = docs\_data\navigation.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +112,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6B067D4E-8582-4A43-8344-F5F26B6040D1} = {ED4EF8AF-31FF-417B-BE59-C9BA187E6E94}
 		{EBA8B2B4-5C0A-4F22-96C0-1B0D25F7A20F} = {ED4EF8AF-31FF-417B-BE59-C9BA187E6E94}
+		{EACFEAA0-5D24-42E2-BF24-D16F59F9D1BF} = {6B067D4E-8582-4A43-8344-F5F26B6040D1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2586EACC-6FFF-445E-B7EF-12A729743779}
