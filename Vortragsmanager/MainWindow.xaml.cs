@@ -24,6 +24,7 @@ namespace Vortragsmanager
                 new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
             Log.Start();
+
             AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
             {
                 Log.Error("FirstChanceException", eventArgs.Exception.Message);
@@ -47,7 +48,6 @@ namespace Vortragsmanager
                 Close();
             }
 
-            Anonymisieren.Start();
             InitializeComponent();
 
             Helper.GlobalSettings = new MyGloabalSettings();
