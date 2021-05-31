@@ -31,7 +31,11 @@ namespace Vortragsmanager
                 Log.Error("FirstChanceExceptionStackTrace", eventArgs.Exception.StackTrace);
             };
 
-            if (Settings.Default.sqlite == "vortragsmanager.sqlite3")
+#if DEBUG
+                Settings.Default.sqlite = "demo.sqlite3";
+#endif
+
+            if (Settings.Default.sqlite == "vortragsmanager.sqlite3" || Settings.Default.sqlite == "demo.sqlite3")
             {
                 Settings.Default.sqlite = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + Settings.Default.sqlite;
             }
