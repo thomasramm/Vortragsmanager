@@ -6,6 +6,7 @@ using System.Windows.Data;
 using Vortragsmanager.Datamodels;
 using System.Linq;
 using System.Windows.Markup;
+using System.Windows;
 
 namespace Vortragsmanager.Core
 {
@@ -137,6 +138,76 @@ namespace Vortragsmanager.Core
 
         public static string TemplateFolder => AppDomain.CurrentDomain.BaseDirectory + @"Templates\";
 
+        public static string ConvertToString(object input)
+        {
+            if (input == null)
+                return string.Empty;
+            return input.ToString().Trim();
+        }
+
+        public static bool CheckNegativListe(string input, string[] liste)
+        {
+            var u = input.ToUpperInvariant();
+            return !liste.Any(x => x == u);
+        }
+
+        public static bool GetDayOfWeeks(ref string input, DayOfWeeks day)
+        {
+            if (string.IsNullOrEmpty(input))
+                return false;
+
+            var test = day.ToString();
+
+            if (input.Contains(test))
+            {
+                input = input.Replace(test, "");
+                return true;
+            }
+
+            test = test.Substring(0, 3) + " ";
+            if (input.Contains(test))
+            {
+                input = input.Replace(test, "");
+                return true;
+            }
+
+            test = test.Substring(0, 3) + ".";
+            if (input.Contains(test))
+            {
+                input = input.Replace(test, "");
+                return true;
+            }
+
+            test = test.Substring(0, 3) + ",";
+            if (input.Contains(test))
+            {
+                input = input.Replace(test, "");
+                return true;
+            }
+
+            test = test.Substring(0, 2) + " ";
+            if (input.Contains(test))
+            {
+                input = input.Replace(test, "");
+                return true;
+            }
+
+            test = test.Substring(0, 2) + ".";
+            if (input.Contains(test))
+            {
+                input = input.Replace(test, "");
+                return true;
+            }
+
+            test = test.Substring(0, 2) + ",";
+            if (input.Contains(test))
+            {
+                input = input.Replace(test, "");
+                return true;
+            }
+
+            return false;
+        }
     }
 
     public class DoubleToIntConverter : IValueConverter
@@ -208,6 +279,29 @@ namespace Vortragsmanager.Core
         Freitag = 5,
         Samstag = 6,
         Sonntag = 0,
+    }
+
+    public static class DialogCloser
+    {
+        public static readonly DependencyProperty DialogResultProperty =
+            DependencyProperty.RegisterAttached(
+                "DialogResult",
+                typeof(bool?),
+                typeof(DialogCloser),
+                new PropertyMetadata(DialogResultChanged));
+
+        private static void DialogResultChanged(
+            DependencyObject d,
+            DependencyPropertyChangedEventArgs e)
+        {
+            var window = d as Window;
+            if (window != null)
+                window.DialogResult = e.NewValue as bool?;
+        }
+        public static void SetDialogResult(Window target, bool? value)
+        {
+            target.SetValue(DialogResultProperty, value);
+        }
     }
 }
 
