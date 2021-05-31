@@ -1,3 +1,10 @@
+[31.05.2021]
+
+Überarbeitung des Wizard für den ersten Programmstart
+
+Neue Option: Programm mit Demodaten öffnen
+Geänderte Option: Import von vplanung.net Ersetzt durch Import aus Excel-Listen
+
 [16.05.2021]
 
 Zwei neue Funktionen
