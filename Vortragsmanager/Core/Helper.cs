@@ -104,7 +104,12 @@ namespace Vortragsmanager.Core
             return woche;
         }
 
-        public static int CurrentVersion => 16;
+        /// <summary>
+        /// Siehe auch 
+        /// IoSqlite.UpdateDatabase für Datenbank Updates (Struktur)
+        /// Initialize.Update für C# Updates (Inhalte)
+        /// </summary>
+        public static int CurrentVersion => 17;
 
         public class EigeneKreisNameComparer : IComparer<Conregation>
         {
