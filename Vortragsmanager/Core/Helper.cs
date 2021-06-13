@@ -223,6 +223,20 @@ namespace Vortragsmanager.Core
         }
     }
 
+    public class BooleanToVisibilityMultiConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            var result = values.OfType<bool>().Any(b => !b) ? Visibility.Collapsed : Visibility.Visible;
+            return result;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class EnumBindingSourceExtension : MarkupExtension
     {
         private Type _enumType;

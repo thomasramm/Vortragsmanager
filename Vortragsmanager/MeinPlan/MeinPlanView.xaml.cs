@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Xpf.Core;
+using System;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,6 +30,18 @@ namespace Vortragsmanager.MeinPlan
 
             var timer = new Timer() { Interval = 250, Enabled = true, AutoReset = false };
             timer.Elapsed += (s, ev) => l.Dispatcher.BeginInvoke((Action)delegate () { l.Background = original; timer.Dispose(); });
+        }
+
+        private void ActionButtonEditClick(object sender, RoutedEventArgs e)
+        {
+            
+            SimpleButton btn = sender as SimpleButton;
+            DockPanel dp = btn.Parent as DockPanel;
+            Border brd = dp.Parent as Border;
+            ContextMenu contextMenu = brd.ContextMenu;
+            contextMenu.PlacementTarget = brd;
+            contextMenu.IsOpen = true;
+            e.Handled = true;
         }
     }
 }
