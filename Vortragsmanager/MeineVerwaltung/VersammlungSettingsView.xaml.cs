@@ -45,6 +45,7 @@ namespace Vortragsmanager.MeineVerwaltung
         {
             var boxList = ((FlowLayoutControl)sender).Children;
             var editMode = (e.NewValue != null); // ?  System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+            AddNewConregation.Visibility = editMode ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
             var maximizedBox = (e.NewValue as GroupBox);
             foreach (var box in boxList)
             {
