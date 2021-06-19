@@ -103,7 +103,7 @@
                     <ControlTemplate TargetType="Button">
                         <Grid>
                             <Ellipse Stroke="#e0d7b6" StrokeThickness="1" Fill="ForestGreen" />
-                            <Label Content="+" FontSize="32" Margin="0,-6,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <Label Content="+" FontSize="32" Margin="0,-8,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Grid>
                     </ControlTemplate>
