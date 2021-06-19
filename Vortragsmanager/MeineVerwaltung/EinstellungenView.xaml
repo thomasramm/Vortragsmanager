@@ -142,6 +142,12 @@
                                       ContentPlacement="Inside"
                                       IsChecked="{Binding DashboardShowDetails}" />
                     </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Aktivitätsbuttons anzeigen">
+                        <dxe:ToggleSwitch CheckedStateContent="An"
+                                      UncheckedStateContent="Aus"
+                                      ContentPlacement="Inside"
+                                      IsChecked="{Binding ShowActivityButtons}" />
+                    </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Logging">
                         <ComboBox SelectedIndex="{Binding SelectedLogLevel}">
                             <ComboBoxItem Content="Kein Log" />

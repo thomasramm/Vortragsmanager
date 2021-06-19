@@ -108,8 +108,9 @@ namespace Vortragsmanager.Views
             _base = Base;
             _redner = Redner;
             _vortrag = Vortrag;
-            if (_base != null && _base.Wochen.Count > 0)
-                SelectedDatum = _base.Wochen[0];
+            Wochen = new ObservableCollection<DateTime>(_base.Wochen);
+            if (_base != null && Wochen.Count > 0)
+                SelectedDatum = Wochen[0];
 
             SaveCommand = new DelegateCommand(Zusagen);
             CancelCommand = new DelegateCommand(Absagen);
@@ -126,22 +127,24 @@ namespace Vortragsmanager.Views
 
         public string Vortrag => _vortrag.ToString();
 
-        public ObservableCollection<DateTime> Wochen => _base.Wochen;
+        public ObservableCollection<DateTime> Wochen { get; set; }
 
         private void LadeFreieTermine()
         {
             Log.Info(nameof(LadeFreieTermine));
             _base.Wochen.Clear();
+
             var startDate = Helper.CurrentWeek;
-            var endDate = Helper.CurrentWeek + 100;
+            var endDate = Helper.AddWeek(Helper.CurrentWeek, 53);
             while (startDate < endDate)
             {
                 if (!DataContainer.MeinPlan.Any(x => x.Kw == startDate))
                 {
                     var d = Helper.CalculateWeek(startDate);
-                    _base.Wochen.Add(d);
+                    if (!Wochen.Any(x => x == d))
+                        Wochen.Add(d);
                 }
-                startDate += 1;
+                startDate = Helper.AddWeek(startDate, 1);
             }
         }
 

@@ -162,7 +162,8 @@ namespace Vortragsmanager.Core
                 Datum INTEGER,
                 Status INTEGER,
                 LetzteAktion TEXT,
-                Kommentar TEXT)", db);
+                Kommentar TEXT,
+                ErinnerungsmailGesendet INTEGER)", db);
             
             ExecCommand(@"CREATE TABLE IF NOT EXISTS Events (
                 Typ INTEGER,
@@ -348,6 +349,12 @@ namespace Vortragsmanager.Core
             {
                 UpdateCommand(DataContainer.Version, db, @"UPDATE Talkes SET Gultig = 0, Thema = 'Voll und ganz auf Jehova vertrauen' WHERE Nummer = 70");
             }
+
+            if (DataContainer.Version < 17)
+            {
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Invitation ADD ErinnerungsmailGesendet INTEGER");
+            }
+            //Aktuelle Version = 17, siehe auch Helper.CurrentVersion und Initialize.Update
         }
 
         private static void UpdateV12DateColumn(SQLiteConnection db, string tablename, string columname)
@@ -606,7 +613,7 @@ namespace Vortragsmanager.Core
             Log.Info(nameof(ReadMeinPlan));
             DataContainer.MeinPlan.Clear();
 
-            using (var cmd = new SQLiteCommand("SELECT IdAltester, IdVortrag, IdConregation, Datum, Status, LetzteAktion, Kommentar FROM Invitation", db))
+            using (var cmd = new SQLiteCommand("SELECT IdAltester, IdVortrag, IdConregation, Datum, Status, LetzteAktion, Kommentar, ErinnerungsmailGesendet FROM Invitation", db))
             {
                 SQLiteDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
@@ -619,6 +626,7 @@ namespace Vortragsmanager.Core
                     i.Status = (EventStatus)rdr.GetInt32(4);
                     i.LetzteAktion = rdr.GetDateTime(5);
                     i.Kommentar = rdr.IsDBNull(6) ? null : rdr.GetString(6);
+                    i.ErinnerungsMailGesendet = rdr.IsDBNull(7) ? false : rdr.GetBoolean(7);
 
                     if (!(IdAltester is null))
                         i.Ältester = DataContainer.Redner.First(x => x.Id == IdAltester);
@@ -1019,8 +1027,8 @@ namespace Vortragsmanager.Core
         {
             Log.Info(nameof(SaveMeinPlan));
             var cmd = new SQLiteCommand("INSERT INTO Invitation(" +
-                "IdAltester, IdVortrag, IdConregation, Datum, Status, LetzteAktion, Kommentar) " +
-                "VALUES (@IdAltester, @IdVortrag, @IdConregation, @Datum, @Status, @LetzteAktion, @Kommentar)", db);
+                "IdAltester, IdVortrag, IdConregation, Datum, Status, LetzteAktion, Kommentar, ErinnerungsmailGesendet) " +
+                "VALUES (@IdAltester, @IdVortrag, @IdConregation, @Datum, @Status, @LetzteAktion, @Kommentar, @ErinnerungsmailGesendet)", db);
 
             cmd.Parameters.Add("@IdAltester", System.Data.DbType.Int32);
             cmd.Parameters.Add("@IdVortrag", System.Data.DbType.Int32);
@@ -1029,6 +1037,7 @@ namespace Vortragsmanager.Core
             cmd.Parameters.Add("@Status", System.Data.DbType.Int32);
             cmd.Parameters.Add("@LetzteAktion", System.Data.DbType.Date);
             cmd.Parameters.Add("@Kommentar", System.Data.DbType.String);
+            cmd.Parameters.Add("@ErinnerungsmailGesendet", System.Data.DbType.Boolean);
 
             foreach (var er in DataContainer.MeinPlan.Where(x => x.Status != EventStatus.Ereignis))
             {
@@ -1040,6 +1049,7 @@ namespace Vortragsmanager.Core
                 cmd.Parameters[4].Value = (int)con.Status;
                 cmd.Parameters[5].Value = con.LetzteAktion;
                 cmd.Parameters[6].Value = con.Kommentar;
+                cmd.Parameters[7].Value = con.ErinnerungsMailGesendet;
                 cmd.ExecuteNonQuery();
             }
 

@@ -1,0 +1,9 @@
+Programmierung
+----------------
+bei eigenen Rednern Abwesenheiten prüfen
+bei eigenen Rednern alternativen Mailtext an den Redner
+Ansicht des Datum wann ein Vortrag zuletzt gehalten wurde bei den Rednern und ihren Vorträgen.
+
+
+
+

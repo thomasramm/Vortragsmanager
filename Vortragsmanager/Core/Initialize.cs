@@ -275,8 +275,9 @@ namespace Vortragsmanager.Core
             {
                 TalkList.Reset();
             }
-            
-            //auf aktuellste Version setzen = 16
+
+            //auf aktuellste Version setzen = 17
+            //siehe auch IoSqlite.UpdateDatabase
             DataContainer.Version = Helper.CurrentVersion;
         }
 
