@@ -141,6 +141,21 @@ namespace Vortragsmanager.Core
 
         public static CultureInfo German { get; } = new CultureInfo("de-DE");
 
+        internal static int AddWeek(int woche, int add)
+        {
+            var result = woche + add;
+            var year = result / 100;
+            var week = result - year*100;
+            if (week > 53)
+            {
+                var yearAdd = week / 53;
+                year += yearAdd;
+                week = week - (yearAdd * 53);
+                result = year*100 + week;
+            }
+            return result;
+        }
+
         public static string TemplateFolder => AppDomain.CurrentDomain.BaseDirectory + @"Templates\";
 
         public static string ConvertToString(object input)
