@@ -10,30 +10,42 @@ Für jede Woche gibt es einen Eintrag mit dem Tag im Monat und einem Hinweis auf
 
 ![Übersicht](images/meinplan_01.png)
 
-Eine Woche kann 4 verschiedene Stati haben. Schauen wir uns das am Beispiel des Monats Juli an: 
+Eine Woche kann 4 verschiedene Stati haben. Schauen wir uns das am Beispiel des Monats Oktober an: 
 
- * 05 Juli: [Vortragseinladung](#vortragseinladung-05-juli) von Milo Schwarz
- * 12 Juli: [Sonderereignis](#ereignisse-12-juli) Kongress
- * 19 Juli: [offen](#keine-planung-vorhanden-offen-19-juli) noch keine Planung festgelegt
- * 26 Juli: [Eine Anfrage](#laufende-anfrage-26-juli) an Versammlung Aachen steht noch aus
+ * 03 Oktober: [Vortragseinladung](#vortragseinladung-03-oktober) von Michael König
+ * 10 Oktober: [Eine Anfrage](#laufende-anfrage-10-oktober) an Versammlung Bottrop steht noch aus
+ * 24 Oktober: [Sonderereignis](#ereignisse-24-oktober) Dienstwoche
+ * 31 Oktober: [offen](#keine-planung-vorhanden-offen-31-oktober) noch keine Planung festgelegt
+
 
 ## Die Ereignistypen
 
-### Vortragseinladung (05. Juli)
+### Vortragseinladung (03. Oktober)
 Bei bestehenden Vortragseinladungen wird dir der Name des Redners angezeigt. Mit einem Klick auf die Buchung werden dir weitere Details der Buchung angezeigt. 
 
 ![Buchung Details](images/meinplan_03.png) 
 
 Die Kontaktdaten können per klick in die Zwischenablage kopiert und in anderen Programmen eingefügt werden.
 
-Wenn du mit der rechten Maustaste auf eine Vortragseinladung klickst wird ein Kontextmenü mit folgenden Möglichkeiten geöffnet:
+Wenn du neben der Vortragseinladung auf Bearbeiten (Blauer Stift) klickst wird ein Menü mit folgenden Möglichkeiten geöffnet:
 
 * Buchung verschieben (bzw. tauschen)
 * Buchung bearbeiten
 * Buchung löschen
 * Erinnerungsmail senden
 
-### Ereignisse (12. Juli)
+Außerdem wird neben jeder Vortragseinladung ein Brief-Symbol angezeigt.
+* Ein geschlossener Umschlag weist darauf hin, das noch keine Erinnerungsmail versendet wurde.
+* Ein geöffneter Umschlag zeigt dir, das die Erinnerungsmail bereits mindestens 1x versendet wurde.
+Mit einem Klick auf den Umschlag kann eine (weitere) Erinnerungsmail generiert werden.
+
+### laufende Anfrage (10. Oktober)
+
+Anfragen an Koordinatoren werden in dem Jahresplan mit dem Namen der Versammlung an die diese Anfrage gestellt wurde angezeigt.
+
+Mit einem Klick auf die Anfrage wird ein Dialog geöffnet, in dem du die Anfrage bearbeiten kannst.
+
+### Ereignisse (24. Oktober)
 
 Im Vortragsmanager können folgende Ereignisse eingetragen werden:
 
@@ -47,30 +59,22 @@ Abhängig von dem jeweiligen Ereignis können weitere Informationen gespeichert 
 
 Bei einem Klick auf ein Ereignis öffnet sich ein Fenster in dem das Ereignis bearbeitet werden kann.
 
-Wenn du mit der rechten Maustaste auf ein Ereignis klickst, wird ein Kontextmenü mit folgenden Möglichkeiten geöffnet:
+Wenn du neben dem Ereignis auf Bearbeiten (Blauer Stift) klickst, wird ein Menü mit folgenden Möglichkeiten geöffnet:
 
 * Ereignis bearbeiten
 * Buchung verschieben (bzw. tauschen)
 * Buchung bearbeiten
 * Buchung löschen
 
-### Keine Planung vorhanden (offen, 19. Juli)
+### Keine Planung vorhanden (offen, 31. Oktober)
 
 Klickst du auf eine Woche in der noch keine Planung eingetragen ist, wirst du direkt zur Rednersuche weitergeleitet.
 
-Wenn du mit der rechten Maustaste das Kontextmenü öffnest, hast du folgende Möglichkeiten:
+Über das Bearbeiten-Symbol hast du folgende Möglichkeiten:
 
 * Redner suchen (Standard-Aktion die mit der linken Maustaste ausgelöst wird)
 * Vortrag eintragen (hier werden die Mails und der Status Anfrage direkt übersprungen und ein Vortrag sofort eingetragen, z.B. wenn du bereits einen Vortrag per Telefon abgesprochen hast und ihn lediglich in deiner Planung eintragen möchtest)-
 * Ereignis eintragen
-
-### laufende Anfrage (26. Juli)
-
-Anfragen an Koordinatoren werden in dem Jahresplan mit dem Namen der Versammlung an die diese Anfrage gestellt wurde angezeigt.
-
-Mit einem Klick auf die Anfrage wird ein Dialog geöffnet, in dem du die Anfrage bearbeiten kannst.
-
-Anfragen haben kein Kontextmenü
 
 ## Aktionen
 
