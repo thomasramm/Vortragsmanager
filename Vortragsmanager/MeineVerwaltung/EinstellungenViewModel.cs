@@ -197,7 +197,20 @@ namespace Vortragsmanager.MeineVerwaltung
                 RaisePropertyChanged();
             }
         }
-
+        
+        public bool ShowActivityButtons
+        {
+            get
+            {
+                return Properties.Settings.Default.ShowActivityButtons;
+            }
+            set
+            {
+                Properties.Settings.Default.ShowActivityButtons = value;
+                Properties.Settings.Default.Save();
+                RaisePropertyChanged();
+            }
+        }
         public int SelectedLogLevel
         {
             get

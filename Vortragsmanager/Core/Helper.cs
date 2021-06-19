@@ -104,7 +104,12 @@ namespace Vortragsmanager.Core
             return woche;
         }
 
-        public static int CurrentVersion => 16;
+        /// <summary>
+        /// Siehe auch 
+        /// IoSqlite.UpdateDatabase für Datenbank Updates (Struktur)
+        /// Initialize.Update für C# Updates (Inhalte)
+        /// </summary>
+        public static int CurrentVersion => 17;
 
         public class EigeneKreisNameComparer : IComparer<Conregation>
         {
@@ -135,6 +140,21 @@ namespace Vortragsmanager.Core
         public static DayOfWeeks Wochentag { get; set; } = DayOfWeeks.Sonntag;
 
         public static CultureInfo German { get; } = new CultureInfo("de-DE");
+
+        internal static int AddWeek(int woche, int add)
+        {
+            var result = woche + add;
+            var year = result / 100;
+            var week = result - year*100;
+            if (week > 53)
+            {
+                var yearAdd = week / 53;
+                year += yearAdd;
+                week = week - (yearAdd * 53);
+                result = year*100 + week;
+            }
+            return result;
+        }
 
         public static string TemplateFolder => AppDomain.CurrentDomain.BaseDirectory + @"Templates\";
 
@@ -220,6 +240,20 @@ namespace Vortragsmanager.Core
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return System.Convert.ToDouble(value, culture);
+        }
+    }
+
+    public class BooleanToVisibilityMultiConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            var result = values.OfType<bool>().Any(b => !b) ? Visibility.Collapsed : Visibility.Visible;
+            return result;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 

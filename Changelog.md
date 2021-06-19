@@ -1,3 +1,13 @@
+[19.06.2021]
+
+Mein Plan:
+* Rechts-Klick-Menü kann durch Button erreicht werden
+* Statusanzeige und Quick-Link auf Erinnerungsmail
+
+Fehlerbehebungen:
+* Mein Plan - Antwort Eintragen - freie Termine laden umgestellt, jetzt werden alle freien Termine der nächsten 12 Monate geladen
+* AktivitätenLog, Anzeigefehler behoben, nach der Filterung gab es zu große Abstände zwischen den angezeigten Elementen
+
 [31.05.2021]
 
 Überarbeitung des Wizard für den ersten Programmstart

@@ -122,16 +122,21 @@ namespace Vortragsmanager.ActivityLog
 
         public Types Typ => _log.Typ;
 
+
+        private bool _aktiv = true;
         public bool Aktiv
         {
             get
             {
-                return myUserControlItem.Visibility == System.Windows.Visibility.Visible;
+                return _aktiv;
             }
             set
             {
-                myUserControlItem.Visibility = value ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                _aktiv = value;
+                
             }
         }
+
+        public ActivityTime Zeitraum { get; set; }
     }
 }

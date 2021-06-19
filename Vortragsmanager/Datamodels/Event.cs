@@ -34,6 +34,8 @@ namespace Vortragsmanager.Datamodels
 
         public DateTime LetzteAktion { get; set; }
 
+        public bool ErinnerungsMailGesendet { get; set; }
+
         public string Kommentar { get; set; }
 
         public override string ToString() => $"{Ältester}\n{Vortrag}";

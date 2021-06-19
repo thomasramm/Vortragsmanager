@@ -14,3 +14,5 @@ rem in einer cmd folgenden Befehl eingeben
 rem > gem install jekyll bundler
 rem danach testen mit
 rem > jekyll -v
+
+rem Download git von https://git-scm.com/download/win

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
@@ -319,6 +320,8 @@ namespace Vortragsmanager.MeinPlan
             data.DisableCancelButton();
             mail.ShowDialog();
             ActivityLog.AddActivity.RednerErinnern(Zuteilung as Invitation, data.MailTextKoordinator);
+            Einladung.ErinnerungsMailGesendet = true;
+            RaisePropertyChanged(nameof(ErinnerungsMailSenden));
         }
 
         public IEvent Zuteilung { get; set; }
@@ -396,6 +399,12 @@ namespace Vortragsmanager.MeinPlan
         public bool IsOffen => Zuteilung == null;
 
         public bool DetailView { get; set; }
+
+        public bool ShowActivityButtons => Properties.Settings.Default.ShowActivityButtons;
+
+        public bool ErinnerungsMailSenden => Einladung?.ErinnerungsMailGesendet ?? false;
+
+        public string Woche => $"{Tag.Day:00}";
 
         public override string ToString()
         {
