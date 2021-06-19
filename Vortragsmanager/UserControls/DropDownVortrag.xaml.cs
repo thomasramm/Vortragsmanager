@@ -75,7 +75,7 @@ namespace Vortragsmanager.UserControls
 
         public string SelectedName
         {
-            get => SelectedItem.NumberTopicShort;
+            get => SelectedItem?.NumberTopicShort;
             set
             {
                 if (value == null)

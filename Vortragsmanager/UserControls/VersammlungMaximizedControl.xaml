@@ -133,17 +133,14 @@
         <dxlc:LayoutGroup Header="Redner" View="GroupBox" Orientation="Horizontal">
             <dxlc:FlowLayoutControl Orientation="Vertical"
                                     ItemsSource="{Binding RednerListe}"
-                                    MaximizedElementPosition="Top">
+                                    >
                 <dxlc:FlowLayoutControl.ItemTemplate>
                     <DataTemplate>
-                        <core:MyGroupBox Header="{Binding}"
+                        <dxlc:GroupBox Header="{Binding}"
                                     Content="{Binding}"
                                     Width="200"
                                     Height="100"
                                     Padding="0"
-                                    State="{Binding IsSelected}"
-                                    Visibility="{Binding Sichtbar}"
-                                    MaximizeElementVisibility="Visible"
                                     MouseLeftButtonUp="GroupBoxRedner_MouseLeftButtonUp">
                             <dxlc:GroupBox.HeaderTemplate>
                                 <DataTemplate>
@@ -166,12 +163,7 @@
                                     </dxlc:LayoutGroup>
                                 </DataTemplate>
                             </dxlc:GroupBox.ContentTemplate>
-                            <dxlc:GroupBox.MaximizedContentTemplate>
-                                <DataTemplate>
-                                    <local:VersammlungRednerMaximizedControl DataContext="{Binding}" />
-                                </DataTemplate>
-                            </dxlc:GroupBox.MaximizedContentTemplate>
-                        </core:MyGroupBox>
+                        </dxlc:GroupBox>
                     </DataTemplate>
                 </dxlc:FlowLayoutControl.ItemTemplate>
             </dxlc:FlowLayoutControl>

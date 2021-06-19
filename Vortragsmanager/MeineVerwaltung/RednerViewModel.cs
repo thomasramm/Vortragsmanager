@@ -167,6 +167,9 @@ namespace Vortragsmanager.MeineVerwaltung
         {
             RednerAktivitäten.Clear();
 
+            if (Redner == null)
+                return;
+
             var erg = DataContainer.SpeakerGetActivities(Redner).OrderByDescending(x => x.Kalenderwoche).Take(10);
             
             if (erg == null)

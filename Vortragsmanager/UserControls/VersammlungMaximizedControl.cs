@@ -17,9 +17,10 @@ namespace Vortragsmanager.Views
 
         private void GroupBoxRedner_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var groupBox = (GroupBox)sender;
-            if (groupBox.State == GroupBoxState.Normal)
-                groupBox.State = GroupBoxState.Maximized;
+            var groupBox = (sender as GroupBox);
+            var data = (groupBox?.DataContext as SpeakerViewModel);
+            data?.NavigateToEditor();
+            e.Handled = true;
         }
     }
 }

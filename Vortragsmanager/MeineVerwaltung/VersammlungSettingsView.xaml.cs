@@ -15,6 +15,22 @@ namespace Vortragsmanager.MeineVerwaltung
             InitializeComponent();
         }
 
+        public void SelectConregation(Datamodels.Conregation versammlung)
+        {
+            var boxList = lc.Children;
+            foreach (var box in boxList)
+            {
+                var gBox = (box as GroupBox);
+                if (gBox is null)
+                    continue;
+                var data = (Views.ConregationViewModel)gBox.DataContext;
+                if (data.Versammlung == versammlung)
+                {
+                    lc.MaximizedElement = gBox;
+                }
+            }
+        }
+
         private void GroupBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             var groupBox = (GroupBox)sender;

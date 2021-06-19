@@ -84,7 +84,7 @@ namespace Vortragsmanager.Views
             var redner = DataContainer.SpeakerFindOrAdd("Neuer Redner", Versammlung);
             var rednerModel = new SpeakerViewModel(redner);
             RednerListe.Add(rednerModel);
-            rednerModel.Select();
+            rednerModel.NavigateToEditor();
         }
 
         public void CalculateDistance()
