@@ -65,7 +65,7 @@
                                         MouseLeftButtonUp="GroupBox_MouseLeftButtonUp">
                             <dxlc:GroupBox.HeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock Margin="1">Kreis <Run Text="{Binding Versammlung.Kreis}" /></TextBlock>
+                                    <TextBlock Margin="1" ToolTip="Klicken um Versammlung zu maximieren oder wieder zu minimieren">Kreis <Run Text="{Binding Versammlung.Kreis}" /></TextBlock>
                                 </DataTemplate>
                             </dxlc:GroupBox.HeaderTemplate>
                             <dxlc:GroupBox.ContentTemplate>

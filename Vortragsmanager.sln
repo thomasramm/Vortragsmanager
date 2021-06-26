@@ -23,15 +23,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{6B067D4E-8
 		docs\Installation.md = docs\Installation.md
 		docs\Konzept.md = docs\Konzept.md
 		docs\ListenAusgeben.md = docs\ListenAusgeben.md
+		docs\Log.md = docs\Log.md
 		docs\MeineRedner.md = docs\MeineRedner.md
 		docs\MeinPlan.md = docs\MeinPlan.md
 		docs\ProgrammEinstellungen.md = docs\ProgrammEinstellungen.md
 		docs\README.md = docs\README.md
 		docs\Redner.md = docs\Redner.md
+		docs\Startseite.md = docs\Startseite.md
 		docs\Versammlungen.md = docs\Versammlungen.md
 		docs\Verwaltung.md = docs\Verwaltung.md
 		docs\Vorlagen.md = docs\Vorlagen.md
 		docs\Vortragsthemen.md = docs\Vortragsthemen.md
+		docs\WeiterePlannungen.md = docs\WeiterePlannungen.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{EBA8B2B4-5C0A-4F22-96C0-1B0D25F7A20F}"
@@ -60,6 +63,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{EBA8B2
 		docs\images\menu_icon_07.png = docs\images\menu_icon_07.png
 		docs\images\menu_icon_08.png = docs\images\menu_icon_08.png
 		docs\images\menu_icon_09.png = docs\images\menu_icon_09.png
+		docs\images\navigation_01.png = docs\images\navigation_01.png
 		docs\images\projectCard.png = docs\images\projectCard.png
 		docs\images\startseite_01.png = docs\images\startseite_01.png
 		docs\images\step_03.png = docs\images\step_03.png
