@@ -36,6 +36,8 @@ namespace Vortragsmanager.Core
 
         private static DateTime GetFirstMondayOfYear(int year)
         {
+            if (year == 0)
+                year = DateTime.Today.Year;
             DateTime tag1 = new DateTime(year, 1, 1);
             while (tag1.DayOfWeek != DayOfWeek.Monday)
             {

@@ -159,7 +159,7 @@ namespace Vortragsmanager.Views
             }
         }
 
-        public string Merge1Koordinator => $"{Versammlung.Koordinator} (Versammlung {Versammlung.Name})";
+        public string Merge1Koordinator => $"{Versammlung?.Koordinator} (Versammlung {Versammlung?.Name})";
 
         public string Merge2Koordinator => _selectedConregation == null
                     ? "Bitte zuerst Versammlung auswählen!"

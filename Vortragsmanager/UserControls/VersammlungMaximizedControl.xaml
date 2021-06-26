@@ -10,25 +10,14 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              xmlns:core="clr-namespace:Vortragsmanager.Core"
              xmlns:uc="clr-namespace:Vortragsmanager.UserControls"
+             xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="800">
     <UserControl.Resources>
         <dxmvvm:BooleanNegationConverter x:Key="BooleanNegationConverter" />
     </UserControl.Resources>
-    <dxlc:LayoutControl ItemSpace="12">
-        <dxlc:LayoutControl.GroupBoxStyle>
-            <Style TargetType="dxlc:GroupBox">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="dxlc:GroupBox">
-                            <GroupBox Header="{TemplateBinding Header}" Content="{TemplateBinding Content}" />
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </dxlc:LayoutControl.GroupBoxStyle>
-        <dxlc:LayoutGroup Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <dxlc:LayoutGroup Header="Daten der Versammlung" View="GroupBox" Orientation="Vertical">
+    <dxlc:FlowLayoutControl ItemSpace="12" x:Name="flc" >
+            <dxlc:LayoutGroup Header="Daten der Versammlung" View="GroupBox" Orientation="Vertical" Width="350" ItemLabelsAlignment="Local">
                 <dxlc:LayoutItem Label="Eigene Versammlung:">
                     <dxe:ToggleSwitch ContentPlacement="Near"
                                     CheckedStateContent="Ja"
@@ -56,22 +45,54 @@
                 <dxlc:LayoutItem Label="Zoom:">
                     <TextBox Text="{Binding Versammlung.Zoom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </dxlc:LayoutItem>
-                <dxlc:LayoutItem Label="Entfernung (km):">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="110" />
-                        </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding Versammlung.Entfernung}" Grid.Column="0" />
-                        <dx:SimpleButton Content="Berechnen"
+            <dxlc:LayoutItem Label="Entfernung (km):">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="110" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding Versammlung.Entfernung}" Grid.Column="0" />
+                    <dx:SimpleButton Content="Berechnen"
                                          Glyph="{dx:SvgImageSource Uri='/Images/Travel_MapPointer.svg'}"
                                         Command="{Binding CalculateDistanceCommand}"
                                         Grid.Column="1"
                                         Height="24" />
-                    </Grid>
+                </Grid>
+            </dxlc:LayoutItem>
+
+            <dxlc:LayoutItem>
+                    <dx:SimpleButton Content="Versammlung löschen"
+                                    Command="{Binding DeleteCommand}"
+                                    CommandParameter="{Binding ElementName=lc}"
+                                    IsEnabled="{Binding EigeneVersammlung, Converter={StaticResource BooleanNegationConverter}}"
+                                    Glyph="{dx:SvgImageSource Uri='/Images/Delete_Mülleimer_sw.svg'}"
+                                    ToolTip="Versammlung löschen oder zusammenlegen" />
                 </dxlc:LayoutItem>
-            </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup Header="Koordinator" View="GroupBox" Orientation="Vertical">
+        </dxlc:LayoutGroup>
+        <dxlc:LayoutGroup  Header="Zusammenkunftszeit" View="GroupBox" Orientation="Vertical" Width="350">
+            <ItemsControl MinHeight="40"
+                    ItemsSource="{Binding ZusammenkunftszeitenItems}"
+                         >
+            </ItemsControl>
+            <Button HorizontalAlignment="Right" 
+                                 Width="20" 
+                                 VerticalAlignment="Bottom" 
+                                 Height="20"
+                                 Margin="-10"
+                        Command="{Binding AddZeitCommand}"
+                        FontSize="16">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Ellipse Fill="Green"/>
+                            <Label Content="+"  FontSize="20" FontFamily="Arial" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="-1"/>
+
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </dxlc:LayoutGroup>
+        <dxlc:LayoutGroup Header="Koordinator" View="GroupBox" Orientation="Vertical" Width="350" ItemLabelsAlignment="Local">
                 <dxlc:LayoutItem Label="Name:">
                     <TextBox Text="{Binding Versammlung.Koordinator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </dxlc:LayoutItem>
@@ -88,62 +109,21 @@
                     <TextBox Text="{Binding Versammlung.KoordinatorJw, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </dxlc:LayoutItem>
             </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup  Header="Zusammenkunftszeit" View="GroupBox" Orientation="Vertical">
-                <ItemsControl MinHeight="40"
-                    ItemsSource="{Binding ZusammenkunftszeitenItems}"
-                         >
-                </ItemsControl>
-                <Button HorizontalAlignment="Right" 
-                                 Width="20" 
-                                 VerticalAlignment="Bottom" 
-                                 Height="20"
-                                 Margin="-10"
-                        Command="{Binding AddZeitCommand}"
-                        FontSize="16">
-                    <Button.Template>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Grid>
-                                <Ellipse Fill="Green"/>
-                                <Label Content="+"  FontSize="20" FontFamily="Arial" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="-1"/>
-
-                            </Grid>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-            </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup View="GroupBox" Header="Versammlungsübergreifende Rednereinstellungen" Orientation="Vertical">
-                <dxlc:LayoutItem>
-                    <TextBlock Text="Under Construction" Foreground="Orange" />
-                </dxlc:LayoutItem>
-            </dxlc:LayoutGroup>
-            <dxlc:LayoutItem>
-                <dx:SimpleButton Content="Neuen Redner anlegen"
+        <dxlc:LayoutGroup Header="Redner" View="GroupBox" Height="{c:Binding ElementName=flc, Path=ActualHeight - 45}" Orientation="Vertical">
+            
+                <dx:SimpleButton Content="Neuen Redner anlegen" Height="50" Width="200" HorizontalAlignment="Left" Margin="10,0"
                             Command="{Binding NewPersonCommand}"
                             Glyph="{dx:SvgImageSource Uri='/Images/NewEmployee.svg'}" />
-            </dxlc:LayoutItem>
-            <dxlc:LayoutItem>
-                <dx:SimpleButton Content="Versammlung löschen"
-                                Command="{Binding DeleteCommand}"
-                                CommandParameter="{Binding ElementName=lc}"
-                                IsEnabled="{Binding EigeneVersammlung, Converter={StaticResource BooleanNegationConverter}}"
-                                Glyph="{dx:SvgImageSource Uri='/Images/Delete_Mülleimer_sw.svg'}"
-                                ToolTip="Versammlung löschen oder zusammenlegen" />
-            </dxlc:LayoutItem>
-        </dxlc:LayoutGroup>
-        <dxlc:LayoutGroup Header="Redner" View="GroupBox" Orientation="Horizontal">
+            
             <dxlc:FlowLayoutControl Orientation="Vertical"
-                                    ItemsSource="{Binding RednerListe}"
-                                    MaximizedElementPosition="Top">
+                                    ItemsSource="{Binding RednerListe}">
                 <dxlc:FlowLayoutControl.ItemTemplate>
                     <DataTemplate>
-                        <core:MyGroupBox Header="{Binding}"
+                        <dxlc:GroupBox Header="{Binding}"
                                     Content="{Binding}"
                                     Width="200"
                                     Height="100"
                                     Padding="0"
-                                    State="{Binding IsSelected}"
-                                    Visibility="{Binding Sichtbar}"
-                                    MaximizeElementVisibility="Visible"
                                     MouseLeftButtonUp="GroupBoxRedner_MouseLeftButtonUp">
                             <dxlc:GroupBox.HeaderTemplate>
                                 <DataTemplate>
@@ -166,15 +146,10 @@
                                     </dxlc:LayoutGroup>
                                 </DataTemplate>
                             </dxlc:GroupBox.ContentTemplate>
-                            <dxlc:GroupBox.MaximizedContentTemplate>
-                                <DataTemplate>
-                                    <local:VersammlungRednerMaximizedControl DataContext="{Binding}" />
-                                </DataTemplate>
-                            </dxlc:GroupBox.MaximizedContentTemplate>
-                        </core:MyGroupBox>
+                        </dxlc:GroupBox>
                     </DataTemplate>
                 </dxlc:FlowLayoutControl.ItemTemplate>
             </dxlc:FlowLayoutControl>
         </dxlc:LayoutGroup>
-    </dxlc:LayoutControl>
+    </dxlc:FlowLayoutControl>
 </UserControl>

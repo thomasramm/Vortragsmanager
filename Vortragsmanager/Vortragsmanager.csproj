@@ -274,9 +274,7 @@
     <Compile Include="UserControls\SonntagItemViewModel.cs">
       <DependentUpon>SonntagItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\VersammlungRednerViewModel.cs">
-      <DependentUpon>VersammlungRednerMaximizedControl.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="UserControls\VersammlungRednerViewModel.cs" />
     <Compile Include="UserControls\ZeitItem.xaml.cs">
       <DependentUpon>ZeitItem.xaml</DependentUpon>
     </Compile>
@@ -378,9 +376,6 @@
     </Compile>
     <Compile Include="UserControls\VersammlungControlViewModel.cs">
       <DependentUpon>VersammlungMaximizedControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\VersammlungRednerMaximizedControl.xaml.cs">
-      <DependentUpon>VersammlungRednerMaximizedControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="MeineVerwaltung\RednerView.xaml.cs">
       <DependentUpon>RednerView.xaml</DependentUpon>
@@ -552,10 +547,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\VersammlungMaximizedControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\VersammlungRednerMaximizedControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

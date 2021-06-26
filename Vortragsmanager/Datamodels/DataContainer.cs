@@ -301,12 +301,11 @@ namespace Vortragsmanager.Datamodels
             if (redner == null)
                 return null;
 
-            IEnumerable<Core.DataHelper.DateWithConregation> erg;
+            var list1 = MeinPlan.Where(x => x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester == redner && x.Kw >= 200001);
+            IEnumerable<Core.DataHelper.DateWithConregation> erg = list1.Select(x => new Core.DataHelper.DateWithConregation(Helper.CalculateWeek(x.Kw), MeineVersammlung.Name, x.Vortrag?.Vortrag?.Nummer));
 
-            erg = DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(Helper.CalculateWeek(x.Kw), DataContainer.MeineVersammlung.Name, x.Vortrag?.Vortrag?.Nummer));
-
-            if (redner.Versammlung == DataContainer.MeineVersammlung)
-                erg = erg.Union(DataContainer.ExternerPlan.Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, x.Versammlung.Name, x.Vortrag?.Vortrag?.Nummer)));
+            if (redner.Versammlung == MeineVersammlung)
+                erg = erg.Union(ExternerPlan.Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, x.Versammlung.Name, x.Vortrag?.Vortrag?.Nummer)));
 
             return erg;
         }

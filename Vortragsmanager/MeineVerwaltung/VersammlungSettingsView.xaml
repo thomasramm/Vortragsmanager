@@ -90,15 +90,20 @@
                     </DataTemplate>
                 </dxlc:FlowLayoutControl.ItemTemplate>
             </dxlc:FlowLayoutControl>
-            <Button Width="40" Height="40"
+            <Button x:Name="AddNewConregation"
+                    Width="40" 
+                    Height="40"
                     Margin="30"
                     Grid.Row="1"
-                    VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding AddConregationCommand}">
+                    VerticalAlignment="Bottom" 
+                    HorizontalAlignment="Right" 
+                    Command="{Binding AddConregationCommand}"
+                    ToolTip="Eine Neue Versammlung erstellen">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Grid>
                             <Ellipse Stroke="#e0d7b6" StrokeThickness="1" Fill="ForestGreen" />
-                            <Label Content="+" FontSize="32" Margin="0,-6,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <Label Content="+" FontSize="32" Margin="0,-8,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Grid>
                     </ControlTemplate>
