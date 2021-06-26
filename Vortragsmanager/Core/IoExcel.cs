@@ -630,6 +630,7 @@ namespace Vortragsmanager.Core
                 using (ExcelPackage package = new ExcelPackage())
                 {
                     ExcelWorksheet sheet = package.Workbook.Worksheets.Add($"Redner");
+                    sheet.View.ShowGridLines = false;
 
                     sheet.Column(1).Width = 30;
                     sheet.Column(2).Width = 25;
@@ -713,6 +714,8 @@ namespace Vortragsmanager.Core
                     foreach (var redner in DataContainer.Redner.Where(x => x.Versammlung == DataContainer.MeineVersammlung && x.Aktiv))
                     {
                         sheet.Cells[$"A{row}:C{row}"].Style.WrapText = true;
+                        sheet.Cells[$"A{row}:C{row}"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Top;
+                        sheet.Cells[$"A{row}:C{row}"].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Dotted;
 
                         var name = redner.Name;
                         if (!redner.Ältester)
