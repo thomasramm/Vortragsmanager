@@ -5,20 +5,25 @@ war ich erstmal aufgeschmissen,
 denn das umstellen meiner Planung auf Excel-Tabellen hat gar nicht geklappt.  
 Auch andere Programme konnten meine Wünsche nicht so recht erfüllen.
 Deshalb habe ich (in erster Linie für mich selbst) angefangen dieses Programm zu schreiben. 
-Die Zielsetzung ist:
-* Suche nach Rednern die lange nicht bei mir waren
-* Suche nach Vorträgen die schon länger nicht gehört wurden
-   Wie kann ich sicherstellen das ich den Vortrag nicht gerade schon gehört habe, oder in der Zukunft bereits eingeplannt ist
-* Übersicht über meine Jahresplannung (welche Termine sind noch frei)
-* Verwaltung meiner Redner
-* Die Kommunikation mit den anderen Koordinatoren soll per Mail erfolgen (am besten jwpub), 
-deshalb sollen Vorgänge eine vereinfachte Möglichkeit haben die Informationen in das Mailsystem zu kopieren.
-* Mehrere Redner und Vorträge auf einmal per Mail anfragen
-   Diese Anfragen speichern, damit ich nicht Termine oder Themen doppelt anfrage.
-* Optional wäre es natürlich schön wenn möglichst viele Koordinatoren das Programm benutzen und in die Mail ein Code eingefügt wird, 
-denn das Programm auslesen kann.
+
+## Screenshots ##
+<div class="gallery gallery-cols-3">
+    <figure>
+        <img src="docs/images/startseite_01.png" alt="Image 1">
+        <figcaption>Image 1</figcaption>
+    </figure>
+    <figure>
+        <a href="docs/images/startseite_01.png"><img src="docs/images/startseite_01.png" alt="Image 2">
+        <figcaption>Image 2</figcaption></a>
+    </figure>
+    <figure>
+        <img src="docs/images/startseite_01.png" alt="">
+    </figure>
+</div>
 
 ## Entwicklungsstand ##
+
+![Startseite](docs/images/startseite_01.png)
 
 Das Programm ist bei mir persönlich für meine Vortragsplanung seit 2019 im Einsatz. Inzwischen sind alle Funktionen die ich benötige im Programm eingebunden.
 Aufgrund unterschiedlicher Arbeitsweisen und Anforderungen an so einem Programm kann es natürlich sein das eine Funktion die dir wichtig wäre nicht vorhanden ist.

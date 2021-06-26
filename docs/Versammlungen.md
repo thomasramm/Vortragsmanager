@@ -52,7 +52,7 @@ Zuteilungen der Vergangenheit werden dann abgeändert, der Vortrag bleibt weiter
 
 ### Rednerliste
 
-Die Redner können auch über das Hauptmenü [Redner](Redner.md) angezeigt und bearbeitet werden.
+Die Redner können auch direkt über das Hauptmenü [Redner](Redner.md) angezeigt und aufgerufen werden.
 
 Im rechten Bereich werden die angelegten Redner angezeigt. Dargestellt werden folgende Informationen:
 
@@ -60,49 +60,7 @@ Im rechten Bereich werden die angelegten Redner angezeigt. Dargestellt werden fo
 * Ältester / DAG (blau/rot) zeigt an ob er Ältester oder Dienstamtgehilfe ist
 * Darunter werden seine ausgearbeiteten Vortragsnummern angezeigt.
 
-Klickt man auf einen Redner, oder klickt auf die Schaltfläche "Neuen Redner anlegen" wechselt das Programm in die Detailansicht eines Redners, in der die Informationen zum Redner auch direkt bearbeitet werden können.
+Klickt man auf einen Redner, oder klickt auf die Schaltfläche "Neuen Redner anlegen" wechselt das Programm zu der Kachel "Redner" in der die Informationen zum Redner bearbeitet werden können.
 
-## Redner
-
-![Redner bearbeiten](images/verwaltung_21.png)
-
-In der Titelleiste wird der Name des Redners hervorgehoben, Mit einem Klick auf die Titelleiste wird zwischen der Übersicht- und der Detailansicht gewechselt.
-
-### Daten des Redner
-
-Zuerst können drei Informationen eingestellt werden:
-
-* Typ (Ältester oder Dienstamtgehilfe)
-* Aktiv (kann eingeladen werden oder nicht)
-* Einladen (Ja / Nein)
-
-    Möchte ich einen Vortragsredner zukünftig nicht mehr einladen, könnte ich natürlich auch den Status von Aktiv auf Inaktiv ändern. Für die Programmverwaltung hätte das den gleichen effekt. Bekomme ich aber später eine aktualisierte Rednerliste, ist es für mich evtl. nicht mehr so einfach nachvollziehbar ob der Redner der Liste der bei mir auf Inaktiv steht von seiner Seite aus Inaktiv war und jetzt wieder Vorträge halten kann, oder ob ich ihn damals auf "Inaktiv" gesetzt hatte. 
-    Über den Status Einladen Ja/Nein ist diese Information nachhaltiger erfasst.
-
-Danach werden die Kontaktinformationen des Redners erfasst. Der öffentliche Hinweis wird aktuell nicht genutzt, es ist aber gedacht ihn in Aushängen oder in Mailtexten mit ausgeben zu lassen.
-
-Die vertrauliche Notiz wird nur im Vortragsmanager selber angezeigt, aber in keinen Listen mit ausgegeben werden.
-
-### Redner Aktionen
-
-* Redner löschen
-
-* Redner verschieben
-
-    Hier kann ein Redner (z.B. nach Versammlungswechsel) einer anderen Versammlung zugeordnet werden. Seine Vortragseinladungen (historische und zukünftige) bleiben dabei gespeichert.
-
-### Vorträge
-
-Die Liste der Vorträge die ein Diener ausgearbeitet hat.
-
-* gewählten Vortrag löschen - Löscht den gewählten Vortrag aus der Liste
-
-* Neuen Vortrag hinzufügen - wähle einen Vortrag aus der Liste aus und füge ihn der Liste hinzu. Im Menü werden dir Vortragsnummer und Thema angezeigt.
-
-* Kommagetrennte Liste von Vorträgen - trage hier Komma-, Semikolon- oder mit Leerzeichen getrennt die Vortragsnummern ein die ein Redner hat und füge sie mit einem Klick alle gleichzeitig zu der Liste seiner ausgearbeiteten Vorträge hinzu.
-
-### Abwesenheiten
-
-UNDER CONSTRUCTION
 
 [zurück](Verwaltung.md){: .btn .btn--inverse}  [weiter](Redner.md){: .btn .btn--inverse}
