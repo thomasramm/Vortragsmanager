@@ -33,7 +33,7 @@ namespace Vortragsmanager.MeineVerwaltung
             var v = versammlungen.OrderBy(x => x, new Helper.EigeneKreisNameComparer());
 
             foreach (Conregation versammlung in v)
-                Add(new ConregationViewModel(versammlung));
+                Add(new ConregationViewModel(versammlung, this));
 
             AddConregationCommand = new DelegateCommand(AddConregation);
         }
@@ -43,7 +43,7 @@ namespace Vortragsmanager.MeineVerwaltung
         public void AddConregation()
         {
             var vers = DataContainer.ConregationFindOrAdd("Neue Versammlung");
-            var model = new ConregationViewModel(vers);
+            var model = new ConregationViewModel(vers, this);
             Add(model);
             model.Select(true);
         }

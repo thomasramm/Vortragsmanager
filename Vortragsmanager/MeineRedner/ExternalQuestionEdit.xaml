@@ -12,7 +12,7 @@
     xmlns:Navi="clr-namespace:Vortragsmanager.Navigation" 
     xmlns:uc="clr-namespace:Vortragsmanager.UserControls"
     mc:Ignorable="d"
-    d:DesignHeight="600" d:DesignWidth="800">
+    d:DesignHeight="600" d:DesignWidth="1200">
     <UserControl.DataContext>
         <local:ExternalQuestionViewModel />
     </UserControl.DataContext>
@@ -35,10 +35,11 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <dxlc:LayoutControl Grid.Row="0" Orientation="Horizontal">
-                <dxlc:LayoutGroup Orientation="Vertical" Margin="0,1,0,-1">
+                <dxlc:LayoutGroup Orientation="Horizontal" Margin="0,1,0,-1" >
+                    <dxlc:LayoutGroup Orientation="Vertical">
                     <dxlc:LayoutGroup Header="zu prüfende Anfrage" View="GroupBox" Orientation="Vertical">
                         <dxlc:LayoutItem Label="Redner">
-                            <dxe:ComboBoxEdit ItemsSource="{Binding Redner}" SelectedItem="{Binding SelectedRedner}" AutoComplete="True" />
+                            <dxe:ComboBoxEdit ItemsSource="{Binding Redner}" SelectedItem="{Binding SelectedRedner}" AutoComplete="True" SelectedIndexChanged="Redner_SelectedIndexChanged" />
                         </dxlc:LayoutItem>
                         <dxlc:LayoutItem Label="Datum">
                             <dxe:DateEdit DateTime="{Binding SelectedDatum}" />
@@ -55,13 +56,13 @@
                     <dxlc:LayoutGroup Orientation="Horizontal">
                         <dxlc:LayoutGroup Orientation="Vertical">
                             <dxlc:LayoutGroup Header="{Binding SelectedVersammlung.Name}" View="GroupBox" Orientation="Vertical">
-                                <dxlc:LayoutItem Label="Zeit:" LabelPosition="Left" Margin="0,-5">
+                                <dxlc:LayoutItem Label="Zeit:" LabelPosition="Left" Margin="0,-5" Height="23">
                                     <Label Content="{Binding SelectedVersammlungZeit}" ContentStringFormat="dd.MM.yyyy" />
                                 </dxlc:LayoutItem>
-                                <dxlc:LayoutItem Label="Entfernung:" LabelPosition="Left" Margin="0,-5">
+                                <dxlc:LayoutItem Label="Entfernung:" LabelPosition="Left" Margin="0,-5" Height="23">
                                     <Label Content="{Binding SelectedVersammlung.Entfernung}" ContentStringFormat="~ {0} km" />
                                 </dxlc:LayoutItem>
-                                <dxlc:LayoutItem Label="Anschrift:" LabelPosition="Left" Margin="0,-5">
+                                <dxlc:LayoutItem Label="Anschrift:" LabelPosition="Left" Margin="0,-5" Height="23">
                                     <Label Content="{Binding SelectedVersammlung.Anschrift1}" />
                                 </dxlc:LayoutItem>
                             </dxlc:LayoutGroup>
@@ -97,6 +98,10 @@
                                 <ListBox ItemsSource="{Binding SelectedDatumTalks, Mode=OneWay}" DisplayMemberPath="Ältester.Name" />
                             </dxlc:LayoutItem>
                         </dxlc:LayoutGroup>
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutGroup>
+                    <dxlc:LayoutGroup Header="Kalender" View="GroupBox" Width="210">
+                        <uc:CalendarYearShort x:Name="calendar" />
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutGroup>
             </dxlc:LayoutControl>

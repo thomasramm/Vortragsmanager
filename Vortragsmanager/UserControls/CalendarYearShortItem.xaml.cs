@@ -139,7 +139,7 @@ namespace Vortragsmanager.UserControls
         private void UpdateUi()
         {
             //Hintergrundfarbe
-            var color = Color.FromRgb(51, 51, 51);
+            var color = isMonth ? Color.FromRgb(51, 51, 51) : Color.FromRgb(0,48,0);
 
             if (isBusy)
                 color = Colors.OrangeRed;

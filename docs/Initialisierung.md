@@ -85,4 +85,4 @@ Pflichtfelder sind Datum, Rednername und Vortragsnummer.
 Alternativ kann im Feld mit dem Versammlungsname das Wort "Urlaub" eingetragen, dann wird die Woche für den Redner als "Abwesend" markiert.
 
 
-[zurück](Installation.md){: .btn .btn--inverse}  [weiter](MeinPlan.md){: .btn .btn--inverse}
+[zurück](Installation.md){: .btn .btn--inverse}  [weiter](Startseite.md){: .btn .btn--inverse}

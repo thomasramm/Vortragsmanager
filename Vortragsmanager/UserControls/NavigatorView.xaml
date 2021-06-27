@@ -22,10 +22,11 @@
                     <Setter Property="Size" Value="Auto" />
                 </Style>
             </dxnav:TileBar.ItemContainerStyle>
-            <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="MeinPlanView" Content="Versammlung" />
-            <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="MeineRednerView" Content="Redner" />
+            <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="DashboardView" Content="Startseite" Foreground="Orange" />
+            <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="MeinPlanView" Content="Mein Plan" />
+            <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="MeineRednerView" Content="Meine Redner" />
             <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="SearchSpeaker" Content="Redner suchen" />
-            <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="ExternalQuestionEdit" Content="Anfrage bearbeiten" />
+            <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="VersammlungSettingsView" Content="Versammlungen" />
         </dxnav:TileBar>
     </Grid>
 </UserControl>

@@ -17,9 +17,11 @@ namespace Vortragsmanager.Views
     public class ConregationViewModel : ViewModelBase
     {
         private bool _myConregation;
+        ConregationsViewModelCollection _all;
 
-        public ConregationViewModel(Conregation versammlung)
+        public ConregationViewModel(Conregation versammlung, ConregationsViewModelCollection all)
         {
+            _all = all;
             Versammlung = versammlung;
             _myConregation = versammlung == DataContainer.MeineVersammlung;
             RednerListe = new SpeakersViewModelCollection(versammlung);
@@ -64,9 +66,16 @@ namespace Vortragsmanager.Views
 
             if (!data.Abbrechen)
             {
-                Sichtbarkeit = Visibility.Collapsed;
+                foreach(var x in _all)
+                {
+                    x.EditMode = false;
+                }
+
                 _deleted = true;
-                RaisePropertyChanged(nameof(Sichtbarkeit));
+                RefreshVisibility();
+                //Sichtbarkeit = Visibility.Collapsed;
+                //RaisePropertyChanged(nameof(Sichtbarkeit));
+                
             }
         }
 
@@ -75,7 +84,7 @@ namespace Vortragsmanager.Views
             var redner = DataContainer.SpeakerFindOrAdd("Neuer Redner", Versammlung);
             var rednerModel = new SpeakerViewModel(redner);
             RednerListe.Add(rednerModel);
-            rednerModel.Select();
+            rednerModel.NavigateToEditor();
         }
 
         public void CalculateDistance()

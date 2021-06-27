@@ -15,6 +15,22 @@ namespace Vortragsmanager.MeineVerwaltung
             InitializeComponent();
         }
 
+        public void SelectConregation(Datamodels.Conregation versammlung)
+        {
+            var boxList = lc.Children;
+            foreach (var box in boxList)
+            {
+                var gBox = (box as GroupBox);
+                if (gBox is null)
+                    continue;
+                var data = (Views.ConregationViewModel)gBox.DataContext;
+                if (data.Versammlung == versammlung)
+                {
+                    lc.MaximizedElement = gBox;
+                }
+            }
+        }
+
         private void GroupBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             var groupBox = (GroupBox)sender;
@@ -29,6 +45,7 @@ namespace Vortragsmanager.MeineVerwaltung
         {
             var boxList = ((FlowLayoutControl)sender).Children;
             var editMode = (e.NewValue != null); // ?  System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+            AddNewConregation.Visibility = editMode ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
             var maximizedBox = (e.NewValue as GroupBox);
             foreach (var box in boxList)
             {

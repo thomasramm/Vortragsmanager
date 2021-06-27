@@ -1,3 +1,21 @@
+[27.06.2021]
+
+Angepasste Navigation:
+* Die obere Navigationsleiste wurde angepasst. Der Linke Pfeil führt nun nicht immer auf die Startseite, sondern funktioniert als "Zurück"-Button. Dafür wurde im Rechten Menü die Verknüpfung auf die Startseite (in orange) mit aufgenommen.
+
+Externe Anfrage:
+* Der Kalender für deine Redner wird nun auch hier angezeigt.
+
+Bereich Versammlungen
+* Die Ansicht wurde überarbeitet, so dass man seltener Scrollen muß, sondern der Inhalt meistens in das Fenster passt.
+* Das Bearbeiten der Redner verzweigt nun in die Ansicht Redner, mit dem Zurück-Button kommt man wieder zur Versammlung zurück.
+
+* Fix: Versammlung zusammenlegen
+* Fix: Verbesserte Formatierung der Rednerliste
+* Fix: nach dem löschen einer Versammlung wurde das Fenster leer angezeigt, nun gelangt man zurück in die Versammlungsübersicht
+* Fix: Beim Bearbeiten einer Versammlung wird der Button zum anlegen einer neuen Versammlung nun ausgeblendet
+
+
 [19.06.2021]
 
 Mein Plan:

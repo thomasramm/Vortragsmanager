@@ -1,25 +1,15 @@
 main:
 # Main Site navigation links on the TOP
-- title: Startseite
+- title: Übersicht
   url: /
 
 - title: Installation
   url: /Installation/
   description: Programminstallation und (Daten-)Initialisierung
 
-- title: Mein Plan
-  url: /MeinPlan/
+- title: Startseite
+  url: /Startseite/
   description: Die Planung der Vorträge deiner Versammlung
-
-- title: Meine Redner
-  url: /MeineRedner/
-  description: Die Planung der Termine deiner Redner
-
-- title: Verwaltung
-  url: /Verwaltung/
-
-- title: Aktivitäten Log
-  url: /Log/
   
 - title: Konzepte
   url: /Konzept/
@@ -35,6 +25,8 @@ lmenu:
         url: /Installation/
       - title: Initialisierung
         url: /Initialisierung/
+      - title: Startseite
+        url: /Startseite/
 
   - title: Mein Plan
     url: /MeinPlan/
