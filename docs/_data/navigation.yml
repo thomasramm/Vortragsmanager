@@ -3,9 +3,13 @@ main:
 - title: Übersicht
   url: /
 
-- title: Installation
+- title: Screenshots
+  url: /Screenshots/
+  description: Bilder des Programm
+
+- title: Download
   url: /Installation/
-  description: Programminstallation und (Daten-)Initialisierung
+  description: Installation des Programm
 
 - title: Startseite
   url: /Startseite/
