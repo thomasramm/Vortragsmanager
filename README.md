@@ -6,21 +6,6 @@ denn das umstellen meiner Planung auf Excel-Tabellen hat gar nicht geklappt.
 Auch andere Programme konnten meine Wünsche nicht so recht erfüllen.
 Deshalb habe ich (in erster Linie für mich selbst) angefangen dieses Programm zu schreiben. 
 
-## Screenshots ##
-<div class="gallery gallery-cols-3">
-    <figure>
-        <img src="docs/images/startseite_01.png" alt="Image 1">
-        <figcaption>Image 1</figcaption>
-    </figure>
-    <figure>
-        <a href="docs/images/startseite_01.png"><img src="docs/images/startseite_01.png" alt="Image 2">
-        <figcaption>Image 2</figcaption></a>
-    </figure>
-    <figure>
-        <img src="docs/images/startseite_01.png" alt="">
-    </figure>
-</div>
-
 ## Entwicklungsstand ##
 
 ![Startseite](docs/images/startseite_01.png)
