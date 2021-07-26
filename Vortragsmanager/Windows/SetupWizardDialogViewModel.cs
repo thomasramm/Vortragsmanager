@@ -272,7 +272,7 @@ namespace Vortragsmanager.Views
 
         public void OpenExcelExample(string Dateiname)
         {
-            var quelle = $"{Helper.TemplateFolder}Dateiname";
+            var quelle = $"{Helper.TemplateFolder}{Dateiname}";
             System.Diagnostics.Process.Start(quelle);
         }
 
