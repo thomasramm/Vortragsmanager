@@ -17,14 +17,11 @@ namespace Vortragsmanager.Core
             Log.Info(nameof(GetConregationDay), $"date={date}");
             if ((int)date.DayOfWeek != (int)day)
             {
-                //berechnen des nächsten Sonntag
-                date = date.AddDays(7 - (int)date.DayOfWeek);
-
-                //Abziehen von Tagen, falls anderer Wochentag als Sonntag
-                if (day != DayOfWeeks.Sonntag)
-                {
-                    date = date.AddDays((int)Wochentag - 7);
-                }
+                //berechnen des Versammlungstages in der gewählten Woche.
+                //Da die Woche in C# am Sonntag beginnt, möchte ich den Sonntag der nächsten Woche haben
+                var clickDay = date.DayOfWeek == 0 ? 7 : (int)date.DayOfWeek;
+                var conDay = Wochentag == 0 ? 7 : (int)Wochentag;
+                date = date.AddDays(conDay - clickDay);
             }
             return date;
         }
@@ -37,12 +34,16 @@ namespace Vortragsmanager.Core
         private static DateTime GetFirstMondayOfYear(int year)
         {
             if (year == 0)
+            {
                 year = DateTime.Today.Year;
+            }
+
             DateTime tag1 = new DateTime(year, 1, 1);
             while (tag1.DayOfWeek != DayOfWeek.Monday)
             {
                 tag1 = tag1.AddDays(1);
             }
+
             return tag1;
         }
 
