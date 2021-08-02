@@ -1,3 +1,9 @@
+[02.08.2021]
+
+* Dashboard Datum bei MeinPlan auf Versammlungstag gesetzt.
+* Setupwizard Beispieldatei für Excelimport ließ sich nicht öffnen.
+* Datumsauswahl wird nicht mehr auf nächste Zusammenkunft korrigiert, sondern auf Tag der gewählten Woche.
+
 [27.06.2021]
 
 Angepasste Navigation:
