@@ -66,6 +66,7 @@ namespace Vortragsmanager.Navigation
             if (prog.Status == EventStatus.Ereignis)
             {
                 MeinPlanProgramm = prog.Anzeigetext;
+                Datum = Helper.CalculateWeek(prog.Kw).ToString("dd. MMM yyyy", Helper.German);
             }
             else if (prog.Status == EventStatus.Zugesagt)
             {
@@ -74,12 +75,14 @@ namespace Vortragsmanager.Navigation
                     + einladung.Ältester.Versammlung.Name + Environment.NewLine
                     + einladung.Vortrag.Vortrag.ToString() + Environment.NewLine
                     + einladung.Ältester.Mobil ?? einladung.Ältester.Telefon;
+                Datum = Helper.CalculateWeek(prog.Kw).ToString("dd. MMM yyyy", Helper.German);
             }
             else
             {
                 ShowMeinPlanDetails(false);
             }
             RaisePropertyChanged(nameof(MeinPlanProgramm));
+            RaisePropertyChanged(nameof(Datum));
         }
 
         private void GetRednerProgram()
@@ -116,7 +119,7 @@ namespace Vortragsmanager.Navigation
             RaisePropertyChanged(nameof(RednerProgramm));
         }
 
-        public string Datum => DateTime.Today.ToString("dd. MMM yyyy", Helper.German);
+        public string Datum { get; private set; }
 
         public string MeinPlanProgramm { get; set; }
 
