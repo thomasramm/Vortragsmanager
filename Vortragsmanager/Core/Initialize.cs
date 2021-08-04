@@ -75,7 +75,7 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(23, "Unser Leben hat einen Sinn"));
             v.Add(new Talk(24, "„Eine besonders kostbare Perle“ – habe ich sie gefunden?"));
             v.Add(new Talk(25, "Dem Geist der Welt widerstehen"));
-            //v.Add(new Talk(26, "Hält Gott dich persönlich für wichtig?")); //Dieser Vortrag sollte nicht mehr gehalten werden
+            v.Add(new Talk(26, "Hält Gott dich persönlich für wichtig?", false)); //Dieser Vortrag sollte nicht mehr gehalten werden
             v.Add(new Talk(27, "Ein guter Start in die Ehe"));
             v.Add(new Talk(28, "In der Ehe Liebe und Respekt zeigen"));
             v.Add(new Talk(29, "Elternsein – eine verantwortungsvolle, aber lohnende Aufgabe"));
@@ -83,20 +83,20 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(31, "Brauche ich Gott in meinem Leben? "));
             v.Add(new Talk(32, "Wie man mit den Sorgen des Lebens fertigwird"));
             v.Add(new Talk(33, "Wird Ungerechtigkeit jemals enden?"));
-            //v.Add(new Talk(34, "Trägst du das „Kennzeichen“ zum Überleben?")); //Dieser Vortrag sollte nicht mehr gehalten werden
+            v.Add(new Talk(34, "Trägst du das „Kennzeichen“ zum Überleben?", false)); //Dieser Vortrag sollte nicht mehr gehalten werden
             v.Add(new Talk(35, "Können wir ewig leben? Wenn ja, wie?"));
             v.Add(new Talk(36, "Ist mit dem jetzigen Leben alles vorbei?"));
             v.Add(new Talk(37, "Was bringt es, sich von Gott leiten zu lassen?"));
             v.Add(new Talk(38, "Wie kann man das Ende der Welt überleben?"));
             v.Add(new Talk(39, "Gottes Sieg mit Zuversicht erwarten"));
-            //v.Add(new Talk(40, "Was die nahe Zukunft bringt")); //Dieser Vortrag sollte nicht mehr gehalten werden
+            v.Add(new Talk(40, "Was die nahe Zukunft bringt", false)); //Dieser Vortrag sollte nicht mehr gehalten werden
             v.Add(new Talk(41, "„Bleibt stehen und seht, wie Jehova euch rettet“"));
             v.Add(new Talk(42, "Wie wirkt sich Gottes Königreich auf unser Leben aus?"));
             v.Add(new Talk(43, "Tue ich, was Gott von mir erwartet?"));
             v.Add(new Talk(44, "Wie man Gottes Königreich an die erste Stelle setzt"));
             v.Add(new Talk(45, "Den „Weg zum Leben“ gehen"));
             v.Add(new Talk(46, "Bleiben wir zuversichtlich bis zum Ende"));
-            //v.Add(new Talk(47, "Glaubt an die gute Botschaft")); //Dieser Vortrag sollte nicht mehr gehalten werden
+            v.Add(new Talk(47, "Glaubt an die gute Botschaft", false)); //Dieser Vortrag sollte nicht mehr gehalten werden
             v.Add(new Talk(48, "Als Christ Loyalität beweisen"));
             v.Add(new Talk(49, "Eine gereinigte Erde – wer wird darauf leben?"));
             v.Add(new Talk(50, "Wie man gute Entscheidungen trifft"));
@@ -119,7 +119,7 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(67, "Sich Zeit nehmen, über geistige Dinge nachzudenken"));
             v.Add(new Talk(68, "Bin ich nachtragend oder vergebe ich?"));
             v.Add(new Talk(69, "Bin ich selbstlos und opferbereit?"));
-            v.Add(new Talk(70, "Voll und ganz auf Jehova vertrauen", false));
+            v.Add(new Talk(70, "Voll und ganz auf Jehova vertrauen", false)); //Dieser Vortrag sollte nicht mehr gehalten werden
             v.Add(new Talk(71, "Wie man geistig wach bleibt"));
             v.Add(new Talk(72, "Liebe – das Kennzeichen echter Christen"));
             v.Add(new Talk(73, "„Ein weises Herz bekommen“ – wie?"));
@@ -244,6 +244,7 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(192, "Bin ich auf dem Weg zum ewigen Leben?"));
             v.Add(new Talk(193, "In der „schweren Zeit“ gerettet werden"));
             v.Add(new Talk(194, "Wie göttliche Weisheit uns zugutekommt"));
+            v.Add(new Talk(12322, "Echte Hoffnung - wo zu finden?"));
             v.Add(new Talk(-1, "Unbekannt", false));
             v.Add(new Talk(-24, "Was Gottes Herrschaft für uns bewirken kann", false));
 
