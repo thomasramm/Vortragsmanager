@@ -19,7 +19,6 @@ namespace Vortragsmanager.MeineVerwaltung
         {
             ExcelFileDialogCommand = new DelegateCommand(ExcelFileDialog);
             SearchDatabaseCommand = new DelegateCommand<string>(SearchDatabase);
-            SearchUpdateCommand = new DelegateCommand(SearchUpdate);
             UpdateSpeakerFromExcelCommand = new DelegateCommand(UpdateSpeakerFromExcel);
             EmergencyMailCommand = new DelegateCommand<int?>(EmergencyMail);
             CalculateRouteCommand = new DelegateCommand<bool>(CalculateRoute);
@@ -156,20 +155,6 @@ namespace Vortragsmanager.MeineVerwaltung
             Helper.GlobalSettings.RefreshTitle();
         }
 
-        public bool UpdatesEnabled
-        {
-            get
-            {
-                return Properties.Settings.Default.SearchForUpdates;
-            }
-            set
-            {
-                Properties.Settings.Default.SearchForUpdates = value;
-                Properties.Settings.Default.Save();
-                RaisePropertyChanged();
-            }
-        }
-
         public bool SaveBackup
         {
             get
@@ -259,13 +244,6 @@ namespace Vortragsmanager.MeineVerwaltung
         }
 
         public IEnumerable<DayOfWeeks> DaysOfWeek => Enum.GetValues(typeof(DayOfWeeks)).Cast<DayOfWeeks>();
-
-        public DelegateCommand SearchUpdateCommand { get; private set; }
-
-        public static void SearchUpdate()
-        {
-            Updater.CheckForUpdatesForce(false);
-        }
 
         public static void EmergencyMail(int? maxEntfernung)
         {

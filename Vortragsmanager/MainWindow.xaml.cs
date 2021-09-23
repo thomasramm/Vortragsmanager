@@ -58,8 +58,6 @@ namespace Vortragsmanager
             DataContext = Helper.GlobalSettings;
 
             Helper.GlobalSettings.RefreshTitle();
-
-            Updater.CheckForUpdates();
         }
     }
 }
