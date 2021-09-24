@@ -9,7 +9,7 @@
   <Identity
     Name="35915ThomasRamm.VortragsmanagerDeLuxe"
     Publisher="CN=3F6D9573-0790-40CA-9158-85C9F4F3D092"
-    Version="0.32.1.0" />
+    Version="0.33.5.0" />
 
   <Properties>
     <DisplayName>Vortragsmanager DeLuxe</DisplayName>
@@ -32,7 +32,7 @@
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="Vortragsmanager DeLuxe"
-        Description="Vortragsmanager DeLuxe zur Verwaltung von Vortragseinladungen und Vortragsrednern. Nur für Vortragskoordinatoren von Jehovas Zeugen."
+        Description="Vortragsmanager DeLuxe zur Verwaltung von Vortragseinladungen und Vortragsrednern. Für Vortragskoordinatoren von Jehovas Zeugen."
         BackgroundColor="#404040"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
