@@ -35,10 +35,17 @@ namespace Vortragsmanager
                 Settings.Default.sqlite = "demo.sqlite3";
 #endif
 
-            if (Settings.Default.sqlite == "vortragsmanager.sqlite3" || Settings.Default.sqlite == "demo.sqlite3")
+            //Doppelklick auf eine sqlit3 Datei...
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length >= 2 && File.Exists(args[1]))
+            {
+                Settings.Default.sqlite = args[1];
+            }
+            else if (Settings.Default.sqlite == "vortragsmanager.sqlite3" || Settings.Default.sqlite == "demo.sqlite3")
             {
                 Settings.Default.sqlite = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + Settings.Default.sqlite;
             }
+            Settings.Default.Save();
             var filename = Settings.Default.sqlite;
 
             if (File.Exists(filename))
