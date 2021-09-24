@@ -66,5 +66,10 @@ namespace Vortragsmanager
 
             Helper.GlobalSettings.RefreshTitle();
         }
+
+        private void HelpButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://thomasramm.github.io/Vortragsmanager/");
+        }
     }
 }
