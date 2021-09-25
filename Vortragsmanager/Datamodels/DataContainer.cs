@@ -15,6 +15,7 @@ namespace Vortragsmanager.Datamodels
         public MyGloabalSettings()
         {
             Titel = "vdl";
+            Programmversion = GetVersion();
         }
 
         public string Titel { get; set; }
@@ -26,6 +27,20 @@ namespace Vortragsmanager.Datamodels
 
             RaisePropertyChanged(Titel);
         }
+
+        public string Programmversion { get; }
+
+        public string HelpToolTip => $"Handbuch öffnen (web){Environment.NewLine}Programm {Programmversion}";
+
+        private static string GetVersion()
+        {
+            Version version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
+
+            //DateTime buildDate = new DateTime(2000, 1, 1).AddDays(version.Build);
+            string v = $"Version {version.Major}.{version.Minor}.{version.Build}";
+            return v;
+        }
+
     }
 
     public static class DataContainer
