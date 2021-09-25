@@ -3,6 +3,7 @@ using Vortragsmanager.Views;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using DevExpress.Xpf.Core;
 
 namespace Vortragsmanager.Core
 {
@@ -275,6 +276,19 @@ namespace Vortragsmanager.Core
             if (DataContainer.Version < 16)
             {
                 TalkList.Reset();
+            }
+
+            if (DataContainer.Version < 18)
+            {
+                var inhalt = $"Es gibt geänderte Vortragsthemen. Du kannst die Themen jetzt aktualisieren. Damit werden individuelle Änderungen die du in der Vergangenheit an den Vortragsthemen vorgenommen hast gelöscht." + Environment.NewLine +
+    $"Du kannst die Änderung auch später unter 'Vorträge' -> 'Zurücksetzen' durchführen." + Environment.NewLine +
+    "Sollen die Vortragsthemen nun aktualisiert werden? (Empfohlen)" + Environment.NewLine +
+    "Wenn nicht, musst du die Themenänderungen selber unter 'Vorträge' einpflegen.";
+                var result = ThemedMessageBox.Show("Achtung", inhalt, System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
+                if (result == System.Windows.MessageBoxResult.Yes)
+                {
+                    TalkList.Reset();
+                }
             }
 
             //auf aktuellste Version setzen = 17
