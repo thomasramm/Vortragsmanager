@@ -1,10 +1,8 @@
 # Vortragsmanager DeLuxe 1.0
 
-Als Ende 2019 die Information kam das die Plattform vplanung.net geschlossen wird, 
-war ich erstmal aufgeschmissen, 
-denn das umstellen meiner Planung auf Excel-Tabellen hat gar nicht geklappt.  
-Auch andere Programme konnten meine Wünsche nicht so recht erfüllen.
-Deshalb habe ich (in erster Linie für mich selbst) angefangen dieses Programm zu schreiben. 
+Als Vortragskoordinator sehe ich die größte Herausforderung darin, darauf zu achten, dass Redner nicht in zu kurzen Abständen eingeladen werden, am schlimmsten noch mit dem gleichen Vortrag wie beim letzten mal.
+Da andere Programme meine Wünsche nicht so recht erfüllen konnten, 
+habe ich (in erster Linie für mich selbst) angefangen dieses Programm zu schreiben. 
 
 ## Screenshots ##
 <div class="gallery gallery-cols-3">
@@ -30,22 +28,27 @@ Aufgrund unterschiedlicher Arbeitsweisen und Anforderungen an so einem Programm 
 Auch ich selber merke manchmal das eine bestimmte Funktion oder auch nur die Anzeige bestimmter Informationen an bestimmten Stellen hilfreich sind und baue es dann ein.
 Für Verbesserungsvorschläge bin ich immer dankbar, es sind schon einige in das Programm eingeflossen, an die ich selber nicht gedacht habe, die ich jetzt aber nicht mehr missen möchte.
 Bedenke bitte nur, das ich das Programm in meiner Freizeit pflege, Erweiterungen und Änderungswünsche können deshalb manchmal auch etwas länger dauern.
-Die neuesten Funktionen und Fehlerbehebungen kannst du im [Changelog](Changelog.md) Changelog nachverfolgen.
+Die neuesten Funktionen und Fehlerbehebungen kannst du im [Changelog](Changelog.md) nachverfolgen.
 
 ## Installation
 
-Herunterladen des Programm  
-[![Download Vortragsmanager](https://img.shields.io/badge/download-vortragsmanager.zip-blue?style=for-the-badge)](https://github.com/thomasramm/Vortragsmanager/releases/latest/download/Vortragsmanager.zip)
+Du kannst das Programm über den Microsoft Store herunterladen.
+Den Microsoft Store öffnen und nach Vortragsmanager suchen, oder folgenden Link benutzen:
 
-Entpacken der beiden Setup-Dateien und starten von setup.exe
-Nach dem Start des Setup-Assistenten kommen von Windows einige Sicherheits-Warnungen, das das Programm von einer unbekannten Quelle kommt (ja, Microsoft kennt mich tatsächlich nicht). Diese müssen erst noch bestätigt werden, und dann werden die Programmdateien entpackt, eine Verknüpfung im Startmenü und auf dem Desktop angelegt und schon könnt ihr loslegen.
-Beim ersten starten des Programm wird ein Assistent geöffnet, der einem beim Einrichten behilflich ist. 
+<a href="//www.microsoft.com/store/apps/9P4DT3VQLP3H?cid=storebadge&ocid=badge">
+<img src="https://developer.microsoft.com/store/badges/images/German_get-it-from-MS.png" style="width: 284px; height: 104px;"/>
+</a>
 
-Zur [detailierten Installationsanleitung](https://thomasramm.github.io/Vortragsmanager/Installation/)
+
+
 
 ## Handbuch
 
+Ein Ausfühliches Handbuch, in dem alle Funktionen erklärt werden findst du hier:
 zum [Handbuch](https://thomasramm.github.io/Vortragsmanager/)
+
+[![Handbuch Vortragsmanager](https://img.shields.io/badge/Handbuch-Vortragsmanager-blue?style=for-the-badge)](https://thomasramm.github.io/Vortragsmanager/)
+
 
 ## Copyright & Lizenz
 

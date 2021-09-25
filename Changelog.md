@@ -1,3 +1,5 @@
+Neue Vortragsthemen #44,54,55,61,64,66. Zum aktivieren der neuen Themen im Programm bitte auf XY klicken.
+
 [02.08.2021]
 
 * Dashboard Datum bei MeinPlan auf Versammlungstag gesetzt.
