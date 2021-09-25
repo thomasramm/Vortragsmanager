@@ -11,9 +11,9 @@ main:
   url: /Startseite/
   description: Die Planung der Vorträge deiner Versammlung
   
-- title: Konzepte
-  url: /Konzept/
-  description: Beschreibung einzelner Wörter oder Abläufe
+- title: Kontakt
+  url: /Kontakt/
+  description: Kontaktmöglichkeiten
 
 lmenu:
   - title: Erste Schritte
