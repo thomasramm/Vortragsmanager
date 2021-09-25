@@ -1,4 +1,8 @@
-Neue Vortragsthemen #44,54,55,61,64,66. Zum aktivieren der neuen Themen im Programm bitte auf XY klicken.
+[25.09.2021]
+
+Ab Sofort wird der Vortragsmanager über den Microsoft Store angeboten.
+Deinstalliere bitte die aktuelle Version und installiere die Version aus dem Microsoft Store.
+Im Handbuch findest du weitere Hinweise zur Installation.
 
 [02.08.2021]
 
