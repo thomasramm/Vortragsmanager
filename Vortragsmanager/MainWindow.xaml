@@ -7,5 +7,8 @@
     Width="1400" 
     Height="700"
     Title="{Binding Titel, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+    <dxc:ThemedWindow.HeaderItems>
+        <Button Content="Hilfe" Click="HelpButton_Click" ToolTip="{Binding HelpToolTip}"/>
+    </dxc:ThemedWindow.HeaderItems>
     <Navi:NavigationView />
 </dxc:ThemedWindow>

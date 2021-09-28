@@ -55,20 +55,6 @@
                                       IsChecked="{Binding SaveBackup}" />
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
-                <dxlc:LayoutGroup Header="Updates" View="GroupBox" Orientation="Vertical">
-                    <dxlc:LayoutItem Label="täglich auf neue Updates prüfen">
-                        <dxe:ToggleSwitch CheckedStateContent="An"
-                                      UncheckedStateContent="Aus"
-                                      ContentPlacement="Inside"
-                                      IsChecked="{Binding UpdatesEnabled}" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="{Binding Programmversion}">
-                        <dx:SimpleButton Content="Jetzt auf Updates prüfen"
-                                 Glyph="{dx:SvgImageSource Uri='/Images/UpdateList.svg'}"
-                                 GlyphAlignment="Right"
-                                 Command="{Binding SearchUpdateCommand}" />
-                    </dxlc:LayoutItem>
-                </dxlc:LayoutGroup>
                 <dxlc:LayoutGroup Header="Import von Rednerlisten"
                                   View="GroupBox"
                                   Orientation="Vertical">

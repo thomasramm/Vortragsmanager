@@ -1,3 +1,9 @@
+[25.09.2021]
+
+Ab Sofort wird der Vortragsmanager über den Microsoft Store angeboten.
+Deinstalliere bitte die aktuelle Version und installiere die Version aus dem Microsoft Store.
+Im Handbuch findest du weitere Hinweise zur Installation.
+
 [02.08.2021]
 
 * Dashboard Datum bei MeinPlan auf Versammlungstag gesetzt.
