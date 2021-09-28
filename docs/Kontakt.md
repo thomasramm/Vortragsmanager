@@ -11,9 +11,10 @@ Ich übernehme keinerlei Verantwortung für Probleme oder Schäden die durch die
 
 ## Datenschutz
 
-Sowohl diese Seite als auch im Programm werden keine persönlichen Daten erhoben.
+Im Programm werden keine persönlichen Daten erhoben.
 Ich verfolge weder Installationen noch Nutzungen des Programms.
-Lediglich im Microsoft Store werden von Microsoft Informationen gespeichert (auf die ich aber keinen Zugriff habe).
+Es werden keine Daten in das Internet übertragen, lediglich bei der Berchnungen von Entfernungen zu anderen Versammlungen wird das Google Routing benutzt, aber auch dies geschieht anonym.
+Lediglich im Microsoft Store werden von Microsoft Informationen gespeichert (auf die ich aber keinen Zugriff habe, siehe dazu die Datenschutzrichtlinen des Microsoft Store).
 
 ## Links
 <table>

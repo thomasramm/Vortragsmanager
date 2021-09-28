@@ -3,7 +3,10 @@ title: "Vortragsmanager DeLuxe 1.0"
 permalink: /
 ---
 
-[![Download Vortragsmanager](https://img.shields.io/badge/download-vortragsmanager.zip-blue?style=for-the-badge)](https://github.com/thomasramm/Vortragsmanager/releases/latest/download/Vortragsmanager.zip)
+Installiere den Vortragsmanager DeLuxe
+<a href="//www.microsoft.com/store/apps/9P4DT3VQLP3H?cid=storebadge&ocid=badge">
+<img src="https://developer.microsoft.com/store/badges/images/German_get-it-from-MS.png" style="width: 284px; height: 104px;"/>
+</a>
 
 Der Vortragsmanager steht als Open Source zur Verfügung, du kannst dir also den gesamten Quellcode anschauen um zu prüfen, das deine Daten nicht irgendwo hochgeladen werden.
 
