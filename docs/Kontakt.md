@@ -13,7 +13,7 @@ Ich übernehme keinerlei Verantwortung für Probleme oder Schäden die durch die
 
 Sowohl diese Seite als auch im Programm werden keine persönlichen Daten erhoben.
 Ich verfolge weder Installationen noch Nutzungen des Programms.
-Lediglich im Microsoft Store werden von Microsoft Informationen gespeichert (auf die ich aber keinen Zugriff habe).
+Lediglich im Microsoft Store werden von Microsoft Informationen gespeichert (auf die ich aber keinen Zugriff habe, siehe dazu die Datenschutzrichtlinen des Microsoft Store).
 
 ## Links
 <table>
