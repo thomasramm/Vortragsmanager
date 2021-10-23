@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.MeineVerwaltung
@@ -20,6 +21,36 @@ namespace Vortragsmanager.MeineVerwaltung
             DeleteTalkCommand = new DelegateCommand<TalkSong>(TalkDelete);
 
             RednerAktivitäten = new ObservableCollection<Core.DataHelper.DateWithConregation>();
+
+            //DropDown Redner in andere Versammlung verschieben füllen...
+            ListeAllerVersammlungen = new ObservableCollection<Conregation>(DataContainer.Versammlungen.OrderBy(x => x, new Helper.EigeneKreisNameComparer()));
+        }
+
+        public bool VersammlungenPopUp { get; set; }
+
+        private Conregation _newConregation;
+
+        public Conregation NewConregation
+        {
+            get
+            {
+                return _newConregation;
+            }
+            set
+            {
+                if (!VersammlungenPopUp && value != null && value != Redner?.Versammlung)
+                {
+                    if (ThemedMessageBox.Show("Achtung", $"Soll der Redner {Redner.Name} wirklich in die Versammlung {value.Name} verschoben werden?") == System.Windows.MessageBoxResult.OK)
+                    {
+                        Redner.Versammlung = value;
+                        _newConregation = value;
+                        //ToDo: UI der übernehmenden Versammlung aktualisieren
+                        RaisePropertyChanged(nameof(Redner));
+                        RaisePropertyChanged(nameof(Redner.Versammlung));
+                    }
+                }
+                RaisePropertyChanged();
+            }
         }
 
         public ObservableCollection<TalkSong> Vorträge
@@ -32,6 +63,8 @@ namespace Vortragsmanager.MeineVerwaltung
                 return null;
             }
         }
+
+        public ObservableCollection<Conregation> ListeAllerVersammlungen { get; private set; }
 
         public DelegateCommand DeleteSpeakerCommand { get; private set; }
 
