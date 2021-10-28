@@ -133,7 +133,7 @@
                                 <dxe:ComboBoxEdit ItemsSource="{Binding ListeAllerVersammlungen}"
                                         DisplayMember="Name"
                                         IsTextEditable="False"
-                                        SelectedItem="{Binding SelectedVersammlung, Mode=TwoWay}"
+                                        SelectedItem="{Binding NewConregation, Mode=TwoWay}"
                                         IsPopupOpen="{Binding VersammlungenPopUp, Mode=TwoWay}"
                                         PopupFooterButtons="OkCancel">
                                     <dxe:ComboBoxEdit.StyleSettings>

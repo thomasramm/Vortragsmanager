@@ -87,23 +87,24 @@ namespace Vortragsmanager.UserControls
                 item.Value.Reset();
             }
 
+            var startrange = (_year - 1) * 100 + 50;
+            var endrange = (_year + 1) * 100 + 1;
+
             //Events
-            foreach(var myEvent in DataContainer.MeinPlan.Where(x => x.Kw/100 == _year && x.Status == EventStatus.Ereignis).Cast<SpecialEvent>())
+            foreach (var myEvent in DataContainer.MeinPlan.Where(x => (x.Kw >= startrange && x.Kw < endrange) && x.Status == EventStatus.Ereignis).Cast<SpecialEvent>())
             {
                 var datum = Core.Helper.CalculateWeek(myEvent.Kw);
-                var item = _calendar[datum];
-                item.IsEvent = true;
-                item.Text += Environment.NewLine + myEvent.Anzeigetext;
+                if (datum.Year == _year)
+                {
+                    var item = _calendar[datum];
+                    item.IsEvent = true;
+                    item.Text += Environment.NewLine + myEvent.Anzeigetext;
+                }
             }
 
 
             if (Person == null)
                 return;
-
-
-
-            var startrange = (_year - 1) * 100 + 50;
-            var endrange = (_year + 1) * 100 + 1;
 
             //Vortrag in meiner Versammlung
             foreach (var busy in DataContainer.MeinPlan.Where(x => (x.Kw >= startrange && x.Kw < endrange ) && x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester == Person))
