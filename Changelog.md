@@ -1,3 +1,8 @@
+[28.10.2021]
+Fehlerbehebungen:
+* Beim Versuch einen Redner in einer andere Versammlung zu verschieben war die Auswahlliste leer
+* Wenn im Folgejahr in der ersten Woche ein Event eingeplant war, kam es zum Absturz beim Aufruf des Mini-Jahreskalender
+
 [25.09.2021]
 
 Ab Sofort wird der Vortragsmanager über den Microsoft Store angeboten.
