@@ -115,8 +115,18 @@ namespace Vortragsmanager.Views
             }
             else
             {
-                MergeEnabled = true;
-                MergeHint = "Beide Versammlungen zusammenführen.";
+                var unb = DataContainer.ConregationGetUnknown();
+                if (_selectedConregation == unb || Versammlung == unb)
+                {
+                    ThemedMessageBox.Show("Achtung", $"Du kannst keine Versammlung mit 'Unbekannt' zusammenführen.", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MergeEnabled = false;
+                    MergeHint = "'Unbekannt' ist in der Auswahl nicht erlaubt.";
+                }
+                else
+                {
+                    MergeEnabled = true;
+                    MergeHint = "Beide Versammlungen zusammenführen.";
+                }
             }
             RaisePropertyChanged(nameof(MergeEnabled));
             RaisePropertyChanged(nameof(MergeHint));
@@ -183,9 +193,9 @@ namespace Vortragsmanager.Views
                 MessageBoxImage.Warning) == MessageBoxResult.No)
                 return;
 
-            DataContainer.ConregationRemove(Versammlung);
+            var gelöscht = DataContainer.ConregationRemove(Versammlung);
 
-            CloseWindow(window, false);
+            CloseWindow(window, !gelöscht);
         }
 
         private void Merge(ICloseable window)
@@ -233,7 +243,7 @@ namespace Vortragsmanager.Views
                 _selectedConregation.KoordinatorTelefon = Versammlung.KoordinatorTelefon;
             }
 
-            DataContainer.Versammlungen.Remove(Versammlung);
+            DataContainer.ConregationRemove(Versammlung);
 
             CloseWindow(window, false);
         }
