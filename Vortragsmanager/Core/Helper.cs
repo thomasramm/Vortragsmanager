@@ -112,7 +112,7 @@ namespace Vortragsmanager.Core
         /// IoSqlite.UpdateDatabase für Datenbank Updates (Struktur)
         /// Initialize.Update für C# Updates (Inhalte)
         /// </summary>
-        public static int CurrentVersion => 18;
+        public static int CurrentVersion => 19;
 
         public class EigeneKreisNameComparer : IComparer<Conregation>
         {

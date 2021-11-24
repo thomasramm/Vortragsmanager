@@ -52,7 +52,7 @@ namespace Vortragsmanager.Core
             Log.Info(nameof(LoadTalks));
             var v = new List<Talk>(200);
             v.Add(new Talk(1, "Wie gut kenne ich Gott?"));
-            v.Add(new Talk(2, "Die \"letzten Tage\" - Wer wird sie überleben?"));
+            v.Add(new Talk(2, "Die „letzten Tage“ - Wer wird sie überleben?"));
             v.Add(new Talk(3, "Mit Jehovas vereinter Organisation in Richtung Ewigkeit"));
             v.Add(new Talk(4, "Sichtbare Belege für die Existenz Gottes"));
             v.Add(new Talk(5, "Wie kann man als Familie glücklich sein?"));
@@ -117,11 +117,11 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(64, "Lieben wir das Vergnügen oder lieben wir Gott?"));
             v.Add(new Talk(65, "Frieden fördern in einer Welt voller Wut"));
             v.Add(new Talk(66, "Kannst du in der Ernte mitarbeiten?"));
-            v.Add(new Talk(67, "Sich Zeit nehmen, über geistige Dinge nachzudenken"));
+            v.Add(new Talk(67, "Über Gottes Wort und die Schöpfung intensiv nachdenken"));
             v.Add(new Talk(68, "Bin ich nachtragend oder vergebe ich?"));
-            v.Add(new Talk(69, "Bin ich selbstlos und opferbereit?"));
+            v.Add(new Talk(69, "Warum es wichtig ist, dass wir selbstlose Liebe zeigen"));
             v.Add(new Talk(70, "Voll und ganz auf Jehova vertrauen", false)); //Dieser Vortrag sollte nicht mehr gehalten werden
-            v.Add(new Talk(71, "Wie man geistig wach bleibt"));
+            v.Add(new Talk(71, "Warum wir „wach ... bleiben“ müssen"));
             v.Add(new Talk(72, "Liebe – das Kennzeichen echter Christen"));
             v.Add(new Talk(73, "„Ein weises Herz bekommen“ – wie?"));
             v.Add(new Talk(74, "Jehovas Augen schauen auf uns"));
@@ -148,7 +148,7 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(95, "Was die Bibel über spiritistische Bräuche sagt"));
             v.Add(new Talk(96, "Welche Zukunft hat die Religion? "));
             v.Add(new Talk(97, "Sich in einer schlechten Welt nichts zuschulden kommen lassen"));
-            v.Add(new Talk(98, "\"Die Szene dieser Welt wechselt\""));
+            v.Add(new Talk(98, "„Die Szene dieser Welt wechselt“"));
             v.Add(new Talk(99, "Warum man der Bibel vertrauen kann"));
             v.Add(new Talk(100, "Wahre Freundschaft mit Gott und den Mitmenschen"));
             v.Add(new Talk(101, "Jehova - der große Schöpfer"));
@@ -200,7 +200,7 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(147, "Auf die rettende Macht Jehovas vertrauen"));
             v.Add(new Talk(148, "Das Leben so sehen, wie Gott es sieht"));
             v.Add(new Talk(149, "Unseren Weg mit Gott gehen"));
-            v.Add(new Talk(150, "Ist die heutige Welt zum Untergang verurteilt? "));
+            v.Add(new Talk(150, "Ist die heutige Welt zum Untergang verurteilt?"));
             v.Add(new Talk(151, "Jehova ist seinem Volk „eine sichere Zuflucht“"));
             v.Add(new Talk(152, "Das wahre Armageddon – warum und wann?"));
             v.Add(new Talk(153, "Den „Ehrfurcht einflößenden Tag“ fest im Sinn behalten!"));
@@ -278,7 +278,7 @@ namespace Vortragsmanager.Core
                 TalkList.Reset();
             }
 
-            if (DataContainer.Version < 18)
+            if (DataContainer.Version < 19)
             {
                 var inhalt = $"Es gibt geänderte Vortragsthemen. Du kannst die Themen jetzt aktualisieren. Damit werden individuelle Änderungen die du in der Vergangenheit an den Vortragsthemen vorgenommen hast gelöscht." + Environment.NewLine +
     $"Du kannst die Änderung auch später unter 'Vorträge' -> 'Zurücksetzen' durchführen." + Environment.NewLine +
