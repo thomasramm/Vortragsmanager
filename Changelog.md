@@ -1,3 +1,7 @@
+[24.11.2021]
+* Geänderte Vortragsthemen
+* Schutz vor dem löschen Systemrelevanter Objekte (Unbekannte Versammlung/Redner)
+
 [28.10.2021]
 Fehlerbehebungen:
 * Beim Versuch einen Redner in einer andere Versammlung zu verschieben war die Auswahlliste leer
