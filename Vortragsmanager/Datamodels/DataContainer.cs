@@ -1,11 +1,13 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Mvvm.Native;
+using DevExpress.Xpf.Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using Vortragsmanager.Core;
 
 namespace Vortragsmanager.Datamodels
@@ -164,11 +166,17 @@ namespace Vortragsmanager.Datamodels
             return ConregationFindOrAdd("Unbekannt");
         }
 
-        public static void ConregationRemove(Conregation Versammlung)
+        public static bool ConregationRemove(Conregation Versammlung)
         {
             var redner = Redner.Where(x => x.Versammlung == Versammlung).OrderBy(x => x.Name).ToList();
             var unbekannteVersammlung = ConregationGetUnknown();
             var unbekannterRedner = SpeakerGetUnknown();
+
+            if (Versammlung == unbekannteVersammlung)
+            {
+                ThemedMessageBox.Show("Achtung", $"Die gewählte Versammlung kann nicht gelöscht werden. Die Versammlung 'Unbekannt' ist für das Programm notwendig!", MessageBoxButton.OK, MessageBoxImage.Information);
+                return false;
+            }
 
             //Einladungen umschreiben (vergangene) oder löschen (zukünftige)
             var einladungen = MeinPlan
@@ -212,6 +220,8 @@ namespace Vortragsmanager.Datamodels
             }
 
             Versammlungen.Remove(Versammlung);
+
+            return true;
         }
 
         public static Speaker SpeakerFind(string name, Conregation versammlung)
@@ -246,16 +256,38 @@ namespace Vortragsmanager.Datamodels
 
         public static Speaker SpeakerGetUnknown()
         {
-            return SpeakerFindOrAdd("Unbekannt", ConregationGetUnknown());
+            var unbCon = ConregationGetUnknown();
+            var s = SpeakerFind("Unbekannt", unbCon);
+
+            if (s == null)
+            {
+                Log.Info(nameof(SpeakerFindOrAdd), $"add=Unbekannt to conregation={unbCon?.Id}, {unbCon?.Name}");
+                s = new Speaker
+                {
+                    Name = "Unbekannt",
+                    Versammlung = unbCon,
+                    Id = Redner.Count > 0 ? Redner.Select(x => x.Id).Max() + 1 : 1,
+                    Aktiv = false,
+                    Einladen = false
+                };
+                Redner.Add(s);
+            }
+            return s;
         }
 
-        public static void SpeakerRemove(Speaker redner)
+        public static bool SpeakerRemove(Speaker redner)
         {
             if (redner is null)
-                return;
+                return false;
 
             var unbekannteVersammlung = ConregationGetUnknown();
             var unbekannterRedner = SpeakerGetUnknown();
+
+            if (redner == unbekannterRedner)
+            {
+                ThemedMessageBox.Show("Achtung", $"Der gewählte Redner kann nicht gelöscht werden. Der Redner 'Unbekannt' ist für das Programm notwendig!", MessageBoxButton.OK, MessageBoxImage.Information);
+                return false;
+            }
 
             //Einladungen
             var einladungen = MeinPlan
@@ -299,6 +331,8 @@ namespace Vortragsmanager.Datamodels
                 Absagen.Remove(absage);
 
             Redner.Remove(redner);
+
+            return true;
         }
 
         public static void UpdateTalkDate(Talk talk)

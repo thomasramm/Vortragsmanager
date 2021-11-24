@@ -156,6 +156,18 @@ namespace Vortragsmanager.Views
 
         public Conregation Versammlung { get; private set; }
 
+        public string VersammlungName
+        {
+            get => Versammlung.Name;
+            set
+            {
+                if (Versammlung.Name != "Unbekannt" && value != "Unbekannt")
+                {
+                    Versammlung.Name = value;
+                }
+            }
+        }
+
         public SpeakersViewModelCollection RednerListe { get; private set; }
 
         public DevExpress.Xpf.LayoutControl.GroupBoxState IsSelected { get; set; }

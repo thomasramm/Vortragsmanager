@@ -116,11 +116,8 @@ namespace Vortragsmanager.MeineVerwaltung
             if (DialogResult.No == MessageBox.Show($"Soll der Redner '{Redner.Name}' wirklich gelöscht werden?", "Achtung!", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                 return;
 
-            DataContainer.SpeakerRemove(Redner);
-
-            //ListeAllerRedner.Remove(Redner);
-            //ListeFilteredRedner.Remove(Redner);
-            Redner = null;
+            if (DataContainer.SpeakerRemove(Redner))
+                Redner = null;
         }
 
         public void SpeakerAdd()

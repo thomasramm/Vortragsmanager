@@ -28,7 +28,7 @@
                     <TextBox Text="{Binding Versammlung.Kreis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="Name:">
-                    <TextBox Text="{Binding Versammlung.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox Text="{Binding VersammlungName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="Straße:">
                     <TextBox Text="{Binding Versammlung.Anschrift1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
