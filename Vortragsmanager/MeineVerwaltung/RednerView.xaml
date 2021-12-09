@@ -133,9 +133,10 @@
                                 <dxe:ComboBoxEdit ItemsSource="{Binding ListeAllerVersammlungen}"
                                         DisplayMember="Name"
                                         IsTextEditable="False"
-                                        SelectedItem="{Binding NewConregation, Mode=TwoWay}"
+
                                         IsPopupOpen="{Binding VersammlungenPopUp, Mode=TwoWay}"
-                                        PopupFooterButtons="OkCancel">
+                                        PopupFooterButtons="OkCancel"
+                                                  PopupClosed="ComboBoxEdit_PopupClosed">
                                     <dxe:ComboBoxEdit.StyleSettings>
                                         <dxe:RadioComboBoxStyleSettings />
                                     </dxe:ComboBoxEdit.StyleSettings>

@@ -82,5 +82,12 @@ namespace Vortragsmanager.MeineVerwaltung
         {
             DataModel.NeuerVortrag = e.NewValue;
         }
+
+        private void ComboBoxEdit_PopupClosed(object sender, DevExpress.Xpf.Editors.ClosePopupEventArgs e)
+        {
+            if (e.CloseMode == DevExpress.Xpf.Editors.PopupCloseMode.Cancel)
+                return;
+            DataModel.NewConregation = e.EditValue as Datamodels.Conregation;
+        }
     }
 }
