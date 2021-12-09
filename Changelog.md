@@ -1,3 +1,6 @@
+##09.12.2021 Version 1.0.12##
+* Redner verschieben, auswahl der neuen Versammlung über Tastatureingabe
+
 [24.11.2021]
 * Geänderte Vortragsthemen
 * Schutz vor dem löschen Systemrelevanter Objekte (Unbekannte Versammlung/Redner)
