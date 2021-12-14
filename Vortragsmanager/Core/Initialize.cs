@@ -278,7 +278,7 @@ namespace Vortragsmanager.Core
                 TalkList.Reset();
             }
 
-            if (DataContainer.Version < 19)
+            if (DataContainer.Version < 20)
             {
                 var inhalt = $"Es gibt geänderte Vortragsthemen. Du kannst die Themen jetzt aktualisieren. Damit werden individuelle Änderungen die du in der Vergangenheit an den Vortragsthemen vorgenommen hast gelöscht." + Environment.NewLine +
     $"Du kannst die Änderung auch später unter 'Vorträge' -> 'Zurücksetzen' durchführen." + Environment.NewLine +
@@ -291,7 +291,7 @@ namespace Vortragsmanager.Core
                 }
             }
 
-            //auf aktuellste Version setzen = 17
+            //auf aktuellste Version setzen = 21
             //siehe auch IoSqlite.UpdateDatabase
             DataContainer.Version = Helper.CurrentVersion;
         }
