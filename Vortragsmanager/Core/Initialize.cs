@@ -76,7 +76,7 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(23, "Unser Leben hat einen Sinn"));
             v.Add(new Talk(24, "„Eine besonders kostbare Perle“ – habe ich sie gefunden?"));
             v.Add(new Talk(25, "Dem Geist der Welt widerstehen"));
-            v.Add(new Talk(26, "Hält Gott dich persönlich für wichtig?", false)); //Dieser Vortrag sollte nicht mehr gehalten werden
+            v.Add(new Talk(26, "Bin ich Gott wichtig?", true)); //Dieser Vortrag sollte nicht mehr gehalten werden -> Neue Disposition
             v.Add(new Talk(27, "Ein guter Start in die Ehe"));
             v.Add(new Talk(28, "In der Ehe Liebe und Respekt zeigen"));
             v.Add(new Talk(29, "Elternsein – eine verantwortungsvolle, aber lohnende Aufgabe"));
@@ -90,7 +90,7 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(37, "Was bringt es, sich von Gott leiten zu lassen?"));
             v.Add(new Talk(38, "Wie kann man das Ende der Welt überleben?"));
             v.Add(new Talk(39, "Gottes Sieg mit Zuversicht erwarten"));
-            v.Add(new Talk(40, "Was die nahe Zukunft bringt", false)); //Dieser Vortrag sollte nicht mehr gehalten werden
+            v.Add(new Talk(40, "Was die nahe Zukunft bringt", true)); //Dieser Vortrag sollte nicht mehr gehalten werden -> Neue Disposition
             v.Add(new Talk(41, "„Bleibt stehen und seht, wie Jehova euch rettet“"));
             v.Add(new Talk(42, "Wie wirkt sich Gottes Königreich auf unser Leben aus?"));
             v.Add(new Talk(43, "Tue ich, was Gott von mir erwartet?"));
@@ -110,7 +110,7 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(57, "Unter Verfolgung standhaft bleiben"));
             v.Add(new Talk(58, "Woran erkennt man echte Christen?"));
             v.Add(new Talk(59, "Man erntet, was man sät"));
-            v.Add(new Talk(60, "Wie sinnvoll ist mein Leben?"));
+            v.Add(new Talk(60, "Was gibt meinem Leben Sinn?"));
             v.Add(new Talk(61, "Wessen Versprechen vertrauen wir?"));
             v.Add(new Talk(62, "Das einzige Heilmittel für die Menschheit"));
             v.Add(new Talk(63, "Habe ich den Geist eines Evangeliumsverkündigers?"));
