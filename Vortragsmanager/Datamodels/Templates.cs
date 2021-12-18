@@ -252,6 +252,13 @@ namespace Vortragsmanager.Datamodels
                     termine += $"\tDatum:\t{einladung.Datum:dd.MM.yyyy}" + Environment.NewLine;
                     termine += $"\tVortrag:\t{einladung.Vortrag.Vortrag}" + Environment.NewLine;
                     termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Zeit}{zoom}" + Environment.NewLine;
+                    var mail = $", Mail: { einladung.Versammlung.KoordinatorJw}, { einladung.Versammlung.KoordinatorMail}";
+                    if (mail.Length == 10)
+                        mail = String.Empty;
+                    var telefon = $", Telefon: {einladung.Versammlung.KoordinatorTelefon}, {einladung.Versammlung.KoordinatorMobil}";
+                    if (telefon.Length == 13)
+                        telefon = String.Empty;
+                    termine += $"\tKoordinator:\t{einladung.Versammlung.Koordinator}{mail}{telefon}" + Environment.NewLine;
                     termine += Environment.NewLine;
                 }
                 termine += Environment.NewLine;
@@ -261,7 +268,7 @@ namespace Vortragsmanager.Datamodels
 
             mt = mt
                 .Replace("{Redner Mail}", mails)
-                .Replace("{Redner Termine}", termine)
+                .Replace("{Redner Termine}", termine.Replace(" ,", ""))
                 .Replace("{Signatur}", GetTemplate(TemplateName.Signatur).Inhalt);
 
             return mt;
