@@ -257,7 +257,7 @@ namespace Vortragsmanager.Datamodels
 
                     termine += $"\tDatum:\t{einladung.Datum:dd.MM.yyyy}" + Environment.NewLine;
                     termine += $"\tVortrag:\t{einladung.Vortrag.Vortrag}" + Environment.NewLine;
-                    termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Zeit}{zoom}" + Environment.NewLine;
+                    termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Zeit}{zoom}, Tel.: {einladung.Versammlung.Telefon}, Anreise: {einladung.Versammlung.Anreise}" + Environment.NewLine;
                     var mail = $", Mail: { einladung.Versammlung.KoordinatorJw}, { einladung.Versammlung.KoordinatorMail}";
                     if (mail.Length == 10)
                         mail = String.Empty;
