@@ -294,6 +294,32 @@ namespace Vortragsmanager.Core
             //auf aktuellste Version setzen = 21
             //siehe auch IoSqlite.UpdateDatabase
             DataContainer.Version = Helper.CurrentVersion;
+
+            if (!Properties.Settings.Default.HideChangelog)
+                ShowChanges(Properties.Settings.Default.LastChangelog);
+        }
+
+        public static void ShowChanges(int oldVersion)
+        {
+            Helper.GlobalSettings = new MyGloabalSettings();
+            string message = $"{Helper.GlobalSettings.Programmversion}{Environment.NewLine}{Environment.NewLine}";
+
+            //Die neuesten Äderungen nach oben
+            if (oldVersion < 21)
+                message += "* Anzeige der Änderungen nach einem Update (dieser Dialog). Die Anzeige kann in den Programmeinstellungen deaktiviert werden." + Environment.NewLine;
+            
+            if (oldVersion < 20)
+                message += "" + Environment.NewLine;
+
+            //Dialog anzeigen
+            var dlg = new leerDialog();
+            var dlg_mdl = (LeerViewModel)dlg.DataContext;
+            dlg_mdl.Titel = "Verbesserungen der neuen Version";
+            dlg_mdl.ShowCopyButton = false;
+            dlg_mdl.ShowSaveButton = false;
+            dlg_mdl.ShowCloseButton = true;
+            dlg_mdl.Text = message;
+            dlg.ShowDialog();
         }
 
         public static void DemoAktualisieren()

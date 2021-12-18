@@ -22,6 +22,7 @@ namespace Vortragsmanager.MeineVerwaltung
             UpdateSpeakerFromExcelCommand = new DelegateCommand(UpdateSpeakerFromExcel);
             EmergencyMailCommand = new DelegateCommand<int?>(EmergencyMail);
             CalculateRouteCommand = new DelegateCommand<bool>(CalculateRoute);
+            ShowChangelogCommand = new DelegateCommand(ShowChangelog);
             Datenbank = Properties.Settings.Default.sqlite;
         }
 
@@ -35,6 +36,8 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public DelegateCommand<bool> CalculateRouteCommand { get; private set; }
 
+        public DelegateCommand ShowChangelogCommand { get; private set; }
+
         public string ImportExcelFile
         {
             get
@@ -46,6 +49,11 @@ namespace Vortragsmanager.MeineVerwaltung
                 _importExcelFile = value;
                 RaisePropertyChanged();
             }
+        }
+
+        public void ShowChangelog()
+        {
+            Initialize.ShowChanges(0);
         }
 
         public void ExcelFileDialog()
@@ -155,6 +163,22 @@ namespace Vortragsmanager.MeineVerwaltung
                 RaisePropertyChanged();
             }
         }
+
+
+        public bool ShowChangelogState
+        {
+            get
+            {
+                return !Properties.Settings.Default.HideChangelog;
+            }
+            set
+            {
+                Properties.Settings.Default.HideChangelog = !value;
+                Properties.Settings.Default.Save();
+                RaisePropertyChanged();
+            }
+        }
+
 
         public bool DashboardShowDetails
         {
