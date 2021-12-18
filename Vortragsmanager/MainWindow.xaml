@@ -3,12 +3,18 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
-    xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
+    xmlns:Navi="clr-namespace:Vortragsmanager.Navigation" xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
     Width="1400" 
     Height="700"
     Title="{Binding Titel, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
     <dxc:ThemedWindow.HeaderItems>
-        <Button Content="Hilfe" Click="HelpButton_Click" ToolTip="{Binding HelpToolTip}"/>
+        <dxc:DropDownButton Content="Hilfe">
+            <dxb:PopupMenu>
+                <dxb:BarItemMenuHeader Content="{Binding Programmversion}" />
+                <dxb:BarButtonItem Content="Handbuch anzeigen (web)" ItemClick="HelpButton_Click" />
+                <dxb:BarButtonItem Content="Programmänderungen anzeigen" ItemClick="ChangesButton_Click" />
+            </dxb:PopupMenu>
+        </dxc:DropDownButton>
     </dxc:ThemedWindow.HeaderItems>
     <Navi:NavigationView />
 </dxc:ThemedWindow>
