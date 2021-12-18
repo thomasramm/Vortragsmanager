@@ -233,10 +233,16 @@ namespace Vortragsmanager.Datamodels
 
             var mails = "";
             var termine = "";
+            var jwpubs = "";
 
             foreach (var ä in listeRedner)
             {
-                mails += $"{ä.Mail}; ";
+                if (!string.IsNullOrEmpty(ä.JwMail))
+                    jwpubs += $"{ä.JwMail}; ";
+                else if (!string.IsNullOrEmpty(ä.Mail))
+                    mails += $"{ä.Mail}; ";
+                else
+                    mails += $"{ä.Name} (Keine Adresse vorhanden); ";
                 termine += "-----------------------------------------------------" + Environment.NewLine;
                 termine += ä.Name + Environment.NewLine;
 
@@ -264,10 +270,14 @@ namespace Vortragsmanager.Datamodels
                 termine += Environment.NewLine;
             }
 
-            mails = mails.Substring(0, mails.Length - 2);
+            jwpubs = jwpubs.Substring(0, jwpubs.Length - 2);
+            if (mails.Length > 0)
+            {
+                jwpubs += Environment.NewLine + "Redner ohne JwPub-Adresse:" + mails.Substring(0, mails.Length - 2);
+            }
 
             mt = mt
-                .Replace("{Redner Mail}", mails)
+                .Replace("{Redner Mail}", jwpubs)
                 .Replace("{Redner Termine}", termine.Replace(" ,", ""))
                 .Replace("{Signatur}", GetTemplate(TemplateName.Signatur).Inhalt);
 
