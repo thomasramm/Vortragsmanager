@@ -44,7 +44,7 @@
                     <dxlc:LayoutItem Label="Liste aller Vorträge mit Anzahl der Ausarbeitungen">
                         <Button Content="Erstellen" Command="{Binding CreateOverviewTalkCountCommand}" />
                     </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Liste aller gespeicherten Vortragsredner">
+                    <dxlc:LayoutItem Label="Liste aller gespeicherten Vortragsredner, Versammlungen und Koordinatoren">
                         <Button Content="Erstellen" Command="{Binding CreateSpeakerOverviewCommand}" />
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
