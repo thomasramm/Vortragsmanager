@@ -313,7 +313,7 @@ namespace Vortragsmanager.Core
             }
             
             if (oldVersion < 20)
-                message += "* Für weitere Änderungen bitte im Changelog nachsehen (oben rechts unter Hilfe, Programmänderungen)" + Environment.NewLine;
+                message += "* Für weitere Änderungen bitte im Changelog nachsehen (https://github.com/thomasramm/Vortragsmanager/blob/master/Changelog.md)" + Environment.NewLine;
 
             //Dialog anzeigen
             var dlg = new leerDialog();
