@@ -1,5 +1,11 @@
-##09.12.2021 Version 1.0.12##
+### Version 1.0.13 (31.12.2021) ###
+* Anzeige der Änderungen nach einem Update. Die Anzeige kann in den Programmeinstellungen deaktiviert werden.
+* Excelliste: Liste aller gespeicherten Vortragsredner erweitert um Versammlungs- und Koordinatorendaten.
+
+### Version 1.0.12 (09.12.2021) ###
 * Redner verschieben, auswahl der neuen Versammlung über Tastatureingabe
+
+### Ältere Änderungen ###
 
 [24.11.2021]
 * Geänderte Vortragsthemen

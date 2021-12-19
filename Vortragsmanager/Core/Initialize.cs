@@ -306,10 +306,13 @@ namespace Vortragsmanager.Core
 
             //Die neuesten Äderungen nach oben
             if (oldVersion < 21)
+            {
                 message += "* Anzeige der Änderungen nach einem Update (dieser Dialog). Die Anzeige kann in den Programmeinstellungen deaktiviert werden." + Environment.NewLine;
+                message += " Excelliste Liste aller gespeicherten Vortragsredner erweitert um Versammlungs- und Koordinatorendaten" + Environment.NewLine;
+            }
             
             if (oldVersion < 20)
-                message += "" + Environment.NewLine;
+                message += "* Für weitere Änderungen bitte im Changelog nachsehen (oben rechts unter Hilfe, Programmänderungen)" + Environment.NewLine;
 
             //Dialog anzeigen
             var dlg = new leerDialog();
