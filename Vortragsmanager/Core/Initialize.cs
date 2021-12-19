@@ -308,7 +308,8 @@ namespace Vortragsmanager.Core
             if (oldVersion < 21)
             {
                 message += "* Anzeige der Änderungen nach einem Update (dieser Dialog). Die Anzeige kann in den Programmeinstellungen deaktiviert werden." + Environment.NewLine;
-                message += " Excelliste Liste aller gespeicherten Vortragsredner erweitert um Versammlungs- und Koordinatorendaten" + Environment.NewLine;
+                message += "* Excelliste Liste aller gespeicherten Vortragsredner erweitert um Versammlungs- und Koordinatorendaten" + Environment.NewLine;
+                message += "* Individueller Mindest-Terminabstand zwischen zwei Vorträgen je Redner." + Environment.NewLine;
             }
             
             if (oldVersion < 20)
