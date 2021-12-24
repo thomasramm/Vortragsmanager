@@ -1,9 +1,7 @@
 ﻿using Vortragsmanager.Datamodels;
 using Vortragsmanager.Views;
-using System.Linq;
 using System.Collections.Generic;
 using System;
-using DevExpress.Xpf.Core;
 
 namespace Vortragsmanager.Core
 {
@@ -250,80 +248,6 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(-24, "Was Gottes Herrschaft für uns bewirken kann", false));
 
             return v;
-        }
-
-        public static void Update()
-        {
-            Log.Info(nameof(Update));
-
-            if (DataContainer.Version < 3)
-            {
-                TalkList.Add(56, "Wessen Führung kannst du vertrauen?");
-                TalkList.Add(-1, "Unbekannt", false);
-            }
-
-            if (DataContainer.Version < 11)
-            {
-                // => IoSqlite.UpdateDatabase(); -- Bestehender Vortrag 24 auf -24 geändert
-                TalkList.Add(24, "„Eine besonders kostbare Perle“ – habe ich sie gefunden?");
-            }
-
-            if (DataContainer.Version < 15)
-            {
-                DataContainer.AufgabenPersonZuordnung.Add(new AufgabenZuordnung(-1) { PersonName = "Nicht Vorgesehen", IsVorsitz = true, IsLeser = true, Häufigkeit=1 });
-            }
-
-            if (DataContainer.Version < 16)
-            {
-                TalkList.Reset();
-            }
-
-            if (DataContainer.Version < 20)
-            {
-                var inhalt = $"Es gibt geänderte Vortragsthemen. Du kannst die Themen jetzt aktualisieren. Damit werden individuelle Änderungen die du in der Vergangenheit an den Vortragsthemen vorgenommen hast gelöscht." + Environment.NewLine +
-    $"Du kannst die Änderung auch später unter 'Vorträge' -> 'Zurücksetzen' durchführen." + Environment.NewLine +
-    "Sollen die Vortragsthemen nun aktualisiert werden? (Empfohlen)" + Environment.NewLine +
-    "Wenn nicht, musst du die Themenänderungen selber unter 'Vorträge' einpflegen.";
-                var result = ThemedMessageBox.Show("Achtung", inhalt, System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
-                if (result == System.Windows.MessageBoxResult.Yes)
-                {
-                    TalkList.Reset();
-                }
-            }
-
-            //auf aktuellste Version setzen = 21
-            //siehe auch IoSqlite.UpdateDatabase
-            DataContainer.Version = Helper.CurrentVersion;
-
-            if (!Properties.Settings.Default.HideChangelog)
-                ShowChanges(Properties.Settings.Default.LastChangelog);
-        }
-
-        public static void ShowChanges(int oldVersion)
-        {
-            Helper.GlobalSettings = new MyGloabalSettings();
-            string message = $"{Helper.GlobalSettings.Programmversion}{Environment.NewLine}{Environment.NewLine}";
-
-            //Die neuesten Äderungen nach oben
-            if (oldVersion < 21)
-            {
-                message += "* Anzeige der Änderungen nach einem Update (dieser Dialog). Die Anzeige kann in den Programmeinstellungen deaktiviert werden." + Environment.NewLine;
-                message += "* Excelliste Liste aller gespeicherten Vortragsredner erweitert um Versammlungs- und Koordinatorendaten" + Environment.NewLine;
-                message += "* Individueller Mindest-Terminabstand zwischen zwei Vorträgen je Redner." + Environment.NewLine;
-            }
-            
-            if (oldVersion < 20)
-                message += "* Für weitere Änderungen bitte im Changelog nachsehen (https://github.com/thomasramm/Vortragsmanager/blob/master/Changelog.md)" + Environment.NewLine;
-
-            //Dialog anzeigen
-            var dlg = new leerDialog();
-            var dlg_mdl = (LeerViewModel)dlg.DataContext;
-            dlg_mdl.Titel = "Verbesserungen der neuen Version";
-            dlg_mdl.ShowCopyButton = false;
-            dlg_mdl.ShowSaveButton = false;
-            dlg_mdl.ShowCloseButton = true;
-            dlg_mdl.Text = message;
-            dlg.ShowDialog();
         }
 
         public static void DemoAktualisieren()

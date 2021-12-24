@@ -65,7 +65,7 @@
     <Setting Name="ShowActivityButtons" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="LastChangelog" Type="System.Int32" Scope="User">
+    <Setting Name="LastChangelog" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="HideChangelog" Type="System.Boolean" Scope="User">

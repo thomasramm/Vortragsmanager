@@ -275,9 +275,9 @@ namespace Vortragsmanager.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int LastChangelog {
+        public string LastChangelog {
             get {
-                return ((int)(this["LastChangelog"]));
+                return ((string)(this["LastChangelog"]));
             }
             set {
                 this["LastChangelog"] = value;

@@ -107,13 +107,6 @@ namespace Vortragsmanager.Core
             return woche;
         }
 
-        /// <summary>
-        /// Siehe auch 
-        /// IoSqlite.UpdateDatabase für Datenbank Updates (Struktur)
-        /// Initialize.Update für C# Updates (Inhalte)
-        /// </summary>
-        public static int CurrentVersion => 20;
-
         public class EigeneKreisNameComparer : IComparer<Conregation>
         {
             public int Compare(Conregation x, Conregation y)
@@ -166,6 +159,14 @@ namespace Vortragsmanager.Core
             if (input == null)
                 return string.Empty;
             return input.ToString().Trim();
+        }
+
+        public static Version ConvertToVersion(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input) || input == "0")
+                return new Version();
+            else
+                return new Version(input);
         }
 
         public static bool CheckNegativListe(string input, string[] liste)

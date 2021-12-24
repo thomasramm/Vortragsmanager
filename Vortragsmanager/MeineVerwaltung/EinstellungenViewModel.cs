@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
@@ -53,7 +52,7 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public void ShowChangelog()
         {
-            Initialize.ShowChanges(0);
+            Update.ShowChanges(0);
         }
 
         public void ExcelFileDialog()
