@@ -173,6 +173,9 @@ namespace Vortragsmanager.UserControls
         {
             IsHoliday = !IsHoliday;
             UpdateUi();
+            if (_abwesenheit == null)
+                return;
+
             if (IsHoliday)
                 DataContainer.Abwesenheiten.Add(_abwesenheit);
             else
