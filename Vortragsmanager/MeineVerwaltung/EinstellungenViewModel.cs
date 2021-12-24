@@ -52,7 +52,7 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public void ShowChangelog()
         {
-            Update.ShowChanges(0);
+            Update.ShowChanges(true);
         }
 
         public void ExcelFileDialog()

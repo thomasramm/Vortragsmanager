@@ -73,7 +73,7 @@ namespace Vortragsmanager
         }
         private void ChangesButton_Click(object sender, RoutedEventArgs e)
         {
-            Update.ShowChanges(0);
+            Update.ShowChanges(true);
         }
     }
 }

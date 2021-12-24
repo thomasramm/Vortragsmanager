@@ -9,7 +9,7 @@ namespace Vortragsmanager.Core
     {
         public static void Reset()
         {
-            DataContainer.Version = Helper.CurrentVersion;
+            DataContainer.Version = Update.CurrentVersion;
             DataContainer.IsInitialized = false;
             DataContainer.MeineVersammlung = null;
             DataContainer.ExternerPlan.Clear();

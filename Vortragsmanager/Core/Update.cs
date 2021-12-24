@@ -14,7 +14,7 @@ namespace Vortragsmanager.Core
         /// Initialize.Update für C# Updates (Inhalte)
         /// Changelog.md
         /// </summary>
-        public static int CurrentVersion => 20;
+        public static int CurrentVersion => 21;
 
         public static void Process()
         {
@@ -55,23 +55,30 @@ namespace Vortragsmanager.Core
                 }
             }
 
-            //auf aktuellste Version setzen = 21
+            //auf aktuellste Version setzen = 21 (siehe oben)
             //siehe auch IoSqlite.UpdateDatabase
-            DataContainer.Version = Update.CurrentVersion;
+            DataContainer.Version = CurrentVersion;
 
             if (!Properties.Settings.Default.HideChangelog)
-                ShowChanges(Helper.ConvertToVersion(Properties.Settings.Default.LastChangelog));
+            {
+                ShowChanges();
+            }
         }
 
-        public static void ShowChanges(Version oldVersion)
+        public static void ShowChanges(bool force = false)
         {
+            Version oldVersion = Helper.ConvertToVersion(Properties.Settings.Default.LastChangelog);
             string fileContent = String.Empty;
             string pathToChangelog = Properties.Settings.Default.ChangelogPfad;
+            var aktuelleVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
+
+            if (oldVersion == aktuelleVersion && !force)
+            { 
+                return;
+            }
 
             try
             {
-                var aktuelleVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
-
                 Helper.GlobalSettings = new MyGloabalSettings();
                 string message = $"Aktuelle Version {aktuelleVersion.Major}.{aktuelleVersion.Minor}.{aktuelleVersion.Build}{Environment.NewLine}{Environment.NewLine}";
 
@@ -84,7 +91,7 @@ namespace Vortragsmanager.Core
                 }
 
                 //Anzeigen nur der Änderungen seit dem letzten Update
-                if (oldVersion > new Version())
+                if (oldVersion > new Version() && oldVersion != aktuelleVersion)
                 {
                     var index = FindVersion(fileContent, oldVersion);
                     if (index > -1)
@@ -108,6 +115,9 @@ namespace Vortragsmanager.Core
             dlg_mdl.ShowCloseButton = true;
             dlg_mdl.Text = fileContent;
             dlg.ShowDialog();
+
+            Properties.Settings.Default.LastChangelog = aktuelleVersion.ToString();
+            Properties.Settings.Default.Save();
         }
 
         private static int FindVersion(string fileContent, Version oldVersion)
