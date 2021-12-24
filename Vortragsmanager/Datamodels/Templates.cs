@@ -233,10 +233,16 @@ namespace Vortragsmanager.Datamodels
 
             var mails = "";
             var termine = "";
+            var jwpubs = "";
 
             foreach (var ä in listeRedner)
             {
-                mails += $"{ä.Mail}; ";
+                if (!string.IsNullOrEmpty(ä.JwMail))
+                    jwpubs += $"{ä.JwMail}; ";
+                else if (!string.IsNullOrEmpty(ä.Mail))
+                    mails += $"{ä.Mail}; ";
+                else
+                    mails += $"{ä.Name} (Keine Adresse vorhanden); ";
                 termine += "-----------------------------------------------------" + Environment.NewLine;
                 termine += ä.Name + Environment.NewLine;
 
@@ -251,17 +257,28 @@ namespace Vortragsmanager.Datamodels
 
                     termine += $"\tDatum:\t{einladung.Datum:dd.MM.yyyy}" + Environment.NewLine;
                     termine += $"\tVortrag:\t{einladung.Vortrag.Vortrag}" + Environment.NewLine;
-                    termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Zeit}{zoom}" + Environment.NewLine;
+                    termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Zeit}{zoom}, Tel.: {einladung.Versammlung.Telefon}, Anreise: {einladung.Versammlung.Anreise}" + Environment.NewLine;
+                    var mail = $", Mail: { einladung.Versammlung.KoordinatorJw}, { einladung.Versammlung.KoordinatorMail}";
+                    if (mail.Length == 10)
+                        mail = String.Empty;
+                    var telefon = $", Telefon: {einladung.Versammlung.KoordinatorTelefon}, {einladung.Versammlung.KoordinatorMobil}";
+                    if (telefon.Length == 13)
+                        telefon = String.Empty;
+                    termine += $"\tKoordinator:\t{einladung.Versammlung.Koordinator}{mail}{telefon}" + Environment.NewLine;
                     termine += Environment.NewLine;
                 }
                 termine += Environment.NewLine;
             }
 
-            mails = mails.Substring(0, mails.Length - 2);
+            jwpubs = jwpubs.Substring(0, jwpubs.Length - 2);
+            if (mails.Length > 0)
+            {
+                jwpubs += Environment.NewLine + "Redner ohne JwPub-Adresse:" + mails.Substring(0, mails.Length - 2);
+            }
 
             mt = mt
-                .Replace("{Redner Mail}", mails)
-                .Replace("{Redner Termine}", termine)
+                .Replace("{Redner Mail}", jwpubs)
+                .Replace("{Redner Termine}", termine.Replace(" ,", ""))
                 .Replace("{Signatur}", GetTemplate(TemplateName.Signatur).Inhalt);
 
             return mt;

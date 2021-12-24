@@ -4,11 +4,11 @@ title: "Redner"
 ![Icon](images/menu_icon_10.png){: .align-right}
 
 Im Bereich Redner werden alle Informationen zu den Rednern und ihren Vorträgen gepflegt. 
-Alle Informationen können auch im Bereich Versammlungen angesehen und bearbeitet werden.
 
 * [Daten des Redner](#daten)
 * [Redner Aktionen](#aktionen)
 * [Vorträge](#vorträge)
+* [Kalender](#kalender)
 
 ![Redner](images/verwaltung_30.png)
 
@@ -27,6 +27,7 @@ Außerdem hat man rechts die Möglichkeit einen neuen Redner für die im Versamm
 * Diverse Kontaktdaten: Name, Mail JwPub, Telefon, Handy 
 * Vertrauliche Notiz die innerhalb des Programm angezeigt werden (wird aktuell noch nicht weiter benutzt)
 * Öffentliche Notiz die auf Plänen mit ausgedruckt werden (wird aktuell noch nicht weiter benutzt)
+* Terminabstand zwischen 2 Vorträgen festlegen (Standard ist 4 Wochen)
 
 ## Aktionen
 
@@ -53,5 +54,13 @@ Unterhalb der Vorträge kann man neue Vorträge zu dem aktuellen Redner inzugef�
 Dazu entweder links einen Vortrag aus der Liste auswählen,
 oder rechts eine Kommagetrennte Liste von Vortragsnummern eingeben die dem Redner hinzugefügt werden sollen.
 Beide möglichkeiten werden dann über den Button "Hinzufügen" gespeichert und direkt im oberen Bereich angezeigt.
+
+## Kalender
+
+Hier werden alle Gebuchten Termine angezeigt:
+* Termine der Versammlung (Grau, z.B. Kongress, Dienstwoche)
+* Gebuchte Vorträge (Rot)
+* Geblockte Termine (Braun, Abhängig vom eingestellten Terminabstand, alle Wochen um einen Vortrag sind geblockt).
+* Abwesenheiten (Blau, z.B. Urlaub, Nicht Verfügbar). Abwesenheiten werden durch einfaches Klicken auf die Woche gesetzt und auch wieder entfernt.  
 
 [zurück](Versammlungen.md){: .btn .btn--inverse}  [weiter](ListenAusgeben.md){: .btn .btn--inverse}

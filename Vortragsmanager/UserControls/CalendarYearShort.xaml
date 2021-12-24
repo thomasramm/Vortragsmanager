@@ -29,7 +29,7 @@
                          HorizontalAlignment="Right"
                          Click="NextYear_Click" />
         <dxlc:FlowLayoutControl x:Name="flowLayout" Grid.Row="1" Orientation="Horizontal" />
-        <Border Grid.Row="2" Width="90" Height="20" Background="#5C4033" ToolTip="4 Wochen um einen Vortrag" HorizontalAlignment="Left">
+        <Border Grid.Row="2" Width="90" Height="20" Background="#5C4033" ToolTip="Abstand um einen Vortrag" HorizontalAlignment="Left">
                 <Label Content="Geblockt" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0"/>
             </Border>
         <Border Grid.Row="2" Width="90" Height="20" Background="OrangeRed" ToolTip="Vortrag, Vorsitz oder WT Leser" HorizontalAlignment="Right">

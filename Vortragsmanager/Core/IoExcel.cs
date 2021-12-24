@@ -531,9 +531,9 @@ namespace Vortragsmanager.Core
                 File.Save(tempFile, "Vortragsthemen.xlsx", openReport);
             }
 
-            internal static void SpeakerOverview(bool openReport)
+            internal static void SpeakerConregationCoordinatorOverview(bool openReport)
             {
-                Log.Info(nameof(SpeakerOverview), "");
+                Log.Info(nameof(SpeakerConregationCoordinatorOverview), "");
                 var tempFile = Path.GetTempFileName();
                 var excel = new FileInfo(tempFile);
                 var vers = DataContainer.MeineVersammlung;
@@ -547,7 +547,7 @@ namespace Vortragsmanager.Core
                     sheet.Column(3).Width = 25;
                     sheet.Column(4).Width = 7;
                     sheet.Column(5).Width = 7;
-                    sheet.Column(6).Width = 10;
+                    sheet.Column(6).Width = 15;
                     sheet.Column(7).Width = 11;
                     sheet.Column(8).Width = 30;
                     sheet.Column(9).Width = 30;
@@ -615,9 +615,83 @@ namespace Vortragsmanager.Core
                     ExcelTable tab = sheet.Tables.Add(range, "Table1");
                     tab.TableStyle = TableStyles.Medium2;
 
+                    //KOORDINATOREN
+                    sheet = package.Workbook.Worksheets.Add($"Koordinatoren");
+                    sheet.Column(1).Width = 7;
+                    sheet.Column(2).Width = 25;
+                    sheet.Column(3).Width = 25;
+                    sheet.Column(4).Width = 25;
+                    sheet.Column(5).Width = 25;
+                    sheet.Column(6).Width = 10;
+                    sheet.Column(7).Width = 20;
+                    sheet.Column(8).Width = 30;
+                    sheet.Column(9).Width = 7;
+                    sheet.Column(10).Width = 30;
+                    sheet.Column(11).Width = 15;
+                    sheet.Column(12).Width = 15;
+                    sheet.Column(13).Width = 25;
+                    sheet.Column(14).Width = 25;
+
+                    sheet.Cells[1, 1].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    sheet.Cells[1, 10].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    sheet.Cells[1, 1, 1, 9].Merge = true;
+                    sheet.Cells[1, 10, 1, 14].Merge = true;
+                    sheet.Cells[1, 1, 2, 14].Style.Font.Bold = true;
+                    sheet.Cells[1, 1, 1, 14].Style.Font.Size = 12;
+
+                    sheet.Cells[1, 1].Value = "Versammlung";
+                    sheet.Cells[1, 10].Value = "Koordinator";
+
+                    sheet.Cells[2, 1].Value = "Kreis";
+                    sheet.Cells[2, 2].Value = "Versammlung";
+                    sheet.Cells[2, 3].Value = "Strasse";
+                    sheet.Cells[2, 4].Value = "Plz Ort";
+                    sheet.Cells[2, 5].Value = "Anreise";
+                    sheet.Cells[2, 6].Value = "Zeit";
+                    sheet.Cells[2, 7].Value = "Telefon Saal";
+                    sheet.Cells[2, 8].Value = "Zoom";
+                    sheet.Cells[2, 9].Value = "Entfernung";
+                    sheet.Cells[2, 10].Value = "Koordinator";
+                    sheet.Cells[2, 11].Value = "Telefon";
+                    sheet.Cells[2, 12].Value = "Mobil";
+                    sheet.Cells[2, 13].Value = "Mail";
+                    sheet.Cells[2, 14].Value = "JwPub";
+
+                    var aktuellesJahr = DateTime.Today.Year;
+
+                    row = 3;
+                    foreach (var v in DataContainer.Versammlungen.Where(x => x.Name != "Unbekannt").OrderBy(x => x.Kreis).ThenBy(x => x.Name))
+                    {
+                        sheet.Cells[row, 1].Value = v.Kreis;
+                        sheet.Cells[row, 2].Value = v.Name;
+                        sheet.Cells[row, 3].Value = v.Anschrift1;
+                        sheet.Cells[row, 4].Value = v.Anschrift2;
+                        sheet.Cells[row, 5].Value = v.Anreise;
+                        sheet.Cells[row, 6].Value = v.Zeit.Get(aktuellesJahr);
+                        sheet.Cells[row, 7].Value = v.Telefon;
+                        sheet.Cells[row, 8].Value = v.Zoom;
+                        sheet.Cells[row, 9].Value = v.Entfernung;
+                        sheet.Cells[row, 10].Value = v.Koordinator;
+                        sheet.Cells[row, 11].Value = v.KoordinatorTelefon;
+                        sheet.Cells[row, 12].Value = v.KoordinatorMobil;
+                        sheet.Cells[row, 13].Value = v.KoordinatorMail;
+                        sheet.Cells[row, 14].Value = v.KoordinatorJw;
+                        row++;
+                    }
+
+                    //create a range for the table
+                    range = sheet.Cells[2, 1, row - 1, 14];
+                    tab = sheet.Tables.Add(range, "Table2");
+                    tab.TableStyle = TableStyles.Medium2;
+
+                    var border = sheet.Cells[1, 9, row - 1, 9].Style.Border;
+                    border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
+
+                    sheet.View.FreezePanes(3, 1);
+
                     package.SaveAs(excel);
                 }
-                File.Save(tempFile, "Vortragsredner.xlsx", openReport);
+                File.Save(tempFile, "Vortragsredner_und_Koordinator.xlsx", openReport);
             }
 
             internal static void ExchangeRednerList(bool openReport)

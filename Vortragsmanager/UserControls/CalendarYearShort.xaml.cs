@@ -117,7 +117,7 @@ namespace Vortragsmanager.UserControls
                     item.Text += Environment.NewLine + $"Vortrag in {DataContainer.MeineVersammlung.Name}";
                 }
 
-                //4 Wochen um das Datum herum...
+                //Abstand um das Datum herum...
                 CalculateAroundTalk(datum);
             }
 
@@ -173,8 +173,8 @@ namespace Vortragsmanager.UserControls
 
         private void CalculateAroundTalk(DateTime datum)
         {
-            var start = datum.AddMonths(-1);
-            var ende = datum.AddMonths(+1);
+            var start = datum.AddDays(-7 * Person.Abstand);
+            var ende = datum.AddDays(7 * Person.Abstand);
             foreach(var item in _calendar.Where(x => x.Key >= start && x.Key <= ende))
             {
                 item.Value.IsAroundTalk = true;

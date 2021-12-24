@@ -26,7 +26,9 @@ Liste aller Vorträge mit Anzahl der Ausarbeitungen
 :   * Von wie vielen Rednern in deinem Kreis wurde der Vortrag ausgearbeitet
 :   * Das Datum wann der Vortrag in deiner Versammlung das letzte mal gehalten wurde
 
-Liste aller gespeicherten Vortragsredner
+Liste aller gespeicherten Vortragsredner, Versammlungen und Koordinatoren
+:   In der Exceldatei werden zwei Blätter erstellt.
 :   Eine Liste aller Vortragsredner die im Programm eingegeben worden sind mit den hinterlegten Informationen, sowie dem Datum wann sie das letzte mal in deiner Versammlung einen Vortrag gehalten haben.
+:   Das zweite Blatt enthält die Versammlungs- und Koordinatorendaten.
 
 [zurück](Redner.md){: .btn .btn--inverse}  [weiter](Vorlagen.md){: .btn .btn--inverse}

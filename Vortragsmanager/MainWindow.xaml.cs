@@ -35,6 +35,11 @@ namespace Vortragsmanager
                 Settings.Default.sqlite = "demo.sqlite3";
 #endif
 
+            if (!Settings.Default.HideChangelog)
+            {
+                Update.ShowChanges();
+            }
+
             //Doppelklick auf eine sqlit3 Datei...
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length >= 2 && File.Exists(args[1]))
@@ -70,6 +75,10 @@ namespace Vortragsmanager
         private void HelpButton_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://thomasramm.github.io/Vortragsmanager/");
+        }
+        private void ChangesButton_Click(object sender, RoutedEventArgs e)
+        {
+            Update.ShowChanges(true);
         }
     }
 }

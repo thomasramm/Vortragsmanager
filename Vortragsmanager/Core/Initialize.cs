@@ -1,9 +1,7 @@
 ﻿using Vortragsmanager.Datamodels;
 using Vortragsmanager.Views;
-using System.Linq;
 using System.Collections.Generic;
 using System;
-using DevExpress.Xpf.Core;
 
 namespace Vortragsmanager.Core
 {
@@ -11,7 +9,7 @@ namespace Vortragsmanager.Core
     {
         public static void Reset()
         {
-            DataContainer.Version = Helper.CurrentVersion;
+            DataContainer.Version = Update.CurrentVersion;
             DataContainer.IsInitialized = false;
             DataContainer.MeineVersammlung = null;
             DataContainer.ExternerPlan.Clear();
@@ -76,7 +74,7 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(23, "Unser Leben hat einen Sinn"));
             v.Add(new Talk(24, "„Eine besonders kostbare Perle“ – habe ich sie gefunden?"));
             v.Add(new Talk(25, "Dem Geist der Welt widerstehen"));
-            v.Add(new Talk(26, "Hält Gott dich persönlich für wichtig?", false)); //Dieser Vortrag sollte nicht mehr gehalten werden
+            v.Add(new Talk(26, "Bin ich Gott wichtig?", true)); //Dieser Vortrag sollte nicht mehr gehalten werden -> Neue Disposition
             v.Add(new Talk(27, "Ein guter Start in die Ehe"));
             v.Add(new Talk(28, "In der Ehe Liebe und Respekt zeigen"));
             v.Add(new Talk(29, "Elternsein – eine verantwortungsvolle, aber lohnende Aufgabe"));
@@ -90,7 +88,7 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(37, "Was bringt es, sich von Gott leiten zu lassen?"));
             v.Add(new Talk(38, "Wie kann man das Ende der Welt überleben?"));
             v.Add(new Talk(39, "Gottes Sieg mit Zuversicht erwarten"));
-            v.Add(new Talk(40, "Was die nahe Zukunft bringt", false)); //Dieser Vortrag sollte nicht mehr gehalten werden
+            v.Add(new Talk(40, "Was die nahe Zukunft bringt", true)); //Dieser Vortrag sollte nicht mehr gehalten werden -> Neue Disposition
             v.Add(new Talk(41, "„Bleibt stehen und seht, wie Jehova euch rettet“"));
             v.Add(new Talk(42, "Wie wirkt sich Gottes Königreich auf unser Leben aus?"));
             v.Add(new Talk(43, "Tue ich, was Gott von mir erwartet?"));
@@ -110,7 +108,7 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(57, "Unter Verfolgung standhaft bleiben"));
             v.Add(new Talk(58, "Woran erkennt man echte Christen?"));
             v.Add(new Talk(59, "Man erntet, was man sät"));
-            v.Add(new Talk(60, "Wie sinnvoll ist mein Leben?"));
+            v.Add(new Talk(60, "Was gibt meinem Leben Sinn?"));
             v.Add(new Talk(61, "Wessen Versprechen vertrauen wir?"));
             v.Add(new Talk(62, "Das einzige Heilmittel für die Menschheit"));
             v.Add(new Talk(63, "Habe ich den Geist eines Evangeliumsverkündigers?"));
@@ -250,50 +248,6 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(-24, "Was Gottes Herrschaft für uns bewirken kann", false));
 
             return v;
-        }
-
-        public static void Update()
-        {
-            Log.Info(nameof(Update));
-
-            if (DataContainer.Version < 3)
-            {
-                TalkList.Add(56, "Wessen Führung kannst du vertrauen?");
-                TalkList.Add(-1, "Unbekannt", false);
-            }
-
-            if (DataContainer.Version < 11)
-            {
-                // => IoSqlite.UpdateDatabase(); -- Bestehender Vortrag 24 auf -24 geändert
-                TalkList.Add(24, "„Eine besonders kostbare Perle“ – habe ich sie gefunden?");
-            }
-
-            if (DataContainer.Version < 15)
-            {
-                DataContainer.AufgabenPersonZuordnung.Add(new AufgabenZuordnung(-1) { PersonName = "Nicht Vorgesehen", IsVorsitz = true, IsLeser = true, Häufigkeit=1 });
-            }
-
-            if (DataContainer.Version < 16)
-            {
-                TalkList.Reset();
-            }
-
-            if (DataContainer.Version < 19)
-            {
-                var inhalt = $"Es gibt geänderte Vortragsthemen. Du kannst die Themen jetzt aktualisieren. Damit werden individuelle Änderungen die du in der Vergangenheit an den Vortragsthemen vorgenommen hast gelöscht." + Environment.NewLine +
-    $"Du kannst die Änderung auch später unter 'Vorträge' -> 'Zurücksetzen' durchführen." + Environment.NewLine +
-    "Sollen die Vortragsthemen nun aktualisiert werden? (Empfohlen)" + Environment.NewLine +
-    "Wenn nicht, musst du die Themenänderungen selber unter 'Vorträge' einpflegen.";
-                var result = ThemedMessageBox.Show("Achtung", inhalt, System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
-                if (result == System.Windows.MessageBoxResult.Yes)
-                {
-                    TalkList.Reset();
-                }
-            }
-
-            //auf aktuellste Version setzen = 17
-            //siehe auch IoSqlite.UpdateDatabase
-            DataContainer.Version = Helper.CurrentVersion;
         }
 
         public static void DemoAktualisieren()

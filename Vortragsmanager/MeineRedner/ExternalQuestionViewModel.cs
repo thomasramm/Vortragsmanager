@@ -164,8 +164,8 @@ namespace Vortragsmanager.MeineRedner
                 Hinweis += $"{SelectedRedner.Name} ist als Abwesend gekennzeichnet" + Environment.NewLine;
 
             //1 Vortrag pro Monat
-            var vorher = Kalenderwoche - 4;
-            var nachher = Kalenderwoche + 4;
+            var vorher = Kalenderwoche - SelectedRedner.Abstand;
+            var nachher = Kalenderwoche + SelectedRedner.Abstand;
             foreach(var zuDicht in _selectedRednerAllTalks.Where(x => x.Kalenderwoche >= vorher && x.Kalenderwoche <= nachher))
             {
                 Hinweis += $"Angefragtes Datum ist zu dicht an Vortrag vom {zuDicht.Datum:dd.MM.yyyy}" + Environment.NewLine;
