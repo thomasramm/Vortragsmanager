@@ -8,12 +8,6 @@
     <Setting Name="NameKreisaufseher" Type="System.String" Scope="User">
       <Value Profile="(Default)">Name des Kreisaufseher</Value>
     </Setting>
-    <Setting Name="NextUpdateSearch" Type="System.DateTime" Scope="User">
-      <Value Profile="(Default)">2000-01-01</Value>
-    </Setting>
-    <Setting Name="SearchForUpdates" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="SearchSpeaker_RednerCheckHistory" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
@@ -54,7 +48,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ListCreate_OpenFile" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="ApplicationThemeName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Office2016White</Value>

@@ -1,6 +1,5 @@
 ﻿using Vortragsmanager.Datamodels;
 using Vortragsmanager.Views;
-using System.Linq;
 using System.Collections.Generic;
 using System;
 using DevExpress.Xpf.Core;

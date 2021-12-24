@@ -26,6 +26,8 @@ namespace Vortragsmanager.Datamodels
 
         public bool Einladen { get; set; } = true;
 
+        public int Abstand { get; set; } = 4;
+
         public string InfoPrivate { get; set; }
 
         public string InfoPublic { get; set; }

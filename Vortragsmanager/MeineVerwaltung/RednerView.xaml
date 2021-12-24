@@ -116,8 +116,15 @@
                             <dxlc:LayoutItem Label="Öffentlicher Hinweis">
                                 <TextBox Text="{Binding Redner.InfoPublic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </dxlc:LayoutItem>
-                            <dxlc:LayoutItem Label="Terminabstand:">
-                                <TextBox Text="Under Construction" Foreground="Orange" />
+                            <dxlc:LayoutItem Label="Terminabstand in Wochen"  ToolTip="Der Mindestabstand zwischen zwei Vorträgen sollte 4 Wochen betragen">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="25"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="1" Text="{Binding ElementName=abstandSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <Slider Grid.Column="0" x:Name="abstandSlider" Maximum="52" TickPlacement="BottomRight" TickFrequency="4" Minimum="0" Value="{Binding Redner.Abstand}" />
+                                </Grid>
                             </dxlc:LayoutItem>
                         </dxlc:LayoutControl>
                     </dxa:AccordionItem>
@@ -146,11 +153,6 @@
                     </dxa:AccordionItem>
                     <dxa:AccordionItem Header="Aktivitäten">
                         <ListBox  ItemsSource="{Binding RednerAktivitäten}"/>
-                    </dxa:AccordionItem>
-                    <dxa:AccordionItem Header="Abwesenheiten">
-                        <dxlc:LayoutControl Orientation="Vertical" IsEnabled="{Binding RednerSelektiert}">
-                            <Label Content="Under Construction" Foreground="Orange" />
-                        </dxlc:LayoutControl>
                     </dxa:AccordionItem>
                 </dxa:AccordionControl>
                 <dxlc:LayoutGroup Header="Kalender"

@@ -64,7 +64,7 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public void CreateSpeakerOverview()
         {
-            IoExcel.Export.SpeakerOverview(ListeÖffnen);
+            IoExcel.Export.SpeakerConregationCoordinatorOverview(ListeÖffnen);
         }
 
         
