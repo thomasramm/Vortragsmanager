@@ -35,6 +35,11 @@ namespace Vortragsmanager
                 Settings.Default.sqlite = "demo.sqlite3";
 #endif
 
+            if (!Settings.Default.HideChangelog)
+            {
+                Update.ShowChanges();
+            }
+
             //Doppelklick auf eine sqlit3 Datei...
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length >= 2 && File.Exists(args[1]))

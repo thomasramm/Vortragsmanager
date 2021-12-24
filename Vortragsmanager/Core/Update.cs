@@ -58,11 +58,6 @@ namespace Vortragsmanager.Core
             //auf aktuellste Version setzen = 21 (siehe oben)
             //siehe auch IoSqlite.UpdateDatabase
             DataContainer.Version = CurrentVersion;
-
-            if (!Properties.Settings.Default.HideChangelog)
-            {
-                ShowChanges();
-            }
         }
 
         public static void ShowChanges(bool force = false)

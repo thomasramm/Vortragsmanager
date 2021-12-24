@@ -1,4 +1,4 @@
-### Version 1.0.13 (31.12.2021) ###
+### Version 1.0.13 (24.12.2021) ###
 * Anzeige der Änderungen nach einem Update. Die Anzeige kann in den Programmeinstellungen deaktiviert werden.
 * Excelliste: Liste aller gespeicherten Vortragsredner erweitert um Versammlungs- und Koordinatorendaten.
 * Individueller Mindest-Terminabstand zwischen zwei Vorträgen je Redner.
