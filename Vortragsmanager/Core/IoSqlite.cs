@@ -41,7 +41,7 @@ namespace Vortragsmanager.Core
 
                 //Falls es jetzt noch weitere Updates gibt die am Container durchgeführt
                 //werden müssen, ist hier ein guter Ort...
-                Initialize.Update();
+                Update.Process();
 
                 db.Close();
             }

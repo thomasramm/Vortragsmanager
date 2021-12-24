@@ -98,6 +98,7 @@
     <Compile Include="Core\MyGroupBox.cs" />
     <Compile Include="Core\Security.cs" />
     <Compile Include="ActivityLog\Activity.cs" />
+    <Compile Include="Core\Update.cs" />
     <Compile Include="Datamodels\AufgabenZuordnung.cs" />
     <Compile Include="Datamodels\Busy.cs" />
     <Compile Include="Datamodels\Templates.cs" />

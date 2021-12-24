@@ -71,5 +71,9 @@ namespace Vortragsmanager
         {
             System.Diagnostics.Process.Start("https://thomasramm.github.io/Vortragsmanager/");
         }
+        private void ChangesButton_Click(object sender, RoutedEventArgs e)
+        {
+            Update.ShowChanges(0);
+        }
     }
 }

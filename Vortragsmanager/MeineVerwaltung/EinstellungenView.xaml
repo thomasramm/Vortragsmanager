@@ -116,6 +116,19 @@
                                          Command="{Binding CalculateRouteCommand}" CommandParameter="True" />
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
+                <dxlc:LayoutGroup Header="Updates" View="GroupBox" Orientation="Vertical">
+                    <dxlc:LayoutItem Label="Anzeige der Änderungen nach einem Update">
+                        <dxe:ToggleSwitch CheckedStateContent="An"
+                                      UncheckedStateContent="Aus"
+                                      ContentPlacement="Inside"
+                                      IsChecked="{Binding ShowChangelogState}" />
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Alle Änderungen anzeigen">
+                        <dx:SimpleButton Content="anzeigen"
+                                         Glyph="{dx:SvgImageSource Uri='/Images/UpdateList.svg'}"
+                                         Command="{Binding ShowChangelogCommand}" CommandParameter="True" />
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
                 <dxlc:LayoutGroup Header="Sonstiges" View="GroupBox" Orientation="Vertical">
                     <dxlc:LayoutItem Label="Wochentag deiner Versammlung">
                         <dxe:ComboBoxEdit SelectedItem="{Binding ConregationDayOfWeek}"
