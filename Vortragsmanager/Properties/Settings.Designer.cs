@@ -49,30 +49,6 @@ namespace Vortragsmanager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2000-01-01")]
-        public global::System.DateTime NextUpdateSearch {
-            get {
-                return ((global::System.DateTime)(this["NextUpdateSearch"]));
-            }
-            set {
-                this["NextUpdateSearch"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool SearchForUpdates {
-            get {
-                return ((bool)(this["SearchForUpdates"]));
-            }
-            set {
-                this["SearchForUpdates"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool SearchSpeaker_RednerCheckHistory {
             get {
@@ -226,7 +202,7 @@ namespace Vortragsmanager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ListCreate_OpenFile {
             get {
                 return ((bool)(this["ListCreate_OpenFile"]));
