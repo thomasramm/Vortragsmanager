@@ -139,17 +139,18 @@ namespace Vortragsmanager.Core
 
         internal static int AddWeek(int woche, int add)
         {
-            var result = woche + add;
-            var year = result / 100;
-            var week = result - year*100;
-            if (week > 53)
-            {
-                var yearAdd = week / 53;
-                year += yearAdd;
-                week = week - (yearAdd * 53);
-                result = year*100 + week;
-            }
-            return result;
+            var baseJahr = woche / 100;
+            var baseWoche = woche - baseJahr * 100;
+
+            var addJahr = add / 53;
+            var addWoche = add - addJahr * 53;
+
+            var resultWoche = baseWoche + addWoche;
+            var resultJahr = baseJahr + addJahr + resultWoche / 53;
+
+            resultWoche -= (resultWoche / 53) * 53;
+
+            return resultJahr * 100 + resultWoche;
         }
 
         public static string TemplateFolder => AppDomain.CurrentDomain.BaseDirectory + @"Templates\";
