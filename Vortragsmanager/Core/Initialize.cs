@@ -117,7 +117,7 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(66, "Kann ich bei der Ernte mitarbeiten?"));
             v.Add(new Talk(67, "Über Gottes Wort und die Schöpfung intensiv nachdenken"));
             v.Add(new Talk(68, "Bin ich nachtragend oder vergebe ich?"));
-            v.Add(new Talk(69, "Warum es wichtig ist, dass wir selbstlose Liebe zeigen"));
+            v.Add(new Talk(69, "Warum ist es wichtig, dass wir selbstlose Liebe zeigen?"));
             v.Add(new Talk(70, "Voll und ganz auf Jehova vertrauen", false)); //Dieser Vortrag sollte nicht mehr gehalten werden
             v.Add(new Talk(71, "Warum wir „wach bleiben“ müssen"));
             v.Add(new Talk(72, "Liebe – das Kennzeichen wahrer Christen"));

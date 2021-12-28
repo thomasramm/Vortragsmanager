@@ -14,7 +14,7 @@ namespace Vortragsmanager.Core
         /// Initialize.Update für C# Updates (Inhalte)
         /// Changelog.md
         /// </summary>
-        public static int CurrentVersion => 21;
+        public static int CurrentVersion => 22;
 
         public static void Process()
         {
@@ -42,7 +42,7 @@ namespace Vortragsmanager.Core
                 TalkList.Reset();
             }
 
-            if (DataContainer.Version < 20)
+            if (DataContainer.Version < 22)
             {
                 var inhalt = $"Es gibt geänderte Vortragsthemen. Du kannst die Themen jetzt aktualisieren. Damit werden individuelle Änderungen die du in der Vergangenheit an den Vortragsthemen vorgenommen hast gelöscht." + Environment.NewLine +
     $"Du kannst die Änderung auch später unter 'Vorträge' -> 'Zurücksetzen' durchführen." + Environment.NewLine +
