@@ -101,9 +101,7 @@ namespace Vortragsmanager.Core
 
             if (createBackup)
             {
-                var fi = new FileInfo(newfile);
-                var backup = fi.DirectoryName + "\\" + fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length) + $"_{DateTime.Now:yyyy-MM-dd-HH-mm}" + fi.Extension;
-                File.Copy(newfile, backup, true);
+                Backup.Add(newfile);
             }
             //Rückgabe des (neuen) Speichernamen
             return newfile;

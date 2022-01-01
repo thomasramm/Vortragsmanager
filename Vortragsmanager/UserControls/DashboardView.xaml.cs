@@ -22,7 +22,7 @@ namespace Vortragsmanager.Navigation
             //speichern
             if (DataContainer.IsInitialized)
             {
-                var file = IoSqlite.SaveContainer(Settings.Default.sqlite, false);
+                var file = IoSqlite.SaveContainer(Settings.Default.sqlite, Settings.Default.SaveBackups);
                 Settings.Default.sqlite = file;
                 Settings.Default.Save();
             }
