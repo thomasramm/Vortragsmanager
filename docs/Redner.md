@@ -63,4 +63,4 @@ Hier werden alle Gebuchten Termine angezeigt:
 * Geblockte Termine (Braun, Abhängig vom eingestellten Terminabstand, alle Wochen um einen Vortrag sind geblockt).
 * Abwesenheiten (Blau, z.B. Urlaub, Nicht Verfügbar). Abwesenheiten werden durch einfaches Klicken auf die Woche gesetzt und auch wieder entfernt.  
 
-[zurück](Versammlungen.md){: .btn .btn--inverse}  [weiter](ListenAusgeben.md){: .btn .btn--inverse}
+[zurück](Versammlungen.md){: .btn .btn--inverse}  [weiter](Sicherung.md){: .btn .btn--inverse}

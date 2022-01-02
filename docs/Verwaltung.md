@@ -5,6 +5,7 @@ Der Bereich Verwaltung besteht aus 6 unterschiedlichen Teilen:
 
 [![link3](/images/menu_icon_07.png)](/Vortragsmanager/Versammlungen){: .align-left}
 [![link3](/images/menu_icon_10.png)](/Vortragsmanager/Redner){: .align-left}
+[![link3](/images/menu_icon_13.png)](/Vortragsmanager/Sicherung){: .align-left}
 
 <br clear="all" />
 
