@@ -1,8 +1,9 @@
-### Version 1.0.15 (??.01.2022) ###
+### Version 1.0.15 (11.01.2022) ###
 * Neues Sicherungssystem, um Änderungen Rückgängig machen zu können. Bitte lies dir dazu das Kapitel im Handbuch durch.
 
 ### Version 1.0.14 (25.12.2021) ###
-* Fehlerbehebung: Im Fenster "Antwort Eintragen" können neben den angefragten Terminen auch alternative Termine enutzt werden. Ab KW 47 wurden nicht die nächsten Freien Termine eines Jahres, sondern nur der nächsten 6 Wochen angezeigt.
+* Fehlerbehebung: Im Fenster "Antwort Eintragen" können neben den angefragten Terminen auch alternative Termine benutzt werden. 
+  Ab KW 47 wurden nicht die nächsten Freien Termine eines Jahres, sondern nur der nächsten 6 Wochen angezeigt.
 
 ### Version 1.0.13 (24.12.2021) ###
 * Anzeige der Änderungen nach einem Update. Die Anzeige kann in den Programmeinstellungen deaktiviert werden.
