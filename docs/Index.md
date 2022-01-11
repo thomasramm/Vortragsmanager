@@ -8,7 +8,12 @@ Installiere den Vortragsmanager DeLuxe
 <img src="https://developer.microsoft.com/store/badges/images/German_get-it-from-MS.png" style="width: 284px; height: 104px;"/>
 </a>
 
-Der Vortragsmanager steht als Open Source zur Verfügung, du kannst dir also den gesamten Quellcode anschauen um zu prüfen, das deine Daten nicht irgendwo hochgeladen werden.
+
+## Neu ##
+Sicherungs- und Wiederherstellungsmöglichkeiten. siehe das Kapitel [Sicherung](Sicherung.md)
+
+## Vertrauen und Datenschutz ##
+Der Vortragsmanager steht als Open Source zur Verfügung, du kannst dir also den gesamten Quellcode anschauen um zu prüfen, das deine Daten nicht irgendwo hochgeladen werden, oder etwas gemacht wird was nicht in deinem Sinn ist.
 
 [![Quellode](https://img.shields.io/badge/Quellcode-GitHub-darkgreen?style=for-the-badge)](https://github.com/thomasramm/Vortragsmanager/)
 

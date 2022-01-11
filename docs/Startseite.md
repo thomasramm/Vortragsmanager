@@ -2,9 +2,6 @@
 title: "Die Übersicht"
 ---
 
-Startest du den Vortragsmanager wird dir die Zentrale Startseite des Programm angezeigt, von der du aus in alle Bereiche gehen kannst.
-Du hast 4 verschiedene Möglichkeiten wie du starten kannst.
-
 ![Startseite](images/startseite_01.png)
 
 Jede Kachel führt zu einer Funktion im Programm. Die Kacheln sind in 3 Bereiche aufgeteilt:
