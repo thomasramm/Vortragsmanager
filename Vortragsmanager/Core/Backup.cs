@@ -201,7 +201,7 @@ namespace Vortragsmanager.Core
                     case BackupAge.Diese_Woche:
                         return _date.ToString("dddd, dd.MM HH:mm:ss") + " Uhr";
                     case BackupAge.Dieser_Monat:
-                        return _date.ToString("dd.MM HH:mm:ss Uhr") + " Uhr";
+                        return _date.ToString("dd.MM HH:mm:ss") + " Uhr";
                     case BackupAge.Dieses_Jahr:
                         return _date.ToString("MMMM, dd.MM HH:mm:ss") + " Uhr";
                     case BackupAge.Älter:
