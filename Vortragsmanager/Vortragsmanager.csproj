@@ -64,6 +64,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Security" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -88,6 +89,7 @@
     <Compile Include="ActivityLog\AddActivities.cs" />
     <Compile Include="ActivityLog\Symbols.cs" />
     <Compile Include="ActivityLog\Types.cs" />
+    <Compile Include="Core\Backup.cs" />
     <Compile Include="Core\GeoApi.cs" />
     <Compile Include="Core\Helper.cs" />
     <Compile Include="Core\ini.cs" />
@@ -108,6 +110,12 @@
       <DependentUpon>ActivityItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="ActivityLog\Activities.cs" />
+    <Compile Include="MeineVerwaltung\Backups.xaml.cs">
+      <DependentUpon>Backups.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MeineVerwaltung\BackupsViewModel.cs">
+      <DependentUpon>Backups.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MeineVerwaltung\VorträgeView.xaml.cs">
       <DependentUpon>VorträgeView.xaml</DependentUpon>
     </Compile>
@@ -304,6 +312,10 @@
     <Page Include="ActivityLog\ActivityItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MeineVerwaltung\Backups.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MeineVerwaltung\VorträgeView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -682,6 +694,9 @@
     <PackageReference Include="System.Data.SQLite.Core">
       <Version>1.0.115.5</Version>
     </PackageReference>
+    <PackageReference Include="System.IO.Compression">
+      <Version>4.3.0</Version>
+    </PackageReference>
     <PackageReference Include="System.Memory">
       <Version>4.5.4</Version>
     </PackageReference>
@@ -691,6 +706,24 @@
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
       <Version>6.0.0</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Rollback_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CalendarWeek_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CalendarDay_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CalendarYear_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CalendarYear2_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Rollback_64x64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -70,6 +70,8 @@ namespace Vortragsmanager
             DataContext = Helper.GlobalSettings;
 
             Helper.GlobalSettings.RefreshTitle();
+
+            Backup.CleanOldBackups();
         }
 
         private void HelpButton_Click(object sender, RoutedEventArgs e)

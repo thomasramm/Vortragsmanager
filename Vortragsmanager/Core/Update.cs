@@ -1,5 +1,6 @@
 ﻿using DevExpress.Xpf.Core;
 using System;
+using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using Vortragsmanager.Datamodels;
@@ -14,7 +15,7 @@ namespace Vortragsmanager.Core
         /// Initialize.Update für C# Updates (Inhalte)
         /// Changelog.md
         /// </summary>
-        public static int CurrentVersion => 21;
+        public static int CurrentVersion => 22;
 
         public static void Process()
         {
@@ -42,7 +43,22 @@ namespace Vortragsmanager.Core
                 TalkList.Reset();
             }
 
-            if (DataContainer.Version < 20)
+            if (DataContainer.Version < 23)
+            {
+                //Neues Backup System, alle VdL Dateien des aktuellen Ordner einlesen
+                var di = new FileInfo(Properties.Settings.Default.sqlite).Directory;
+                var files = di.GetFiles("*_????-??-??-??-??.sqlite3", SearchOption.TopDirectoryOnly);
+                foreach (var file in files)
+                {
+                    if (file.Name != Properties.Settings.Default.sqlite)
+                    {
+                        Backup.Add(file.FullName, file.Name.Substring(file.Name.Length - 24).Replace(".sqlite3","-00.sqlite3"));
+                        file.Delete();
+                    }
+                }
+            }
+
+            if (DataContainer.Version < 22)
             {
                 var inhalt = $"Es gibt geänderte Vortragsthemen. Du kannst die Themen jetzt aktualisieren. Damit werden individuelle Änderungen die du in der Vergangenheit an den Vortragsthemen vorgenommen hast gelöscht." + Environment.NewLine +
     $"Du kannst die Änderung auch später unter 'Vorträge' -> 'Zurücksetzen' durchführen." + Environment.NewLine +

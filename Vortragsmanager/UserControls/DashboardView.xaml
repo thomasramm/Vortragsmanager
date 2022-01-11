@@ -136,6 +136,13 @@
                        dxwuin:Navigation.NavigateTo="VorträgeView">
                 <Image Source="/Images/ListeThemen_64x64.png" Margin="20" />
             </dxlc:Tile>
+            <dxlc:Tile Size="Small"
+                       Header="Sicherungen"
+                       Background="Gray"
+                       Foreground="White"
+                       dxwuin:Navigation.NavigateTo="BackupsView">
+                <Image Source="/Images/Rollback_64x64.png" Margin="40" />
+            </dxlc:Tile>
         </dxlc:TileLayoutControl>
     </Grid>
 </UserControl>

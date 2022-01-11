@@ -79,7 +79,7 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(28, "In der Ehe Liebe und Respekt zeigen"));
             v.Add(new Talk(29, "Elternsein – eine verantwortungsvolle, aber lohnende Aufgabe"));
             v.Add(new Talk(30, "Die Kommunikation in der Familie verbessern – wie?"));
-            v.Add(new Talk(31, "Brauche ich Gott in meinem Leben? "));
+            v.Add(new Talk(31, "Brauche ich Gott in meinem Leben?"));
             v.Add(new Talk(32, "Wie man mit den Sorgen des Lebens fertigwird"));
             v.Add(new Talk(33, "Wird Ungerechtigkeit jemals enden?"));
             v.Add(new Talk(34, "Trägst du das „Kennzeichen“ zum Überleben?", false)); //Dieser Vortrag sollte nicht mehr gehalten werden
@@ -102,25 +102,25 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(51, "Verändert die Wahrheit mein Leben?"));
             v.Add(new Talk(52, "Wer ist mein Gott?"));
             v.Add(new Talk(53, "Denke ich so wie Gott?"));
-            v.Add(new Talk(54, "Glauben an Gott und seine Versprechen aufbauen"));
+            v.Add(new Talk(54, "Wie man den Glauben an Gott und seine Versprechen stärkt"));
             v.Add(new Talk(55, "Wie kann man sich einen guten Namen bei Gott machen?"));
             v.Add(new Talk(56, "Wessen Führung kann man vertrauen?"));
             v.Add(new Talk(57, "Unter Verfolgung standhaft bleiben"));
             v.Add(new Talk(58, "Woran erkennt man echte Christen?"));
             v.Add(new Talk(59, "Man erntet, was man sät"));
             v.Add(new Talk(60, "Was gibt meinem Leben Sinn?"));
-            v.Add(new Talk(61, "Wessen Versprechen vertrauen wir?"));
+            v.Add(new Talk(61, "Wessen Versprechen kann man vertrauen?"));
             v.Add(new Talk(62, "Das einzige Heilmittel für die Menschheit"));
             v.Add(new Talk(63, "Habe ich den Geist eines Evangeliumsverkündigers?"));
-            v.Add(new Talk(64, "Lieben wir das Vergnügen oder lieben wir Gott?"));
+            v.Add(new Talk(64, "Liebe ich das Vergnügen oder Gott?"));
             v.Add(new Talk(65, "Frieden fördern in einer Welt voller Wut"));
-            v.Add(new Talk(66, "Kannst du in der Ernte mitarbeiten?"));
+            v.Add(new Talk(66, "Kann ich bei der Ernte mitarbeiten?"));
             v.Add(new Talk(67, "Über Gottes Wort und die Schöpfung intensiv nachdenken"));
             v.Add(new Talk(68, "Bin ich nachtragend oder vergebe ich?"));
-            v.Add(new Talk(69, "Warum es wichtig ist, dass wir selbstlose Liebe zeigen"));
+            v.Add(new Talk(69, "Warum ist es wichtig, dass wir selbstlose Liebe zeigen?"));
             v.Add(new Talk(70, "Voll und ganz auf Jehova vertrauen", false)); //Dieser Vortrag sollte nicht mehr gehalten werden
-            v.Add(new Talk(71, "Warum wir „wach ... bleiben“ müssen"));
-            v.Add(new Talk(72, "Liebe – das Kennzeichen echter Christen"));
+            v.Add(new Talk(71, "Warum wir „wach bleiben“ müssen"));
+            v.Add(new Talk(72, "Liebe – das Kennzeichen wahrer Christen"));
             v.Add(new Talk(73, "„Ein weises Herz bekommen“ – wie?"));
             v.Add(new Talk(74, "Jehovas Augen schauen auf uns"));
             v.Add(new Talk(75, "Erkenne ich Jehovas Souveränität in meinem Leben an?"));
@@ -157,7 +157,7 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(106, "Die Zerstörung der Erde wird von Gott bestraft"));
             v.Add(new Talk(107, "In einer schlechten Welt ein gutes Gewissen behalten"));
             v.Add(new Talk(108, "Die Angst vor der Zukunft überwinden"));
-            v.Add(new Talk(109, "Das Königreich Gottes ist nahe"));
+            v.Add(new Talk(109, "Das Königreich Gottes ist nah"));
             v.Add(new Talk(110, "Gott steht in einer glücklichen Familie an erster Stelle"));
             v.Add(new Talk(111, "Was wird durch die Heilung der Völker erreicht?"));
             v.Add(new Talk(112, "In einer gesetzlosen Welt Liebe zeigen"));

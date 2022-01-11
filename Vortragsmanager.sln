@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.87
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vortragsmanager", "Vortragsmanager\Vortragsmanager.csproj", "{144670CB-6396-488C-A76D-2E03A3B69E78}"
 EndProject
@@ -28,6 +28,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{6B067D4E-8
 		docs\ProgrammEinstellungen.md = docs\ProgrammEinstellungen.md
 		docs\README.md = docs\README.md
 		docs\Redner.md = docs\Redner.md
+		docs\Screenshots.md = docs\Screenshots.md
+		Sicherung.md = Sicherung.md
+		docs\sitemap3.xml = docs\sitemap3.xml
 		docs\Startseite.md = docs\Startseite.md
 		docs\Versammlungen.md = docs\Versammlungen.md
 		docs\Verwaltung.md = docs\Verwaltung.md
@@ -69,16 +72,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{EBA8B2
 		docs\images\menu_icon_11.png = docs\images\menu_icon_11.png
 		docs\images\menu_icon_12.png = docs\images\menu_icon_12.png
 		docs\images\menu_icon_13.png = docs\images\menu_icon_13.png
+		docs\images\menu_icon_14.png = docs\images\menu_icon_14.png
 		docs\images\navigation_01.png = docs\images\navigation_01.png
 		docs\images\projectCard.png = docs\images\projectCard.png
 		docs\images\startseite_01.png = docs\images\startseite_01.png
-		docs\images\step_03.png = docs\images\step_03.png
-		docs\images\step_04.png = docs\images\step_04.png
-		docs\images\step_05.png = docs\images\step_05.png
-		docs\images\step_06.png = docs\images\step_06.png
-		docs\images\step_07.png = docs\images\step_07.png
-		docs\images\step_08.png = docs\images\step_08.png
-		docs\images\step_09.png = docs\images\step_09.png
 		docs\images\step_10.png = docs\images\step_10.png
 		docs\images\verwaltung_01.png = docs\images\verwaltung_01.png
 		docs\images\verwaltung_02.png = docs\images\verwaltung_02.png
@@ -88,6 +85,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{EBA8B2
 		docs\images\verwaltung_21.png = docs\images\verwaltung_21.png
 		docs\images\verwaltung_30.png = docs\images\verwaltung_30.png
 		docs\images\verwaltung_40.png = docs\images\verwaltung_40.png
+		docs\images\verwaltung_50.png = docs\images\verwaltung_50.png
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_data", "_data", "{EACFEAA0-5D24-42E2-BF24-D16F59F9D1BF}"
@@ -167,7 +165,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6B067D4E-8582-4A43-8344-F5F26B6040D1} = {ED4EF8AF-31FF-417B-BE59-C9BA187E6E94}
-		{EBA8B2B4-5C0A-4F22-96C0-1B0D25F7A20F} = {ED4EF8AF-31FF-417B-BE59-C9BA187E6E94}
+		{EBA8B2B4-5C0A-4F22-96C0-1B0D25F7A20F} = {6B067D4E-8582-4A43-8344-F5F26B6040D1}
 		{EACFEAA0-5D24-42E2-BF24-D16F59F9D1BF} = {6B067D4E-8582-4A43-8344-F5F26B6040D1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
