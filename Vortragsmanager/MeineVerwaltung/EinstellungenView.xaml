@@ -15,6 +15,11 @@
     DataContext="{dxmvvm:ViewModelSource local:EinstellungenViewModel}"
     mc:Ignorable="d"
     d:DesignHeight="600" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="dxe:SpinButtonInfo">
+            <Setter Property="SpinStyle" Value="Horizontal"/>
+        </Style>
+    </UserControl.Resources>
     <dxwui:PageAdornerControl Header="Einstellungen">
         <dxwui:PageAdornerControl.HeaderTemplate>
             <DataTemplate>
@@ -84,7 +89,7 @@
                     <dxlc:LayoutItem Label="Alle Koordinatoren im Umkreis von ">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="75" />
+                                <ColumnDefinition Width="80" />
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
                             <dxe:SpinEdit x:Name="mailEntfernung"
@@ -156,6 +161,18 @@
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Ordner für die Log-Dateien">
                         <TextBox Text="{Binding LogFolder, Mode=TwoWay}" />
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Anzahl Wochen für den Aushang" ToolTip="Gibt an wieviele Wochen auf dem Excel-Aushang erstellt werden soll. Maximal 24 Wochen sind möglich">
+                        <dxe:SpinEdit EditValue="{Binding ListAushangAnzahlWochen, Mode=TwoWay}"
+                                      MaxValue="24" MinValue="1" 
+                                      AllowDefaultButton="False"
+                                      Mask="#0"
+                                      EditValueType="{x:Type sys:Int32}"
+                                      Width="75" HorizontalAlignment="Left">
+                            <dxe:SpinEdit.Buttons>
+                                <dxe:SpinButtonInfo IsDefaultButton="True" IsLeft="True" />
+                            </dxe:SpinEdit.Buttons>
+                        </dxe:SpinEdit>
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>

@@ -169,7 +169,7 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(118, "Jugendlichen gegenüber so eingestellt sein wie Jehova"));
             v.Add(new Talk(119, "Warum es gut ist, als Christ kein Teil der Welt zu sein"));
             v.Add(new Talk(120, "Warum man sich jetzt Gottes Herrschaft unterordnen sollte"));
-            v.Add(new Talk(121, "Eine weltweite Bruderschaft in einer Zeit des Unheils bewahrt"));
+            v.Add(new Talk(121, "Ein geeintes Volk wird gerettet"));
             v.Add(new Talk(122, "Weltfrieden - woher zu erwarten?"));
             v.Add(new Talk(123, "Warum Christen anders sein müssen"));
             v.Add(new Talk(124, "Stammt die Bibel wirklich von Gott?"));

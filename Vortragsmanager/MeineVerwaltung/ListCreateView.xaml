@@ -9,9 +9,15 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
              DataContext="{dxmvvm:ViewModelSource local:ListCreateViewModel}">
+    <UserControl.Resources>
+        <Style TargetType="dxe:SpinButtonInfo">
+            <Setter Property="SpinStyle" Value="Horizontal"/>
+        </Style>
+    </UserControl.Resources>
     <dxwui:PageAdornerControl Header="Listen ausgeben">
         <dxwui:PageAdornerControl.HeaderTemplate>
             <DataTemplate>
@@ -33,7 +39,20 @@
             <dxlc:LayoutControl Margin="20" Grid.Row="0" MaxWidth="800">
                 <dxlc:LayoutGroup Header="Excel-Listen" View="GroupBox" Orientation="Vertical">
                     <dxlc:LayoutItem Label="Aushang für die Versammlung">
+                        <dxlc:LayoutGroup Orientation="Horizontal">
                         <Button Content="Erstellen" Command="{Binding CreateAushangCommand}" />
+                        <dxe:SpinEdit EditValue="{Binding ListAushangAnzahlWochen, Mode=TwoWay}"
+                                      MaxValue="24" MinValue="1" 
+                                      AllowDefaultButton="False"
+                                      Mask="#0"
+                                      EditValueType="{x:Type sys:Int32}"
+                                      Width="75" HorizontalAlignment="Left"
+                                      ToolTip="Anzahl der Wochen die Ausgegeben werden sollen (max. 24)">
+                            <dxe:SpinEdit.Buttons>
+                                <dxe:SpinButtonInfo IsDefaultButton="True" IsLeft="True" />
+                            </dxe:SpinEdit.Buttons>
+                        </dxe:SpinEdit>
+                        </dxlc:LayoutGroup>
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Kontaktliste deiner Vortragsplanung (z.B. für deine Vertretung)">
                         <Button Content="Erstellen" Command="{Binding CreateContactListCommand}" />

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Media;
 using Vortragsmanager.Core.DataHelper;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Views;
@@ -23,6 +24,8 @@ namespace Vortragsmanager.MeineRedner
         }
 
         public DelegateCommand<bool> Speichern { get; private set; }
+
+        private int startDatum = Core.Helper.CalculateWeek(DateTime.Today.AddMonths(-1));
 
         private void AnfrageSpeichern(bool annehmen)
         {
@@ -108,14 +111,17 @@ namespace Vortragsmanager.MeineRedner
             foreach (var x in DataContainer.ExternerPlan.Where(x => x.Kw == Kalenderwoche))
                 SelectedDatumTalks.Add(x);
 
-            LoadRednerTalksZumAngefragtenDatum();
-
             ParameterValidieren();
         }
 
         private bool IsAbwesend()
         {
             return DataContainer.Abwesenheiten.Any(x => x.Redner == SelectedRedner && x.Kw == Kalenderwoche);
+        }
+
+        private bool HatAufgabe()
+        {
+            return DataContainer.AufgabenPersonKalender.Any(x => x.Kw == Kalenderwoche && (x.Vorsitz.VerknüpftePerson == SelectedRedner || x.Leser.VerknüpftePerson == SelectedRedner));
         }
 
         public Speaker SelectedRedner
@@ -144,6 +150,7 @@ namespace Vortragsmanager.MeineRedner
         private void ParameterValidieren()
         {
             Hinweis = string.Empty;
+            HinweisLevel = 0;
             RaisePropertyChanged(nameof(SelectedVersammlungZeit));
 
             //Hinweis zum gewählten Redner
@@ -155,13 +162,29 @@ namespace Vortragsmanager.MeineRedner
             {
                 var s = MeineVersammlung as Invitation;
                 if (s.Ältester == SelectedRedner)
-                    Hinweis += $"{SelectedRedner.Name} hält bereits einen Vortrag in unserer Versammlung" + Environment.NewLine;
+                    Hinweis += $"{SelectedRedner.Name} hält bereits einen Vortrag in unserer Versammlung!" + Environment.NewLine;
+                HinweisLevel = 10;
+            }
+            else if (MeineVersammlung?.Status == EventStatus.Ereignis)
+            {
+                Hinweis += $"{MeineVersammlung.Anzeigetext}" + Environment.NewLine;
+                HinweisLevel = 5;
             }
             if (SelectedDatumTalks.Any(x => x.Ältester == SelectedRedner))
-                Hinweis += $"{SelectedRedner.Name} ist bereits in einer anderen Versammlung eingeladen" + Environment.NewLine;
-
+            {
+                Hinweis += $"{SelectedRedner.Name} ist bereits in einer anderen Versammlung eingeladen!" + Environment.NewLine;
+                HinweisLevel = 10;
+            }
+            if (HatAufgabe())
+            {
+                Hinweis += $"{SelectedRedner?.Name} hat an dem Datum bereits eine Zuteilung in der Versammlung!" + Environment.NewLine;
+                HinweisLevel = 10;
+            }
             if (IsAbwesend())
+            {
                 Hinweis += $"{SelectedRedner.Name} ist als Abwesend gekennzeichnet" + Environment.NewLine;
+                HinweisLevel = 10;
+            }
 
             //1 Vortrag pro Monat
             var vorher = Kalenderwoche - SelectedRedner.Abstand;
@@ -169,11 +192,33 @@ namespace Vortragsmanager.MeineRedner
             foreach(var zuDicht in _selectedRednerAllTalks.Where(x => x.Kalenderwoche >= vorher && x.Kalenderwoche <= nachher))
             {
                 Hinweis += $"Angefragtes Datum ist zu dicht an Vortrag vom {zuDicht.Datum:dd.MM.yyyy}" + Environment.NewLine;
+                HinweisLevel = 5;
             }
 
             if (SelectedDatumTalks.Count >= 2)
+            {
                 Hinweis += Environment.NewLine + $"Es sind bereits {SelectedDatumTalks.Count} Redner in anderen Versammlungen" + Environment.NewLine;
+                HinweisLevel = 5;
+            }
+            RaisePropertyChanged(nameof(HinweisLevelAsFontColor));
+        }
 
+        private int HinweisLevel = 0;
+
+        public Brush HinweisLevelAsFontColor
+        {
+            get
+            {
+                switch (HinweisLevel)
+                {
+                    case 5:
+                        return Brushes.Orange;
+                    case 10:
+                        return Brushes.OrangeRed;
+                    default:
+                        return Brushes.White;
+                }
+            }
         }
 
         private bool _parameterValidiert;
@@ -217,10 +262,11 @@ namespace Vortragsmanager.MeineRedner
 
         private void LoadRednerTalksZumAngefragtenDatum()
         {
-            if (_selectedRednerAllTalks != null)
-                SelectedRednerTalks = new ObservableCollection<string>(_selectedRednerAllTalks?.Where(x => x.Kalenderwoche >= Kalenderwoche - 4)?.OrderByDescending(x => x.Kalenderwoche).Select(x => x.ToString()));
-            else
-                SelectedRednerTalks.Clear();
+            SelectedRednerTalks.Clear();
+            foreach(var einladung in _selectedRednerAllTalks?.Where(x => x.Kalenderwoche >= startDatum)?.OrderByDescending(x => x.Kalenderwoche).Select(x => x.ToString()))
+            {
+                SelectedRednerTalks.Add(einladung);
+            }
         }
 
         private IEnumerable<DateWithConregation> _selectedRednerAllTalks;

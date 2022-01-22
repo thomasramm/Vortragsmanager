@@ -252,20 +252,28 @@ namespace Vortragsmanager.Datamodels
                         continue;
 
                     var zoom = einladung.Versammlung.Zoom;
-                    if (!string.IsNullOrWhiteSpace(zoom))
-                        zoom = $", Zoom: " + zoom;
+                    
 
-                    termine += $"\tDatum:\t{einladung.Datum:dd.MM.yyyy}" + Environment.NewLine;
-                    termine += $"\tVortrag:\t{einladung.Vortrag.Vortrag}" + Environment.NewLine;
-                    termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}, Versammlungszeit: {einladung.Zeit}{zoom}, Tel.: {einladung.Versammlung.Telefon}, Anreise: {einladung.Versammlung.Anreise}" + Environment.NewLine;
-                    var mail = $", Mail: { einladung.Versammlung.KoordinatorJw}, { einladung.Versammlung.KoordinatorMail}";
-                    if (mail.Length == 10)
-                        mail = String.Empty;
-                    var telefon = $", Telefon: {einladung.Versammlung.KoordinatorTelefon}, {einladung.Versammlung.KoordinatorMobil}";
-                    if (telefon.Length == 13)
-                        telefon = String.Empty;
-                    termine += $"\tKoordinator:\t{einladung.Versammlung.Koordinator}{mail}{telefon}" + Environment.NewLine;
+                    termine += $"\tDatum:      \t{einladung.Datum:dd.MM.yyyy}" + Environment.NewLine;
+                    
+                    termine += $"\tVortrag:    \t{einladung.Vortrag.Vortrag}" + Environment.NewLine;
+                    
+                    termine += $"\tVersammlung:\t{einladung.Versammlung.Name}, {einladung.Versammlung.Anschrift1}, {einladung.Versammlung.Anschrift2}".TrimEnd(new[] {' ', ','} );
+                    termine += $" | {einladung.Zeit}";
+                    if (!string.IsNullOrWhiteSpace(zoom))
+                        termine += $" | " + zoom;
+                    if (!string.IsNullOrWhiteSpace(einladung.Versammlung.Telefon))
+                        termine += $" | {einladung.Versammlung.Telefon}";
+                    if (!string.IsNullOrWhiteSpace(einladung.Versammlung.Anreise))
+                        termine += $" | {einladung.Versammlung.Anreise}";
                     termine += Environment.NewLine;
+                    
+                    termine += $"\tKoordinator:\t{einladung.Versammlung.Koordinator}";
+                    if (!string.IsNullOrWhiteSpace(einladung.Versammlung.KoordinatorJw + einladung.Versammlung.KoordinatorMail))
+                        termine += $" | {einladung.Versammlung.KoordinatorJw}, { einladung.Versammlung.KoordinatorMail}".TrimEnd(new[] { ' ', ',' });
+                    if (!string.IsNullOrWhiteSpace(einladung.Versammlung.KoordinatorTelefon+einladung.Versammlung.KoordinatorMobil))
+                        termine += $" | {einladung.Versammlung.KoordinatorTelefon}, {einladung.Versammlung.KoordinatorMobil}".TrimEnd(new[] { ' ', ',' });
+                    termine += Environment.NewLine + Environment.NewLine;
                 }
                 termine += Environment.NewLine;
             }

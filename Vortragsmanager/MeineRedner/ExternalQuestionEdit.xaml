@@ -68,7 +68,7 @@
                             </dxlc:LayoutGroup>
                             <dxlc:LayoutGroup Header="Hinweis" View="GroupBox">
                                 <TextBlock Text="{Binding Hinweis, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                           Foreground="Orange"
+                                           Foreground="{Binding HinweisLevelAsFontColor, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                            TextWrapping="Wrap" MinHeight="20" />
                             </dxlc:LayoutGroup>
                             <dxlc:LayoutGroup Header="Redner" View="GroupBox" Orientation="Vertical">

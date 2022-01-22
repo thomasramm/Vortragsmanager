@@ -271,5 +271,17 @@ namespace Vortragsmanager.Properties {
                 this["HideChangelog"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int ListAushangAnzahlWochen {
+            get {
+                return ((int)(this["ListAushangAnzahlWochen"]));
+            }
+            set {
+                this["ListAushangAnzahlWochen"] = value;
+            }
+        }
     }
 }

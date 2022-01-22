@@ -925,9 +925,9 @@ namespace Vortragsmanager.Core
                     ExcelWorksheet worksheet = package.Workbook.Worksheets["Aushang"];
                     var titel = $"Öffentliche Vorträge der Versammlung {DataContainer.MeineVersammlung.Name}";
                     worksheet.Cells[1, 1].Value = titel;
-                    var row = 3;
+                    var row = 1;
                     var aktuelleKw = Helper.CalculateWeek(DateTime.Today);
-                    var next10 = DataContainer.MeinPlan.Where(x => x.Kw >= aktuelleKw).OrderBy(x => x.Kw).Take(10).ToList();
+                    var next10 = DataContainer.MeinPlan.Where(x => x.Kw >= aktuelleKw).OrderBy(x => x.Kw).Take(Properties.Settings.Default.ListAushangAnzahlWochen).ToList();
 
                     foreach (var evt in next10)
                     {
@@ -974,6 +974,9 @@ namespace Vortragsmanager.Core
                             row++;
                         }
                     }
+                    if (Settings.Default.ListAushangAnzahlWochen < 24)
+                        worksheet.Cells[row, 1, row + (24 - Settings.Default.ListAushangAnzahlWochen)*4, 6].Clear();
+
                     package.Save();
                 }
                 File.Save(tempFile, "Aushang.xlsx", openReport);
