@@ -1,3 +1,9 @@
+### Version 1.0.16 (22.01.2022) ##
+* Geändertes Thema 121
+* Liste der Vortragseinladungen eigener Redner etwas kompakter gemacht und die Informationen je Einladung neu formatiert.
+* Externe Anfrage: bei den Hinweisen werden nun auch Zuteilungen wie Leser+Vorsitz berücksichtigt, außerdem wird bei Termin Doppelbelegungen die Schriftfarbe auf Rot geändert.
+* ExcelListe Aushang: Die Anzahl der Wochen die auf dem Plan ausgegeben werden ist nun einstellbar, max. 24 Wochen sind möglich
+
 ### Version 1.0.15 (11.01.2022) ###
 * Neues Sicherungssystem, um Änderungen Rückgängig machen zu können. Bitte lies dir dazu das Kapitel im Handbuch durch.
 
