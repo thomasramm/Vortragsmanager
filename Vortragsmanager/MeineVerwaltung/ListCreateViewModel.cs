@@ -52,6 +52,8 @@ namespace Vortragsmanager.MeineVerwaltung
             {
                 if (value > 24)
                     value = 24;
+                if (value < 1)
+                    value = 1;
                 Settings.Default.ListAushangAnzahlWochen = value;
                 RaisePropertyChanged();
             }

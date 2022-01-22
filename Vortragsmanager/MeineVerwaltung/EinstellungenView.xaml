@@ -164,7 +164,7 @@
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Anzahl Wochen für den Aushang" ToolTip="Gibt an wieviele Wochen auf dem Excel-Aushang erstellt werden soll. Maximal 24 Wochen sind möglich">
                         <dxe:SpinEdit EditValue="{Binding ListAushangAnzahlWochen, Mode=TwoWay}"
-                                      MaxValue="24" MinValue="0" 
+                                      MaxValue="24" MinValue="1" 
                                       AllowDefaultButton="False"
                                       Mask="#0"
                                       EditValueType="{x:Type sys:Int32}"

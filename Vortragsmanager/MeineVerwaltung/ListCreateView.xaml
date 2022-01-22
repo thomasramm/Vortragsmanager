@@ -42,7 +42,7 @@
                         <dxlc:LayoutGroup Orientation="Horizontal">
                         <Button Content="Erstellen" Command="{Binding CreateAushangCommand}" />
                         <dxe:SpinEdit EditValue="{Binding ListAushangAnzahlWochen, Mode=TwoWay}"
-                                      MaxValue="24" MinValue="0" 
+                                      MaxValue="24" MinValue="1" 
                                       AllowDefaultButton="False"
                                       Mask="#0"
                                       EditValueType="{x:Type sys:Int32}"
