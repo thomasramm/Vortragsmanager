@@ -11,7 +11,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Thomas Ramm")]
 [assembly: AssemblyProduct("Vortragsmanager")]
-[assembly: AssemblyCopyright("Copyright © 2019-2021 Thomas Ramm")]
+[assembly: AssemblyCopyright("Copyright © 2019-2022 Thomas Ramm")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -43,6 +43,6 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.16.*")]
+[assembly: AssemblyVersion("1.0.17.*")]
 //[assembly: AssemblyFileVersion("0.9.0.0")]
 [assembly: NeutralResourcesLanguage("de-DE")]

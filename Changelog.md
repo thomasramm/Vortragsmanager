@@ -1,3 +1,6 @@
+### Version 1.0.17 (27.01.2022) ###
+* kleiner Fehler behoben bei der Ausgabe des Aushang
+
 ### Version 1.0.16 (22.01.2022) ##
 * Geändertes Thema 121
 * Liste der Vortragseinladungen eigener Redner etwas kompakter gemacht und die Informationen je Einladung neu formatiert.

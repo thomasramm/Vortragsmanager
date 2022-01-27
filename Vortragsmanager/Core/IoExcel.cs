@@ -922,9 +922,8 @@ namespace Vortragsmanager.Core
 
                 using (ExcelPackage package = new ExcelPackage(excel))
                 {
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets["Aushang"];
-                    var titel = $"Öffentliche Vorträge der Versammlung {DataContainer.MeineVersammlung.Name}";
-                    worksheet.Cells[1, 1].Value = titel;
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets["Aushang"];                  
+
                     var row = 1;
                     var aktuelleKw = Helper.CalculateWeek(DateTime.Today);
                     var next10 = DataContainer.MeinPlan.Where(x => x.Kw >= aktuelleKw).OrderBy(x => x.Kw).Take(Properties.Settings.Default.ListAushangAnzahlWochen).ToList();
@@ -977,7 +976,12 @@ namespace Vortragsmanager.Core
                     if (Settings.Default.ListAushangAnzahlWochen < 24)
                         worksheet.Cells[row, 1, row + (24 - Settings.Default.ListAushangAnzahlWochen)*4, 6].Clear();
 
-                    package.Save();
+                    worksheet.Select("A1");
+
+                    //am Ende, dadurch wird wieder nach oben gescrollt...
+                    var titel = $"Öffentliche Vorträge der Versammlung {DataContainer.MeineVersammlung.Name}";
+                    worksheet.HeaderFooter.OddHeader.CenteredText = "&18&\"Tahoma,Regular Bold\"" + titel;
+                    package.SaveAs(excel);
                 }
                 File.Save(tempFile, "Aushang.xlsx", openReport);
             }
