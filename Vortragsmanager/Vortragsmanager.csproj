@@ -143,6 +143,9 @@
     <Compile Include="UserControls\CalendarYearShortViewModel.cs">
       <DependentUpon>CalendarYearShort.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\HamburgerMenu.xaml.cs">
+      <DependentUpon>HamburgerMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\SonntagEinstellungenItem.xaml.cs">
       <DependentUpon>SonntagEinstellungenItem.xaml</DependentUpon>
     </Compile>
@@ -338,6 +341,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\CalendarYearShortItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\HamburgerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -724,6 +731,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Rollback_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Zahnrad_64x64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
