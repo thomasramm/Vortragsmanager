@@ -6,7 +6,7 @@
              xmlns:dxwuin="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/navigation"
              xmlns:dxnav="http://schemas.devexpress.com/winfx/2008/xaml/navigation"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="100" d:DesignWidth="800" d:Background="AliceBlue">
     <Grid>
         <dxnav:TileBar Margin="5,0,0,0" Padding="0" ItemSpacing="0">
             <dxnav:TileBar.ItemContainerStyle>

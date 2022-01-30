@@ -22,35 +22,44 @@ namespace Vortragsmanager.MeinPlan
             _currentMonth = _currentMonth.AddDays((_currentMonth.Day - 1) * -1);
             Monat = _currentMonth;
             ChangeMonth = new DelegateCommand<int>(ChangeTheMonth);
-            Einstellungen = new DelegateCommand(OpenEinstellungen);
-            Hauptseite = new DelegateCommand(OpenHauptseite);
             PlanAusgeben = new DelegateCommand(PlanErstellen);
             SonntagCalculateCommand = new DelegateCommand(SonntagCalculate);
 
-            OpenHauptseite();
+            EinstellungenButtonIsChecked = false;
         }
 
         public GridLength HauptseiteWidth { get; set; }
 
         public GridLength EinstellungenWidth { get; set; }
 
-        private void OpenEinstellungen() 
-        {
-            EinstellungenWidth = new GridLength(1, GridUnitType.Star);
-            HauptseiteWidth = new GridLength(0);
-            RaisePropertiesChanged(nameof(HauptseiteWidth));
-            RaisePropertiesChanged(nameof(EinstellungenWidth));
+        private bool _einstellungenButtonIsChecked;
+        public bool EinstellungenButtonIsChecked 
+        { 
+            get => _einstellungenButtonIsChecked;
+            set
+            {
+                _einstellungenButtonIsChecked = value;
+                if (value)
+                {
+                    EinstellungenWidth = new GridLength(1, GridUnitType.Star);
+                    HauptseiteWidth = new GridLength(0);
+                }
+                else
+                {
+                    HauptseiteWidth = new GridLength(1, GridUnitType.Star);
+                    EinstellungenWidth = new GridLength(0);
+                    RefreshLastActivity();
+                    WochenLoad();
+                }
+
+                RaisePropertyChanged();
+                RaisePropertiesChanged(nameof(HauptseiteWidth));
+                RaisePropertiesChanged(nameof(EinstellungenWidth));
+                RaisePropertyChanged(nameof(MenuHeaderTitel));
+            }
         }
 
-        private void OpenHauptseite()
-        {
-            HauptseiteWidth = new GridLength(1, GridUnitType.Star);
-            EinstellungenWidth = new GridLength(0);
-            RaisePropertiesChanged(nameof(HauptseiteWidth));
-            RaisePropertiesChanged(nameof(EinstellungenWidth));
-            RefreshLastActivity();
-            WochenLoad();
-        }
+        public string MenuHeaderTitel => _einstellungenButtonIsChecked ? "Mein Plan > Vorsitz & WT Leser > Einstellungen" : "Mein Plan > Vorsitz & WT Leser";
 
         public DateTime Monat
         {
@@ -153,10 +162,6 @@ namespace Vortragsmanager.MeinPlan
                 }
             }
         }
-
-        public DelegateCommand Einstellungen { get; private set; }
-
-        public DelegateCommand Hauptseite { get; private set; }
 
         public DelegateCommand PlanAusgeben { get; private set; }
 

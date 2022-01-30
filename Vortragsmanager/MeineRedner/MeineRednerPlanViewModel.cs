@@ -1,5 +1,4 @@
 ﻿using DevExpress.Mvvm;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,9 +9,9 @@ using Vortragsmanager.Views;
 
 namespace Vortragsmanager.MeineRedner
 {
-    public class MeineRednerViewModel : ViewModelBase
+    public class MeineRednerPlanViewModel : ViewModelBase
     {
-        public MeineRednerViewModel()
+        public MeineRednerPlanViewModel()
         {
             Messenger.Default.Register<int>(this, Messages.DisplayYearChanged, OnMessage);
             ChangeYear = new DelegateCommand<int>(ChangeCurrentYear);

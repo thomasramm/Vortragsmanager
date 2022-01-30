@@ -82,6 +82,7 @@ namespace Vortragsmanager.Core
             string fileContent = String.Empty;
             string pathToChangelog = Properties.Settings.Default.ChangelogPfad;
             var aktuelleVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
+            string header = $"Aktuelle Version {aktuelleVersion.Major}.{aktuelleVersion.Minor}.{aktuelleVersion.Build}";
 
             if (oldVersion == aktuelleVersion && !force)
             { 
@@ -91,8 +92,7 @@ namespace Vortragsmanager.Core
             try
             {
                 Helper.GlobalSettings = new MyGloabalSettings();
-                string message = $"Aktuelle Version {aktuelleVersion.Major}.{aktuelleVersion.Minor}.{aktuelleVersion.Build}{Environment.NewLine}{Environment.NewLine}";
-
+                
                 //Einlesen des Changelog.md
                 using (WebClient client = new WebClient())
                 {
@@ -121,6 +121,7 @@ namespace Vortragsmanager.Core
             var dlg = new leerDialog();
             var dlg_mdl = (LeerViewModel)dlg.DataContext;
             dlg_mdl.Titel = "Verbesserungen der neuen Version";
+            dlg_mdl.HeaderText = header;
             dlg_mdl.ShowCopyButton = false;
             dlg_mdl.ShowSaveButton = false;
             dlg_mdl.ShowCloseButton = true;

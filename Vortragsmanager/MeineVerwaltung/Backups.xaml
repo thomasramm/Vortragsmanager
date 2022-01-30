@@ -15,21 +15,15 @@
              DataContext="{dxmvvm:ViewModelSource local:BackupsViewModel}" 
              SizeChanged="UserControl_SizeChanged"
              >
-    <dxwui:PageAdornerControl Header="Sicherung verwalten">
-        <dxwui:PageAdornerControl.HeaderTemplate>
-            <DataTemplate>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <ContentPresenter Content="{Binding}" />
-                    <Navi:NavigatorView HorizontalAlignment="Right" Grid.Column="1" />
-                </Grid>
-            </DataTemplate>
-        </dxwui:PageAdornerControl.HeaderTemplate>
         <Grid>
-            <dxlc:LayoutControl Margin="20" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Background="#3C3C3C" />
+        <Label Grid.Row="0" Content="Sicherungen" VerticalContentAlignment="Center" FontSize="20" Margin="10,0" Foreground="White"/>
+        <dxlc:LayoutControl Grid.Row="1" Margin="20" 
                                     Orientation="Horizontal" 
                                     x:Name="MasterLayoutControl">
                 <dxlc:LayoutGroup Orientation="Vertical">
@@ -137,5 +131,5 @@
                 </Border>
             </dxlc:LayoutControl>
         </Grid>
-    </dxwui:PageAdornerControl>
+
 </UserControl>

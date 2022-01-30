@@ -86,6 +86,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ActivityLog\ActivityLog.xaml.cs">
+      <DependentUpon>ActivityLog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ActivityLog\AddActivities.cs" />
     <Compile Include="ActivityLog\Symbols.cs" />
     <Compile Include="ActivityLog\Types.cs" />
@@ -110,6 +113,10 @@
       <DependentUpon>ActivityItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="ActivityLog\Activities.cs" />
+    <Compile Include="Navigation\MeineRedner.xaml.cs">
+      <DependentUpon>MeineRedner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Navigation\MeineRednerViewModel.cs" />
     <Compile Include="MeineVerwaltung\Backups.xaml.cs">
       <DependentUpon>Backups.xaml</DependentUpon>
     </Compile>
@@ -134,6 +141,12 @@
     <Compile Include="MeinPlan\SonntagViewModel.cs">
       <DependentUpon>Sonntag.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Navigation\MeinPlan.xaml.cs">
+      <DependentUpon>MeinPlan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Navigation\Verwaltung.xaml.cs">
+      <DependentUpon>Verwaltung.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\CalendarYearShort.xaml.cs">
       <DependentUpon>CalendarYearShort.xaml</DependentUpon>
     </Compile>
@@ -142,6 +155,9 @@
     </Compile>
     <Compile Include="UserControls\CalendarYearShortViewModel.cs">
       <DependentUpon>CalendarYearShort.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DashboardWeekItem.xaml.cs">
+      <DependentUpon>DashboardWeekItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\HamburgerMenu.xaml.cs">
       <DependentUpon>HamburgerMenu.xaml</DependentUpon>
@@ -234,8 +250,8 @@
     <Compile Include="MeineRedner\ExternalQuestionViewModel.cs">
       <DependentUpon>ExternalQuestionEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineRedner\MeineRednerViewModel.cs">
-      <DependentUpon>MeineRednerView.xaml</DependentUpon>
+    <Compile Include="MeineRedner\MeineRednerPlanViewModel.cs">
+      <DependentUpon>MeineRednerPlan.xaml</DependentUpon>
     </Compile>
     <Compile Include="MeinPlan\MeinPlanViewModel.cs">
       <DependentUpon>MeinPlanView.xaml</DependentUpon>
@@ -285,6 +301,14 @@
     <Compile Include="MeineVerwaltung\VorlagenViewModel.cs">
       <DependentUpon>VorlagenView.xaml</DependentUpon>
     </Compile>
+    <Page Include="ActivityLog\ActivityLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -306,13 +330,17 @@
     <Compile Include="UserControls\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineRedner\MeineRednerView.cs">
-      <DependentUpon>MeineRednerView.xaml</DependentUpon>
+    <Compile Include="MeineRedner\MeineRednerPlan.cs">
+      <DependentUpon>MeineRednerPlan.xaml</DependentUpon>
     </Compile>
     <Compile Include="MeinPlan\MeinPlanView.xaml.cs">
       <DependentUpon>MeinPlanView.xaml</DependentUpon>
     </Compile>
     <Page Include="ActivityLog\ActivityItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Navigation\MeineRedner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -332,6 +360,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Navigation\MeinPlan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Navigation\Verwaltung.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\AntwortEintragenControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -341,6 +377,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\CalendarYearShortItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\DashboardWeekItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -420,7 +460,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MeineRedner\MeineRednerView.xaml">
+    <Page Include="MeineRedner\MeineRednerPlan.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -734,6 +774,36 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Zahnrad_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Home_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Verwaltung_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Verwaltung2_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Drucker_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Verwaltung3_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\application-vnd.ms-excel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\x-office-spreadsheet-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icons8-ms-excel-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icons8-ms-excel-50_W.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Verlauf_32x32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

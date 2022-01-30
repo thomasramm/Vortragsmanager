@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
-    xmlns:Navi="clr-namespace:Vortragsmanager.Navigation" 
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" 
     xmlns:usercontrols="clr-namespace:Vortragsmanager.UserControls"
     Width="1400" 

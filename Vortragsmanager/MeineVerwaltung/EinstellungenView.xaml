@@ -20,20 +20,15 @@
             <Setter Property="SpinStyle" Value="Horizontal"/>
         </Style>
     </UserControl.Resources>
-    <dxwui:PageAdornerControl Header="Einstellungen">
-        <dxwui:PageAdornerControl.HeaderTemplate>
-            <DataTemplate>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <ContentPresenter Content="{Binding}" />
-                    <Navi:NavigatorView HorizontalAlignment="Right" Grid.Column="1" />
-                </Grid>
-            </DataTemplate>
-        </dxwui:PageAdornerControl.HeaderTemplate>
-        <dxlc:LayoutControl Orientation="Horizontal" Margin="0,0,0,-33">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Background="#3C3C3C" />
+        <Label Grid.Row="0" Content="Einstellungen" VerticalContentAlignment="Center" FontSize="20" Margin="10,0" Foreground="White"/>
+        <dxlc:LayoutControl Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,-33">
             <dxlc:LayoutGroup Orientation="Vertical">
                 <dxlc:LayoutGroup Header="Datenbank" View="GroupBox" Orientation="Vertical">
                     <dxlc:LayoutItem Label="Pfad zur Datenbank">
@@ -177,5 +172,5 @@
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>
         </dxlc:LayoutControl>
-    </dxwui:PageAdornerControl>
+    </Grid>
 </UserControl>

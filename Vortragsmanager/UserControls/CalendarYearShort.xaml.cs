@@ -39,16 +39,6 @@ namespace Vortragsmanager.UserControls
             }
         }
 
-        //public Speaker Person
-        //{
-        //    get => person; 
-        //    set
-        //    {
-        //        person = value;
-        //        UpdateCalendar();
-        //    }
-        //}
-
         private void LoadYear(int year)
         {
             yearLabel.Content = year;

@@ -14,101 +14,87 @@
     <UserControl.DataContext>
         <local:ConregationsViewModelCollection />
     </UserControl.DataContext>
-    <dxwui:PageAdornerControl Header="Einstellungen">
-        <dxwui:PageAdornerControl.HeaderTemplate>
-            <DataTemplate>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <ContentPresenter Content="{Binding}" />
-                    <Navi:NavigatorView HorizontalAlignment="Right" Grid.Column="1" />
-                </Grid>
-            </DataTemplate>
-        </dxwui:PageAdornerControl.HeaderTemplate>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <dxe:ButtonEdit NullText="&#128270; Versammlungen filtern"
-                            ShowNullTextIfFocused="True"
-                            NullValueButtonPlacement="EditBox"
-                            Grid.Row="0"
-                            HorizontalAlignment="Right"
-                            Width="200"
-                            AllowDefaultButton="False"
-                            EditValueChanged="SearchBox_ValueChanged"
-                            Margin="0,0,0,0">
-            </dxe:ButtonEdit>
-            <dxlc:FlowLayoutControl x:Name="lc" ItemsSource="{Binding}"
-                                    Grid.Row="1"
-                                    Orientation="Horizontal"
-                                    ItemSpace="12"
-                                    LayerSpace="12"
-                                    Background="Transparent"
-                                    MaximizedElementChanged="Lc_MaximizedElementChanged">
-                <dxlc:FlowLayoutControl.ItemTemplate>
-                    <DataTemplate>
-                        <core:MyGroupBox  Header="{Binding}"
-                                        Content="{Binding}"
-                                        Visibility="{Binding Sichtbarkeit}"
-                                        State="{Binding IsSelected}"
-                                        Width="200"
-                                        Height="250"
-                                        Padding="0"
-                                        MaximizeElementVisibility="Visible"
-                                        FontFamily="Segoe UI Light"
-                                        FontSize="14"
-                                        Cursor="Hand"
-                                        MouseLeftButtonUp="GroupBox_MouseLeftButtonUp">
-                            <dxlc:GroupBox.HeaderTemplate>
-                                <DataTemplate>
-                                    <TextBlock Margin="1" ToolTip="Klicken um Versammlung zu maximieren oder wieder zu minimieren">Kreis <Run Text="{Binding Versammlung.Kreis}" /></TextBlock>
-                                </DataTemplate>
-                            </dxlc:GroupBox.HeaderTemplate>
-                            <dxlc:GroupBox.ContentTemplate>
-                                <DataTemplate>
-                                    <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Versammlung.Name}"
-                                               Foreground="{Binding EigeneVersammlungTextInOrange}"
-                                               TextWrapping="Wrap"
-                                               FontFamily="Segoe UI"
-                                               HorizontalAlignment="Center"
-                                               FontSize="28" />
-                                        <TextBlock Text="{Binding Versammlung.Koordinator}" HorizontalAlignment="Center" FontSize="18" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </dxlc:GroupBox.ContentTemplate>
-                            <dxlc:GroupBox.MaximizedContentTemplate>
-                                <DataTemplate>
-                                    <views:VersammlungMaximizedControl DataContext="{Binding}" />
-                                </DataTemplate>
-                            </dxlc:GroupBox.MaximizedContentTemplate>
-                        </core:MyGroupBox>
-                    </DataTemplate>
-                </dxlc:FlowLayoutControl.ItemTemplate>
-            </dxlc:FlowLayoutControl>
-            <Button x:Name="AddNewConregation"
-                    Width="40" 
-                    Height="40"
-                    Margin="30"
-                    Grid.Row="1"
-                    VerticalAlignment="Bottom" 
-                    HorizontalAlignment="Right" 
-                    Command="{Binding AddConregationCommand}"
-                    ToolTip="Eine Neue Versammlung erstellen">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Ellipse Stroke="#e0d7b6" StrokeThickness="1" Fill="ForestGreen" />
-                            <Label Content="+" FontSize="32" Margin="0,-8,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-        </Grid>
-    </dxwui:PageAdornerControl>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <dxe:ButtonEdit NullText="&#128270; Versammlungen filtern"
+                        ShowNullTextIfFocused="True"
+                        NullValueButtonPlacement="EditBox"
+                        Grid.Row="0"
+                        HorizontalAlignment="Right"
+                        Width="200"
+                        AllowDefaultButton="False"
+                        EditValueChanged="SearchBox_ValueChanged"
+                        Margin="0,0,0,0">
+        </dxe:ButtonEdit>
+        <dxlc:FlowLayoutControl x:Name="lc" ItemsSource="{Binding}"
+                                Grid.Row="1"
+                                Orientation="Horizontal"
+                                ItemSpace="12"
+                                LayerSpace="12"
+                                Background="Transparent"
+                                MaximizedElementChanged="Lc_MaximizedElementChanged">
+            <dxlc:FlowLayoutControl.ItemTemplate>
+                <DataTemplate>
+                    <core:MyGroupBox  Header="{Binding}"
+                                    Content="{Binding}"
+                                    Visibility="{Binding Sichtbarkeit}"
+                                    State="{Binding IsSelected}"
+                                    Width="200"
+                                    Height="250"
+                                    Padding="0"
+                                    MaximizeElementVisibility="Visible"
+                                    FontFamily="Segoe UI Light"
+                                    FontSize="14"
+                                    Cursor="Hand"
+                                    MouseLeftButtonUp="GroupBox_MouseLeftButtonUp">
+                        <dxlc:GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="1" ToolTip="Klicken um Versammlung zu maximieren oder wieder zu minimieren">Kreis <Run Text="{Binding Versammlung.Kreis}" /></TextBlock>
+                            </DataTemplate>
+                        </dxlc:GroupBox.HeaderTemplate>
+                        <dxlc:GroupBox.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Versammlung.Name}"
+                                            Foreground="{Binding EigeneVersammlungTextInOrange}"
+                                            TextWrapping="Wrap"
+                                            FontFamily="Segoe UI"
+                                            HorizontalAlignment="Center"
+                                            FontSize="28" />
+                                    <TextBlock Text="{Binding Versammlung.Koordinator}" HorizontalAlignment="Center" FontSize="18" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </dxlc:GroupBox.ContentTemplate>
+                        <dxlc:GroupBox.MaximizedContentTemplate>
+                            <DataTemplate>
+                                <views:VersammlungMaximizedControl DataContext="{Binding}" />
+                            </DataTemplate>
+                        </dxlc:GroupBox.MaximizedContentTemplate>
+                    </core:MyGroupBox>
+                </DataTemplate>
+            </dxlc:FlowLayoutControl.ItemTemplate>
+        </dxlc:FlowLayoutControl>
+        <Button x:Name="AddNewConregation"
+                Width="40" 
+                Height="40"
+                Margin="30"
+                Grid.Row="1"
+                VerticalAlignment="Bottom" 
+                HorizontalAlignment="Right" 
+                Command="{Binding AddConregationCommand}"
+                ToolTip="Eine Neue Versammlung erstellen">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Ellipse Stroke="#e0d7b6" StrokeThickness="1" Fill="ForestGreen" />
+                        <Label Content="+" FontSize="32" Margin="0,-8,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
 </UserControl>

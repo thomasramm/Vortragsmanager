@@ -122,7 +122,6 @@ namespace Vortragsmanager.ActivityLog
 
         public Types Typ => _log.Typ;
 
-
         private bool _aktiv = true;
         public bool Aktiv
         {

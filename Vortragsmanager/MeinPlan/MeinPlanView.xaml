@@ -36,34 +36,21 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <dxwui:PageAdornerControl Header="Meine Versammlung">
-        <dxwui:PageAdornerControl.HeaderTemplate>
-            <DataTemplate>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <ContentPresenter Content="{Binding}" />
-                    <Navi:NavigatorView HorizontalAlignment="Right" Grid.Column="1" />
-                </Grid>
-            </DataTemplate>
-        </dxwui:PageAdornerControl.HeaderTemplate>
-        <Border>
-            <Grid Margin="30">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="400*" />
-                </Grid.RowDefinitions>
-                <StackPanel  Grid.Row="0" Orientation="Horizontal">
-                    <dxc:SimpleButton Glyph="pack://application:,,,/Images/Prev_32x32.png" Width="40" Command="{Binding ChangeYear}" CommandParameter="-1" />
-                    <Grid>
-                        <Label Content="Jahr:" Height="24" VerticalAlignment="Top" Margin="10,0,10,0" HorizontalAlignment="Center" FontSize="14" />
-                        <Label Content="{Binding CurrentYear, Mode=OneWay}" Height="26" FontWeight="Bold" Margin="10,0,10,0" VerticalAlignment="Bottom"  FontSize="16" />
-                    </Grid>
-                    <dxc:SimpleButton Glyph="pack://application:,,,/Images/Next_32x32.png" Width="40"  Command="{Binding ChangeYear}" CommandParameter="1" />
-                </StackPanel>
-                <dxlc:FlowLayoutControl Orientation="Horizontal"
+        
+    <Grid Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="400*" />
+        </Grid.RowDefinitions>
+        <StackPanel  Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <dxc:SimpleButton Glyph="pack://application:,,,/Images/Prev_32x32.png" Width="40" Command="{Binding ChangeYear}" CommandParameter="-1" />
+            <Grid>
+                <Label Content="Jahr:" Height="24" VerticalAlignment="Top" Margin="10,0,10,0" HorizontalAlignment="Center" FontSize="14" />
+                <Label Content="{Binding CurrentYear, Mode=OneWay}" Height="26" FontWeight="Bold" Margin="10,0,10,0" VerticalAlignment="Bottom"  FontSize="16" />
+            </Grid>
+            <dxc:SimpleButton Glyph="pack://application:,,,/Images/Next_32x32.png" Width="40"  Command="{Binding ChangeYear}" CommandParameter="1" />
+        </StackPanel>
+        <dxlc:FlowLayoutControl Orientation="Horizontal"
                                         BreakFlowToFit="True"
                                         MaximizedElementPosition="Right"
                                         Grid.Row="1"
@@ -192,7 +179,5 @@
                         </DataTemplate>
                     </dxlc:FlowLayoutControl.ItemTemplate>
                 </dxlc:FlowLayoutControl>
-            </Grid>
-        </Border>
-    </dxwui:PageAdornerControl>
+    </Grid>
 </UserControl>
