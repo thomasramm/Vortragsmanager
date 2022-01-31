@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core">
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" 
+                    xmlns:local="clr-namespace:Vortragsmanager.Navigation">
+    <local:ScalablePaddingConverter x:Key="ScalablePaddingConverter" MinPadding="10" />
     <Style x:Key="navimenuHeaderButton" TargetType="ButtonBase">
         <Setter Property="Background" Value="#3c3c3c"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -24,4 +26,11 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    <Style x:Key="navimenuHeader" TargetType="Border">
+        <Setter Property="Background" Value="#3C3C3C"/>
+    </Style>
+    <SolidColorBrush x:Key="textColor" Color="White"/>
+    <SolidColorBrush x:Key="textHighlight" Color="Orange"/>
+    <SolidColorBrush x:Key="background" Color="#333333"/>
+    <Thickness x:Key="HauptfensterRand">-10</Thickness>
 </ResourceDictionary>

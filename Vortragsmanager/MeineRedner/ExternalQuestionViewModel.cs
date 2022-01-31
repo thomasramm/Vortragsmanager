@@ -212,11 +212,11 @@ namespace Vortragsmanager.MeineRedner
                 switch (HinweisLevel)
                 {
                     case 5:
-                        return Brushes.Orange;
+                        return Core.Helper.StyleIsDark ? Brushes.Orange : Brushes.OrangeRed;
                     case 10:
-                        return Brushes.OrangeRed;
+                        return Core.Helper.StyleIsDark ? Brushes.OrangeRed : Brushes.Red;
                     default:
-                        return Brushes.White;
+                        return Core.Helper.StyleIsDark ? Brushes.White : Brushes.Black;
                 }
             }
         }

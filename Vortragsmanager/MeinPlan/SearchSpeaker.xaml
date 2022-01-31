@@ -66,7 +66,7 @@
                                 SummaryItemHeader="Filter"
                                 SummaryItemGlyph="pack://application:,,,/Images/Technology_16x16.png"
                                 AutoExpandAllItems="True"
-                                IsCollapseButtonVisible="True"
+                                IsCollapseButtonVisible="False"
                                 ShowSearchControl="False"
                                 Margin="1"
                                 ViewMode="Accordion">
@@ -143,7 +143,7 @@
                             </dxa:AccordionControl.Items>
                         </dxa:AccordionControl>
                         <Button Content="Redner suchen"
-                                Foreground="Orange"
+                                Foreground="{StaticResource textHighlight}"
                                 Command="{Binding RednerSuchenCommand}"
                                 Grid.Row="1"
                                 Height="30"
@@ -215,8 +215,8 @@
                                                                                         AutoComplete="False"
                                                                                         IncrementalFiltering="False"
                                                                                         Width="300"/>
-                                                                        <Label Content="{Binding LetzterBesuch}" Width="70" Height="30" Margin="10,0,0,0" ToolTip="letzter Besuch" VerticalContentAlignment="Center" />
-                                                                        <Label Content="{Binding InfoPrivate}" Height="30" Margin="10,0,0,0" ToolTip="{Binding InfoPrivate}" VerticalContentAlignment="Center" />
+                                                                        <Label Content="{Binding LetzterBesuch}" Width="80" Height="30" Margin="10,0,0,0" ToolTip="letzter Besuch" VerticalContentAlignment="Center" />
+                                                                        <Label Content="{Binding InfoPrivate}" Height="40" Margin="10,0,0,0" ToolTip="{Binding InfoPrivate}" VerticalContentAlignment="Center" />
                                                                     </StackPanel>
                                                                 </DataTemplate>
                                                             </ListBox.ItemTemplate>
@@ -252,7 +252,7 @@
                                             Command="{Binding AnfrageSpeichernCommand}"
                                             CommandParameter="True"
                                             HorizontalAlignment="Right"
-                                            Width="150"
+                                            Width="160"
                                             ToolTip="Die Anfrage wird im System gespeichert, die angegebenen Temine werden nicht mehr als 'Frei' angezeigt."
                                             Margin="5" />
                         <dx:SimpleButton Grid.Row="1"
@@ -262,7 +262,7 @@
                                             Command="{Binding CopyToClipboardCommand}"
                                             CommandParameter="True"
                                             HorizontalAlignment="Left"
-                                            Width="150"
+                                            Width="160"
                                             ToolTip="Den Text in die Zwischenablage kopieren"
                                             Margin="5" />
                         <TextBox Grid.Row="0" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Text="{Binding MailText}" />

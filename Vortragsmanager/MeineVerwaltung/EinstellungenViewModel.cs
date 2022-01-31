@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Forms;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
@@ -331,6 +332,38 @@ namespace Vortragsmanager.MeineVerwaltung
                     fehler++;
             }
             ThemedMessageBox.Show("Entfernungsberechnung", $"Es wurden {erfolgreich} Entfernungen berechnet und eingetragen. {fehler} Berechnungen haben nicht geklappt, es wurde die Entfernung 0km eingetragen.");
+        }
+
+        public static bool ThemeIsDark
+        {
+            get => Properties.Settings.Default.Theme == "MetropolisDark";
+            set
+            {
+                var theme = value ? "MetropolisDark" : "Office2019White";
+                var dict = value ? "Dictionary_Dark.xaml" : "Dictionary_Light.xaml";
+                Properties.Settings.Default.Theme = theme;
+                Properties.Settings.Default.Save();
+
+                ApplyResources(dict);
+
+                ApplicationThemeHelper.ApplicationThemeName = theme;
+
+            }
+        }
+
+        private static void ApplyResources(string src)
+        {
+            App a = App.Current as App;
+            var dict = new ResourceDictionary() { Source = new Uri(src, UriKind.Relative) };
+            foreach (var mergeDict in dict.MergedDictionaries)
+            {
+                a.Resources.MergedDictionaries.Add(mergeDict);
+            }
+
+            foreach (var key in dict.Keys)
+            {
+                a.Resources[key] = dict[key];
+            }
         }
     }
 }

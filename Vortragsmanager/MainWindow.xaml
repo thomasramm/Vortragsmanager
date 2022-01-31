@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" 
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:usercontrols="clr-namespace:Vortragsmanager.UserControls"
     Width="1400" 
     Height="700"
@@ -16,6 +17,12 @@
                 <dxb:BarButtonItem Content="Programmänderungen anzeigen" ItemClick="ChangesButton_Click" />
             </dxb:PopupMenu>
         </dxc:DropDownButton>
+        <dxe:ToggleSwitch CheckedStateContent="Dark"
+                          UncheckedStateContent="Light"
+                          ContentPlacement="Both" 
+                          IsChecked="{Binding ThemeIsDark}" 
+                          Checked="ToggleSwitch_Changed"
+                          Unchecked="ToggleSwitch_Changed"/>
     </dxc:ThemedWindow.HeaderItems>
-    <usercontrols:HamburgerMenu Margin="-10"/>
+    <usercontrols:HamburgerMenu x:Name="hamburgerMenu" Margin="{StaticResource HauptfensterRand}"/>
 </dxc:ThemedWindow>

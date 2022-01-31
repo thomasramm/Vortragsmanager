@@ -4,11 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Vortragsmanager.MeinPlan"
-             xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
-             xmlns:core="clr-namespace:Vortragsmanager.Core"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
              mc:Ignorable="d"
@@ -117,7 +114,7 @@
                                                                                 <dxlc:LayoutGroup Orientation="Horizontal">
                                                                                     <dxlc:LayoutGroup Orientation="Vertical">
                                                                                         <dxlc:LayoutItem Label="Redner:">
-                                                                                            <Label Content="{Binding Einladung.Ältester.Name}" Foreground="Orange" MouseLeftButtonDown="Content_MouseLeftButtonDown" />
+                                                                                            <Label Content="{Binding Einladung.Ältester.Name}" Foreground="{StaticResource textHighlight}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <dxlc:LayoutItem Label="Telefon:">
                                                                                             <Label Content="{Binding Einladung.Ältester.Telefon}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />
@@ -134,7 +131,7 @@
                                                                                     </dxlc:LayoutGroup>
                                                                                     <dxlc:LayoutGroup Orientation="Vertical">
                                                                                         <dxlc:LayoutItem Label="Koordinator">
-                                                                                            <Label Content="{Binding Einladung.Ältester.Versammlung.Koordinator}" Foreground="Orange" MouseLeftButtonDown="Content_MouseLeftButtonDown" />
+                                                                                            <Label Content="{Binding Einladung.Ältester.Versammlung.Koordinator}" Foreground="{StaticResource textHighlight}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <dxlc:LayoutItem Label="Telefon:">
                                                                                             <Label Content="{Binding Einladung.Ältester.Versammlung.KoordinatorTelefon}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />

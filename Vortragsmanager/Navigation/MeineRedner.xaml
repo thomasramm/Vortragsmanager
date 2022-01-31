@@ -14,7 +14,7 @@
             <RowDefinition Height="44" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Background="#3C3C3C" />
+        <Border Grid.Row="0" Style="{StaticResource navimenuHeader}" />
         <Label Grid.Row="0" Content="{Binding MenuHeaderTitel}" VerticalContentAlignment="Center" FontSize="20" Margin="10,0" Foreground="White"/>
         <ToggleButton Grid.Row="0" 
                     HorizontalAlignment="Right" 

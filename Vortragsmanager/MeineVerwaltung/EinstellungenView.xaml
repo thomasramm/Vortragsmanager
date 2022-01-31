@@ -4,10 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Vortragsmanager.MeineVerwaltung"
-             xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
-             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
-             xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -26,7 +24,7 @@
             <RowDefinition Height="1*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Background="#3C3C3C" />
+        <Border Grid.Row="0" Style="{StaticResource navimenuHeader}" />
         <Label Grid.Row="0" Content="Einstellungen" VerticalContentAlignment="Center" FontSize="20" Margin="10,0" Foreground="White"/>
         <dxlc:LayoutControl Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,-33">
             <dxlc:LayoutGroup Orientation="Vertical">
@@ -135,12 +133,12 @@
                                           ItemsSource="{Binding DaysOfWeek}">
                         </dxe:ComboBoxEdit>
                     </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Detailansichten auf der Startseite anzeigen">
+                    <!--<dxlc:LayoutItem Label="Detailansichten auf der Startseite anzeigen">
                         <dxe:ToggleSwitch CheckedStateContent="An"
                                       UncheckedStateContent="Aus"
                                       ContentPlacement="Inside"
                                       IsChecked="{Binding DashboardShowDetails}" />
-                    </dxlc:LayoutItem>
+                    </dxlc:LayoutItem>-->
                     <dxlc:LayoutItem Label="Aktivitätsbuttons anzeigen">
                         <dxe:ToggleSwitch CheckedStateContent="An"
                                       UncheckedStateContent="Aus"
@@ -168,6 +166,14 @@
                                 <dxe:SpinButtonInfo IsDefaultButton="True" IsLeft="True" />
                             </dxe:SpinEdit.Buttons>
                         </dxe:SpinEdit>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="App Design">
+                        <dxe:ToggleSwitch CheckedStateContent="Dunkel"
+                                          UncheckedStateContent="Hell"
+                                          ContentPlacement="Both"
+                                          IsChecked="{Binding ThemeIsDark}"
+                                          
+                                          HorizontalAlignment="Left"/>
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>

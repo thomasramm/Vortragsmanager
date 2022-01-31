@@ -59,7 +59,7 @@
                                     DockPanel.Dock="Left">
                 <dxa:AccordionControl.HeaderContent>
                     <StackPanel Orientation="Vertical">
-                        <Label Content="{Binding Redner.Name}" Foreground="Orange" />
+                        <Label Content="{Binding Redner.Name}" Foreground="{StaticResource textHighlight}" />
                         <Label Content="{Binding Redner.Versammlung}" FontSize="10" />
                     </StackPanel>
                 </dxa:AccordionControl.HeaderContent>

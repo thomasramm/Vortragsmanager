@@ -21,7 +21,7 @@
             <RowDefinition Height="1*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Background="#3C3C3C" />
+        <Border Grid.Row="0" Style="{StaticResource navimenuHeader}" />
         <Label Grid.Row="0" Content="Sicherungen" VerticalContentAlignment="Center" FontSize="20" Margin="10,0" Foreground="White"/>
         <dxlc:LayoutControl Grid.Row="1" Margin="20" 
                                     Orientation="Horizontal" 
@@ -120,7 +120,7 @@
                                     VerticalAlignment="Center"/>
                             <StackPanel Grid.Row="6" Orientation="Horizontal" ToolTip="Aktiviert automatische Sicherungen im Hintergrund während du arbeitest.">
                                 <Label Content="Sicherungen anlegen"
-                                       Foreground="White"
+                                       Foreground="{StaticResource textColor}"
                                        Width="120"
                                        Margin="5,0"/>
                                 <dxe:ToggleSwitch x:Name="toggleSwitch" 

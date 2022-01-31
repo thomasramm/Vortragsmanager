@@ -7,7 +7,7 @@
              xmlns:mv="clr-namespace:Vortragsmanager.MeineVerwaltung"
              xmlns:av="clr-namespace:Vortragsmanager.ActivityLog"
              xmlns:navi="clr-namespace:Vortragsmanager.Navigation"
-             xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+             xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <dxwui:HamburgerMenu x:Name="_menu"

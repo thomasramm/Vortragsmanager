@@ -15,7 +15,7 @@
             <RowDefinition Height="44"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Background="#3C3C3C" />
+        <Border Grid.Row="0" Style="{StaticResource navimenuHeader}" />
         <Label Grid.Row="0" Content="{Binding MenuHeaderTitel}" VerticalContentAlignment="Center" FontSize="20" Margin="10,0" Foreground="White"/>
         <ToggleButton Grid.Row="0" 
                       HorizontalAlignment="Right" 
@@ -52,7 +52,7 @@
                 <Hyperlink Command="{Binding ChangeMonth}" 
                         CommandParameter="0"
                         TextDecorations="None" 
-                        Foreground="Orange">
+                        Foreground="{StaticResource textHighlight}">
                     <TextBlock HorizontalAlignment="Center" 
                             Text="{Binding Monat, StringFormat={}{0:MMMM}, ConverterCulture=de-DE}" />
                 </Hyperlink>
@@ -67,7 +67,7 @@
                 <Hyperlink Command="{Binding ChangeMonth}" 
                         CommandParameter="0"
                         TextDecorations="None" 
-                        Foreground="Orange">
+                        Foreground="{StaticResource textHighlight}">
                     <TextBlock Text="{Binding Monat, StringFormat={}{0:yyyy}, ConverterCulture=de-DE}" />
                 </Hyperlink>
             </TextBlock>

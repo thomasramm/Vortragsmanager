@@ -150,7 +150,11 @@ namespace Vortragsmanager.Views
         {
             get
             {
-                return (EigeneVersammlung) ? Brushes.Orange : Brushes.White;
+                if (EigeneVersammlung)
+                {
+                    return Helper.StyleIsDark ? Brushes.Orange : Brushes.RoyalBlue;
+                }
+                return Helper.StyleIsDark ? Brushes.White : Brushes.Black;
             }
         }
 

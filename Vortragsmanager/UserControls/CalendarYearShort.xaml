@@ -22,7 +22,7 @@
                Content="2020" 
                HorizontalAlignment="Center" 
                VerticalAlignment="Center" 
-               Foreground="Orange" 
+               Foreground="{StaticResource textHighlight}" 
                MouseDown="ResetYear_MouseDown" />
         <dx:SimpleButton Glyph="pack://application:,,,/Images/Next_32x32.png" 
                          Width="20" 

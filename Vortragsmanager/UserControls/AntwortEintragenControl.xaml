@@ -21,7 +21,6 @@
                             BreakFlowToFit="True"
                             MaximizedElementPosition="Right"
                             Grid.Row="1"
-                            dx:ThemeManager.Theme="MetropolisDark"
                             ItemsSource="{Binding Anfragen}">
             <dxlc:FlowLayoutControl.ItemTemplate>
                 <DataTemplate>

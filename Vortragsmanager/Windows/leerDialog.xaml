@@ -22,7 +22,7 @@
         <TextBox Grid.Row="0" 
                  Text="{Binding HeaderText}" 
                  AcceptsReturn="True" 
-                 Foreground="Orange" 
+                 Foreground="{StaticResource textHighlight}" 
                  Padding="0"
                  FontWeight="Bold" 
                  FontSize="18" 

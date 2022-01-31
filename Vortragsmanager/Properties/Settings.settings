@@ -50,9 +50,6 @@
     <Setting Name="ListCreate_OpenFile" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="ApplicationThemeName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Office2016White</Value>
-    </Setting>
     <Setting Name="SonntagAnzeigeMonate" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
@@ -67,6 +64,9 @@
     </Setting>
     <Setting Name="ListAushangAnzahlWochen" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="Theme" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Office2019White</Value>
     </Setting>
   </Settings>
 </SettingsFile>

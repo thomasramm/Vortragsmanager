@@ -13,10 +13,9 @@
     Title="Buchung verschieben"
     Height="{Binding WindowHeight, Mode=TwoWay}"
     Width="500"
-    Background="#333333"
+    Background="{StaticResource background}"
     x:Name="KalendereintragVerschiebenWindow"
-    dx:ThemeManager.Theme="MetropolisDark"
-    Foreground="White">
+    Foreground="{StaticResource textColor}">
     <Window.DataContext>
         <local:KalendereintragVerschiebenView />
     </Window.DataContext>

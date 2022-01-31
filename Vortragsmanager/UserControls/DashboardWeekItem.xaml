@@ -17,11 +17,11 @@
         <Label x:Name="_week" 
                Content="05.06.2022" 
                Grid.Column="0" 
-               Foreground="Orange" 
+               Foreground="{StaticResource textHighlight}" 
                VerticalContentAlignment="Center" 
                FontSize="16"
                HorizontalContentAlignment="Center"/>
-        <TextBlock x:Name="_meinPlan" Grid.Column="1" Text="Vortragsredner" Foreground="White" VerticalAlignment="Center"/>
-        <TextBlock x:Name="_meineRedner" Grid.Column="2" Text="Extern" Foreground="White" VerticalAlignment="Center"/>
+        <TextBlock x:Name="_meinPlan" Grid.Column="1" Text="Vortragsredner" Foreground="{StaticResource textColor}" VerticalAlignment="Center"/>
+        <TextBlock x:Name="_meineRedner" Grid.Column="2" Text="Extern" Foreground="{StaticResource textColor}" VerticalAlignment="Center"/>
     </Grid>
 </UserControl>

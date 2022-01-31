@@ -7,6 +7,7 @@ using Vortragsmanager.Datamodels;
 using System.Linq;
 using System.Windows.Markup;
 using System.Windows;
+using DevExpress.Xpf.Core;
 
 namespace Vortragsmanager.Core
 {
@@ -233,6 +234,8 @@ namespace Vortragsmanager.Core
 
             return false;
         }
+
+        public static bool StyleIsDark => Properties.Settings.Default.Theme == "MetropolisDark";
     }
 
     public class DoubleToIntConverter : IValueConverter

@@ -20,6 +20,11 @@ namespace Vortragsmanager.Datamodels
             Programmversion = GetVersion();
         }
 
+        public MyGloabalSettings(string version)
+        {
+            Programmversion = version;
+        }
+
         public string Titel { get; set; }
 
         public void RefreshTitle()
@@ -43,6 +48,14 @@ namespace Vortragsmanager.Datamodels
             return v;
         }
 
+        public bool ThemeIsDark
+        {
+            get => MeineVerwaltung.EinstellungenViewModel.ThemeIsDark;
+            set
+            {
+                MeineVerwaltung.EinstellungenViewModel.ThemeIsDark = value;
+            }
+        }
     }
 
     public static class DataContainer

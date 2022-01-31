@@ -348,13 +348,13 @@ namespace Vortragsmanager.MeinPlan
         {
             get
             {
-                var color = Color.FromRgb(51, 51, 51);
+                var color = Helper.StyleIsDark ? Color.FromRgb(51, 51, 51) : Colors.White;
                 if (Zuteilung == null)
                     color = Colors.Tomato;
                 else if (Zuteilung.Status == EventStatus.Anfrage)
                     color = Colors.Orange;
                 else if (Zuteilung.Status == EventStatus.Ereignis)
-                    color = Colors.SlateGray;
+                    color = Helper.StyleIsDark ? Colors.SlateGray : (Color)ColorConverter.ConvertFromString("#2a8dd4");
                 return new SolidColorBrush(color);
             }
         }
@@ -363,10 +363,10 @@ namespace Vortragsmanager.MeinPlan
         {
             get
             {
-                var c = Colors.White;
+                var c = Helper.StyleIsDark ? Colors.White : Colors.Black;
 
                 if (Einladung?.Ältester?.Versammlung == DataContainer.MeineVersammlung)
-                    c = Colors.LightGreen;
+                    c = Helper.StyleIsDark ? Colors.LightGreen : Colors.LimeGreen;
 
                 return new SolidColorBrush(c);
             }

@@ -1,4 +1,5 @@
 ﻿using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Editors;
 using System;
 using System.Globalization;
 using System.IO;
@@ -18,13 +19,14 @@ namespace Vortragsmanager
     {
         public MainWindow()
         {
+            //Spracheinstellungen immer auf DEUTSCH
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("de-DE");
             LanguageProperty.OverrideMetadata(
                 typeof(FrameworkElement),
                 new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
+            //Logging
             Log.Start();
-
             AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
             {
                 Log.Error("FirstChanceException", eventArgs.Exception.Message);
@@ -35,19 +37,19 @@ namespace Vortragsmanager
                 Settings.Default.sqlite = "demo.sqlite3";
 #endif
             //ToDo: Entfernen vor Produktiv Release
-            var path = this.GetType().Assembly.Location;
-            FileInfo fileInfo = new FileInfo(path);
-            Settings.Default.sqlite = fileInfo.DirectoryName + @"\demo.sqlite3";
-            MessageBox.Show("Dies ist eine Testversion. Es wird nicht eure Planung geöffnet, sondern die Datei" 
-                + Environment.NewLine + Settings.Default.sqlite);
+            //var path = this.GetType().Assembly.Location;
+            //FileInfo fileInfo = new FileInfo(path);
+            //Settings.Default.sqlite = fileInfo.DirectoryName + @"\demo.sqlite3";
+            //MessageBox.Show("Dies ist eine Testversion. Es wird nicht eure Planung geöffnet, sondern die Datei" 
+            //    + Environment.NewLine + Settings.Default.sqlite);
 
-
+            //Erster Start nach Update?
             if (!Settings.Default.HideChangelog)
             {
                 Update.ShowChanges();
             }
 
-            //Doppelklick auf eine sqlit3 Datei...
+            //Datei öffnen
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length >= 2 && File.Exists(args[1]))
             {
@@ -71,14 +73,20 @@ namespace Vortragsmanager
                 Close();
             }
 
+            //UI erstellen
             InitializeComponent();
 
+            //Daten einlesen, Datenklassen bereitstellen
             Helper.GlobalSettings = new MyGloabalSettings();
             DataContext = Helper.GlobalSettings;
-
-            Helper.GlobalSettings.RefreshTitle();
-
+                        
+            //Bereinigungs Tasks
             Backup.CleanOldBackups();
+
+            //Style Anpassungen
+            Helper.GlobalSettings.RefreshTitle();
+            ApplicationThemeHelper.ApplicationThemeName = Settings.Default.Theme;
+            ToggleSwitch_Changed(null, null);
         }
 
         private void HelpButton_Click(object sender, RoutedEventArgs e)
@@ -88,6 +96,15 @@ namespace Vortragsmanager
         private void ChangesButton_Click(object sender, RoutedEventArgs e)
         {
             Update.ShowChanges(true);
+        }
+
+        private void ToggleSwitch_Changed(object sender, RoutedEventArgs e)
+        {
+            //var button = (ToggleSwitch)sender;
+            //if (button == null)
+            //    return;
+
+            hamburgerMenu.Margin = Helper.StyleIsDark == false ? new Thickness(-10, 0, -10, -10) : new Thickness(-10, -7, -10, -10);
         }
     }
 }
