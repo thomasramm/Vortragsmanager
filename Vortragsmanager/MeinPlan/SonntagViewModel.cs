@@ -1,11 +1,8 @@
 ﻿using DevExpress.Mvvm;
-using OfficeOpenXml;
 using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Windows;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.UserControls;
 

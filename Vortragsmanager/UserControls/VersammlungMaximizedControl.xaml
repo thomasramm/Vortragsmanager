@@ -53,7 +53,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBox Text="{Binding Versammlung.Entfernung}" Grid.Column="0" />
                     <dx:SimpleButton Content="Berechnen"
-                                         Glyph="{dx:SvgImageSource Uri='/Images/Travel_MapPointer.svg'}"
+                                        Glyph="/Images/MapPointer_32x32.png"
                                         Command="{Binding CalculateDistanceCommand}"
                                         Grid.Column="1"
                                         Height="24" />
@@ -65,7 +65,7 @@
                                     Command="{Binding DeleteCommand}"
                                     CommandParameter="{Binding ElementName=lc}"
                                     IsEnabled="{Binding EigeneVersammlung, Converter={StaticResource BooleanNegationConverter}}"
-                                    Glyph="{dx:SvgImageSource Uri='/Images/Delete_Mülleimer_sw.svg'}"
+                                    Glyph="/Images/Delete_White_32x32.png"
                                     ToolTip="Versammlung löschen oder zusammenlegen" />
                 </dxlc:LayoutItem>
         </dxlc:LayoutGroup>
@@ -113,7 +113,7 @@
             
                 <dx:SimpleButton Content="Neuen Redner anlegen" Height="50" Width="200" HorizontalAlignment="Left" Margin="10,0"
                             Command="{Binding NewPersonCommand}"
-                            Glyph="{dx:SvgImageSource Uri='/Images/NewEmployee.svg'}" />
+                            Glyph="/Images/PersonNew_32x32.png" />
             
             <dxlc:FlowLayoutControl Orientation="Vertical"
                                     ItemsSource="{Binding RednerListe}">

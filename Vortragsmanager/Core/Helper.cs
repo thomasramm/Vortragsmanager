@@ -7,7 +7,6 @@ using Vortragsmanager.Datamodels;
 using System.Linq;
 using System.Windows.Markup;
 using System.Windows;
-using DevExpress.Xpf.Core;
 
 namespace Vortragsmanager.Core
 {
@@ -348,7 +347,7 @@ namespace Vortragsmanager.Core
 }
 
 namespace Vortragsmanager.Core.DataHelper
-{ 
+{
     /// <summary>
     /// Wird genutzt für Aktivitäten in meiner Versammlung (Redner)
     /// </summary>

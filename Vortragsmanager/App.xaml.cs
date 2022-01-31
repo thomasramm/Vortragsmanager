@@ -1,5 +1,4 @@
-﻿using DevExpress.Xpf.Core;
-using System.Windows;
+﻿using System.Windows;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Properties;

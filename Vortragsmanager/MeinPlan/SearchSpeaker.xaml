@@ -4,8 +4,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:Vortragsmanager.MeinPlan"
-    xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
-    xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
     xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
     xmlns:dxa="http://schemas.devexpress.com/winfx/2008/xaml/accordion"
@@ -247,7 +245,7 @@
                         <Border Grid.Row="1" Background="Snow" />
                         <dx:SimpleButton Grid.Row="1"
                                             Content="Anfrage speichern"
-                                            Glyph="{dx:SvgImageSource Uri='/Images/Ok_green.svg'}"
+                                            Glyph="/Images/Ok_Green_32x32.png"
                                             GlyphAlignment="Left"
                                             Command="{Binding AnfrageSpeichernCommand}"
                                             CommandParameter="True"

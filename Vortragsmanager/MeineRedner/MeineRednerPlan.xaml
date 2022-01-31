@@ -83,7 +83,9 @@
                         <Border Grid.Row="1" Background="Snow" />
                         <dx:SimpleButton Content="Vortrag absagen"
                                             Command="{Binding VortragAbsagen}"
-                                            Glyph="{dx:SvgImageSource Uri='/Images/X_red.svg'}"
+                                            Glyph="/Images/Cancel_32x32.png"
+                                         GlyphWidth="30"
+                                         GlyphHeight="30"
                                             HorizontalAlignment="Left"
                                             Margin="5"
                                             Grid.Row="1"
@@ -93,7 +95,9 @@
                                             Width="150"
                                             HorizontalAlignment="Right"
                                             Margin="5"
-                                            Glyph="{dx:SvgImageSource Uri='/Images/Actions_Send.svg'}"
+                                            Glyph="/Images/Actions_Send_32x32.png"
+                                         GlyphWidth="24"
+                                         GlyphHeight="24"
                                             ToolTip="Die angezeigten Termine versenden"
                                             Command="{Binding ListeSenden}" />
                     </Grid>

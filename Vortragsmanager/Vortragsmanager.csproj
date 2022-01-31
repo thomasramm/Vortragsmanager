@@ -569,9 +569,6 @@
     <Resource Include="Logo1.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Screenshot Downloadseite mit Hinweisen.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Logo2_128x128.png" />
   </ItemGroup>
   <ItemGroup>
@@ -581,13 +578,7 @@
     <Resource Include="Images\NewMail_64x64.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\ListePrint_64x64.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\ListeSettings_64x64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\WindowOptions_64x64.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Versammlung2_64x64.png" />
@@ -654,33 +645,11 @@
     <Resource Include="Images\Prev_32x32.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Actions_Send.svg" />
-    <Resource Include="Images\AddDataSource.svg" />
-    <Resource Include="Images\CalendarAdd.svg" />
-    <Resource Include="Images\Delete_Mülleimer.svg" />
-    <Resource Include="Images\Delete_Mülleimer_sw.svg" />
     <Resource Include="Images\MasterFilter_16x16.png" />
     <Resource Include="Images\Log_16x16.png" />
-    <Resource Include="Images\NewEmployee.svg" />
-    <Resource Include="Images\Open.svg" />
-    <Resource Include="Images\Reset.svg" />
-    <Resource Include="Images\SaveAs.svg" />
-    <Resource Include="Images\Save_green.svg" />
-    <Resource Include="Images\Travel_MapPointer.svg" />
-    <Resource Include="Images\UpdateList.svg" />
-    <Resource Include="Images\X_red.svg" />
-    <Resource Include="Images\Zwischenablage2.svg" />
     <Resource Include="Images\AgendaView_32x32.png" />
     <Resource Include="Images\Calendar_32x32.png" />
-    <Resource Include="Images\Cancel_red.svg" />
-    <Resource Include="Images\Ok_green.svg" />
     <Resource Include="Images\Technology_16x16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Add_20x20.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Add.svg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\ListeThemen_64x64.png" />
@@ -726,6 +695,9 @@
       <Version>21.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.MetropolisDark">
+      <Version>21.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="DevExpress.Wpf.Themes.Office2019White">
       <Version>21.2.3</Version>
     </PackageReference>
     <PackageReference Include="EPPlus">
@@ -774,40 +746,61 @@
     <Resource Include="Images\CalendarYear2_32x32.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Rollback_64x64.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Zahnrad_64x64.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Home_32x32.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Verwaltung_32x32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Verwaltung2_32x32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Drucker_32x32.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Verwaltung3_32x32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\application-vnd.ms-excel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\x-office-spreadsheet-2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\icons8-ms-excel-50.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\icons8-ms-excel-50_W.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Verlauf_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Actions_Send_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AddDataSource_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CalendarAdd_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cancel_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Delete_White_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PersonNew_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Ok_Green_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Open_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Reset_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Save_green_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Save_Gray_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MapPointer_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\UpdateList_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ZwischenablageKopieren_64x64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -115,7 +115,7 @@ Oder du kannst die Versammlung mit einer anderen Versammlung zusammenlegen."
         </Grid>
         <dx:SimpleButton Grid.Row="3"
                             Content="Abbrechen"
-                            Glyph="{dx:SvgImageSource Uri='/Images/Cancel_red.svg'}"
+                            Glyph="/Images/Cancel_32x32.png"
                             GlyphAlignment="Left"
                             Command="{Binding CancelCommand}"
                             CommandParameter="{Binding ElementName=VersammlungBearbeiten}"

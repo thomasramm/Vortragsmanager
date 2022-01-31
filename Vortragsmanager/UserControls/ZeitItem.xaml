@@ -36,7 +36,7 @@
                 Width="18"
                 Command="{Binding DeleteCommand}"
             Click="DeleteButtonClick"
-                Glyph="{dx:SvgImageSource Uri='/Images/Delete_Mülleimer.svg'}" />
+                Glyph="/Images/Delete_Red_32x32.png" />
 
     </Grid>
 </UserControl>

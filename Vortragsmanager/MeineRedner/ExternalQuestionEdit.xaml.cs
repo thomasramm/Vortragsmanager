@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.MeineRedner
 {

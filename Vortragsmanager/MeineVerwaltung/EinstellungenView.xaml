@@ -37,12 +37,14 @@
                     </dxlc:LayoutItem>
                     <StackPanel Height="40" Orientation="Horizontal" FlowDirection="RightToLeft">
                         <dx:SimpleButton Content="... Speichern unter"
-                                     Glyph="{dx:SvgImageSource Uri='/Images/SaveAs.svg'}"
+                                     Glyph="/Images/Save_Green_32x32.png"
+                                         GlyphWidth="24" GlyphHeight="24"
                                      GlyphAlignment="Right"
                                      Command="{Binding SearchDatabaseCommand}" CommandParameter="Save"
                                      Margin="0,0,10,0" />
                         <dx:SimpleButton Content="... Andere Datenbank öffnen"
-                                     Glyph="{dx:SvgImageSource Uri='/Images/Open.svg'}"
+                                     Glyph="/Images/Open_32x32.png"
+                                         GlyphWidth="24" GlyphHeight="24"
                                      GlyphAlignment="Right"
                                      Command="{Binding SearchDatabaseCommand}" CommandParameter="Open" />
                     </StackPanel>
@@ -105,12 +107,14 @@
                 <dxlc:LayoutGroup Header="Entfernungen der Versammlungen zu meiner berechnen" View="GroupBox" Orientation="Horizontal">
                     <dxlc:LayoutItem Label="nur fehlende Entfernungen berechnen" LabelPosition="Top">
                         <dx:SimpleButton Content="Aktualisieren"
-                                         Glyph="{dx:SvgImageSource Uri='/Images/Travel_MapPointer.svg'}"
+                                         Glyph="/Images/MapPointer_32x32.png"
+                                         GlyphWidth="24" GlyphHeight="24"
                                          Command="{Binding CalculateRouteCommand}" CommandParameter="False" />
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Alle Entfernungen löschen und neu berechnen" LabelPosition="Top">
                         <dx:SimpleButton Content="Neu Berechnen"
-                                         Glyph="{dx:SvgImageSource Uri='/Images/Travel_MapPointer.svg'}"
+                                         Glyph="/Images/MapPointer_32x32.png"
+                                         GlyphWidth="24" GlyphHeight="24"
                                          Command="{Binding CalculateRouteCommand}" CommandParameter="True" />
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
@@ -123,7 +127,8 @@
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Alle Änderungen anzeigen">
                         <dx:SimpleButton Content="anzeigen"
-                                         Glyph="{dx:SvgImageSource Uri='/Images/UpdateList.svg'}"
+                                         Glyph="/Images/UpdateList_32x32.png"
+                                         GlyphWidth="24" GlyphHeight="24"
                                          Command="{Binding ShowChangelogCommand}" CommandParameter="True" />
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>

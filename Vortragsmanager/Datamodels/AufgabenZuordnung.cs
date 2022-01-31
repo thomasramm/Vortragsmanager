@@ -1,5 +1,4 @@
 ﻿using DevExpress.Mvvm;
-using System;
 
 namespace Vortragsmanager.Datamodels
 {

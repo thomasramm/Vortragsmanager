@@ -51,20 +51,20 @@
                     Text="{Binding SelectedVorlageInhalt}" />
         <dx:SimpleButton Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Width="130" Margin="10,10,270,10"
                             Content="Zurücksetzen"
-                            Glyph="{dx:SvgImageSource Uri='/Images/Reset.svg'}"
+                            Glyph="/Images/Reset_32x32.png"
                             GlyphAlignment="Left"
                             Command="{Binding ResetCommand}"
                             CommandParameter="True"
                             ToolTip="Setzt die Änderungen auf die Programmvorgaben zurück." />
         <dx:SimpleButton Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Width="120" Margin="10,10,130,10"
                             Content="Speichern"
-                            Glyph="{dx:SvgImageSource Uri='/Images/Ok_green.svg'}"
+                            Glyph="/Images/Ok_Green_32x32.png"
                             GlyphAlignment="Left"
                             Command="{Binding Speichern}"
                             CommandParameter="True" />
         <dx:SimpleButton Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Width="120" Margin="0,10"
                             Content="Abbrechen"
-                            Glyph="{dx:SvgImageSource Uri='/Images/Cancel_red.svg'}"
+                            Glyph="/Images/Cancel_32x32.png"
                             GlyphAlignment="Left"
                             Command="{Binding Speichern}"
                             CommandParameter="False" />

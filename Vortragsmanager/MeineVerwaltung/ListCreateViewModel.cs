@@ -1,11 +1,5 @@
 ﻿using DevExpress.Mvvm;
-using OfficeOpenXml;
-using OfficeOpenXml.Table;
-using System;
-using System.IO;
-using System.Linq;
 using Vortragsmanager.Core;
-using Vortragsmanager.Datamodels;
 using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.MeineVerwaltung

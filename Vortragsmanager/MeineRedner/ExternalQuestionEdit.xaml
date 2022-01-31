@@ -93,14 +93,18 @@
             </dxlc:LayoutGroup>
         </dxlc:LayoutControl>
         <dx:SimpleButton Grid.Row="1" Content="Speichern"
-                            Glyph="{dx:SvgImageSource Uri='/Images/Ok_green.svg'}"
+                            Glyph="/Images/Ok_Green_32x32.png"
                             GlyphAlignment="Left"
+                         GlyphHeight="24"
+                         GlyphWidth="24"
                             Command="{Binding Speichern}"
                             IsEnabled="{Binding ParameterValidiert}"
                             CommandParameter="True"
                             HorizontalAlignment="Right" Width="120" Margin="10,10,140,10" />
         <dx:SimpleButton Grid.Row="1" Content="Ablehnen"
-                            Glyph="{dx:SvgImageSource Uri='/Images/Cancel_red.svg'}"
+                            Glyph="/Images/Cancel_32x32.png"
+                         GlyphHeight="24"
+                         GlyphWidth="24"
                             GlyphAlignment="Left"
                             Command="{Binding Speichern}"
                             IsEnabled="{Binding ParameterValidiert}"

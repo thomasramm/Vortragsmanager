@@ -1,10 +1,7 @@
 ﻿using DevExpress.Mvvm;
 using DevExpress.Xpf.LayoutControl;
-using System;
-using System.Linq;
 using System.Windows;
 using Vortragsmanager.Core;
-using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.Navigation
 {

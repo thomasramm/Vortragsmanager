@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Windows.Controls;
 using Vortragsmanager.Core;
-using DevExpress.Mvvm;
 using System.Collections.ObjectModel;
 
 namespace Vortragsmanager.UserControls

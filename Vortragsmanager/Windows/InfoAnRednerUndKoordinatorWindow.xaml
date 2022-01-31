@@ -26,7 +26,7 @@
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding MailTextKoordinator}" AcceptsReturn="True" />
         <dx:SimpleButton Content="Kopieren"
                          Command="{Binding CopyCommand, Mode=OneWay}"
-                         Glyph="{dx:SvgImageSource Uri='/Images/Zwischenablage2.svg'}"
+                         Glyph="/Images/ZwischenablageKopieren_64x64.png"
                          Grid.Row="2"
                          Grid.Column="0"
                          CommandParameter="1"
@@ -36,7 +36,7 @@
         <dx:SimpleButton Content="Kopieren"
                          Command="{Binding CopyCommand, Mode=OneWay}"
                          CommandParameter="2"
-                         Glyph="{dx:SvgImageSource Uri='/Images/Zwischenablage2.svg'}"
+                         Glyph="/Images/ZwischenablageKopieren_64x64.png"
                          Grid.Row="2"
                          Grid.Column="1"
                          HorizontalAlignment="Left" Width="120" Margin="10"
@@ -47,14 +47,18 @@
                     Grid.ColumnSpan="2">
             <dx:SimpleButton Content="Speichern"
                          Command="{Binding SaveCommand, Mode=OneWay}"
-                         Glyph="{dx:SvgImageSource Uri='/Images/Save_green.svg'}"
+                         Glyph="/Images/Save_green_32x32.png"
+                             GlyphWidth="24"
+                             GlyphHeight="24"
                          CommandParameter="{Binding ElementName=AnfrageBestätigenWindow}"
                          Visibility="{Binding ShowSaveCancelButton, Mode=OneWay}"
                          Width="120" Margin="0" />
             <dx:SimpleButton Content="Abbrechen"
                          Command="{Binding CloseCommand, Mode=OneWay}"
                          CommandParameter="{Binding ElementName=AnfrageBestätigenWindow}"
-                         Glyph="{dx:SvgImageSource Uri='/Images/Cancel_red.svg'}"
+                         Glyph="/Images/Cancel_32x32.png"
+                             GlyphWidth="24"
+                             GlyphHeight="24"
                          Visibility="{Binding ShowSaveCancelButton, Mode=OneWay}"
                          Width="120" Margin="0" />
             <dx:SimpleButton Content="Schließen"

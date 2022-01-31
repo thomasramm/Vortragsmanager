@@ -2,7 +2,6 @@
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Vortragsmanager.Datamodels;

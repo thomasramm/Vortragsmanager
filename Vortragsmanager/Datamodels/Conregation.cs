@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Vortragsmanager.Core;
-
-namespace Vortragsmanager.Datamodels
+﻿namespace Vortragsmanager.Datamodels
 {
     public class Conregation
     {

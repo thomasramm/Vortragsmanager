@@ -66,13 +66,13 @@
             </dxlc:LayoutGroup>
         </dxlc:LayoutControl>
         <dx:SimpleButton Grid.Row="1" Content="Speichern"
-                             Glyph="{dx:SvgImageSource Uri='/Images/Ok_green.svg'}"
+                             Glyph="/Images/Ok_Green_32x32.png"
                              GlyphAlignment="Left"
                              Command="{Binding SaveCommand}"
                              CommandParameter="{Binding ElementName=KalendereintragVerschiebenWindow}"
                              HorizontalAlignment="Right" Width="150" Margin="5,5,160,5" />
         <dx:SimpleButton Grid.Row="1" Content="Abbrechen"
-                         Glyph="{dx:SvgImageSource Uri='/Images/Cancel_red.svg'}"
+                         Glyph="/Images/Cancel_32x32.png"
                              GlyphAlignment="Left"
                              Command="{Binding CloseCommand}"
                              CommandParameter="{Binding ElementName=KalendereintragVerschiebenWindow}"
