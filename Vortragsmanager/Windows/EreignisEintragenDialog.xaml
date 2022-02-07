@@ -24,7 +24,7 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <dxlc:LayoutControl Orientation="Vertical" Margin="50,30,50,0">
-            <dxlc:LayoutItem Label="Ereignis" Foreground="{StaticResource textColor}">
+            <dxlc:LayoutItem Label="Ereignis" Foreground="{StaticResource TextColor}">
                 <dxe:ComboBoxEdit SelectedIndex="{Binding SelectedEreignis}">
                     <dxe:ComboBoxEditItem Content="Dienstwoche" />
                     <dxe:ComboBoxEditItem Content="Regionaler Kongress" />
@@ -37,18 +37,18 @@
                 <dxe:TextEdit Text="{Binding EreignisName, Mode=TwoWay}" />
             </dxlc:LayoutItem>
             <dxlc:LayoutItem Label="Ältester / KA" 
-                              Foreground="{StaticResource textColor}"
+                              Foreground="{StaticResource TextColor}"
                              Visibility="{Binding ShowVortrag, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <dxe:TextEdit Text="{Binding VortragName, Mode=TwoWay}"  Foreground="{StaticResource textColor}"/>
+                <dxe:TextEdit Text="{Binding VortragName, Mode=TwoWay}"  Foreground="{StaticResource TextColor}"/>
             </dxlc:LayoutItem>
             <dxlc:LayoutGroup>
                 <RadioButton GroupName="Vortrag"
-                              Foreground="{StaticResource textColor}"
+                              Foreground="{StaticResource TextColor}"
                              IsChecked="{Binding VortragDropDownIsChecked, Mode=TwoWay}"
                              Visibility="{Binding ShowVortragRadio, Converter={StaticResource BooleanToVisibilityConverter}}"
                              Height="23" Width="14" />
                 <dxlc:LayoutItem Label="Vortrag"
-                                  Foreground="{StaticResource textColor}"
+                                  Foreground="{StaticResource TextColor}"
                                  Visibility="{Binding ShowVortragDropDown, Converter={StaticResource BooleanToVisibilityConverter}}"
                                  IsEnabled="{Binding VortragDropDownIsChecked}"
                                  ToolTip="Hier ausgewählte Vorträge werden in der Liste bereits gehörter oder geplanter Vorträge berücksichtigt.">
@@ -62,12 +62,12 @@
             </dxlc:LayoutGroup>
             <dxlc:LayoutGroup>
                 <RadioButton GroupName="Vortrag"
-                              Foreground="{StaticResource textColor}"
+                              Foreground="{StaticResource TextColor}"
                              IsChecked="{Binding VortragFreitextIsChecked, Mode=TwoWay}"
                              Visibility="{Binding ShowVortragRadio, Converter={StaticResource BooleanToVisibilityConverter}}"
                              Height="23" Width="14" />
                 <dxlc:LayoutItem Label="Vortrag (Freitext)"
-                                  Foreground="{StaticResource textColor}"
+                                  Foreground="{StaticResource TextColor}"
                                  IsEnabled="{Binding VortragFreitextIsChecked}">
                     <dxe:TextEdit Text="{Binding VortragThema, Mode=TwoWay}" />
                 </dxlc:LayoutItem>

@@ -15,7 +15,7 @@
     Width="500"
     Background="{StaticResource background}"
     x:Name="KalendereintragVerschiebenWindow"
-    Foreground="{StaticResource textColor}">
+    Foreground="{StaticResource TextColor}">
     <Window.DataContext>
         <local:KalendereintragVerschiebenView />
     </Window.DataContext>

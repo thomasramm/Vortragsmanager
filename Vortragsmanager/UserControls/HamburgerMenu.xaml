@@ -25,41 +25,23 @@
                                                  ToolTip="Startseite"/>
             <dxwui:HamburgerMenuItemSeparator/>
             <dxwui:HamburgerMenuNavigationButton Content="Mein Plan" 
-                                                         Glyph="/Images/Kalender_64x64.png" 
+                                                         Glyph="/Images/Kalender_64x64_dunkel.png" 
                                                          NavigationTargetType="{x:Type navi:MeinPlan}"
                                                  ToolTip="Mein Plan > Kalender"/>
             <dxwui:HamburgerMenuNavigationButton Content="Vorsitz und Leser"
                                                          Glyph="/Images/Sonntag4_64x64.png"
                                                          NavigationTargetType="{x:Type mp:Sonntag}" 
-                                                 ToolTip="MEin Plan > Vorsitz und Leser"/>
+                                                 ToolTip="Mein Plan > Vorsitz und Leser"/>
             <dxwui:HamburgerMenuItemSeparator/>
             <dxwui:HamburgerMenuNavigationButton Content="Meine Redner" 
                                                          Glyph="/Images/Person_64x64.png" 
                                                          NavigationTargetType="{x:Type navi:MeineRedner}"
                                                  ToolTip="Meine Redner"/>
             <dxwui:HamburgerMenuItemSeparator/>
-            <dxwui:HamburgerSubMenu Content="Listen" 
-                                            Glyph="/Images/icons8-ms-excel-50_W.png" 
-                                            FlyoutHeader="Listen ausgeben" 
-                                            MoreButtonVisibilityMode="Hidden"
-                                    ToolTip="Ausgabe von Excel Listen">
-                <dxwui:HamburgerSubMenu.Items>
-                    <dxwui:HamburgerSubMenuNavigationButton Content="Aushang" 
-                                                                    Click="HamburgerSubMenuAushang_Click"/>
-                    <dxwui:HamburgerSubMenuNavigationButton Content="Rednerliste" 
-                                                                    Click="HamburgerSubMenuRednerliste_Click" 
-                                                                    ToolTip="Rednerdaten deiner Versammlung zum Versenden an andere Koordinatoren"/>
-                    <dxwui:HamburgerSubMenuNavigationButton Content="Kontaktliste" 
-                                                                    Click="HamburgerSubMenuKontaktliste_Click"
-                                                                    ToolTip="Kontaktliste deiner Vortragsplanung (z.B. für eine Vertretung)"/>
-                    <dxwui:HamburgerSubMenuNavigationButton Content="Vortragsliste" 
-                                                                    Click="HamburgerSubMenuVortragsliste_Click"
-                                                                    ToolTip="Liste aller Vorträge mit Anzahl der Ausarbeitungen (wenn jemand einen neuen Vortrag ausarbeiten möchte)"/>
-                    <dxwui:HamburgerSubMenuNavigationButton Content="Kontaktliste komplett" 
-                                                                    Click="HamburgerSubMenuKontaktdatenAlle_Click"
-                                                                    ToolTip="Liste aller Versammlungen, Koordinatoren und Vortragsredner"/>
-                </dxwui:HamburgerSubMenu.Items>
-            </dxwui:HamburgerSubMenu>
+            <dxwui:HamburgerMenuNavigationButton Content="Liste ausgeben" 
+                                                 Glyph="/Images/icons8-ms-excel-50_W.png" 
+                                                 NavigationTargetType="{x:Type mv:ListCreateView}"
+                                                 ToolTip="Meine Redner"/>
             <dxwui:HamburgerMenuItemSeparator/>
             <dxwui:HamburgerMenuNavigationButton Content="Verwaltung"
                                                  Glyph="/Images/Verwaltung3_32x32.png"
@@ -92,7 +74,7 @@
             <dxwui:NavigationFrame x:Name="frame"
                             Source="DashboardView"
                             BackNavigationMode="PreviousScreen"
-                            AnimationType="SlideHorizontal"
+                            AnimationType="Fade"
                             AnimationSpeedRatio="1" />
         </dxwui:HamburgerMenu.Content>
     </dxwui:HamburgerMenu>

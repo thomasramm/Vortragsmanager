@@ -120,7 +120,7 @@
                                     VerticalAlignment="Center"/>
                             <StackPanel Grid.Row="6" Orientation="Horizontal" ToolTip="Aktiviert automatische Sicherungen im Hintergrund während du arbeitest.">
                                 <Label Content="Sicherungen anlegen"
-                                       Foreground="{StaticResource textColor}"
+                                       Foreground="{StaticResource TextColor}"
                                        Width="120"
                                        Margin="5,0"/>
                                 <dxe:ToggleSwitch x:Name="toggleSwitch" 

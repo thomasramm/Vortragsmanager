@@ -557,13 +557,13 @@
     <Resource Include="Images\Person_64x64.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Kalender_64x64.png" />
+    <Resource Include="Images\Kalender_64x64_dunkel.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Zwischenablage_32x32.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Search_64x64.png" />
+    <Resource Include="Images\Search_64x64_dunkel.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Logo1.ico" />
@@ -572,7 +572,7 @@
     <Resource Include="Images\Logo2_128x128.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\MailAntwort_64x64.png" />
+    <Resource Include="Images\MailAntwort_64x64_dunkel.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\NewMail_64x64.png" />
@@ -801,6 +801,29 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\ZwischenablageKopieren_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Listen1_hell.png" />
+    <Resource Include="Images\Listen2_hell.png" />
+    <Resource Include="Images\Listen3_hell.png" />
+    <Resource Include="Images\Listen4_hell.png" />
+    <Resource Include="Images\Listen5_hell.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Listen1_dunkel.png" />
+    <Resource Include="Images\Listen2_dunkel.png" />
+    <Resource Include="Images\Listen3_dunkel.png" />
+    <Resource Include="Images\Listen4_dunkel.png" />
+    <Resource Include="Images\Listen5_dunkel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Kalender_64x64_hell.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Search_64x64_hell.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MailAntwort_64x64_hell.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

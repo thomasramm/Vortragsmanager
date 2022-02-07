@@ -12,7 +12,7 @@ namespace Vortragsmanager.Navigation
         public MeinPlan()
         {
             InitializeComponent();
-            ToggleButton_Unchecked(null, null);
+            KalenderButton.IsChecked = true;
         }
 
         private void ToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -22,30 +22,26 @@ namespace Vortragsmanager.Navigation
             {
                 switch(button.Name)
                 {
+                    case nameof(KalenderButton):
+                        ActiveUserControl.Content = new Vortragsmanager.MeinPlan.MeinPlanView();
+                        RednerSuchenButton.IsChecked = false;
+                        AntwortEintragenButton.IsChecked = false;
+                        return;
                     case nameof(AntwortEintragenButton):
                         //ActiveUserControl.Content = new Views.AntwortEintragenControl();
                         //ActiveUserControl.Content = new Vortragsmanager.MeinPlan.AntwortEintragenView();
                         var myControl = new Views.AntwortEintragenControl();
                         ActiveUserControl.Content = myControl;
                         ((Views.AntwortEintragenViewModel)myControl.DataContext).LoadData();
-                        MenuHeaderTitel.Content = "Mein Plan > Antwort eintragen";
                         RednerSuchenButton.IsChecked = false;
+                        KalenderButton.IsChecked = false;
                         return;
                     case nameof(RednerSuchenButton):
                         ActiveUserControl.Content = new Vortragsmanager.MeinPlan.SearchSpeaker();
-                        MenuHeaderTitel.Content = "Mein Plan > Redner suchen";
                         AntwortEintragenButton.IsChecked = false;
+                        KalenderButton.IsChecked = false;
                         return;
                 }
-            }
-        }
-
-        private void ToggleButton_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (AntwortEintragenButton.IsChecked == false && RednerSuchenButton.IsChecked == false)
-            {
-                ActiveUserControl.Content = new Vortragsmanager.MeinPlan.MeinPlanView();
-                MenuHeaderTitel.Content = "Mein Plan";
             }
         }
     }

@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
-             xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
              xmlns:local="clr-namespace:Vortragsmanager.MeineVerwaltung"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
@@ -18,61 +16,111 @@
             <Setter Property="SpinStyle" Value="Horizontal"/>
         </Style>
     </UserControl.Resources>
-    <dxwui:PageAdornerControl Header="Listen ausgeben">
-        <dxwui:PageAdornerControl.HeaderTemplate>
-            <DataTemplate>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <ContentPresenter Content="{Binding}" />
-                    <Navi:NavigatorView HorizontalAlignment="Right" Grid.Column="1" />
-                </Grid>
-            </DataTemplate>
-        </dxwui:PageAdornerControl.HeaderTemplate>
-        <Grid>
+    <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="44" />
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
-            <dxlc:LayoutControl Margin="20" Grid.Row="0" MaxWidth="800">
-                <dxlc:LayoutGroup Header="Excel-Listen" View="GroupBox" Orientation="Vertical">
-                    <dxlc:LayoutItem Label="Aushang für die Versammlung">
-                        <dxlc:LayoutGroup Orientation="Horizontal">
-                        <Button Content="Erstellen" Command="{Binding CreateAushangCommand}" />
-                        <dxe:SpinEdit EditValue="{Binding ListAushangAnzahlWochen, Mode=TwoWay}"
-                                      MaxValue="24" MinValue="1" 
-                                      AllowDefaultButton="False"
-                                      Mask="#0"
-                                      EditValueType="{x:Type sys:Int32}"
-                                      Width="75" HorizontalAlignment="Left"
-                                      ToolTip="Anzahl der Wochen die Ausgegeben werden sollen (max. 24)">
-                            <dxe:SpinEdit.Buttons>
-                                <dxe:SpinButtonInfo IsDefaultButton="True" IsLeft="True" />
-                            </dxe:SpinEdit.Buttons>
-                        </dxe:SpinEdit>
-                        </dxlc:LayoutGroup>
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Kontaktliste deiner Vortragsplanung (z.B. für deine Vertretung)">
-                        <Button Content="Erstellen" Command="{Binding CreateContactListCommand}" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Rednerdaten der Versammlung zum Versenden an Koordinatoren">
-                        <Button Content="Erstellen" Command="{Binding CreateExchangeRednerListCommand}" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Liste aller Vorträge mit Anzahl der Ausarbeitungen">
-                        <Button Content="Erstellen" Command="{Binding CreateOverviewTalkCountCommand}" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Liste aller gespeicherten Vortragsredner, Versammlungen und Koordinatoren">
-                        <Button Content="Erstellen" Command="{Binding CreateSpeakerOverviewCommand}" />
-                    </dxlc:LayoutItem>
-                </dxlc:LayoutGroup>
-            </dxlc:LayoutControl>
-            <dxe:ToggleSwitch x:Name="toggleSwitch" Grid.Row="1" Margin="10,5"
-                              HorizontalAlignment="Right"
-                              CheckedStateContent="Liste nach dem Erstellen öffnen"
-                              UncheckedStateContent="Liste nur Erstellen"
-                              IsChecked="{Binding ListeÖffnen}" />
+            <Border Grid.Row="0" Style="{StaticResource navimenuHeader}" />
+        <Label Grid.Row="0" 
+                   Content="Liste erstellen" 
+                   VerticalContentAlignment="Center" 
+                   FontSize="16" 
+                   Margin="10,0" 
+                   Foreground="White"/>
+        <dxlc:FlowLayoutControl Grid.Row="1"
+                                    Orientation="Horizontal"
+                                    ItemSpace="20"
+                                    LayerSpace="20"
+                                    Margin="5">
+                <Button Command="{Binding CreateAushangCommand}" 
+                        Width="176" Height="76"
+                        ToolTip="Aushang für die Versammlung"
+                        HorizontalContentAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource Listen1}"
+                                   Width="24"
+                                   Height="24"
+                                   Margin="10,0,20,0"/>
+                            <Label Content="Aushang" VerticalAlignment="Center" FontSize="14"/>
+                        </StackPanel>
+                </Button>
+                <Button Command="{Binding CreateContactListCommand}" 
+                        Width="176" Height="76"
+                        ToolTip="Kontaktliste deiner Vortragsplanung (z.B. für deine Vertretung)"
+                        HorizontalContentAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource Listen2}"
+                                   Width="24"
+                                   Height="24"
+                                   Margin="10,0,20,0"/>
+                        <Label Content="Kontaktliste" VerticalAlignment="Center" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                <Button Command="{Binding CreateExchangeRednerListCommand}" 
+                        Width="176" Height="76"
+                        ToolTip="Rednerdaten der Versammlung zum Versenden an Koordinatoren"
+                        HorizontalContentAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource Listen3}"
+                                   Width="24"
+                                   Height="24"
+                                   Margin="10,0,20,0"/>
+                            <Label Content="Rednerdaten" VerticalAlignment="Center" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                <Button Command="{Binding CreateOverviewTalkCountCommand}" 
+                        Width="176" Height="76"
+                        ToolTip="Liste aller Vorträge mit Anzahl der Ausarbeitungen"
+                        HorizontalContentAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource Listen4}"
+                                   Width="24"
+                                   Height="24"
+                                   Margin="10,0,20,0"/>
+                            <Label Content="Vorträge" VerticalAlignment="Center" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                <Button Command="{Binding CreateSpeakerOverviewCommand}" 
+                        Width="176" Height="76"
+                        ToolTip="Liste aller gespeicherten Vortragsredner, Versammlungen und Koordinatoren"
+                        HorizontalContentAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource Listen5}"
+                                   Width="24"
+                                   Height="24"
+                                   Margin="10,0,20,0"/>
+                            <Label Content="Datenexport" VerticalAlignment="Center" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+            </dxlc:FlowLayoutControl>
+            <Label Grid.Row="2" Content="Anzahl Wochen im Aushang:"
+                   Height="25"
+                   VerticalAlignment="Bottom"
+                   HorizontalAlignment="Right"
+                   Margin="0,0,310,5"/>
+            <dxe:SpinEdit Grid.Row="2" EditValue="{Binding ListAushangAnzahlWochen, Mode=TwoWay}"
+                          MaxValue="24" MinValue="1" 
+                          Margin="0,5,250,5"
+                          AllowDefaultButton="False"
+                          Mask="#0"
+                          EditValueType="{x:Type sys:Int32}"
+                          Width="55" 
+                          Height="25"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Bottom"
+                          ToolTip="Anzahl der Wochen die Ausgegeben werden sollen (max. 24)">
+                <dxe:SpinEdit.Buttons>
+                    <dxe:SpinButtonInfo IsDefaultButton="True" IsLeft="False" />
+                </dxe:SpinEdit.Buttons>
+            </dxe:SpinEdit>
+        <dxe:ToggleSwitch x:Name="toggleSwitch" 
+                          Grid.Row="2" 
+                          Margin="10,5"
+                          HorizontalAlignment="Right"
+                          CheckedStateContent="Liste nach dem Erstellen öffnen"
+                          UncheckedStateContent="Liste nur Erstellen"
+                          IsChecked="{Binding ListeÖffnen}" />
         </Grid>
-    </dxwui:PageAdornerControl>
 </UserControl>

@@ -26,11 +26,58 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    <Style x:Key="NavimenuHeaderButton2" TargetType="ButtonBase">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="#EFF6FC"/>
+        <Setter Property="BorderThickness" Value="0,0,0,3"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Light"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Margin" Value="5,1"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="dx:ThemeManager.ThemeName" Value="None"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ButtonBase">
+                    <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="#106EBE"/>
+            </Trigger>
+            <Trigger Property="ToggleButton.IsChecked" Value="True">
+                <Setter Property="BorderBrush" Value="#004578"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="NavimenuSecondLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
     <Style x:Key="navimenuHeader" TargetType="Border">
         <Setter Property="Background" Value="#106EBE"/>
     </Style>
-    <SolidColorBrush x:Key="textColor" Color="Black"/>
+    <Style x:Key="NavimenuHeader2" TargetType="Border">
+        <Setter Property="Background" Value="#005A9E"/>
+    </Style>
+    <SolidColorBrush x:Key="TextColor" Color="Black"/>
     <SolidColorBrush x:Key="textHighlight" Color="#004578"/>
     <SolidColorBrush x:Key="background" Color="White"/>
-    <Thickness x:Key="hauptfensterRand">10</Thickness>
+    <Thickness x:Key="HauptfensterRand">10</Thickness>
+    <BitmapImage x:Key="Listen1" UriSource="Images/Listen1_hell.png"/>
+    <BitmapImage x:Key="Listen2" UriSource="Images/Listen2_hell.png"/>
+    <BitmapImage x:Key="Listen3" UriSource="Images/Listen3_hell.png"/>
+    <BitmapImage x:Key="Listen4" UriSource="Images/Listen4_hell.png"/>
+    <BitmapImage x:Key="Listen5" UriSource="Images/Listen5_hell.png"/>
+    <BitmapImage x:Key="Kalender" UriSource="/Images/Kalender_64x64_hell.png"/>
+    <BitmapImage x:Key="RednerSuchen" UriSource="/Images/Search_64x64_hell.png"/>
+    <BitmapImage x:Key="AntwortEintragen" UriSource="/Images/MailAntwort_64x64_hell.png"/>
 </ResourceDictionary>
