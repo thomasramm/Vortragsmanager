@@ -8,12 +8,13 @@ using System.Windows;
 using System.Windows.Forms;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
+using Application = System.Windows.Application;
 
 namespace Vortragsmanager.MeineVerwaltung
 {
     public class EinstellungenViewModel : ViewModelBase
     {
-        private string datenbank;
+        private string _datenbank;
 
         public EinstellungenViewModel()
         {
@@ -24,28 +25,97 @@ namespace Vortragsmanager.MeineVerwaltung
             CalculateRouteCommand = new DelegateCommand<bool>(CalculateRoute);
             ShowChangelogCommand = new DelegateCommand(ShowChangelog);
             Datenbank = Properties.Settings.Default.sqlite;
-            
+            SelectedTheme = ThemeIsDark ? "Dunkel" : "Hell";
         }
+
+        protected override void OnParameterChanged(object parameter)
+        {
+            SelectedGroup = (string)parameter == "Design" ? 2 : 1;
+            base.OnParameterChanged(parameter);
+        }
+
+        private int _selectedGroup;
+        private int SelectedGroup
+        {
+            get => _selectedGroup;
+            set
+            {
+                _selectedGroup = value;
+                RaisePropertiesChanged(nameof(GruppeAussehenVisible)
+                    , nameof(GruppeDateiVisible)
+                    , nameof(GruppeVerhaltenVisible)
+                    , nameof(GruppeAktionenVisible));
+                RaisePropertiesChanged(nameof(GruppeAussehenChecked)
+                    , nameof(GruppeDateiChecked)
+                    , nameof(GruppeVerhaltenChecked)
+                    , nameof(GruppeAktionenChecked));
+            }
+        }
+        public Visibility GruppeDateiVisible => SelectedGroup == 1 || SelectedGroup == 0 ? Visibility.Visible : Visibility.Collapsed;
+        
+        public Visibility GruppeAussehenVisible => SelectedGroup == 2 || SelectedGroup == 0 ? Visibility.Visible : Visibility.Collapsed;
+        
+        public Visibility GruppeVerhaltenVisible => SelectedGroup == 3 || SelectedGroup == 0 ? Visibility.Visible : Visibility.Collapsed;
+        
+        public Visibility GruppeAktionenVisible => SelectedGroup == 4 || SelectedGroup == 0 ? Visibility.Visible : Visibility.Collapsed;
+
+        public bool GruppeDateiChecked
+        {
+            get => (SelectedGroup == 1);
+            set
+            {
+                if (value)
+                    SelectedGroup = 1;
+            }
+        }
+
+        public bool GruppeAussehenChecked
+        {
+            get => (SelectedGroup == 2);
+            set
+            {
+                if (value)
+                    SelectedGroup = 2;
+            }
+        }
+        
+        public bool GruppeVerhaltenChecked
+        {
+            get => (SelectedGroup == 3);
+            set
+            {
+                if (value)
+                    SelectedGroup = 3;
+            }
+        }
+
+        public bool GruppeAktionenChecked
+        {
+            get => (SelectedGroup == 4);
+            set
+            {
+                if (value)
+                    SelectedGroup = 4;
+            }
+        }
+
 
         private string _importExcelFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Liste der Vortragskoordinatoren.xlsx";
         private static string _selectedTheme;
 
-        public DelegateCommand ExcelFileDialogCommand { get; private set; }
+        public DelegateCommand ExcelFileDialogCommand { get; }
 
-        public DelegateCommand UpdateSpeakerFromExcelCommand { get; private set; }
+        public DelegateCommand UpdateSpeakerFromExcelCommand { get; }
 
-        public DelegateCommand<int?> EmergencyMailCommand { get; private set; }
+        public DelegateCommand<int?> EmergencyMailCommand { get; }
 
-        public DelegateCommand<bool> CalculateRouteCommand { get; private set; }
+        public DelegateCommand<bool> CalculateRouteCommand { get; }
 
-        public DelegateCommand ShowChangelogCommand { get; private set; }
+        public DelegateCommand ShowChangelogCommand { get; }
 
         public string ImportExcelFile
         {
-            get
-            {
-                return _importExcelFile;
-            }
+            get => _importExcelFile;
             set
             {
                 _importExcelFile = value;
@@ -55,10 +125,7 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public int ListAushangAnzahlWochen
         {
-            get
-            {
-                return Properties.Settings.Default.ListAushangAnzahlWochen;
-            }
+            get => Properties.Settings.Default.ListAushangAnzahlWochen;
             set
             {
                 if (value > 24)
@@ -78,7 +145,7 @@ namespace Vortragsmanager.MeineVerwaltung
         public void ExcelFileDialog()
         {
             var fi = new FileInfo(ImportExcelFile);
-            var dir = fi.Directory.Exists ? fi.DirectoryName : Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var dir = fi.Directory != null && fi.Directory.Exists ? fi.DirectoryName : Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
             var openDialog = new OpenFileDialog
             {
@@ -105,18 +172,15 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public string Datenbank
         {
-            get
-            {
-                return datenbank;
-            }
+            get => _datenbank;
             set
             {
-                datenbank = value;
+                _datenbank = value;
                 RaisePropertyChanged();
             }
         }
 
-        public DelegateCommand<string> SearchDatabaseCommand { get; private set; }
+        public DelegateCommand<string> SearchDatabaseCommand { get; }
 
         public void SearchDatabase(string typ)
         {
@@ -171,10 +235,7 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public bool SaveBackup
         {
-            get
-            {
-                return Properties.Settings.Default.SaveBackups;
-            }
+            get => Properties.Settings.Default.SaveBackups;
             set
             {
                 Properties.Settings.Default.SaveBackups = value;
@@ -185,10 +246,7 @@ namespace Vortragsmanager.MeineVerwaltung
         
         public bool ShowChangelogState
         {
-            get
-            {
-                return !Properties.Settings.Default.HideChangelog;
-            }
+            get => !Properties.Settings.Default.HideChangelog;
             set
             {
                 Properties.Settings.Default.HideChangelog = !value;
@@ -197,26 +255,9 @@ namespace Vortragsmanager.MeineVerwaltung
             }
         }
         
-        public bool DashboardShowDetails
-        {
-            get
-            {
-                return Properties.Settings.Default.DashboardShowDetails;
-            }
-            set
-            {
-                Properties.Settings.Default.DashboardShowDetails = value;
-                Properties.Settings.Default.Save();
-                RaisePropertyChanged();
-            }
-        }
-        
         public bool ShowActivityButtons
         {
-            get
-            {
-                return Properties.Settings.Default.ShowActivityButtons;
-            }
+            get => Properties.Settings.Default.ShowActivityButtons;
             set
             {
                 Properties.Settings.Default.ShowActivityButtons = value;
@@ -227,10 +268,7 @@ namespace Vortragsmanager.MeineVerwaltung
         
         public int SelectedLogLevel
         {
-            get
-            {
-                return Properties.Settings.Default.LogLevel;
-            }
+            get => Properties.Settings.Default.LogLevel;
             set
             {
                 Log.Start((LogLevel)value);
@@ -240,10 +278,7 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public string LogFolder
         {
-            get
-            {
-                return Properties.Settings.Default.LogFolder;
-            }
+            get => Properties.Settings.Default.LogFolder;
             set
             {
                 var di = new DirectoryInfo(value);
@@ -259,10 +294,7 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public DayOfWeeks ConregationDayOfWeek
         {
-            get
-            {
-                return Helper.Wochentag;
-            }
+            get => Helper.Wochentag;
             set
             {
                 Helper.Wochentag = value;
@@ -276,11 +308,9 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public static void EmergencyMail(int? maxEntfernung)
         {
-            IEnumerable<Conregation> empfänger;
-            if (maxEntfernung is null)
-                empfänger = DataContainer.Versammlungen.Where(x => x.Kreis == DataContainer.MeineVersammlung.Kreis);
-            else
-                empfänger = DataContainer.Versammlungen.Where(x => x.Entfernung <= maxEntfernung);
+            var empfänger = maxEntfernung is null 
+                ? DataContainer.Versammlungen.Where(x => x.Kreis == DataContainer.MeineVersammlung.Kreis) 
+                : DataContainer.Versammlungen.Where(x => x.Entfernung <= maxEntfernung);
 
             var mailadressen = "------------------------------\nListe der Mailadressen\n------------------------------\n";
             var mailadressenFuß = "----- Koordinatoren ohne Mailadresse -----\n";
@@ -337,19 +367,15 @@ namespace Vortragsmanager.MeineVerwaltung
 
         public static bool ThemeIsDark
         {
-            get => Properties.Settings.Default.Theme == "MetropolisDark";
+            get => Properties.Settings.Default.ThemeIsDark;
             set
             {
+                Properties.Settings.Default.ThemeIsDark = value;
+                Properties.Settings.Default.Save();
                 var theme = value ? "MetropolisDark" : "Office2019White";
                 var dict = value ? "Dictionary_Dark.xaml" : "Dictionary_Light.xaml";
-                Properties.Settings.Default.Theme = theme;
-                Properties.Settings.Default.Save();
-                _selectedTheme = value ? "Dunkel" : "Hell";
                 ApplyResources(dict);
-
                 ApplicationThemeHelper.ApplicationThemeName = theme;
-
-
             }
         }
 
@@ -358,29 +384,37 @@ namespace Vortragsmanager.MeineVerwaltung
             get => _selectedTheme;
             set
             {
-                if (_selectedTheme != value)
+                if (_selectedTheme == value) 
+                    return;
+
+                _selectedTheme = value;
+                if (ThemeIsDark != (_selectedTheme == "Dunkel"))
                 {
-                    _selectedTheme = value;
-                    if (ThemeIsDark != (_selectedTheme == "Dunkel"))
-                        ThemeIsDark = _selectedTheme == "Dunkel";
-                    RaisePropertyChanged();
+                    ThemeIsDark = _selectedTheme == "Dunkel";
+                    Service?.Navigate("EinstellungenView", "Design", this);
                 }
+
+                RaisePropertyChanged();
             }
         }
 
+        public List<string> Themes { get; } = new List<string>(2) { "Dunkel", "Hell" };
+
         private static void ApplyResources(string src)
         {
-            App a = App.Current as App;
+            var a = Application.Current as App;
             var dict = new ResourceDictionary() { Source = new Uri(src, UriKind.Relative) };
             foreach (var mergeDict in dict.MergedDictionaries)
             {
-                a.Resources.MergedDictionaries.Add(mergeDict);
+                a?.Resources.MergedDictionaries.Add(mergeDict);
             }
 
             foreach (var key in dict.Keys)
             {
-                a.Resources[key] = dict[key];
+                if (a != null) a.Resources[key] = dict[key];
             }
         }
+
+        private INavigationService Service => ServiceContainer.GetService<INavigationService>();
     }
 }

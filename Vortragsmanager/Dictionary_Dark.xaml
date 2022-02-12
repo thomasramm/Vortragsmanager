@@ -147,4 +147,5 @@
     <BitmapImage x:Key="ChangeLast" UriSource="Images/ChangeLast_dunkel_64x64.png"/>
     <BitmapImage x:Key="Programmverhalten" UriSource="Images/Programmverhalten_dunkel_64x64.png"/>
     <BitmapImage x:Key="Aktivität" UriSource="Images/Aktivität_dunkel_64x64.png"/>
+    <BitmapImage x:Key="Style" UriSource="Images/Style_dunkel_64x64.png"/>
 </ResourceDictionary>

@@ -65,8 +65,8 @@
     <Setting Name="ListAushangAnzahlWochen" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
-    <Setting Name="Theme" Type="System.String" Scope="User">
-      <Value Profile="(Default)">MetropolisDark</Value>
+    <Setting Name="ThemeIsDark" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

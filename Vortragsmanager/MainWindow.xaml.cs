@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Markup;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.MeineVerwaltung;
 using Vortragsmanager.Properties;
 
 namespace Vortragsmanager
@@ -84,7 +85,10 @@ namespace Vortragsmanager
 
             //Style Anpassungen
             Helper.GlobalSettings.RefreshTitle();
-            ApplicationThemeHelper.ApplicationThemeName = Settings.Default.Theme;
+            EinstellungenViewModel.ThemeIsDark = Settings.Default.ThemeIsDark;
+#if DEBUG
+            ThemeSwitch.Visibility = Visibility.Visible; 
+#endif
             ToggleSwitch_Changed(null, null);
         }
 
@@ -99,11 +103,9 @@ namespace Vortragsmanager
 
         private void ToggleSwitch_Changed(object sender, RoutedEventArgs e)
         {
-            //var button = (ToggleSwitch)sender;
-            //if (button == null)
-            //    return;
-
-            hamburgerMenu.Margin = Helper.StyleIsDark == false ? new Thickness(-10, 0, -10, -10) : new Thickness(-10, -7, -10, -10);
+            hamburgerMenu.Margin = Helper.StyleIsDark == false 
+                ? new Thickness(-10, 0, -10, -10) 
+                : new Thickness(-10, -7, -10, -10);
         }
     }
 }

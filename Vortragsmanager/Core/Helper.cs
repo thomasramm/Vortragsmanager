@@ -234,7 +234,7 @@ namespace Vortragsmanager.Core
             return false;
         }
 
-        public static bool StyleIsDark => Properties.Settings.Default.Theme == "MetropolisDark";
+        public static bool StyleIsDark => Properties.Settings.Default.ThemeIsDark;
     }
 
     public class DoubleToIntConverter : IValueConverter

@@ -113,6 +113,8 @@
       <DependentUpon>ActivityItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="ActivityLog\Activities.cs" />
+    <Compile Include="HamburgerMenuViewModel.cs" />
+    <Compile Include="MainWindowView.cs" />
     <Compile Include="Navigation\MeineRedner.xaml.cs">
       <DependentUpon>MeineRedner.xaml</DependentUpon>
     </Compile>
@@ -158,9 +160,6 @@
     </Compile>
     <Compile Include="UserControls\DashboardWeekItem.xaml.cs">
       <DependentUpon>DashboardWeekItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\HamburgerMenu.xaml.cs">
-      <DependentUpon>HamburgerMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\SonntagEinstellungenItem.xaml.cs">
       <DependentUpon>SonntagEinstellungenItem.xaml</DependentUpon>
@@ -385,10 +384,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\DashboardWeekItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\HamburgerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -679,6 +674,9 @@
     <PackageReference Include="CalcBinding">
       <Version>2.5.2</Version>
     </PackageReference>
+    <PackageReference Include="DevExpress.Mvvm">
+      <Version>21.2.3</Version>
+    </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Accordion">
       <Version>21.2.3</Version>
     </PackageReference>
@@ -857,6 +855,8 @@
     <Resource Include="Images\Programmverhalten_hell_64x64.png" />
     <Resource Include="Images\Aktivität_dunkel_64x64.png" />
     <Resource Include="Images\Aktivität_hell_64x64.png" />
+    <Resource Include="Images\Style_dunkel_64x64.png" />
+    <Resource Include="Images\Style_hell_64x64.png" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -274,13 +274,13 @@ namespace Vortragsmanager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("MetropolisDark")]
-        public string Theme {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ThemeIsDark {
             get {
-                return ((string)(this["Theme"]));
+                return ((bool)(this["ThemeIsDark"]));
             }
             set {
-                this["Theme"] = value;
+                this["ThemeIsDark"] = value;
             }
         }
     }

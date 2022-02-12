@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:dxwuin="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/navigation"
-             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:local="clr-namespace:Vortragsmanager.Navigation" 
              xmlns:usercontrols="clr-namespace:Vortragsmanager.UserControls"
              mc:Ignorable="d"
@@ -12,9 +10,6 @@
     <UserControl.DataContext>
         <local:DashboardViewModel />
     </UserControl.DataContext>
-    <UserControl.Resources>
-        
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="44" />
@@ -38,10 +33,10 @@
             </Grid.RowDefinitions>
             <Label Content="Mein Plan" Grid.Row="0" Grid.Column="1" Foreground="{StaticResource TextColor}" FontSize="26" FontWeight="Light"/>
             <Label Content="Meine Redner" Grid.Row="0" Grid.Column="2" Foreground="{StaticResource TextColor}" FontSize="26" FontWeight="Light"/>
-            <usercontrols:DashboardWeekItem Grid.Row="1" Grid.ColumnSpan="3" Woche="{Binding AktuelleWoche}" Margin="5"/>
-            <usercontrols:DashboardWeekItem Grid.Row="2" Grid.ColumnSpan="3" Woche="{Binding Woche2}"  Margin="5"/>
-            <usercontrols:DashboardWeekItem Grid.Row="3" Grid.ColumnSpan="3" Woche="{Binding Woche3}"  Margin="5"/>
-            <usercontrols:DashboardWeekItem Grid.Row="4" Grid.ColumnSpan="3" Woche="{Binding Woche4}"  Margin="5"/>
+            <usercontrols:DashboardWeekItem Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Woche="{Binding AktuelleWoche}" Margin="5"/>
+            <usercontrols:DashboardWeekItem Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Woche="{Binding Woche2}"  Margin="5"/>
+            <usercontrols:DashboardWeekItem Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Woche="{Binding Woche3}"  Margin="5"/>
+            <usercontrols:DashboardWeekItem Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Woche="{Binding Woche4}"  Margin="5"/>
         </Grid>
     </Grid>
 </UserControl>

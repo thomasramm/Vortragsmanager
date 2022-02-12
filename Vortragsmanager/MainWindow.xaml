@@ -6,9 +6,20 @@
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" 
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:usercontrols="clr-namespace:Vortragsmanager.UserControls"
+    xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+    xmlns:navi="clr-namespace:Vortragsmanager.Navigation"
+    xmlns:mp="clr-namespace:Vortragsmanager.MeinPlan"
+    xmlns:mv="clr-namespace:Vortragsmanager.MeineVerwaltung"
+    xmlns:av="clr-namespace:Vortragsmanager.ActivityLog"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:navigation="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/navigation"
+    xmlns:vortragsmanager="clr-namespace:Vortragsmanager"
     Width="1400" 
     Height="700"
     Title="{Binding Titel, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+    <Window.DataContext>
+        <vortragsmanager:MainWindowView/>
+    </Window.DataContext>
     <dxc:ThemedWindow.HeaderItems>
         <dxc:DropDownButton Content="Hilfe">
             <dxb:PopupMenu>
@@ -17,12 +28,88 @@
                 <dxb:BarButtonItem Content="Programmänderungen anzeigen" ItemClick="ChangesButton_Click" />
             </dxb:PopupMenu>
         </dxc:DropDownButton>
-        <dxe:ToggleSwitch CheckedStateContent="Dark"
-                          UncheckedStateContent="Light"
-                          ContentPlacement="Both" 
-                          IsChecked="{Binding ThemeIsDark}" 
-                          Checked="ToggleSwitch_Changed"
-                          Unchecked="ToggleSwitch_Changed"/>
+        <dxe:ToggleSwitch x:Name="ThemeSwitch"
+            CheckedStateContent="Dark"
+            UncheckedStateContent="Light"
+            ContentPlacement="Both" 
+            IsChecked="{Binding ThemeIsDark}" 
+            Checked="ToggleSwitch_Changed"
+            Unchecked="ToggleSwitch_Changed"
+            Visibility="Collapsed"/>
     </dxc:ThemedWindow.HeaderItems>
-    <usercontrols:HamburgerMenu x:Name="hamburgerMenu" Margin="{StaticResource HauptfensterRand}"/>
+    <!--<usercontrols:HamburgerMenu x:Name="hamburgerMenu" Margin="{StaticResource HauptfensterRand}"/>-->
+    <dxwui:HamburgerMenu x:Name="hamburgerMenu"
+                         Header="{Binding ElementName=_menu, Path=SelectedItem.Content}"
+                         OpenPaneWidth="250"
+                         ShowMenuOnEmptySpaceBarClick="True"
+                         ShowRevealHighlightEffect="False"
+                         AllowBuiltInNavigation="True"
+                         AvailableViewStates="All"
+                         ViewState="Inline"
+                         NavigationTarget="{Binding ElementName=service}"
+                         Margin="{StaticResource HauptfensterRand}">
+        <dxwui:HamburgerMenu.Items>
+            <dxwui:HamburgerMenuNavigationButton Content="Startseite"
+                                                         Glyph="/Images/Home_32x32.png"
+                                                         NavigationTargetType="{x:Type navi:DashboardView}"
+                                                 ToolTip="Startseite"/>
+            <dxwui:HamburgerMenuItemSeparator/>
+            <dxwui:HamburgerMenuNavigationButton Content="Mein Plan" 
+                                                         Glyph="/Images/Kalender_64x64_dunkel.png" 
+                                                         NavigationTargetType="{x:Type navi:MeinPlan}"
+                                                 ToolTip="Mein Plan > Kalender"/>
+            <dxwui:HamburgerMenuNavigationButton Content="Vorsitz und Leser"
+                                                         Glyph="/Images/Sonntag4_64x64.png"
+                                                         NavigationTargetType="{x:Type mp:Sonntag}" 
+                                                 ToolTip="Mein Plan > Vorsitz und Leser"/>
+            <dxwui:HamburgerMenuItemSeparator/>
+            <dxwui:HamburgerMenuNavigationButton Content="Meine Redner" 
+                                                         Glyph="/Images/MeineRedner_64x64_dunkel.png" 
+                                                         NavigationTargetType="{x:Type navi:MeineRedner}"
+                                                 ToolTip="Meine Redner"/>
+            <dxwui:HamburgerMenuItemSeparator/>
+            <dxwui:HamburgerMenuNavigationButton Content="Liste ausgeben" 
+                                                 Glyph="/Images/icons8-ms-excel-50_W.png" 
+                                                 NavigationTargetType="{x:Type mv:ListCreateView}"
+                                                 ToolTip="Meine Redner"/>
+            <dxwui:HamburgerMenuItemSeparator/>
+            <dxwui:HamburgerMenuNavigationButton Content="Verwaltung"
+                                                 Glyph="/Images/Verwaltung3_32x32.png"
+                                                 NavigationTargetType="{x:Type navi:Verwaltung}"
+                                                 ToolTip="Verwaltung"/>
+            <dxwui:HamburgerMenuNavigationButton Content="Einstellungen" 
+                                                         Glyph="/Images/Zahnrad_64x64.png" 
+                                                         Placement="Bottom"
+                                                         NavigationTargetType="{x:Type mv:EinstellungenView}"
+                                                 ToolTip="Einstellungen" Margin="0,-1,0,1"/>
+            <dxwui:HamburgerSubMenu Content="Historie"
+                                            Glyph="/Images/Verlauf_32x32.png"
+                                            MoreButtonVisibilityMode="Hidden" 
+                                            FlyoutHeader="Historie"
+                                            Placement="Bottom"
+                                    ToolTip="Historie">
+                <dxwui:HamburgerSubMenu.Items>
+                    <dxwui:HamburgerSubMenuNavigationButton Content="Sicherung" 
+                                                                    NavigationTargetType="{x:Type mv:BackupsView}"/>
+                    <dxwui:HamburgerSubMenuNavigationButton Content="Aktivitäten" 
+                                                            NavigationTargetType="{x:Type av:ActivityLog}"
+                                                                    ToolTip="Alle im Programm vorgenommenen Aktivitäten anzeigen"/>
+                </dxwui:HamburgerSubMenu.Items>
+            </dxwui:HamburgerSubMenu>
+            <dxwui:HamburgerMenuHyperlinkButton  Content="Handbuch"
+                                                         NavigateUri="https://thomasramm.github.io/Vortragsmanager/Startseite/"
+                                                         Placement="Bottom"/>
+        </dxwui:HamburgerMenu.Items>
+        <dxwui:HamburgerMenu.Content>
+            <dxwui:NavigationFrame x:Name="frame"
+                            Source="{x:Type navi:DashboardView}"
+                            BackNavigationMode="PreviousScreen"
+                            AnimationType="Fade"
+                            AnimationSpeedRatio="1">
+                <dxmvvm:Interaction.Behaviors>
+                    <navigation:FrameNavigationService x:Name="service" />
+                </dxmvvm:Interaction.Behaviors>
+            </dxwui:NavigationFrame>
+        </dxwui:HamburgerMenu.Content>
+    </dxwui:HamburgerMenu>
 </dxc:ThemedWindow>
