@@ -554,9 +554,6 @@
     <None Include="Vortragsmanager.ruleset" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Person_64x64.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Kalender_64x64_dunkel.png" />
   </ItemGroup>
   <ItemGroup>
@@ -826,6 +823,40 @@
     <Resource Include="Images\MailAntwort_64x64_hell.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\MeineRedner_64x64_hell.png" />
+    <Resource Include="Images\MeineRedner_64x64_dunkel.png" />
+    <Resource Include="Images\MeineRednerAnfrage_64x64_dunkel.png" />
+    <Resource Include="Images\MeineRednerAnfrage_64x64_hell.png" />
+    <Resource Include="Images\Vorlagen_64x64_hell.png" />
+    <Resource Include="Images\Vorlagen_64x64_dunkel.png" />
+    <Resource Include="Images\Versammlung_dunkel_64x64.png" />
+    <Resource Include="Images\Versammlung_hell_64x64.png" />
+    <Resource Include="Images\Vortrag_dunkel.png" />
+    <Resource Include="Images\Vortrag_hell.png" />
+    <Resource Include="Images\Info_dunkel_64x64.png" />
+    <Resource Include="Images\Info_hell_64x64.png" />
+    <Resource Include="Images\SpeichernUnter_hell_64x64.png" />
+    <Resource Include="Images\SpeichernUnter_dunkel_64x64.png" />
+    <Resource Include="Images\DateiÖffnen_hell_64x64.png" />
+    <Resource Include="Images\DateiÖffnen_dunkel_64x64.png" />
+    <Resource Include="Images\Sicherung_hell_64x64.png" />
+    <Resource Include="Images\Sicherung_dunkel_64x64.png" />
+    <Resource Include="Images\Style_64x64.png" />
+    <Resource Include="Images\Changelog_hell_64x64.png" />
+    <Resource Include="Images\Changelog_dunkel_64x64.png" />
+    <Resource Include="Images\Logfile_hell_64x64.png" />
+    <Resource Include="Images\Logfile_dunkel_64x64.png" />
+    <Resource Include="Images\LogfileFolder_hell_32x32.png" />
+    <Resource Include="Images\LogfileFolder_hell_64x64.png" />
+    <Resource Include="Images\LogfileFolder_dunkel_64x64.png" />
+    <Resource Include="Images\MailAnKoordinaten_hell_64x64.png" />
+    <Resource Include="Images\MailAnKoordinaten_dunkel_64x64.png" />
+    <Resource Include="Images\ChangeLast_dunkel_64x64.png" />
+    <Resource Include="Images\ChangeLast_hell_64x64.png" />
+    <Resource Include="Images\Programmverhalten_dunkel_64x64.png" />
+    <Resource Include="Images\Programmverhalten_hell_64x64.png" />
+    <Resource Include="Images\Aktivität_dunkel_64x64.png" />
+    <Resource Include="Images\Aktivität_hell_64x64.png" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

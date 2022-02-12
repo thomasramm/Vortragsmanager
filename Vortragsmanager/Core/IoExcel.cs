@@ -54,10 +54,10 @@ namespace Vortragsmanager.Core
             }
         }
 
-        public static void UpdateSpeakers(string File)
+        public static void UpdateSpeakers(string file)
         {
-            Log.Info(nameof(UpdateSpeakers), File);
-            var fi = new FileInfo(File);
+            Log.Info(nameof(UpdateSpeakers), file);
+            var fi = new FileInfo(file);
 
             using (ExcelPackage package = new ExcelPackage(fi))
             {
@@ -109,7 +109,6 @@ namespace Vortragsmanager.Core
             public static bool Versammlung(string filename, bool clear)
             {
                 Log.Info(nameof(Versammlung), filename);
-                var file = new FileInfo(filename);
 
                 if (clear)
                     DataContainer.Versammlungen.Clear();
@@ -202,17 +201,16 @@ namespace Vortragsmanager.Core
             public static bool Redner(string filename, bool clear)
             {
                 Log.Info(nameof(Versammlung), filename);
-                var file = new FileInfo(filename);
 
                 if (clear)
                     DataContainer.Redner.Clear();
 
                 try
                 {
-                    using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                    using (ExcelPackage package = new ExcelPackage(fs))
+                    using (var fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    using (var package = new ExcelPackage(fs))
                     {
-                        ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
+                        var worksheet = package.Workbook.Worksheets[1];
 
                         var row = 2;
                         while (true)
@@ -269,8 +267,6 @@ namespace Vortragsmanager.Core
                 Log.Info(nameof(EigenePlanungen), filename);
                 try
                 {
-                    var file = new FileInfo(filename);
-
                     using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     using (ExcelPackage package = new ExcelPackage(fs))
                     {
@@ -391,12 +387,10 @@ namespace Vortragsmanager.Core
                 Log.Info(nameof(ExternePlanungen), filename);
                 try
                 {
-                    var file = new FileInfo(filename);
-
-                    using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                    using (ExcelPackage package = new ExcelPackage(fs))
+                    using (var fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    using (var package = new ExcelPackage(fs))
                     {
-                        ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
+                        var worksheet = package.Workbook.Worksheets[1];
                         var row = 2;
                         while (true)
                         {
@@ -505,8 +499,8 @@ namespace Vortragsmanager.Core
                     {
                         sheet.Cells[row, 1].Value = v.Nummer;
                         sheet.Cells[row, 2].Value = v.Thema;
-                        sheet.Cells[row, 3].Value = DataContainer.Redner.Where(x => x.Versammlung == vers && x.Vorträge.Select(y => y.Vortrag).Contains(v)).Count();
-                        sheet.Cells[row, 4].Value = DataContainer.Redner.Where(x => x.Versammlung.Kreis == kreis && x.Vorträge.Select(y => y.Vortrag).Contains(v)).Count();
+                        sheet.Cells[row, 3].Value = DataContainer.Redner.Count(x => x.Versammlung == vers && x.Vorträge.Select(y => y.Vortrag).Contains(v));
+                        sheet.Cells[row, 4].Value = DataContainer.Redner.Count(x => x.Versammlung.Kreis == kreis && x.Vorträge.Select(y => y.Vortrag).Contains(v));
                         var wochen = DataContainer.MeinPlan.Where(x => x.Vortrag?.Vortrag?.Nummer == v.Nummer);
                         if (wochen.Any())
                         {
@@ -957,9 +951,8 @@ namespace Vortragsmanager.Core
                             var sonntag = (evt as Invitation);
                             var themaMitLied = sonntag.Vortrag.Vortrag.Thema;
                             //Lieder des Redners abfragen
-                            var v = sonntag.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == sonntag.Vortrag.Vortrag.Nummer);
-                            if (v == null)
-                                v = sonntag.Vortrag;
+                            var v = sonntag.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == sonntag.Vortrag.Vortrag.Nummer) 
+                                    ?? sonntag.Vortrag;
                             worksheet.Cells[row, 2].Value = v.VortragMitLied; //Vortragsthema
                             worksheet.Cells[row, 6].Value = sonntagEinteilung?.Vorsitz?.PersonName;
                             row++;

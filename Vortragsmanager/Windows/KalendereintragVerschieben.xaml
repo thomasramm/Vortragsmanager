@@ -13,7 +13,7 @@
     Title="Buchung verschieben"
     Height="{Binding WindowHeight, Mode=TwoWay}"
     Width="500"
-    Background="{StaticResource background}"
+    Background="{StaticResource Background}"
     x:Name="KalendereintragVerschiebenWindow"
     Foreground="{StaticResource TextColor}">
     <Window.DataContext>

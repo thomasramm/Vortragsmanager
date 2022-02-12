@@ -5,13 +5,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:Vortragsmanager.MeineRedner"
-    xmlns:Navi="clr-namespace:Vortragsmanager.Navigation"
-    xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
     xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
     xmlns:dxa="http://schemas.devexpress.com/winfx/2008/xaml/accordion"
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:userControls="clr-namespace:Vortragsmanager.UserControls"
     mc:Ignorable="d"
     d:DesignHeight="450"
     d:DesignWidth="800">
@@ -19,7 +19,7 @@
         <local:MeineRednerPlanViewModel />
     </UserControl.DataContext>
     <UserControl.Resources>
-        <dxmvvm:ObjectToObjectConverter x:Key="accordionPanelWidthConverter" DefaultTarget="Auto">
+        <dxmvvm:ObjectToObjectConverter x:Key="AccordionPanelWidthConverter" DefaultTarget="Auto">
             <dxmvvm:MapItem Source="True" Target="200" />
         </dxmvvm:ObjectToObjectConverter>
     </UserControl.Resources>
@@ -27,10 +27,10 @@
     <DockPanel Grid.Row="0">
         <dxdo:DockLayoutManager>
             <dxdo:LayoutGroup>
-                <dxdo:LayoutPanel ItemWidth="{Binding ElementName=accordion, Path=IsExpanded, Converter={StaticResource accordionPanelWidthConverter}}"
+                <dxdo:LayoutPanel ItemWidth="{Binding ElementName=Accordion, Path=IsExpanded, Converter={StaticResource AccordionPanelWidthConverter}}"
                             ShowCaption="False"
                             AllowSizing="False">
-                    <dxa:AccordionControl x:Name="accordion"
+                    <dxa:AccordionControl x:Name="Accordion"
                                     SelectionMode="None"
                                     CollapsedItemClickAction="ShowItems"
                                     SummaryItemHeader="Menü"
@@ -42,10 +42,18 @@
                                     ViewMode="Accordion">
                         <dxa:AccordionControl.Items>
                             <dxa:AccordionItem Header="Jahr">
-                                <StackPanel  Grid.Row="0" Orientation="Horizontal" Height="30">
-                                    <dx:SimpleButton Glyph="pack://application:,,,/Images/Prev_32x32.png" Width="20" Command="{Binding ChangeYear}" CommandParameter="-1" />
-                                    <Label Content="{Binding CurrentYear}" FontWeight="Bold" Margin="10,0" FontSize="14" VerticalContentAlignment="Center" />
-                                    <dx:SimpleButton Glyph="pack://application:,,,/Images/Next_32x32.png" Width="20"  Command="{Binding ChangeYear}" CommandParameter="1" />
+                                <StackPanel Orientation="Horizontal" Height="30">
+                                    <dx:SimpleButton Glyph="pack://application:,,,/Images/Prev_32x32.png" 
+                                                     Width="20" 
+                                                     Command="{Binding ChangeYear}" 
+                                                     CommandParameter="-1" />
+                                    <Label Content="{Binding CurrentYear}" 
+                                           FontWeight="Bold" Margin="10,0" FontSize="14" 
+                                           VerticalContentAlignment="Center" />
+                                    <dx:SimpleButton Glyph="pack://application:,,,/Images/Next_32x32.png" 
+                                                     Width="20"  
+                                                     Command="{Binding ChangeYear}" 
+                                                     CommandParameter="1" />
                                 </StackPanel>
                                 <CheckBox Content="Historische Einträge" FontWeight="Regular" IsChecked="{Binding History, Mode=TwoWay}" />
                             </dxa:AccordionItem>
@@ -67,10 +75,18 @@
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="50" />
                         </Grid.RowDefinitions>
-                        <dxg:GridControl Grid.Row="0"
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="210"/>
+                        </Grid.ColumnDefinitions>
+                        <dxlc:LayoutGroup Grid.Row="0" Grid.Column="1" Header="Kalender" View="GroupBox" Width="210">
+                            <userControls:CalendarYearShort x:Name="Calendar" />
+                        </dxlc:LayoutGroup>
+                            <dxg:GridControl Grid.Row="0" Grid.Column="0"
                                         AutoGenerateColumns="None"
                                         ItemsSource="{Binding Talks}"
                                         SelectedItem="{Binding SelectedTalk}"
+                                        SelectedItemChanged="DataControlBase_OnSelectedItemChanged"
                                         SelectionMode="Row">
                             <dxg:GridControl.View>
                                 <dxg:TableView AllowEditing="False" AutoWidth="True" />
@@ -80,7 +96,7 @@
                             <dxg:GridColumn Header="Versammlung" Binding="{Binding Versammlung.Name}" />
                             <dxg:GridColumn Header="Vortrag" Binding="{Binding Vortrag.Vortrag}" />
                         </dxg:GridControl>
-                        <Border Grid.Row="1" Background="Snow" />
+                        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="Snow" />
                         <dx:SimpleButton Content="Vortrag absagen"
                                             Command="{Binding VortragAbsagen}"
                                             Glyph="/Images/Cancel_32x32.png"
@@ -88,10 +104,10 @@
                                          GlyphHeight="30"
                                             HorizontalAlignment="Left"
                                             Margin="5"
-                                            Grid.Row="1"
+                                            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                                             Width="150" />
                         <dx:SimpleButton Content="Liste senden"
-                                            Grid.Row="1"
+                                            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                                             Width="150"
                                             HorizontalAlignment="Right"
                                             Margin="5"

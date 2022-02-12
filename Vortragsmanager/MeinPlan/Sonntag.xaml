@@ -15,11 +15,11 @@
             <RowDefinition Height="44"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Style="{StaticResource navimenuHeader}" />
-        <Label Grid.Row="0" Content="{Binding MenuHeaderTitel}" VerticalContentAlignment="Center" FontSize="20" Margin="10,0" Foreground="White"/>
+        <Border Grid.Row="0" Style="{StaticResource NavimenuHeader}" />
+        <Label Grid.Row="0" Content="{Binding MenuHeaderTitel}" Style="{StaticResource NavimenuHeaderLabel}"/>
         <ToggleButton Grid.Row="0" 
                       HorizontalAlignment="Right" 
-                      Style="{StaticResource navimenuHeaderButton}"
+                      Style="{StaticResource NavimenuHeaderButton}"
                       IsChecked="{Binding EinstellungenButtonIsChecked}">
             <Image Source="/Images/Zahnrad_64x64.png" Margin="10"/>
         </ToggleButton>
@@ -52,7 +52,7 @@
                 <Hyperlink Command="{Binding ChangeMonth}" 
                         CommandParameter="0"
                         TextDecorations="None" 
-                        Foreground="{StaticResource textHighlight}">
+                        Foreground="{StaticResource TextHighlight}">
                     <TextBlock HorizontalAlignment="Center" 
                             Text="{Binding Monat, StringFormat={}{0:MMMM}, ConverterCulture=de-DE}" />
                 </Hyperlink>
@@ -67,7 +67,7 @@
                 <Hyperlink Command="{Binding ChangeMonth}" 
                         CommandParameter="0"
                         TextDecorations="None" 
-                        Foreground="{StaticResource textHighlight}">
+                        Foreground="{StaticResource TextHighlight}">
                     <TextBlock Text="{Binding Monat, StringFormat={}{0:yyyy}, ConverterCulture=de-DE}" />
                 </Hyperlink>
             </TextBlock>

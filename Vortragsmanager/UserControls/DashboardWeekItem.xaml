@@ -17,7 +17,7 @@
         <Label x:Name="_week" 
                Content="05.06.2022" 
                Grid.Column="0" 
-               Foreground="{StaticResource textHighlight}" 
+               Foreground="{StaticResource TextHighlight}" 
                VerticalContentAlignment="Center" 
                FontSize="16"
                HorizontalContentAlignment="Center"/>

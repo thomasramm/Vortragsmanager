@@ -12,17 +12,48 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="44" />
+            <RowDefinition Height="44" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Style="{StaticResource navimenuHeader}" />
-        <Label Grid.Row="0" Content="{Binding MenuHeaderTitel}" VerticalContentAlignment="Center" FontSize="20" Margin="10,0" Foreground="White"/>
-        <ToggleButton Grid.Row="0" 
-                    HorizontalAlignment="Right" 
-                    Style="{StaticResource navimenuHeaderButton}"
-                    IsChecked="{Binding NeueAnfrageButtonIsChecked}">
-            <Image Source="/Images/NewMail_64x64.png" Margin="10"/>
-        </ToggleButton>
-        <ContentControl Grid.Row="1" Content="{Binding ActiveUserControl}"/>
+        <Border Grid.Row="0" Style="{StaticResource NavimenuHeader}" />
+        <Label Grid.Row="0" Content="{Binding MenuHeaderTitel}" Style="{StaticResource NavimenuHeaderLabel}"/>
+        <Border Grid.Row="1" 
+                Style="{StaticResource NavimenuHeader2}" 
+                Background="{StaticResource Background}" 
+                BorderThickness="0,1" 
+                BorderBrush="{StaticResource Border}">
+        </Border>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <ToggleButton x:Name="RednereinladungenButton"
+                          Width="180"
+                          IsChecked="{Binding RednereinladungenButtonIsChecked}"
+                          Style="{StaticResource NavimenuSecondButton}"
+                          ToolTip="Rednereinladungen">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource MeineRedner}" Margin="0,5"/>
+                    <Label Content="Rednereinladungen" 
+                           Foreground="{StaticResource TextColor}"
+                           VerticalAlignment="Center" 
+                           Padding="0" 
+                           Margin="5,0"/>
+                </StackPanel>
+            </ToggleButton>
+            <ToggleButton x:Name="NeueAnfrageButton"
+                          Width="150"
+                          IsChecked="{Binding NeueAnfrageButtonIsChecked}"
+                          Style="{StaticResource NavimenuSecondButton}"
+                          ToolTip="Neue Anfrage">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource AntwortEintragen}" Margin="0,5"/>
+                    <Label Content="Neue Anfrage" 
+                           Foreground="{StaticResource TextColor}"
+                           VerticalAlignment="Center" 
+                           Padding="0" 
+                           Margin="5,0"/>
+                </StackPanel>
+            </ToggleButton>
+        </StackPanel>
+        <ContentControl Grid.Row="2" Content="{Binding ActiveUserControl}"/>
         
     </Grid>
 </UserControl>

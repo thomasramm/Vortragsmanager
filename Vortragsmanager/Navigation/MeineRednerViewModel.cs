@@ -6,6 +6,11 @@ namespace Vortragsmanager.Navigation
 {
     public class MeineRednerViewModel : ViewModelBase
     {
+        public MeineRednerViewModel()
+        {
+            RednereinladungenButtonIsChecked = true;
+        }
+
         private bool _neueAnfrageButtonIsChecked;
         public bool NeueAnfrageButtonIsChecked
         {
@@ -15,17 +20,41 @@ namespace Vortragsmanager.Navigation
                 _neueAnfrageButtonIsChecked = value;
                 if (value)
                 {
+                    _rednereinladungenButtonIsChecked = false;
                     //load Neue Anfrage
                     ActiveUserControl = new ExternalQuestionEdit();
+                    RaisePropertiesChanged(nameof(MenuHeaderTitel));
+                    RaisePropertiesChanged(nameof(ActiveUserControl));
                 }
                 else
                 {
-                    ActiveUserControl = new MeineRednerPlan();
+                    if (!_rednereinladungenButtonIsChecked)
+                        RednereinladungenButtonIsChecked = true;
                 }
-
                 RaisePropertiesChanged();
-                RaisePropertiesChanged(nameof(MenuHeaderTitel));
-                RaisePropertiesChanged(nameof(ActiveUserControl));
+            }
+        }
+
+        private bool _rednereinladungenButtonIsChecked;
+        public bool RednereinladungenButtonIsChecked
+        {
+            get => _rednereinladungenButtonIsChecked;
+            set
+            {
+                _rednereinladungenButtonIsChecked = value;
+                if (value)
+                {
+                    _neueAnfrageButtonIsChecked = false;
+                    ActiveUserControl = new MeineRednerPlan();
+                    RaisePropertiesChanged(nameof(MenuHeaderTitel));
+                    RaisePropertiesChanged(nameof(ActiveUserControl));
+                }
+                else
+                {
+                    if (!_neueAnfrageButtonIsChecked)
+                        RednereinladungenButtonIsChecked = true;
+                }
+                RaisePropertiesChanged();
             }
         }
 

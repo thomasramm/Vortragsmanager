@@ -11,7 +11,7 @@
         x:Name="VersammlungBearbeiten"
         Title="Versammlung bearbeiten"
         dx:ThemeManager.Theme="MetropolisDark"
-        Background="{StaticResource background}"
+        Background="{StaticResource Background}"
         Height="450"
         Width="800">
     <Window.Resources>

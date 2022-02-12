@@ -12,7 +12,7 @@
     x:Class="Vortragsmanager.Views.EreignisEintragenCommandDialog"
         mc:Ignorable="d"
         Title="Ereignis eintragen" Height="300" Width="500"
-        Background="{StaticResource background}"
+        Background="{StaticResource Background}"
         DataContext="{dxmvvm:ViewModelSource {x:Type local:EreignisEintragenCommandDialogView}}"
         x:Name="EreignisBearbeitenWindow">
     <Window.Resources>

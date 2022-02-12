@@ -141,7 +141,7 @@
                             </dxa:AccordionControl.Items>
                         </dxa:AccordionControl>
                         <Button Content="Redner suchen"
-                                Foreground="{StaticResource textHighlight}"
+                                Foreground="{StaticResource TextHighlight}"
                                 Command="{Binding RednerSuchenCommand}"
                                 Grid.Row="1"
                                 Height="30"

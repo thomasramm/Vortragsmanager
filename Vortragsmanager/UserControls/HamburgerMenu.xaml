@@ -7,7 +7,8 @@
              xmlns:mv="clr-namespace:Vortragsmanager.MeineVerwaltung"
              xmlns:av="clr-namespace:Vortragsmanager.ActivityLog"
              xmlns:navi="clr-namespace:Vortragsmanager.Navigation"
-             xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <dxwui:HamburgerMenu x:Name="_menu"
@@ -34,7 +35,7 @@
                                                  ToolTip="Mein Plan > Vorsitz und Leser"/>
             <dxwui:HamburgerMenuItemSeparator/>
             <dxwui:HamburgerMenuNavigationButton Content="Meine Redner" 
-                                                         Glyph="/Images/Person_64x64.png" 
+                                                         Glyph="/Images/MeineRedner_64x64_dunkel.png" 
                                                          NavigationTargetType="{x:Type navi:MeineRedner}"
                                                  ToolTip="Meine Redner"/>
             <dxwui:HamburgerMenuItemSeparator/>

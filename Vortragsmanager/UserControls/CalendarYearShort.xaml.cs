@@ -14,7 +14,7 @@ namespace Vortragsmanager.UserControls
     /// </summary>
     public partial class CalendarYearShort : UserControl
     {
-        private Dictionary<DateTime, CalendarYearShortItem> _calendar = new Dictionary<DateTime, CalendarYearShortItem>(53);
+        private readonly Dictionary<DateTime, CalendarYearShortItem> _calendar = new Dictionary<DateTime, CalendarYearShortItem>(53);
         private int _year;
 
         public CalendarYearShort()
@@ -28,10 +28,7 @@ namespace Vortragsmanager.UserControls
 
         public Speaker Person
         {
-            get
-            {
-                return (Speaker) GetValue(PersonProperty);
-            }
+            get => (Speaker) GetValue(PersonProperty);
             set
             {
                 SetValue(PersonProperty, value);

@@ -24,9 +24,11 @@ namespace Vortragsmanager.MeineVerwaltung
             CalculateRouteCommand = new DelegateCommand<bool>(CalculateRoute);
             ShowChangelogCommand = new DelegateCommand(ShowChangelog);
             Datenbank = Properties.Settings.Default.sqlite;
+            
         }
 
         private string _importExcelFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Liste der Vortragskoordinatoren.xlsx";
+        private static string _selectedTheme;
 
         public DelegateCommand ExcelFileDialogCommand { get; private set; }
 
@@ -180,8 +182,7 @@ namespace Vortragsmanager.MeineVerwaltung
                 RaisePropertyChanged();
             }
         }
-
-
+        
         public bool ShowChangelogState
         {
             get
@@ -195,8 +196,7 @@ namespace Vortragsmanager.MeineVerwaltung
                 RaisePropertyChanged();
             }
         }
-
-
+        
         public bool DashboardShowDetails
         {
             get
@@ -224,6 +224,7 @@ namespace Vortragsmanager.MeineVerwaltung
                 RaisePropertyChanged();
             }
         }
+        
         public int SelectedLogLevel
         {
             get
@@ -343,11 +344,27 @@ namespace Vortragsmanager.MeineVerwaltung
                 var dict = value ? "Dictionary_Dark.xaml" : "Dictionary_Light.xaml";
                 Properties.Settings.Default.Theme = theme;
                 Properties.Settings.Default.Save();
-
+                _selectedTheme = value ? "Dunkel" : "Hell";
                 ApplyResources(dict);
 
                 ApplicationThemeHelper.ApplicationThemeName = theme;
 
+
+            }
+        }
+
+        public string SelectedTheme
+        {
+            get => _selectedTheme;
+            set
+            {
+                if (_selectedTheme != value)
+                {
+                    _selectedTheme = value;
+                    if (ThemeIsDark != (_selectedTheme == "Dunkel"))
+                        ThemeIsDark = _selectedTheme == "Dunkel";
+                    RaisePropertyChanged();
+                }
             }
         }
 

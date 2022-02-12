@@ -22,7 +22,7 @@
                     <Setter Property="Size" Value="Auto" />
                 </Style>
             </dxnav:TileBar.ItemContainerStyle>
-            <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="DashboardView" Content="Startseite" Foreground="{StaticResource textHighlight}" />
+            <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="DashboardView" Content="Startseite" Foreground="{StaticResource TextHighlight}" />
             <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="MeinPlanView" Content="Mein Plan" />
             <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="MeineRednerView" Content="Meine Redner" />
             <dxnav:TileBarItem dxwuin:Navigation.NavigateTo="SearchSpeaker" Content="Redner suchen" />

@@ -22,13 +22,8 @@
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" Style="{StaticResource navimenuHeader}" />
-        <Label Grid.Row="0" 
-                   Content="Liste erstellen" 
-                   VerticalContentAlignment="Center" 
-                   FontSize="16" 
-                   Margin="10,0" 
-                   Foreground="White"/>
+            <Border Grid.Row="0" Style="{StaticResource NavimenuHeader}" />
+        <Label Grid.Row="0" Content="Liste erstellen" Style="{StaticResource NavimenuHeaderLabel}"/>
         <dxlc:FlowLayoutControl Grid.Row="1"
                                     Orientation="Horizontal"
                                     ItemSpace="20"

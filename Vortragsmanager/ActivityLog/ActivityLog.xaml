@@ -24,8 +24,8 @@
             <RowDefinition Height="44" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Style="{StaticResource navimenuHeader}" />
-        <Label Grid.Row="0" Content="Aktivitäten" VerticalContentAlignment="Center" FontSize="20" Margin="10,0" Foreground="White"/>
+        <Border Grid.Row="0" Style="{StaticResource NavimenuHeader}" />
+        <Label Grid.Row="0" Content="Aktivitäten" Style="{StaticResource NavimenuHeaderLabel}"/>
         <dxa:AccordionControl x:Name="accordion"
                               Grid.Row="1"
                                       SelectionMode="None"

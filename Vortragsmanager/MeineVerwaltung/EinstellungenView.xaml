@@ -1,187 +1,425 @@
-﻿<UserControl
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Vortragsmanager.MeineVerwaltung"
-    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+﻿<UserControl 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Vortragsmanager.MeineVerwaltung"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+    d:DataContext="{d:DesignInstance Type=local:EinstellungenViewModel}"
     x:Class="Vortragsmanager.MeineVerwaltung.EinstellungenView"
     DataContext="{dxmvvm:ViewModelSource local:EinstellungenViewModel}"
     mc:Ignorable="d"
-    d:DesignHeight="600" d:DesignWidth="800">
+    d:DesignHeight="1600" 
+    d:DesignWidth="800" Foreground="White">
     <UserControl.Resources>
         <Style TargetType="dxe:SpinButtonInfo">
             <Setter Property="SpinStyle" Value="Horizontal"/>
         </Style>
     </UserControl.Resources>
-    <Grid>
+    <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="44" />
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="44"/>
+            <RowDefinition Height="44"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Style="{StaticResource navimenuHeader}" />
-        <Label Grid.Row="0" Content="Einstellungen" VerticalContentAlignment="Center" FontSize="20" Margin="10,0" Foreground="White"/>
-        <dxlc:LayoutControl Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,-33">
-            <dxlc:LayoutGroup Orientation="Vertical">
-                <dxlc:LayoutGroup Header="Datenbank" View="GroupBox" Orientation="Vertical">
-                    <dxlc:LayoutItem Label="Pfad zur Datenbank">
-                        <TextBox Text="{Binding Datenbank}" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem>
-                        <Label Content="In dieser Datei sind alle deine Daten gespeichert. Sie wird automatisch bei Programmstart geöffnet." />
-                    </dxlc:LayoutItem>
-                    <StackPanel Height="40" Orientation="Horizontal" FlowDirection="RightToLeft">
-                        <dx:SimpleButton Content="... Speichern unter"
-                                     Glyph="/Images/Save_Green_32x32.png"
-                                         GlyphWidth="24" GlyphHeight="24"
-                                     GlyphAlignment="Right"
-                                     Command="{Binding SearchDatabaseCommand}" CommandParameter="Save"
-                                     Margin="0,0,10,0" />
-                        <dx:SimpleButton Content="... Andere Datenbank öffnen"
-                                     Glyph="/Images/Open_32x32.png"
-                                         GlyphWidth="24" GlyphHeight="24"
-                                     GlyphAlignment="Right"
-                                     Command="{Binding SearchDatabaseCommand}" CommandParameter="Open" />
-                    </StackPanel>
-                    <dxlc:LayoutItem Label="Sicherungskopie bei jedem Speichern anlegen">
-                        <dxe:ToggleSwitch CheckedStateContent="An"
+        <Border Grid.Row="0" 
+                Style="{StaticResource NavimenuHeader}" />
+        <Label Grid.Row="0" Content="Einstellungen" Style="{StaticResource NavimenuHeaderLabel}"/>
+        <Border Grid.Row="1" 
+                Style="{StaticResource NavimenuHeader2}" 
+                Background="{StaticResource Background}" 
+                BorderThickness="0,1" 
+                BorderBrush="{StaticResource Border}">
+        </Border>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <ToggleButton x:Name="ButtonDatei"
+                          Width="100"
+                          Style="{StaticResource NavimenuSecondButton}"
+                          ToolTip="Datei Speichern oder Laden"
+                          Checked="ToggleButton_Checked"
+                          Unchecked="ToggleButton_Unchecked">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource SpeichernUnter}" Margin="0,5"/>
+                    <Label Content="Datei" 
+                           Foreground="{StaticResource TextColor}"
+                           VerticalAlignment="Center" 
+                           Padding="0" 
+                           Margin="5,0"/>
+                </StackPanel>
+            </ToggleButton>
+            <ToggleButton x:Name="ButtonAussehen"
+                          Width="110"
+                          Style="{StaticResource NavimenuSecondButton}"
+                          ToolTip="Erscheinungsbild"
+                          Checked="ToggleButton_Checked"
+                          Unchecked="ToggleButton_Unchecked">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Images/Style_64x64.png" Margin="0,5"/>
+                    <Label Content="Aussehen" 
+                           Foreground="{StaticResource TextColor}"
+                           VerticalAlignment="Center" 
+                           Padding="0" 
+                           Margin="5,0"/>
+                </StackPanel>
+            </ToggleButton>
+            <ToggleButton x:Name="ButtonVerhalten"
+                          Width="180"
+                          Style="{StaticResource NavimenuSecondButton}"
+                          ToolTip="Programmverhalten"
+                          Checked="ToggleButton_Checked"
+                          Unchecked="ToggleButton_Unchecked">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource Programmverhalten}" Margin="0,5"/>
+                    <Label Content="Programmverhalten" 
+                           Foreground="{StaticResource TextColor}"
+                           VerticalAlignment="Center" 
+                           Padding="0" 
+                           Margin="5,0"/>
+                </StackPanel>
+            </ToggleButton>
+            <ToggleButton x:Name="ButtonAktion"
+                          Width="110"
+                          Style="{StaticResource NavimenuSecondButton}"
+                          ToolTip="verschiedene Aktionen durchführen"
+                          Checked="ToggleButton_Checked"
+                          Unchecked="ToggleButton_Unchecked">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource Aktivität}" Margin="0,5"/>
+                    <Label Content="Aktionen" 
+                           Foreground="{StaticResource TextColor}"
+                           VerticalAlignment="Center" 
+                           Padding="0" 
+                           Margin="5,0"/>
+                </StackPanel>
+            </ToggleButton>
+        </StackPanel>
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="10" CanVerticallyScroll="True">
+            <StackPanel x:Name="GruppeDatei">
+                <Label Content="Datei" Style="{StaticResource EinstellungenGruppe}"/>
+                <Grid MinHeight="70" Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="75*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource EinstellungenBoxBorder}"/>
+                    <Image Grid.Column="0" Source="{StaticResource Info}" Style="{StaticResource EinstellungenBoxBild}"/>
+                    <TextBlock Text="Pfad zur Datenbank" Grid.Column="1" Style="{StaticResource EinstellungenBoxLabel1}" />
+                    <TextBlock Grid.Column="1" Text="{Binding Datenbank}" 
+                               Style="{StaticResource EinstellungenBoxLabel2}"
+                               Foreground="{StaticResource TextHighlight}"/>
+                    </Grid>
+
+                <Grid MinHeight="70" Margin="0,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3"  Style="{StaticResource EinstellungenBoxBorder}"/>
+                    <Image Grid.Column="0" Source="{StaticResource SpeichernUnter}" Style="{StaticResource EinstellungenBoxBild}"/>
+                    <TextBlock Grid.Column="1" Text="Unter anderem Namen speichern" Style="{StaticResource EinstellungenBoxLabel}"/>
+                        <dx:SimpleButton Grid.Column="2" Content="Speichern"
+                                         Height="30"
+                                         VerticalAlignment="Center"
+                                         Command="{Binding SearchDatabaseCommand}" CommandParameter="Save"
+                                         Margin="10,0,10,0" />
+                </Grid>
+
+                <Grid MinHeight="70" Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3"  Style="{StaticResource EinstellungenBoxBorder}"/>
+                    <Image Grid.Column="0" Source="{StaticResource DateiÖffnen}" 
+                       Width="24" 
+                       HorizontalAlignment="Left" 
+                       Margin="10"/>
+                    <TextBlock Grid.Column="1" Text="Andere Datei öffnen" Style="{StaticResource EinstellungenBoxLabel}"/>
+                        <dx:SimpleButton Grid.Column="2" Content="Öffnen"
+                                         VerticalAlignment="Center"
+                                         Height="30"
+                                         Command="{Binding SearchDatabaseCommand}" CommandParameter="Open"
+                                         Margin="10,0,10,0" />
+                </Grid>
+
+                <Grid MinHeight="70" Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource EinstellungenBoxBorder}"/>
+                    <Image Grid.Column="0" Source="{StaticResource Sicherung}" Style="{StaticResource EinstellungenBoxBild}"/>
+                    <TextBlock Grid.Column="1" Text="Sicherungskopie bei jedem Speichern anlegen" Style="{StaticResource EinstellungenBoxLabel}"/>
+                    <dxe:ToggleSwitch Grid.Column="2" CheckedStateContent="An"
                                       UncheckedStateContent="Aus"
-                                      ContentPlacement="Inside"
-                                      IsChecked="{Binding SaveBackup}" />
-                    </dxlc:LayoutItem>
-                </dxlc:LayoutGroup>
-                <dxlc:LayoutGroup Header="Import von Rednerlisten"
-                                  View="GroupBox"
-                                  Orientation="Vertical">
-                    <dxlc:LayoutItem Label="Vortragsmanager kompatible Excel Datei" LabelPosition="Top">
-                        <dxe:ButtonEdit Text="{Binding ImportExcelFile}"
-                                                AllowDefaultButton="False"
-                                                ValidateOnTextInput="True"
-                                                Validate="ExcelFile_ValidateExists">
-                            <dxe:ButtonInfo GlyphKind="Regular"
-                                                    Command="{Binding ExcelFileDialogCommand}"
-                                                    ToolTip="Nach Dateien suchen..." />
-                        </dxe:ButtonEdit>
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem>
-                        <dx:SimpleButton Content="Importieren"
-                                         Command="{Binding UpdateSpeakerFromExcelCommand}" />
-                    </dxlc:LayoutItem>
-                </dxlc:LayoutGroup>
-                <dxlc:LayoutGroup Header="Mail an Koordinatoren"
-                                  View="GroupBox"
-                                  Orientation="Vertical">
-                    <dxlc:LayoutItem Label="Alle Koordinatoren im Kreis">
-                        <dx:SimpleButton Content="Öffnen"
+                                      ContentPlacement="Near"
+                                      HorizontalAlignment="Right"
+                                      IsChecked="{Binding SaveBackup}"
+                                      Margin="10,0"/>
+                </Grid>
+                </StackPanel>
+            <StackPanel x:Name="GruppeAussehen">
+                <Label Content="Aussehen" Style="{StaticResource EinstellungenGruppe}"/>
+                <Grid MinHeight="70" Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3"  Style="{StaticResource EinstellungenBoxBorder}"/>
+                        <Image Grid.Column="0" Source="/Images/Style_64x64.png" Style="{StaticResource EinstellungenBoxBild}"/>
+                        <TextBlock Grid.Column="1" Text="App-Design" Style="{StaticResource EinstellungenBoxLabel1}"/>
+                    <TextBlock Grid.Column="1" Text="Farbeinstellungen ändern." Style="{StaticResource EinstellungenBoxLabel2}"/>
+                        <ComboBox Grid.Column="2" Text="{Binding SelectedTheme}" 
+                         Height="25" 
+                         VerticalAlignment="Center" 
+                         Margin="10"
+                         SelectionChanged="Selector_OnSelectionChanged">
+                        <ComboBox.Items>
+                            <ComboBoxItem Content="Hell"></ComboBoxItem>
+                            <ComboBoxItem Content="Dunkel"></ComboBoxItem>
+                        </ComboBox.Items>
+                    </ComboBox>
+                </Grid>
+
+                <Grid MinHeight="70" Margin="0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource EinstellungenBoxBorder}"/>
+                        <TextBlock Grid.Column="1" Text="Aktivitätsbuttons" Style="{StaticResource EinstellungenBoxLabel1}"/>
+                    <TextBlock Grid.Column="1" Text="Mein Plan - Neben der Wochenplanung werden kleine Symbole für weitere Aktivitäten angezeigt." Style="{StaticResource EinstellungenBoxLabel2}"/>
+                    <dxe:ToggleSwitch Grid.Column="2" CheckedStateContent="An"
+                                  UncheckedStateContent="Aus"
+                                  ContentPlacement="Near"
+                                  HorizontalAlignment="Right"
+                                  Margin="10,0"
+                                  IsChecked="{Binding ShowActivityButtons}" />
+                </Grid>
+
+                <Grid MinHeight="70" Margin="0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3"  Style="{StaticResource EinstellungenBoxBorder}"/>
+                        <Image Grid.Column="0" Source="{StaticResource Kalender}" Style="{StaticResource EinstellungenBoxBild}"/>
+                    <TextBlock Grid.Column="1" Text="Zusammenkunftszeiten"  Style="{StaticResource EinstellungenBoxLabel1}"/>
+                        <TextBlock Grid.Column="1" Text="Wochentag deiner Versammlung für den öffentlichen Vortrag"  Style="{StaticResource EinstellungenBoxLabel2}"/>
+                    <dxe:ComboBoxEdit 
+                        Margin="10,26,10,20"
+                        Grid.Column="2" 
+                                      SelectedItem="{Binding ConregationDayOfWeek}"
+                                      ItemsSource="{Binding DaysOfWeek}">
+                    </dxe:ComboBoxEdit>
+                </Grid>
+            </StackPanel>
+            <StackPanel x:Name="GruppeVerhalten">
+                <Label Content="Änderungen" Style="{StaticResource EinstellungenGruppe}"/>
+                <Grid MinHeight="70" Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource EinstellungenBoxBorder}"/>
+                        <Image Grid.Column="0" Source="{StaticResource ChangeLast}" Style="{StaticResource EinstellungenBoxBild}"/>
+                        <TextBlock Grid.Column="1" Text="Änderungen - Anzeige nach Update"  Style="{StaticResource EinstellungenBoxLabel1}"/>
+                        <TextBlock Grid.Column="1" Text="Nach jeder Programmänderung ein Fenster mit den Neuigkeiten anzeigen"  Style="{StaticResource EinstellungenBoxLabel2}"/>
+                    <dxe:ToggleSwitch Grid.Column="2" CheckedStateContent="An"
+                                      UncheckedStateContent="Aus"
+                                      Margin="10,0"
+                                      ContentPlacement="Near"
+                                      HorizontalAlignment="Right"
+                                      IsChecked="{Binding ShowChangelogState}" />
+                </Grid>
+
+                <Grid MinHeight="70" Margin="0,2,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource EinstellungenBoxBorder}"/>
+                        <Image Grid.Column="0" Source="{StaticResource Changelog}" Style="{StaticResource EinstellungenBoxBild}"/>
+                        <TextBlock Grid.Column="1" Text="Änderungen"  Style="{StaticResource EinstellungenBoxLabel1}"/>
+                        <TextBlock Grid.Column="1" Text="Jetzt alle Änderungen anzeigen"  Style="{StaticResource EinstellungenBoxLabel2}"/>
+                    <dx:SimpleButton Content="Anzeigen"
+                                     Grid.Column="2" 
+                                     Margin="10,0"
+                                     VerticalAlignment="Center"
+                                     Height="30"
+                                     Command="{Binding ShowChangelogCommand}" 
+                                     CommandParameter="True" />
+                </Grid>
+
+                <Label Content="Logging" Style="{StaticResource EinstellungenGruppe}"/>
+                <Grid MinHeight="70" Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3"  Style="{StaticResource EinstellungenBoxBorder}"/>
+                        <Image Grid.Column="0" Source="{StaticResource Logfile}" Style="{StaticResource EinstellungenBoxBild}" />
+                    <TextBlock Grid.Column="1" Text="Log" Style="{StaticResource EinstellungenBoxLabel1}"/>
+                        <TextBlock Grid.Column="1" Text="Welche Aktivitäten sollen lokal aufgezeichnet werden?"  Style="{StaticResource EinstellungenBoxLabel2}"/>
+                    <ComboBox Margin="10,26,10,20"
+                              Grid.Column="2" 
+                              SelectedIndex="{Binding SelectedLogLevel}">
+                        <ComboBoxItem Content="Kein Log" />
+                        <ComboBoxItem Content="Nur Fehler" />
+                        <ComboBoxItem Content="Alles Loggen" />
+                    </ComboBox>
+                </Grid>
+
+                <Grid MinHeight="70" Margin="0,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource EinstellungenBoxBorder}"/>
+                        <Image Grid.Column="0" Source="{StaticResource LogfileFolder}" Style="{StaticResource EinstellungenBoxBild}" />
+                    <TextBlock Grid.Column="1" Text="Log - Ordner"  Style="{StaticResource EinstellungenBoxLabel1}"/>
+                        <TextBlock Grid.Column="1" Text="Ordner in dem die täglichen Log-Dateien abgelegt werden"  Style="{StaticResource EinstellungenBoxLabel2}"/>
+                    <TextBox Margin="10,26,10,20"
+                             Grid.Column="2"
+                             Text="{Binding LogFolder, Mode=TwoWay}" />
+                </Grid>
+
+                <Label Content="Listen Ausgabe" Style="{StaticResource EinstellungenGruppe}"/>
+                <Grid MinHeight="70" Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource EinstellungenBoxBorder}"/>
+                        <Image Grid.Column="0" Source="{StaticResource Listen1}" Style="{StaticResource EinstellungenBoxBild}" />
+                        <TextBlock Grid.Column="1" Text="Aushang"  Style="{StaticResource EinstellungenBoxLabel1}"/>
+                        <TextBlock Grid.Column="1" Text="Anzahl der Wochen die in deinem Aushang angezeigt werden sollen"  Style="{StaticResource EinstellungenBoxLabel2}"/>
+                    <dxe:SpinEdit EditValue="{Binding ListAushangAnzahlWochen, Mode=TwoWay}"
+                                  Margin="10,26,10,20"
+                                  Grid.Column="2"
+                                  MaxValue="24" MinValue="1" 
+                                  Mask="#0"
+                                  EditValueType="{x:Type sys:Int32}"
+                                  Width="75" 
+                                  HorizontalAlignment="Right">
+                    </dxe:SpinEdit>
+                </Grid>
+            </StackPanel>
+            <StackPanel x:Name="GruppeAktionen">
+                <Label Content="Import" Style="{StaticResource EinstellungenGruppe}"/>
+                <Grid MinHeight="70" Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource EinstellungenBoxBorder}"/>
+                        <Image Grid.Column="0" Source="/Images/Excel.png" Style="{StaticResource EinstellungenBoxBild}"/>
+                    <TextBlock Grid.Column="1" Text="Import von Rednerlisten" Style="{StaticResource EinstellungenBoxLabel1}"/>
+                        <TextBlock Grid.Column="1" Text="Vortragsmanager kompatible Excel Datei"  Style="{StaticResource EinstellungenBoxLabel2}"/>
+                    <dxe:ButtonEdit Grid.Column="2" 
+                                    Margin="10,10,10,30"
+                                    VerticalAlignment="Center"
+                                    Height="25"
+                                    Text="{Binding ImportExcelFile}"
+                                    AllowDefaultButton="False"
+                                    ValidateOnTextInput="True"
+                                    Validate="ExcelFile_ValidateExists">
+                        <dxe:ButtonInfo GlyphKind="Regular"
+                                        Command="{Binding ExcelFileDialogCommand}"
+                                        ToolTip="Nach Dateien suchen..." />
+                    </dxe:ButtonEdit>
+                    <dx:SimpleButton  Grid.Column="2"
+                                      VerticalAlignment="Center"
+                                      Margin="10,30,10,0"
+                                      Height="25"
+                                      Content="Importieren"
+                                      Command="{Binding UpdateSpeakerFromExcelCommand}" />
+                </Grid>
+                <Label Content="Mail an Koordinatoren" Style="{StaticResource EinstellungenGruppe}"/>
+                <Grid MinHeight="70" Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource EinstellungenBoxBorder}"/>
+                        <Image Grid.Column="0" Source="{StaticResource MailAnKoordinator}" Style="{StaticResource EinstellungenBoxBild}" />
+                        <TextBlock Grid.Column="1" Text="Mail an Koordinatoren" Style="{StaticResource EinstellungenBoxLabel1}"/>
+                        <TextBlock Grid.Column="1" Text="Mail an Koordinatoren" Style="{StaticResource EinstellungenBoxLabel2}"/>
+                        <dx:SimpleButton Grid.Column="2" 
+                                         Margin="10,10,10,30"
+                                         VerticalAlignment="Center"
+                                         Height="25"
+                                         Content="Alle Koordinatoren deines Kreis"
                                          Command="{Binding EmergencyMailCommand}"
                                          CommandParameter="{x:Null}" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Alle Koordinatoren im Umkreis von ">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <dxe:SpinEdit x:Name="mailEntfernung"
-                                          Grid.Column="0"
-                                          IsFloatValue="False"
-                                          MinValue="0"
-                                          Increment="10"
-                                          EditValueType="{x:Type sys:Int32}"
-                                          DisplayFormatString="0 km"
-                                          EditValue="100" />
-                            <dx:SimpleButton Content="Öffnen"
-                                         Command="{Binding EmergencyMailCommand}"
-                                         CommandParameter="{Binding EditValue, ElementName=mailEntfernung}"
-                                         Grid.Column="1" />
-                        </Grid>
-                    </dxlc:LayoutItem>
-                </dxlc:LayoutGroup>
-            </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup Orientation="Vertical">
-                <dxlc:LayoutGroup Header="Entfernungen der Versammlungen zu meiner berechnen" View="GroupBox" Orientation="Horizontal">
-                    <dxlc:LayoutItem Label="nur fehlende Entfernungen berechnen" LabelPosition="Top">
-                        <dx:SimpleButton Content="Aktualisieren"
-                                         Glyph="/Images/MapPointer_32x32.png"
-                                         GlyphWidth="24" GlyphHeight="24"
-                                         Command="{Binding CalculateRouteCommand}" CommandParameter="False" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Alle Entfernungen löschen und neu berechnen" LabelPosition="Top">
-                        <dx:SimpleButton Content="Neu Berechnen"
-                                         Glyph="/Images/MapPointer_32x32.png"
-                                         GlyphWidth="24" GlyphHeight="24"
-                                         Command="{Binding CalculateRouteCommand}" CommandParameter="True" />
-                    </dxlc:LayoutItem>
-                </dxlc:LayoutGroup>
-                <dxlc:LayoutGroup Header="Updates" View="GroupBox" Orientation="Vertical">
-                    <dxlc:LayoutItem Label="Anzeige der Änderungen nach einem Update">
-                        <dxe:ToggleSwitch CheckedStateContent="An"
-                                      UncheckedStateContent="Aus"
-                                      ContentPlacement="Inside"
-                                      IsChecked="{Binding ShowChangelogState}" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Alle Änderungen anzeigen">
-                        <dx:SimpleButton Content="anzeigen"
-                                         Glyph="/Images/UpdateList_32x32.png"
-                                         GlyphWidth="24" GlyphHeight="24"
-                                         Command="{Binding ShowChangelogCommand}" CommandParameter="True" />
-                    </dxlc:LayoutItem>
-                </dxlc:LayoutGroup>
-                <dxlc:LayoutGroup Header="Sonstiges" View="GroupBox" Orientation="Vertical">
-                    <dxlc:LayoutItem Label="Wochentag deiner Versammlung">
-                        <dxe:ComboBoxEdit SelectedItem="{Binding ConregationDayOfWeek}"
-                                          ItemsSource="{Binding DaysOfWeek}">
-                        </dxe:ComboBoxEdit>
-                    </dxlc:LayoutItem>
-                    <!--<dxlc:LayoutItem Label="Detailansichten auf der Startseite anzeigen">
-                        <dxe:ToggleSwitch CheckedStateContent="An"
-                                      UncheckedStateContent="Aus"
-                                      ContentPlacement="Inside"
-                                      IsChecked="{Binding DashboardShowDetails}" />
-                    </dxlc:LayoutItem>-->
-                    <dxlc:LayoutItem Label="Aktivitätsbuttons anzeigen">
-                        <dxe:ToggleSwitch CheckedStateContent="An"
-                                      UncheckedStateContent="Aus"
-                                      ContentPlacement="Inside"
-                                      IsChecked="{Binding ShowActivityButtons}" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Logging">
-                        <ComboBox SelectedIndex="{Binding SelectedLogLevel}">
-                            <ComboBoxItem Content="Kein Log" />
-                            <ComboBoxItem Content="Nur Fehler" />
-                            <ComboBoxItem Content="Alles Loggen" />
-                        </ComboBox>
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Ordner für die Log-Dateien">
-                        <TextBox Text="{Binding LogFolder, Mode=TwoWay}" />
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Anzahl Wochen für den Aushang" ToolTip="Gibt an wieviele Wochen auf dem Excel-Aushang erstellt werden soll. Maximal 24 Wochen sind möglich">
-                        <dxe:SpinEdit EditValue="{Binding ListAushangAnzahlWochen, Mode=TwoWay}"
-                                      MaxValue="24" MinValue="1" 
-                                      AllowDefaultButton="False"
-                                      Mask="#0"
+                    <Grid Grid.Column="2"
+                          VerticalAlignment="Center"
+                          Margin="10,30,10,0"
+                          Height="25">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <dxe:SpinEdit x:Name="MailEntfernung"
+                                      Grid.Column="0"
+                                      IsFloatValue="False"
+                                      MinValue="0"
+                                      Increment="10"
                                       EditValueType="{x:Type sys:Int32}"
-                                      Width="75" HorizontalAlignment="Left">
-                            <dxe:SpinEdit.Buttons>
-                                <dxe:SpinButtonInfo IsDefaultButton="True" IsLeft="True" />
-                            </dxe:SpinEdit.Buttons>
-                        </dxe:SpinEdit>
-                    </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="App Design">
-                        <dxe:ToggleSwitch CheckedStateContent="Dunkel"
-                                          UncheckedStateContent="Hell"
-                                          ContentPlacement="Both"
-                                          IsChecked="{Binding ThemeIsDark}"
-                                          
-                                          HorizontalAlignment="Left"/>
-                    </dxlc:LayoutItem>
-                </dxlc:LayoutGroup>
-            </dxlc:LayoutGroup>
-        </dxlc:LayoutControl>
+                                      DisplayFormatString="0 km"
+                                      EditValue="100" />
+                        <dx:SimpleButton Content="Koordinatoren im Umkreix von X km"
+                                         Command="{Binding EmergencyMailCommand}"
+                                         CommandParameter="{Binding EditValue, ElementName=MailEntfernung}"
+                                         Grid.Column="1" />
+                    </Grid>
+                </Grid>
+
+                <Label Content="Entfernungen" Style="{StaticResource EinstellungenGruppe}"/>
+                <Grid MinHeight="70" Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44"/>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource EinstellungenBoxBorder}"/>
+                        <Image Grid.Column="0" Source="/Images/MapPointer_32x32.png" Style="{StaticResource EinstellungenBoxBild}" />
+
+                        <TextBlock Grid.Column="1" Text="Entfernungen berechnen"  Style="{StaticResource EinstellungenBoxLabel1}"/>
+                        <TextBlock Grid.Column="1" Text="Berechnet die Wegstrecke zwischen deiner und der anderen Versammlung"  Style="{StaticResource EinstellungenBoxLabel2}"/>
+                    <dx:SimpleButton Grid.Column="2" 
+                                     Margin="10,10,10,30"
+                                     VerticalAlignment="Center"
+                                     Height="25"
+                                     Content="Aktualisienur fehlende Entfernungen berechnenren"
+                                     Command="{Binding CalculateRouteCommand}" 
+                                     CommandParameter="False" />
+                    <dx:SimpleButton Grid.Column="2"
+                                     VerticalAlignment="Center"
+                                     Margin="10,30,10,0"
+                                     Height="25" Content="Alle Entfernungen löschen und neu berechnen"
+                                     Command="{Binding CalculateRouteCommand}" 
+                                     CommandParameter="True" />
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

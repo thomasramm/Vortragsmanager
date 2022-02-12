@@ -114,7 +114,7 @@
                                                                                 <dxlc:LayoutGroup Orientation="Horizontal">
                                                                                     <dxlc:LayoutGroup Orientation="Vertical">
                                                                                         <dxlc:LayoutItem Label="Redner:">
-                                                                                            <Label Content="{Binding Einladung.Ältester.Name}" Foreground="{StaticResource textHighlight}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />
+                                                                                            <Label Content="{Binding Einladung.Ältester.Name}" Foreground="{StaticResource TextHighlight}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <dxlc:LayoutItem Label="Telefon:">
                                                                                             <Label Content="{Binding Einladung.Ältester.Telefon}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />
@@ -131,7 +131,7 @@
                                                                                     </dxlc:LayoutGroup>
                                                                                     <dxlc:LayoutGroup Orientation="Vertical">
                                                                                         <dxlc:LayoutItem Label="Koordinator">
-                                                                                            <Label Content="{Binding Einladung.Ältester.Versammlung.Koordinator}" Foreground="{StaticResource textHighlight}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />
+                                                                                            <Label Content="{Binding Einladung.Ältester.Versammlung.Koordinator}" Foreground="{StaticResource TextHighlight}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />
                                                                                         </dxlc:LayoutItem>
                                                                                         <dxlc:LayoutItem Label="Telefon:">
                                                                                             <Label Content="{Binding Einladung.Ältester.Versammlung.KoordinatorTelefon}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />

@@ -44,5 +44,14 @@ namespace Vortragsmanager.Navigation
                 }
             }
         }
+
+        private void ToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var deSelected = (ToggleButton)sender;
+            if (KalenderButton.IsChecked == false
+                && AntwortEintragenButton.IsChecked == false
+                && RednerSuchenButton.IsChecked == false)
+                deSelected.IsChecked = true;
+        }
     }
 }
