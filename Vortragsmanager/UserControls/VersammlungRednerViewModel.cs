@@ -18,7 +18,8 @@ namespace Vortragsmanager.Views
 
         public void NavigateToEditor()
         {
-            Navigation.NavigationView.Frame.Navigate("RednerView", Redner);
+            //ToDo: Navigation auf Rednereinstellungen von VersammlungenView
+            //Navigation.NavigationView.Frame.Navigate("RednerView", Redner);
         }
 
         #region XAML Eigenschaften (Neben Redner.Name)
