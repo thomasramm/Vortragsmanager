@@ -2,13 +2,18 @@
 using System.Collections.ObjectModel;
 using DevExpress.Mvvm;
 using Vortragsmanager.Helper;
+using Vortragsmanager.Interface;
 
 namespace Vortragsmanager.PageModels
 {
     public class MonthViewModel : ViewModelBase
     {
-        public MonthViewModel(int nr, string name, ObservableCollection<MonthViewModel> monate)
+        private readonly INavigation _parentModel;
+
+        public MonthViewModel(INavigation parentModel, int nr, string name, ObservableCollection<MonthViewModel> monate)
         {
+            _parentModel = parentModel;
+
             Nr = nr;
             Name = name;
 
@@ -34,7 +39,7 @@ namespace Vortragsmanager.PageModels
                 if ((int)startDate.DayOfWeek == (int)DateCalcuation.Wochentag)
                 {
                     var kw = DateCalcuation.CalculateWeek(startDate);
-                    Wochen.Add(new WeekViewModel(jahr, this, kw));
+                    Wochen.Add(new WeekViewModel(_parentModel, jahr, this, kw));
                 }
                 startDate = startDate.AddDays(1);
             }

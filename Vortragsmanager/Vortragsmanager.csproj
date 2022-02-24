@@ -102,6 +102,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Enums\NavigationPage.cs" />
+    <Compile Include="Interface\INavigation.cs" />
     <Compile Include="PageModels\AufgabenKalender.cs" />
     <Compile Include="DataModels\Cancelation.cs" />
     <Compile Include="Enums\EventStatus.cs" />
@@ -132,10 +134,12 @@
     <Compile Include="DataModels\GroupTalk.cs" />
     <Compile Include="PageModels\HistorieAktivitätenPageModel.cs" />
     <Compile Include="PageModels\ListeAusgebenPageModel.cs" />
+    <Compile Include="PageModels\MeinPlanLandingPageModel.cs" />
     <Compile Include="PageModels\MonthViewModel.cs" />
     <Compile Include="Enums\RednerViewType.cs" />
     <Compile Include="PageModels\Termin.cs" />
     <Compile Include="PageModels\SpeakersViewModelCollection.cs" />
+    <Compile Include="PageModels\VerwaltungLandingPageModel.cs" />
     <Compile Include="PageModels\VerwaltungVorträgePageModel.cs" />
     <Compile Include="PageModels\WeekViewModel.cs" />
     <Compile Include="Pages\HistorieAktivitätenPage.xaml.cs">

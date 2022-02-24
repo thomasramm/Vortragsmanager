@@ -5,6 +5,7 @@ using DevExpress.Mvvm;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
+using Vortragsmanager.Interface;
 using Vortragsmanager.UserControls;
 using Vortragsmanager.Views;
 
@@ -13,9 +14,11 @@ namespace Vortragsmanager.PageModels
     public class WeekViewModel : ViewModelBase
     {
         private int _kalenderwoche;
+        private readonly INavigation _parentModel;
 
-        public WeekViewModel(int jahr, MonthViewModel monat, int kw)
+        public WeekViewModel(INavigation parentModel, int jahr, MonthViewModel monat, int kw)
         {
+            _parentModel = parentModel;
             Jahr = jahr;
             Monat = monat;
             Kalenderwoche = kw;
@@ -220,7 +223,7 @@ namespace Vortragsmanager.PageModels
 
         public void RednerSuchen()
         {
-            Navigation.NavigationView.Frame.Navigate("SearchSpeaker", Tag);
+            _parentModel.NavigateTo(NavigationPage.MeinPlanLandingPage,"RednerSuchen#" + Kalenderwoche.ToString());
         }
 
         public void BuchungErinnern()

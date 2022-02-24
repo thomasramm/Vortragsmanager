@@ -39,12 +39,6 @@ namespace Vortragsmanager
 #if DEBUG
                 Settings.Default.sqlite = "demo.sqlite3";
 #endif
-            //ToDo: Entfernen vor Produktiv Release
-            //var path = this.GetType().Assembly.Location;
-            //FileInfo fileInfo = new FileInfo(path);
-            //Settings.Default.sqlite = fileInfo.DirectoryName + @"\demo.sqlite3";
-            //MessageBox.Show("Dies ist eine Testversion. Es wird nicht eure Planung geöffnet, sondern die Datei" 
-            //    + Environment.NewLine + Settings.Default.sqlite);
 
             //Erster Start nach Update?
             if (!Settings.Default.HideChangelog)

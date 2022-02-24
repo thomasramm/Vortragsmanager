@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using DevExpress.Xpf.Core;
+using Vortragsmanager.Interface;
+using Vortragsmanager.PageModels;
 
 namespace Vortragsmanager.Pages
 {
@@ -15,6 +17,12 @@ namespace Vortragsmanager.Pages
         public MeinPlanKalenderPage()
         {
             InitializeComponent();
+        }
+
+        public MeinPlanKalenderPage(INavigation parentContext)
+        {
+            InitializeComponent();
+            DataContext = new MeinPlanKalenderPageModel(parentContext);
         }
 
         private void Content_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

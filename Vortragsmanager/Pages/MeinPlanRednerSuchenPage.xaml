@@ -38,7 +38,7 @@
         </ControlTemplate>
     </UserControl.Resources>
     <UserControl.DataContext>
-        <pageModels:MeineRednerNeueAnfragePageModel />
+        <pageModels:MeinPlanRednerSuchenPageModel />
     </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>

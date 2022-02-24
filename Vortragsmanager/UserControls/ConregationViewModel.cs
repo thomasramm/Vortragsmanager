@@ -11,20 +11,23 @@ using Vortragsmanager.MeineVerwaltung;
 using Vortragsmanager.UserControls;
 using System.Linq;
 using Vortragsmanager.Core.DataHelper;
+using Vortragsmanager.Interface;
 
 namespace Vortragsmanager.Views
 {
     public class ConregationViewModel : ViewModelBase
     {
-        private bool _myConregation;
-        ConregationsViewModelCollection _all;
+        private readonly INavigation _parentModel;
+        private readonly bool _myConregation;
+        private readonly ConregationsViewModelCollection _all;
 
-        public ConregationViewModel(Conregation versammlung, ConregationsViewModelCollection all)
+        public ConregationViewModel(INavigation parentModel, Conregation versammlung, ConregationsViewModelCollection all)
         {
+            _parentModel = parentModel;
             _all = all;
             Versammlung = versammlung;
             _myConregation = versammlung == DataContainer.MeineVersammlung;
-            RednerListe = new SpeakersViewModelCollection(versammlung);
+            RednerListe = new SpeakersViewModelCollection(parentModel, versammlung);
             DeleteCommand = new DelegateCommand<object>(Delete);
             NewPersonCommand = new DelegateCommand(NewPerson);
             CalculateDistanceCommand = new DelegateCommand(CalculateDistance);
@@ -82,7 +85,7 @@ namespace Vortragsmanager.Views
         public void NewPerson()
         {
             var redner = DataContainer.SpeakerFindOrAdd("Neuer Redner", Versammlung);
-            var rednerModel = new SpeakerViewModel(redner);
+            var rednerModel = new SpeakerViewModel(_parentModel, redner);
             RednerListe.Add(rednerModel);
             rednerModel.NavigateToEditor();
         }
@@ -96,10 +99,7 @@ namespace Vortragsmanager.Views
 
         public int? Entfernung
         {
-            get
-            {
-                return Versammlung.Entfernung;
-            }
+            get => Versammlung.Entfernung;
             set
             {
                 if (value != null)
@@ -111,13 +111,7 @@ namespace Vortragsmanager.Views
         }
 
         private readonly ObservableCollection<ZeitItem> _zusammenkunftszeitenItems;
-        public ObservableCollection<ZeitItem> ZusammenkunftszeitenItems
-        {
-            get
-            {
-                return _zusammenkunftszeitenItems;
-            }
-        }
+        public ObservableCollection<ZeitItem> ZusammenkunftszeitenItems => _zusammenkunftszeitenItems;
 
         public void AddZusammenkunftszeit()
         {
@@ -131,10 +125,7 @@ namespace Vortragsmanager.Views
 
         public bool EigeneVersammlung
         {
-            get
-            {
-                return (DataContainer.MeineVersammlung == Versammlung);
-            }
+            get => (DataContainer.MeineVersammlung == Versammlung);
             set
             {
                 if ((value == true) && (ThemedMessageBox.Show(
@@ -178,14 +169,7 @@ namespace Vortragsmanager.Views
 
         public void Select(bool isSelected)
         {
-            if (isSelected)
-            {
-                IsSelected = DevExpress.Xpf.LayoutControl.GroupBoxState.Maximized;
-            }
-            else
-            {
-                IsSelected = DevExpress.Xpf.LayoutControl.GroupBoxState.Normal;
-            }
+            IsSelected = isSelected ? DevExpress.Xpf.LayoutControl.GroupBoxState.Maximized : DevExpress.Xpf.LayoutControl.GroupBoxState.Normal;
             RaisePropertyChanged(nameof(IsSelected));
             RefreshVisibility();
         }
@@ -194,10 +178,7 @@ namespace Vortragsmanager.Views
 
         public bool MatchFilter
         {
-            get
-            {
-                return _matchFilter;
-            }
+            get => _matchFilter;
             set
             {
                 _matchFilter = value;
@@ -224,10 +205,7 @@ namespace Vortragsmanager.Views
 
         public Visibility Sichtbarkeit
         {
-            get
-            {
-                return _sichtbarkeit;
-            }
+            get => _sichtbarkeit;
             set
             {
                 _sichtbarkeit = value;
@@ -239,10 +217,7 @@ namespace Vortragsmanager.Views
 
         public bool EditMode
         {
-            get
-            {
-                return _editMode;
-            }
+            get => _editMode;
             set
             {
                 _editMode = value;

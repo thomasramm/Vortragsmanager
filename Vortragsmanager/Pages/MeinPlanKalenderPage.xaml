@@ -11,9 +11,6 @@
              mc:Ignorable="d"
              d:DesignHeight="450" 
              d:DesignWidth="800">
-    <UserControl.DataContext>
-        <pageModels:MeinPlanKalenderPageModel />
-    </UserControl.DataContext>
     <UserControl.Resources>
         <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">

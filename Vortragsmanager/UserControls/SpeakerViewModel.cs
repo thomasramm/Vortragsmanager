@@ -3,23 +3,24 @@ using System;
 using System.Linq;
 using System.Windows.Media;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.Enums;
+using Vortragsmanager.Interface;
 
 namespace Vortragsmanager.Views
 {
     public class SpeakerViewModel : ViewModelBase
     {
-        public SpeakerViewModel(Speaker redner)
-        {
-            if (redner is null)
-                throw new NullReferenceException();
+        private readonly INavigation _parentModel;
 
-            Redner = redner;
+        public SpeakerViewModel(INavigation parentModel, Speaker redner)
+        {
+            _parentModel = parentModel;
+            Redner = redner ?? throw new NullReferenceException();
         }     
 
         public void NavigateToEditor()
         {
-            //ToDo: Navigation auf Rednereinstellungen von VersammlungenView
-            //Navigation.NavigationView.Frame.Navigate("RednerView", Redner);
+            _parentModel.NavigateTo(NavigationPage.VerwaltungLandingPage, Redner);
         }
 
         #region XAML Eigenschaften (Neben Redner.Name)

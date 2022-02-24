@@ -1,6 +1,8 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 using DevExpress.Xpf.LayoutControl;
+using Vortragsmanager.Interface;
+using Vortragsmanager.MeineVerwaltung;
 using GroupBox = DevExpress.Xpf.LayoutControl.GroupBox;
 
 namespace Vortragsmanager.Pages
@@ -10,9 +12,10 @@ namespace Vortragsmanager.Pages
     /// </summary>
     public partial class VerwaltungVersammlungPage
     {
-        public VerwaltungVersammlungPage()
+        public VerwaltungVersammlungPage(INavigation parentModel)
         {
             InitializeComponent();
+            DataContext = new ConregationsViewModelCollection(parentModel);
         }
 
         public void SelectConregation(Datamodels.Conregation versammlung)

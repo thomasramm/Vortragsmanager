@@ -123,13 +123,13 @@ namespace Vortragsmanager.Core
             v.Add(new Talk(72, "Liebe – das Kennzeichen wahrer Christen"));
             v.Add(new Talk(73, "„Ein weises Herz bekommen“ – wie?"));
             v.Add(new Talk(74, "Jehovas Augen schauen auf uns"));
-            v.Add(new Talk(75, "Erkenne ich Jehovas Souveränität in meinem Leben an?"));
+            v.Add(new Talk(75, "Jehovas Herrschaft - unterstütze ich sie?"));
             v.Add(new Talk(76, "Biblische Grundsätze - eine Hilfe bei heutigen Problemen?"));
             v.Add(new Talk(77, "„Seid immer gastfreundlich“"));
             v.Add(new Talk(78, "Jehova mit Freude dienen"));
-            v.Add(new Talk(79, "Freundschaft mit Gott oder mit der Welt - wofür entscheide ich mich?"));
+            v.Add(new Talk(79, "Für welche Freundschaft werde ich mich entscheiden?"));
             v.Add(new Talk(80, "Wissenschaft oder Bibel – worauf stützt sich meine Hoffnung?"));
-            v.Add(new Talk(81, "Wer ist befähigt, Gottes Diener zu sein?"));
+            v.Add(new Talk(81, "Kann ich ein Bibellehrer sein?"));
             v.Add(new Talk(82, "Jehova und Christus - sind sie Teil einer Dreieinigkeit?"));
             v.Add(new Talk(83, "Die Zeit des Gerichts für die Religion"));
             v.Add(new Talk(84, "Dem entgehen, was dieser Welt bevorsteht"));

@@ -3,8 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <pageModels:VerwaltungLandingPageModel/>
+    </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="44" />
@@ -12,7 +16,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Style="{StaticResource NavimenuHeader}" />
-        <Label x:Name="MenuHeaderTitel" Grid.Row="0" Content="MenuHeaderTitel" Style="{StaticResource NavimenuHeaderLabel}"/>
+        <Label Grid.Row="0" Content="{Binding Header}" Style="{StaticResource NavimenuHeaderLabel}"/>
         <Border Grid.Row="1" 
                 Style="{StaticResource NavimenuHeader2}" 
                 Background="{StaticResource Background}" 
@@ -21,8 +25,7 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <ToggleButton x:Name="Versammlung"
                           Width="160"
-                          Checked="ToggleButton_Checked"
-                          Unchecked="ToggleButton_Unchecked"
+                          IsChecked="{Binding ButtonVersammlungIsChecked}"
                           Style="{StaticResource NavimenuSecondButton}"
                           ToolTip="Versammlungen verwalten">
                 <StackPanel Orientation="Horizontal">
@@ -36,8 +39,7 @@
             </ToggleButton>
             <ToggleButton x:Name="Redner"
                           Width="100"
-                          Checked="ToggleButton_Checked"
-                          Unchecked="ToggleButton_Unchecked"
+                          IsChecked="{Binding ButtonRednerIsChecked}"
                           Style="{StaticResource NavimenuSecondButton}"
                           ToolTip="Redner verwalten">
                 <StackPanel Orientation="Horizontal">
@@ -51,8 +53,7 @@
             </ToggleButton>
             <ToggleButton x:Name="Vorträge"
                           Width="100"
-                          Checked="ToggleButton_Checked"
-                          Unchecked="ToggleButton_Unchecked"
+                          IsChecked="{Binding ButtonVorträgeIsChecked}"
                           Style="{StaticResource NavimenuSecondButton}"
                           ToolTip="Vortragsthemen verwalten">
                 <StackPanel Orientation="Horizontal">
@@ -66,8 +67,7 @@
             </ToggleButton>
             <ToggleButton x:Name="Vorlagen"
                           Width="100"
-                          Checked="ToggleButton_Checked"
-                          Unchecked="ToggleButton_Unchecked"
+                          IsChecked="{Binding ButtonVorlagenIsChecked}"
                           Style="{StaticResource NavimenuSecondButton}"
                           ToolTip="Vorlagen (z.B. für Mails) verwalten">
                 <StackPanel Orientation="Horizontal">
@@ -80,6 +80,6 @@
                 </StackPanel>
             </ToggleButton>
         </StackPanel>
-        <ContentControl x:Name="ActiveUserControl" Grid.Row="2" />
+        <ContentControl Grid.Row="2" Content="{Binding ActiveControl}"/>
     </Grid>
 </UserControl>

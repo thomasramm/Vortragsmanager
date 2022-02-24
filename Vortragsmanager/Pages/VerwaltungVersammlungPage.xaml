@@ -8,10 +8,8 @@
              xmlns:local="clr-namespace:Vortragsmanager.MeineVerwaltung"
              xmlns:views="clr-namespace:Vortragsmanager.Views" xmlns:core="clr-namespace:Vortragsmanager.Core"
              mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=local:ConregationsViewModelCollection, IsDesignTimeCreatable=True}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
-        <local:ConregationsViewModelCollection />
-    </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />

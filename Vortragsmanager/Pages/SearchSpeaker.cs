@@ -1,53 +1,32 @@
-﻿using System;
-using System.Windows.Controls;
-using DevExpress.Xpf.WindowsUI.Navigation;
-
-namespace Vortragsmanager.Pages
+﻿namespace Vortragsmanager.Pages
 {
     /// <summary>
     /// Interaktionslogik für ExternalQuestionEdit.xaml
     /// </summary>
-    public partial class MeinPlanRednerSuchenPage : UserControl, INavigationAware
+    public partial class MeinPlanRednerSuchenPage
     {
         public MeinPlanRednerSuchenPage()
         {
             InitializeComponent();
         }
 
-        public void NavigatedTo(NavigationEventArgs e)
+        public MeinPlanRednerSuchenPage(string datum)
         {
-            if (e is null)
-                return;
-
-            if (e.Parameter is null)
-                return;
-
-            var datum = (DateTime)e.Parameter;
+            InitializeComponent();
 
             if (datum == null)
+            {
                 return;
+            }
+
+            var kw = int.Parse(datum);
+            var date = Helper.DateCalcuation.CalculateWeek(kw);
 
             var data = (PageModels.MeinPlanRednerSuchenPageModel)DataContext;
             foreach (var t in data.FreieTermine)
             {
-                t.IsChecked = (t.Datum == datum);
+                t.IsChecked = (t.Datum == date);
             }
-        }
-
-        /// <summary>
-        /// Ich verlasse gleich die View.
-        /// </summary>
-        /// <param name="e">Parameter.</param>
-        public void NavigatingFrom(NavigatingEventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// Ich habe die view bereits verlassen.
-        /// </summary>
-        /// <param name="e">Parameter.</param>
-        public void NavigatedFrom(NavigationEventArgs e)
-        {
         }
     }
 }

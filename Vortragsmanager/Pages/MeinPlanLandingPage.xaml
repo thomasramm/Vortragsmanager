@@ -3,8 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <pageModels:MeinPlanLandingPageModel/>
+    </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="44" />
@@ -23,8 +27,7 @@
                           Width="110"
                           Style="{StaticResource NavimenuSecondButton}"
                           ToolTip="Kalender"
-                          Checked="ToggleButton_Checked"
-                          Unchecked="ToggleButton_Unchecked">
+                          IsChecked="{Binding ButtonKalenderIsChecked}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource Kalender}" Margin="0,5"/>
                     <Label Content="Kalender" 
@@ -38,8 +41,7 @@
                           Width="150"
                           Style="{StaticResource NavimenuSecondButton}"
                           ToolTip="Redner suchen"
-                          Checked="ToggleButton_Checked"
-                          Unchecked="ToggleButton_Unchecked">
+                          IsChecked="{Binding ButtonRednerSuchenIsChecked}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource RednerSuchen}" Margin="0,5"/>
                     <Label Content="Redner suchen" 
@@ -53,8 +55,7 @@
                           Width="170"
                           Style="{StaticResource NavimenuSecondButton}"
                           ToolTip="Antwort eintragen"
-                          Checked="ToggleButton_Checked"
-                          Unchecked="ToggleButton_Unchecked">
+                          IsChecked="{Binding ButtonAntwortEintragenIsChecked}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{StaticResource AntwortEintragen}" Margin="0,5"/>
                     <Label Content="Antwort eintragen" 
@@ -64,8 +65,7 @@
                            Margin="5,0"/>
                 </StackPanel>
             </ToggleButton>
-
         </StackPanel>
-        <ContentControl x:Name="ActiveUserControl" Grid.Row="2" />
+        <ContentControl x:Name="ActiveUserControl" Grid.Row="2" Content="{Binding ActiveControl}" />
     </Grid>
 </UserControl>
