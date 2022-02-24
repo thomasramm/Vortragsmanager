@@ -1,5 +1,7 @@
 ﻿using System;
 using Vortragsmanager.Core;
+using Vortragsmanager.Enums;
+using Vortragsmanager.Helper;
 
 namespace Vortragsmanager.Datamodels
 {
@@ -11,7 +13,7 @@ namespace Vortragsmanager.Datamodels
 
         public int Kw { get; set; }
 
-        public DateTime Datum => Helper.CalculateWeek(Kw, Versammlung);
+        public DateTime Datum => DateCalcuation.CalculateWeek(Kw, Versammlung);
 
         public OutsideReason Reason { get; set; } = OutsideReason.Talk;
 
@@ -19,14 +21,8 @@ namespace Vortragsmanager.Datamodels
 
         private int Jahr => Kw / 100;
 
-        private DayOfWeeks Wochentag => Zeit.Tag;
+        private Wochentag Wochentag => Zeit.Tag;
 
         public Core.DataHelper.Zusammenkunftszeit Zeit => Versammlung.Zeit.Get(Jahr);
-    }
-
-    public enum OutsideReason
-    {
-        Talk,
-        NotAvailable,
     }
 }

@@ -6,6 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.Enums;
+using Vortragsmanager.Helper;
 
 namespace Vortragsmanager.UserControls
 {
@@ -20,7 +22,7 @@ namespace Vortragsmanager.UserControls
         public CalendarYearShort()
         {
             InitializeComponent();
-            LoadYear(Core.Helper.DisplayedYear);
+            LoadYear(Helper.Helper.DisplayedYear);
         }
 
 
@@ -43,7 +45,7 @@ namespace Vortragsmanager.UserControls
             flowLayout.Children.Clear();
             _year = year;
 
-            var start = Core.Helper.GetConregationDay(new DateTime(year, 1, 1));
+            var start = DateCalcuation.GetConregationDay(new DateTime(year, 1, 1));
             if (start.Year < year)
                 start = start.AddDays(7);
             var currentMonth = 0;
@@ -80,7 +82,7 @@ namespace Vortragsmanager.UserControls
             //Events
             foreach (var myEvent in DataContainer.MeinPlan.Where(x => (x.Kw >= startrange && x.Kw < endrange) && x.Status == EventStatus.Ereignis).Cast<SpecialEvent>())
             {
-                var datum = Core.Helper.CalculateWeek(myEvent.Kw);
+                var datum = DateCalcuation.CalculateWeek(myEvent.Kw);
                 if (datum.Year == _year)
                 {
                     var item = _calendar[datum];
@@ -96,7 +98,7 @@ namespace Vortragsmanager.UserControls
             //Vortrag in meiner Versammlung
             foreach (var busy in DataContainer.MeinPlan.Where(x => (x.Kw >= startrange && x.Kw < endrange ) && x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester == Person))
             {
-                var datum = Core.Helper.CalculateWeek(busy.Kw);
+                var datum = DateCalcuation.CalculateWeek(busy.Kw);
                 if (datum.Year == _year)
                 {
                     var item = _calendar[datum];
@@ -111,7 +113,7 @@ namespace Vortragsmanager.UserControls
             //Vortrag in anderer Versammlung
             foreach (var busy in DataContainer.ExternerPlan.Where(x => x.Ältester == Person && (x.Kw >= startrange && x.Kw < endrange)))
             {
-                var datum = Core.Helper.CalculateWeek(busy.Kw);
+                var datum = DateCalcuation.CalculateWeek(busy.Kw);
                 if (datum.Year == _year)
                 {
                     var item = _calendar[datum];
@@ -128,7 +130,7 @@ namespace Vortragsmanager.UserControls
             {
                 if (busy.Leser?.VerknüpftePerson == Person || busy.Vorsitz?.VerknüpftePerson == Person)
                 {
-                    var datum = Core.Helper.CalculateWeek(busy.Kw);
+                    var datum = DateCalcuation.CalculateWeek(busy.Kw);
                     if (_calendar.ContainsKey(datum))
                     {
                         var item = _calendar[datum];
@@ -148,7 +150,7 @@ namespace Vortragsmanager.UserControls
             //Vorhandene Abwesenheiten eintragen
             foreach(var busy in DataContainer.Abwesenheiten.Where(x => x.Kw/100 == _year && x.Redner == Person))
             {
-                var datum = Core.Helper.CalculateWeek(busy.Kw);
+                var datum = DateCalcuation.CalculateWeek(busy.Kw);
                 var item = _calendar[datum];
                 item.SetAbwesenheit(busy);
             }

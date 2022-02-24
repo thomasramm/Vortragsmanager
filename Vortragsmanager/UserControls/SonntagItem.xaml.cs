@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.Helper;
 
 
 namespace Vortragsmanager.UserControls
@@ -21,7 +22,7 @@ namespace Vortragsmanager.UserControls
         public SonntagItem(DateTime datum)
         {
             InitializeComponent();
-            var kw = Core.Helper.CalculateWeek(datum);
+            var kw = DateCalcuation.CalculateWeek(datum);
             _model = new SonntagItemViewModel(kw);
             DataContext = _model;
             Datum = datum;

@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:hlp="clr-namespace:Vortragsmanager.Core"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:enums="clr-namespace:Vortragsmanager.Enums"
     mc:Ignorable="d" 
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     d:DesignHeight="22" Width="305.2">
@@ -24,7 +25,7 @@
                   Margin="59,0,0,0" 
                   HorizontalAlignment="Left" 
                   Width="97"
-                  ItemsSource="{Binding Source={hlp:EnumBindingSource {x:Type hlp:DayOfWeeks}}}"
+                  ItemsSource="{Binding Source={hlp:EnumBindingSource {x:Type enums:Wochentag}}}"
                   SelectedItem="{Binding Wochentag, Mode=TwoWay}"/>
 
         <TextBox x:Name="ZeitEdit"

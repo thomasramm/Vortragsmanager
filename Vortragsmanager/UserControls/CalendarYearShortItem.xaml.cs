@@ -3,6 +3,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.Helper;
+using Vortragsmanager.PageModels;
 
 namespace Vortragsmanager.UserControls
 {
@@ -109,7 +111,7 @@ namespace Vortragsmanager.UserControls
 
         public void SetPerson(Speaker person)
         {
-            _abwesenheit = new Busy(person, Core.Helper.CalculateWeek(_date));
+            _abwesenheit = new Busy(person, DateCalcuation.CalculateWeek(_date));
         }
 
         public void SetAbwesenheit(Busy abwesenheit)
@@ -131,7 +133,7 @@ namespace Vortragsmanager.UserControls
             Color color;
 
             //Hintergrundfarbe
-            if (MeineVerwaltung.EinstellungenViewModel.ThemeIsDark)
+            if (EinstellungenPageModel.ThemeIsDark)
             {
                 if (_isMonth)
                     color = Color.FromRgb(51, 51, 51);
@@ -172,11 +174,11 @@ namespace Vortragsmanager.UserControls
 
             if (_isMonth)
             {
-                var text = Date.ToString("MMMM", Core.Helper.German);
+                var text = Date.ToString("MMMM", Helper.Helper.German);
                 if (_showDetails)
                     Inhalt.Content = text;
                 else
-                    Inhalt.Content = Date.ToString("MMM", Core.Helper.German);
+                    Inhalt.Content = Date.ToString("MMM", Helper.Helper.German);
                 ToolTip = text;
             }
 

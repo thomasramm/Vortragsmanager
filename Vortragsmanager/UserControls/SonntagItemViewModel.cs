@@ -3,6 +3,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.Enums;
+using Vortragsmanager.Helper;
+using Vortragsmanager.PageModels;
 
 namespace Vortragsmanager.UserControls
 {
@@ -16,7 +19,7 @@ namespace Vortragsmanager.UserControls
 
         public int Kalenderwoche { get; set; }
 
-        public DateTime Datum => Core.Helper.CalculateWeek(Kalenderwoche);
+        public DateTime Datum => DateCalcuation.CalculateWeek(Kalenderwoche);
 
         private void RecalculateNewActivityPerson(AufgabenZuordnung removed, AufgabenZuordnung added)
         {

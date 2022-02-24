@@ -7,7 +7,10 @@ using System.Windows;
 using System.Windows.Markup;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.MeineVerwaltung;
+using Vortragsmanager.Module;
+using Vortragsmanager.PageModels;
 using Vortragsmanager.Properties;
 
 namespace Vortragsmanager
@@ -77,15 +80,15 @@ namespace Vortragsmanager
             InitializeComponent();
 
             //Daten einlesen, Datenklassen bereitstellen
-            Helper.GlobalSettings = new MyGloabalSettings();
-            DataContext = Helper.GlobalSettings;
+            Helper.Helper.GlobalSettings = new MyGloabalSettings();
+            DataContext = Helper.Helper.GlobalSettings;
                         
             //Bereinigungs Tasks
             Backup.CleanOldBackups();
 
             //Style Anpassungen
-            Helper.GlobalSettings.RefreshTitle();
-            EinstellungenViewModel.ThemeIsDark = Settings.Default.ThemeIsDark;
+            Helper.Helper.GlobalSettings.RefreshTitle();
+            EinstellungenPageModel.ThemeIsDark = Settings.Default.ThemeIsDark;
 #if DEBUG
             ThemeSwitch.Visibility = Visibility.Visible; 
 #endif
@@ -103,7 +106,7 @@ namespace Vortragsmanager
 
         private void ToggleSwitch_Changed(object sender, RoutedEventArgs e)
         {
-            hamburgerMenu.Margin = Helper.StyleIsDark == false 
+            HamburgerMenu.Margin = Helper.Helper.StyleIsDark == false 
                 ? new Thickness(-10, 0, -10, -10) 
                 : new Thickness(-10, -7, -10, -10);
         }

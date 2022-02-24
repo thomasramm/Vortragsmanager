@@ -8,6 +8,9 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using Vortragsmanager.Core;
+using Vortragsmanager.Enums;
+using Vortragsmanager.Helper;
+using Vortragsmanager.PageModels;
 
 namespace Vortragsmanager.Datamodels
 {
@@ -49,10 +52,10 @@ namespace Vortragsmanager.Datamodels
 
         public bool ThemeIsDark
         {
-            get => MeineVerwaltung.EinstellungenViewModel.ThemeIsDark;
+            get => EinstellungenPageModel.ThemeIsDark;
             set
             {
-                MeineVerwaltung.EinstellungenViewModel.ThemeIsDark = value;
+                EinstellungenPageModel.ThemeIsDark = value;
             }
         }
     }
@@ -73,7 +76,7 @@ namespace Vortragsmanager.Datamodels
                 meineVersammlung = value;
                 if (value != null)
                     //Default Wochentag setzen:
-                    Helper.Wochentag = MeineVersammlung.Zeit.Get(DateTime.Today.Year).Tag;
+                    DateCalcuation.Wochentag = MeineVersammlung.Zeit.Get(DateTime.Today.Year).Tag;
             }
         }
 
@@ -109,7 +112,7 @@ namespace Vortragsmanager.Datamodels
 
         public static ObservableCollection<Cancelation> Absagen { get; } = new ObservableCollection<Cancelation>();
 
-        public static ObservableCollection<ActivityLog.Activity> Aktivitäten { get; } = new ObservableCollection<ActivityLog.Activity>();
+        public static ObservableCollection<ActivityLog.ActivityItemViewModel> Aktivitäten { get; } = new ObservableCollection<ActivityLog.ActivityItemViewModel>();
 
         public static Conregation ConregationFind(string name)
         {
@@ -198,7 +201,7 @@ namespace Vortragsmanager.Datamodels
                 .ToList();
             foreach (var einladung in einladungen)
             {
-                if (einladung.Kw <= Helper.CurrentWeek)
+                if (einladung.Kw <= DateCalcuation.CurrentWeek)
                 {
                     einladung.AnfrageVersammlung = unbekannteVersammlung;
                     einladung.Ältester = unbekannterRedner;
@@ -220,7 +223,7 @@ namespace Vortragsmanager.Datamodels
             var externeE = ExternerPlan.Where(x => x.Versammlung == Versammlung).ToList();
             foreach (var outside in externeE)
             {
-                if (outside.Kw <= Helper.CurrentWeek)
+                if (outside.Kw <= DateCalcuation.CurrentWeek)
                     outside.Versammlung = unbekannteVersammlung;
                 else
                     ExternerPlan.Remove(outside);
@@ -309,7 +312,7 @@ namespace Vortragsmanager.Datamodels
                 .ToList();
             foreach (var einladung in einladungen)
             {
-                if (einladung.Kw < Helper.CurrentWeek)
+                if (einladung.Kw < DateCalcuation.CurrentWeek)
                 {
                     einladung.AnfrageVersammlung = unbekannteVersammlung;
                     einladung.Ältester = unbekannterRedner;
@@ -363,7 +366,7 @@ namespace Vortragsmanager.Datamodels
                 return null;
 
             var list1 = MeinPlan.Where(x => x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester == redner && x.Kw >= 200001);
-            IEnumerable<Core.DataHelper.DateWithConregation> erg = list1.Select(x => new Core.DataHelper.DateWithConregation(Helper.CalculateWeek(x.Kw), MeineVersammlung.Name, x.Vortrag?.Vortrag?.Nummer));
+            IEnumerable<Core.DataHelper.DateWithConregation> erg = list1.Select(x => new Core.DataHelper.DateWithConregation(DateCalcuation.CalculateWeek(x.Kw), MeineVersammlung.Name, x.Vortrag?.Vortrag?.Nummer));
 
             if (redner.Versammlung == MeineVersammlung)
                 erg = erg.Union(ExternerPlan.Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, x.Versammlung.Name, x.Vortrag?.Vortrag?.Nummer)));

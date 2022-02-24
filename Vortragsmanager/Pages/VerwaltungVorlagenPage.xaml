@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="Vortragsmanager.Pages.VerwaltungVorlagenPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:local="clr-namespace:Vortragsmanager.MeineVerwaltung"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:pages="clr-namespace:Vortragsmanager.Pages"
+             xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800"
+             DataContext="{dxmvvm:ViewModelSource pageModels:VerwaltungVorlagenPageModel}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="22" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="27" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="27" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="27" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Vorlagen Übersicht" FontSize="12" Foreground="{StaticResource TextHighlight}" FontFamily="Segoe UI Light" Margin="0" />
+            <ListBox Grid.Row="1"
+                SelectedItem="{Binding SelectedVorlage}"
+                ItemsSource="{Binding Vorlagen}"
+                DisplayMemberPath="Value" />
+            <Label Grid.Row="2" Content="Beschreibung"  FontSize="12" Foreground="{StaticResource TextHighlight}" FontFamily="Segoe UI Light" Margin="0,5,0,0" />
+            <TextBox Grid.Row="3"
+                        Text="{Binding SelectedVorlageBeschreibung}" TextWrapping="Wrap" IsReadOnly="True" />
+            <Label Grid.Row="4" Content="Parameter" FontSize="12" Foreground="{StaticResource TextHighlight}" FontFamily="Segoe UI Light" Margin="0,5,0,0" />
+            <ListBox Grid.Row="5"
+                SelectedItem="{Binding SelectedParameter}"
+                ItemsSource="{Binding SelectedVorlageParameter}"
+                DisplayMemberPath="Key" />
+            <Label Grid.Row="6" Content="Beschreibung"  FontSize="12" Foreground="{StaticResource TextHighlight}" FontFamily="Segoe UI Light" Margin="0,5,0,0" />
+            <TextBox Grid.Row="7"
+                        Text="{Binding ParameterBeschreibung}" TextWrapping="Wrap" IsReadOnly="True" />
+        </Grid>
+        <Label Grid.Row="0" Grid.Column="1" Content="Vorlagen Inhalt" FontSize="12" Foreground="{StaticResource TextHighlight}" FontFamily="Segoe UI Light" HorizontalAlignment="Left" Margin="5,0" />
+        <TextBox Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" AcceptsTab="True" AcceptsReturn="True" Margin="5,21,0,0"
+                    Text="{Binding SelectedVorlageInhalt}" />
+        <dx:SimpleButton Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Width="130" Margin="10,10,270,10"
+                            Content="Zurücksetzen"
+                            Glyph="/Images/Reset_32x32.png"
+                            GlyphAlignment="Left"
+                            Command="{Binding ResetCommand}"
+                            CommandParameter="True"
+                            ToolTip="Setzt die Änderungen auf die Programmvorgaben zurück." />
+        <dx:SimpleButton Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Width="120" Margin="10,10,130,10"
+                            Content="Speichern"
+                            Glyph="/Images/Ok_Green_32x32.png"
+                            GlyphAlignment="Left"
+                            Command="{Binding Speichern}"
+                            CommandParameter="True" />
+        <dx:SimpleButton Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Width="120" Margin="0,10"
+                            Content="Abbrechen"
+                            Glyph="/Images/Cancel_32x32.png"
+                            GlyphAlignment="Left"
+                            Command="{Binding Speichern}"
+                            CommandParameter="False" />
+        <GridSplitter Grid.Column ="0"/>
+    </Grid>
+</UserControl>

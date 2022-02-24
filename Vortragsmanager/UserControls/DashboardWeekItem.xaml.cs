@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.Enums;
+using Vortragsmanager.Helper;
 
 namespace Vortragsmanager.UserControls
 {
@@ -44,7 +46,7 @@ namespace Vortragsmanager.UserControls
 
         void OnWocheChanged()
         {
-            _week.Content = Helper.CalculateWeek(Woche).ToShortDateString();
+            _week.Content = DateCalcuation.CalculateWeek(Woche).ToShortDateString();
             LoadMeinPlan(Woche);
             LoadMeineRedner(Woche);
         }
@@ -71,10 +73,10 @@ namespace Vortragsmanager.UserControls
             var nextRedner = DataContainer.ExternerPlan.Where(x => x.Kw == week);
             {
                 var message = string.Empty;
-                int kw = Helper.CurrentWeek;
+                int kw = DateCalcuation.CurrentWeek;
                 foreach (var r in nextRedner)
                 {
-                    if (kw == Helper.CurrentWeek || kw == r.Kw)
+                    if (kw == DateCalcuation.CurrentWeek || kw == r.Kw)
                     {
                         kw = r.Kw;
                         message += r.Ältester.Name + Environment.NewLine

@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.Module;
 using Vortragsmanager.Properties;
 
 namespace Vortragsmanager

@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="Vortragsmanager.Pages.MeinPlanLandingPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44" />
+            <RowDefinition Height="44" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Style="{StaticResource NavimenuHeader}" />
+        <Label Grid.Row="0" Content="Mein Plan" Style="{StaticResource NavimenuHeaderLabel}"/>
+        <Border Grid.Row="1" 
+                Style="{StaticResource NavimenuHeader2}" 
+                Background="{StaticResource Background}" 
+                BorderThickness="0,1" 
+                BorderBrush="{StaticResource Border}" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <ToggleButton x:Name="KalenderButton"
+                          Width="110"
+                          Style="{StaticResource NavimenuSecondButton}"
+                          ToolTip="Kalender"
+                          Checked="ToggleButton_Checked"
+                          Unchecked="ToggleButton_Unchecked">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource Kalender}" Margin="0,5"/>
+                    <Label Content="Kalender" 
+                           Foreground="{StaticResource TextColor}"
+                           VerticalAlignment="Center" 
+                           Padding="0" 
+                           Margin="5,0"/>
+                </StackPanel>
+            </ToggleButton>
+            <ToggleButton x:Name="RednerSuchenButton"
+                          Width="150"
+                          Style="{StaticResource NavimenuSecondButton}"
+                          ToolTip="Redner suchen"
+                          Checked="ToggleButton_Checked"
+                          Unchecked="ToggleButton_Unchecked">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource RednerSuchen}" Margin="0,5"/>
+                    <Label Content="Redner suchen" 
+                           Foreground="{StaticResource TextColor}"
+                           VerticalAlignment="Center" 
+                           Padding="0" 
+                           Margin="5,0"/>
+                </StackPanel>
+            </ToggleButton>
+            <ToggleButton x:Name="AntwortEintragenButton"
+                          Width="170"
+                          Style="{StaticResource NavimenuSecondButton}"
+                          ToolTip="Antwort eintragen"
+                          Checked="ToggleButton_Checked"
+                          Unchecked="ToggleButton_Unchecked">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource AntwortEintragen}" Margin="0,5"/>
+                    <Label Content="Antwort eintragen" 
+                           Foreground="{StaticResource TextColor}"
+                           VerticalAlignment="Center" 
+                           Padding="0" 
+                           Margin="5,0"/>
+                </StackPanel>
+            </ToggleButton>
+
+        </StackPanel>
+        <ContentControl x:Name="ActiveUserControl" Grid.Row="2" />
+    </Grid>
+</UserControl>

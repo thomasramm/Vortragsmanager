@@ -6,10 +6,11 @@
              xmlns:local="clr-namespace:Vortragsmanager.UserControls" 
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:core="clr-namespace:Vortragsmanager.Core"
+             xmlns:converter="clr-namespace:Vortragsmanager.Converter"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="700">
     <UserControl.Resources>
-        <core:DoubleToIntConverter x:Key="DoubleConverter" />
+        <converter:DoubleToIntConverter x:Key="DoubleConverter" />
     </UserControl.Resources>
     <Grid Visibility="{Binding Sichtbar}">
         <StackPanel Orientation="Horizontal"

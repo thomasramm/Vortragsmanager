@@ -248,7 +248,7 @@
                         </dxlc:LayoutItem>
                     </dxlc:LayoutGroup>
                     <dxlc:LayoutGroup Header="importierte Versammlungen" View="GroupBox" Width="200" Padding="-12">
-                        <ListBox ItemsSource="{Binding ImportierteKoordinatorenliste}"></ListBox>
+                        <ListBox ItemsSource="{Binding ImportierteKoordinatorenliste}" />
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutControl>
             </dxco:WizardPage>

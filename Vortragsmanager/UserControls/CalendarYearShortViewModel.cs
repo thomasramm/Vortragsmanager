@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Vortragsmanager.Helper;
 
 namespace Vortragsmanager.UserControls
 {
@@ -9,8 +10,8 @@ namespace Vortragsmanager.UserControls
         {
             Calendar = new List<CalendarYearShortItem>(53);
 
-            var start = Core.Helper.GetConregationDay(new DateTime(Core.Helper.DisplayedYear, 1, 1));
-            while (start.Year == Core.Helper.DisplayedYear)
+            var start = DateCalcuation.GetConregationDay(new DateTime(Helper.Helper.DisplayedYear, 1, 1));
+            while (start.Year == Helper.Helper.DisplayedYear)
             {
                 var item = new CalendarYearShortItem(start);
                 Calendar.Add(item);
