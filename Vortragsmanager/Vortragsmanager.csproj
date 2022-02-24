@@ -128,6 +128,7 @@
     <Compile Include="DataModels\Zusammenkunftszeiten.cs" />
     <Compile Include="Enums\Parameter.cs" />
     <Compile Include="PageModels\ConregationsViewModelCollection.cs" />
+    <Compile Include="PageModels\DashboardPageModel.cs" />
     <Compile Include="PageModels\EinstellungenPageModel.cs" />
     <Compile Include="PageModels\GroupConregation.cs" />
     <Compile Include="PageModels\GroupSpeaker.cs" />
@@ -219,9 +220,6 @@
     <Compile Include="UserControls\SonntagEinstellungenItem.xaml.cs">
       <DependentUpon>SonntagEinstellungenItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\DashboardViewModel.cs">
-      <DependentUpon>DashboardView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\AntwortEintragenControl.cs">
       <DependentUpon>AntwortEintragenControl.xaml</DependentUpon>
     </Compile>
@@ -298,9 +296,6 @@
     <Compile Include="Pages\MeineRednerNeueAnfragePage.xaml.cs">
       <DependentUpon>MeineRednerNeueAnfragePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="xx_NavigationView.xaml.cs">
-      <DependentUpon>xx_NavigationView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\VersammlungLöschenDialog.xaml.cs">
       <DependentUpon>VersammlungLöschenDialog.xaml</DependentUpon>
     </Compile>
@@ -355,8 +350,8 @@
     <Compile Include="DataModels\Talk.cs" />
     <Compile Include="DataModels\Speaker.cs" />
     <Compile Include="Enums\Messages.cs" />
-    <Compile Include="UserControls\DashboardView.xaml.cs">
-      <DependentUpon>DashboardView.xaml</DependentUpon>
+    <Compile Include="Pages\DashboardPage.xaml.cs">
+      <DependentUpon>DashboardPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MeineRednerPlan.cs">
       <DependentUpon>MeineRednerKalenderPage.xaml</DependentUpon>
@@ -472,7 +467,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\DashboardView.xaml">
+    <Page Include="Pages\DashboardPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -489,10 +484,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\MeinPlanKalenderPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="xx_NavigationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

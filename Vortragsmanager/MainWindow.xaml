@@ -6,7 +6,6 @@
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" 
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
-    xmlns:navi="clr-namespace:Vortragsmanager.Navigation"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:navigation="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/navigation"
     xmlns:vortragsmanager="clr-namespace:Vortragsmanager"
@@ -17,7 +16,7 @@
     <Window.DataContext>
         <vortragsmanager:MainWindowNavigationModel/>
     </Window.DataContext>
-    <dxc:ThemedWindow.HeaderItems><dxc:DropDownButton />
+    <dxc:ThemedWindow.HeaderItems>
         <dxc:DropDownButton Content="Hilfe">
             <dxb:PopupMenu>
                 <dxb:BarItemMenuHeader Content="{Binding Programmversion}" />
@@ -47,7 +46,7 @@
         <dxwui:HamburgerMenu.Items>
             <dxwui:HamburgerMenuNavigationButton Content="Startseite"
                                                          Glyph="/Images/Home_32x32.png"
-                                                         NavigationTargetType="{x:Type navi:DashboardView}"
+                                                         NavigationTargetType="{x:Type pages:DashboardPage}"
                                                  ToolTip="Startseite"/>
             <dxwui:HamburgerMenuItemSeparator/>
             <dxwui:HamburgerMenuNavigationButton Content="Mein Plan" 
@@ -98,7 +97,7 @@
         </dxwui:HamburgerMenu.Items>
         <dxwui:HamburgerMenu.Content>
             <dxwui:NavigationFrame x:Name="Frame"
-                            Source="{x:Type navi:DashboardView}"
+                            Source="{x:Type pages:DashboardPage}"
                             BackNavigationMode="PreviousScreen"
                             AnimationType="Fade"
                             AnimationSpeedRatio="1">

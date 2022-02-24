@@ -49,6 +49,7 @@ namespace Vortragsmanager.UserControls
             _week.Content = DateCalcuation.CalculateWeek(Woche).ToShortDateString();
             LoadMeinPlan(Woche);
             LoadMeineRedner(Woche);
+            LoadAufgaben(Woche);
         }
 
         private void LoadMeinPlan(int week)
@@ -65,6 +66,15 @@ namespace Vortragsmanager.UserControls
                     + "  in " + einladung.Ältester.Versammlung.Name + Environment.NewLine
                     + "  Nr "+ einladung.Vortrag.Vortrag.ToString() + Environment.NewLine
                     + "  Tel: " + einladung.Ältester.Mobil ?? einladung.Ältester.Telefon;
+            }
+        }
+
+        private void LoadAufgaben(int week)
+        {
+            var prog = DataContainer.AufgabenPersonKalender.FirstOrDefault(x => x.Kw == week);
+            if (prog != null)
+            {
+                _meinVorsitz.Text = "Vorsitz: " + (prog.Vorsitz?.PersonName ?? "n.a.") + "\tLeser: " + (prog.Leser?.PersonName ?? "n.a.");
             }
         }
 

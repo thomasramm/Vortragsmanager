@@ -112,6 +112,7 @@
         <Setter Property="Margin" Value="10"/>
 </Style>
     <SolidColorBrush x:Key="TextColor" Color="White"/>
+    <SolidColorBrush x:Key="TextDezentColor" Color="LightGray"/>
     <SolidColorBrush x:Key="TextHighlight" Color="Orange"/>
     <SolidColorBrush x:Key="Background" Color="#333333"/>
     <SolidColorBrush x:Key="Border" Color="#666666"/>

@@ -37,7 +37,7 @@ namespace Vortragsmanager.PageModels
                 }
 
             }
-            //SelectedGroup = (string)parameter == "Design" ? 2 : 1;
+
             base.OnParameterChanged(parameter);
         }
 

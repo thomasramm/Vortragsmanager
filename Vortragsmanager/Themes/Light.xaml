@@ -110,6 +110,7 @@
         <Setter Property="Background" Value="#005A9E"/>
     </Style>
     <SolidColorBrush x:Key="TextColor" Color="Black"/>
+    <SolidColorBrush x:Key="TextDezentColor" Color="#444"/>
     <SolidColorBrush x:Key="TextHighlight" Color="#004578"/>
     <SolidColorBrush x:Key="Background" Color="White"/>
     <SolidColorBrush x:Key="KalenderMonth" Color="White"/>

@@ -394,7 +394,6 @@ namespace Vortragsmanager.PageModels
                 if (ThemeIsDark != (_selectedTheme == "Dunkel"))
                 {
                     ThemeIsDark = _selectedTheme == "Dunkel";
-                    Service?.Navigate("EinstellungenView", "Design", this);
                 }
 
                 RaisePropertyChanged();
@@ -417,7 +416,5 @@ namespace Vortragsmanager.PageModels
                 if (a != null) a.Resources[key] = dict[key];
             }
         }
-
-        private INavigationService Service => ServiceContainer.GetService<INavigationService>();
     }
 }
