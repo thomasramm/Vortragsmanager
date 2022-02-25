@@ -1,12 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Navigation;
-using DevExpress.Mvvm;
-using DevExpress.Mvvm.POCO;
-using Vortragsmanager.Interface;
-using Vortragsmanager.PageModels;
-using Vortragsmanager.UserControls;
+﻿using Vortragsmanager.Interface;
 
 namespace Vortragsmanager.Pages
 {

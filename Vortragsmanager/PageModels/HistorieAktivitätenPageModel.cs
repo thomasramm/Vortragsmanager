@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using DevExpress.Mvvm;
 using Vortragsmanager.ActivityLog;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.UserControls;

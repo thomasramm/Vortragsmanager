@@ -8,7 +8,6 @@ using System.Windows.Markup;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
-using Vortragsmanager.MeineVerwaltung;
 using Vortragsmanager.Module;
 using Vortragsmanager.PageModels;
 using Vortragsmanager.Properties;

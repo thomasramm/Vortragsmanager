@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Controls;
-using Vortragsmanager.Core;
 using System.Collections.ObjectModel;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;

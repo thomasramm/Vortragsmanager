@@ -1,5 +1,4 @@
 ﻿using System;
-using Vortragsmanager.Core;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows.Controls;
 using Vortragsmanager.ActivityLog;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;

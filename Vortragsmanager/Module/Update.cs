@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using Vortragsmanager.Converter;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
-using Vortragsmanager.Helper;
 using Vortragsmanager.Views;
 
 namespace Vortragsmanager.Core

@@ -1,5 +1,4 @@
 ﻿using System;
-using DevExpress.Xpf.Core.Native;
 
 namespace Vortragsmanager.Converter
 {

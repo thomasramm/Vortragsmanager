@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.UserControls

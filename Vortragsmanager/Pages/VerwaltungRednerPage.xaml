@@ -8,9 +8,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-    xmlns:local="clr-namespace:Vortragsmanager.MeineVerwaltung" 
     xmlns:uc="clr-namespace:Vortragsmanager.UserControls"
-    xmlns:pages="clr-namespace:Vortragsmanager.Pages"
     xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
     x:Class="Vortragsmanager.Pages.VerwaltungRednerPage"
     mc:Ignorable="d"
@@ -24,7 +22,7 @@
             <dxmvvm:MapItem Source="True" Target="300" />
         </dxmvvm:ObjectToObjectConverter>
     </UserControl.Resources>
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition />

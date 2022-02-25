@@ -1,7 +1,6 @@
 ﻿using DevExpress.Mvvm;
 using System;
 using System.Linq;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;

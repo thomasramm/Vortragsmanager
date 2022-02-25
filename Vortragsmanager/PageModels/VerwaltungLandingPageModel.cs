@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using DevExpress.Mvvm;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Interface;
 using Vortragsmanager.Pages;
-using Vortragsmanager.UserControls;
 
 namespace Vortragsmanager.PageModels
 {

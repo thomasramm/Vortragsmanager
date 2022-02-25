@@ -1,5 +1,4 @@
-﻿using Vortragsmanager.ActivityLog;
-using Vortragsmanager.PageModels;
+﻿using Vortragsmanager.PageModels;
 
 namespace Vortragsmanager.Pages
 {

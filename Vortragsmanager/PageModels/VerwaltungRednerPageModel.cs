@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows.Forms;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.PageModels

@@ -6,7 +6,6 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
-             xmlns:local="clr-namespace:Vortragsmanager.Views"
              xmlns:userControls="clr-namespace:Vortragsmanager.UserControls"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">

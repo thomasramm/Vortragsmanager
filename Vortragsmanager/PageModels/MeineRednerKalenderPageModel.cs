@@ -25,14 +25,13 @@ namespace Vortragsmanager.PageModels
             var box = new CheckBox() { Content = "Alle", IsChecked = true };
             box.Checked += CheckAll;
             box.Unchecked += CheckAll;
-            box.Margin = new System.Windows.Thickness(0, 5, 5, 10);
             Redner.Add(box);
             foreach (var r in z)
             {
                 box = new CheckBox() { Content = r.Name, IsChecked = true };
                 box.Checked += Box_Checked;
                 box.Unchecked += Box_Checked;
-                box.Margin = new System.Windows.Thickness(15, 5, 5, 5);
+                box.Margin = new System.Windows.Thickness(15, 1, 0, 1);
                 Redner.Add(box);
             }
             //Talks = Core.DataContainer.ExternerPlan;//.Where(x => x.Datum.Year == CurrentYear);

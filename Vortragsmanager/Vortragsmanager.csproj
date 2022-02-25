@@ -869,6 +869,11 @@
     <Resource Include="Images\Aktivität_hell_64x64.png" />
     <Resource Include="Images\Style_dunkel_64x64.png" />
     <Resource Include="Images\Style_hell_64x64.png" />
+    <Resource Include="Images\Aushang_Preview.png" />
+    <Resource Include="Images\Kontaktliste_Preview.png" />
+    <Resource Include="Images\Datenexport_Preview.png" />
+    <Resource Include="Images\Rednerlist_Preview.png" />
+    <Resource Include="Images\Vortragsliste_Preview.png" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

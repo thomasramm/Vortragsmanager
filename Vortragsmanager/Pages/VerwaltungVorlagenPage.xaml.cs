@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace Vortragsmanager.Pages
+﻿namespace Vortragsmanager.Pages
 {
     /// <summary>
     /// Interaction logic for VorlagenView.xaml

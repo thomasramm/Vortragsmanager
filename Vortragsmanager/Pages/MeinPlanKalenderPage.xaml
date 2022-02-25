@@ -6,7 +6,6 @@
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-             xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
              xmlns:calcBinding="clr-namespace:CalcBinding;assembly=CalcBinding"
              mc:Ignorable="d"
              d:DesignHeight="450" 

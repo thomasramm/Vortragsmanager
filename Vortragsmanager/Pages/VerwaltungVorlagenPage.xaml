@@ -4,14 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             xmlns:local="clr-namespace:Vortragsmanager.MeineVerwaltung"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-             xmlns:pages="clr-namespace:Vortragsmanager.Pages"
              xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="800"
              DataContext="{dxmvvm:ViewModelSource pageModels:VerwaltungVorlagenPageModel}">
-    <Grid>
+    <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250" />
             <ColumnDefinition Width="1*" />

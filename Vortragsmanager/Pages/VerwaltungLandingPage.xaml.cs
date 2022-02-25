@@ -1,7 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls.Primitives;
-
-namespace Vortragsmanager.Pages
+﻿namespace Vortragsmanager.Pages
 {
     /// <summary>
     /// Interaktionslogik für Verwaltung.xaml

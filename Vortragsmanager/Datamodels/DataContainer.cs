@@ -1,5 +1,4 @@
 ﻿using DevExpress.Mvvm;
-using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Core;
 using System;
 using System.Collections.Generic;
