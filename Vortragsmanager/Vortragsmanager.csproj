@@ -121,6 +121,7 @@
     <Compile Include="PageModels\GroupSpeaker.cs" />
     <Compile Include="DataModels\GroupTalk.cs" />
     <Compile Include="PageModels\HistorieAktivitätenPageModel.cs" />
+    <Compile Include="PageModels\HistoriePageModel.cs" />
     <Compile Include="PageModels\ListeAusgebenPageModel.cs" />
     <Compile Include="PageModels\MeinPlanLandingPageModel.cs" />
     <Compile Include="PageModels\MonthViewModel.cs" />
@@ -145,6 +146,9 @@
     <Compile Include="Module\IoSqlite.cs" />
     <Compile Include="Module\Log.cs" />
     <Compile Include="DataModels\Anfrage.cs" />
+    <Compile Include="Pages\HistoriePage.xaml.cs">
+      <DependentUpon>HistoriePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\AnfrageDetail.cs" />
     <Compile Include="UserControls\MyGroupBox.cs" />
     <Compile Include="Module\Security.cs" />
@@ -308,6 +312,10 @@
       <DependentUpon>VerwaltungVorlagenPage.xaml</DependentUpon>
     </Compile>
     <Page Include="Pages\HistorieAktivitätenPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\HistoriePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

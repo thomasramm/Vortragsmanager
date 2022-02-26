@@ -11,9 +11,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <dx:BoolInverseConverter x:Key="boolInverseConverter" />
-        <dxmvvm:ObjectToObjectConverter x:Key="accordionPanelWidthConverter" DefaultTarget="Auto">
-            <dxmvvm:MapItem Source="True" Target="220" />
-        </dxmvvm:ObjectToObjectConverter>
         <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <UserControl.DataContext>
@@ -21,80 +18,116 @@
     </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="44" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Style="{StaticResource NavimenuHeader}" />
-        <Label Grid.Row="0" Content="Aktivitäten" Style="{StaticResource NavimenuHeaderLabel}"/>
-        <dxa:AccordionControl x:Name="accordion"
-                              Grid.Row="1"
-                                      SelectionMode="None"
-                                      CollapsedItemClickAction="ShowItems"
-                                      SummaryItemHeader="Aktivitäten Log"
-                                      SummaryItemGlyph="pack://application:,,,/Images/Log_16x16.png"
-                                      AutoExpandAllItems="False"
-                                      IsExpanded="True"
-                                      ShowSearchControl="False"
-                                      Margin="1"
-                                      ViewMode="Accordion">
-            <dxa:AccordionControl.Items>
-                <dxa:AccordionItem Header="Filter"
-                                           BorderThickness="5"
-                                           BorderBrush="Green"
-                                           Glyph="pack://application:,,,/Images/MasterFilter_16x16.png"
-                                           GlyphPosition="Left">
-                    <dxe:AutoSuggestEdit x:Name="VersammlungenFilter"
-                                                 ImmediatePopup="True"
-                                                 SelectAllOnMouseUp="True"
-                                                 SelectAllOnGotFocus="True"
-                                                 AllowPopupTextHighlighting="True"
-                                                 PopupHighlightedTextCriteria="Regex"
-                                                 NullText="🔎 Versammlung filtern"
-                                                 QuerySubmitted="VersammlungenFilter_QuerySubmitted"
-                                                 ItemsSource="{Binding ListeFilteredVersammlungen}"
-                                                 EditValue="{Binding FilterVersammlung, UpdateSourceTrigger=PropertyChanged}"
-                                                 AllowNullInput="True"
-                                                 FontWeight="Normal" />
-                    <ComboBox Text="{Binding FilterAktivität}"
-                                      FontWeight="Normal"
-                                      Margin="0,0,0,10">
-                        <ComboBoxItem Content="Alle" IsSelected="True" />
-                        <ComboBoxItem Content="Mein Plan" />
-                        <ComboBoxItem Content="Meine Redner" />
-                        <ComboBoxItem Content="Sonstige" />
-                    </ComboBox>
-                </dxa:AccordionItem>
-                <dxa:AccordionItem ItemsSource="{Binding Heute}">
-                    <dxa:AccordionItem.Header>
-                        <TextBlock Text="{Binding HeuteHeader, Mode=OneWay}" FontWeight="Normal" />
-                    </dxa:AccordionItem.Header>
-                </dxa:AccordionItem>
-                <dxa:AccordionItem ItemsSource="{Binding DieseWoche}">
-                    <dxa:AccordionItem.Header>
-                        <TextBlock Text="{Binding DieseWocheHeader, Mode=OneWay}" FontWeight="Normal" />
-                    </dxa:AccordionItem.Header>
-                </dxa:AccordionItem>
-                <dxa:AccordionItem ItemsSource="{Binding DieserMonat}">
-                    <dxa:AccordionItem.Header>
-                        <TextBlock Text="{Binding DieserMonatHeader, Mode=OneWay}" FontWeight="Normal" />
-                    </dxa:AccordionItem.Header>
-                </dxa:AccordionItem>
-                <dxa:AccordionItem ItemsSource="{Binding LetzterMonat}">
-                    <dxa:AccordionItem.Header>
-                        <TextBlock Text="{Binding LetzterMonatHeader, Mode=OneWay}" FontWeight="Normal" />
-                    </dxa:AccordionItem.Header>
-                </dxa:AccordionItem>
-                <dxa:AccordionItem ItemsSource="{Binding DiesesJahr}">
-                    <dxa:AccordionItem.Header>
-                        <TextBlock Text="{Binding DiesesJahrHeader, Mode=OneWay}" FontWeight="Normal" />
-                    </dxa:AccordionItem.Header>
-                </dxa:AccordionItem>
-                <dxa:AccordionItem ItemsSource="{Binding Älter}">
-                    <dxa:AccordionItem.Header>
-                        <TextBlock Text="{Binding ÄlterHeader, Mode=OneWay}" FontWeight="Normal" />
-                    </dxa:AccordionItem.Header>
-                </dxa:AccordionItem>
-            </dxa:AccordionControl.Items>
-        </dxa:AccordionControl>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" MinWidth="200"/>
+            <ColumnDefinition Width="1*" MinWidth="200"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Row="0" 
+                Margin="10,10,0,0"
+                Grid.Column="0" 
+                Grid.RowSpan="2" 
+                Grid.ColumnSpan="2" 
+                Style="{StaticResource NavimenuHeader2}"/>
+        <Image Grid.Row="0" 
+               Grid.Column="0" 
+               Margin="20,15,0,0"
+               Source="/Images/MasterFilter_16x16.png"
+               HorizontalAlignment="Left"
+               Width="16"/>
+        <Label Grid.Row="0" 
+               Grid.Column="0"
+               Content="Filter nach Aktivität" 
+               Margin="40,15,0,0" 
+               Foreground="White" 
+               VerticalAlignment="Center"/>
+        <Image Grid.Row="0" 
+               Grid.Column="1" 
+               Margin="10,15,0,0"
+               Source="/Images/MasterFilter_16x16.png"
+               HorizontalAlignment="Left"
+               Width="16"/>
+        <Label Grid.Row="0" 
+               Grid.Column="1"
+               Content="Filter nach Versammlung" 
+               Margin="30,15,0,0" 
+               Foreground="White" 
+               VerticalAlignment="Center"/>
+
+        <dxe:AutoSuggestEdit Grid.Row="1"
+                             Grid.Column="1"
+                             Margin="10,0,10,5"
+                             x:Name="VersammlungenFilter"
+                             ImmediatePopup="True"
+                             SelectAllOnMouseUp="True"
+                             SelectAllOnGotFocus="True"
+                             AllowPopupTextHighlighting="True"
+                             PopupHighlightedTextCriteria="Regex"
+                             NullText="🔎 Versammlung filtern"
+                             QuerySubmitted="VersammlungenFilter_QuerySubmitted"
+                             ItemsSource="{Binding ListeFilteredVersammlungen}"
+                             EditValue="{Binding FilterVersammlung, UpdateSourceTrigger=PropertyChanged}"
+                             AllowNullInput="True"
+                             FontWeight="Normal" />
+        <ComboBox Grid.Row="1" 
+                  Margin="20,0,0,5"
+                  Grid.Column="0"
+                  Text="{Binding FilterAktivität}"
+                  FontWeight="Normal">
+            <ComboBoxItem Content="Alle" IsSelected="True" />
+            <ComboBoxItem Content="Mein Plan" />
+            <ComboBoxItem Content="Meine Redner" />
+            <ComboBoxItem Content="Sonstige" />
+        </ComboBox>
+        
+        <dxa:AccordionControl Grid.Row="2" 
+                              Grid.Column="0"
+                              Grid.ColumnSpan="2"
+                              SelectionMode="None"
+                              CollapsedItemClickAction="ShowItems"
+                              SummaryItemHeader="Aktivitäten Log"
+                              SummaryItemGlyph="pack://application:,,,/Images/Log_16x16.png"
+                              AutoExpandAllItems="False"
+                              IsExpanded="True"
+                              ShowSearchControl="False"
+                              Margin="10,5,0,10"
+                              ViewMode="Accordion">
+        <dxa:AccordionControl.Items>
+            <dxa:AccordionItem ItemsSource="{Binding Heute}">
+                <dxa:AccordionItem.Header>
+                    <TextBlock Text="{Binding HeuteHeader, Mode=OneWay}" FontWeight="Normal" />
+                </dxa:AccordionItem.Header>
+            </dxa:AccordionItem>
+            <dxa:AccordionItem ItemsSource="{Binding DieseWoche}">
+                <dxa:AccordionItem.Header>
+                    <TextBlock Text="{Binding DieseWocheHeader, Mode=OneWay}" FontWeight="Normal" />
+                </dxa:AccordionItem.Header>
+            </dxa:AccordionItem>
+            <dxa:AccordionItem ItemsSource="{Binding DieserMonat}">
+                <dxa:AccordionItem.Header>
+                    <TextBlock Text="{Binding DieserMonatHeader, Mode=OneWay}" FontWeight="Normal" />
+                </dxa:AccordionItem.Header>
+            </dxa:AccordionItem>
+            <dxa:AccordionItem ItemsSource="{Binding LetzterMonat}">
+                <dxa:AccordionItem.Header>
+                    <TextBlock Text="{Binding LetzterMonatHeader, Mode=OneWay}" FontWeight="Normal" />
+                </dxa:AccordionItem.Header>
+            </dxa:AccordionItem>
+            <dxa:AccordionItem ItemsSource="{Binding DiesesJahr}">
+                <dxa:AccordionItem.Header>
+                    <TextBlock Text="{Binding DiesesJahrHeader, Mode=OneWay}" FontWeight="Normal" />
+                </dxa:AccordionItem.Header>
+            </dxa:AccordionItem>
+            <dxa:AccordionItem ItemsSource="{Binding Älter}">
+                <dxa:AccordionItem.Header>
+                    <TextBlock Text="{Binding ÄlterHeader, Mode=OneWay}" FontWeight="Normal" />
+                </dxa:AccordionItem.Header>
+            </dxa:AccordionItem>
+        </dxa:AccordionControl.Items>
+    </dxa:AccordionControl>
     </Grid>
 </UserControl>

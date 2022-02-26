@@ -73,27 +73,18 @@
                                                  NavigationTargetType="{x:Type pages:VerwaltungLandingPage}"
                                                  ToolTip="Verwaltung"/>
             <dxwui:HamburgerMenuNavigationButton Content="Einstellungen" 
-                                                         Glyph="/Images/Zahnrad_64x64.png" 
-                                                         Placement="Bottom"
-                                                         NavigationTargetType="{x:Type pages:EinstellungenPage}"
+                                                 Glyph="/Images/Zahnrad_64x64.png" 
+                                                 Placement="Bottom"
+                                                 NavigationTargetType="{x:Type pages:EinstellungenPage}"
                                                  ToolTip="Einstellungen" Margin="0,-1,0,1"/>
-            <dxwui:HamburgerSubMenu Content="Historie"
-                                            Glyph="/Images/Verlauf_32x32.png"
-                                            MoreButtonVisibilityMode="Hidden" 
-                                            FlyoutHeader="Historie"
-                                            Placement="Bottom"
-                                    ToolTip="Historie">
-                <dxwui:HamburgerSubMenu.Items>
-                    <dxwui:HamburgerSubMenuNavigationButton Content="Sicherung" 
-                                                                    NavigationTargetType="{x:Type pages:HistorieSicherungPage}"/>
-                    <dxwui:HamburgerSubMenuNavigationButton Content="Aktivitäten" 
-                                                            NavigationTargetType="{x:Type pages:HistorieAktivitätenPage}"
-                                                                    ToolTip="Alle im Programm vorgenommenen Aktivitäten anzeigen"/>
-                </dxwui:HamburgerSubMenu.Items>
-            </dxwui:HamburgerSubMenu>
+            <dxwui:HamburgerMenuNavigationButton Content="Historie"
+                                                 Glyph="/Images/Verlauf_32x32.png"
+                                                 Placement="Bottom"
+                                                 ToolTip="Historie"
+                                                 NavigationTargetType="{x:Type pages:HistoriePage}"/>
             <dxwui:HamburgerMenuHyperlinkButton  Content="Handbuch"
-                                                         NavigateUri="https://thomasramm.github.io/Vortragsmanager/Startseite/"
-                                                         Placement="Bottom"/>
+                                                 NavigateUri="https://thomasramm.github.io/Vortragsmanager/Startseite/"
+                                                 Placement="Bottom"/>
         </dxwui:HamburgerMenu.Items>
         <dxwui:HamburgerMenu.Content>
             <dxwui:NavigationFrame x:Name="Frame"

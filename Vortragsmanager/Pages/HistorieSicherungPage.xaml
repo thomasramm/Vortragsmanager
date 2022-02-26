@@ -11,17 +11,13 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="1000"
              DataContext="{dxmvvm:ViewModelSource pageModels:BackupsViewModel}" 
-             SizeChanged="UserControl_SizeChanged"
-             >
+             SizeChanged="UserControl_SizeChanged">
         <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="44" />
             <RowDefinition Height="1*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Style="{StaticResource NavimenuHeader}" />
-        <Label Grid.Row="0" Content="Sicherungen" Style="{StaticResource NavimenuHeaderLabel}"/>
-        <dxlc:LayoutControl Grid.Row="1" Margin="20" 
+        <dxlc:LayoutControl Grid.Row="0" Margin="20" 
                                     Orientation="Horizontal" 
                                     x:Name="MasterLayoutControl">
                 <dxlc:LayoutGroup Orientation="Vertical">
