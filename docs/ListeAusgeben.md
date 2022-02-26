@@ -1,5 +1,5 @@
 ---
-title: "Listen ausgeben"
+title: "Liste ausgeben"
 ---
 ![Icon](images/menu_icon_06.png){: .align-right}
 
@@ -7,7 +7,8 @@ In diesem Bereich können diverse Listen und Aushänge erzeugt werden. Das Ausga
 
 ![Listen ausgeben](images/verwaltung_01.png)
 
-im Bereich unten Rechts kann eingestellt werden ob die **Listen nur erstellt** - oder mit der OPtion **Liste nach dem erstellen öffnen** direkt im Verknüpften Programm geöffnet werden soll.
+im Bereich unten Rechts kann eingestellt werden ob die **Listen nur erstellt** - oder mit der Option **Liste nach dem erstellen öffnen** direkt im Verknüpften Programm geöffnet werden soll.
+Außerdem kann für die erste Liste "Aushang" eingestellt werden, wieviele Wochen auf dem Plan ausgegeben werden sollen.
 
 Folgende Listen können ausgegeben werden:
 
@@ -31,4 +32,4 @@ Liste aller gespeicherten Vortragsredner, Versammlungen und Koordinatoren
 :   Eine Liste aller Vortragsredner die im Programm eingegeben worden sind mit den hinterlegten Informationen, sowie dem Datum wann sie das letzte mal in deiner Versammlung einen Vortrag gehalten haben.
 :   Das zweite Blatt enthält die Versammlungs- und Koordinatorendaten.
 
-[zurück](Redner.md){: .btn .btn--inverse}  [weiter](Vorlagen.md){: .btn .btn--inverse}
+[zurück](Redner.md){: .btn .btn--inverse}  [weiter](VerwaltungVersammlungen.md){: .btn .btn--inverse}

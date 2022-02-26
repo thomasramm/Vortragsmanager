@@ -1,7 +1,15 @@
 ---
-title: "Sicherung"
+title: "Historie > Sicherung"
 ---
+
 ![Icon](images/menu_icon_13.png){: .align-right}
+
+Dieser Programmbereich besteht aus zwei Unterbereichen:
+
+* [Sicherungen](HistorieSicherungen.md): Historische Planungsstänge
+* [Aktivitäten](HistorieAktivitäten.md): Übersicht der Programmaktivitäten.
+
+# Sicherungen
 
 In regelmäßigen Abständen werden Sicherungskopien deiner Planung erstellt und hier angezeigt. 
 Du kannst die Sicherungen benutzen um versehentliche Änderungen deiner Planung Rückgängig zu machen.
@@ -41,4 +49,4 @@ Die Sicherungen werden in einem Archiv (zip-Datei) im AppData/Local Ordner gesic
 Du findest den Ordner, indem du im Windows Explorer als Pfad %LOCALAPPDATA% eingibtst. Suche von dort aus nach dem Ordner "Vortragsmanager DeLuxe", 
 dort liegt die Datei backup.zip
 
-[zurück](Redner.md){: .btn .btn--inverse} [weiter](ListenAusgeben.md){: .btn .btn--inverse}
+[zurück](Einstellungen.md){: .btn .btn--inverse} [weiter](HistorieLog.md){: .btn .btn--inverse}

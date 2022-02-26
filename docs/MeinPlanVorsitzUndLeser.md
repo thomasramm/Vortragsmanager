@@ -1,5 +1,5 @@
 ---
-title: "Weitere Plannungen"
+title: "Mein Plan > Vorsitz und Leser"
 ---
 
 
@@ -48,4 +48,4 @@ Beim Generieren der Vorschläge wird der Zeitraum seit der letzten Zuteilung (in
 * Plan ausgeben
 : Es wird der gleiche Plan (Aushang.xlsx) wie bei den Listen ausgegeben. 
 
-[zurück](AntwortEintragen.md){: .btn .btn--inverse}  WeiterePlannungen [weiter](MeineRedner.md){: .btn .btn--inverse}
+[zurück](MeinPlanAntwortEintragen.md){: .btn .btn--inverse}  WeiterePlannungen [weiter](MeineRedner.md){: .btn .btn--inverse}

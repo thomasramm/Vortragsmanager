@@ -1,6 +1,15 @@
 ---
-title: "Vorlagen"
+title: "Verwaltung > Vorlagen"
 ---
+## Verwaltung ##
+
+* [Versammlungen](VerwaltungVersammlungen.md): Verwaltung aller Versammlungen und Kontaktdaten der Koordinatoren mit denen du Redner austauschen willst.
+* [Redner](VerwaltungRedner.md): Verwaltung der Redner in den Versammlungen mit den Vorträgen die sie halten.
+* [Vorträge](VerwaltungVortragsthemen.md): Liste aller Vorträge, die Themen können hier angepasst werden.
+* [Vorlagen](VerwaltungVorlagen.md): Hier werden die Mailvorlagen angepasst, z.B. deine Signatur
+
+# Vorlagen
+
 ![Icon](images/menu_icon_08.png){: .align-right}
 
 Hier werden die Inhalte verwaltet die durch das Programm zum generieren der individuellen Mails benutzt werden. Jede Mailvorlage besteht aus zwei Bereichen:
@@ -31,4 +40,4 @@ Zurücksetzen
 Abbrechen
 :   Die aktuellen Bearbeitungen der Vorlage werden wieder gelöscht und der zuletzt gespeicherte Inhalt wieder hergestellt.
 
-[zurück](ListenAusgeben.md){: .btn .btn--inverse} [weiter](ProgrammEinstellungen.md){: .btn .btn--inverse}
+[zurück](VerwaltungVortragsthemen.md){: .btn .btn--inverse} [weiter](Einstellungen.md){: .btn .btn--inverse}

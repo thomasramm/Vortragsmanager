@@ -1,4 +1,7 @@
-### Version X.x.x (xx.03.2022) ###
+### Version 1.1.18 (xx.03.2022) ###
+* Neue Oberfläche, neue Navigation
+* Programm-Style umstellbar von Dunkel auf Hell
+* Neue Startseite
 * Geänderte Themen 75,79,81
 
 ### Version 1.0.17 (27.01.2022) ###

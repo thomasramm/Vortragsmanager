@@ -1,9 +1,16 @@
 ---
-title: "Mein Plan"
+title: "Mein Plan > Kalender"
 ---
 ![Icon](images/menu_icon_01.png)
 
 Die Verwaltung deiner eigenen Redner- und Vortragsplanung geschieht hier. 
+Dieser Programmbereich besteht aus drei Unterbereichen:
+
+* [Kalender](MeinPlan.md): Dies ist der Hauptbereich für deine Planung. Hier siehst du deine aktuelle Planung und kannst sie auch pflegen.
+* [Redner suchen](MeinPlan.md#redner-suchen): Hier findest du die Vorträge und Redner die du schon länger nicht mehr gehört hast und kannst Einladungsmails generieren.
+* [Antwort eintragen](MeinPlan.md#antwort-eintragen): Hat jemand auf deine Einladung geantwortet, trägst du hier die Antwort ein. Dein Versammlungsplan wird dann aktualisiert.
+
+# Kalender
 
 Die Seite besteht aus der Jahres-Navigation in der du das aktuell betrachtete Jahr wechseln kannst und einem Jahreskalender mit allen deinen Planungen.
 Für jede Woche gibt es einen Eintrag mit dem Tag im Monat und einem Hinweis auf deine Eintragung.
@@ -18,9 +25,9 @@ Eine Woche kann 4 verschiedene Stati haben. Schauen wir uns das am Beispiel des 
  * 31 Oktober: [offen](#keine-planung-vorhanden-offen-31-oktober) noch keine Planung festgelegt
 
 
-## Die Ereignistypen
+### Die Ereignistypen
 
-### Vortragseinladung (03. Oktober)
+#### Vortragseinladung (03. Oktober)
 Bei bestehenden Vortragseinladungen wird dir der Name des Redners angezeigt. Mit einem Klick auf die Buchung werden dir weitere Details der Buchung angezeigt. 
 
 ![Buchung Details](images/meinplan_03.png) 
@@ -39,13 +46,13 @@ Außerdem wird neben jeder Vortragseinladung ein Brief-Symbol angezeigt.
 * Ein geöffneter Umschlag zeigt dir, das die Erinnerungsmail bereits mindestens 1x versendet wurde.
 Mit einem Klick auf den Umschlag kann eine (weitere) Erinnerungsmail generiert werden.
 
-### laufende Anfrage (10. Oktober)
+#### laufende Anfrage (10. Oktober)
 
 Anfragen an Koordinatoren werden in dem Jahresplan mit dem Namen der Versammlung an die diese Anfrage gestellt wurde angezeigt.
 
 Mit einem Klick auf die Anfrage wird ein Dialog geöffnet, in dem du die Anfrage bearbeiten kannst.
 
-### Ereignisse (24. Oktober)
+#### Ereignisse (24. Oktober)
 
 Im Vortragsmanager können folgende Ereignisse eingetragen werden:
 
@@ -66,7 +73,7 @@ Wenn du neben dem Ereignis auf Bearbeiten (Blauer Stift) klickst, wird ein Menü
 * Buchung bearbeiten
 * Buchung löschen
 
-### Keine Planung vorhanden (offen, 31. Oktober)
+#### Keine Planung vorhanden (offen, 31. Oktober)
 
 Klickst du auf eine Woche in der noch keine Planung eingetragen ist, wirst du direkt zur Rednersuche weitergeleitet.
 
@@ -76,11 +83,11 @@ Klickst du auf eine Woche in der noch keine Planung eingetragen ist, wirst du di
 * Vortrag eintragen (hier werden die Mails und der Status Anfrage direkt übersprungen und ein Vortrag sofort eingetragen, z.B. wenn du bereits einen Vortrag per Telefon abgesprochen hast und ihn lediglich in deiner Planung eintragen möchtest)-
 * Ereignis eintragen
 
-## Aktionen
+### Aktionen
 
-Im Fenster Mein Plan können folgende Aktionen durchgeführt werden:
+Im Fenster "Kalender"" können folgende Aktionen durchgeführt werden:
 
-### Buchung verschieben (bzw. tauschen)
+#### Buchung verschieben (bzw. tauschen)
 Vorträge und Ereignisse können verschoben werden.
 Das verschieben geschieht über das [Kontextmenü](Konzept.md#kontextmenü) .
 
@@ -91,26 +98,26 @@ Ist an dem Zieldatum bereits eine Buchung vorhanden, wird sie im Dialog angezeig
 Ist an dem Zieldatum eine Aktive Anfrage vorhanden, wird diese gelöscht.
 Nach dem bestätigen werden [Mailtexte](Konzept.md#mailtexte) an die betroffenen Redner oder Koordinatoren generiert.
 
-### Buchung bearbeiten
+#### Buchung bearbeiten
 Vorträge und Ereignisse können nachträglich bearbeitet werden.
 
-#### Vorträge
+##### Vorträge
 Du kannst den Redner und den Vortrag ändern. Es wird für diese Änderung jedoch kein Mailtext generiert.
 
-#### Ereignisse
+##### Ereignisse
 Du kannst den Ereignis-Typ, den Namen des Redners sowie den Titel des Vortrags nachträglich ändern, sofern das Ereigniss alle diese Parameter unterstützt.
 
-#### Anfragen
+##### Anfragen
 Man kommt hier zu dem Dialog [Antwort eintragen](#antwort-eintragen) der weiter unten beschrieben wird.
 
-### Buchung löschen
+#### Buchung löschen
 Du kannst Vorträge und Ereignisse löschen.
 Beim Löschen von Vorträgen wird ein Mailtext generiert, Ereignisse werden sofort gelöscht.
 
-### Erinnerungsmail senden
+#### Erinnerungsmail senden
 Du kannst für eine bevorstehende Vortragseinladung eine Erinnerungsmail senden.
 
-# Redner suchen #
+# Redner suchen
 ![Icon](images/menu_icon_02.png)
 
 Eine der häufigsten Tätigkeiten ist es, nach Vorträgen und Rednern für die eigene Versammlung zu suchen. Die Suchfunktion wird über das Menü auf der Startseite, oder per [Kontextmenü](Konzept.md#Kontextmenü) in dem Fenster "Mein Plan" einer offenen Woche aufgerufen.
@@ -185,7 +192,7 @@ Im Hintergrund wird die Anfrage abgespeichert, eine weitere Suche nach Rednern w
 
 Ist die Anfrage erstellt und mit jwpub.org versendet, heißt es warten bis der Koordinator sich wieder meldet. 
 
-# Antwort eintragen #
+# Antwort eintragen
 
 ![Icon](images/menu_icon_03.png)
 
@@ -208,6 +215,6 @@ Hat der Koordinator die geantwortet, das der Redner an den angefragten Wochen ni
 
 Außerdem hast du hier die Möglichkeit den Original-Mailtext der generiert wurde nochmal anzeigen zu lassen.
 
-Dieser Dialog kann auch über "Mein Plan" aufgerufen werden. Wählt man hier eine offene Anfrage und dann über das Kontextmenü "bearbeiten" aus, wird der gleiche Dialog geöffnet, aber nur die relevante Anfrage angezeigt.
+Dieser Dialog kann auch über "Kalender" aufgerufen werden. Wählt man hier eine offene Anfrage und dann über das Kontextmenü "bearbeiten" aus, wird der gleiche Dialog geöffnet, aber nur die relevante Anfrage angezeigt.
 
-[zurück](Startseite.md){: .btn .btn--inverse}  [weiter](AntwortEintragen.md){: .btn .btn--inverse}
+[zurück](Startseite.md){: .btn .btn--inverse}  [weiter](MeinPlanRednerSuchen.md){: .btn .btn--inverse}

@@ -1,12 +1,19 @@
 ---
-title: "Aktivitäten Log"
+title: "Historie > Aktivitäten"
 ---
 ![Icon](images/menu_icon_11.png){: .align-right}
 
-Am Rechten Rand des Programmfenster kann man ein Aktivitätslog einsehen. Aus diesem Log kann man sehen wann man bestimmte Vorgänge im Programm vorgenommen hat. Es werden nicht alle Aktivitäten gespeichert, sondern lediglich Aktionen bei denen dein Plan oder die Einladungen deiner Redner
-geändert werden, oder eine Kommunikation mit anderen statt findet.
 
-Das Aktivitäten Log kann entweder dauerhaft über den kleinen Pfeil im oberen Bereich, oder für eine kurze Info per Klick auf den Namen Aktivitäten Log geöffnet werden.
+Dieser Programmbereich besteht aus zwei Unterbereichen:
+
+* [Sicherungen](HistorieSicherungen.md): Historische Planungsstänge
+* [Aktivitäten](HistorieAktivitäten.md): Übersicht der Programmaktivitäten.
+
+# Aktivitäten
+
+Hier kann man sehen wann man bestimmte Vorgänge im Programm vorgenommen hat. 
+Es werden nicht alle Aktivitäten gespeichert, sondern lediglich Aktionen bei denen dein Plan oder die Einladungen deiner Redner geändert werden, 
+oder eine Kommunikation mit anderen statt findet.
 
 <br clear="all" />
 ![Übersicht](images/log_01.png)
@@ -65,4 +72,4 @@ Jeder der 4 Informationen verfügt über eine "Mouse-Over" Funktion. Wenn du mit
 * Mailsymbol: Den Inhalt von Mails der generiert wurde, sofern bei der Aktivität Mails generiert werden.
 
 
-[zurück](ProgrammEinstellungen.md){: .btn .btn--inverse}  [weiter](Konzept.md){: .btn .btn--inverse}
+[zurück](HistorieSicherung.md){: .btn .btn--inverse}  [weiter](Konzept.md){: .btn .btn--inverse}

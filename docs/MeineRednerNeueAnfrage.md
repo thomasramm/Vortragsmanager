@@ -1,6 +1,13 @@
 ---
-title: "Neue Externe Anfrage"
+title: "Meine Redner > Neue Anfrage"
 ---
+
+Dieser Programmbereich besteht aus zwei Unterbereichen:
+
+* [Rednereinladungen](MeineRedner.md): Hier siehst du die Vortragstermine aller deiner Redner
+* [Neue Anfrage](MeineRednerNeueAnfrage.md): Fragt eine andere Versammlung einen Redner an, kannst du hier prüfen ob er zur Verfügung steht und in deine Planung eintragen.
+
+# Neue Anfrage
 
 ![Icon](images/menu_icon_05.png)
 
@@ -47,4 +54,4 @@ Hier wird angezeigt wer an diesem Datum in deiner eigenen Versammlung den Vortra
 
 Kommte es bei der Prüfung für den Redner oder für die Versammlung zu Problemen, werden dir hier entsprechende Hinweise ausgegeben. In diesem Beispiel hat der Redner bereits 1 Woche zuvor einen Vortrag und der Abstand von 1 Monat wurde nicht eingehalten. 
 
-[zurück](MeineRedner.md){: .btn .btn--inverse}  [weiter](Verwaltung.md){: .btn .btn--inverse}
+[zurück](MeineRedner.md){: .btn .btn--inverse}  [weiter](ListeAusgeben.md){: .btn .btn--inverse}

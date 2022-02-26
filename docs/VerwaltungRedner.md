@@ -1,7 +1,18 @@
 ---
-title: "Redner"
+title: "Verwaltung > Redner"
 ---
 ![Icon](images/menu_icon_10.png){: .align-right}
+
+Dieser Programmbereich besteht aus vier Unterbereichen:
+
+## Verwaltung ##
+
+* [Versammlungen](VerwaltungVersammlungen.md): Verwaltung aller Versammlungen und Kontaktdaten der Koordinatoren mit denen du Redner austauschen willst.
+* [Redner](VerwaltungRedner.md): Verwaltung der Redner in den Versammlungen mit den Vorträgen die sie halten.
+* [Vorträge](VerwaltungVortragsthemen.md): Liste aller Vorträge, die Themen können hier angepasst werden.
+* [Vorlagen](VerwaltungVorlagen.md): Hier werden die Mailvorlagen angepasst, z.B. deine Signatur
+
+# Redner
 
 Im Bereich Redner werden alle Informationen zu den Rednern und ihren Vorträgen gepflegt. 
 
@@ -63,4 +74,4 @@ Hier werden alle Gebuchten Termine angezeigt:
 * Geblockte Termine (Braun, Abhängig vom eingestellten Terminabstand, alle Wochen um einen Vortrag sind geblockt).
 * Abwesenheiten (Blau, z.B. Urlaub, Nicht Verfügbar). Abwesenheiten werden durch einfaches Klicken auf die Woche gesetzt und auch wieder entfernt.  
 
-[zurück](Versammlungen.md){: .btn .btn--inverse}  [weiter](Sicherung.md){: .btn .btn--inverse}
+[zurück](Verwaltung	Versammlungen.md){: .btn .btn--inverse}  [weiter](VerwaltungVortragsthemen.md){: .btn .btn--inverse}

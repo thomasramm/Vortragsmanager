@@ -1,13 +1,23 @@
 ---
-title: "Versammlungen"
+title: "Verwaltung > Versammlungen"
 ---
 ![Icon](images/menu_icon_07.png){: .align-right}
 
-Im Bereich Versammlungen werden diverse Informationen gepflegt:
+Dieser Programmbereich besteht aus vier Unterbereichen:
+
+## Verwaltung ##
+
+* [Versammlungen](VerwaltungVersammlungen.md): Verwaltung aller Versammlungen und Kontaktdaten der Koordinatoren mit denen du Redner austauschen willst.
+* [Redner](VerwaltungRedner.md): Verwaltung der Redner in den Versammlungen mit den Vorträgen die sie halten.
+* [Vorträge](VerwaltungVortragsthemen.md): Liste aller Vorträge, die Themen können hier angepasst werden.
+* [Vorlagen](VerwaltungVorlagen.md): Hier werden die Mailvorlagen angepasst, z.B. deine Signatur
+
+# Versammlungen
+
+Im Bereich Versammlungen werden Informationen zu den Versammlungen gepflegt, aus denen du Redner einladen möchtest:
 
 * [Versammlungen](#versammlung)
 * [Koordinatoren](#koordinator)
-* [Redner](#redner)
 
 ![Versammlungen](images/verwaltung_02.png)
 
@@ -52,7 +62,7 @@ Zuteilungen der Vergangenheit werden dann abgeändert, der Vortrag bleibt weiter
 
 ### Rednerliste
 
-Die Redner können auch direkt über das Hauptmenü [Redner](Redner.md) angezeigt und aufgerufen werden.
+Die Redner können auch direkt über das Hauptmenü [Redner](VerwaltungRedner.md) angezeigt und aufgerufen werden.
 
 Im rechten Bereich werden die angelegten Redner angezeigt. Dargestellt werden folgende Informationen:
 
@@ -63,4 +73,4 @@ Im rechten Bereich werden die angelegten Redner angezeigt. Dargestellt werden fo
 Klickt man auf einen Redner, oder klickt auf die Schaltfläche "Neuen Redner anlegen" wechselt das Programm zu der Kachel "Redner" in der die Informationen zum Redner bearbeitet werden können.
 
 
-[zurück](Verwaltung.md){: .btn .btn--inverse}  [weiter](Redner.md){: .btn .btn--inverse}
+[zurück](ListeAusgeben.md){: .btn .btn--inverse}  [weiter](VerwaltungRedner.md){: .btn .btn--inverse}

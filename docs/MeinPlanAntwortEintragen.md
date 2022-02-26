@@ -1,6 +1,16 @@
 ---
-title: "Antwort eintragen"
+title: "Mein Plan > Antwort Eintragen"
 ---
+![Icon](images/menu_icon_01.png)
+
+Die Verwaltung deiner eigenen Redner- und Vortragsplanung geschieht hier. 
+Dieser Programmbereich besteht aus drei Unterbereichen:
+
+* [Kalender](MeinPlan.md): Dies ist der Hauptbereich für deine Planung. Hier siehst du deine aktuelle Planung und kannst sie auch pflegen.
+* [Redner suchen](MeinPlan.md#redner-suchen): Hier findest du die Vorträge und Redner die du schon länger nicht mehr gehört hast und kannst Einladungsmails generieren.
+* [Antwort eintragen](MeinPlan.md#antwort-eintragen): Hat jemand auf deine Einladung geantwortet, trägst du hier die Antwort ein. Dein Versammlungsplan wird dann aktualisiert.
+
+# Antwort eintragen
 
 ![Icon](images/menu_icon_03.png)
 
@@ -23,6 +33,6 @@ Hat der Koordinator die geantwortet, das der Redner an den angefragten Wochen ni
 
 Außerdem hast du hier die Möglichkeit den Original-Mailtext der generiert wurde nochmal anzeigen zu lassen.
 
-Dieser Dialog kann auch über "Mein Plan" aufgerufen werden. Wählt man hier eine offene Anfrage und dann über das Kontextmenü "bearbeiten" aus, wird der gleiche Dialog geöffnet, aber nur die relevante Anfrage angezeigt.
+Dieser Dialog kann auch über "Kalender" aufgerufen werden. Wählt man hier eine offene Anfrage und dann über das Kontextmenü "bearbeiten" aus, wird der gleiche Dialog geöffnet, aber nur die relevante Anfrage angezeigt.
 
-[zurück](MeinPlan.md){: .btn .btn--inverse}  [weiter](WeiterePlannungen.md){: .btn .btn--inverse}
+[zurück](MeinPlanRednerSuchen.md){: .btn .btn--inverse}  [weiter](MeinPlanVorsitzUndLeser.md){: .btn .btn--inverse}
