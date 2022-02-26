@@ -1,11 +1,8 @@
 ---
 title: "Verwaltung > Versammlungen"
 ---
-![Icon](images/menu_icon_07.png){: .align-right}
 
 Dieser Programmbereich besteht aus vier Unterbereichen:
-
-## Verwaltung ##
 
 * [Versammlungen](VerwaltungVersammlungen.md): Verwaltung aller Versammlungen und Kontaktdaten der Koordinatoren mit denen du Redner austauschen willst.
 * [Redner](VerwaltungRedner.md): Verwaltung der Redner in den Versammlungen mit den Vorträgen die sie halten.
@@ -19,7 +16,7 @@ Im Bereich Versammlungen werden Informationen zu den Versammlungen gepflegt, aus
 * [Versammlungen](#versammlung)
 * [Koordinatoren](#koordinator)
 
-![Versammlungen](images/verwaltung_02.png)
+![Versammlungen](images/VerwaltungVersammlung.png)
 
 Öffnest du diesen Bereich werden dir alle angelegten Versammlungen mit dem Namen des Koordinator angezeigt.
 
@@ -31,7 +28,7 @@ Klickst du auf das grüne + -Zeichen, oder auf eine Versammlung, wird diese Vers
 
 ## Versammlung
 
-![Versammlung](images/verwaltung_20.png)
+![Versammlung](images/VerwaltungVersammlung2.png)
 
 Im linken Bereich werden allgemeine Versammlungsdaten angezeigt, 
 im Rechten Bereich die Redner die zu der Versammlung angelegt wurden.
@@ -41,7 +38,7 @@ im Rechten Bereich die Redner die zu der Versammlung angelegt wurden.
 Die Oberste Funktion "Eigene Versammlung" Ja / Nein kann nur einmal auf Ja gesetzt werden. Du legst deine eigene Versammlung ganz normal wie jede andere Versammlung auch an, aktivierst aber diesen Schalter.
 
 Die Entfernung (km) kannst du entweder selber eingeben, oder mit **Berechnen** durch Google berechnen lassen. Bei deiner eigenen Versammlung gibst du hier einfach eine 0 ein.
-Lässt du das Feld leer, kannst du auch im Bereich [Programm](ProgrammEinstellungen.md) die Entfernung für alle Versammlungen mit einem Klick berechnen lassen.
+Lässt du das Feld leer, kannst du auch im Bereich [Programm](Einstellungen.md) die Entfernung für alle Versammlungen mit einem Klick berechnen lassen.
 
 ### Koordinator
 

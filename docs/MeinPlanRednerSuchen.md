@@ -1,7 +1,6 @@
 ---
 title: "Mein Plan > Redner suchen"
 ---
-![Icon](images/menu_icon_01.png)
 
 Die Verwaltung deiner eigenen Redner- und Vortragsplanung geschieht hier. 
 Dieser Programmbereich besteht aus drei Unterbereichen:
@@ -11,11 +10,10 @@ Dieser Programmbereich besteht aus drei Unterbereichen:
 * [Antwort eintragen](MeinPlan.md#antwort-eintragen): Hat jemand auf deine Einladung geantwortet, trägst du hier die Antwort ein. Dein Versammlungsplan wird dann aktualisiert.
 
 # Redner suchen
-![Icon](images/menu_icon_02.png)
 
 Eine der häufigsten Tätigkeiten ist es, nach Vorträgen und Rednern für die eigene Versammlung zu suchen. Die Suchfunktion wird über das Menü auf der Startseite, oder per [Kontextmenü](Konzept.md#Kontextmenü) in dem Fenster "Mein Plan" einer offenen Woche aufgerufen.
 
-![Redner suchen](images/meinplan_05.png)
+![Redner suchen](images/MeinPlanRednerSuchen.png)
 
 Das Fenster besteht aus 3 Bereichen.
 
@@ -64,7 +62,7 @@ Die Ergebnisse werden sofort rechts unterhalb des Datumfeldes angezeigt.
 
 ### Suchergebnisse
 
-![Icon](images/meinplan_06.png)
+![Icon](images/MeinPlanRednerSuchen2.png)
 
 In diesem Beispiel wurden zwei Versammlungen gefunden, die den Suchkriterien entsprechen bzw. deren Redner den Kriterien entsprechen.
 Du musst dich nun entscheiden welche der Versammlungen du für die oben markierten Wochen nach einem oder mehreren Redner(n) angefragt werden soll.

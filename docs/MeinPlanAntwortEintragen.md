@@ -1,7 +1,6 @@
 ---
 title: "Mein Plan > Antwort Eintragen"
 ---
-![Icon](images/menu_icon_01.png)
 
 Die Verwaltung deiner eigenen Redner- und Vortragsplanung geschieht hier. 
 Dieser Programmbereich besteht aus drei Unterbereichen:
@@ -12,20 +11,17 @@ Dieser Programmbereich besteht aus drei Unterbereichen:
 
 # Antwort eintragen
 
-![Icon](images/menu_icon_03.png)
-
 Hier werden dir alle offenen Anfragen angezeigt.
 
-![Icon](images/meinplan_07.png)
+![Icon](images/MeinPlanAntwortEintragen.png)
 
-In diesem Beispiel gibt es aktuell zwei nicht beantwortete Anfragen:
+In diesem Beispiel gibt es eine nicht beantwortete Anfrage:
  
-* Eine Anfrage vom 15.04. an Versammlung Aachen
-* Eine zweite Anfrage vom 17.04. an Versammlung Gelsenkirchen.
+* Gestellt am 26.02.2022 an Bergisch Gladbach
 
-In beiden Anfragen wurden jeweils 2 Redner mit ihren Vorträgen angefragt. 
+In dieser Anfrage wurden nur 1 Redner mit seinen Vorträgen angefragt. 
 
-Hat der Koordinator dir geantwortet, das der Redner für die Woche XX zur verfügung steht, trage das Datum im Feld "Bestätigtes Datum" ein und klicke auf "Redner eintragen".
+Hat der Koordinator dir geantwortet, das der Redner für die Woche XX zur Verfügung steht, trage das Datum im Feld "Bestätigtes Datum" ein und klicke auf "Redner eintragen".
 
 Hat der Koordinator dir geantwortet, das der Redner an den angefragten Wochen nicht verfügbar ist, kannst du auf den roten Button "Redner wurde abgesagt" klicken. Der Redner wird dann aus der Anfrage entfernt.
 

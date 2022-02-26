@@ -1,7 +1,6 @@
 ---
 title: "Verwaltung > Vorlagen"
 ---
-## Verwaltung ##
 
 * [Versammlungen](VerwaltungVersammlungen.md): Verwaltung aller Versammlungen und Kontaktdaten der Koordinatoren mit denen du Redner austauschen willst.
 * [Redner](VerwaltungRedner.md): Verwaltung der Redner in den Versammlungen mit den Vorträgen die sie halten.
@@ -10,14 +9,12 @@ title: "Verwaltung > Vorlagen"
 
 # Vorlagen
 
-![Icon](images/menu_icon_08.png){: .align-right}
-
 Hier werden die Inhalte verwaltet die durch das Programm zum generieren der individuellen Mails benutzt werden. Jede Mailvorlage besteht aus zwei Bereichen:
 * Dem Mailtext
 * Den Platzhaltern die im Mailtext eingefügt werden.
 Platzhalter werden im Mailtext durch {} -Klammern gekennzeichnet.
 
-![Vorlagen](images/verwaltung_03.png)
+![Vorlagen](images/VerwaltungVorlagen.png)
 
 Vorlagen Übersicht
 :   Hier kannst du alle Verfügbaren vorlagen sehen und auswählen. Die Namen sind hoffentlich selbsterklärend.

@@ -9,12 +9,11 @@ Dieser Programmbereich besteht aus zwei Unterbereichen:
 
 # Neue Anfrage
 
-![Icon](images/menu_icon_05.png)
-
-bekommst du eine Anfrage für eine Einladung von einem anderen Koordinator, kannst du sie hier prüfen und dann Bestätigen oder ablehnen. Sowohl für die Bestätigung als auch für die Ablehnung der Anfrage werden Mailtexte an den Anfragenden Koordinator und - bei Bestätigung - an den eingelaenen Redner generiert.
+bekommst du eine Anfrage für eine Einladung von einem anderen Koordinator, kannst du sie hier prüfen und dann Bestätigen oder ablehnen. 
+Sowohl für die Bestätigung als auch für die Ablehnung der Anfrage werden Mailtexte an den Anfragenden Koordinator und - bei Bestätigung - an den eingelaenen Redner generiert.
 Nach Bestätigung oder Ablehnung der Anfrage bleibt das Fenster offen, so dass weitere Anfragen bearbeitet werden können.
 
-![Oberfläche](images/meineredner_02.png)
+![Oberfläche](images/MeineRednerNeueAnfrage.png)
 
 Dieser Menüpunkt besteht aus 5 Bereichen
 

@@ -2,7 +2,7 @@
 title: "Startseite"
 ---
 
-![Startseite](images/startseite_01.png)
+![Startseite](images/Hauptseite.png)
 
 Nach dem Programmstart siehst du deine Planung der nächsten 4 Wochen.
 Links, die Programmplanung deiner eigenen Versammlung.
@@ -10,7 +10,7 @@ Rechts, deine Redner die in anderen Versammlungen eingeplant sind.
 
 ## Navigation ##
 
-![Startseite](images/navigation_01.png)
+![Startseite](images/Navigation.png)
 
 Das Programm ist in mehrere Hauptbereiche eingeteilt, die über das Linke Hauptmenü erreichbar sind.
 Innerhalb der Hauptbereiche kann dann wiederum über das obere Navigationsmenü zu weiteren Unter-Bereichen navigiert werden.
@@ -19,7 +19,7 @@ Die Navigation orientiert sich an der Navigation der App "Jw Library", die Ebenf
 
 ### Die Hauptbereiche ###
 
-[Navigation](images/navigation_02.png)
+![Navigation](images/NavigationLinks.png)
 
 Das Programm ist in folgende Hauptbereiche aufgeteilt:
 

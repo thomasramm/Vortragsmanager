@@ -1,11 +1,8 @@
 ---
 title: "Verwaltung > Redner"
 ---
-![Icon](images/menu_icon_10.png){: .align-right}
 
 Dieser Programmbereich besteht aus vier Unterbereichen:
-
-## Verwaltung ##
 
 * [Versammlungen](VerwaltungVersammlungen.md): Verwaltung aller Versammlungen und Kontaktdaten der Koordinatoren mit denen du Redner austauschen willst.
 * [Redner](VerwaltungRedner.md): Verwaltung der Redner in den Versammlungen mit den Vorträgen die sie halten.
@@ -21,7 +18,7 @@ Im Bereich Redner werden alle Informationen zu den Rednern und ihren Vorträgen 
 * [Vorträge](#vorträge)
 * [Kalender](#kalender)
 
-![Redner](images/verwaltung_30.png)
+![Redner](images/VerwaltungRedner.png)
 
 ## Suche
 

@@ -1,8 +1,6 @@
 ---
 title: "Historie > Aktivitäten"
 ---
-![Icon](images/menu_icon_11.png){: .align-right}
-
 
 Dieser Programmbereich besteht aus zwei Unterbereichen:
 
@@ -15,8 +13,7 @@ Hier kann man sehen wann man bestimmte Vorgänge im Programm vorgenommen hat.
 Es werden nicht alle Aktivitäten gespeichert, sondern lediglich Aktionen bei denen dein Plan oder die Einladungen deiner Redner geändert werden, 
 oder eine Kommunikation mit anderen statt findet.
 
-<br clear="all" />
-![Übersicht](images/log_01.png)
+![Aktivitäten](images/HistorieAktivitaeten.png)
 
 ## Filter
 

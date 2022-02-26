@@ -1,7 +1,6 @@
 ---
 title: "Meine Redner"
 ---
-![Icon](images/menu_icon_04.png)
 
 Dieser Programmbereich besteht aus zwei Unterbereichen:
 
@@ -12,7 +11,7 @@ Dieser Programmbereich besteht aus zwei Unterbereichen:
 
 Eine Liste aller Einladungen meiner Redner. Diese Liste kann hier gefiltert bearbeitet und ausgegeben werden.
 
-![Oberfläche](images/meineredner_01.png)
+![Oberfläche](images/MeineRednerRednereinladungen.png)
 
 ## Filter
 

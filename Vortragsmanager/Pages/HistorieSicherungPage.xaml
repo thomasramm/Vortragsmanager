@@ -15,7 +15,6 @@
         <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
-            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <dxlc:LayoutControl Grid.Row="0" Margin="20" 
                                     Orientation="Horizontal" 

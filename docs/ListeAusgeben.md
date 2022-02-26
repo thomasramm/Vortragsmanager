@@ -1,11 +1,10 @@
 ---
 title: "Liste ausgeben"
 ---
-![Icon](images/menu_icon_06.png){: .align-right}
 
 In diesem Bereich können diverse Listen und Aushänge erzeugt werden. Das Ausgabeformat ist für alle Listen Excel (*.xlsx)
 
-![Listen ausgeben](images/verwaltung_01.png)
+![Listen ausgeben](images/ListeErstellen.png)
 
 im Bereich unten Rechts kann eingestellt werden ob die **Listen nur erstellt** - oder mit der Option **Liste nach dem erstellen öffnen** direkt im Verknüpften Programm geöffnet werden soll.
 Außerdem kann für die erste Liste "Aushang" eingestellt werden, wieviele Wochen auf dem Plan ausgegeben werden sollen.

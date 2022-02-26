@@ -3,7 +3,6 @@
 ---
 title: Einstellungen
 ---
-![Icon](images/menu_icon_09.png){: .align-right}
 
 Dieser Bereich besteht aus 4 Unterbereichen:
 
@@ -14,6 +13,8 @@ Dieser Bereich besteht aus 4 Unterbereichen:
 
 # Datei
 
+![Datei](images/EinstellungenDatei.png)
+
 Hier kann der Pfad zur Programmmanager-Datei geändert oder auch eine vorher gesicherte Datei geöffnet werden.
 
 Ist die Option "Sicherungskopie bei jedem Speichern anlegen" aktiviert, werden während des arbeiten mit dem Vortragsmanager regelmäßig kopien der Datendatei angelegt, so dass man bei einem Fehler einfach eine ältere Version der Datei öffnen kann. 
@@ -21,28 +22,29 @@ Für das Wiederherstellen dieser Sicherungen, sieh unter [Historie -> Sicherung]
 
 # Aussehen
 
-##App-Design
+![Aussehen](images/EinstellungenAussehen.png)
+
+## App-Design
 Hier kannst du die Farbeinstellung des Programm ändern:
 * Dunkel: Das klassische Programmaussehen mit Schwarzem Hintergrund und Orangen Elementen.
 * Hell: Ein weißer Programmhintergrund mit Blauen Elementen
 
-##Aktivitätsbuttons
+## Aktivitätsbuttons
 im Bereich [Mein Plan](MeinPlanKalender.md) werden im Kalender kleine Buttons angezeigt, über die Aktionen durchgeführt werden können (Alternativ mit der rechten Maustaste auf ein Element klicken).
 
-##Zusammenkunftszeiten
+## Zusammenkunftszeiten
 Hier legst du den Wochentag deiner eigenen Versammlung fest. Dies Verändert die Datumsanzeige deiner Planungen auf den jeweiligen Tag.
-
 
 # Programmverhalten
 
-## Änderungen
+![Aussehen](images/EinstellungenProgramm.png)
 
-## Updates
+## Änderungen
 
 Wird eine neue Programmversion installiert, werden die letzten Änderungen angezeigt. Dies kann hier deaktiviert werden
 Außerdem kannst du dir alle bisherigen Programmänderungen (Changelog) anzeigen lassen.
 
-### Logging
+## Logging
 
 Hier kann angegeben werden wie detailiert das Aufrufen von Funktionen im Vortragsmanager protokolliert werden soll.
 
@@ -50,12 +52,14 @@ Der Standard ist auf "Fehler" gesetzt. Das sollte bei den meisten Problemen helf
 
 Im Ordner wird noch angegeben in welchem Ordner die Dateien abgelegt werden sollen. Der Dateiname ist immer vortragsmanager_DATUM.log und wird jeden Tag geändert.
 
-### Listenausgabe
+## Listenausgabe
 
 Optionen für die Ausgabe der Listen können hier eingestellt werden. 
 Diese Optionen sind auch im Menüpunkt [Liste ausgeben](ListeAusgeben.md) verfügbar.
 
 # Aktionen
+
+![Aktionen](images/EinstellungenAktion.png)
 
 ## Import von Rednerlisten
 

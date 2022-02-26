@@ -2,11 +2,10 @@
 title: "Mein Plan > Vorsitz und Leser"
 ---
 
-
-![Icon](images/menu_icon_12.png)
-
 Neben der Planung der Vortragsredner können über dieses Programm auch der Vorsitzende sowie der WT-Leser geplannt und im Aushang mit Ausgegeben werden.
 Bei der Planung werden andere Aktivitäten wie Vorträge Berücksichtigt, so dass es nicht zu Doppelbuchungen kommt.
+
+![Vorsitz und Leser](images/MeinPlanVorsitzLeser.png)
 
 ## Einstellungen
 In den Einstellungen werden Hauptsächlich die Personen gepflegt, die die entsprechenden Aufgaben übernehmen. 
