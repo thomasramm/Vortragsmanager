@@ -15,20 +15,31 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="{Binding HeaderTextVisible}" />
             <RowDefinition Height="1*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <TextBox Text="{Binding Text}" AcceptsReturn="True"/>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
+        <TextBox Grid.Row="0" 
+                 Text="{Binding HeaderText}" 
+                 AcceptsReturn="True" 
+                 Foreground="{StaticResource TextHighlight}" 
+                 Padding="0"
+                 FontWeight="Bold" 
+                 FontSize="18" 
+                 VerticalContentAlignment="Center"
+                 HorizontalContentAlignment="Center"/>
+        <TextBox Grid.Row="1" Text="{Binding Text}" AcceptsReturn="True"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" FlowDirection="RightToLeft">
             <dx:SimpleButton Content="{Binding CloseButtonText}"
-                             Glyph="{dx:SvgImageSource Uri='/Images/Cancel_red.svg'}"
+                             Glyph="/Images/Cancel_32x32.png" GlyphWidth="24" GlyphHeight="24"
                              GlyphAlignment="Right"
                              Command="{Binding CloseCommand}"
                              CommandParameter="{Binding ElementName=LeerWindow}"
                              Visibility="{Binding ShowCloseButton, Converter={StaticResource BoolToVisibilityConverter}}"
                              HorizontalAlignment="Right" Width="150" Margin="5" />
             <dx:SimpleButton Content="Speichern"
-                         Glyph="{dx:SvgImageSource Uri='/Images/Ok_green.svg'}"
+                         Glyph="/Images/Ok_Green_32x32.png"
+                             GlyphWidth="24" GlyphHeight="24"
                          GlyphAlignment="Right"
                          Command="{Binding SaveCommand}"
                          CommandParameter="{Binding ElementName=LeerWindow}"
@@ -36,9 +47,9 @@
                          HorizontalAlignment="Right" Width="150" Margin="5" />
         </StackPanel>
         <dx:SimpleButton Content="Kopieren"
-                         Grid.Row="1"
+                         Grid.Row="2"
                          Visibility="{Binding ShowCopyButton, Converter={StaticResource BoolToVisibilityConverter}}"
-                         Glyph="/Images/Zwischenablage_32x32.png"
+                         Glyph="/Images/Zwischenablage_32x32.png" GlyphWidth="24" GlyphHeight="24"
                          GlyphAlignment="Left"
                          Command="{Binding CopyCommand}"
                          CommandParameter="True"

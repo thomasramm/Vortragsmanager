@@ -1,11 +1,12 @@
 ﻿using System.Windows;
+using Vortragsmanager.Interface;
 
 namespace Vortragsmanager.Views
 {
     /// <summary>
     /// Interaktionslogik für BuchungLöschenCommandDialog.xaml
     /// </summary>
-    public partial class EreignisEintragenCommandDialog : Window, Datamodels.ICloseable
+    public partial class EreignisEintragenCommandDialog : Window, ICloseable
     {
         private EreignisEintragenCommandDialogView DataModel;
 

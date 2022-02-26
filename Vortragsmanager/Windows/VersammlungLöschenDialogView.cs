@@ -5,8 +5,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.Enums;
+using Vortragsmanager.Interface;
 
 namespace Vortragsmanager.Views
 {

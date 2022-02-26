@@ -35,51 +35,55 @@ lmenu:
   - title: Mein Plan
     url: /MeinPlan/
     children: 
-      - title: Ereignistypen
-        url: /MeinPlan/#die-ereignistypen
-      - title: Aktionen
-        url: /MeinPlan/#aktionen
+      - title: Kalender
+        url: /MeinPlan/
       - title: Redner suchen
-        url: /MeinPlan/#redner-suchen
+        url: /MeinPlanRednerSuchen/
       - title: Antwort eintragen
-        url: /AntwortEintragen/
-      - title: Weitere Plannungen
-        url: /WeiterePlannungen
+        url: /MeinPlanAntwortEintragen/
+      - title: Vorsitz und Leser
+        url: /MeinPlanVorsitzUndLeser/
 
   - title: Meine Redner
     url: /MeineRedner/
     children:
-      - title: Meine Redner
+      - title: Rednereinladungen
         url: /MeineRedner/
-      - title: Redner Filtern
-        url: /MeineRedner/#filter
-      - title: Zuteilung Bearbeiten
-        url: /MeineRedner/#bearbeiten
-      - title: Zuteilung Ausgeben
-        url: /MeineRedner/#ausgeben
-      - title: Neue externe Anfrage
-        url: /ExterneAnfrage/
+      - title: Neue Anfrage
+        url: /MeineRednerNeueAnfrage/
+
+  - title: Liste ausgeben
+    url: /ListeAusgeben/
 
   - title: Verwaltung
-    url: /Verwaltung/
+    url: /VerwaltungVersammlungen/
     children:
-      - title: Listen ausgeben
-        url: /ListenAusgeben/
-      - title: Versammlungen pflegen
-        url: /Versammlungen/
-      - title: Koordinatoren pflegen
-        url: /Versammlungen/#koordinator
-      - title: Redner pflegen
-        url: /Versammlungen/#redner
+      - title: Versammlungen
+        url: /VerwaltungVersammlungen/
+      - title: Koordinatoren
+        url: /VerwaltungVersammlungen/#koordinator
+      - title: Redner
+        url: /VerwaltungRedner/
+      - title: Vortragsthemen
+        url: /VerwaltungVortragsthemen/
       - title: Vorlagen bearbeiten
-        url: /Vorlagen/
-      - title: Programm Einstellungen
-        url: /ProgrammEinstellungen/
-      - title: Vortragsthemen pflegen
-        url: /Vortragsthemen/
+        url: /VerwaltungVorlagen/
 
-  - title: Aktivitäten Log
-    url: /Log/
+  - title: Einstellungen
+    url: /Einstellungen/
+    children:
+      - title: Datei
+      - title: Aussehen
+      - title: Programmverhalten
+      - title: Aktionen
+
+  - title: Historie
+    url: /HistorieSicherung/
+    children:
+      - title: Sicherung
+        url: /HistorieSicherung/
+      - title: Aktivitäten
+        url: /HistorieLog/
     
   - title: Konzepte
     url: /Konzept/

@@ -2,7 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 using Vortragsmanager.Datamodels;
-using System.Linq;
+using Vortragsmanager.Enums;
+using Vortragsmanager.Interface;
 
 namespace Vortragsmanager.Views
 {

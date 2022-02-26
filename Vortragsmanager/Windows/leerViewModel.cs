@@ -1,6 +1,6 @@
 ﻿using DevExpress.Mvvm;
 using System.Windows;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.Interface;
 
 namespace Vortragsmanager.Views
 {
@@ -13,13 +13,14 @@ namespace Vortragsmanager.Views
             CopyCommand = new DelegateCommand(Copy);
         }
 
-        public LeerViewModel(string titel, bool CloseButton, bool SaveButton, bool CopyButton, string text) : this()
+        public LeerViewModel(string titel, bool CloseButton, bool SaveButton, bool CopyButton, string text, string headerText = "") : this()
         {
             Titel = titel;
             ShowCloseButton = CloseButton;
             ShowSaveButton = SaveButton;
             ShowCopyButton = CopyButton;
             Text = text;
+            HeaderText = headerText;
         }
 
         public DelegateCommand<ICloseable> CloseCommand { get; private set; }
@@ -108,6 +109,26 @@ namespace Vortragsmanager.Views
                 _showCopyButton = value;
             }
         }
+
+        private string _headerText;
+
+        public string HeaderText
+        {
+            get { return _headerText; }
+            set 
+            { 
+                _headerText = value;
+                SetHeaderTextVisible(!string.IsNullOrWhiteSpace(_headerText));
+            }
+        }
+
+        private void SetHeaderTextVisible(bool visible)
+        {
+            HeaderTextVisible = visible ? new GridLength(50) : new GridLength(0); ;
+        }
+
+        public GridLength HeaderTextVisible { get; private set; }
+
 
         private string _text;
 

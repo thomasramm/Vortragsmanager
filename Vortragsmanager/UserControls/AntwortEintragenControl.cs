@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.UserControls
 {
     /// <summary>
     /// Interaction logic for AntwortEintragen.xaml

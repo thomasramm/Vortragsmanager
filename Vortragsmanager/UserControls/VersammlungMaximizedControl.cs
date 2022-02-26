@@ -1,5 +1,4 @@
-﻿using DevExpress.Xpf.LayoutControl;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
 using GroupBox = DevExpress.Xpf.LayoutControl.GroupBox;
 

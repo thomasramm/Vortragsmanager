@@ -339,7 +339,6 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /Rohdaten
-/Vortragsmanager/Core/Security.cs
 /docs/.jekyll-cache
 /docs/_site
 Gemfile.lock
@@ -347,3 +346,4 @@ generate_page.cmd
 /_Ein neues Release.txt
 /Let’s build together! Participate in the Microsoft Store Preview program!.pdf
 /Ideen/Gastfreundschaft.pdf
+Security.cs

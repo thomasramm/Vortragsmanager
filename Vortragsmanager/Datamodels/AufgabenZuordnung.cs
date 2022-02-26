@@ -1,7 +1,4 @@
-﻿using DevExpress.Mvvm;
-using System;
-
-namespace Vortragsmanager.Datamodels
+﻿namespace Vortragsmanager.Datamodels
 {
     public class AufgabenZuordnung
     {
@@ -44,45 +41,5 @@ namespace Vortragsmanager.Datamodels
         {
             return PersonName;
         }
-    }
-
-    public class AufgabenKalender : ViewModelBase
-    {
-        private AufgabenZuordnung vorsitz;
-        private AufgabenZuordnung leser;
-
-        public AufgabenKalender(int kw)
-        {
-            Kw = kw;
-        }
-
-        public AufgabenKalender(int kw, AufgabenZuordnung vorsitz, AufgabenZuordnung leser)
-        {
-            Kw = kw;
-            Vorsitz = vorsitz;
-            Leser = leser;
-        }
-
-        public AufgabenZuordnung Vorsitz
-        {
-            get => vorsitz; 
-            set
-            {
-                vorsitz = value;
-                RaisePropertyChanged(nameof(Vorsitz));
-            }
-        }
-
-        public AufgabenZuordnung Leser
-        {
-            get => leser;
-            set
-            {
-                leser = value;
-                RaisePropertyChanged(nameof(Leser));
-            }
-        }
-
-        public int Kw { get; set; }
     }
 }

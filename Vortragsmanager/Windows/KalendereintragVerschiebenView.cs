@@ -1,8 +1,10 @@
 ﻿using DevExpress.Mvvm;
 using System;
 using System.Linq;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.Enums;
+using Vortragsmanager.Helper;
+using Vortragsmanager.Interface;
 
 namespace Vortragsmanager.Views
 {
@@ -50,7 +52,7 @@ namespace Vortragsmanager.Views
                     StartVortrag = special.Thema;
             }
 
-            ZielDatum = Helper.CalculateWeek(ereignis.Kw);
+            ZielDatum = DateCalcuation.CalculateWeek(ereignis.Kw);
             StartDatum = ZielDatum.ToShortDateString();
         }
 
@@ -136,7 +138,7 @@ namespace Vortragsmanager.Views
             {
                 if (value == null)
                     return;
-                _zielDatum = Helper.GetConregationDay(value);
+                _zielDatum = DateCalcuation.GetConregationDay(value);
                 RaisePropertyChanged();
                 LadeZielBuchung();
             }
@@ -199,7 +201,7 @@ namespace Vortragsmanager.Views
 
         private void LadeInterneZielBuchung()
         {
-            var zielKw = Helper.CalculateWeek(ZielDatum);
+            var zielKw = DateCalcuation.CalculateWeek(ZielDatum);
             var woche = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == zielKw);
 
             ZielBuchungBelegt = (woche != null);
@@ -282,8 +284,8 @@ namespace Vortragsmanager.Views
         public void Save(ICloseable window)
         {
             var startKw = StartEvent.Kw;
-            var startDatum = Core.Helper.CalculateWeek(StartEvent.Kw);
-            var zielKw = Helper.CalculateWeek(ZielDatum);
+            var startDatum = DateCalcuation.CalculateWeek(StartEvent.Kw);
+            var zielKw = DateCalcuation.CalculateWeek(ZielDatum);
 
             StartEvent.Kw = zielKw;
             var sendMail = false;
@@ -384,7 +386,7 @@ namespace Vortragsmanager.Views
                     startBuchungInfo = "Die Buchung am neuen Datum wurde gelöscht.";
                     headerText = "Diese Buchung wurde gelöscht";
                 }
-                ActivityLog.AddActivity.BuchungVerschieben(ZielEvent, mailsData.MailTextRedner, ZielDatum, "Eine andere Buchung wurde auf das bisherige Datum verschoben.", headerText);
+                ActivityLog.ActivityAddItem.BuchungVerschieben(ZielEvent, mailsData.MailTextRedner, ZielDatum, "Eine andere Buchung wurde auf das bisherige Datum verschoben.", headerText);
             }
             else
             {
@@ -399,7 +401,7 @@ namespace Vortragsmanager.Views
             DataContainer.UpdateTalkDate(StartEvent?.Vortrag?.Vortrag);
             DataContainer.UpdateTalkDate(ZielEvent?.Vortrag?.Vortrag);
 
-            ActivityLog.AddActivity.BuchungVerschieben(StartEvent, mailsData.MailTextKoordinator, startDatum, startBuchungInfo, "Buchung wurde verschoben"); // Event1
+            ActivityLog.ActivityAddItem.BuchungVerschieben(StartEvent, mailsData.MailTextKoordinator, startDatum, startBuchungInfo, "Buchung wurde verschoben"); // Event1
             //Event2
             Speichern = true;
             window?.Close();

@@ -3,13 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Vortragsmanager.Views"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
-             xmlns:core="clr-namespace:Vortragsmanager.Core"
-             xmlns:uc="clr-namespace:Vortragsmanager.UserControls"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="800">
@@ -53,7 +50,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBox Text="{Binding Versammlung.Entfernung}" Grid.Column="0" />
                     <dx:SimpleButton Content="Berechnen"
-                                         Glyph="{dx:SvgImageSource Uri='/Images/Travel_MapPointer.svg'}"
+                                        Glyph="/Images/MapPointer_32x32.png"
                                         Command="{Binding CalculateDistanceCommand}"
                                         Grid.Column="1"
                                         Height="24" />
@@ -65,22 +62,20 @@
                                     Command="{Binding DeleteCommand}"
                                     CommandParameter="{Binding ElementName=lc}"
                                     IsEnabled="{Binding EigeneVersammlung, Converter={StaticResource BooleanNegationConverter}}"
-                                    Glyph="{dx:SvgImageSource Uri='/Images/Delete_Mülleimer_sw.svg'}"
+                                    Glyph="/Images/Delete_White_32x32.png"
                                     ToolTip="Versammlung löschen oder zusammenlegen" />
                 </dxlc:LayoutItem>
         </dxlc:LayoutGroup>
         <dxlc:LayoutGroup  Header="Zusammenkunftszeit" View="GroupBox" Orientation="Vertical" Width="350">
             <ItemsControl MinHeight="40"
-                    ItemsSource="{Binding ZusammenkunftszeitenItems}"
-                         >
-            </ItemsControl>
+                    ItemsSource="{Binding ZusammenkunftszeitenItems}" />
             <Button HorizontalAlignment="Right" 
-                                 Width="20" 
-                                 VerticalAlignment="Bottom" 
-                                 Height="20"
-                                 Margin="-10"
-                        Command="{Binding AddZeitCommand}"
-                        FontSize="16">
+                    Width="20" 
+                    VerticalAlignment="Bottom" 
+                    Height="20"
+                    Margin="-10"
+                    Command="{Binding AddZeitCommand}"
+                    FontSize="16">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
@@ -113,7 +108,7 @@
             
                 <dx:SimpleButton Content="Neuen Redner anlegen" Height="50" Width="200" HorizontalAlignment="Left" Margin="10,0"
                             Command="{Binding NewPersonCommand}"
-                            Glyph="{dx:SvgImageSource Uri='/Images/NewEmployee.svg'}" />
+                            Glyph="/Images/PersonNew_32x32.png" />
             
             <dxlc:FlowLayoutControl Orientation="Vertical"
                                     ItemsSource="{Binding RednerListe}">

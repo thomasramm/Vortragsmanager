@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Controls;
-using Vortragsmanager.Core;
-using DevExpress.Mvvm;
 using System.Collections.ObjectModel;
+using Vortragsmanager.Enums;
+using Vortragsmanager.Helper;
 
 namespace Vortragsmanager.UserControls
 {
@@ -19,7 +19,7 @@ namespace Vortragsmanager.UserControls
 
         public ZeitItem()
         {
-            _zeit = new Core.DataHelper.Zusammenkunftszeit(DateTime.Today.Year, DayOfWeeks.Sonntag, "10:00 Uhr");
+            _zeit = new Core.DataHelper.Zusammenkunftszeit(DateTime.Today.Year, Enums.Wochentag.Sonntag, "10:00 Uhr");
             Initialize();
         }
 
@@ -50,7 +50,7 @@ namespace Vortragsmanager.UserControls
     }
         }
 
-        public DayOfWeeks Wochentag
+        public Wochentag Wochentag
         {
             get
             {
@@ -61,7 +61,7 @@ namespace Vortragsmanager.UserControls
                 _zeit.Tag = value;
                 RaisePropertyChanged(nameof(Wochentag));
                 if (_myConregation)
-                    Helper.Wochentag = Datamodels.DataContainer.MeineVersammlung.Zeit.Get(DateTime.Today.Year).Tag;
+                    DateCalcuation.Wochentag = Datamodels.DataContainer.MeineVersammlung.Zeit.Get(DateTime.Today.Year).Tag;
             }
         }
 

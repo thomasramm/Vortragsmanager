@@ -1,12 +1,17 @@
 ---
 title: "Meine Redner"
 ---
-![Icon](images/menu_icon_04.png)
 
+Dieser Programmbereich besteht aus zwei Unterbereichen:
+
+* [Rednereinladungen](MeineRedner.md): Hier siehst du die Vortragstermine aller deiner Redner
+* [Neue Anfrage](MeineRednerNeueAnfrage.md): Fragt eine andere Versammlung einen Redner an, kannst du hier prüfen ob er zur Verfügung steht und in deine Planung eintragen.
+
+# Rednereinladungen
 
 Eine Liste aller Einladungen meiner Redner. Diese Liste kann hier gefiltert bearbeitet und ausgegeben werden.
 
-![Oberfläche](images/meineredner_01.png)
+![Oberfläche](images/MeineRednerRednereinladungen.png)
 
 ## Filter
 
@@ -41,4 +46,4 @@ Das verändern einzelner Parameter, wie z.B. des Vortragsthema ist nicht möglic
 
 Möchtest du eine Info Mail mit allen ausstehenden Vorträgen an einen oder mehrere Redner versenden, kannst du die Funktion unten rechts benutzen: "Liste senden". Es wird immer die gesamte Liste versendet die angezeigt wird, über die Filterfunktion im linken Fensterbereich kannst du sie dir aber individuell zusammenstellen.
 
-[zurück](MeinPlan.md){: .btn .btn--inverse}  [weiter](ExterneAnfrage.md){: .btn .btn--inverse}
+[zurück](MeinPlanVorsitzUndLeser.md){: .btn .btn--inverse}  [weiter](MeineRednerNeueAnfrage.md){: .btn .btn--inverse}

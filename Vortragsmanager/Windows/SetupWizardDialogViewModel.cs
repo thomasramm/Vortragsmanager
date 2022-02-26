@@ -8,6 +8,9 @@ using System.Windows;
 using System.Windows.Forms;
 using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.Enums;
+using Vortragsmanager.Interface;
+using Vortragsmanager.Module;
 
 namespace Vortragsmanager.Views
 {
@@ -200,7 +203,7 @@ namespace Vortragsmanager.Views
                 case 1:
                     if (DemoChecked)
                     {
-                        var quelle = $"{Helper.TemplateFolder}demo.sqlite3";
+                        var quelle = $"{Helper.Helper.TemplateFolder}demo.sqlite3";
                         var ziel = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\demo.sqlite3";
                         File.Copy(quelle, ziel, true);
                         IoSqlite.ReadContainer(ziel);
@@ -272,7 +275,7 @@ namespace Vortragsmanager.Views
 
         public void OpenExcelExample(string Dateiname)
         {
-            var quelle = $"{Helper.TemplateFolder}{Dateiname}";
+            var quelle = $"{Helper.Helper.TemplateFolder}{Dateiname}";
             System.Diagnostics.Process.Start(quelle);
         }
 
@@ -401,7 +404,7 @@ namespace Vortragsmanager.Views
                 return;
 
             var c = DataContainer.ConregationFindOrAdd("Meine Versammlung");
-            c.Zeit.Add(DateTime.Today.Year, DayOfWeeks.Sonntag, "Unbekannt");
+            c.Zeit.Add(DateTime.Today.Year, Wochentag.Sonntag, "Unbekannt");
             DeineVersammlung = c;
         }
 
@@ -424,7 +427,7 @@ namespace Vortragsmanager.Views
             ImportierteJahreliste.Clear();
             foreach (var j in DataContainer.MeinPlan.GroupBy(x => x.Kw / 100))
             {
-                ImportierteJahreliste.Add(j.Key.ToString(Helper.German));
+                ImportierteJahreliste.Add(j.Key.ToString(Helper.Helper.German));
             }
 
             RaisePropertyChanged(nameof(ImportierteJahreliste));
@@ -451,7 +454,7 @@ namespace Vortragsmanager.Views
             ImportierteJahreliste.Clear();
             foreach (var j in DataContainer.ExternerPlan.GroupBy(x => x.Kw / 100))
             {
-                ImportierteJahreliste.Add(j.Key.ToString(Helper.German));
+                ImportierteJahreliste.Add(j.Key.ToString(Helper.Helper.German));
             }
 
             RaisePropertyChanged(nameof(ImportierteJahreliste));

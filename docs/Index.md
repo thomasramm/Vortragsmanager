@@ -1,5 +1,5 @@
 ---
-title: "Vortragsmanager DeLuxe 1.0"
+title: "Vortragsmanager DeLuxe 1.1"
 permalink: /
 ---
 
@@ -9,10 +9,12 @@ Installiere den Vortragsmanager DeLuxe
 </a>
 
 
-## Neu ##
-Sicherungs- und Wiederherstellungsmöglichkeiten. siehe das Kapitel [Sicherung](Sicherung.md)
+## Neu
+Neue Oberfläche, neue Navigation
+Programm-Style umstellbar von Dunkel auf Hell. Siehe das Kapitel [Einstellungen](Einstellungen.md)
+Sicherungs- und Wiederherstellungsmöglichkeiten. siehe das Kapitel [Sicherung](HistorieSicherung.md)
 
-## Vertrauen und Datenschutz ##
+## Vertrauen und Datenschutz
 Der Vortragsmanager steht als Open Source zur Verfügung, du kannst dir also den gesamten Quellcode anschauen um zu prüfen, das deine Daten nicht irgendwo hochgeladen werden, oder etwas gemacht wird was nicht in deinem Sinn ist.
 
 [![Quellode](https://img.shields.io/badge/Quellcode-GitHub-darkgreen?style=for-the-badge)](https://github.com/thomasramm/Vortragsmanager/)

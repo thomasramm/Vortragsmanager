@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="Vortragsmanager.Pages.DashboardPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:usercontrols="clr-namespace:Vortragsmanager.UserControls"
+             xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
+             mc:Ignorable="d"
+             d:DesignHeight="600" 
+             d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=pageModels:DashboardPageModel, IsDesignTimeCreatable=False}">
+    <UserControl.DataContext>
+        <pageModels:DashboardPageModel />
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="10" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Style="{StaticResource NavimenuHeader}" />
+        <Label Grid.Row="0" Content="Hauptseite" Style="{StaticResource NavimenuHeaderLabel}"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="Mein Plan" Grid.Row="0" Grid.Column="1" Foreground="{StaticResource TextColor}" FontSize="26" FontWeight="Light"/>
+            <Label Content="Meine Redner" Grid.Row="0" Grid.Column="2" Foreground="{StaticResource TextColor}" FontSize="26" FontWeight="Light"/>
+            <usercontrols:DashboardWeekItem Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Woche="{Binding AktuelleWoche}" Margin="5"/>
+            <usercontrols:DashboardWeekItem Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Woche="{Binding Woche2}"  Margin="5"/>
+            <usercontrols:DashboardWeekItem Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Woche="{Binding Woche3}"  Margin="5"/>
+            <usercontrols:DashboardWeekItem Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Woche="{Binding Woche4}"  Margin="5"/>
+        </Grid>
+    </Grid>
+</UserControl>

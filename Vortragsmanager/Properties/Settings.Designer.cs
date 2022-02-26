@@ -214,18 +214,6 @@ namespace Vortragsmanager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Office2016White")]
-        public string ApplicationThemeName {
-            get {
-                return ((string)(this["ApplicationThemeName"]));
-            }
-            set {
-                this["ApplicationThemeName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int SonntagAnzeigeMonate {
             get {
@@ -281,6 +269,18 @@ namespace Vortragsmanager.Properties {
             }
             set {
                 this["ListAushangAnzahlWochen"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ThemeIsDark {
+            get {
+                return ((bool)(this["ThemeIsDark"]));
+            }
+            set {
+                this["ThemeIsDark"] = value;
             }
         }
     }

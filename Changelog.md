@@ -1,3 +1,9 @@
+### Version 1.1.18 (xx.03.2022) ###
+* Neue Oberfläche, neue Navigation! Ich empfehle dir für die neue Navigation einen kurzen Blick ins Handbuch, Kapitel Startseite
+* Programm-Style umstellbar von Dunkel auf Hell
+* Neue Startseite
+* Geänderte Themen 75,79,81
+
 ### Version 1.0.17 (27.01.2022) ###
 * kleiner Fehler behoben bei der Ausgabe des Aushang
 
