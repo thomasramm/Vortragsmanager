@@ -29,6 +29,8 @@ Hier kannst du die Farbeinstellung des Programm ändern:
 * Dunkel: Das klassische Programmaussehen mit Schwarzem Hintergrund und Orangen Elementen.
 * Hell: Ein weißer Programmhintergrund mit Blauen Elementen
 
+![Design Hell](images/EinstellungenAussehenHell.png)
+
 ## Aktivitätsbuttons
 im Bereich [Mein Plan](MeinPlanKalender.md) werden im Kalender kleine Buttons angezeigt, über die Aktionen durchgeführt werden können (Alternativ mit der rechten Maustaste auf ein Element klicken).
 

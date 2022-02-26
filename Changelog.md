@@ -1,5 +1,5 @@
 ### Version 1.1.18 (xx.03.2022) ###
-* Neue Oberfläche, neue Navigation
+* Neue Oberfläche, neue Navigation! Ich empfehle dir für die neue Navigation einen kurzen Blick ins Handbuch, Kapitel Startseite
 * Programm-Style umstellbar von Dunkel auf Hell
 * Neue Startseite
 * Geänderte Themen 75,79,81
