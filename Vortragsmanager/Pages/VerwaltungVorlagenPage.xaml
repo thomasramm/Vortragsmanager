@@ -11,7 +11,7 @@
              DataContext="{dxmvvm:ViewModelSource pageModels:VerwaltungVorlagenPageModel}">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="310" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>

@@ -28,7 +28,7 @@
                         <dxlc:GroupBox.HeaderTemplate>
                             <DataTemplate>
                                 <Grid>
-                                    <TextBlock Margin="1" Foreground="White" FontWeight="Regular" FontSize="14" HorizontalAlignment="Left">
+                                    <TextBlock Margin="1" Foreground="{StaticResource TextColor}" FontWeight="Regular" FontSize="14" HorizontalAlignment="Left">
                                         <Run Text="{Binding Versammlung, Mode=OneWay}" /><Run Text=" (vom " /><Run Text="{Binding AnfrageDatum, Mode=OneWay}" FontSize="14" /><Run Text=")" />
                                     </TextBlock>
                                     <Button HorizontalAlignment="Right" Width="120" Content="Mailtext anzeigen" Command="{Binding MailtextAnzeigenCommand}" />
