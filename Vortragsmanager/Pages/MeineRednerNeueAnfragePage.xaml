@@ -86,7 +86,7 @@
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>
                 <dxlc:LayoutGroup Header="Kalender" View="GroupBox" Width="220">
-                    <uc:CalendarYearShort x:Name="calendar" />
+                    <uc:CalendarYearShort x:Name="Calendar" />
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>
         </dxlc:LayoutControl>

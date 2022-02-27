@@ -1,5 +1,5 @@
 ﻿using DevExpress.Mvvm;
-using Vortragsmanager.Core;
+using Vortragsmanager.Module;
 using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.PageModels
@@ -16,15 +16,15 @@ namespace Vortragsmanager.PageModels
             CreateSpeakerOverviewCommand = new DelegateCommand(CreateSpeakerOverview);
         }
 
-        public DelegateCommand CreateAushangCommand { get; private set; }
+        public DelegateCommand CreateAushangCommand { get; }
 
-        public DelegateCommand CreateContactListCommand { get; private set; }
+        public DelegateCommand CreateContactListCommand { get; }
 
-        public DelegateCommand CreateExchangeRednerListCommand { get; private set; }
+        public DelegateCommand CreateExchangeRednerListCommand { get; }
 
-        public DelegateCommand CreateOverviewTalkCountCommand { get; private set; }
+        public DelegateCommand CreateOverviewTalkCountCommand { get; }
 
-        public DelegateCommand CreateSpeakerOverviewCommand { get; private set; }
+        public DelegateCommand CreateSpeakerOverviewCommand { get; }
 
         public bool ListeÖffnen
         {
@@ -38,10 +38,7 @@ namespace Vortragsmanager.PageModels
 
         public int ListAushangAnzahlWochen
         {
-            get
-            {
-                return Settings.Default.ListAushangAnzahlWochen;
-            }
+            get => Settings.Default.ListAushangAnzahlWochen;
             set
             {
                 if (value > 24)

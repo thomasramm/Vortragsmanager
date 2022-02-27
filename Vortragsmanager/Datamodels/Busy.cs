@@ -9,6 +9,7 @@
         }
 
         public Speaker Redner { get; set; }
+
         public int Kw { get; set; }
     }
 }

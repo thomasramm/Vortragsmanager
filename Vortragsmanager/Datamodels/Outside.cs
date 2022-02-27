@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
 
@@ -22,6 +23,6 @@ namespace Vortragsmanager.Datamodels
 
         private Wochentag Wochentag => Zeit.Tag;
 
-        public Core.DataHelper.Zusammenkunftszeit Zeit => Versammlung.Zeit.Get(Jahr);
+        public Zusammenkunftszeit Zeit => Versammlung.Zeit.Get(Jahr);
     }
 }

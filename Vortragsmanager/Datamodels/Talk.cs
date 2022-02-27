@@ -4,26 +4,26 @@ namespace Vortragsmanager.Datamodels
 {
     public class Talk
     {
-        public Talk(int Number, string Title, bool Aktiv = true)
+        public Talk(int number, string title, bool aktiv = true)
         {
-            Nummer = Number;
-            Thema = Title;
-            Gültig = Aktiv;
+            Nummer = number;
+            Thema = title;
+            Gültig = aktiv;
         }
 
-        public Talk(int Number, string Title, bool Valid, int LastPresented)
+        public Talk(int number, string title, bool valid, int lastPresented)
         {
-            Nummer = Number;
-            Thema = Title;
-            Gültig = Valid;
-            ZuletztGehalten = LastPresented;
+            Nummer = number;
+            Thema = title;
+            Gültig = valid;
+            ZuletztGehalten = lastPresented;
         }
 
         public int Nummer { get; set; }
 
         public string Thema { get; set; }
 
-        public bool Gültig { get; set; } = true;
+        public bool Gültig { get; set; }
 
         public int ZuletztGehalten { get; set; }
 

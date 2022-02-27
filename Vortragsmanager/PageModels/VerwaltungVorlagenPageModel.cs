@@ -15,9 +15,9 @@ namespace Vortragsmanager.PageModels
             ResetCommand = new DelegateCommand(Reset);
         }
 
-        public DelegateCommand<bool> Speichern { get; private set; }
+        public DelegateCommand<bool> Speichern { get; }
 
-        public DelegateCommand ResetCommand { get; private set; }
+        public DelegateCommand ResetCommand { get; }
 
         public Dictionary<TemplateName, Template> Vorlagen { get; }
 

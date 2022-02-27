@@ -45,6 +45,6 @@ namespace Vortragsmanager.Views
         }
         #endregion
 
-        public Speaker Redner { get; private set; }
+        public Speaker Redner { get; }
     }
 }

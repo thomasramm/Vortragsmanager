@@ -1,5 +1,4 @@
-﻿using System.Windows.Controls;
-using DevExpress.Xpf.Grid;
+﻿using DevExpress.Xpf.Grid;
 using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.Pages
@@ -7,7 +6,7 @@ namespace Vortragsmanager.Pages
     /// <summary>
     /// Interaktionslogik für ExternalView.xaml
     /// </summary>
-    public partial class MeineRednerKalenderPage : UserControl
+    public partial class MeineRednerKalenderPage
     {
         public MeineRednerKalenderPage()
         {

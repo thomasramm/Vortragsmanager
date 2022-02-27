@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
 using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.UserControls
@@ -12,7 +11,7 @@ namespace Vortragsmanager.UserControls
     /// <summary>
     /// Interaktionslogik für DropDownVersammlung.xaml
     /// </summary>
-    public partial class DropDownRedner : UserControl, INotifyPropertyChanged
+    public partial class DropDownRedner : INotifyPropertyChanged
     {
         public DropDownRedner()
         {
@@ -33,8 +32,8 @@ namespace Vortragsmanager.UserControls
 
         public Speaker SelectedItem
         {
-            get { return (Speaker)GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
+            get => (Speaker)GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
         }
 
         private static void SpeakerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -46,7 +45,7 @@ namespace Vortragsmanager.UserControls
         }
 
 
-        public ObservableCollection<Speaker> ListeAlle { get; private set; } = new ObservableCollection<Speaker>();
+        public ObservableCollection<Speaker> ListeAlle { get; } = new ObservableCollection<Speaker>();
 
         public ObservableCollection<Speaker> ListeFilteredItems { get; private set; } = new ObservableCollection<Speaker>();
 
@@ -98,8 +97,8 @@ namespace Vortragsmanager.UserControls
 
         public event RoutedPropertyChangedEventHandler<Speaker> OnSpeakerChanged
         {
-            add { AddHandler(OnSpeakerChangedEvent, value); }
-            remove { RemoveHandler(OnSpeakerChangedEvent, value); }
+            add => AddHandler(OnSpeakerChangedEvent, value);
+            remove => RemoveHandler(OnSpeakerChangedEvent, value);
         }
 
         private void SpeakerChanged(Speaker oldValue, Speaker newValue)
@@ -117,7 +116,7 @@ new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRend
 
         public Conregation SelectedVersammlung
         {
-            get { return (Conregation)GetValue(SelectedVersammlungProperty); }
+            get => (Conregation)GetValue(SelectedVersammlungProperty);
             set 
             { 
                 SetValue(SelectedVersammlungProperty, value);
@@ -157,8 +156,8 @@ new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRend
 
         public object Info
         {
-            get { return (object)GetValue(InfoProperty); }
-            set { SetValue(InfoProperty, value); }
+            get => GetValue(InfoProperty);
+            set => SetValue(InfoProperty, value);
         }
 
         private static void OnInfoChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

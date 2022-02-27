@@ -25,9 +25,9 @@ namespace Vortragsmanager.PageModels
 
         public string Name { get; set; }
 
-        public ObservableCollection<WeekViewModel> Wochen { get; private set; }
+        public ObservableCollection<WeekViewModel> Wochen { get; }
 
-        public ObservableCollection<MonthViewModel> Monate { get; private set; }
+        public ObservableCollection<MonthViewModel> Monate { get; }
 
         public void GetWeeks(int jahr)
         {

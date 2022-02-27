@@ -1,4 +1,4 @@
-﻿<Window x:Class="Vortragsmanager.Views.SetupWizardDialog"
+﻿<Window x:Class="Vortragsmanager.Windows.SetupWizardDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,6 +9,8 @@
         xmlns:dxco="http://schemas.devexpress.com/winfx/2008/xaml/controls"
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:helper="clr-namespace:Vortragsmanager.Helper"
+        xmlns:windows="clr-namespace:Vortragsmanager.Windows"
         mc:Ignorable="d"
         Title="Einrichtungsassistent" Height="455" Width="800"
         x:Name="SetupWizardWindow"
@@ -18,9 +20,9 @@
         Background="#333333"
         dx:ThemeManager.Theme="MetropolisDark"
         WindowStyle="None"
-        core:DialogCloser.DialogResult="{Binding DialogResult}">
+        helper:DialogCloser.DialogResult="{Binding DialogResult}">
     <Window.DataContext>
-        <local:SetupWizardDialogViewModel />
+        <windows:SetupWizardDialogViewModel />
     </Window.DataContext>
     <Window.Resources>
         <Border x:Key="Side" Background="Orange" BorderBrush="White" BorderThickness="1">

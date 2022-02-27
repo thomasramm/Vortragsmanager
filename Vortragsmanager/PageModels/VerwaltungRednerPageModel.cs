@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 
 namespace Vortragsmanager.PageModels
 {
@@ -17,7 +18,7 @@ namespace Vortragsmanager.PageModels
             AddTalkCommand = new DelegateCommand(TalkAdd);
             DeleteTalkCommand = new DelegateCommand<TalkSong>(TalkDelete);
 
-            RednerAktivitäten = new ObservableCollection<Core.DataHelper.DateWithConregation>();
+            RednerAktivitäten = new ObservableCollection<DateWithConregation>();
 
             //DropDown Redner in andere Versammlung verschieben füllen...
             ListeAllerVersammlungen = new ObservableCollection<Conregation>(DataContainer.Versammlungen.OrderBy(x => x, new Helper.EigeneKreisNameComparer()));
@@ -29,21 +30,21 @@ namespace Vortragsmanager.PageModels
 
         public Conregation NewConregation
         {
-            get
-            {
-                return _newConregation;
-            }
+            get => _newConregation;
             set
             {
                 if (!VersammlungenPopUp && value != null && value != Redner?.Versammlung)
                 {
-                    if (ThemedMessageBox.Show("Achtung", $"Soll der Redner {Redner.Name} wirklich in die Versammlung {value.Name} verschoben werden?") == System.Windows.MessageBoxResult.OK)
+                    if (ThemedMessageBox.Show("Achtung", $"Soll der Redner {Redner?.Name} wirklich in die Versammlung {value.Name} verschoben werden?") == System.Windows.MessageBoxResult.OK)
                     {
-                        Redner.Versammlung = value;
-                        _newConregation = value;
-                        //ToDo: UI der übernehmenden Versammlung aktualisieren
-                        RaisePropertyChanged(nameof(Redner));
-                        RaisePropertyChanged(nameof(Redner.Versammlung));
+                        if (Redner != null)
+                        {
+                            Redner.Versammlung = value;
+                            _newConregation = value;
+                            //ToDo: UI der übernehmenden Versammlung aktualisieren
+                            RaisePropertyChanged(nameof(Redner));
+                            RaisePropertyChanged(nameof(Redner.Versammlung));
+                        }
                     }
                 }
                 RaisePropertyChanged();
@@ -61,15 +62,15 @@ namespace Vortragsmanager.PageModels
             }
         }
 
-        public ObservableCollection<Conregation> ListeAllerVersammlungen { get; private set; }
+        public ObservableCollection<Conregation> ListeAllerVersammlungen { get; }
 
-        public DelegateCommand DeleteSpeakerCommand { get; private set; }
+        public DelegateCommand DeleteSpeakerCommand { get; }
 
-        public DelegateCommand AddSpeakerCommand { get; private set; }
+        public DelegateCommand AddSpeakerCommand { get; }
 
-        public DelegateCommand<TalkSong> DeleteTalkCommand { get; private set; }
+        public DelegateCommand<TalkSong> DeleteTalkCommand { get; }
 
-        public DelegateCommand AddTalkCommand { get; private set; }
+        public DelegateCommand AddTalkCommand { get; }
 
         #region Filter Versammlung
 
@@ -175,10 +176,7 @@ namespace Vortragsmanager.PageModels
 
         public string NeueVorträgeListe
         {
-            get
-            {
-                return _neueVorträgeListe;
-            }
+            get => _neueVorträgeListe;
             set
             {
                 _neueVorträgeListe = value;
@@ -207,6 +205,6 @@ namespace Vortragsmanager.PageModels
                 RednerAktivitäten.Add(item);
             }
         }
-        public ObservableCollection<Core.DataHelper.DateWithConregation> RednerAktivitäten { get; private set; }
+        public ObservableCollection<DateWithConregation> RednerAktivitäten { get; }
     }
 }

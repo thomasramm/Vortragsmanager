@@ -5,11 +5,12 @@ using System.Linq;
 using System.Windows.Media;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
-using Vortragsmanager.Core.DataHelper;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
-using Vortragsmanager.Views;
+using Vortragsmanager.Interface;
+using Vortragsmanager.Windows;
 
 namespace Vortragsmanager.PageModels
 {
@@ -17,7 +18,7 @@ namespace Vortragsmanager.PageModels
     {
         public MeineRednerNeueAnfragePageModel()
         {
-            Redner = new ObservableCollection<Speaker>(DataContainer.Redner.Where(X => X.Versammlung == DataContainer.MeineVersammlung));
+            Redner = new ObservableCollection<Speaker>(DataContainer.Redner.Where(x => x.Versammlung == DataContainer.MeineVersammlung));
             Versammlungen = DataContainer.Versammlungen;
             SelectedRednerTalks = new ObservableCollection<string>();
             SelectedDatumTalks = new ObservableCollection<Outside>();
@@ -25,9 +26,9 @@ namespace Vortragsmanager.PageModels
             Speichern = new DelegateCommand<bool>(AnfrageSpeichern);
         }
 
-        public DelegateCommand<bool> Speichern { get; private set; }
+        public DelegateCommand<bool> Speichern { get; }
 
-        private int startDatum = DateCalcuation.CalculateWeek(DateTime.Today.AddMonths(-1));
+        private readonly int _startDatum = DateCalcuation.CalculateWeek(DateTime.Today.AddMonths(-1));
 
         private void AnfrageSpeichern(bool annehmen)
         {
@@ -38,13 +39,13 @@ namespace Vortragsmanager.PageModels
             {
                 Ältester = SelectedRedner,
                 Versammlung = SelectedVersammlung,
-                Kw = Kalenderwoche,
+                Kw = _kalenderwoche,
                 Reason = OutsideReason.Talk,
                 Vortrag = SelectedVortrag
             };
 
-            var doppelbuchung = DataContainer.ExternerPlan.Any(x => x.Ältester == SelectedRedner && x.Kw == Kalenderwoche)
-                || DataContainer.MeinPlan.Where(x => x.Kw == Kalenderwoche && x.Status == EventStatus.Zugesagt).Cast<Invitation>().Any(x => x.Ältester == SelectedRedner);
+            var doppelbuchung = DataContainer.ExternerPlan.Any(x => x.Ältester == SelectedRedner && x.Kw == _kalenderwoche)
+                || DataContainer.MeinPlan.Where(x => x.Kw == _kalenderwoche && x.Status == EventStatus.Zugesagt).Cast<Invitation>().Any(x => x.Ältester == SelectedRedner);
 
             if (doppelbuchung)
                 if (ThemedMessageBox.Show("Warnung", "Für diesen Redner gibt es an dem Datum schon eine Buchung. Trotzdem Buchung speichern?", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Warning) == System.Windows.MessageBoxResult.No)
@@ -61,7 +62,7 @@ namespace Vortragsmanager.PageModels
                 if (data.Speichern)
                 {
                     DataContainer.ExternerPlan.Add(buchung);
-                    ActivityLog.ActivityAddItem.Outside(buchung, data.MailTextKoordinator, data.MailTextRedner, true);
+                    ActivityAddItem.Outside(buchung, data.MailTextKoordinator, data.MailTextRedner, true);
                 }
             }
             //Anfrage ablehnen
@@ -74,7 +75,7 @@ namespace Vortragsmanager.PageModels
 
                 if (data.Speichern)
                 {
-                    ActivityLog.ActivityAddItem.Outside(buchung, data.MailTextKoordinator, null, false);
+                    ActivityAddItem.Outside(buchung, data.MailTextKoordinator, null, false);
                 }
             }
         }
@@ -96,7 +97,7 @@ namespace Vortragsmanager.PageModels
         }
 
         //wird beim setzen von SelectedDatum über CorrectDate aktualisiert
-        private int Kalenderwoche = -1;
+        private int _kalenderwoche = -1;
 
         private void CorrectDate()
         {
@@ -105,12 +106,12 @@ namespace Vortragsmanager.PageModels
                 SelectedDatum = DateCalcuation.GetConregationDay(SelectedDatum);
                 return;
             }
-            Kalenderwoche = DateCalcuation.CalculateWeek(SelectedDatum);
+            _kalenderwoche = DateCalcuation.CalculateWeek(SelectedDatum);
 
-            MeineVersammlung = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == Kalenderwoche);
+            MeineVersammlung = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == _kalenderwoche);
 
             SelectedDatumTalks.Clear();
-            foreach (var x in DataContainer.ExternerPlan.Where(x => x.Kw == Kalenderwoche))
+            foreach (var x in DataContainer.ExternerPlan.Where(x => x.Kw == _kalenderwoche))
                 SelectedDatumTalks.Add(x);
 
             ParameterValidieren();
@@ -118,12 +119,12 @@ namespace Vortragsmanager.PageModels
 
         private bool IsAbwesend()
         {
-            return DataContainer.Abwesenheiten.Any(x => x.Redner == SelectedRedner && x.Kw == Kalenderwoche);
+            return DataContainer.Abwesenheiten.Any(x => x.Redner == SelectedRedner && x.Kw == _kalenderwoche);
         }
 
         private bool HatAufgabe()
         {
-            return DataContainer.AufgabenPersonKalender.Any(x => x.Kw == Kalenderwoche && (x.Vorsitz.VerknüpftePerson == SelectedRedner || x.Leser.VerknüpftePerson == SelectedRedner));
+            return DataContainer.AufgabenPersonKalender.Any(x => x.Kw == _kalenderwoche && (x.Vorsitz.VerknüpftePerson == SelectedRedner || x.Leser.VerknüpftePerson == SelectedRedner));
         }
 
         public Speaker SelectedRedner
@@ -138,80 +139,77 @@ namespace Vortragsmanager.PageModels
             set { SetProperty(() => SelectedVortrag, value, ParameterValidieren); }
         }
 
-        public string SelectedVersammlungZeit
-        {
-            get
-            {
-                if (SelectedDatum != null && SelectedVersammlung != null)
-                    return SelectedVersammlung.Zeit.Get(SelectedDatum.Year).ToString();
-                else
-                    return string.Empty;
-            }
-        }
+        public string SelectedVersammlungZeit =>
+            SelectedVersammlung != null 
+                ? SelectedVersammlung.Zeit.Get(SelectedDatum.Year).ToString() 
+                : string.Empty;
 
         private void ParameterValidieren()
         {
             Hinweis = string.Empty;
-            HinweisLevel = 0;
+            _hinweisLevel = 0;
             RaisePropertyChanged(nameof(SelectedVersammlungZeit));
 
             //Hinweis zum gewählten Redner
-            ParameterValidiert = SelectedRedner != null && SelectedDatum != null;
+            ParameterValidiert = SelectedRedner != null;
             if (!_parameterValidiert)
                 return;
 
             if (MeineVersammlung?.Status == EventStatus.Zugesagt)
             {
-                var s = MeineVersammlung as Invitation;
-                if (s.Ältester == SelectedRedner)
-                    Hinweis += $"{SelectedRedner.Name} hält bereits einen Vortrag in unserer Versammlung!" + Environment.NewLine;
-                HinweisLevel = 10;
+                if (MeineVersammlung is Invitation s && s.Ältester == SelectedRedner)
+                    if (SelectedRedner != null)
+                        Hinweis += $"{SelectedRedner.Name} hält bereits einen Vortrag in unserer Versammlung!" +
+                                   Environment.NewLine;
+                _hinweisLevel = 10;
             }
             else if (MeineVersammlung?.Status == EventStatus.Ereignis)
             {
                 Hinweis += $"{MeineVersammlung.Anzeigetext}" + Environment.NewLine;
-                HinweisLevel = 5;
+                _hinweisLevel = 5;
             }
             if (SelectedDatumTalks.Any(x => x.Ältester == SelectedRedner))
             {
-                Hinweis += $"{SelectedRedner.Name} ist bereits in einer anderen Versammlung eingeladen!" + Environment.NewLine;
-                HinweisLevel = 10;
+                if (SelectedRedner != null)
+                    Hinweis += $"{SelectedRedner.Name} ist bereits in einer anderen Versammlung eingeladen!" +
+                               Environment.NewLine;
+                _hinweisLevel = 10;
             }
             if (HatAufgabe())
             {
                 Hinweis += $"{SelectedRedner?.Name} hat an dem Datum bereits eine Zuteilung in der Versammlung!" + Environment.NewLine;
-                HinweisLevel = 10;
+                _hinweisLevel = 10;
             }
             if (IsAbwesend())
             {
                 Hinweis += $"{SelectedRedner.Name} ist als Abwesend gekennzeichnet" + Environment.NewLine;
-                HinweisLevel = 10;
+                _hinweisLevel = 10;
             }
 
             //1 Vortrag pro Monat
-            var vorher = Kalenderwoche - SelectedRedner.Abstand;
-            var nachher = Kalenderwoche + SelectedRedner.Abstand;
+            var vorher = _kalenderwoche - SelectedRedner.Abstand;
+            var nachher = _kalenderwoche + SelectedRedner.Abstand;
             foreach (var zuDicht in _selectedRednerAllTalks.Where(x => x.Kalenderwoche >= vorher && x.Kalenderwoche <= nachher))
             {
                 Hinweis += $"Angefragtes Datum ist zu dicht an Vortrag vom {zuDicht.Datum:dd.MM.yyyy}" + Environment.NewLine;
-                HinweisLevel = 5;
+                _hinweisLevel = 5;
             }
 
             if (SelectedDatumTalks.Count >= 2)
             {
                 Hinweis += Environment.NewLine + $"Es sind bereits {SelectedDatumTalks.Count} Redner in anderen Versammlungen" + Environment.NewLine;
-                HinweisLevel = 5;
+                _hinweisLevel = 5;
             }
             RaisePropertyChanged(nameof(HinweisLevelAsFontColor));
         }
 
-        private int HinweisLevel = 0;
+        private int _hinweisLevel;
 
         public Brush HinweisLevelAsFontColor
         {
             get
             {
-                switch (HinweisLevel)
+                switch (_hinweisLevel)
                 {
                     case 5:
                         return Helper.Helper.StyleIsDark ? Brushes.Orange : Brushes.OrangeRed;
@@ -227,10 +225,7 @@ namespace Vortragsmanager.PageModels
 
         public bool ParameterValidiert
         {
-            get
-            {
-                return _parameterValidiert;
-            }
+            get => _parameterValidiert;
             set
             {
                 _parameterValidiert = value;
@@ -266,7 +261,10 @@ namespace Vortragsmanager.PageModels
         private void LoadRednerTalksZumAngefragtenDatum()
         {
             SelectedRednerTalks.Clear();
-            foreach (var einladung in _selectedRednerAllTalks?.Where(x => x.Kalenderwoche >= startDatum)?.OrderByDescending(x => x.Kalenderwoche).Select(x => x.ToString()))
+            foreach (var einladung in _selectedRednerAllTalks?
+                         .Where(x => x.Kalenderwoche >= _startDatum)?
+                         .OrderByDescending(x => x.Kalenderwoche)
+                         .Select(x => x.ToString()))
             {
                 SelectedRednerTalks.Add(einladung);
             }
@@ -276,6 +274,6 @@ namespace Vortragsmanager.PageModels
 
         public ObservableCollection<string> SelectedRednerTalks { get; private set; }
 
-        public ObservableCollection<Outside> SelectedDatumTalks { get; private set; }
+        public ObservableCollection<Outside> SelectedDatumTalks { get; }
     }
 }

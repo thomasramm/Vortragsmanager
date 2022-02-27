@@ -7,7 +7,7 @@ using Vortragsmanager.Datamodels;
 using Vortragsmanager.Interface;
 using Vortragsmanager.Views;
 
-namespace Vortragsmanager.MeineVerwaltung
+namespace Vortragsmanager.PageModels
 {
     public class ConregationsViewModelCollection : ObservableCollection<ConregationViewModel>
     {
@@ -32,7 +32,7 @@ namespace Vortragsmanager.MeineVerwaltung
             AddConregationCommand = new DelegateCommand(AddConregation);
         }
 
-        public DelegateCommand AddConregationCommand { get; private set; }
+        public DelegateCommand AddConregationCommand { get; }
 
         public void AddConregation()
         {

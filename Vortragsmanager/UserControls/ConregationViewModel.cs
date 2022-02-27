@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
-using Vortragsmanager.MeineVerwaltung;
 using Vortragsmanager.UserControls;
 using System.Linq;
-using Vortragsmanager.Core.DataHelper;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Interface;
+using Vortragsmanager.Module;
+using Vortragsmanager.PageModels;
+using Vortragsmanager.Windows;
 
 namespace Vortragsmanager.Views
 {
@@ -49,13 +50,13 @@ namespace Vortragsmanager.Views
             }
         }
 
-        public DelegateCommand<object> DeleteCommand { get; private set; }
+        public DelegateCommand<object> DeleteCommand { get; }
 
-        public DelegateCommand NewPersonCommand { get; private set; }
+        public DelegateCommand NewPersonCommand { get; }
 
-        public DelegateCommand CalculateDistanceCommand { get; private set; }
+        public DelegateCommand CalculateDistanceCommand { get; }
 
-        public DelegateCommand AddZeitCommand { get; private set; }
+        public DelegateCommand AddZeitCommand { get; }
 
         private bool _deleted;
 
@@ -149,7 +150,7 @@ namespace Vortragsmanager.Views
             }
         }
 
-        public Conregation Versammlung { get; private set; }
+        public Conregation Versammlung { get; }
 
         public string VersammlungName
         {
@@ -163,7 +164,7 @@ namespace Vortragsmanager.Views
             }
         }
 
-        public SpeakersViewModelCollection RednerListe { get; private set; }
+        public SpeakersViewModelCollection RednerListe { get; }
 
         public DevExpress.Xpf.LayoutControl.GroupBoxState IsSelected { get; set; }
 

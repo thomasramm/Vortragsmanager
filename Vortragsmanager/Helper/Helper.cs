@@ -30,7 +30,7 @@ namespace Vortragsmanager.Helper
         public static bool CheckNegativListe(string input, string[] liste)
         {
             var u = input.ToUpperInvariant();
-            return !liste.Any(x => x == u);
+            return liste.All(x => x != u);
         }
 
         public static bool StyleIsDark => Properties.Settings.Default.ThemeIsDark;

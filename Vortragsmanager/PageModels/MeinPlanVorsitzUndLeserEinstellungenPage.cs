@@ -22,7 +22,7 @@ namespace Vortragsmanager.PageModels
 
         public static Conregation Versammlung => DataContainer.MeineVersammlung;
 
-        public DelegateCommand ButtonNewCommand { get; private set; }
+        public DelegateCommand ButtonNewCommand { get; }
 
         private void ButtonNew()
         {
@@ -32,10 +32,7 @@ namespace Vortragsmanager.PageModels
 
         public int MonateAnzahlAnzeige
         {
-            get
-            {
-                return Properties.Settings.Default.SonntagAnzeigeMonate;
-            }
+            get => Properties.Settings.Default.SonntagAnzeigeMonate;
             set
             {
                 Properties.Settings.Default.SonntagAnzeigeMonate = value;

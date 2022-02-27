@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
 using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.UserControls
@@ -11,7 +10,7 @@ namespace Vortragsmanager.UserControls
     /// <summary>
     /// Interaktionslogik für DropDownVersammlung.xaml
     /// </summary>
-    public partial class DropDownVortrag : UserControl
+    public partial class DropDownVortrag
     {
         public DropDownVortrag()
         {
@@ -31,8 +30,8 @@ namespace Vortragsmanager.UserControls
 
         public Talk SelectedItem
         {
-            get { return (Talk)GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
+            get => (Talk)GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
         }
 
         private static void OnItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -44,7 +43,7 @@ namespace Vortragsmanager.UserControls
         }
 
 
-        public List<Talk> ListeAlle { get; private set; } = new List<Talk>();
+        public List<Talk> ListeAlle { get; }
 
         public ObservableCollection<Talk> ListeFilteredItems { get; private set; } = new ObservableCollection<Talk>();
 
@@ -84,12 +83,10 @@ namespace Vortragsmanager.UserControls
                 var trenner = value.IndexOf(' ');
                 if (trenner == -1)
                     trenner = value.Length;
-                var nr = value?.Substring(0, trenner);
-                Talk t;
-                int inr;
-                if (int.TryParse(nr, out inr))
+                var nr = value.Substring(0, trenner);
+                if (int.TryParse(nr, out var inr))
                 {
-                    t = TalkList.Find(inr);
+                    var t = TalkList.Find(inr);
                     SelectedItem = t;
                 }
                 else
@@ -105,8 +102,8 @@ namespace Vortragsmanager.UserControls
 
         public event RoutedPropertyChangedEventHandler<Talk> OnSelectedItemChanged
         {
-            add { AddHandler(OnSelectedItemChangedEvent, value); }
-            remove { RemoveHandler(OnSelectedItemChangedEvent, value); }
+            add => AddHandler(OnSelectedItemChangedEvent, value);
+            remove => RemoveHandler(OnSelectedItemChangedEvent, value);
         }
 
         private void SelectedItemChanged(Talk oldValue, Talk newValue)

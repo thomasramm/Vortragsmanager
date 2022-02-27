@@ -1,5 +1,6 @@
 ﻿using System;
 using Vortragsmanager.Enums;
+using Vortragsmanager.Interface;
 
 namespace Vortragsmanager.Datamodels
 {

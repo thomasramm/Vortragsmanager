@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using DevExpress.Mvvm;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
 using Vortragsmanager.Properties;
@@ -72,7 +73,7 @@ namespace Vortragsmanager.PageModels
             var s = string.Empty;
             foreach (var k in (List<object>)SelectedKreise)
             {
-                s += k.ToString() + ";";
+                s += k + ";";
             }
             Settings.Default.SearchSpeaker_Kreis = s.TrimEnd(';');
         }
@@ -87,17 +88,14 @@ namespace Vortragsmanager.PageModels
 
         public ObservableCollection<int> Kreise { get; private set; }
 
-        private List<object> selectedKreise;
+        private List<object> _selectedKreise;
 
         public object SelectedKreise
         {
-            get
-            {
-                return selectedKreise;
-            }
+            get => _selectedKreise;
             set
             {
-                selectedKreise = (List<object>)value;
+                _selectedKreise = (List<object>)value;
                 FillVersammlungen();
                 RaisePropertyChanged();
             }
@@ -108,15 +106,15 @@ namespace Vortragsmanager.PageModels
         private void FillVersammlungen()
         {
             IEnumerable<Conregation> vers;
-            if (selectedKreise == null)
+            if (_selectedKreise == null)
                 vers = DataContainer.Versammlungen;
             else
                 vers = DataContainer.Versammlungen
-                    .Where(x => selectedKreise.Contains(x.Kreis) && x.Entfernung <= MaxEntfernung);
+                    .Where(x => _selectedKreise.Contains(x.Kreis) && x.Entfernung <= MaxEntfernung);
 
             if (!OffeneAnfrage)
             {
-                var filter = DataContainer.OffeneAnfragen.Where(X => X.Status == EventStatus.Anfrage).Select(X => X.Versammlung);
+                var filter = DataContainer.OffeneAnfragen.Where(x => x.Status == EventStatus.Anfrage).Select(x => x.Versammlung);
                 vers = vers.Where(x => !filter.Contains(x));
             }
             Versammlungen = new ObservableCollection<Conregation>(vers.OrderBy(x => x.Name));
@@ -124,19 +122,14 @@ namespace Vortragsmanager.PageModels
             SelectedVersammlungen = Versammlungen.Cast<object>().ToList();
         }
 
-        private List<object> selectedVersammlungen;
+        private List<object> _selectedVersammlungen;
 
         public object SelectedVersammlungen
         {
-            get
-            {
-                if (selectedVersammlungen == null)
-                    selectedVersammlungen = Versammlungen.Cast<object>().ToList();
-                return selectedVersammlungen;
-            }
+            get => _selectedVersammlungen ?? (_selectedVersammlungen = Versammlungen.Cast<object>().ToList());
             set
             {
-                selectedVersammlungen = (List<object>)value;
+                _selectedVersammlungen = (List<object>)value;
                 RaisePropertyChanged();
             }
         }
@@ -191,7 +184,7 @@ namespace Vortragsmanager.PageModels
 
         public int MaxEntfernung
         {
-            get { return _maxEntfernung; }
+            get => _maxEntfernung;
             set
             {
                 _maxEntfernung = value;
@@ -204,10 +197,7 @@ namespace Vortragsmanager.PageModels
 
         public bool OffeneAnfrage
         {
-            get
-            {
-                return _offeneAnfrage;
-            }
+            get => _offeneAnfrage;
             set
             {
                 _offeneAnfrage = value;
@@ -224,12 +214,10 @@ namespace Vortragsmanager.PageModels
 
         public object VortragListeSelected
         {
-            get
-            {
+            get =>
                 //if (_test == null)
                 //    _test = Versammlungen.Cast<object>().ToList();
-                return _test;
-            }
+                _test;
             set
             {
                 _test = (List<object>)value;
@@ -258,10 +246,11 @@ namespace Vortragsmanager.PageModels
         public void ReadData()
         {
             var list = new List<GroupConregation>();
-            var vers = selectedVersammlungen?.Cast<Conregation>();
+            var vers = _selectedVersammlungen?.Cast<Conregation>();
             if (vers is null)
                 return;
-            foreach (var v in vers)
+            var conregations = vers.ToList();
+            foreach (var v in conregations)
             {
                 var gC = new GroupConregation
                 {
@@ -269,9 +258,10 @@ namespace Vortragsmanager.PageModels
                 };
                 list.Add(gC);
             }
-            var redner = DataContainer.Redner.Where(x => vers.Contains(x.Versammlung) && x.Aktiv && x.Einladen).ToList();
+            var redner = DataContainer.Redner.Where(x => conregations.Contains(x.Versammlung) && x.Aktiv && x.Einladen).ToList();
             var einladungen = DataContainer.MeinPlan.Where(x => x.Status != EventStatus.Ereignis).Cast<Invitation>();
             var selektierteVorträge = _test.Cast<int>().ToList();
+            var invitations = einladungen.ToList();
 
             foreach (var r in redner)
             {
@@ -280,7 +270,7 @@ namespace Vortragsmanager.PageModels
                 {
                     Redner = r
                 };
-                var vorträge = einladungen.Where(x => x.Ältester == r).ToList();
+                var vorträge = invitations.Where(x => x.Ältester == r).ToList();
 
                 gr.LetzteEinladungKw = vorträge.Count > 0 ? vorträge.Max(x => x.Kw) : -1;
 
@@ -290,7 +280,7 @@ namespace Vortragsmanager.PageModels
                 if (RednerCheckFuture && DataContainer.OffeneAnfragen.Any(x => x.RednerVortrag.ContainsKey(r)))
                     continue;
 
-                if (RednerCheckHistory && vorträge.Where(x => x.Kw >= DateCalcuation.CurrentWeek - 100 && x.Kw <= DateCalcuation.CurrentWeek).Any())
+                if (RednerCheckHistory && vorträge.Any(x => x.Kw >= DateCalcuation.CurrentWeek - 100 && x.Kw <= DateCalcuation.CurrentWeek))
                     continue;
 
                 if (RednerCheckCancelation && DataContainer.Absagen.Any(x => x.Ältester == r))
@@ -312,9 +302,8 @@ namespace Vortragsmanager.PageModels
                     gv.Redner.Add(gr);
             }
 
-            for (int i = list.Count - 1; i >= 0; i--)
+            for (var i = list.Count - 1; i >= 0; i--)
             {
-                var versi = list[i];
                 if (list[i].Redner.Count == 0)
                     list.RemoveAt(i);
             }
@@ -336,7 +325,7 @@ namespace Vortragsmanager.PageModels
             while (datum < ende)
             {
                 var kw = DateCalcuation.CalculateWeek(datum);
-                if (!DataContainer.MeinPlan.Any(x => x.Kw == kw) &&
+                if (DataContainer.MeinPlan.All(x => x.Kw != kw) &&
                     !DataContainer.OffeneAnfragen.Any(x => x.Kws.Contains(kw)))
                 {
                     var t = new Termin(datum, kw) { IsFirstDateOfMonth = datum.Month != month };
@@ -395,9 +384,9 @@ namespace Vortragsmanager.PageModels
 
         public GroupConregation AktuelleAnfrage { get; set; }
 
-        public DelegateCommand AnfrageSpeichernCommand { get; private set; }
+        public DelegateCommand AnfrageSpeichernCommand { get; }
 
-        public DelegateCommand CopyToClipboardCommand { get; private set; }
+        public DelegateCommand CopyToClipboardCommand { get; }
 
         private void AnfrageSpeichern()
         {
@@ -425,7 +414,7 @@ namespace Vortragsmanager.PageModels
             anfrage.Mailtext = MailText;
             DataContainer.OffeneAnfragen.Add(anfrage);
 
-            ActivityLog.ActivityAddItem.RednerAnfragen(anfrage);
+            ActivityAddItem.RednerAnfragen(anfrage);
 
             LoadModul1();
         }

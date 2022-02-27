@@ -9,10 +9,11 @@
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
         xmlns:uc="clr-namespace:Vortragsmanager.UserControls"
-        x:Class="Vortragsmanager.Views.RednerEintragenDialog"
+        xmlns:windows="clr-namespace:Vortragsmanager.Windows"
+        x:Class="Vortragsmanager.Windows.RednerEintragenDialog"
         mc:Ignorable="d"
         Title="Ereignis eintragen" Height="300" Width="500"
-        DataContext="{dxmvvm:ViewModelSource {x:Type local:RednerEintragenView}}"
+        DataContext="{dxmvvm:ViewModelSource {x:Type windows:RednerEintragenView}}"
         x:Name="EreignisBearbeitenWindow">
     <Window.Resources>
         <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />

@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using DevExpress.Mvvm;
-using Vortragsmanager.ActivityLog;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.UserControls;
@@ -26,7 +25,7 @@ namespace Vortragsmanager.PageModels
 
         private void SetFilter()
         {
-            foreach (var a in alleUnfiltered)
+            foreach (var a in _alleUnfiltered)
             {
                 if (_filterAktivität == "Alle"
                     || (_filterAktivität == "Meine Redner"
@@ -72,7 +71,7 @@ namespace Vortragsmanager.PageModels
             LetzterMonat.Clear();
             DiesesJahr.Clear();
             Älter.Clear();
-            foreach (var item in alleUnfiltered.Where(x => x.Aktiv))
+            foreach (var item in _alleUnfiltered.Where(x => x.Aktiv))
             {
                 switch (item.Zeitraum)
                 {
@@ -149,7 +148,7 @@ namespace Vortragsmanager.PageModels
 
         public void Initialize()
         {
-            alleUnfiltered.Clear();
+            _alleUnfiltered.Clear();
 
             _nextId = DataContainer.Aktivitäten.Select(x => x.Id).DefaultIfEmpty(0).Max() + 1;
 
@@ -167,7 +166,7 @@ namespace Vortragsmanager.PageModels
             foreach (var a in DataContainer.Aktivitäten.OrderByDescending(x => x.Datum))
             {
                 var item = new Item(a);
-                alleUnfiltered.Add(item);
+                _alleUnfiltered.Add(item);
 
                 //Zeitraum festlegen
                 if (a.Datum.Date == DateTime.Today)
@@ -190,21 +189,21 @@ namespace Vortragsmanager.PageModels
             FilterVersammlung = string.Empty;
         }
 
-        public ObservableCollection<string> ListeFilteredVersammlungen { get; private set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> ListeFilteredVersammlungen { get; } = new ObservableCollection<string>();
 
-        private List<Item> alleUnfiltered = new List<Item>();
+        private readonly List<Item> _alleUnfiltered = new List<Item>();
 
-        public ObservableCollection<Item> Heute { get; private set; } = new ObservableCollection<Item>();
+        public ObservableCollection<Item> Heute { get; } = new ObservableCollection<Item>();
 
-        public ObservableCollection<Item> DieseWoche { get; private set; } = new ObservableCollection<Item>();
+        public ObservableCollection<Item> DieseWoche { get; } = new ObservableCollection<Item>();
 
-        public ObservableCollection<Item> DieserMonat { get; private set; } = new ObservableCollection<Item>();
+        public ObservableCollection<Item> DieserMonat { get; } = new ObservableCollection<Item>();
 
-        public ObservableCollection<Item> LetzterMonat { get; private set; } = new ObservableCollection<Item>();
+        public ObservableCollection<Item> LetzterMonat { get; } = new ObservableCollection<Item>();
 
-        public ObservableCollection<Item> DiesesJahr { get; private set; } = new ObservableCollection<Item>();
+        public ObservableCollection<Item> DiesesJahr { get; } = new ObservableCollection<Item>();
 
-        public ObservableCollection<Item> Älter { get; private set; } = new ObservableCollection<Item>();
+        public ObservableCollection<Item> Älter { get; } = new ObservableCollection<Item>();
 
         public string HeuteHeader => $"Heute ({Heute.Count(x => x.Aktiv)})";
         public string DieseWocheHeader => $"Diese Woche ({DieseWoche.Count(x => x.Aktiv)})";
@@ -221,7 +220,7 @@ namespace Vortragsmanager.PageModels
             var item = new Item(message);
             item.Zeitraum = ActivityTime.Heute;
             Heute.Insert(0, item);
-            alleUnfiltered.Add(item);
+            _alleUnfiltered.Add(item);
             RaisePropertyChanged(nameof(HeuteHeader));
         }
 

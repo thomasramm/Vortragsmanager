@@ -1,9 +1,9 @@
-﻿using DevExpress.Mvvm;
-using System;
+﻿using System;
+using DevExpress.Mvvm;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 
-namespace Vortragsmanager.ActivityLog
+namespace Vortragsmanager.UserControls
 {
     public class ActivityItemViewModel : ViewModelBase
     {
@@ -65,10 +65,7 @@ namespace Vortragsmanager.ActivityLog
 
         public Talk Vortrag
         {
-            get
-            {
-                return _vortrag;
-            }
+            get => _vortrag;
             set
             {
                 _vortrag = value;
@@ -78,10 +75,7 @@ namespace Vortragsmanager.ActivityLog
 
         public int KalenderKw
         {
-            get
-            {
-                return _calendarDate;
-            }
+            get => _calendarDate;
             set
             {
                 _calendarDate = value;

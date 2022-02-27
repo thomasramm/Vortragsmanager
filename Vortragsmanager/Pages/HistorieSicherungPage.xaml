@@ -16,9 +16,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <dxlc:LayoutControl Grid.Row="0" Margin="20" 
-                                    Orientation="Horizontal" 
-                                    x:Name="MasterLayoutControl">
+        <dxlc:LayoutControl Grid.Row="0" 
+                            Margin="20" 
+                            Orientation="Horizontal" 
+                            x:Name="MasterLayoutControl">
                 <dxlc:LayoutGroup Orientation="Vertical">
                     <dxlc:FlowLayoutControl ItemsSource="{Binding VisibleBackups}">
                         <dxlc:FlowLayoutControl.ItemTemplate>
@@ -66,8 +67,8 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Border Background="#515151">
-                            <Label Grid.Row="0" 
-                                       Content="Optionen und Anzeigefilter" 
+                            <Label
+                                Content="Optionen und Anzeigefilter" 
                                        Foreground="White"
                                        Margin="5,1"/>
                         </Border>
@@ -116,7 +117,7 @@
                                        Foreground="{StaticResource TextColor}"
                                        Width="120"
                                        Margin="5,0"/>
-                                <dxe:ToggleSwitch x:Name="toggleSwitch" 
+                                <dxe:ToggleSwitch x:Name="ToggleSwitch" 
                                                   IsChecked="{Binding MakeBackups}" />
                             </StackPanel>
                         </Grid>

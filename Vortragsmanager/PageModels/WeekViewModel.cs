@@ -8,6 +8,7 @@ using Vortragsmanager.Helper;
 using Vortragsmanager.Interface;
 using Vortragsmanager.UserControls;
 using Vortragsmanager.Views;
+using Vortragsmanager.Windows;
 
 namespace Vortragsmanager.PageModels
 {
@@ -22,9 +23,8 @@ namespace Vortragsmanager.PageModels
             Jahr = jahr;
             Monat = monat;
             Kalenderwoche = kw;
-            Zuteilung = DataContainer.MeinPlan?.FirstOrDefault(x => x.Kw == kw) ?? null;
-            if (Zuteilung == null)
-                Zuteilung = DataContainer.OffeneAnfragen?.FirstOrDefault(x => x.Kws.Contains(kw)) ?? null;
+            Zuteilung = DataContainer.MeinPlan?.FirstOrDefault(x => x.Kw == kw) 
+                        ?? DataContainer.OffeneAnfragen?.FirstOrDefault(x => x.Kws.Contains(kw));
 
             AnzahlAuswärtigeRedner = DataContainer.ExternerPlan?.Count(x => x.Kw == kw) ?? 0;
 
@@ -61,25 +61,25 @@ namespace Vortragsmanager.PageModels
             RaisePropertyChanged(nameof(DetailView));
         }
 
-        public DelegateCommand ClosePopupCommand { get; private set; }
+        public DelegateCommand ClosePopupCommand { get; }
 
-        public DelegateCommand ClickCommand { get; private set; }
+        public DelegateCommand ClickCommand { get; }
 
-        public DelegateCommand EreignisEintragenCommand { get; private set; }
+        public DelegateCommand EreignisEintragenCommand { get; }
 
-        public DelegateCommand BuchungLöschenCommand { get; private set; }
+        public DelegateCommand BuchungLöschenCommand { get; }
 
-        public DelegateCommand BuchungVerschiebenCommand { get; private set; }
+        public DelegateCommand BuchungVerschiebenCommand { get; }
 
-        public DelegateCommand BuchungBearbeitenCommand { get; private set; }
+        public DelegateCommand BuchungBearbeitenCommand { get; }
 
-        public DelegateCommand RednerSuchenCommand { get; private set; }
+        public DelegateCommand RednerSuchenCommand { get; }
 
-        public DelegateCommand RednerEintragenCommand { get; private set; }
+        public DelegateCommand RednerEintragenCommand { get; }
 
-        public DelegateCommand AnfrageBearbeitenCommand { get; private set; }
+        public DelegateCommand AnfrageBearbeitenCommand { get; }
 
-        public DelegateCommand BuchungErinnernCommand { get; private set; }
+        public DelegateCommand BuchungErinnernCommand { get; }
 
         private void EreignisEintragen()
         {
@@ -99,7 +99,7 @@ namespace Vortragsmanager.PageModels
             {
                 if (neu)
                     DataContainer.MeinPlanAdd(ev);
-                ActivityLog.ActivityAddItem.EreignisBearbeiten(ev, neu ? ActivityTypes.EreignisAnlegen : ActivityTypes.EreignisBearbeiten);
+                ActivityAddItem.EreignisBearbeiten(ev, neu ? ActivityTypes.EreignisAnlegen : ActivityTypes.EreignisBearbeiten);
                 Zuteilung = ev;
                 Monat.GetWeeks(Jahr);
             }
@@ -122,7 +122,7 @@ namespace Vortragsmanager.PageModels
             };
             Zuteilung = i;
             DataContainer.MeinPlanAdd(i);
-            ActivityLog.ActivityAddItem.RednerEintragen(i);
+            ActivityAddItem.RednerEintragen(i);
 
             Monat.GetWeeks(Jahr);
         }
@@ -134,7 +134,7 @@ namespace Vortragsmanager.PageModels
 
                 DataContainer.MeinPlanRemove(Zuteilung);
                 var ereignis = (Zuteilung as SpecialEvent);
-                ActivityLog.ActivityAddItem.EreignisBearbeiten(ereignis, ActivityTypes.EreignisLöschen);
+                ActivityAddItem.EreignisBearbeiten(ereignis, ActivityTypes.EreignisLöschen);
                 Monat.GetWeeks(Jahr);
                 return;
             }
@@ -144,7 +144,7 @@ namespace Vortragsmanager.PageModels
             var w = new InfoAnRednerUndKoordinatorWindow();
             var data = (InfoAnRednerUndKoordinatorViewModel)w.DataContext;
             string mailtext;
-            if (zuteilung.Ältester.Versammlung == DataContainer.MeineVersammlung)
+            if (zuteilung != null && zuteilung.Ältester.Versammlung == DataContainer.MeineVersammlung)
             {
                 data.MailTextRedner = Templates.GetMailTextAblehnenRedner(zuteilung);
                 mailtext = data.MailTextRedner;
@@ -161,7 +161,7 @@ namespace Vortragsmanager.PageModels
 
             DataContainer.MeinPlanRemove(Zuteilung);
             DataContainer.Absagen.Add(new Cancelation(zuteilung.Kw, zuteilung.Ältester, zuteilung.Status));
-            ActivityLog.ActivityAddItem.BuchungLöschen(zuteilung, mailtext);
+            ActivityAddItem.BuchungLöschen(zuteilung, mailtext);
             Monat.GetWeeks(Jahr);
         }
 
@@ -200,7 +200,7 @@ namespace Vortragsmanager.PageModels
             if (!data.Speichern)
                 return;
 
-            ActivityLog.ActivityAddItem.EinladungBearbeiten(Einladung, data.SelectedRedner, data.SelectedVortrag);
+            ActivityAddItem.EinladungBearbeiten(Einladung, data.SelectedRedner, data.SelectedVortrag);
 
             Einladung.Ältester = data.SelectedRedner;
             if (Einladung.Vortrag?.Vortrag != data.SelectedVortrag?.Vortrag)
@@ -233,7 +233,7 @@ namespace Vortragsmanager.PageModels
             data.MailTextKoordinator = Templates.GetMailTextRednerErinnerung(Zuteilung as Invitation);
             data.DisableCancelButton();
             mail.ShowDialog();
-            ActivityLog.ActivityAddItem.RednerErinnern(Zuteilung as Invitation, data.MailTextKoordinator);
+            ActivityAddItem.RednerErinnern(Zuteilung as Invitation, data.MailTextKoordinator);
             Einladung.ErinnerungsMailGesendet = true;
             RaisePropertyChanged(nameof(ErinnerungsMailSenden));
         }
@@ -265,10 +265,15 @@ namespace Vortragsmanager.PageModels
                 var color = Helper.Helper.StyleIsDark ? Color.FromRgb(51, 51, 51) : Colors.White;
                 if (Zuteilung == null)
                     color = Colors.Tomato;
-                else if (Zuteilung.Status == EventStatus.Anfrage)
-                    color = Colors.Orange;
-                else if (Zuteilung.Status == EventStatus.Ereignis)
-                    color = Helper.Helper.StyleIsDark ? Colors.SlateGray : (Color)ColorConverter.ConvertFromString("#2a8dd4");
+                else switch (Zuteilung.Status)
+                {
+                    case EventStatus.Anfrage:
+                        color = Colors.Orange;
+                        break;
+                    case EventStatus.Ereignis:
+                        color = Helper.Helper.StyleIsDark ? Colors.SlateGray : (Color)ColorConverter.ConvertFromString("#2a8dd4");
+                        break;
+                }
                 return new SolidColorBrush(color);
             }
         }
@@ -292,15 +297,7 @@ namespace Vortragsmanager.PageModels
             set { SetProperty(() => AnzahlAuswärtigeRedner, value); }
         }
 
-        public string Anzeigetext
-        {
-            get
-            {
-                if (Zuteilung == null)
-                    return "offen";
-                return Zuteilung.Anzeigetext;
-            }
-        }
+        public string Anzeigetext => Zuteilung == null ? "offen" : Zuteilung.Anzeigetext;
 
         public bool IsAnfrage => Zuteilung?.Status == EventStatus.Anfrage;
 

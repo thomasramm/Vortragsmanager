@@ -4,12 +4,12 @@ using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using DevExpress.Mvvm;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
 using Vortragsmanager.PageModels;
+using Vortragsmanager.UserControls;
 
 namespace Vortragsmanager.Module
 {
@@ -98,7 +98,8 @@ namespace Vortragsmanager.Module
                 while (File.Exists(newfile))
                 {
                     var fi = new FileInfo(file);
-                    newfile = Path.Combine(fi.DirectoryName, fi.Name.Replace(fi.Extension, "") + i + fi.Extension);
+                    if (fi.DirectoryName != null)
+                        newfile = Path.Combine(fi.DirectoryName, fi.Name.Replace(fi.Extension, "") + i + fi.Extension);
                     i++;
                 }
             }
@@ -865,7 +866,7 @@ namespace Vortragsmanager.Module
                     var vortrId = rdr.IsDBNull(4) ? -1 : rdr.GetInt32(4);
                     var vortr = TalkList.Find(vortrId);
 
-                    var v = new ActivityLog.ActivityItemViewModel
+                    var v = new ActivityItemViewModel
                     {
                         Id = rdr.GetInt32(0),
                         Datum = rdr.GetDateTime(1),
@@ -1046,15 +1047,18 @@ namespace Vortragsmanager.Module
 
             foreach (var er in DataContainer.MeinPlan.Where(x => x.Status != EventStatus.Ereignis))
             {
-                var con = er as Invitation;
-                cmd.Parameters[0].Value = con.Ältester?.Id;
-                cmd.Parameters[1].Value = con.Vortrag?.Vortrag.Nummer;
-                cmd.Parameters[2].Value = con.Ältester?.Versammlung?.Id ?? con.AnfrageVersammlung?.Id;
-                cmd.Parameters[3].Value = con.Kw;
-                cmd.Parameters[4].Value = (int)con.Status;
-                cmd.Parameters[5].Value = con.LetzteAktion;
-                cmd.Parameters[6].Value = con.Kommentar;
-                cmd.Parameters[7].Value = con.ErinnerungsMailGesendet;
+                if (er is Invitation con)
+                {
+                    cmd.Parameters[0].Value = con.Ältester?.Id;
+                    cmd.Parameters[1].Value = con.Vortrag?.Vortrag.Nummer;
+                    cmd.Parameters[2].Value = con.Ältester?.Versammlung?.Id ?? con.AnfrageVersammlung?.Id;
+                    cmd.Parameters[3].Value = con.Kw;
+                    cmd.Parameters[4].Value = (int) con.Status;
+                    cmd.Parameters[5].Value = con.LetzteAktion;
+                    cmd.Parameters[6].Value = con.Kommentar;
+                    cmd.Parameters[7].Value = con.ErinnerungsMailGesendet;
+                }
+
                 cmd.ExecuteNonQuery();
             }
 
@@ -1072,13 +1076,16 @@ namespace Vortragsmanager.Module
 
             foreach (var er in DataContainer.MeinPlan.Where(x => x.Status == EventStatus.Ereignis))
             {
-                var evt = er as SpecialEvent;
-                cmd.Parameters[0].Value = (int)evt.Typ;
-                cmd.Parameters[1].Value = evt.Name;
-                cmd.Parameters[2].Value = evt.Thema;
-                cmd.Parameters[3].Value = evt.Vortragender;
-                cmd.Parameters[4].Value = evt.Kw;
-                cmd.Parameters[5].Value = evt.Vortrag?.Vortrag?.Nummer;
+                if (er is SpecialEvent evt)
+                {
+                    cmd.Parameters[0].Value = (int) evt.Typ;
+                    cmd.Parameters[1].Value = evt.Name;
+                    cmd.Parameters[2].Value = evt.Thema;
+                    cmd.Parameters[3].Value = evt.Vortragender;
+                    cmd.Parameters[4].Value = evt.Kw;
+                    cmd.Parameters[5].Value = evt.Vortrag?.Vortrag?.Nummer;
+                }
+
                 cmd.ExecuteNonQuery();
             }
 

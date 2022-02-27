@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using DevExpress.Mvvm;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
+using Vortragsmanager.Module;
 
 namespace Vortragsmanager.UserControls
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Vortragsmanager.Core
+namespace Vortragsmanager.Module
 {
     public static class Log
     {

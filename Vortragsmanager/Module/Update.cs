@@ -1,14 +1,14 @@
-﻿using DevExpress.Xpf.Core;
-using System;
+﻿using System;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
+using DevExpress.Xpf.Core;
 using Vortragsmanager.Converter;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
-using Vortragsmanager.Views;
+using Vortragsmanager.Windows;
 
-namespace Vortragsmanager.Core
+namespace Vortragsmanager.Module
 {
     internal static class Update
     {
@@ -49,21 +49,24 @@ namespace Vortragsmanager.Core
             {
                 //Neues Backup System, alle VdL Dateien des aktuellen Ordner einlesen
                 var di = new FileInfo(Properties.Settings.Default.sqlite).Directory;
-                var files = di.GetFiles("*_????-??-??-??-??.sqlite3", SearchOption.TopDirectoryOnly);
-                foreach (var file in files)
+                if (di != null)
                 {
-                    if (file.Name != Properties.Settings.Default.sqlite)
+                    var files = di.GetFiles("*_????-??-??-??-??.sqlite3", SearchOption.TopDirectoryOnly);
+                    foreach (var file in files)
                     {
-                        Backup.Add(file.FullName, file.Name.Substring(file.Name.Length - 24).Replace(".sqlite3","-00.sqlite3"));
-                        file.Delete();
+                        if (file.Name != Properties.Settings.Default.sqlite)
+                        {
+                            Backup.Add(file.FullName, file.Name.Substring(file.Name.Length - 24).Replace(".sqlite3","-00.sqlite3"));
+                            file.Delete();
+                        }
                     }
                 }
             }
 
             if (DataContainer.Version < 23)
             {
-                var inhalt = $"Es gibt geänderte Vortragsthemen. Du kannst die Themen jetzt aktualisieren. Damit werden individuelle Änderungen die du in der Vergangenheit an den Vortragsthemen vorgenommen hast gelöscht." + Environment.NewLine +
-    $"Du kannst die Änderung auch später unter 'Vorträge' -> 'Zurücksetzen' durchführen." + Environment.NewLine +
+                var inhalt = "Es gibt geänderte Vortragsthemen. Du kannst die Themen jetzt aktualisieren. Damit werden individuelle Änderungen die du in der Vergangenheit an den Vortragsthemen vorgenommen hast gelöscht." + Environment.NewLine +
+    "Du kannst die Änderung auch später unter 'Vorträge' -> 'Zurücksetzen' durchführen." + Environment.NewLine +
     "Sollen die Vortragsthemen nun aktualisiert werden? (Empfohlen)" + Environment.NewLine +
     "Wenn nicht, musst du die Themenänderungen selber unter 'Vorträge' einpflegen.";
                 var result = ThemedMessageBox.Show("Achtung", inhalt, System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
@@ -80,11 +83,11 @@ namespace Vortragsmanager.Core
 
         public static void ShowChanges(bool force = false)
         {
-            Version oldVersion = StringToVersionConverter.Convert(Properties.Settings.Default.LastChangelog);
-            string fileContent = String.Empty;
-            string pathToChangelog = Properties.Settings.Default.ChangelogPfad;
-            var aktuelleVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
-            string header = $"Aktuelle Version {aktuelleVersion.Major}.{aktuelleVersion.Minor}.{aktuelleVersion.Build}";
+            var oldVersion = StringToVersionConverter.Convert(Properties.Settings.Default.LastChangelog);
+            string fileContent;
+            var pathToChangelog = Properties.Settings.Default.ChangelogPfad;
+            var aktuelleVersion = System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version ?? new Version(1,0);
+            var header = $"Aktuelle Version {aktuelleVersion.Major}.{aktuelleVersion.Minor}.{aktuelleVersion.Build}";
 
             if (oldVersion == aktuelleVersion && !force)
             { 
@@ -120,14 +123,14 @@ namespace Vortragsmanager.Core
             }
 
             //Dialog anzeigen
-            var dlg = new leerDialog();
-            var dlg_mdl = (LeerViewModel)dlg.DataContext;
-            dlg_mdl.Titel = "Verbesserungen der neuen Version";
-            dlg_mdl.HeaderText = header;
-            dlg_mdl.ShowCopyButton = false;
-            dlg_mdl.ShowSaveButton = false;
-            dlg_mdl.ShowCloseButton = true;
-            dlg_mdl.Text = fileContent;
+            var dlg = new LeerDialog();
+            var dlgMdl = (LeerViewModel)dlg.DataContext;
+            dlgMdl.Titel = "Verbesserungen der neuen Version";
+            dlgMdl.HeaderText = header;
+            dlgMdl.ShowCopyButton = false;
+            dlgMdl.ShowSaveButton = false;
+            dlgMdl.ShowCloseButton = true;
+            dlgMdl.Text = fileContent;
             dlg.ShowDialog();
 
             Properties.Settings.Default.LastChangelog = aktuelleVersion.ToString();
@@ -141,7 +144,7 @@ namespace Vortragsmanager.Core
             foreach (Match m2 in m)
             {
                 var x = m2.Value.Replace("###", "").Replace("Version", "").Trim();
-                x = x.Substring(0, x.IndexOf("(") - 1);
+                x = x.Substring(0, x.IndexOf("(", StringComparison.InvariantCulture) - 1);
                 var v = new Version(x);
 
                 Console.WriteLine("Found '{0}' at position {1}.", m2.Value, m2.Index);

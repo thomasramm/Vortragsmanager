@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Vortragsmanager.Models
+namespace Vortragsmanager.DataModels
 {
-    class Versammlung
+    public class Versammlung
     {
         public string Name { get; set; }
 
@@ -11,20 +11,20 @@ namespace Vortragsmanager.Models
 
         public string Kontaktinformationen { get; set; }
 
-        public string GetZusammenkunftszeit(int Jahr)
+        public string GetZusammenkunftszeit(int jahr)
         {
-            var letztesJahr = zusammenkunftszeiten.Where(x => x.Key <= Jahr).Max(y => y.Key);
-            return letztesJahr == null ? "unbekannt" : zusammenkunftszeiten[letztesJahr];
+            var letztesJahr = _zusammenkunftszeiten.Where(x => x.Key <= jahr).Max(y => y.Key);
+            return letztesJahr == null ? "unbekannt" : _zusammenkunftszeiten[letztesJahr];
         }
 
-        public void SetZusammenkunftszeit(int Jahr, string Zeit)
+        public void SetZusammenkunftszeit(int jahr, string zeit)
         {
-            if (zusammenkunftszeiten.ContainsKey(Jahr))
-                zusammenkunftszeiten[Jahr] = Zeit;
+            if (_zusammenkunftszeiten.ContainsKey(jahr))
+                _zusammenkunftszeiten[jahr] = zeit;
             else
-                zusammenkunftszeiten.Add(Jahr, Zeit);
+                _zusammenkunftszeiten.Add(jahr, zeit);
         }
 
-        private readonly Dictionary<int, string> zusammenkunftszeiten = new Dictionary<int, string>(1);
+        private readonly Dictionary<int, string> _zusammenkunftszeiten = new Dictionary<int, string>(1);
     }
 }

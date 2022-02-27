@@ -10,7 +10,8 @@
              xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="1000"
-             DataContext="{dxmvvm:ViewModelSource pageModels:ListeAusgebenPageModel}">
+             DataContext="{dxmvvm:ViewModelSource pageModels:ListeAusgebenPageModel}"
+             d:DataContext="{d:DesignInstance Type=pageModels:ListeAusgebenPageModel}">
     <UserControl.Resources>
         <Style TargetType="dxe:SpinButtonInfo">
             <Setter Property="SpinStyle" Value="Horizontal"/>
@@ -125,7 +126,7 @@
                     <dxe:SpinButtonInfo IsDefaultButton="True" IsLeft="False" />
                 </dxe:SpinEdit.Buttons>
             </dxe:SpinEdit>
-        <dxe:ToggleSwitch x:Name="toggleSwitch" 
+        <dxe:ToggleSwitch x:Name="ToggleSwitch" 
                           Grid.Row="2" 
                           Margin="10,5"
                           HorizontalAlignment="Right"

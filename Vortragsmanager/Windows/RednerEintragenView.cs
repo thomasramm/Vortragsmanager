@@ -1,10 +1,10 @@
-﻿using DevExpress.Mvvm;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using DevExpress.Mvvm;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Interface;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.Windows
 {
     public class RednerEintragenView : ViewModelBase
     {
@@ -14,9 +14,9 @@ namespace Vortragsmanager.Views
             SaveCommand = new DelegateCommand<ICloseable>(Save);
         }
 
-        public DelegateCommand<ICloseable> CloseCommand { get; private set; }
+        public DelegateCommand<ICloseable> CloseCommand { get; }
 
-        public DelegateCommand<ICloseable> SaveCommand { get; private set; }
+        public DelegateCommand<ICloseable> SaveCommand { get; }
 
         public static void Schließen(ICloseable window)
         {
@@ -38,10 +38,7 @@ namespace Vortragsmanager.Views
 
         public Conregation SelectedVersammlung
         {
-            get
-            {
-                return _selectedVersammlung;
-            }
+            get => _selectedVersammlung;
             set
             {
                 _selectedVersammlung = value;
@@ -57,10 +54,7 @@ namespace Vortragsmanager.Views
 
         public List<Speaker> Redner
         {
-            get
-            {
-                return _redner;
-            }
+            get => _redner;
             set
             {
                 _redner = value;
@@ -72,10 +66,7 @@ namespace Vortragsmanager.Views
 
         public Speaker SelectedRedner
         {
-            get
-            {
-                return _selectedRedner;
-            }
+            get => _selectedRedner;
             set
             {
                 _selectedRedner = value;
@@ -91,16 +82,10 @@ namespace Vortragsmanager.Views
 
         public TalkSong SelectedVortrag
         {
-            get
-            {
-                return _selectedVortrag;
-            }
+            get => _selectedVortrag;
             set
             {
-                if (value == null)
-                    _selectedVortrag = null;
-                else
-                    _selectedVortrag = Vortrag.FirstOrDefault(x => x.Vortrag.Nummer == value.Vortrag.Nummer);
+                _selectedVortrag = value == null ? null : Vortrag.FirstOrDefault(x => x.Vortrag.Nummer == value.Vortrag.Nummer);
                 RaisePropertyChanged();
             }
         }

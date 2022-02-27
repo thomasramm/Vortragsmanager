@@ -1,4 +1,5 @@
 ﻿using Vortragsmanager.Enums;
+using Vortragsmanager.Interface;
 
 namespace Vortragsmanager.Datamodels
 {
@@ -10,13 +11,7 @@ namespace Vortragsmanager.Datamodels
 
         public EventStatus Status { get; } = EventStatus.Ereignis;
 
-        public string Anzeigetext
-        {
-            get
-            {
-                return string.IsNullOrEmpty(Name) ? Typ.ToString() : Name;
-            }
-        }
+        public string Anzeigetext => string.IsNullOrEmpty(Name) ? Typ.ToString() : Name;
 
         #endregion Interface
 

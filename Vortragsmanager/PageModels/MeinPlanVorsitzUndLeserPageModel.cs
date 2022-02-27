@@ -5,6 +5,7 @@ using System.Windows;
 using DevExpress.Mvvm;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Helper;
+using Vortragsmanager.Module;
 using Vortragsmanager.UserControls;
 
 namespace Vortragsmanager.PageModels
@@ -61,10 +62,7 @@ namespace Vortragsmanager.PageModels
 
         public DateTime Monat
         {
-            get
-            {
-                return _month;
-            }
+            get => _month;
             set
             {
                 _month = value;
@@ -73,21 +71,14 @@ namespace Vortragsmanager.PageModels
             }
         }
 
-        public DelegateCommand<int> ChangeMonth { get; private set; }
+        public DelegateCommand<int> ChangeMonth { get; }
 
         private void ChangeTheMonth(int direction)
         {
-            if (direction != 0)
-            {
-                Monat = Monat.AddMonths(direction);
-            }
-            else
-            {
-                Monat = _currentMonth;
-            }
+            Monat = direction != 0 ? Monat.AddMonths(direction) : _currentMonth;
         }
 
-        public ObservableCollection<SonntagItem> Wochen { get; private set; } = new ObservableCollection<SonntagItem>();
+        public ObservableCollection<SonntagItem> Wochen { get; } = new ObservableCollection<SonntagItem>();
 
         private static void RefreshLastActivity()
         {
@@ -95,10 +86,10 @@ namespace Vortragsmanager.PageModels
             {
                 int kwLetzterEinsatz;
 
-                var a1 = DataContainer.AufgabenPersonKalender.Where(x => x.Leser == person || x.Vorsitz == person);
+                var a1 = DataContainer.AufgabenPersonKalender.Where(x => x.Leser == person || x.Vorsitz == person).ToList();
                 if (a1.Any())
                 {
-                    var a2 = a1?.Select(x => x.Kw);
+                    var a2 = a1.Select(x => x.Kw);
                     kwLetzterEinsatz = a2.Max();
                 }
                 else
@@ -123,7 +114,7 @@ namespace Vortragsmanager.PageModels
 
         private void PlanErstellen()
         {
-            Core.IoExcel.Export.Aushang(true);
+            IoExcel.Export.Aushang(true);
         }
 
         private void SonntagCalculate()
@@ -161,8 +152,8 @@ namespace Vortragsmanager.PageModels
             }
         }
 
-        public DelegateCommand PlanAusgeben { get; private set; }
+        public DelegateCommand PlanAusgeben { get; }
 
-        public DelegateCommand SonntagCalculateCommand { get; private set; }
+        public DelegateCommand SonntagCalculateCommand { get; }
     }
 }

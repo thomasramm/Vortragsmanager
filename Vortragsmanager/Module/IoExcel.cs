@@ -1,17 +1,17 @@
-﻿using DevExpress.Xpf.Core;
-using OfficeOpenXml;
-using OfficeOpenXml.Table;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
-using Vortragsmanager.Datamodels;
 using System.Windows.Forms;
+using DevExpress.Xpf.Core;
+using OfficeOpenXml;
+using OfficeOpenXml.Table;
+using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
 using Vortragsmanager.Properties;
 using ObjectToStringConverter = Vortragsmanager.Converter.ObjectToStringConverter;
 
-namespace Vortragsmanager.Core
+namespace Vortragsmanager.Module
 {
     internal class IoExcel
     {

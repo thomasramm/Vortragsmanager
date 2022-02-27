@@ -4,7 +4,7 @@ using Vortragsmanager.Datamodels;
 using Vortragsmanager.Interface;
 using Vortragsmanager.Views;
 
-namespace Vortragsmanager.MeineVerwaltung
+namespace Vortragsmanager.PageModels
 {
     public class SpeakersViewModelCollection : ObservableCollection<SpeakerViewModel>
     {

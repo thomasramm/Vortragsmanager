@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using Vortragsmanager.Datamodels;
 using DevExpress.Mvvm;
+using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
-using Vortragsmanager.Helper;
+using Vortragsmanager.Interface;
+using Vortragsmanager.UserControls;
 
-namespace Vortragsmanager.ActivityLog
+namespace Vortragsmanager.Helper
 {
     internal static class ActivityAddItem
     {
@@ -27,7 +28,7 @@ namespace Vortragsmanager.ActivityLog
                 Vortrag = buchung?.Vortrag?.Vortrag,
             };
             if (!string.IsNullOrEmpty(mailtext2))
-                log.Mails += _mailDelimiter + mailtext2;
+                log.Mails += MailDelimiter + mailtext2;
 
             Add(log);
         }
@@ -100,8 +101,8 @@ namespace Vortragsmanager.ActivityLog
                 Versammlung = buchung.Ältester.Versammlung,
                 Redner = buchung.Ältester,
                 Mails = mailtext,
-                KalenderKw = buchung?.Kw ?? -1,
-                Vortrag = buchung?.Vortrag?.Vortrag,
+                KalenderKw = buchung.Kw,
+                Vortrag = buchung.Vortrag?.Vortrag,
             };
 
             Add(log);
@@ -124,7 +125,7 @@ namespace Vortragsmanager.ActivityLog
             {
                 Typ = typ,
                 Versammlung = DataContainer.MeineVersammlung,
-                KalenderKw = ereignis?.Kw ?? -1,
+                KalenderKw = ereignis.Kw,
                 Vortrag = ereignis.Vortrag?.Vortrag,
                 Objekt = objekt
             };
@@ -141,14 +142,14 @@ namespace Vortragsmanager.ActivityLog
                 Redner = rednerNeu,
                 KalenderKw = buchung.Kw,
                 Vortrag = buchung.Vortrag.Vortrag,
+                Objekt = string.Empty
             };
 
-            log.Objekt = string.Empty;
             if (rednerNeu.Versammlung != buchung.Ältester.Versammlung)
                 log.Objekt += $"{Environment.NewLine} | Versammlung: {buchung.Ältester.Versammlung.Name}";
 
             if (vortragNeu.Vortrag.Nummer != buchung.Vortrag.Vortrag.Nummer)
-                log.Objekt += $"{Environment.NewLine} | Vortrag: {buchung?.Vortrag?.Vortrag?.ToString()}";
+                log.Objekt += $"{Environment.NewLine} | Vortrag: {buchung.Vortrag?.Vortrag}";
 
             if (rednerNeu != buchung.Ältester)
                 log.Objekt += $"{Environment.NewLine} | Redner: {buchung.Ältester.Name}";
@@ -234,20 +235,17 @@ namespace Vortragsmanager.ActivityLog
             int kw = buchung.Kw;
 
             var objekt = $"{zielBuchung}{Environment.NewLine}" +
-                         $"Datum: " + datumAlt.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
+                         "Datum: " + datumAlt.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
                          + " → " + DateCalcuation.CalculateWeek(buchung.Kw).ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
 
-            var rednereinladung = (buchung as Invitation);
-            if (rednereinladung != null)
+            if (buchung is Invitation rednereinladung)
             {
                 redner = rednereinladung.Ältester;
                 versammlung = redner.Versammlung;
                 vortrag = rednereinladung.Vortrag.Vortrag;
                 objekt += $"{Environment.NewLine}Vortrag: {rednereinladung.Vortrag.Vortrag.NumberTopicShort}";
             }
-
-            var ereignis = (buchung as SpecialEvent);
-            if (ereignis != null)
+            else if (buchung is SpecialEvent ereignis)
             {
                 versammlung = DataContainer.MeineVersammlung;
                 if (!string.IsNullOrEmpty(ereignis.Name))
@@ -264,9 +262,7 @@ namespace Vortragsmanager.ActivityLog
                 else if (!string.IsNullOrEmpty(ereignis.Thema))
                     objekt += $"Thema: {ereignis.Thema}";
             }
-
-            var anfrage = (buchung as Inquiry);
-            if (anfrage != null)
+            else if (buchung is Inquiry anfrage)
             {
                 versammlung = anfrage.Versammlung;
             }
@@ -286,6 +282,6 @@ namespace Vortragsmanager.ActivityLog
             Add(log);
         }
 
-        private const string _mailDelimiter = "\r\n=========================\r\n";
+        private const string MailDelimiter = "\r\n=========================\r\n";
     }
 }

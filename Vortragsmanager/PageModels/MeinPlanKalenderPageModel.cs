@@ -28,9 +28,9 @@ namespace Vortragsmanager.PageModels
             UpdateMonate();
         }
 
-        public ObservableCollection<MonthViewModel> Monate { get; private set; }
+        public ObservableCollection<MonthViewModel> Monate { get; }
 
-        public DelegateCommand<int> ChangeYear { get; private set; }
+        public DelegateCommand<int> ChangeYear { get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]
         public int CurrentYear => Helper.Helper.DisplayedYear;

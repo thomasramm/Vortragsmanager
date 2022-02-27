@@ -6,7 +6,7 @@ using DevExpress.Mvvm;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
-using Vortragsmanager.Views;
+using Vortragsmanager.Windows;
 
 namespace Vortragsmanager.PageModels
 {
@@ -21,12 +21,13 @@ namespace Vortragsmanager.PageModels
             VortragAbsagen = new DelegateCommand(Absagen);
 
             var z = DataContainer.Redner.Where(x => x.Versammlung == DataContainer.MeineVersammlung);
-            Redner = new List<CheckBox>(z.Count());
+            var enumerable = z.ToList();
+            Redner = new List<CheckBox>(enumerable.Count);
             var box = new CheckBox() { Content = "Alle", IsChecked = true };
             box.Checked += CheckAll;
             box.Unchecked += CheckAll;
             Redner.Add(box);
-            foreach (var r in z)
+            foreach (var r in enumerable)
             {
                 box = new CheckBox() { Content = r.Name, IsChecked = true };
                 box.Checked += Box_Checked;
@@ -53,9 +54,9 @@ namespace Vortragsmanager.PageModels
             ApplyFilter();
         }
 
-        public DelegateCommand<int> ChangeYear { get; private set; }
+        public DelegateCommand<int> ChangeYear { get; }
 
-        public DelegateCommand VortragAbsagen { get; private set; }
+        public DelegateCommand VortragAbsagen { get; }
 
         public void ChangeCurrentYear(int step)
         {
@@ -106,7 +107,7 @@ namespace Vortragsmanager.PageModels
             RaisePropertyChanged(nameof(Talks));
         }
 
-        public DelegateCommand<RednerViewType> ChangeView { get; private set; }
+        public DelegateCommand<RednerViewType> ChangeView { get; }
 
         public void ChangeCurrentView(RednerViewType view)
         {
@@ -122,11 +123,9 @@ namespace Vortragsmanager.PageModels
                     ViewStateAgenda = true;
                     LoadAgendaView();
                     break;
-
-                default:
-                    break;
             }
-            RaisePropertiesChanged(new[] { "ViewStateYear", "ViewStateAgenda" });
+
+            RaisePropertiesChanged("ViewStateYear", "ViewStateAgenda");
         }
 
         public bool ViewStateYear { get; set; }
@@ -140,7 +139,7 @@ namespace Vortragsmanager.PageModels
             RaisePropertyChanged(nameof(CurrentYear));
         }
 
-        public List<CheckBox> Redner { get; private set; }
+        public List<CheckBox> Redner { get; }
 
         public ObservableCollection<Outside> Talks { get; private set; }
 
@@ -148,10 +147,7 @@ namespace Vortragsmanager.PageModels
 
         public Outside SelectedTalk
         {
-            get
-            {
-                return _selectedTalk;
-            }
+            get => _selectedTalk;
             set
             {
                 _selectedTalk = value;
@@ -171,7 +167,7 @@ namespace Vortragsmanager.PageModels
             //ToDo: Alternative Ansicht öffnen
         }
 
-        public DelegateCommand ListeSenden { get; private set; }
+        public DelegateCommand ListeSenden { get; }
 
         public void ListeVersenden()
         {
@@ -191,7 +187,7 @@ namespace Vortragsmanager.PageModels
             w.ShowDialog();
 
             var einRedner = listeRedner.Count == 1 ? listeRedner[0] : null;
-            ActivityLog.ActivityAddItem.OutsideSendList(einRedner, data.MailTextRedner);
+            ActivityAddItem.OutsideSendList(einRedner, data.MailTextRedner);
         }
 
         public void Absagen()
@@ -205,7 +201,7 @@ namespace Vortragsmanager.PageModels
 
             if (data.Speichern)
             {
-                ActivityLog.ActivityAddItem.Outside(SelectedTalk, data.MailTextKoordinator, data.MailTextRedner, false);
+                ActivityAddItem.Outside(SelectedTalk, data.MailTextKoordinator, data.MailTextRedner, false);
                 DataContainer.ExternerPlan.Remove(SelectedTalk);
                 Talks.Remove(SelectedTalk);
             }

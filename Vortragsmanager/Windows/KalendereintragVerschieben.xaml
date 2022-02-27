@@ -8,7 +8,8 @@
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-    x:Class="Vortragsmanager.Views.KalendereintragVerschieben"
+    xmlns:windows="clr-namespace:Vortragsmanager.Windows"
+    x:Class="Vortragsmanager.Windows.KalendereintragVerschieben"
     mc:Ignorable="d"
     Title="Buchung verschieben"
     Height="{Binding WindowHeight, Mode=TwoWay}"
@@ -17,7 +18,7 @@
     x:Name="KalendereintragVerschiebenWindow"
     Foreground="{StaticResource TextColor}">
     <Window.DataContext>
-        <local:KalendereintragVerschiebenView />
+        <windows:KalendereintragVerschiebenView />
     </Window.DataContext>
     <Window.Resources>
         <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />

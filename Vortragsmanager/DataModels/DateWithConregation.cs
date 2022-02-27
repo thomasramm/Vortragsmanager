@@ -1,7 +1,7 @@
 ﻿using System;
 using Vortragsmanager.Helper;
 
-namespace Vortragsmanager.Core.DataHelper
+namespace Vortragsmanager.DataModels
 {
     /// <summary>
     /// Wird genutzt für Aktivitäten in meiner Versammlung (Redner)

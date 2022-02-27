@@ -1,6 +1,6 @@
 ﻿using Vortragsmanager.Enums;
 
-namespace Vortragsmanager.Core.DataHelper
+namespace Vortragsmanager.DataModels
 {
     public class Zusammenkunftszeit
     {

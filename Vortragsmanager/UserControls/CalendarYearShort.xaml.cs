@@ -40,9 +40,9 @@ namespace Vortragsmanager.UserControls
 
         private void LoadYear(int year)
         {
-            yearLabel.Content = year;
+            YearLabel.Content = year;
             _calendar.Clear();
-            flowLayout.Children.Clear();
+            FlowLayout.Children.Clear();
             _year = year;
 
             var start = DateCalcuation.GetConregationDay(new DateTime(year, 1, 1));
@@ -56,13 +56,13 @@ namespace Vortragsmanager.UserControls
                 {
                     item = new CalendarYearShortItem(start.Month);
                     FlowLayoutControl.SetIsFlowBreak(item, true);
-                    flowLayout.Children.Add(item);
+                    FlowLayout.Children.Add(item);
                     _calendar.Add(new DateTime(1900, start.Month, 1), item);
                     currentMonth = start.Month;
                 }
 
                 item = new CalendarYearShortItem(start);
-                flowLayout.Children.Add(item);
+                FlowLayout.Children.Add(item);
                 _calendar.Add(start, item);
                 start = start.AddDays(7);
             }

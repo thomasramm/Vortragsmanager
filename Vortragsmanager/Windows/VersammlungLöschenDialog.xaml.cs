@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Vortragsmanager.Interface;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.Windows
 {
     /// <summary>
     /// Interaction logic for VersammlungLöschenDialog.xaml

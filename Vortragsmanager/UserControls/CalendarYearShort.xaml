@@ -16,18 +16,19 @@
         <dx:SimpleButton Grid.Row="0" Glyph="pack://application:,,,/Images/Prev_32x32.png" 
                          Click="PreviousYear_Click" HorizontalAlignment="Left"
                          Width="20"/>
-        <Label x:Name="yearLabel"
+        <Label x:Name="YearLabel"
                Grid.Row="0" 
                Content="2020" 
                HorizontalAlignment="Center" 
                VerticalAlignment="Center" 
                Foreground="{StaticResource TextHighlight}" 
                MouseDown="ResetYear_MouseDown" />
-        <dx:SimpleButton Glyph="pack://application:,,,/Images/Next_32x32.png" 
+        <dx:SimpleButton Grid.Row="0" 
+                         Glyph="pack://application:,,,/Images/Next_32x32.png" 
                          Width="20" 
                          HorizontalAlignment="Right"
                          Click="NextYear_Click" />
-        <dxlc:FlowLayoutControl x:Name="flowLayout" Grid.Row="1" Orientation="Horizontal" />
+        <dxlc:FlowLayoutControl x:Name="FlowLayout" Grid.Row="1" Orientation="Horizontal" />
         <Border Grid.Row="2" Width="90" Height="20" Background="{StaticResource KalenderBlocked}" ToolTip="Abstand um einen Vortrag" HorizontalAlignment="Left">
             <Label Content="Geblockt" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0"/>
         </Border>

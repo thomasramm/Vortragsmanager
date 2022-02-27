@@ -28,7 +28,7 @@ namespace Vortragsmanager.UserControls
             Datum = datum;
         }
 
-        public DateTime Datum { get; private set; }
+        public DateTime Datum { get; }
 
         public AufgabenZuordnung SelectedLeser
         {

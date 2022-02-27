@@ -1,4 +1,6 @@
-﻿namespace Vortragsmanager.Datamodels
+﻿using Vortragsmanager.DataModels;
+
+namespace Vortragsmanager.Datamodels
 {
     public class Conregation
     {
@@ -34,6 +36,6 @@
 
         public override string ToString() => $"Versammlung {Name}";
 
-        public Core.DataHelper.Zusammenkunftszeiten Zeit { get; } = new Core.DataHelper.Zusammenkunftszeiten();
+        public Zusammenkunftszeiten Zeit { get; } = new Zusammenkunftszeiten();
     }
 }

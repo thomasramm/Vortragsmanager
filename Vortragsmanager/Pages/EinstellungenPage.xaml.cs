@@ -1,12 +1,11 @@
 ﻿using System.IO;
-using System.Windows.Controls;
 
 namespace Vortragsmanager.Pages
 {
     /// <summary>
     /// Interaction logic for EinstellungenView.xaml
     /// </summary>
-    public partial class EinstellungenPage : UserControl
+    public partial class EinstellungenPage
     {
         public EinstellungenPage()
         {

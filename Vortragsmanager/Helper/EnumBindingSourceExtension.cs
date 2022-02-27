@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Windows.Markup;
 
-namespace Vortragsmanager.Core
+namespace Vortragsmanager.Helper
 {
     public class EnumBindingSourceExtension : MarkupExtension
     {
         private Type _enumType;
         public Type EnumType
         {
-            get { return this._enumType; }
+            get => _enumType;
             set
             {
-                if (value != this._enumType)
+                if (value != _enumType)
                 {
                     if (null != value)
                     {
-                        Type enumType = Nullable.GetUnderlyingType(value) ?? value;
+                        var enumType = Nullable.GetUnderlyingType(value) ?? value;
                         if (!enumType.IsEnum)
                             throw new ArgumentException("Type must be for an Enum.");
                     }

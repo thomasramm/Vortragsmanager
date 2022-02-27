@@ -1,8 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" 
-                    xmlns:converter="clr-namespace:Vortragsmanager.Converter">
-    <converter:ScalablePaddingConverter x:Key="ScalablePaddingConverter" MinPadding="10" />
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core">
     <Style x:Key="NavimenuHeaderButton" TargetType="ButtonBase">
         <Setter Property="Background" Value="#3c3c3c"/>
         <Setter Property="BorderThickness" Value="0"/>

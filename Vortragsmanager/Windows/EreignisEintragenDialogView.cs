@@ -1,11 +1,11 @@
-﻿using DevExpress.Mvvm;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Globalization;
+using DevExpress.Mvvm;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Interface;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.Windows
 {
     public class EreignisEintragenCommandDialogView : ViewModelBase
     {
@@ -13,10 +13,7 @@ namespace Vortragsmanager.Views
 
         public SpecialEvent Event
         {
-            get
-            {
-                return _event;
-            }
+            get => _event;
             set
             {
                 _eventOriginal = value;
@@ -46,18 +43,15 @@ namespace Vortragsmanager.Views
             Vortragsliste = new ObservableCollection<Talk>(TalkList.Get());
         }
 
-        public DelegateCommand<ICloseable> CloseCommand { get; private set; }
+        public DelegateCommand<ICloseable> CloseCommand { get; }
 
-        public DelegateCommand<ICloseable> SaveCommand { get; private set; }
+        public DelegateCommand<ICloseable> SaveCommand { get; }
 
         public ObservableCollection<Talk> Vortragsliste { get; }
 
         public Talk NeuerVortrag
         {
-            get
-            {
-                return _event?.Vortrag?.Vortrag;
-            }
+            get => _event?.Vortrag?.Vortrag;
             set
             {
                 if (value == null)
@@ -185,7 +179,7 @@ namespace Vortragsmanager.Views
 
         public bool VortragFreitextIsChecked
         {
-            get { return !_vortragDropDownIsChecked; }
+            get => !_vortragDropDownIsChecked;
             set
             {
                 if (_vortragDropDownIsChecked == value)
@@ -198,7 +192,7 @@ namespace Vortragsmanager.Views
 
         public bool VortragDropDownIsChecked
         {
-            get { return _vortragDropDownIsChecked; }
+            get => _vortragDropDownIsChecked;
             set
             {
                 if (_vortragDropDownIsChecked != value)
@@ -217,7 +211,7 @@ namespace Vortragsmanager.Views
 
         public string EreignisName
         {
-            get { return _event?.Name; }
+            get => _event?.Name;
             set
             {
                 _event.Name = value;
@@ -227,7 +221,7 @@ namespace Vortragsmanager.Views
 
         public string VortragName
         {
-            get { return _event?.Vortragender; }
+            get => _event?.Vortragender;
             set
             {
                 _event.Vortragender = value;
@@ -250,7 +244,7 @@ namespace Vortragsmanager.Views
 
         public string VortragThema
         {
-            get { return _event?.Thema; }
+            get => _event?.Thema;
             set
             {
                 _event.Thema = value;

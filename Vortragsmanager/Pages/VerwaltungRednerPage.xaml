@@ -40,7 +40,6 @@
                                             Width="200"/>
                 </StackPanel>
                 <Button Grid.Row="0"
-                        Grid.Column="1"
                         Content="Redner hinzufügen"
                         HorizontalAlignment="Right"
                         VerticalContentAlignment="Center"
@@ -48,10 +47,8 @@
             </Grid>
         </Border>
         <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
-            <dxa:AccordionControl x:Name="accordion"
+            <dxa:AccordionControl x:Name="Accordion"
                                     HorizontalAlignment="Left"
-                                    Grid.Row="1"
-                                    Grid.Column="0"
                                     ExpandMode="Multiple"
                                     IsCollapseButtonVisible="True"
                                     SummaryItemHeader="{Binding Redner.Name}"
@@ -107,8 +104,8 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="25"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="1" Text="{Binding ElementName=abstandSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
-                                <Slider Grid.Column="0" x:Name="abstandSlider" Maximum="52" TickPlacement="BottomRight" TickFrequency="4" Minimum="0" Value="{Binding Redner.Abstand}" />
+                                <TextBox Grid.Column="1" Text="{Binding ElementName=AbstandSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Slider Grid.Column="0" x:Name="AbstandSlider" Maximum="52" TickPlacement="BottomRight" TickFrequency="4" Minimum="0" Value="{Binding Redner.Abstand}" />
                             </Grid>
                         </dxlc:LayoutItem>
                     </dxlc:LayoutControl>
@@ -146,7 +143,7 @@
                                 Orientation="Vertical"
                                 DockPanel.Dock="Right" 
                                 Width="210">
-                <uc:CalendarYearShort x:Name="calendar" />
+                <uc:CalendarYearShort x:Name="Calendar" />
             </dxlc:LayoutGroup>
             <dxlc:LayoutGroup Header="Liste der Vorträge"
                                 Margin="0,5,0,0"

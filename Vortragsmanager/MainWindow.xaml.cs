@@ -5,7 +5,6 @@ using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Module;

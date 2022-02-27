@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
 using DevExpress.Mvvm;
-using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Interface;
 using Vortragsmanager.Pages;

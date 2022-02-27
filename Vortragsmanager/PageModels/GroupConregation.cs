@@ -15,7 +15,7 @@ namespace Vortragsmanager.PageModels
             AnfrageSendenCommand = new DelegateCommand(AskForSpeaker);
         }
 
-        public DelegateCommand AnfrageSendenCommand { get; private set; }
+        public DelegateCommand AnfrageSendenCommand { get; }
 
         public void AskForSpeaker()
         {

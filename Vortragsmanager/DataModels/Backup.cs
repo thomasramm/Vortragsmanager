@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -203,9 +204,9 @@ namespace Vortragsmanager.DataModels
                     case BackupAge.Dieses_Jahr:
                         return _date.ToString("MMMM, dd.MM HH:mm:ss") + " Uhr";
                     case BackupAge.Älter:
-                        return _date.ToString("yyyy, dd.MM.yyyy HH:mm:ss") + " Uhr"; ;
+                        return _date.ToString("yyyy, dd.MM.yyyy HH:mm:ss") + " Uhr";
                     default:
-                        return _date.ToString("dd.MM.yyyy HH:mm:ss") + " Uhr"; ;
+                        return _date.ToString("dd.MM.yyyy HH:mm:ss") + " Uhr";
                 }
             }
         }
@@ -242,7 +243,6 @@ namespace Vortragsmanager.DataModels
             get
             {
                 var diff = DateTime.Now - _date;
-                var gruppe = Age.ToString().Replace("_", " ");
 
                 if (diff.TotalMinutes <= 1)
                     return $"vor {diff.Seconds} Sekunden.";
@@ -289,6 +289,7 @@ namespace Vortragsmanager.DataModels
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public enum BackupAge
     {
         Heute,
@@ -297,5 +298,4 @@ namespace Vortragsmanager.DataModels
         Dieses_Jahr,
         Älter
     }
-
 }

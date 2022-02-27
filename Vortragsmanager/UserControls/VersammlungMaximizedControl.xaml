@@ -13,7 +13,7 @@
     <UserControl.Resources>
         <dxmvvm:BooleanNegationConverter x:Key="BooleanNegationConverter" />
     </UserControl.Resources>
-    <dxlc:FlowLayoutControl ItemSpace="12" x:Name="flc" >
+    <dxlc:FlowLayoutControl ItemSpace="12" x:Name="Flc" >
             <dxlc:LayoutGroup Header="Daten der Versammlung" View="GroupBox" Orientation="Vertical" Width="350" ItemLabelsAlignment="Local">
                 <dxlc:LayoutItem Label="Eigene Versammlung:">
                     <dxe:ToggleSwitch ContentPlacement="Near"
@@ -104,7 +104,7 @@
                     <TextBox Text="{Binding Versammlung.KoordinatorJw, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </dxlc:LayoutItem>
             </dxlc:LayoutGroup>
-        <dxlc:LayoutGroup Header="Redner" View="GroupBox" Height="{c:Binding ElementName=flc, Path=ActualHeight - 45}" Orientation="Vertical">
+        <dxlc:LayoutGroup Header="Redner" View="GroupBox" Height="{c:Binding ElementName=Flc, Path=ActualHeight - 45}" Orientation="Vertical">
             
                 <dx:SimpleButton Content="Neuen Redner anlegen" Height="50" Width="200" HorizontalAlignment="Left" Margin="10,0"
                             Command="{Binding NewPersonCommand}"

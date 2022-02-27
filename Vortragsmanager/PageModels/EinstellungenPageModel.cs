@@ -6,11 +6,11 @@ using System.Windows;
 using System.Windows.Forms;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
 using Vortragsmanager.Module;
+using Vortragsmanager.Windows;
 using Application = System.Windows.Application;
 
 namespace Vortragsmanager.PageModels
@@ -331,8 +331,8 @@ namespace Vortragsmanager.PageModels
                     jwpubadressenFuß += mail.Koordinator + Environment.NewLine;
             }
 
-            var dialog = new Views.leerDialog();
-            var data = (Views.LeerViewModel)dialog.DataContext;
+            var dialog = new LeerDialog();
+            var data = (LeerViewModel)dialog.DataContext;
             data.Titel = "Mail an alle Koordinatoren";
             data.ShowCopyButton = true;
             data.ShowCloseButton = true;
@@ -343,7 +343,7 @@ namespace Vortragsmanager.PageModels
                       + mailadressenFuß;
 
             dialog.ShowDialog();
-            ActivityLog.ActivityAddItem.SendMail(data.Text, maxEntfernung);
+            ActivityAddItem.SendMail(data.Text, maxEntfernung);
         }
 
         public static void CalculateRoute(bool alle)

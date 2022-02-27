@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Vortragsmanager.Core
+namespace Vortragsmanager.Helper
 {
     public static class DialogCloser
     {
@@ -15,8 +15,7 @@ namespace Vortragsmanager.Core
             DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            var window = d as Window;
-            if (window != null)
+            if (d is Window window)
                 window.DialogResult = e.NewValue as bool?;
         }
         public static void SetDialogResult(Window target, bool? value)

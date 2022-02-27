@@ -1,7 +1,7 @@
 ﻿using Vortragsmanager.Datamodels;
 using Vortragsmanager.Helper;
 
-namespace Vortragsmanager.PageModels
+namespace Vortragsmanager.DataModels
 {
     /// <summary>
     /// Liste der Vorträge eines Redners

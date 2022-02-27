@@ -5,10 +5,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
-             xmlns:local="clr-namespace:Vortragsmanager.MeineVerwaltung"
              xmlns:views="clr-namespace:Vortragsmanager.Views" xmlns:core="clr-namespace:Vortragsmanager.Core"
+             xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
              mc:Ignorable="d"
-             d:DataContext="{d:DesignInstance Type=local:ConregationsViewModelCollection, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance Type=pageModels:ConregationsViewModelCollection, IsDesignTimeCreatable=True}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>

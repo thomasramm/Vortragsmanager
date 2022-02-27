@@ -25,7 +25,7 @@ namespace Vortragsmanager.Pages
         {
             DevExpress.Xpf.Editors.ComboBoxEdit cb = (sender as DevExpress.Xpf.Editors.ComboBoxEdit);
             var redner = (cb.DataContext as MeineRednerNeueAnfragePageModel).SelectedRedner;
-            calendar.Person = redner;
+            Calendar.Person = redner;
         }
     }
 }

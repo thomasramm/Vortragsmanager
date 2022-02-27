@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
 using Vortragsmanager.Datamodels;
 
 namespace Vortragsmanager.UserControls
@@ -10,7 +9,7 @@ namespace Vortragsmanager.UserControls
     /// <summary>
     /// Interaktionslogik für DropDownVersammlung.xaml
     /// </summary>
-    public partial class DropDownVersammlung : UserControl
+    public partial class DropDownVersammlung
     {
         public DropDownVersammlung()
         {
@@ -31,8 +30,8 @@ namespace Vortragsmanager.UserControls
 
         public Conregation SelectedItem
         {
-            get { return (Conregation)GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
+            get => (Conregation)GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
         }
 
         private static void OnConregationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -45,7 +44,7 @@ namespace Vortragsmanager.UserControls
         }
 
 
-        public ObservableCollection<Conregation> ListeAlle { get; private set; } = new ObservableCollection<Conregation>();
+        public ObservableCollection<Conregation> ListeAlle { get; } = new ObservableCollection<Conregation>();
 
         public ObservableCollection<Conregation> ListeFilteredItems { get; private set; } = new ObservableCollection<Conregation>();
 
@@ -89,8 +88,8 @@ namespace Vortragsmanager.UserControls
 
         public event RoutedPropertyChangedEventHandler<Conregation> ConregationChanged
         {
-            add { AddHandler(ConregationChangedEvent, value); }
-            remove { RemoveHandler(ConregationChangedEvent, value); }
+            add => AddHandler(ConregationChangedEvent, value);
+            remove => RemoveHandler(ConregationChangedEvent, value);
         }
 
         private void OnConregationChanged(Conregation oldValue, Conregation newValue)

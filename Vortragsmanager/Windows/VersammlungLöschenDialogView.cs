@@ -1,15 +1,15 @@
-﻿using DevExpress.Mvvm;
-using DevExpress.Xpf.Core;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
+using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Interface;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.Windows
 {
     internal class VersammlungLöschenDialogView : ViewModelBase
     {
@@ -17,10 +17,7 @@ namespace Vortragsmanager.Views
 
         public Conregation Versammlung
         {
-            get
-            {
-                return _versammlung;
-            }
+            get => _versammlung;
             set
             {
                 _versammlung = value;
@@ -45,15 +42,15 @@ namespace Vortragsmanager.Views
             DeleteCommand = new DelegateCommand<ICloseable>(Delete);
         }
 
-        public DelegateCommand<int> KoordinatorSelectCommand { get; private set; }
+        public DelegateCommand<int> KoordinatorSelectCommand { get; }
 
-        public DelegateCommand ChoiseMergeCommand { get; private set; }
+        public DelegateCommand ChoiseMergeCommand { get; }
 
-        public DelegateCommand<ICloseable> MergeCommand { get; private set; }
+        public DelegateCommand<ICloseable> MergeCommand { get; }
 
-        public DelegateCommand<ICloseable> CancelCommand { get; private set; }
+        public DelegateCommand<ICloseable> CancelCommand { get; }
 
-        public DelegateCommand<ICloseable> DeleteCommand { get; private set; }
+        public DelegateCommand<ICloseable> DeleteCommand { get; }
 
         public ObservableCollection<Conregation> ListeAllerVersammlungen { get; private set; }
 
@@ -65,32 +62,26 @@ namespace Vortragsmanager.Views
 
         public bool Abbrechen { get; private set; } = true;
 
-        private GridLength _step1height;
+        private GridLength _step1Height;
 
         public GridLength Step1Height
         {
-            get
-            {
-                return _step1height;
-            }
+            get => _step1Height;
             set
             {
-                _step1height = value;
+                _step1Height = value;
                 RaisePropertyChanged();
             }
         }
 
-        private GridLength _step2height;
+        private GridLength _step2Height;
 
         public GridLength Step2Height
         {
-            get
-            {
-                return _step2height;
-            }
+            get => _step2Height;
             set
             {
-                _step2height = value;
+                _step2Height = value;
                 RaisePropertyChanged();
             }
         }
@@ -119,7 +110,7 @@ namespace Vortragsmanager.Views
                 var unb = DataContainer.ConregationGetUnknown();
                 if (_selectedConregation == unb || Versammlung == unb)
                 {
-                    ThemedMessageBox.Show("Achtung", $"Du kannst keine Versammlung mit 'Unbekannt' zusammenführen.", MessageBoxButton.OK, MessageBoxImage.Information);
+                    ThemedMessageBox.Show("Achtung", "Du kannst keine Versammlung mit 'Unbekannt' zusammenführen.", MessageBoxButton.OK, MessageBoxImage.Information);
                     MergeEnabled = false;
                     MergeHint = "'Unbekannt' ist in der Auswahl nicht erlaubt.";
                 }

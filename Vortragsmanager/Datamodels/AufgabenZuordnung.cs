@@ -27,8 +27,7 @@
             get
             {
                 if (Id <= 0) return 2;
-                if (Häufigkeit == 1) return 1;
-                return 0;
+                return Häufigkeit == 1 ? 1 : 0;
             }
         }
 

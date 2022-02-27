@@ -1,7 +1,7 @@
 ﻿using System;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
+using Vortragsmanager.Module;
 
 namespace Vortragsmanager.Helper
 {
@@ -79,7 +79,7 @@ namespace Vortragsmanager.Helper
 
             //Tag 1 + KW Wochen = Montag in der KW + Wochentag der Vers.
             tag1 = tag1.AddDays((kw) * 7).AddDays((int)day - 1);
-            if (day == Enums.Wochentag.Sonntag)
+            if (day == Wochentag.Sonntag)
                 tag1 = tag1.AddDays(7);
 
             return tag1;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using Vortragsmanager.ActivityLog;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
 
@@ -64,7 +63,7 @@ namespace Vortragsmanager.UserControls
                     break;
 
                 case ActivityTypes.RednerAnfragen:
-                    ToolTipHeader.Text = "Redneranfrage an Versammlung " + _log.Versammlung.Name;
+                    ToolTipHeader.Text = "Redneranfrage an Versammlung " + _log.Versammlung?.Name;
                     ToolTipBody.Text = $"{_log.Mails}";
                     break;
 
@@ -124,19 +123,7 @@ namespace Vortragsmanager.UserControls
 
         public ActivityTypes Typ => _log.Typ;
 
-        private bool _aktiv = true;
-        public bool Aktiv
-        {
-            get
-            {
-                return _aktiv;
-            }
-            set
-            {
-                _aktiv = value;
-                
-            }
-        }
+        public bool Aktiv { get; set; } = true;
 
         public ActivityTime Zeitraum { get; set; }
     }

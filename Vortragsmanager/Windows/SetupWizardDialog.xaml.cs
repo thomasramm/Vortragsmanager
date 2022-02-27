@@ -2,7 +2,7 @@
 using System.Windows;
 using Vortragsmanager.Interface;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.Windows
 {
     /// <summary>
     /// Interaktionslogik für BuchungLöschenCommandDialog.xaml

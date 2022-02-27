@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Vortragsmanager.Enums;
+using Vortragsmanager.Interface;
 
 namespace Vortragsmanager.Datamodels
 {
@@ -33,9 +34,10 @@ namespace Vortragsmanager.Datamodels
 
         public int Kw
         {
-            get { return _datum; }
+            get => _datum;
+
             //ToDo: Kann das richtig sein?
-            set { _datum = -1; }
+            set => _datum = -1;
         }
 
         //Angefragte Termin

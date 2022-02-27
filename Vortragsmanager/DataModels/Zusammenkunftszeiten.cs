@@ -1,24 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Vortragsmanager.Enums;
+using Vortragsmanager.Module;
 
-namespace Vortragsmanager.Core.DataHelper
+namespace Vortragsmanager.DataModels
 {
     public class Zusammenkunftszeiten
     {
         public List<Zusammenkunftszeit> Items { get; } = new List<Zusammenkunftszeit>();
 
-        public Zusammenkunftszeit Get(int Jahr)
+        public Zusammenkunftszeit Get(int jahr)
         {
-            Log.Info(nameof(Get), Jahr);
+            Log.Info(nameof(Get), jahr);
             
             //Das aktuelle Jahr abfragen
-            var myItem = Items.FirstOrDefault(x => x.Jahr == Jahr);
+            var myItem = Items.FirstOrDefault(x => x.Jahr == jahr);
             if (myItem != null)
                 return myItem;
 
             //den letzen Eintrag vor meinem Jahr abfragen
-            myItem = Items.Where(x => x.Jahr <= Jahr).OrderByDescending(y => y.Jahr).FirstOrDefault();
+            myItem = Items.Where(x => x.Jahr <= jahr).OrderByDescending(y => y.Jahr).FirstOrDefault();
             if (myItem != null)
                 return myItem;
 
@@ -28,36 +29,36 @@ namespace Vortragsmanager.Core.DataHelper
                 return myItem;
 
             //Es gibt kein Jahr, neues Jahr erstellen
-            myItem = new Zusammenkunftszeit(Jahr);
+            myItem = new Zusammenkunftszeit(jahr);
             Items.Add(myItem);
             return myItem;
         }
 
-        public Zusammenkunftszeit Set(int Jahr, Wochentag Tag, string Zeit)
+        public Zusammenkunftszeit Set(int jahr, Wochentag tag, string zeit)
         {
-            Log.Info(nameof(Set), $"jahr={Jahr}, Tag={Tag}, Zeit={Zeit}");
-            var myItem = Items.FirstOrDefault(x => x.Jahr == Jahr);
+            Log.Info(nameof(Set), $"jahr={jahr}, Tag={tag}, Zeit={zeit}");
+            var myItem = Items.FirstOrDefault(x => x.Jahr == jahr);
             if (myItem == null) 
             {
-                myItem = new Zusammenkunftszeit(Jahr, Tag, Zeit);
+                myItem = new Zusammenkunftszeit(jahr, tag, zeit);
                 Items.Add(myItem);
             }
             else
             {
-                myItem.Tag = Tag;
-                myItem.Zeit = Zeit;
+                myItem.Tag = tag;
+                myItem.Zeit = zeit;
             }
             return myItem;
         }
 
-        public Zusammenkunftszeit Add(int Jahr, Wochentag Tag, string Zeit)
+        public Zusammenkunftszeit Add(int jahr, Wochentag tag, string zeit)
         {
-            return Set(Jahr, Tag, Zeit);
+            return Set(jahr, tag, zeit);
         }
 
-        public Zusammenkunftszeit Add(int Jahr, int Tag, string Zeit)
+        public Zusammenkunftszeit Add(int jahr, int tag, string zeit)
         {
-            return Set(Jahr, (Wochentag)Tag, Zeit);
+            return Set(jahr, (Wochentag)tag, zeit);
         }
 
         public void Remove(Zusammenkunftszeit zeit)

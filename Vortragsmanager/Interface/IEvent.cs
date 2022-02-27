@@ -1,6 +1,7 @@
-﻿using Vortragsmanager.Enums;
+﻿using Vortragsmanager.Datamodels;
+using Vortragsmanager.Enums;
 
-namespace Vortragsmanager.Datamodels
+namespace Vortragsmanager.Interface
 {
     public interface IEvent
     {

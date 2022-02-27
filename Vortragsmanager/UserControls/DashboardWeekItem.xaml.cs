@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
@@ -11,10 +10,8 @@ namespace Vortragsmanager.UserControls
     /// <summary>
     /// Interaktionslogik für DashboardWeekItem.xaml
     /// </summary>
-    public partial class DashboardWeekItem : UserControl
+    public partial class DashboardWeekItem
     {
-        private int woche;
-
         public DashboardWeekItem()
         {
             InitializeComponent();
@@ -27,14 +24,8 @@ namespace Vortragsmanager.UserControls
 
         public int Woche
         {
-            get
-            {
-                return (int)GetValue(WocheProperty);
-            }
-            set
-            {
-                SetValue(WocheProperty, value);
-            }
+            get => (int)GetValue(WocheProperty);
+            set => SetValue(WocheProperty, value);
         }
 
         static void OnWocheChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -52,19 +43,27 @@ namespace Vortragsmanager.UserControls
         }
 
         private void LoadMeinPlan(int week)
-        {           
+        {
             var prog = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == week);
-            if (prog.Status == EventStatus.Ereignis)
+            if (prog == null) 
+                return;
+            switch (prog.Status)
             {
-                _meinPlan.Text = prog.Anzeigetext;
-            }
-            else if (prog.Status == EventStatus.Zugesagt)
-            {
-                var einladung = (Invitation)prog;
-                _meinPlan.Text = einladung.Ältester.Name + Environment.NewLine
-                    + "  in " + einladung.Ältester.Versammlung.Name + Environment.NewLine
-                    + "  Nr "+ einladung.Vortrag.Vortrag.ToString() + Environment.NewLine
-                    + "  Tel: " + einladung.Ältester.Mobil ?? einladung.Ältester.Telefon;
+                case EventStatus.Ereignis:
+                    _meinPlan.Text = prog.Anzeigetext;
+                    break;
+                case EventStatus.Zugesagt:
+                {
+                    var einladung = (Invitation) prog;
+                    _meinPlan.Text = einladung.Ältester.Name + Environment.NewLine
+                                                             + "  in " + einladung.Ältester.Versammlung.Name +
+                                                             Environment.NewLine
+                                                             + "  Nr " + einladung.Vortrag.Vortrag +
+                                                             Environment.NewLine
+                                                             + "  Tel: " + einladung.Ältester.Mobil ??
+                                     einladung.Ältester.Telefon;
+                    break;
+                }
             }
         }
 
@@ -89,8 +88,8 @@ namespace Vortragsmanager.UserControls
                     {
                         kw = r.Kw;
                         message += r.Ältester.Name + Environment.NewLine
-                            + "  in " + r.Versammlung.Name + " | " + r.Zeit.ToString() + Environment.NewLine
-                            + "  Nr. " + r.Vortrag?.Vortrag.ToString() + Environment.NewLine;
+                            + "  in " + r.Versammlung.Name + " | " + r.Zeit + Environment.NewLine
+                            + "  Nr. " + r.Vortrag?.Vortrag + Environment.NewLine;
                     }
                 }
                 _meineRedner.Text = message.TrimEnd('\n');

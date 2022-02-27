@@ -5,11 +5,11 @@ using System.Linq;
 using System.Windows;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
+using Vortragsmanager.Module;
 
 namespace Vortragsmanager.UserControls
 {
@@ -35,11 +35,11 @@ namespace Vortragsmanager.UserControls
             AlleDatenFreigeben = new DelegateCommand(LadeFreieTermine);
         }
 
-        public DelegateCommand SaveCommand { get; private set; }
+        public DelegateCommand SaveCommand { get; }
 
-        public DelegateCommand CancelCommand { get; private set; }
+        public DelegateCommand CancelCommand { get; }
 
-        public DelegateCommand AlleDatenFreigeben { get; private set; }
+        public DelegateCommand AlleDatenFreigeben { get; }
 
         public string Name => _redner.Name;
 
@@ -56,10 +56,10 @@ namespace Vortragsmanager.UserControls
             var endDate = DateCalcuation.AddWeek(DateCalcuation.CurrentWeek, 53);
             while (startDate < endDate)
             {
-                if (!DataContainer.MeinPlan.Any(x => x.Kw == startDate))
+                if (DataContainer.MeinPlan.All(x => x.Kw != startDate))
                 {
                     var d = DateCalcuation.CalculateWeek(startDate);
-                    if (!Wochen.Any(x => x == d))
+                    if (Wochen.All(x => x != d))
                         Wochen.Add(d);
                 }
                 startDate = DateCalcuation.AddWeek(startDate, 1);
@@ -70,10 +70,7 @@ namespace Vortragsmanager.UserControls
 
         public bool Sichtbar
         {
-            get
-            {
-                return _sichtbar;
-            }
+            get => _sichtbar;
             set
             {
                 _sichtbar = value;
@@ -85,10 +82,7 @@ namespace Vortragsmanager.UserControls
 
         public bool Aktiv
         {
-            get
-            {
-                return _aktiv;
-            }
+            get => _aktiv;
             set
             {
                 _aktiv = value;
@@ -100,10 +94,7 @@ namespace Vortragsmanager.UserControls
 
         public DateTime SelectedDatum
         {
-            get
-            {
-                return _selectedDatum;
-            }
+            get => _selectedDatum;
             set
             {
                 _selectedDatum = value;
@@ -123,7 +114,7 @@ namespace Vortragsmanager.UserControls
             {
                 vortrag = _redner.Vorträge.First();
                 ThemedMessageBox.Show("Fehler",
-                    $"Der gewählte Vortrag ist für den Redner nicht mehr verfügbar!" + Environment.NewLine +
+                    "Der gewählte Vortrag ist für den Redner nicht mehr verfügbar!" + Environment.NewLine +
                     $"Als gewählter Vortrag wurde statt dessen Vortrag #{vortrag.Vortrag.Nummer} ausgewählt." + Environment.NewLine +
                     "Bitte Prüfen und ggfs. korrigieren",
                     MessageBoxButton.OK,
@@ -148,7 +139,7 @@ namespace Vortragsmanager.UserControls
                 anfrageGelöscht = true;
             }
 
-            ActivityLog.ActivityAddItem.RednerAnfrageZugesagt(i, _base.BaseAnfrage.Mailtext, anfrageGelöscht);
+            ActivityAddItem.RednerAnfrageZugesagt(i, _base.BaseAnfrage.Mailtext, anfrageGelöscht);
         }
 
         public void Absagen()
@@ -170,7 +161,7 @@ namespace Vortragsmanager.UserControls
                 anfrageGelöscht = true;
             }
 
-            ActivityLog.ActivityAddItem.RednerAnfrageAbgelehnt(_redner, vortrag, wochen, _base.BaseAnfrage.Mailtext, anfrageGelöscht);
+            ActivityAddItem.RednerAnfrageAbgelehnt(_redner, vortrag, wochen, _base.BaseAnfrage.Mailtext, anfrageGelöscht);
         }
     }
 }

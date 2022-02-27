@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using DevExpress.Xpf.LayoutControl;
 using Vortragsmanager.Interface;
-using Vortragsmanager.MeineVerwaltung;
+using Vortragsmanager.PageModels;
 using GroupBox = DevExpress.Xpf.LayoutControl.GroupBox;
 
 namespace Vortragsmanager.Pages

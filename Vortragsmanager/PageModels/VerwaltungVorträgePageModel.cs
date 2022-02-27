@@ -1,13 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using DevExpress.Mvvm;
+using Vortragsmanager.Module;
 using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.PageModels
 {
     public class VerwaltungVorträgePageModel : ViewModelBase
     {
-        public ObservableCollection<Datamodels.Talk> Talks { get; private set; }
+        public ObservableCollection<Datamodels.Talk> Talks { get; }
 
         public VerwaltungVorträgePageModel()
         {
@@ -18,11 +19,11 @@ namespace Vortragsmanager.PageModels
             NewTalkNumber = Talks.Select(x => x.Nummer).Max() + 1;
         }
 
-        public DelegateCommand ResetCommand { get; private set; }
+        public DelegateCommand ResetCommand { get; }
 
-        public DelegateCommand CreateOverviewTalkCountCommand { get; private set; }
+        public DelegateCommand CreateOverviewTalkCountCommand { get; }
 
-        public DelegateCommand AddThemaCommand { get; private set; }
+        public DelegateCommand AddThemaCommand { get; }
 
         public bool ListeÖffnen
         {
@@ -41,7 +42,7 @@ namespace Vortragsmanager.PageModels
 
         public void CreateOverviewTalkCount()
         {
-            Core.IoExcel.Export.OverviewTalkCount(ListeÖffnen);
+            IoExcel.Export.OverviewTalkCount(ListeÖffnen);
         }
 
         public void AddThema()
@@ -58,10 +59,7 @@ namespace Vortragsmanager.PageModels
         private int _newTalkNumber;
         public int NewTalkNumber
         {
-            get
-            {
-                return _newTalkNumber;
-            }
+            get => _newTalkNumber;
             set
             {
                 _newTalkNumber = value;
