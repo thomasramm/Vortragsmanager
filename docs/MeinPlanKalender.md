@@ -2,15 +2,6 @@
 title: "Mein Plan > Kalender"
 ---
 
-Die Verwaltung deiner eigenen Redner- und Vortragsplanung geschieht hier. 
-Dieser Programmbereich besteht aus drei Unterbereichen:
-
-* [Kalender](MeinPlan.md): Dies ist der Hauptbereich für deine Planung. Hier siehst du deine aktuelle Planung und kannst sie auch pflegen.
-* [Redner suchen](MeinPlan.md#redner-suchen): Hier findest du die Vorträge und Redner die du schon länger nicht mehr gehört hast und kannst Einladungsmails generieren.
-* [Antwort eintragen](MeinPlan.md#antwort-eintragen): Hat jemand auf deine Einladung geantwortet, trägst du hier die Antwort ein. Dein Versammlungsplan wird dann aktualisiert.
-
-# Kalender
-
 Die Seite besteht aus der Jahres-Navigation in der du das aktuell betrachtete Jahr wechseln kannst und einem Jahreskalender mit allen deinen Planungen.
 Für jede Woche gibt es einen Eintrag mit dem Tag im Monat und einem Hinweis auf deine Eintragung.
 
@@ -116,4 +107,4 @@ Beim Löschen von Vorträgen wird ein Mailtext generiert, Ereignisse werden sofo
 ### Erinnerungsmail senden
 Du kannst für eine bevorstehende Vortragseinladung eine Erinnerungsmail senden.
 
-[zurück](Startseite.md){: .btn .btn--inverse}  [weiter](MeinPlanRednerSuchen.md){: .btn .btn--inverse}
+[zurück](MeinPlan.md){: .btn .btn--inverse}  [weiter](MeinPlanRednerSuchen.md){: .btn .btn--inverse}

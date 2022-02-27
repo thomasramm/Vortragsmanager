@@ -2,13 +2,6 @@
 title: "Historie > Aktivitäten"
 ---
 
-Dieser Programmbereich besteht aus zwei Unterbereichen:
-
-* [Sicherungen](HistorieSicherungen.md): Historische Planungsstänge
-* [Aktivitäten](HistorieAktivitäten.md): Übersicht der Programmaktivitäten.
-
-# Aktivitäten
-
 Hier kann man sehen wann man bestimmte Vorgänge im Programm vorgenommen hat. 
 Es werden nicht alle Aktivitäten gespeichert, sondern lediglich Aktionen bei denen dein Plan oder die Einladungen deiner Redner geändert werden, 
 oder eine Kommunikation mit anderen statt findet.

@@ -36,7 +36,7 @@ lmenu:
     url: /MeinPlan/
     children: 
       - title: Kalender
-        url: /MeinPlan/
+        url: /MeinPlanKalender/
       - title: Redner suchen
         url: /MeinPlanRednerSuchen/
       - title: Antwort eintragen
@@ -48,7 +48,7 @@ lmenu:
     url: /MeineRedner/
     children:
       - title: Rednereinladungen
-        url: /MeineRedner/
+        url: /MeineRednerRednereinladungen/
       - title: Neue Anfrage
         url: /MeineRednerNeueAnfrage/
 
@@ -56,7 +56,7 @@ lmenu:
     url: /ListeAusgeben/
 
   - title: Verwaltung
-    url: /VerwaltungVersammlungen/
+    url: /Verwaltung/
     children:
       - title: Versammlungen
         url: /VerwaltungVersammlungen/

@@ -1,7 +1,5 @@
-
-
 ---
-title: Einstellungen
+title: "Einstellungen"
 ---
 
 Dieser Bereich besteht aus 4 Unterbereichen:
@@ -82,4 +80,4 @@ Du kannst hier entweder alle Berechnungen neu vornehmen lassen, oder nur die feh
 
 Da ich kein Unbegrenztes Limit an Berechnungen bei Google habe, bitte ich diese Funktion nicht unnötig zu benutzen und nach Möglichkeit keine bereits gerechneten Entfernungen nochmals zu berechnen.
 
-[zurück](VerwaltungVorlagen.md){: .btn .btn--inverse}  [weiter](HistorieSicherungen.md){: .btn .btn--inverse}
+[zurück](VerwaltungVorlagen.md){: .btn .btn--inverse}  [weiter](Historie.md){: .btn .btn--inverse}

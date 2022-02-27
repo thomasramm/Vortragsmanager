@@ -1,25 +1,14 @@
 ---
 title: "Verwaltung"
 ---
-Der Bereich Verwaltung besteht aus 6 unterschiedlichen Teilen:
 
-[![link3](/images/menu_icon_07.png)](/Vortragsmanager/Versammlungen){: .align-left}
-[![link3](/images/menu_icon_10.png)](/Vortragsmanager/Redner){: .align-left}
-[![link3](/images/menu_icon_13.png)](/Vortragsmanager/Sicherung){: .align-left}
+Dieser Programmbereich besteht aus vier Unterbereichen:
 
-<br clear="all" />
+* [Versammlungen](VerwaltungVersammlungen.md): Verwaltung aller Versammlungen und Kontaktdaten der Koordinatoren mit denen du Redner austauschen willst.
+* [Redner](VerwaltungRedner.md): Verwaltung der Redner in den Versammlungen mit den Vorträgen die sie halten.
+* [Vorträge](VerwaltungVortragsthemen.md): Liste aller Vorträge, die Themen können hier angepasst werden.
+* [Vorlagen](VerwaltungVorlagen.md): Hier werden die Mailvorlagen angepasst, z.B. deine Signatur
 
-[![link3](/images/menu_icon_06.png)](/Vortragsmanager/ListenAusgeben){: .align-left}
-[![link3](/images/menu_icon_08.png)](/Vortragsmanager/Vorlagen){: .align-left}
+![Versammlungen](images/Verwaltung.png)
 
-<br clear="all" />
-
-[![link3](/images/menu_icon_09.png)](/Vortragsmanager/ProgrammEinstellungen){: .align-left}
-[![link3](/images/menu_icon_13.png)](/Vortragsmanager/Vortragsthemen){: .align-left}
-
-<br clear="all" />
-
-(Bitte auf das ensprechende Icon clicken oder auf weiter)
-
-
-[zurück](MeineRedner.md){: .btn .btn--inverse}  [weiter](Versammlungen.md){: .btn .btn--inverse}
+[zurück](ListeAusgeben.md){: .btn .btn--inverse}  [weiter](VerwaltungVersammlungen.md){: .btn .btn--inverse}

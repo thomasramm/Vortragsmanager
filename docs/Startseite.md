@@ -37,4 +37,4 @@ Das Programm ist in folgende Hauptbereiche aufgeteilt:
 * [Historie](Historie.md): Änderungen Rückgängig machen und vergangene Aktivitäten (wie z.B. Mailversand an andere) ansehen.
 
 
-[zurück](Initialisierung.md){: .btn .btn--inverse}  [weiter](MeinPlanKalender.md){: .btn .btn--inverse}
+[zurück](Initialisierung.md){: .btn .btn--inverse}  [weiter](MeinPlan.md){: .btn .btn--inverse}

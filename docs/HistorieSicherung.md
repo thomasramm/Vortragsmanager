@@ -1,45 +1,38 @@
----
+ï»¿---
 title: "Historie > Sicherung"
 ---
 
-Dieser Programmbereich besteht aus zwei Unterbereichen:
-
-* [Sicherungen](HistorieSicherungen.md): Historische Planungsstänge
-* [Aktivitäten](HistorieAktivitäten.md): Übersicht der Programmaktivitäten.
-
-# Sicherungen
-
-In regelmäßigen Abständen werden Sicherungskopien deiner Planung erstellt und hier angezeigt. 
-Du kannst die Sicherungen benutzen um versehentliche Änderungen deiner Planung Rückgängig zu machen.
+In regelmÃ¤ÃŸigen AbstÃ¤nden werden Sicherungskopien deiner Planung erstellt und hier angezeigt. 
+Du kannst die Sicherungen benutzen um versehentliche Ã„nderungen deiner Planung RÃ¼ckgÃ¤ngig zu machen.
 
 ![Sicherungen](images/HistorieSicherungen.png)
 
-Im Hauptbereich des Fensters siehst du alle verfügbaren Sicherungen.
-Der Eintrag für jede Sicherung ist folgendermaßen aufgebaut:
-1. Ein Symbol das das ungefähre Alter der Sicherung anzeigt.
+Im Hauptbereich des Fensters siehst du alle verfÃ¼gbaren Sicherungen.
+Der Eintrag fÃ¼r jede Sicherung ist folgendermaÃŸen aufgebaut:
+1. Ein Symbol das das ungefÃ¤hre Alter der Sicherung anzeigt.
 2. Das genaue Datum der Sicherung und in der zweiten Zeile ein Hinweis wie alt diese Sicherung ist.
-3. Ein rotes Mülleimer-Symbol. Damit wird die Sicherung gelöscht.
-4. Ein weißes "Wiederherstellen"-Symbol. Damit wird die Sicherung wiederhergestellt.
+3. Ein rotes MÃ¼lleimer-Symbol. Damit wird die Sicherung gelÃ¶scht.
+4. Ein weiÃŸes "Wiederherstellen"-Symbol. Damit wird die Sicherung wiederhergestellt.
 
 Rechts im Fenster werden verschiedene Optionen angezeigt.
-* Für die verschiedenen Zeitbereiche der Sicherung kann die Anzeige ausgeblendet werden, um eine einzelne Sicherung besser zu finden.
-* Außerdem kann das Erstellen der Sicherungen deaktiviert werden.
+* FÃ¼r die verschiedenen Zeitbereiche der Sicherung kann die Anzeige ausgeblendet werden, um eine einzelne Sicherung besser zu finden.
+* AuÃŸerdem kann das Erstellen der Sicherungen deaktiviert werden.
 
 ## Wann werden Sicherungen erstellt
 
 * Bei jedem Beenden des Programm
-* jedes mal wenn du im Programm auf die Startseite (Dashboard) zurückkehrst.
+* jedes mal wenn du im Programm auf die Startseite (Dashboard) zurÃ¼ckkehrst.
 
 ## Welche Sicherungen werden behalten
 
-Da bei den vielen Sicherungen die Übersichtlichkeit verloren ginge, und das Backup zu groß werden würde, werden nicht alle Sicherungen behalten.
-Bei jedem Programmstart werden die Sicherungen geprüft und ältere werden entfernt.
+Da bei den vielen Sicherungen die Ãœbersichtlichkeit verloren ginge, und das Backup zu groÃŸ werden wÃ¼rde, werden nicht alle Sicherungen behalten.
+Bei jedem Programmstart werden die Sicherungen geprÃ¼ft und Ã¤ltere werden entfernt.
 Welche Sicherungen bleiben erhalten?
 
 * Alle Sicherungen des aktuellen Tages
-* Eine Sicherung pro Stunde für alle Sicherungen der aktuellen Woche (jeweils die letzte Sicherung einer vollen Stunde)
-* Eine Sicherung pro Tag für alle Sicherungen des aktuellen Monats (jeweils die letzte Sicherung des Tages)
-* Eine Sicherung pro Monat für die letzten 12 Monate (jeweils die letzte Sicherung des Monats)
+* Eine Sicherung pro Stunde fÃ¼r alle Sicherungen der aktuellen Woche (jeweils die letzte Sicherung einer vollen Stunde)
+* Eine Sicherung pro Tag fÃ¼r alle Sicherungen des aktuellen Monats (jeweils die letzte Sicherung des Tages)
+* Eine Sicherung pro Monat fÃ¼r die letzten 12 Monate (jeweils die letzte Sicherung des Monats)
 
 ## Wo werden die Sicherungen abgelegt?
 
@@ -47,4 +40,4 @@ Die Sicherungen werden in einem Archiv (zip-Datei) im AppData/Local Ordner gesic
 Du findest den Ordner, indem du im Windows Explorer als Pfad %LOCALAPPDATA% eingibtst. Suche von dort aus nach dem Ordner "Vortragsmanager DeLuxe", 
 dort liegt die Datei backup.zip
 
-[zurück](Einstellungen.md){: .btn .btn--inverse} [weiter](HistorieLog.md){: .btn .btn--inverse}
+[zurÃ¼ck](Historie.md){: .btn .btn--inverse} [weiter](HistorieLog.md){: .btn .btn--inverse}

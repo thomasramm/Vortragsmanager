@@ -2,14 +2,7 @@
 title: "Meine Redner > Neue Anfrage"
 ---
 
-Dieser Programmbereich besteht aus zwei Unterbereichen:
-
-* [Rednereinladungen](MeineRedner.md): Hier siehst du die Vortragstermine aller deiner Redner
-* [Neue Anfrage](MeineRednerNeueAnfrage.md): Fragt eine andere Versammlung einen Redner an, kannst du hier prüfen ob er zur Verfügung steht und in deine Planung eintragen.
-
-# Neue Anfrage
-
-bekommst du eine Anfrage für eine Einladung von einem anderen Koordinator, kannst du sie hier prüfen und dann Bestätigen oder ablehnen. 
+Bekommst du eine Anfrage für eine Einladung von einem anderen Koordinator, kannst du sie hier prüfen und dann Bestätigen oder ablehnen. 
 Sowohl für die Bestätigung als auch für die Ablehnung der Anfrage werden Mailtexte an den Anfragenden Koordinator und - bei Bestätigung - an den eingelaenen Redner generiert.
 Nach Bestätigung oder Ablehnung der Anfrage bleibt das Fenster offen, so dass weitere Anfragen bearbeitet werden können.
 
@@ -53,4 +46,4 @@ Hier wird angezeigt wer an diesem Datum in deiner eigenen Versammlung den Vortra
 
 Kommte es bei der Prüfung für den Redner oder für die Versammlung zu Problemen, werden dir hier entsprechende Hinweise ausgegeben. In diesem Beispiel hat der Redner bereits 1 Woche zuvor einen Vortrag und der Abstand von 1 Monat wurde nicht eingehalten. 
 
-[zurück](MeineRedner.md){: .btn .btn--inverse}  [weiter](ListeAusgeben.md){: .btn .btn--inverse}
+[zurück](MeineRednerRednereinladungen.md){: .btn .btn--inverse}  [weiter](ListeAusgeben.md){: .btn .btn--inverse}
