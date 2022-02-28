@@ -1,20 +1,19 @@
-﻿using DevExpress.Mvvm;
-using DevExpress.Xpf.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
 using Vortragsmanager.Datamodels;
-using Vortragsmanager.UserControls;
-using System.Linq;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Interface;
 using Vortragsmanager.Module;
 using Vortragsmanager.PageModels;
 using Vortragsmanager.Windows;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.UserControls
 {
     public class ConregationViewModel : ViewModelBase
     {
@@ -129,7 +128,7 @@ namespace Vortragsmanager.Views
             get => (DataContainer.MeineVersammlung == Versammlung);
             set
             {
-                if ((value == true) && (ThemedMessageBox.Show(
+                if (value && (ThemedMessageBox.Show(
                     Properties.Resources.Achtung,
                     "Willst du diese Versammlung wirklich als deine eigene Versammlung setzen?",
                     MessageBoxButton.YesNo,

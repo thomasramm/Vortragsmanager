@@ -31,6 +31,8 @@ namespace Vortragsmanager.Datamodels
 
         public string NumberTopicShort => $"{Nummer} {Thema}";
 
+
+        // ReSharper disable once UnusedMember.Global MeinPlanRednerSuchenPAge.xaml Displaymember der DropdownBox VortragListe
         public string NumberTopicDate => $"{Nummer} {Thema} | " + ZuletztGehaltenDatum;
     
         public string ZuletztGehaltenDatum => ((ZuletztGehalten <= 0) ? "nie gehalten" : DateCalcuation.CalculateWeek(ZuletztGehalten).ToShortDateString());

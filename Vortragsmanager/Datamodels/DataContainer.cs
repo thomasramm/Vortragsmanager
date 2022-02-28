@@ -36,8 +36,6 @@ namespace Vortragsmanager.Datamodels
 
         public string Programmversion { get; }
 
-        public string HelpToolTip => $"Handbuch öffnen (web){Environment.NewLine}Programm {Programmversion}";
-
         private static string GetVersion()
         {
             var version = System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version;
@@ -50,11 +48,11 @@ namespace Vortragsmanager.Datamodels
             return v;
         }
 
-        public bool ThemeIsDark
-        {
-            get => EinstellungenPageModel.ThemeIsDark;
-            set => EinstellungenPageModel.ThemeIsDark = value;
-        }
+        //public bool ThemeIsDark
+        //{
+        //    get => EinstellungenPageModel.ThemeIsDark;
+        //    set => EinstellungenPageModel.ThemeIsDark = value;
+        //}
     }
 
     public static class DataContainer

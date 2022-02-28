@@ -6,7 +6,7 @@ namespace Vortragsmanager.Datamodels
     {
         public Templates.TemplateName Name { get; set; }
 
-        public string Titel => Name.ToString();
+        //public string Titel => Name.ToString();
 
         public string Inhalt { get; set; }
 

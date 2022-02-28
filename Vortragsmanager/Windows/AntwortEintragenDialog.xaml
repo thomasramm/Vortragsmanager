@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:userControls="clr-namespace:Vortragsmanager.UserControls"
-        x:Class="Vortragsmanager.Views.AntwortEintragenDialog"
+        x:Class="Vortragsmanager.Windows.AntwortEintragenDialog"
         mc:Ignorable="d"
         Title="Antwort Eintragen" Height="600" Width="900"
         dx:ThemeManager.Theme="MetropolisDark"

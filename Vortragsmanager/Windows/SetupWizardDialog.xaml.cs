@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Windows;
 using Vortragsmanager.Interface;
 
 namespace Vortragsmanager.Windows
@@ -7,7 +6,7 @@ namespace Vortragsmanager.Windows
     /// <summary>
     /// Interaktionslogik für BuchungLöschenCommandDialog.xaml
     /// </summary>
-    public partial class SetupWizardDialog : Window, ICloseable
+    public partial class SetupWizardDialog : ICloseable
     {
         public SetupWizardDialog()
         {

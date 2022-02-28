@@ -2,6 +2,7 @@
 using DevExpress.Xpf.LayoutControl;
 using Vortragsmanager.Interface;
 using Vortragsmanager.PageModels;
+using Vortragsmanager.UserControls;
 using GroupBox = DevExpress.Xpf.LayoutControl.GroupBox;
 
 namespace Vortragsmanager.Pages
@@ -17,21 +18,21 @@ namespace Vortragsmanager.Pages
             DataContext = new ConregationsViewModelCollection(parentModel);
         }
 
-        public void SelectConregation(Datamodels.Conregation versammlung)
-        {
-            var boxList = lc.Children;
-            foreach (var box in boxList)
-            {
-                var gBox = (box as GroupBox);
-                if (gBox is null)
-                    continue;
-                var data = (Views.ConregationViewModel)gBox.DataContext;
-                if (data.Versammlung == versammlung)
-                {
-                    lc.MaximizedElement = gBox;
-                }
-            }
-        }
+        //public void SelectConregation(Datamodels.Conregation versammlung)
+        //{
+        //    var boxList = Lc.Children;
+        //    foreach (var box in boxList)
+        //    {
+        //        var gBox = (box as GroupBox);
+        //        if (gBox is null)
+        //            continue;
+        //        var data = (ConregationViewModel)gBox.DataContext;
+        //        if (data.Versammlung == versammlung)
+        //        {
+        //            Lc.MaximizedElement = gBox;
+        //        }
+        //    }
+        //}
 
         private void GroupBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -54,7 +55,7 @@ namespace Vortragsmanager.Pages
                 var gBox = (box as GroupBox);
                 if (gBox is null)
                     continue;
-                var data = (Views.ConregationViewModel)gBox.DataContext;
+                var data = (ConregationViewModel)gBox.DataContext;
                 data.EditMode = editMode;
                 data.Select(gBox == maximizedBox);
             }
@@ -62,13 +63,13 @@ namespace Vortragsmanager.Pages
 
         private void SearchBox_ValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
         {
-            var filter = e.NewValue?.ToString().ToLower(Helper.Helper.German) ?? null;
-            foreach (var box in lc.Children)
+            var filter = e.NewValue?.ToString().ToLower(Helper.Helper.German);
+            foreach (var box in Lc.Children)
             {
                 var gBox = (box as GroupBox);
                 if (gBox is null)
                     continue;
-                var data = (Views.ConregationViewModel)gBox.DataContext;
+                var data = (ConregationViewModel)gBox.DataContext;
 
                 var filterValue = $"{data.Versammlung.Kreis} {data.Versammlung.Name} {data.Versammlung.Koordinator}".ToLower(Helper.Helper.German);
                 if (string.IsNullOrEmpty(filter))

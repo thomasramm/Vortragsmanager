@@ -17,11 +17,6 @@
     <UserControl.DataContext>
         <pageModels:VerwaltungRednerPageModel />
     </UserControl.DataContext>
-    <UserControl.Resources>
-        <dxmvvm:ObjectToObjectConverter x:Key="accordionPanelWidthConverter" DefaultTarget="Auto">
-            <dxmvvm:MapItem Source="True" Target="300" />
-        </dxmvvm:ObjectToObjectConverter>
-    </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />

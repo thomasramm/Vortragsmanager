@@ -397,20 +397,20 @@ namespace Vortragsmanager.PageModels
                 Id = DataContainer.OffeneAnfragen.Select(x => x.Id).DefaultIfEmpty(0).Max() + 1
             };
 
-            var Kommentar = $"Anfrage an Versammlung {AktuelleAnfrage.Versammlung.Name} am {DateTime.Today:dd.MM.yyyy}";
+            var kommentar = $"Anfrage an Versammlung {AktuelleAnfrage.Versammlung.Name} am {DateTime.Today:dd.MM.yyyy}";
 
             foreach (var r in AktuelleAnfrage.Redner.Where(x => x.Gewählt))
             {
                 var v = r.Vorträge[r.SelectedIndex].Vortrag;
                 anfrage.RednerVortrag.Add(r.Redner, v);
-                Kommentar += $"\t{r.Name}, Vortrag Nr. {v.Nummer} ({v.Thema})" + Environment.NewLine;
+                kommentar += $"\t{r.Name}, Vortrag Nr. {v.Nummer} ({v.Thema})" + Environment.NewLine;
             }
             anfrage.Kws.Clear();
             foreach (var d in FreieTermine.Where(x => x.Aktiv).Select(x => x.Kalenderwoche))
             {
                 anfrage.Kws.Add(d);
             }
-            anfrage.Kommentar = Kommentar;
+            anfrage.Kommentar = kommentar;
             anfrage.Mailtext = MailText;
             DataContainer.OffeneAnfragen.Add(anfrage);
 

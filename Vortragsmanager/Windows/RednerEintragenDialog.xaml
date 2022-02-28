@@ -3,9 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Vortragsmanager.Views"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
         xmlns:uc="clr-namespace:Vortragsmanager.UserControls"
@@ -13,11 +11,11 @@
         x:Class="Vortragsmanager.Windows.RednerEintragenDialog"
         mc:Ignorable="d"
         Title="Ereignis eintragen" Height="300" Width="500"
-        DataContext="{dxmvvm:ViewModelSource {x:Type windows:RednerEintragenView}}"
+        d:DataContext="{d:DesignInstance Type=windows:RednerEintragenView}"
         x:Name="EreignisBearbeitenWindow">
-    <Window.Resources>
-        <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    </Window.Resources>
+    <Window.DataContext>
+        <windows:RednerEintragenView/>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />

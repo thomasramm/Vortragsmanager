@@ -13,13 +13,14 @@
     xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
     x:Class="Vortragsmanager.Pages.MeinPlanRednerSuchenPage"
     mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=pageModels:MeinPlanRednerSuchenPageModel}"
     d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <dxmvvm:ObjectToObjectConverter x:Key="accordionPanelWidthConverter" DefaultTarget="Auto">
+        <dxmvvm:ObjectToObjectConverter x:Key="AccordionPanelWidthConverter" DefaultTarget="Auto">
             <dxmvvm:MapItem Source="True" Target="300" />
         </dxmvvm:ObjectToObjectConverter>
 
-        <ControlTemplate x:Key="gridTemplate">
+        <ControlTemplate x:Key="GridTemplate">
             <dxg:GridControl x:Name="PART_GridControl">
                 <dxg:GridControl.Columns>
                     <dxg:GridColumn FieldName="Vortrag.Nummer" Header="Nr" Width="50" />
@@ -47,7 +48,7 @@
         </Grid.RowDefinitions>
         <dxdo:DockLayoutManager Grid.Row="0">
             <dxdo:LayoutGroup>
-                <dxdo:LayoutPanel ItemWidth="{Binding ElementName=accordion, Path=IsExpanded, Converter={StaticResource accordionPanelWidthConverter}}"
+                <dxdo:LayoutPanel ItemWidth="{Binding ElementName=Accordion, Path=IsExpanded, Converter={StaticResource AccordionPanelWidthConverter}}"
                         ShowCaption="False"
                         AllowSizing="False">
                     <Grid>
@@ -56,7 +57,7 @@
                             <RowDefinition Height="50" />
                         </Grid.RowDefinitions>
                         <dxa:AccordionControl
-                            x:Name="accordion"
+                            x:Name="Accordion"
                             Grid.Row="0"
                                 SelectionMode="None"
                                 CollapsedItemClickAction="ShowItems"
@@ -194,13 +195,14 @@
                                                         <ListBox Grid.Column="0" ItemsSource="{Binding Redner, Mode=OneWay}"  BorderThickness="0" FontWeight="Regular">
                                                             <ListBox.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <StackPanel Orientation="Horizontal">
+                                                                    <StackPanel Orientation="Horizontal"
+                                                                        d:DataContext="{d:DesignInstance Type=pageModels:GroupSpeaker}">
                                                                         <CheckBox IsChecked="{Binding Gewählt, Mode=TwoWay}" VerticalContentAlignment="Center" />
                                                                         <Label Content="{Binding Name}" Width="170" Height="30" VerticalContentAlignment="Center"/>
                                                                         <dxg:LookUpEdit Name="lookUpEdit"
                                                                                         VerticalAlignment="Center"
                                                                                         AutoPopulateColumns="False"
-                                                                                        PopupContentTemplate="{StaticResource gridTemplate}"
+                                                                                        PopupContentTemplate="{StaticResource GridTemplate}"
                                                                                         IsPopupAutoWidth="False"
                                                                                         ItemsSource="{Binding Vorträge}"
                                                                                         SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"

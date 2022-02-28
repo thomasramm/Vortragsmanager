@@ -448,19 +448,13 @@ namespace Vortragsmanager.Windows
 
     public class Kreis
     {
-        public Kreis(int nr)
-        {
-            Nr = nr;
-            Anzahl = 1;
-        }
-
         public Kreis(int nr, int anzahl)
         {
             Nr = nr;
             Anzahl = anzahl;
         }
 
-        public int Nr { get; set; }
+        public int Nr { get; }
 
         public int Anzahl { get; set; }
 

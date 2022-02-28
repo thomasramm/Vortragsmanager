@@ -7,6 +7,7 @@
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:userControls="clr-namespace:Vortragsmanager.UserControls"
+             xmlns:dataModels="clr-namespace:Vortragsmanager.DataModels"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
@@ -15,19 +16,20 @@
     <UserControl.Resources>
         <dxmvvm:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
-    <dxlc:LayoutControl Grid.Row="1">
+    <dxlc:LayoutControl>
         <dxlc:FlowLayoutControl Orientation="Vertical"
                             StretchContent="True"
                             BreakFlowToFit="True"
                             MaximizedElementPosition="Right"
-                            Grid.Row="1"
                             ItemsSource="{Binding Anfragen}">
             <dxlc:FlowLayoutControl.ItemTemplate>
                 <DataTemplate>
-                    <dxlc:GroupBox Header="{Binding}" Content="{Binding}" Foreground="White">
+                    <dxlc:GroupBox Header="{Binding}" 
+                                   Content="{Binding}" 
+                                   Foreground="White">
                         <dxlc:GroupBox.HeaderTemplate>
                             <DataTemplate>
-                                <Grid>
+                                <Grid d:DataContext="{d:DesignInstance Type=dataModels:Anfrage}">
                                     <TextBlock Margin="1" Foreground="{StaticResource TextColor}" FontWeight="Regular" FontSize="14" HorizontalAlignment="Left">
                                         <Run Text="{Binding Versammlung, Mode=OneWay}" /><Run Text=" (vom " /><Run Text="{Binding AnfrageDatum, Mode=OneWay}" FontSize="14" /><Run Text=")" />
                                     </TextBlock>
@@ -43,9 +45,11 @@
                                                             ItemsSource="{Binding Redner}">
                                     <dxlc:FlowLayoutControl.ItemTemplate>
                                         <DataTemplate>
-                                            <dxlc:LayoutGroup Orientation="Horizontal" View="GroupBox"
+                                            <dxlc:LayoutGroup Orientation="Horizontal" 
+                                                              View="GroupBox"
                                                                   Visibility="{Binding Sichtbar, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                                  IsEnabled="{Binding Aktiv}">
+                                                                  IsEnabled="{Binding Aktiv}"
+                                                              d:DataContext="{d:DesignInstance Type=userControls:AnfrageDetail}">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="1*" />
@@ -73,9 +77,9 @@
                                                                       Margin="0" Height="24" />
                                                     </dxlc:LayoutItem>
                                                     <dx:SimpleButton Content="Redner eintragen"
-                                                                         Glyph="/Images/Actions_Send_32x32.png"
+                                                                     Glyph="/Images/Actions_Send_32x32.png"
                                                                      GlyphWidth="20"
-                                         GlyphHeight="20"
+                                                                     GlyphHeight="20"
                                                                          Grid.Column="2" Height="24"
                                                                          VerticalAlignment="Top"
                                                                          HorizontalContentAlignment="Left"

@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Vortragsmanager.Views"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
@@ -13,8 +12,11 @@
         mc:Ignorable="d"
         Title="Ereignis eintragen" Height="300" Width="500"
         Background="{StaticResource Background}"
-        DataContext="{dxmvvm:ViewModelSource {x:Type windows:EreignisEintragenCommandDialogView}}"
+        d:DataContext="{d:DesignInstance Type=windows:EreignisEintragenCommandDialogView}"
         x:Name="EreignisBearbeitenWindow">
+    <Window.DataContext>
+        <windows:EreignisEintragenCommandDialogView/>
+    </Window.DataContext>
     <Window.Resources>
         <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
@@ -24,7 +26,8 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <dxlc:LayoutControl Orientation="Vertical" Margin="50,30,50,0">
-            <dxlc:LayoutItem Label="Ereignis" Foreground="{StaticResource TextColor}">
+            <dxlc:LayoutItem Label="Ereignis" 
+                             Foreground="{StaticResource TextColor}">
                 <dxe:ComboBoxEdit SelectedIndex="{Binding SelectedEreignis}">
                     <dxe:ComboBoxEditItem Content="Dienstwoche" />
                     <dxe:ComboBoxEditItem Content="Regionaler Kongress" />
@@ -33,7 +36,9 @@
                     <dxe:ComboBoxEditItem Content="Sonstiges" />
                 </dxe:ComboBoxEdit>
             </dxlc:LayoutItem>
-            <dxlc:LayoutItem Label="Name des Ereignis" Visibility="{Binding ShowEreignisName, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <dxlc:LayoutItem Label="Name des Ereignis"
+                             Visibility="{Binding ShowEreignisName, Converter={StaticResource BooleanToVisibilityConverter}}"
+                             Foreground="{StaticResource TextColor}">
                 <dxe:TextEdit Text="{Binding EreignisName, Mode=TwoWay}" />
             </dxlc:LayoutItem>
             <dxlc:LayoutItem Label="Ältester / KA" 

@@ -94,8 +94,10 @@ namespace Vortragsmanager.UserControls
 
         private void OnConregationChanged(Conregation oldValue, Conregation newValue)
         {
-            RoutedPropertyChangedEventArgs<Conregation> args = new RoutedPropertyChangedEventArgs<Conregation>(oldValue, newValue);
-            args.RoutedEvent = DropDownVersammlung.ConregationChangedEvent;
+            var args = new RoutedPropertyChangedEventArgs<Conregation>(oldValue, newValue)
+                {
+                    RoutedEvent = DropDownVersammlung.ConregationChangedEvent
+                };
             RaiseEvent(args);
         }
     }

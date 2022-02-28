@@ -11,10 +11,5 @@ namespace Vortragsmanager.Converter
             else
                 return new Version(input);
         }
-
-        public static string ConvertBack(Version version)
-        {
-            return version.ToString(3);
-        }
     }
 }

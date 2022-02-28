@@ -89,7 +89,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Enums\BackupAge.cs" />
+    <Compile Include="DataModels\BackupItem.cs" />
     <Compile Include="Enums\NavigationPage.cs" />
+    <Compile Include="Helper\EnumBindingSourceExtension.cs" />
     <Compile Include="Interface\INavigation.cs" />
     <Compile Include="PageModels\AufgabenKalender.cs" />
     <Compile Include="DataModels\Cancelation.cs" />
@@ -105,12 +108,10 @@
     <Compile Include="Enums\OutsideReason.cs" />
     <Compile Include="DataModels\TalkSong.cs" />
     <Compile Include="DataModels\Template.cs" />
-    <Compile Include="DataModels\Versammlung.cs" />
     <Compile Include="DataModels\DateWithConregation.cs" />
     <Compile Include="Enums\Wochentag.cs" />
     <Compile Include="Helper\DialogCloser.cs" />
     <Compile Include="Converter\DoubleToIntConverter.cs" />
-    <Compile Include="Helper\EnumBindingSourceExtension.cs" />
     <Compile Include="DataModels\Zusammenkunftszeit.cs" />
     <Compile Include="DataModels\Zusammenkunftszeiten.cs" />
     <Compile Include="Enums\Parameter.cs" />
@@ -201,9 +202,6 @@
     <Compile Include="UserControls\CalendarYearShortItem.xaml.cs">
       <DependentUpon>CalendarYearShortItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CalendarYearShortViewModel.cs">
-      <DependentUpon>CalendarYearShort.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\DashboardWeekItem.xaml.cs">
       <DependentUpon>DashboardWeekItem.xaml</DependentUpon>
     </Compile>
@@ -234,9 +232,6 @@
     </Compile>
     <Compile Include="Windows\AntwortEintragenDialog.xaml.cs">
       <DependentUpon>AntwortEintragenDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\MeinPlanAntwortEintragenPage.xaml.cs">
-      <DependentUpon>MeinPlanAntwortEintragenPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\AntwortEintragenViewModel.cs">
       <DependentUpon>AntwortEintragenControl.xaml</DependentUpon>
@@ -426,10 +421,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\AntwortEintragenDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\MeinPlanAntwortEintragenPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

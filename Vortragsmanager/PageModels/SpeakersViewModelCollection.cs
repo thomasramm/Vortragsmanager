@@ -2,7 +2,7 @@
 using System.Linq;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Interface;
-using Vortragsmanager.Views;
+using Vortragsmanager.UserControls;
 
 namespace Vortragsmanager.PageModels
 {

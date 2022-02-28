@@ -3,8 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Vortragsmanager.Views"
-        xmlns:core="clr-namespace:Vortragsmanager.Core"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxco="http://schemas.devexpress.com/winfx/2008/xaml/controls"
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
@@ -13,7 +11,6 @@
         xmlns:windows="clr-namespace:Vortragsmanager.Windows"
         mc:Ignorable="d"
         Title="Einrichtungsassistent" Height="455" Width="800"
-        x:Name="SetupWizardWindow"
         Icon="/Images/AddDatasource_64x64.png"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
@@ -96,12 +93,6 @@
                                     </Style.Resources>
                                 </Style>
                             </Style.Resources>
-                        </Style>
-
-                        <Style x:Key="Group2" TargetType="dxlc:LayoutGroup">
-                            <Setter Property="Orientation" Value="Vertical"/>
-                            <Setter Property="View" Value="Group" />
-                            <Setter Property="Width" Value="100"/>
                         </Style>
                     </Grid.Resources>
                     <TextBlock Grid.Row="0" Grid.ColumnSpan="2"
@@ -191,7 +182,7 @@
 &#13;* Die Importe sind voneinander unabhängig, du kannst auch einen 
 &#13;  einzelnen Schritt überspringen falls du diese Information nicht hast.
 &#13;* Die Exceldateien dürfen nur eine Überschrift haben und mehrere Zellen dürfen nicht miteinander verbunden sein."/>
-                    <dxlc:LayoutControl Grid.Row="1" Grid.ColumnSpan="2">
+                    <dxlc:LayoutControl Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0">
                         <dxlc:LayoutGroup Header="Datenbank Datei auswählen" View="GroupBox" Orientation="Horizontal">
                             <dxlc:LayoutItem>
                                 <dxe:ButtonEdit Text="{Binding ImportFile}"

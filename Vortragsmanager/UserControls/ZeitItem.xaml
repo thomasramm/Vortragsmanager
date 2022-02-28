@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:enums="clr-namespace:Vortragsmanager.Enums"
     xmlns:helper="clr-namespace:Vortragsmanager.Helper"
     mc:Ignorable="d" 
@@ -27,17 +27,15 @@
                   Width="97"
                   ItemsSource="{Binding Source={helper:EnumBindingSource {x:Type enums:Wochentag}}}"
                   SelectedItem="{Binding Wochentag, Mode=TwoWay}"/>
-
         <TextBox x:Name="ZeitEdit"
                  Text="{Binding Zeit, Mode=TwoWay}"
-            Margin="155,0,18,0"/>
-        <dx:SimpleButton 
-            Margin="0" 
+                 Margin="155,0,18,0"/>
+        <Button Margin="0" 
                 HorizontalAlignment="Right" 
                 Width="18"
-                Command="{Binding DeleteCommand}"
-            Click="DeleteButtonClick"
-                Glyph="/Images/Delete_Red_32x32.png" />
-
+                Click="DeleteButtonClick" 
+                Padding="0">
+            <Image Source="/Images/Delete_Red_32x32.png" />
+        </Button>
     </Grid>
 </UserControl>

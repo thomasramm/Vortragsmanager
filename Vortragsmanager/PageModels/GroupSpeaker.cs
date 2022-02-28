@@ -26,9 +26,9 @@ namespace Vortragsmanager.PageModels
 
         public Invitation LetzterVortrag { get; set; }
 
-        public bool InZukunft { get; set; }
+        //public bool InZukunft { get; set; }
 
-        public bool InVergangenheit { get; set; }
+        //public bool InVergangenheit { get; set; }
 
         public string Name => Redner?.Name;
 

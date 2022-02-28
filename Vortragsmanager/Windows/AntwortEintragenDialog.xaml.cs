@@ -1,11 +1,11 @@
 ﻿using System.Windows;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.Windows
 {
     /// <summary>
     /// Interaction logic for AntwortEintragenDialog.xaml
     /// </summary>
-    public partial class AntwortEintragenDialog : Window
+    public partial class AntwortEintragenDialog
     {
         public AntwortEintragenDialog()
         {

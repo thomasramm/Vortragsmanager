@@ -72,8 +72,6 @@ namespace Vortragsmanager.UserControls
             }
         }
 
-        public Zusammenkunftszeit Zusammenkunfzszeit => _zeit;
-
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void RaisePropertyChanged(string propertyName)
         {

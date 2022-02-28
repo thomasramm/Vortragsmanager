@@ -5,6 +5,7 @@
     /// </summary>
     public partial class MeinPlanRednerSuchenPage
     {
+        // ReSharper disable once UnusedMember.Global
         public MeinPlanRednerSuchenPage()
         {
             InitializeComponent();

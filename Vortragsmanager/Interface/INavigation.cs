@@ -6,8 +6,6 @@ namespace Vortragsmanager.Interface
     {
         INavigationService Service { get; }
 
-        void NavigateTo(Enums.NavigationPage page);
-
         void NavigateTo(Enums.NavigationPage page, string parameter);
 
         void NavigateTo(Enums.NavigationPage page, object parameter);

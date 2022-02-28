@@ -75,7 +75,7 @@ namespace Vortragsmanager.Module
                 new Talk(23, "Unser Leben hat einen Sinn"),
                 new Talk(24, "„Eine besonders kostbare Perle“ – habe ich sie gefunden?"),
                 new Talk(25, "Dem Geist der Welt widerstehen"),
-                new Talk(26, "Bin ich Gott wichtig?", true), //Dieser Vortrag sollte nicht mehr gehalten werden -> Neue Disposition
+                new Talk(26, "Bin ich Gott wichtig?"), //Dieser Vortrag sollte nicht mehr gehalten werden -> Neue Disposition
                 new Talk(27, "Ein guter Start in die Ehe"),
                 new Talk(28, "In der Ehe Liebe und Respekt zeigen"),
                 new Talk(29, "Elternsein – eine verantwortungsvolle, aber lohnende Aufgabe"),
@@ -89,7 +89,7 @@ namespace Vortragsmanager.Module
                 new Talk(37, "Was bringt es, sich von Gott leiten zu lassen?"),
                 new Talk(38, "Wie kann man das Ende der Welt überleben?"),
                 new Talk(39, "Gottes Sieg mit Zuversicht erwarten"),
-                new Talk(40, "Was die nahe Zukunft bringt", true), //Dieser Vortrag sollte nicht mehr gehalten werden -> Neue Disposition
+                new Talk(40, "Was die nahe Zukunft bringt"), //Dieser Vortrag sollte nicht mehr gehalten werden -> Neue Disposition
                 new Talk(41, "„Bleibt stehen und seht, wie Jehova euch rettet“"),
                 new Talk(42, "Wie wirkt sich Gottes Königreich auf unser Leben aus?"),
                 new Talk(43, "Tue ich, was Gott von mir erwartet?"),

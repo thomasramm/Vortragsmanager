@@ -1007,26 +1007,26 @@ namespace Vortragsmanager.Module
             }
             conregationInsertCommand.Dispose();
 
-            SQLiteCommand zusammenkunfzszeitenInsertCommand = new SQLiteCommand("INSERT INTO Conregation_Zusammenkunftszeiten(IdConregation, Jahr, Tag, Zeit) " +
+            SQLiteCommand zusammenkunftzeitenInsertCommand = new SQLiteCommand("INSERT INTO Conregation_Zusammenkunftszeiten(IdConregation, Jahr, Tag, Zeit) " +
                 "VALUES (@Id, @Jahr, @Tag, @Zeit)", db);
 
-            zusammenkunfzszeitenInsertCommand.Parameters.Add("@Id", System.Data.DbType.Int32);
-            zusammenkunfzszeitenInsertCommand.Parameters.Add("@Jahr", System.Data.DbType.Int32);
-            zusammenkunfzszeitenInsertCommand.Parameters.Add("@Tag", System.Data.DbType.Int32);
-            zusammenkunfzszeitenInsertCommand.Parameters.Add("@Zeit", System.Data.DbType.String);
+            zusammenkunftzeitenInsertCommand.Parameters.Add("@Id", System.Data.DbType.Int32);
+            zusammenkunftzeitenInsertCommand.Parameters.Add("@Jahr", System.Data.DbType.Int32);
+            zusammenkunftzeitenInsertCommand.Parameters.Add("@Tag", System.Data.DbType.Int32);
+            zusammenkunftzeitenInsertCommand.Parameters.Add("@Zeit", System.Data.DbType.String);
 
             foreach (var vers in DataContainer.Versammlungen)
             {
                 foreach (var j in vers.Zeit.Items)
                 {
-                    zusammenkunfzszeitenInsertCommand.Parameters[0].Value = vers.Id;
-                    zusammenkunfzszeitenInsertCommand.Parameters[1].Value = j.Jahr;
-                    zusammenkunfzszeitenInsertCommand.Parameters[2].Value = (int)j.Tag;
-                    zusammenkunfzszeitenInsertCommand.Parameters[3].Value = j.Zeit;
-                    zusammenkunfzszeitenInsertCommand.ExecuteNonQuery();
+                    zusammenkunftzeitenInsertCommand.Parameters[0].Value = vers.Id;
+                    zusammenkunftzeitenInsertCommand.Parameters[1].Value = j.Jahr;
+                    zusammenkunftzeitenInsertCommand.Parameters[2].Value = (int)j.Tag;
+                    zusammenkunftzeitenInsertCommand.Parameters[3].Value = j.Zeit;
+                    zusammenkunftzeitenInsertCommand.ExecuteNonQuery();
                 }
             }
-            zusammenkunfzszeitenInsertCommand.Dispose();
+            zusammenkunftzeitenInsertCommand.Dispose();
         }
 
         private static void SaveMeinPlan(SQLiteConnection db)

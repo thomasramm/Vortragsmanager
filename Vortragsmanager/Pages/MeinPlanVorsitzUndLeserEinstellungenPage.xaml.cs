@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Windows.Controls;
 
 namespace Vortragsmanager.Pages
 {
     /// <summary>
     /// Interaction logic for AufgabenView.xaml
     /// </summary>
-    public partial class MeinPlanVorsitzUndLeserEinstellungenPage : UserControl
+    public partial class MeinPlanVorsitzUndLeserEinstellungenPage
     {
-        private PageModels.MeinPlanVorsitzUndLeserEinstellungenPage _model;
+        private readonly PageModels.MeinPlanVorsitzUndLeserEinstellungenPage _model;
 
         public MeinPlanVorsitzUndLeserEinstellungenPage()
         {

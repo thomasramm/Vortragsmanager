@@ -21,7 +21,7 @@ namespace Vortragsmanager.Datamodels
 
         private int Jahr => Kw / 100;
 
-        private Wochentag Wochentag => Zeit.Tag;
+        //private Wochentag Wochentag => Zeit.Tag;
 
         public Zusammenkunftszeit Zeit => Versammlung.Zeit.Get(Jahr);
     }

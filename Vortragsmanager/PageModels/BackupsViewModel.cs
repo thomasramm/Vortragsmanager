@@ -5,6 +5,7 @@ using System.Linq;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using Vortragsmanager.DataModels;
+using Vortragsmanager.Enums;
 using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.PageModels
@@ -70,6 +71,7 @@ namespace Vortragsmanager.PageModels
                 UpdateVisibleBackups();
             }
         }
+
         public bool ShowThisWeek
         {
             get => _showThisWeek;
@@ -79,6 +81,7 @@ namespace Vortragsmanager.PageModels
                 UpdateVisibleBackups();
             }
         }
+
         public bool ShowThisMonth
         {
             get => _showThisMonth;
@@ -88,6 +91,7 @@ namespace Vortragsmanager.PageModels
                 UpdateVisibleBackups();
             }
         }
+
         public bool ShowThisYear
         {
             get => _showThisYear;
@@ -97,6 +101,7 @@ namespace Vortragsmanager.PageModels
                 UpdateVisibleBackups();
             }
         }
+
         public bool ShowOld
         {
             get => _showOld;

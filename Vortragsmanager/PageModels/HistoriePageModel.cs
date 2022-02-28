@@ -20,11 +20,6 @@ namespace Vortragsmanager.PageModels
 
         public INavigationService Service => ServiceContainer.GetService<INavigationService>();
 
-        public void NavigateTo(NavigationPage page)
-        {
-            Service?.Navigate(page.ToString(), null, this);
-        }
-
         public void NavigateTo(NavigationPage page, string parameter)
         {
             Service?.Navigate(page.ToString(), parameter, this);

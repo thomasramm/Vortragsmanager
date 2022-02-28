@@ -3,16 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
+             xmlns:dataModels="clr-namespace:Vortragsmanager.DataModels"
              d:DataContext="{d:DesignInstance Type=pageModels:BackupsViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="1000"
-             DataContext="{dxmvvm:ViewModelSource pageModels:BackupsViewModel}" 
              SizeChanged="UserControl_SizeChanged">
-        <Grid>
+    <UserControl.DataContext>
+            <pageModels:BackupsViewModel/>
+    </UserControl.DataContext>
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
@@ -23,8 +25,11 @@
                 <dxlc:LayoutGroup Orientation="Vertical">
                     <dxlc:FlowLayoutControl ItemsSource="{Binding VisibleBackups}">
                         <dxlc:FlowLayoutControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="Gray" BorderThickness="1" Margin="5">
+                        <DataTemplate>
+                                <Border BorderBrush="Gray" 
+                                        BorderThickness="1"
+                                        Margin="5" 
+                                        d:DataContext="{d:DesignInstance Type=dataModels:BackupItem}">
                                     <Grid Height="34">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="30"/>

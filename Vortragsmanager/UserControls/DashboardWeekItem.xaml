@@ -13,7 +13,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Border Grid.ColumnSpan="3" BorderBrush="LightGray" BorderThickness="1"/>
-        <Label x:Name="_week" 
+        <Label x:Name="Week" 
                Content="05.06.2022" 
                Grid.Column="0" 
                Foreground="{StaticResource TextHighlight}" 
@@ -25,9 +25,9 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="_meinPlan" Grid.Row="0" Text="Vortragsredner" Foreground="{StaticResource TextColor}" VerticalAlignment="Center"/>
-        <TextBlock x:Name="_meinVorsitz" Grid.Row="1" Text="Vortragsredner" Foreground="{StaticResource TextDezentColor}" VerticalAlignment="Center"/>
+            <TextBlock x:Name="MeinPlan" Grid.Row="0" Text="Vortragsredner" Foreground="{StaticResource TextColor}" VerticalAlignment="Center"/>
+        <TextBlock x:Name="MeinVorsitz" Grid.Row="1" Text="Vortragsredner" Foreground="{StaticResource TextDezentColor}" VerticalAlignment="Center"/>
         </Grid>
-        <TextBlock x:Name="_meineRedner" Grid.Column="2" Text="Extern" Foreground="{StaticResource TextColor}" VerticalAlignment="Center"/>
+        <TextBlock x:Name="MeineRedner" Grid.Column="2" Text="Extern" Foreground="{StaticResource TextColor}" VerticalAlignment="Center"/>
     </Grid>
 </UserControl>

@@ -1,12 +1,12 @@
-﻿using DevExpress.Mvvm;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Media;
+using DevExpress.Mvvm;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Interface;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.UserControls
 {
     public class SpeakerViewModel : ViewModelBase
     {

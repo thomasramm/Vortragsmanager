@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Vortragsmanager.Datamodels;
@@ -11,7 +10,7 @@ namespace Vortragsmanager.UserControls
     /// <summary>
     /// Interaction logic for CalendarYearShortItem.xaml
     /// </summary>
-    public partial class CalendarYearShortItem : UserControl
+    public partial class CalendarYearShortItem
     {
         private bool _isAroundTalk;
         private bool _isEvent;
@@ -175,10 +174,7 @@ namespace Vortragsmanager.UserControls
             if (_isMonth)
             {
                 var text = Date.ToString("MMMM", Helper.Helper.German);
-                if (_showDetails)
-                    Inhalt.Content = text;
-                else
-                    Inhalt.Content = Date.ToString("MMM", Helper.Helper.German);
+                Inhalt.Content = ShowDetails ? text : Date.ToString("MMM", Helper.Helper.German);
                 ToolTip = text;
             }
 

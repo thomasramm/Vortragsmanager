@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
@@ -14,7 +13,7 @@ namespace Vortragsmanager.UserControls
     /// <summary>
     /// Interaction logic for CalendarYearShort.xaml
     /// </summary>
-    public partial class CalendarYearShort : UserControl
+    public partial class CalendarYearShort
     {
         private readonly Dictionary<DateTime, CalendarYearShortItem> _calendar = new Dictionary<DateTime, CalendarYearShortItem>(53);
         private int _year;

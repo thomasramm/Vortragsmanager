@@ -1,10 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using DevExpress.Xpf.Core.Native;
 using DevExpress.Xpf.LayoutControl;
 using GroupBox = DevExpress.Xpf.LayoutControl.GroupBox;
-using DevExpress.Xpf.Core.Native;
 
-namespace Vortragsmanager.Core
+namespace Vortragsmanager.UserControls
 {
     public class MyGroupBox : GroupBox
     {
@@ -17,13 +17,12 @@ namespace Vortragsmanager.Core
             TitleElement = LayoutHelper.FindParentObject<LayoutGroup>(GetTemplateChild("MaximizeElement"));
             if (TitleElement != null)
             {
-                TitleElement.MouseLeftButtonUp += new MouseButtonEventHandler(OnTitleElementMouseLeftButtonUp);
+                TitleElement.MouseLeftButtonUp += OnTitleElementMouseLeftButtonUp;
             }
         }
         void OnTitleElementMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (State == GroupBoxState.Normal) State = GroupBoxState.Maximized;
-            else State = GroupBoxState.Normal;
+            State = State == GroupBoxState.Normal ? GroupBoxState.Maximized : GroupBoxState.Normal;
             e.Handled = true;
         }
     }

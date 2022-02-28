@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Controls;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Helper;
 
@@ -11,9 +10,9 @@ namespace Vortragsmanager.UserControls
     /// <summary>
     /// Interaction logic for SonntagItem.xaml
     /// </summary>
-    public partial class SonntagItem : UserControl
+    public partial class SonntagItem
     {
-        private SonntagItemViewModel _model;
+        private readonly SonntagItemViewModel _model;
         public SonntagItem()
         {
             InitializeComponent();

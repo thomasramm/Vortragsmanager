@@ -103,8 +103,10 @@ namespace Vortragsmanager.UserControls
 
         private void SpeakerChanged(Speaker oldValue, Speaker newValue)
         {
-            RoutedPropertyChangedEventArgs<Speaker> args = new RoutedPropertyChangedEventArgs<Speaker>(oldValue, newValue);
-            args.RoutedEvent = DropDownRedner.OnSpeakerChangedEvent;
+            var args = new RoutedPropertyChangedEventArgs<Speaker>(oldValue, newValue)
+                {
+                    RoutedEvent = DropDownRedner.OnSpeakerChangedEvent
+                };
             RaiseEvent(args);
         }
 

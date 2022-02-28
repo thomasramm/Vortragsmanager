@@ -5,7 +5,7 @@ namespace Vortragsmanager.Pages
     /// <summary>
     /// Interaction logic for VorlagenView.xaml
     /// </summary>
-    public partial class VerwaltungVorträgePage : UserControl
+    public partial class VerwaltungVorträgePage
     {
         public VerwaltungVorträgePage()
         {
@@ -38,7 +38,11 @@ namespace Vortragsmanager.Pages
 
         private void numericEditor_Validate(object sender, DevExpress.Xpf.Editors.ValidationEventArgs e)
         {
-            var nummer = int.Parse(e.Value.ToString(), Helper.Helper.German);
+            var eingabe = e.Value.ToString();
+            if (string.IsNullOrWhiteSpace(eingabe))
+                return;
+
+            var nummer = int.Parse(eingabe, Helper.Helper.German);
             if (Datamodels.TalkList.Find(nummer).Nummer != -1)
             {
                 e.IsValid = false;

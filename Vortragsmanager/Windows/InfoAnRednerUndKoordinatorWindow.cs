@@ -1,12 +1,11 @@
-﻿using System.Windows;
-using Vortragsmanager.Interface;
+﻿using Vortragsmanager.Interface;
 
 namespace Vortragsmanager.Windows
 {
     /// <summary>
     /// Interaktionslogik für BuchungLöschenCommandDialog.xaml
     /// </summary>
-    public partial class InfoAnRednerUndKoordinatorWindow : Window, ICloseable
+    public partial class InfoAnRednerUndKoordinatorWindow : ICloseable
     {
         public InfoAnRednerUndKoordinatorWindow()
         {

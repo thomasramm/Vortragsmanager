@@ -22,14 +22,14 @@
 
         public Speaker VerknüpftePerson { get; set; }
 
-        public int SortOrder 
-        {
-            get
-            {
-                if (Id <= 0) return 2;
-                return Häufigkeit == 1 ? 1 : 0;
-            }
-        }
+        //public int SortOrder 
+        //{
+        //    get
+        //    {
+        //        if (Id <= 0) return 2;
+        //        return Häufigkeit == 1 ? 1 : 0;
+        //    }
+        //}
 
         //Wert zwischen 1 - 5
         public int Häufigkeit { get; set; } = 3;

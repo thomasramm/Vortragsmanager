@@ -4,11 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="800"
-             DataContext="{dxmvvm:ViewModelSource pageModels:VerwaltungVorlagenPageModel}">
+             d:DataContext="{d:DesignInstance Type=pageModels:VerwaltungVorlagenPageModel}">
+    <UserControl.DataContext>
+        <pageModels:VerwaltungVorlagenPageModel/>
+    </UserControl.DataContext>
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="310" />
@@ -68,6 +70,6 @@
                             GlyphAlignment="Left"
                             Command="{Binding Speichern}"
                             CommandParameter="False" />
-        <GridSplitter Grid.Column ="0"/>
+        <GridSplitter Grid.Row="0" Grid.Column ="0"/>
     </Grid>
 </UserControl>

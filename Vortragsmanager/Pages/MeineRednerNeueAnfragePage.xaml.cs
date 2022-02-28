@@ -1,4 +1,4 @@
-﻿using System.Windows.Controls;
+﻿using DevExpress.Xpf.Editors;
 using Vortragsmanager.PageModels;
 
 namespace Vortragsmanager.Pages
@@ -6,9 +6,9 @@ namespace Vortragsmanager.Pages
     /// <summary>
     /// Interaktionslogik für ExternalQuestionEdit.xaml
     /// </summary>
-    public partial class MeineRednerNeueAnfragePage : UserControl
+    public partial class MeineRednerNeueAnfragePage
     {
-        private MeineRednerNeueAnfragePageModel _model;
+        private readonly MeineRednerNeueAnfragePageModel _model;
 
         public MeineRednerNeueAnfragePage()
         {
@@ -23,8 +23,9 @@ namespace Vortragsmanager.Pages
 
         private void Redner_SelectedIndexChanged(object sender, System.Windows.RoutedEventArgs e)
         {
-            DevExpress.Xpf.Editors.ComboBoxEdit cb = (sender as DevExpress.Xpf.Editors.ComboBoxEdit);
-            var redner = (cb.DataContext as MeineRednerNeueAnfragePageModel).SelectedRedner;
+            if (!(sender is ComboBoxEdit cb)) 
+                return;
+            var redner = (cb.DataContext as MeineRednerNeueAnfragePageModel)?.SelectedRedner;
             Calendar.Person = redner;
         }
     }

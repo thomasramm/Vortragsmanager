@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace Vortragsmanager.UserControls
+﻿namespace Vortragsmanager.UserControls
 {
     /// <summary>
     /// Interaction logic for AntwortEintragen.xaml
     /// </summary>
-    public partial class AntwortEintragenControl : UserControl
+    public partial class AntwortEintragenControl
     {
         public AntwortEintragenControl()
         {

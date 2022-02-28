@@ -3,9 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Vortragsmanager.Views"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
         xmlns:windows="clr-namespace:Vortragsmanager.Windows"
         mc:Ignorable="d"
@@ -15,9 +13,6 @@
         Background="{StaticResource Background}"
         Height="450"
         Width="800">
-    <Window.Resources>
-        <dxmvvm:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    </Window.Resources>
     <Window.DataContext>
         <windows:VersammlungLöschenDialogView />
     </Window.DataContext>
@@ -67,8 +62,7 @@ Oder du kannst die Versammlung mit einer anderen Versammlung zusammenlegen."
             <GroupBox Grid.Column="0"
                         Header="Zielversammlung">
                 <dxe:AutoSuggestEdit x:Name="VersammlungenFilter"
-                                Grid.Row="2"
-                                ImmediatePopup="True"
+                                     ImmediatePopup="True"
                                 SelectAllOnMouseUp="True"
                                 SelectAllOnGotFocus="True"
                                 AllowPopupTextHighlighting="True"
@@ -84,7 +78,7 @@ Oder du kannst die Versammlung mit einer anderen Versammlung zusammenlegen."
                                 EditValue="{Binding SelectedConregationName, UpdateSourceTrigger=PropertyChanged}"
                                 AllowNullInput="True" />
             </GroupBox>
-            <GroupBox Grid.Column="1"
+            <GroupBox Grid.Row="0" Grid.Column="1"
                       Header="Der neue Koordinator">
                 <StackPanel VerticalAlignment="Center">
                     <RadioButton Content="{Binding Merge1Koordinator}"
@@ -102,7 +96,8 @@ Oder du kannst die Versammlung mit einer anderen Versammlung zusammenlegen."
                 </StackPanel>
             </GroupBox>
             <dx:SimpleButton Grid.Row="1"
-                             Grid.ColumnSpan="2"
+                             Grid.ColumnSpan="2" 
+                             Grid.Column="0"
                              Width="250"
                              Content="Versammlung zusammenführen"
                              Glyph="/Images/Merge_32x32.png"

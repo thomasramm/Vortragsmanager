@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace Vortragsmanager.Pages
+﻿namespace Vortragsmanager.Pages
 {
     /// <summary>
     /// Interaktionslogik für MeineRedner.xaml
     /// </summary>
-    public partial class MeineRednerLandingPage : UserControl
+    public partial class MeineRednerLandingPage
     {
         public MeineRednerLandingPage()
         {

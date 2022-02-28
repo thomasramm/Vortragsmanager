@@ -5,8 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
-             xmlns:views="clr-namespace:Vortragsmanager.Views" xmlns:core="clr-namespace:Vortragsmanager.Core"
              xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
+             xmlns:userControls="clr-namespace:Vortragsmanager.UserControls"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=pageModels:ConregationsViewModelCollection, IsDesignTimeCreatable=True}"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -24,7 +24,7 @@
                         AllowDefaultButton="False"
                         EditValueChanged="SearchBox_ValueChanged"
                         Margin="0,0,0,0" />
-        <dxlc:FlowLayoutControl x:Name="lc" ItemsSource="{Binding}"
+        <dxlc:FlowLayoutControl x:Name="Lc" ItemsSource="{Binding}"
                                 Grid.Row="1"
                                 Orientation="Horizontal"
                                 ItemSpace="12"
@@ -33,7 +33,7 @@
                                 MaximizedElementChanged="Lc_MaximizedElementChanged">
             <dxlc:FlowLayoutControl.ItemTemplate>
                 <DataTemplate>
-                    <core:MyGroupBox  Header="{Binding}"
+                    <userControls:MyGroupBox  Header="{Binding}"
                                     Content="{Binding}"
                                     Visibility="{Binding Sichtbarkeit}"
                                     State="{Binding IsSelected}"
@@ -65,10 +65,10 @@
                         </dxlc:GroupBox.ContentTemplate>
                         <dxlc:GroupBox.MaximizedContentTemplate>
                             <DataTemplate>
-                                <views:VersammlungMaximizedControl DataContext="{Binding}" />
+                                <userControls:VersammlungMaximizedControl DataContext="{Binding}" />
                             </DataTemplate>
                         </dxlc:GroupBox.MaximizedContentTemplate>
-                    </core:MyGroupBox>
+                    </userControls:MyGroupBox>
                 </DataTemplate>
             </dxlc:FlowLayoutControl.ItemTemplate>
         </dxlc:FlowLayoutControl>

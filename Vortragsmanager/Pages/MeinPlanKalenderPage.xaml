@@ -7,9 +7,11 @@
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:calcBinding="clr-namespace:CalcBinding;assembly=CalcBinding"
+             xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
              mc:Ignorable="d"
              d:DesignHeight="450" 
-             d:DesignWidth="800">
+             d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=pageModels:MeinPlanKalenderPageModel}">
     <UserControl.Resources>
         <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
@@ -48,6 +50,7 @@
                                         MaximizedElementPosition="Right"
                                         Grid.Row="1"
                                         ItemsSource="{Binding Monate}"
+                                        d:DataContext="{d:DesignInstance Type=pageModels:MonthViewModel}"
                                         Margin="0">
                     <dxlc:FlowLayoutControl.ItemTemplate>
                         <DataTemplate>
@@ -69,7 +72,8 @@
                                                  ItemContainerStyle="{DynamicResource ListBoxItemStyle}"
                                                  Background="Transparent"
                                                  Margin="-10"
-                                                 BorderThickness="0">
+                                                 BorderThickness="0"
+                                                 d:DataContext="{d:DesignInstance Type=pageModels:WeekViewModel}">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <!-- ToDo: Detailansicht bei Klick/Doppelklick zur Vortragsbuchung -->

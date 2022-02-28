@@ -3,18 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="1000"
-             DataContext="{dxmvvm:ViewModelSource pageModels:VerwaltungVorträgePageModel}" 
+             d:DataContext="{d:DesignInstance Type=pageModels:VerwaltungVorträgePageModel}"
              SizeChanged="UserControl_SizeChanged">
+    <UserControl.DataContext>
+        <pageModels:VerwaltungVorträgePageModel/>
+    </UserControl.DataContext>
     <dxlc:LayoutControl x:Name="MasterLayoutControl"
-                            Margin="20" 
-                            Orientation="Horizontal">
+                        Margin="20" 
+                        Orientation="Horizontal">
         <dxlc:LayoutGroup Orientation="Vertical">
             <dxg:GridControl ItemsSource="{Binding Talks}" SelectionMode="Row" x:Name="Vortragsliste">
                 <dxg:GridControl.View>
@@ -40,7 +42,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top"
                             ToolTip="Bitte eine neue Vortragsnummer eingeben und auf + klicken. Vorhandene Vortragsnummern können nicht eingegeben werden.">
                 <Label Content="Vortragsnummer: "/>
-                <dxe:TextEdit x:Name="numericEditor"
+                <dxe:TextEdit x:Name="NumericEditor"
                                     MaskType="Numeric"
                                     VerticalAlignment="Center"
                                     Text="{Binding NewTalkNumber}"
@@ -74,7 +76,7 @@
                             Width="100" 
                             HorizontalAlignment="Right" />
             </dxlc:LayoutItem>
-            <dxe:ToggleSwitch x:Name="toggleSwitch" 
+            <dxe:ToggleSwitch x:Name="ToggleSwitch" 
                         CheckedStateContent="Liste nach dem Erstellen öffnen"
                         UncheckedStateContent="Liste nur Erstellen"
                         IsChecked="{Binding ListeÖffnen}" />

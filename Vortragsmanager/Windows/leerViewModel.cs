@@ -13,15 +13,15 @@ namespace Vortragsmanager.Windows
             CopyCommand = new DelegateCommand(Copy);
         }
 
-        public LeerViewModel(string titel, bool closeButton, bool saveButton, bool copyButton, string text, string headerText = "") : this()
-        {
-            Titel = titel;
-            ShowCloseButton = closeButton;
-            ShowSaveButton = saveButton;
-            ShowCopyButton = copyButton;
-            Text = text;
-            HeaderText = headerText;
-        }
+        //public LeerViewModel(string titel, bool closeButton, bool saveButton, bool copyButton, string text, string headerText = "") : this()
+        //{
+        //    Titel = titel;
+        //    ShowCloseButton = closeButton;
+        //    ShowSaveButton = saveButton;
+        //    ShowCopyButton = copyButton;
+        //    Text = text;
+        //    HeaderText = headerText;
+        //}
 
         public DelegateCommand<ICloseable> CloseCommand { get; }
         public DelegateCommand<ICloseable> SaveCommand { get; }

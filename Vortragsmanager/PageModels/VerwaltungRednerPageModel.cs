@@ -156,7 +156,7 @@ namespace Vortragsmanager.PageModels
             if (string.IsNullOrWhiteSpace(NeueVorträgeListe))
                 return;
 
-            var nummern = NeueVorträgeListe?.Split(new char[] { ',', ' ', ';' });
+            var nummern = NeueVorträgeListe?.Split(',', ' ', ';');
             foreach (var nr in nummern)
             {
                 bool isNum = int.TryParse(nr, out int num);
@@ -196,9 +196,6 @@ namespace Vortragsmanager.PageModels
                 return;
 
             var erg = DataContainer.SpeakerGetActivities(Redner).OrderByDescending(x => x.Kalenderwoche).Take(10);
-
-            if (erg == null)
-                return;
 
             foreach (var item in erg)
             {

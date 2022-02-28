@@ -1,4 +1,5 @@
-﻿namespace Vortragsmanager.Enums
+﻿// ReSharper disable UnusedMember.Global
+namespace Vortragsmanager.Enums
 {
     public enum Wochentag
     {

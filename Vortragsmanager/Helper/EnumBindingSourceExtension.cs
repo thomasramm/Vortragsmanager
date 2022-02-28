@@ -3,6 +3,8 @@ using System.Windows.Markup;
 
 namespace Vortragsmanager.Helper
 {
+    // ReSharper disable once UnusedMember.Global
+    // Nutzung in ZeitItem.xaml, Zeile 28
     public class EnumBindingSourceExtension : MarkupExtension
     {
         private Type _enumType;
@@ -29,7 +31,7 @@ namespace Vortragsmanager.Helper
 
         public EnumBindingSourceExtension(Type enumType)
         {
-            this.EnumType = enumType;
+            EnumType = enumType;
         }
 
         public override object ProvideValue(IServiceProvider serviceProvider)

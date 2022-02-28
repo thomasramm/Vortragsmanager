@@ -36,7 +36,7 @@ namespace Vortragsmanager.UserControls
 
         void OnWocheChanged()
         {
-            _week.Content = DateCalcuation.CalculateWeek(Woche).ToShortDateString();
+            Week.Content = DateCalcuation.CalculateWeek(Woche).ToShortDateString();
             LoadMeinPlan(Woche);
             LoadMeineRedner(Woche);
             LoadAufgaben(Woche);
@@ -50,18 +50,17 @@ namespace Vortragsmanager.UserControls
             switch (prog.Status)
             {
                 case EventStatus.Ereignis:
-                    _meinPlan.Text = prog.Anzeigetext;
+                    MeinPlan.Text = prog.Anzeigetext;
                     break;
                 case EventStatus.Zugesagt:
                 {
                     var einladung = (Invitation) prog;
-                    _meinPlan.Text = einladung.Ältester.Name + Environment.NewLine
+                    MeinPlan.Text = einladung.Ältester.Name + Environment.NewLine
                                                              + "  in " + einladung.Ältester.Versammlung.Name +
                                                              Environment.NewLine
                                                              + "  Nr " + einladung.Vortrag.Vortrag +
                                                              Environment.NewLine
-                                                             + "  Tel: " + einladung.Ältester.Mobil ??
-                                     einladung.Ältester.Telefon;
+                                                             + "  Tel: " + (einladung.Ältester.Mobil ?? einladung.Ältester.Telefon);
                     break;
                 }
             }
@@ -72,7 +71,7 @@ namespace Vortragsmanager.UserControls
             var prog = DataContainer.AufgabenPersonKalender.FirstOrDefault(x => x.Kw == week);
             if (prog != null)
             {
-                _meinVorsitz.Text = "Vorsitz: " + (prog.Vorsitz?.PersonName ?? "n.a.") + "\tLeser: " + (prog.Leser?.PersonName ?? "n.a.");
+                MeinVorsitz.Text = "Vorsitz: " + (prog.Vorsitz?.PersonName ?? "n.a.") + "\tLeser: " + (prog.Leser?.PersonName ?? "n.a.");
             }
         }
 
@@ -92,7 +91,7 @@ namespace Vortragsmanager.UserControls
                             + "  Nr. " + r.Vortrag?.Vortrag + Environment.NewLine;
                     }
                 }
-                _meineRedner.Text = message.TrimEnd('\n');
+                MeineRedner.Text = message.TrimEnd('\n');
             }
         }
     }

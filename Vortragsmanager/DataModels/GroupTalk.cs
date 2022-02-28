@@ -12,9 +12,9 @@ namespace Vortragsmanager.DataModels
 
         public int AnzahlGehört { get; set; }
 
-        public bool InZukunft { get; set; }
+        //public bool InZukunft { get; set; }
 
-        public bool InVergangenheit { get; set; }
+        //public bool InVergangenheit { get; set; }
 
         public string Name => Vortrag.ToString();
 

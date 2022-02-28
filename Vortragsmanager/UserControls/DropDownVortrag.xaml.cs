@@ -108,8 +108,10 @@ namespace Vortragsmanager.UserControls
 
         private void SelectedItemChanged(Talk oldValue, Talk newValue)
         {
-            RoutedPropertyChangedEventArgs<Talk> args = new RoutedPropertyChangedEventArgs<Talk>(oldValue, newValue);
-            args.RoutedEvent = DropDownVortrag.OnSelectedItemChangedEvent;
+            var args = new RoutedPropertyChangedEventArgs<Talk>(oldValue, newValue)
+                {
+                    RoutedEvent = DropDownVortrag.OnSelectedItemChangedEvent
+                };
             RaiseEvent(args);
         }
     }

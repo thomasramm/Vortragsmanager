@@ -10,8 +10,11 @@
         Title="{Binding Titel}" 
         Height="450" 
         Width="800"
-        DataContext="{dxmvvm:ViewModelSource windows:LeerViewModel}"
-        x:Name="LeerWindow">
+        x:Name="LeerWindow"
+        d:DataContext="{d:DesignInstance Type=windows:LeerViewModel}">
+    <Window.DataContext>
+        <windows:LeerViewModel/>
+    </Window.DataContext>
     <Window.Resources>
         <dxmvvm:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Window.Resources>

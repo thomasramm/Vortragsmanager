@@ -28,12 +28,12 @@
             <Label Content="Verknüpft mit..." Width="225" FontWeight="Bold"/>
             <Label Content="Häufigkeit" Width="200" FontWeight="Bold" ToolTip="Personen mit Häufigkeit=1 werden nicht automatisiert eingeteilt, erscheinen aber im DropDown zur Manuellen Zuweisung"/>
         </StackPanel>
-        <ListBox Grid.Row="1" 
+        <ListBox Grid.Row="1" Grid.Column="0"
                  ItemsSource="{Binding Personen, Mode=OneWay}"
                  BorderThickness="0"
                  MaxWidth="680"
                  HorizontalAlignment="Left"/>
-        <Button Grid.Row="2" 
+        <Button Grid.Row="2" Grid.Column="0"
                 Content="Person hinzufügen" 
                 Command="{Binding ButtonNewCommand}" 
                 Width="150" 

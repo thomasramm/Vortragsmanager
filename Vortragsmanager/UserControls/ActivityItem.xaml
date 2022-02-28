@@ -3,18 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:userControls="clr-namespace:Vortragsmanager.UserControls"
              mc:Ignorable="d"
-             x:Name="myUserControlItem"
              d:DesignHeight="25" d:DesignWidth="200">
-    <UserControl.Resources>
-        <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    </UserControl.Resources>
     <UserControl.DataContext>
         <userControls:ActivityItemViewModel />
     </UserControl.DataContext>
-    <Grid Height="18" x:Name="Sichtbarkeit">
+    <Grid Height="18">
         <Grid.ToolTip>
             <Grid>
                 <StackPanel Orientation="Vertical">

@@ -217,8 +217,10 @@ namespace Vortragsmanager.PageModels
             message.Id = _nextId++;
             DataContainer.Aktivitäten.Add(message);
 
-            var item = new Item(message);
-            item.Zeitraum = ActivityTime.Heute;
+            var item = new Item(message)
+            {
+                Zeitraum = ActivityTime.Heute
+            };
             Heute.Insert(0, item);
             _alleUnfiltered.Add(item);
             RaisePropertyChanged(nameof(HeuteHeader));

@@ -7,7 +7,6 @@ using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
 using Vortragsmanager.Interface;
 using Vortragsmanager.UserControls;
-using Vortragsmanager.Views;
 using Vortragsmanager.Windows;
 
 namespace Vortragsmanager.PageModels
@@ -139,12 +138,13 @@ namespace Vortragsmanager.PageModels
                 return;
             }
 
-            var zuteilung = Zuteilung as Invitation;
+            if (!(Zuteilung is Invitation zuteilung))
+                return;
 
             var w = new InfoAnRednerUndKoordinatorWindow();
             var data = (InfoAnRednerUndKoordinatorViewModel)w.DataContext;
             string mailtext;
-            if (zuteilung != null && zuteilung.Ältester.Versammlung == DataContainer.MeineVersammlung)
+            if (zuteilung.Ältester.Versammlung == DataContainer.MeineVersammlung)
             {
                 data.MailTextRedner = Templates.GetMailTextAblehnenRedner(zuteilung);
                 mailtext = data.MailTextRedner;
