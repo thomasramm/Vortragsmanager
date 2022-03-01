@@ -4,8 +4,8 @@ title: "Historie > Aktivitäten"
 
 Dieser Programmbereich besteht aus zwei Unterbereichen:
 
-* [Sicherungen](HistorieSicherungen.md): Historische Planungsstänge
-* [Aktivitäten](HistorieAktivitäten.md): Übersicht der Programmaktivitäten.
+* [Sicherungen](HistorieSicherung.md): Historische Planungsstänge
+* [Aktivitäten](HistorieLog.md): Übersicht der Programmaktivitäten.
 
 ![Aktivitäten](images/Historie.png)
 

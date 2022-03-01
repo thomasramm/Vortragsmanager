@@ -11,7 +11,9 @@ Installiere den Vortragsmanager DeLuxe
 
 ## Neu
 Neue Oberfläche, neue Navigation
+
 Programm-Style umstellbar von Dunkel auf Hell. Siehe das Kapitel [Einstellungen](Einstellungen.md)
+
 Sicherungs- und Wiederherstellungsmöglichkeiten. siehe das Kapitel [Sicherung](HistorieSicherung.md)
 
 ## Vertrauen und Datenschutz

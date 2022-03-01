@@ -31,4 +31,4 @@ Liste aller gespeicherten Vortragsredner, Versammlungen und Koordinatoren
 :   Eine Liste aller Vortragsredner die im Programm eingegeben worden sind mit den hinterlegten Informationen, sowie dem Datum wann sie das letzte mal in deiner Versammlung einen Vortrag gehalten haben.
 :   Das zweite Blatt enthält die Versammlungs- und Koordinatorendaten.
 
-[zurück](Redner.md){: .btn .btn--inverse}  [weiter](Verwaltung.md){: .btn .btn--inverse}
+[zurück](MeineRedner.md){: .btn .btn--inverse}  [weiter](Verwaltung.md){: .btn .btn--inverse}

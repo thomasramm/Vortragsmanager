@@ -33,7 +33,7 @@ Der größte Bereich des Fensters zeigt die Liste aller Einladungen deiner Redne
 
 wählst du einen Vortrag aus, kannst du über den Button unten links den Vortrag wieder absagen. Es wird eine entsprechende Mail generiert und angezeigt.
 
-Das verändern einzelner Parameter, wie z.B. des Vortragsthema ist nicht möglich. Hier musst du zuerst die Einladung löschen und dann über den Menüpunkt [Neue Externe Anfrage](neue-externe-anfrage) neu einstellen.
+Das verändern einzelner Parameter, wie z.B. des Vortragsthema ist nicht möglich. Hier musst du zuerst die Einladung löschen und dann über den Menüpunkt [Neue Externe Anfrage](MeineRednerNeueAnfrage.md) neu einstellen.
 
 ## Ausgeben
 

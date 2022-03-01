@@ -24,11 +24,11 @@ Die Navigation orientiert sich an der Navigation der App "Jw Library", die Ebenf
 Das Programm ist in folgende Hauptbereiche aufgeteilt:
 
 * [Mein Plan](MeinPlan.md): Hier planst du deine eigenen Zusammenkünfte (Vortragsredner, Kongresse, besondere Ereignisse)
-* [Vorsitz und Leser](WeiterePlannungen.md): Hier können der Vorsitzende und der Leser verwaltet und ihr Einsatz geplant werden.
+* [Vorsitz und Leser](MeinPlanVorsitzUndLeser.md): Hier können der Vorsitzende und der Leser verwaltet und ihr Einsatz geplant werden.
 
 * [Meine Redner](MeineRedner.md): Hier Verwaltest du die Einladungen deiner Redner in anderen Versammlungen
 
-* [Listen ausgeben](ListenAusgeben.md): Diverse Listen, wie einen Aushang deiner Planung, Rednerlisten zum Austausch mit anderen Koordinatoren, etc.
+* [Listen ausgeben](ListeAusgeben.md): Diverse Listen, wie einen Aushang deiner Planung, Rednerlisten zum Austausch mit anderen Koordinatoren, etc.
 
 * [Verwaltung](Verwaltung.md): Versammlungen, Redner, Vorträge und Vorlagen werden hier gepflegt.
 

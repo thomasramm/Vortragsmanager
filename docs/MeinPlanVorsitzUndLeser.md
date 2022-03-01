@@ -35,7 +35,7 @@ weil sie bereits eine andere Zuteilung hat, so erscheint sie nicht in der DropDo
 
 Im unteren Bereich des Fensters gibt es noch zwei weitere Aktionsmöglichkeiten:
 
-* Vorschläge generieren
+### Vorschläge generieren
 Alle nicht zugeteilten Aufgaben des angezeigten Monats werden neu zugeteilt.
 
 Diese Funktion kann nur für Zeiträume benutzt werden, die am Ende der Planung stehen. Löschst du zwischendurch einen Termin, kannst du ihn nicht über die Funktion neu besetzen.
@@ -44,7 +44,7 @@ Diese Funktion kann nur für Zeiträume benutzt werden, die am Ende der Planung 
 Beim Generieren der Vorschläge wird der Zeitraum seit der letzten Zuteilung (in Tagen) mit der Häufigkeit Multipliziert. Die Person mit dem höchsten Wert wird zugeteilt, sofern sie nicht bereits eine andere Zuteilung an dem Tag hat.
 (Heute-TagLetzteZuteilung) * Häufigkeit = Wert
 
-* Plan ausgeben
-: Es wird der gleiche Plan (Aushang.xlsx) wie bei den Listen ausgegeben. 
+### Plan ausgeben
+Es wird der gleiche Plan (Aushang.xlsx) wie bei den Listen ausgegeben. 
 
-[zurück](MeinPlanAntwortEintragen.md){: .btn .btn--inverse}  WeiterePlannungen [weiter](MeineRedner.md){: .btn .btn--inverse}
+[zurück](MeinPlanAntwortEintragen.md){: .btn .btn--inverse}  [weiter](MeineRedner.md){: .btn .btn--inverse}

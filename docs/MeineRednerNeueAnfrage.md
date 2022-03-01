@@ -11,7 +11,7 @@ Nach Bestätigung oder Ablehnung der Anfrage bleibt das Fenster offen, so dass w
 Dieser Menüpunkt besteht aus 5 Bereichen
 
 1. [zu prüfende Anfrage](#zu-prüfende-anfrage)
-2. [Anfragende Versammlung](#versammlungextern)
+2. [Anfragende Versammlung](#versammlung-extern)
 3. [Redner](#redner)
 4. [Deine Versammlung](#versammlung)
 5. [Hinweise](#hinweise)
