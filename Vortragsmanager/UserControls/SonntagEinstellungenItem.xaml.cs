@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using Vortragsmanager.Datamodels;
 
@@ -10,7 +9,7 @@ namespace Vortragsmanager.UserControls
     /// <summary>
     /// Interaction logic for AufgabenItem.xaml
     /// </summary>
-    public partial class SonntagEinstellungenItem : UserControl, INotifyPropertyChanged
+    public partial class SonntagEinstellungenItem : INotifyPropertyChanged
     {
 
         public SonntagEinstellungenItem(AufgabenZuordnung az)
@@ -57,7 +56,7 @@ namespace Vortragsmanager.UserControls
 
         private void AnzahlVerknüpfungen()
         {
-            var anzahl = DataContainer.AufgabenPersonZuordnung.Where(x => x.VerknüpftePerson == Person.VerknüpftePerson).Count();
+            var anzahl = DataContainer.AufgabenPersonZuordnung.Count(x => x.VerknüpftePerson == Person.VerknüpftePerson);
             if (anzahl > 1)
             {
                 //Warnung

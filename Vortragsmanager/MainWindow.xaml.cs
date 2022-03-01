@@ -5,8 +5,10 @@ using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
-using Vortragsmanager.Core;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
+using Vortragsmanager.Module;
+using Vortragsmanager.PageModels;
 using Vortragsmanager.Properties;
 
 namespace Vortragsmanager
@@ -14,17 +16,19 @@ namespace Vortragsmanager
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : ThemedWindow
+    // ReSharper disable once UnusedMember.Global
+    public partial class MainWindow
     {
         public MainWindow()
         {
+            //Spracheinstellungen immer auf DEUTSCH
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("de-DE");
             LanguageProperty.OverrideMetadata(
                 typeof(FrameworkElement),
                 new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
+            //Logging
             Log.Start();
-
             AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
             {
                 Log.Error("FirstChanceException", eventArgs.Exception.Message);
@@ -35,12 +39,13 @@ namespace Vortragsmanager
                 Settings.Default.sqlite = "demo.sqlite3";
 #endif
 
+            //Erster Start nach Update?
             if (!Settings.Default.HideChangelog)
             {
                 Update.ShowChanges();
             }
 
-            //Doppelklick auf eine sqlit3 Datei...
+            //Datei öffnen
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length >= 2 && File.Exists(args[1]))
             {
@@ -64,14 +69,23 @@ namespace Vortragsmanager
                 Close();
             }
 
+            //UI erstellen
             InitializeComponent();
 
-            Helper.GlobalSettings = new MyGloabalSettings();
-            DataContext = Helper.GlobalSettings;
-
-            Helper.GlobalSettings.RefreshTitle();
-
+            //Daten einlesen, Datenklassen bereitstellen
+            Helper.Helper.GlobalSettings = new MyGloabalSettings();
+            DataContext = Helper.Helper.GlobalSettings;
+                        
+            //Bereinigungs Tasks
             Backup.CleanOldBackups();
+
+            //Style Anpassungen
+            Helper.Helper.GlobalSettings.RefreshTitle();
+            EinstellungenPageModel.ThemeIsDark = Settings.Default.ThemeIsDark;
+#if DEBUG
+            ThemeSwitch.Visibility = Visibility.Visible; 
+#endif
+            ToggleSwitch_Changed(null, null);
         }
 
         private void HelpButton_Click(object sender, RoutedEventArgs e)
@@ -81,6 +95,13 @@ namespace Vortragsmanager
         private void ChangesButton_Click(object sender, RoutedEventArgs e)
         {
             Update.ShowChanges(true);
+        }
+
+        private void ToggleSwitch_Changed(object sender, RoutedEventArgs e)
+        {
+            HamburgerMenu.Margin = Helper.Helper.StyleIsDark == false 
+                ? new Thickness(-10, 0, -10, -10) 
+                : new Thickness(-10, -7, -10, -10);
         }
     }
 }

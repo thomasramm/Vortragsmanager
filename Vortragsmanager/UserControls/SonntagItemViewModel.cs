@@ -1,11 +1,11 @@
 ﻿using DevExpress.Mvvm;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.Enums;
+using Vortragsmanager.Helper;
+using Vortragsmanager.PageModels;
 
 namespace Vortragsmanager.UserControls
 {
@@ -19,7 +19,7 @@ namespace Vortragsmanager.UserControls
 
         public int Kalenderwoche { get; set; }
 
-        public DateTime Datum => Core.Helper.CalculateWeek(Kalenderwoche);
+        public DateTime Datum => DateCalcuation.CalculateWeek(Kalenderwoche);
 
         private void RecalculateNewActivityPerson(AufgabenZuordnung removed, AufgabenZuordnung added)
         {
@@ -37,41 +37,41 @@ namespace Vortragsmanager.UserControls
                 int kwLetzterEinsatz;
 
                 var a1 = DataContainer.AufgabenPersonKalender
-                    .Where(x => (x.Leser == removed || x.Vorsitz == removed) && x.Kw != Kalenderwoche);
+                    .Where(x => (x.Leser == removed || x.Vorsitz == removed) && x.Kw != Kalenderwoche).ToList();
                 if (a1.Any())
                 {
-                    var a2 = a1?.Select(x => x.Kw);
+                    var a2 = a1.Select(x => x.Kw);
                     kwLetzterEinsatz = a2.Max();
                 }
                 else
                     kwLetzterEinsatz = -1;
 
-                removed.LetzterEinsatz = kwLetzterEinsatz + removed.Häufigkeit; ;
+                removed.LetzterEinsatz = kwLetzterEinsatz + removed.Häufigkeit;
             }
         }
 
         public AufgabenZuordnung SelectedLeser
         {
-            get { return zuteilung?.Leser; }
+            get => _zuteilung?.Leser;
             set
             {
                 var neuerWert = (value?.Id == 0) ? null : value;
-                RecalculateNewActivityPerson(zuteilung.Leser, neuerWert);
-                FilterOtherList(Vorsitz, zuteilung.Leser, neuerWert);
-                zuteilung.Leser = neuerWert;
+                RecalculateNewActivityPerson(_zuteilung.Leser, neuerWert);
+                FilterOtherList(Vorsitz, _zuteilung.Leser, neuerWert);
+                _zuteilung.Leser = neuerWert;
                 RaisePropertyChanged(nameof(SelectedLeser));
             }
         }
 
         public AufgabenZuordnung SelectedVorsitz
         {
-            get { return zuteilung?.Vorsitz; }
+            get => _zuteilung?.Vorsitz;
             set
             {
                 var neuerWert = (value?.Id == 0) ? null : value;
-                RecalculateNewActivityPerson(zuteilung.Vorsitz, neuerWert);
-                FilterOtherList(Leser, zuteilung.Vorsitz, neuerWert);
-                zuteilung.Vorsitz = neuerWert;
+                RecalculateNewActivityPerson(_zuteilung.Vorsitz, neuerWert);
+                FilterOtherList(Leser, _zuteilung.Vorsitz, neuerWert);
+                _zuteilung.Vorsitz = neuerWert;
                 RaisePropertyChanged(nameof(SelectedVorsitz));
             }
         }
@@ -90,29 +90,31 @@ namespace Vortragsmanager.UserControls
                 switch (redner.Status)
                 {
                     case EventStatus.Zugesagt:
-                        var zu = (redner as Invitation);
-                        Vortragsredner = zu.Ältester.Name;
+                        if (redner is Invitation zu) Vortragsredner = zu.Ältester.Name;
                         break;
                     case EventStatus.Ereignis:
-                        var er = (redner as SpecialEvent);
-                        Vortragsredner = er.Anzeigetext;
-                        if (er.Typ == SpecialEventTyp.Kreiskongress
-                            || er.Typ == SpecialEventTyp.RegionalerKongress)
+                        if (redner is SpecialEvent er)
                         {
-                            IsLeser = false;
-                            IsVorsitz = false;
+                            Vortragsredner = er.Anzeigetext;
+                            switch (er.Typ)
+                            {
+                                case SpecialEventTyp.Kreiskongress:
+                                case SpecialEventTyp.RegionalerKongress:
+                                    IsLeser = false;
+                                    IsVorsitz = false;
+                                    break;
+                                case SpecialEventTyp.Dienstwoche:
+                                    IsLeser = false;
+                                    break;
+                            }
                         }
-                        else if (er.Typ == SpecialEventTyp.Dienstwoche)
-                            IsLeser = false;
 
-                        break;
-                    default:
                         break;
                 }
             }
 
             //Auswärtige Redner
-            var auswärts = DataContainer.ExternerPlan.Where(x => x.Kw == Kalenderwoche);
+            var auswärts = DataContainer.ExternerPlan.Where(x => x.Kw == Kalenderwoche).ToList();
             AuswärtigeRedner = string.Empty;
             foreach (var item in auswärts)
             {
@@ -122,7 +124,7 @@ namespace Vortragsmanager.UserControls
                 AuswärtigeRedner = AuswärtigeRedner.Substring(0, AuswärtigeRedner.Length - 2);
 
             //zuteilungen
-            zuteilung = DataContainer.AufgabenPersonKalenderFindOrAdd(Kalenderwoche);
+            _zuteilung = DataContainer.AufgabenPersonKalenderFindOrAdd(Kalenderwoche);
 
             //DropDown Vorsitz + Leser
             foreach (var az in DataContainer.AufgabenPersonZuordnung)
@@ -131,8 +133,7 @@ namespace Vortragsmanager.UserControls
                 {
                     if (redner?.Status == EventStatus.Zugesagt)
                     {
-                        var ereignis = (redner as Invitation);
-                        if (ereignis != null && (ereignis.Ältester == az.VerknüpftePerson))
+                        if (redner is Invitation ereignis && (ereignis.Ältester == az.VerknüpftePerson))
                         {
                             continue;
                         }
@@ -191,7 +192,7 @@ namespace Vortragsmanager.UserControls
 
         public ObservableCollection<AufgabenZuordnung> Vorsitz { get; } = new ObservableCollection<AufgabenZuordnung>();
 
-        private AufgabenKalender zuteilung;
+        private AufgabenKalender _zuteilung;
 
         public bool IsVorsitz { get; set; } = true;
 

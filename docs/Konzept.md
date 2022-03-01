@@ -10,4 +10,4 @@ Kontextmenü
 Mailtexte
 :   Da die Kommunikation größtenteils über jwpub.org ablaufen soll und eine direkte Integration des Maildienstes in ein externes Programm nicht möglich ist, generiert der Vortragsmanager die entsprechenden Mailtexte, die dann per Copy & Paste in eine neue Mail auf jwpub.org eingefügt und verschickt wird.
 
-[zurück](Verwaltung.md){: .btn .btn--inverse}  [weiter](Index.md){: .btn .btn--inverse}
+[zurück](HistorieLog.md){: .btn .btn--inverse}  [Startseite](Index.md){: .btn .btn--inverse}

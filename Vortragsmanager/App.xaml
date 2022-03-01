@@ -4,5 +4,7 @@
              StartupUri="MainWindow.xaml"
              Exit="Application_Exit">
     <Application.Resources>
+        <ResourceDictionary Source="Themes/Dark.xaml" />
     </Application.Resources>
 </Application>
+    

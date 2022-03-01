@@ -1,14 +1,12 @@
-﻿using DevExpress.Xpf.LayoutControl;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using GroupBox = DevExpress.Xpf.LayoutControl.GroupBox;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.UserControls
 {
     /// <summary>
     /// Interaction logic for VersammlungControl.xaml
     /// </summary>
-    public partial class VersammlungMaximizedControl : UserControl
+    public partial class VersammlungMaximizedControl
     {
         public VersammlungMaximizedControl()
         {

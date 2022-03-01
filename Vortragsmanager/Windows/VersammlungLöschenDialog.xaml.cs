@@ -1,23 +1,23 @@
-﻿using System.Windows;
+﻿using Vortragsmanager.Interface;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.Windows
 {
     /// <summary>
     /// Interaction logic for VersammlungLöschenDialog.xaml
     /// </summary>
-    public partial class VersammlungLöschenDialog : Window, Datamodels.ICloseable
+    public partial class VersammlungLöschenDialog : ICloseable
     {
-        private readonly VersammlungLöschenDialogView DataModel;
+        private readonly VersammlungLöschenDialogView _dataModel;
 
         public VersammlungLöschenDialog()
         {
             InitializeComponent();
-            DataModel = (VersammlungLöschenDialogView)DataContext;
+            _dataModel = (VersammlungLöschenDialogView)DataContext;
         }
 
         private void VersammlungenFilter_QuerySubmitted(object sender, DevExpress.Xpf.Editors.AutoSuggestEditQuerySubmittedEventArgs e)
         {
-            DataModel.SetVersammlungfilter(e.Text);
+            _dataModel.SetVersammlungfilter(e.Text);
         }
     }
 }

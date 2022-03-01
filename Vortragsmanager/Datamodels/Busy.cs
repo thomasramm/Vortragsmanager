@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Vortragsmanager.Datamodels
+﻿namespace Vortragsmanager.Datamodels
 {
     public class Busy
     {
@@ -15,6 +9,7 @@ namespace Vortragsmanager.Datamodels
         }
 
         public Speaker Redner { get; set; }
+
         public int Kw { get; set; }
     }
 }

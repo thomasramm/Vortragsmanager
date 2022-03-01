@@ -1,15 +1,17 @@
-﻿using DevExpress.Mvvm;
-using DevExpress.Xpf.Core;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
-using Vortragsmanager.Core;
+using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.Enums;
+using Vortragsmanager.Interface;
+using Vortragsmanager.Module;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.Windows
 {
     public class SetupWizardDialogViewModel : ViewModelBase
     {
@@ -36,17 +38,17 @@ namespace Vortragsmanager.Views
         private string _importFile = string.Empty;
         private Conregation _deineVersammlung;
         private bool _meineVersammlungIstImportiertChecked = true;
-        private bool? dialogResult;
+        private bool? _dialogResult;
 
-        public DelegateCommand ExcelImportierenPlannungCommand { get; private set; }
-        public DelegateCommand ExcelImportierenPlannungExternCommand { get; private set; }
-        public DelegateCommand<ICloseable> CloseCommand { get; private set; }
-        public DelegateCommand VortragsmanagerdateiLadenCommand { get; private set; }
-        public DelegateCommand DatabaseFileDialogCommand { get; private set; }
-        public DelegateCommand ExcelImportierenKoordinatorenCommand { get; private set; }
-        public DelegateCommand ExcelImportierenRednerCommand { get; private set; }
-        public DelegateCommand<string> OpenExcelExampleCommand { get; private set; }
-        public DelegateCommand ExcelFileDialogCommand { get; private set; }
+        public DelegateCommand ExcelImportierenPlannungCommand { get; }
+        public DelegateCommand ExcelImportierenPlannungExternCommand { get; }
+        public DelegateCommand<ICloseable> CloseCommand { get; }
+        public DelegateCommand VortragsmanagerdateiLadenCommand { get; }
+        public DelegateCommand DatabaseFileDialogCommand { get; }
+        public DelegateCommand ExcelImportierenKoordinatorenCommand { get; }
+        public DelegateCommand ExcelImportierenRednerCommand { get; }
+        public DelegateCommand<string> OpenExcelExampleCommand { get; }
+        public DelegateCommand ExcelFileDialogCommand { get; }
 
         public ObservableCollection<Conregation> VersammlungsListe => DataContainer.Versammlungen;
 
@@ -62,7 +64,7 @@ namespace Vortragsmanager.Views
 
         public bool NeuBeginnenChecked { get; set; }
 
-        public bool? DialogResult { get => dialogResult; set => SetValue(ref dialogResult, value); }
+        public bool? DialogResult { get => _dialogResult; set => SetValue(ref _dialogResult, value); }
 
         public bool MeineVersammlungIstImportiertChecked
         {
@@ -77,10 +79,7 @@ namespace Vortragsmanager.Views
 
         public Conregation DeineVersammlung
         {
-            get
-            {
-                return _deineVersammlung;
-            }
+            get => _deineVersammlung;
             set
             {
                 _deineVersammlung = value;
@@ -92,10 +91,7 @@ namespace Vortragsmanager.Views
 
         public int SelectedIndex
         {
-            get
-            {
-                return _selectedIndex;
-            }
+            get => _selectedIndex;
             set
             {
                 _selectedIndex = value;
@@ -106,10 +102,7 @@ namespace Vortragsmanager.Views
 
         public bool CanGoNext
         {
-            get
-            {
-                return _canGoNext;
-            }
+            get => _canGoNext;
             set
             {
                 _canGoNext = value;
@@ -119,7 +112,7 @@ namespace Vortragsmanager.Views
 
         public bool DatenbankÖffnenChecked
         {
-            get { return _datenbankÖffnenChecked; }
+            get => _datenbankÖffnenChecked;
             set
             {
                 _datenbankÖffnenChecked = value;
@@ -130,7 +123,7 @@ namespace Vortragsmanager.Views
 
         public bool VplanungChecked
         {
-            get { return _vplanungChecked; }
+            get => _vplanungChecked;
             set
             {
                 _vplanungChecked = value;
@@ -153,10 +146,7 @@ namespace Vortragsmanager.Views
 
         public string ImportFile
         {
-            get
-            {
-                return _importFile;
-            }
+            get => _importFile;
             set
             {
                 _importFile = value;
@@ -166,10 +156,7 @@ namespace Vortragsmanager.Views
 
         public string ImportExcelFile
         {
-            get
-            {
-                return _importExcelFile;
-            }
+            get => _importExcelFile;
             set
             {
                 _importExcelFile = value;
@@ -200,7 +187,7 @@ namespace Vortragsmanager.Views
                 case 1:
                     if (DemoChecked)
                     {
-                        var quelle = $"{Helper.TemplateFolder}demo.sqlite3";
+                        var quelle = $"{Helper.Helper.TemplateFolder}demo.sqlite3";
                         var ziel = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\demo.sqlite3";
                         File.Copy(quelle, ziel, true);
                         IoSqlite.ReadContainer(ziel);
@@ -263,16 +250,15 @@ namespace Vortragsmanager.Views
                     ImportierteJahreliste.Clear();
                     break;
                 //Seite FINISH
-                case 7:
                 default:
                     CanGoNext = true;
                     break;
             }
         }
 
-        public void OpenExcelExample(string Dateiname)
+        public void OpenExcelExample(string dateiname)
         {
-            var quelle = $"{Helper.TemplateFolder}{Dateiname}";
+            var quelle = $"{Helper.Helper.TemplateFolder}{dateiname}";
             System.Diagnostics.Process.Start(quelle);
         }
 
@@ -372,7 +358,7 @@ namespace Vortragsmanager.Views
             else
             {
                 var fi = new FileInfo(ImportExcelFile);
-                dir = fi.Directory.Exists ? fi.DirectoryName : Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                dir = fi.Directory != null && fi.Directory.Exists ? fi.DirectoryName : Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 fn = fi.Name;
             }
             var openDialog = new OpenFileDialog
@@ -401,7 +387,7 @@ namespace Vortragsmanager.Views
                 return;
 
             var c = DataContainer.ConregationFindOrAdd("Meine Versammlung");
-            c.Zeit.Add(DateTime.Today.Year, DayOfWeeks.Sonntag, "Unbekannt");
+            c.Zeit.Add(DateTime.Today.Year, Wochentag.Sonntag, "Unbekannt");
             DeineVersammlung = c;
         }
 
@@ -424,7 +410,7 @@ namespace Vortragsmanager.Views
             ImportierteJahreliste.Clear();
             foreach (var j in DataContainer.MeinPlan.GroupBy(x => x.Kw / 100))
             {
-                ImportierteJahreliste.Add(j.Key.ToString(Helper.German));
+                ImportierteJahreliste.Add(j.Key.ToString(Helper.Helper.German));
             }
 
             RaisePropertyChanged(nameof(ImportierteJahreliste));
@@ -451,7 +437,7 @@ namespace Vortragsmanager.Views
             ImportierteJahreliste.Clear();
             foreach (var j in DataContainer.ExternerPlan.GroupBy(x => x.Kw / 100))
             {
-                ImportierteJahreliste.Add(j.Key.ToString(Helper.German));
+                ImportierteJahreliste.Add(j.Key.ToString(Helper.Helper.German));
             }
 
             RaisePropertyChanged(nameof(ImportierteJahreliste));
@@ -462,19 +448,13 @@ namespace Vortragsmanager.Views
 
     public class Kreis
     {
-        public Kreis(int nr)
-        {
-            Nr = nr;
-            Anzahl = 1;
-        }
-
         public Kreis(int nr, int anzahl)
         {
             Nr = nr;
             Anzahl = anzahl;
         }
 
-        public int Nr { get; set; }
+        public int Nr { get; }
 
         public int Anzahl { get; set; }
 
@@ -487,7 +467,7 @@ namespace Vortragsmanager.Views
         {
             if (obj == null)
                 return false;
-            if (Nr != (obj as Kreis).Nr)
+            if (Nr != ((Kreis) obj).Nr)
                 return false;
 
             return true;
@@ -498,11 +478,11 @@ namespace Vortragsmanager.Views
             unchecked
             {
                 // Choose large primes to avoid hashing collisions
-                const int HashingBase = (int)2166136261;
-                const int HashingMultiplier = 16777619;
+                const int hashingBase = (int)2166136261;
+                const int hashingMultiplier = 16777619;
 
-                int hash = HashingBase;
-                hash = (hash * HashingMultiplier) ^ (Nr.GetHashCode());
+                var hash = hashingBase;
+                hash = (hash * hashingMultiplier) ^ (Nr.GetHashCode());
                 return hash;
             }
         }

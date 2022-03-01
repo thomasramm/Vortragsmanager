@@ -1,34 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.Helper;
+using Vortragsmanager.PageModels;
 
 namespace Vortragsmanager.UserControls
 {
     /// <summary>
     /// Interaction logic for CalendarYearShortItem.xaml
     /// </summary>
-    public partial class CalendarYearShortItem : UserControl
+    public partial class CalendarYearShortItem
     {
-        private bool isAroundTalk;
-        private bool isEvent1;
-        private bool isBusy;
-        private bool isHoliday;
-        private bool showDetails;
-        private string text;
+        private bool _isAroundTalk;
+        private bool _isEvent;
+        private bool _isBusy;
+        private bool _isHoliday;
+        private bool _showDetails;
+        private string _text;
         private DateTime _date;
-        private readonly bool isMonth;
+        private readonly bool _isMonth;
         private Busy _abwesenheit;
 
         public CalendarYearShortItem()
@@ -47,7 +38,7 @@ namespace Vortragsmanager.UserControls
         public CalendarYearShortItem(int month)
         {
             InitializeComponent();
-            isMonth = true;
+            _isMonth = true;
             Width = 40;
             Date = new DateTime(1900, month, 1);
         }
@@ -63,63 +54,63 @@ namespace Vortragsmanager.UserControls
 
         public string Text
         {
-            get => text; set
+            get => _text; set
             {
-                text = value;
+                _text = value;
                 UpdateUi();
             }
         }
 
         public bool ShowDetails
         {
-            get => showDetails; set
+            get => _showDetails; set
             {
-                showDetails = value;
+                _showDetails = value;
                 UpdateUi();
             }
         }
 
         public bool IsHoliday
         {
-            get => isHoliday; set
+            get => _isHoliday; set
             {
-                isHoliday = value;
+                _isHoliday = value;
                 UpdateUi();
             }
         }
 
         public bool IsBusy
         {
-            get => isBusy;
+            get => _isBusy;
             set
             {
-                isBusy = value;
+                _isBusy = value;
                 UpdateUi();
             }
         }
 
         public bool IsEvent
         {
-            get => isEvent1;
+            get => _isEvent;
             set
             {
-                isEvent1 = value;
+                _isEvent = value;
                 UpdateUi();
             }
         }
 
         public bool IsAroundTalk
         {
-            get => isAroundTalk; set
+            get => _isAroundTalk; set
             {
-                isAroundTalk = value;
+                _isAroundTalk = value;
                 UpdateUi();
             }
         }
 
         public void SetPerson(Speaker person)
         {
-            _abwesenheit = new Busy(person, Core.Helper.CalculateWeek(_date));
+            _abwesenheit = new Busy(person, DateCalcuation.CalculateWeek(_date));
         }
 
         public void SetAbwesenheit(Busy abwesenheit)
@@ -138,17 +129,41 @@ namespace Vortragsmanager.UserControls
 
         private void UpdateUi()
         {
-            //Hintergrundfarbe
-            var color = isMonth ? Color.FromRgb(51, 51, 51) : Color.FromRgb(0,48,0);
+            Color color;
 
-            if (isBusy)
-                color = Colors.OrangeRed;
-            else if (isHoliday)
-                color = Colors.DodgerBlue;
-            else if (IsEvent)
-                color = Colors.SlateGray;
-            else if (IsAroundTalk)
-                color = Color.FromRgb(100, 60, 50);
+            //Hintergrundfarbe
+            if (EinstellungenPageModel.ThemeIsDark)
+            {
+                if (_isMonth)
+                    color = Color.FromRgb(51, 51, 51);
+                else if (_isBusy)
+                    color = Colors.OrangeRed;
+                else if (_isHoliday)
+                    color = Colors.DodgerBlue;
+                else if (IsEvent)
+                    color = Colors.SlateGray;
+                else if (IsAroundTalk)
+                    color = Color.FromRgb(100, 60, 50);
+                else
+                    color = Color.FromRgb(0, 48, 0);
+            }
+            else
+            {
+                if (_isMonth)
+                    color = Color.FromRgb(255, 255, 255);
+                else if (_isBusy)
+                    color = Color.FromRgb(255,150,130);
+                else if (_isHoliday)
+                    color = Colors.DodgerBlue;
+                else if (IsEvent)
+                    color = Color.FromRgb(160,170,180);
+                else if (IsAroundTalk)
+                    color = Color.FromRgb(200, 160, 145);
+                else
+                    color = Color.FromRgb(160, 220, 160);
+            }
+
+
 
             //Text
             Inhalt.Content = Date.Day;
@@ -156,13 +171,10 @@ namespace Vortragsmanager.UserControls
             //ToolTip
             ToolTip = Text;
 
-            if (isMonth)
+            if (_isMonth)
             {
-                var text = Date.ToString("MMMM", Core.Helper.German);
-                if (showDetails)
-                    Inhalt.Content = text;
-                else
-                    Inhalt.Content = Date.ToString("MMM", Core.Helper.German);
+                var text = Date.ToString("MMMM", Helper.Helper.German);
+                Inhalt.Content = ShowDetails ? text : Date.ToString("MMM", Helper.Helper.German);
                 ToolTip = text;
             }
 

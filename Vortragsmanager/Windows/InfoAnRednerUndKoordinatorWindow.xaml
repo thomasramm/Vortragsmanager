@@ -1,15 +1,17 @@
-﻿<Window x:Class="Vortragsmanager.Views.InfoAnRednerUndKoordinatorWindow"
+﻿<Window x:Class="Vortragsmanager.Windows.InfoAnRednerUndKoordinatorWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Vortragsmanager.Views"
-        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:windows="clr-namespace:Vortragsmanager.Windows"
         mc:Ignorable="d"
         Title="{Binding Titel}" Height="450" Width="800"
-        DataContext="{dxmvvm:ViewModelSource local:InfoAnRednerUndKoordinatorViewModel}"
+        d:DataContext="{d:DesignInstance Type=windows:InfoAnRednerUndKoordinatorViewModel}"
         x:Name="AnfrageBestätigenWindow">
+    <Window.DataContext>
+        <windows:InfoAnRednerUndKoordinatorViewModel/>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -26,7 +28,7 @@
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding MailTextKoordinator}" AcceptsReturn="True" />
         <dx:SimpleButton Content="Kopieren"
                          Command="{Binding CopyCommand, Mode=OneWay}"
-                         Glyph="{dx:SvgImageSource Uri='/Images/Zwischenablage2.svg'}"
+                         Glyph="/Images/ZwischenablageKopieren_64x64.png"
                          Grid.Row="2"
                          Grid.Column="0"
                          CommandParameter="1"
@@ -36,7 +38,7 @@
         <dx:SimpleButton Content="Kopieren"
                          Command="{Binding CopyCommand, Mode=OneWay}"
                          CommandParameter="2"
-                         Glyph="{dx:SvgImageSource Uri='/Images/Zwischenablage2.svg'}"
+                         Glyph="/Images/ZwischenablageKopieren_64x64.png"
                          Grid.Row="2"
                          Grid.Column="1"
                          HorizontalAlignment="Left" Width="120" Margin="10"
@@ -47,14 +49,18 @@
                     Grid.ColumnSpan="2">
             <dx:SimpleButton Content="Speichern"
                          Command="{Binding SaveCommand, Mode=OneWay}"
-                         Glyph="{dx:SvgImageSource Uri='/Images/Save_green.svg'}"
+                         Glyph="/Images/Save_green_32x32.png"
+                             GlyphWidth="24"
+                             GlyphHeight="24"
                          CommandParameter="{Binding ElementName=AnfrageBestätigenWindow}"
                          Visibility="{Binding ShowSaveCancelButton, Mode=OneWay}"
                          Width="120" Margin="0" />
             <dx:SimpleButton Content="Abbrechen"
                          Command="{Binding CloseCommand, Mode=OneWay}"
                          CommandParameter="{Binding ElementName=AnfrageBestätigenWindow}"
-                         Glyph="{dx:SvgImageSource Uri='/Images/Cancel_red.svg'}"
+                         Glyph="/Images/Cancel_32x32.png"
+                             GlyphWidth="24"
+                             GlyphHeight="24"
                          Visibility="{Binding ShowSaveCancelButton, Mode=OneWay}"
                          Width="120" Margin="0" />
             <dx:SimpleButton Content="Schließen"

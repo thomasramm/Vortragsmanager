@@ -3,17 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Vortragsmanager.Views"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
-        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:uc="clr-namespace:Vortragsmanager.UserControls"
-    x:Class="Vortragsmanager.Views.EreignisEintragenCommandDialog"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:windows="clr-namespace:Vortragsmanager.Windows"
+        x:Class="Vortragsmanager.Windows.EreignisEintragenCommandDialog"
         mc:Ignorable="d"
         Title="Ereignis eintragen" Height="300" Width="500"
-        Background="#333333"
-        DataContext="{dxmvvm:ViewModelSource {x:Type local:EreignisEintragenCommandDialogView}}"
+        Background="{StaticResource Background}"
+        d:DataContext="{d:DesignInstance Type=windows:EreignisEintragenCommandDialogView}"
         x:Name="EreignisBearbeitenWindow">
+    <Window.DataContext>
+        <windows:EreignisEintragenCommandDialogView/>
+    </Window.DataContext>
     <Window.Resources>
         <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
@@ -23,7 +26,8 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <dxlc:LayoutControl Orientation="Vertical" Margin="50,30,50,0">
-            <dxlc:LayoutItem Label="Ereignis" Foreground="White">
+            <dxlc:LayoutItem Label="Ereignis" 
+                             Foreground="{StaticResource TextColor}">
                 <dxe:ComboBoxEdit SelectedIndex="{Binding SelectedEreignis}">
                     <dxe:ComboBoxEditItem Content="Dienstwoche" />
                     <dxe:ComboBoxEditItem Content="Regionaler Kongress" />
@@ -32,20 +36,24 @@
                     <dxe:ComboBoxEditItem Content="Sonstiges" />
                 </dxe:ComboBoxEdit>
             </dxlc:LayoutItem>
-            <dxlc:LayoutItem Label="Name des Ereignis" Foreground="White" Visibility="{Binding ShowEreignisName, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <dxlc:LayoutItem Label="Name des Ereignis"
+                             Visibility="{Binding ShowEreignisName, Converter={StaticResource BooleanToVisibilityConverter}}"
+                             Foreground="{StaticResource TextColor}">
                 <dxe:TextEdit Text="{Binding EreignisName, Mode=TwoWay}" />
             </dxlc:LayoutItem>
-            <dxlc:LayoutItem Label="Ältester / KA" Foreground="White" Visibility="{Binding ShowVortrag, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <dxe:TextEdit Text="{Binding VortragName, Mode=TwoWay}" />
+            <dxlc:LayoutItem Label="Ältester / KA" 
+                              Foreground="{StaticResource TextColor}"
+                             Visibility="{Binding ShowVortrag, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <dxe:TextEdit Text="{Binding VortragName, Mode=TwoWay}"  Foreground="{StaticResource TextColor}"/>
             </dxlc:LayoutItem>
             <dxlc:LayoutGroup>
                 <RadioButton GroupName="Vortrag"
-                             Foreground="White"
+                              Foreground="{StaticResource TextColor}"
                              IsChecked="{Binding VortragDropDownIsChecked, Mode=TwoWay}"
                              Visibility="{Binding ShowVortragRadio, Converter={StaticResource BooleanToVisibilityConverter}}"
                              Height="23" Width="14" />
                 <dxlc:LayoutItem Label="Vortrag"
-                                 Foreground="White"
+                                  Foreground="{StaticResource TextColor}"
                                  Visibility="{Binding ShowVortragDropDown, Converter={StaticResource BooleanToVisibilityConverter}}"
                                  IsEnabled="{Binding VortragDropDownIsChecked}"
                                  ToolTip="Hier ausgewählte Vorträge werden in der Liste bereits gehörter oder geplanter Vorträge berücksichtigt.">
@@ -59,25 +67,25 @@
             </dxlc:LayoutGroup>
             <dxlc:LayoutGroup>
                 <RadioButton GroupName="Vortrag"
-                             Foreground="White"
+                              Foreground="{StaticResource TextColor}"
                              IsChecked="{Binding VortragFreitextIsChecked, Mode=TwoWay}"
                              Visibility="{Binding ShowVortragRadio, Converter={StaticResource BooleanToVisibilityConverter}}"
                              Height="23" Width="14" />
                 <dxlc:LayoutItem Label="Vortrag (Freitext)"
-                                 Foreground="White"
+                                  Foreground="{StaticResource TextColor}"
                                  IsEnabled="{Binding VortragFreitextIsChecked}">
                     <dxe:TextEdit Text="{Binding VortragThema, Mode=TwoWay}" />
                 </dxlc:LayoutItem>
             </dxlc:LayoutGroup>
         </dxlc:LayoutControl>
         <dx:SimpleButton Grid.Row="1" Content="Speichern"
-                             Glyph="{dx:SvgImageSource Uri='/Images/Ok_green.svg'}"
+                             Glyph="/Images/Ok_Green_32x32.png"
                              GlyphAlignment="Left"
                              Command="{Binding SaveCommand}"
                              CommandParameter="{Binding ElementName=EreignisBearbeitenWindow}"
                              HorizontalAlignment="Right" Width="150" Margin="5,5,160,5" />
         <dx:SimpleButton Grid.Row="1" Content="Abbrechen"
-                             Glyph="{dx:SvgImageSource Uri='/Images/Cancel_red.svg'}"
+                             Glyph="/Images/Cancel_32x32.png"
                              GlyphAlignment="Left"
                              Command="{Binding CloseCommand}"
                              CommandParameter="{Binding ElementName=EreignisBearbeitenWindow}"

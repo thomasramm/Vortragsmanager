@@ -3,24 +3,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Vortragsmanager.Datamodels;
+using Vortragsmanager.Enums;
+using Vortragsmanager.Helper;
 
 namespace Vortragsmanager.UserControls
 {
     /// <summary>
     /// Interaction logic for CalendarYearShort.xaml
     /// </summary>
-    public partial class CalendarYearShort : UserControl
+    public partial class CalendarYearShort
     {
-        private Dictionary<DateTime, CalendarYearShortItem> _calendar = new Dictionary<DateTime, CalendarYearShortItem>(53);
+        private readonly Dictionary<DateTime, CalendarYearShortItem> _calendar = new Dictionary<DateTime, CalendarYearShortItem>(53);
         private int _year;
 
         public CalendarYearShort()
         {
             InitializeComponent();
-            LoadYear(Core.Helper.DisplayedYear);
+            LoadYear(Helper.Helper.DisplayedYear);
         }
 
 
@@ -28,10 +29,7 @@ namespace Vortragsmanager.UserControls
 
         public Speaker Person
         {
-            get
-            {
-                return (Speaker) GetValue(PersonProperty);
-            }
+            get => (Speaker) GetValue(PersonProperty);
             set
             {
                 SetValue(PersonProperty, value);
@@ -39,24 +37,14 @@ namespace Vortragsmanager.UserControls
             }
         }
 
-        //public Speaker Person
-        //{
-        //    get => person; 
-        //    set
-        //    {
-        //        person = value;
-        //        UpdateCalendar();
-        //    }
-        //}
-
         private void LoadYear(int year)
         {
-            yearLabel.Content = year;
+            YearLabel.Content = year;
             _calendar.Clear();
-            flowLayout.Children.Clear();
+            FlowLayout.Children.Clear();
             _year = year;
 
-            var start = Core.Helper.GetConregationDay(new DateTime(year, 1, 1));
+            var start = DateCalcuation.GetConregationDay(new DateTime(year, 1, 1));
             if (start.Year < year)
                 start = start.AddDays(7);
             var currentMonth = 0;
@@ -67,13 +55,13 @@ namespace Vortragsmanager.UserControls
                 {
                     item = new CalendarYearShortItem(start.Month);
                     FlowLayoutControl.SetIsFlowBreak(item, true);
-                    flowLayout.Children.Add(item);
+                    FlowLayout.Children.Add(item);
                     _calendar.Add(new DateTime(1900, start.Month, 1), item);
                     currentMonth = start.Month;
                 }
 
                 item = new CalendarYearShortItem(start);
-                flowLayout.Children.Add(item);
+                FlowLayout.Children.Add(item);
                 _calendar.Add(start, item);
                 start = start.AddDays(7);
             }
@@ -93,7 +81,7 @@ namespace Vortragsmanager.UserControls
             //Events
             foreach (var myEvent in DataContainer.MeinPlan.Where(x => (x.Kw >= startrange && x.Kw < endrange) && x.Status == EventStatus.Ereignis).Cast<SpecialEvent>())
             {
-                var datum = Core.Helper.CalculateWeek(myEvent.Kw);
+                var datum = DateCalcuation.CalculateWeek(myEvent.Kw);
                 if (datum.Year == _year)
                 {
                     var item = _calendar[datum];
@@ -109,7 +97,7 @@ namespace Vortragsmanager.UserControls
             //Vortrag in meiner Versammlung
             foreach (var busy in DataContainer.MeinPlan.Where(x => (x.Kw >= startrange && x.Kw < endrange ) && x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester == Person))
             {
-                var datum = Core.Helper.CalculateWeek(busy.Kw);
+                var datum = DateCalcuation.CalculateWeek(busy.Kw);
                 if (datum.Year == _year)
                 {
                     var item = _calendar[datum];
@@ -124,7 +112,7 @@ namespace Vortragsmanager.UserControls
             //Vortrag in anderer Versammlung
             foreach (var busy in DataContainer.ExternerPlan.Where(x => x.Ältester == Person && (x.Kw >= startrange && x.Kw < endrange)))
             {
-                var datum = Core.Helper.CalculateWeek(busy.Kw);
+                var datum = DateCalcuation.CalculateWeek(busy.Kw);
                 if (datum.Year == _year)
                 {
                     var item = _calendar[datum];
@@ -141,7 +129,7 @@ namespace Vortragsmanager.UserControls
             {
                 if (busy.Leser?.VerknüpftePerson == Person || busy.Vorsitz?.VerknüpftePerson == Person)
                 {
-                    var datum = Core.Helper.CalculateWeek(busy.Kw);
+                    var datum = DateCalcuation.CalculateWeek(busy.Kw);
                     if (_calendar.ContainsKey(datum))
                     {
                         var item = _calendar[datum];
@@ -161,7 +149,7 @@ namespace Vortragsmanager.UserControls
             //Vorhandene Abwesenheiten eintragen
             foreach(var busy in DataContainer.Abwesenheiten.Where(x => x.Kw/100 == _year && x.Redner == Person))
             {
-                var datum = Core.Helper.CalculateWeek(busy.Kw);
+                var datum = DateCalcuation.CalculateWeek(busy.Kw);
                 var item = _calendar[datum];
                 item.SetAbwesenheit(busy);
             }

@@ -1,8 +1,8 @@
-﻿using DevExpress.Mvvm;
-using System.Windows;
-using Vortragsmanager.Datamodels;
+﻿using System.Windows;
+using DevExpress.Mvvm;
+using Vortragsmanager.Interface;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.Windows
 {
     public class LeerViewModel : ViewModelBase
     {
@@ -13,19 +13,20 @@ namespace Vortragsmanager.Views
             CopyCommand = new DelegateCommand(Copy);
         }
 
-        public LeerViewModel(string titel, bool CloseButton, bool SaveButton, bool CopyButton, string text) : this()
-        {
-            Titel = titel;
-            ShowCloseButton = CloseButton;
-            ShowSaveButton = SaveButton;
-            ShowCopyButton = CopyButton;
-            Text = text;
-        }
+        //public LeerViewModel(string titel, bool closeButton, bool saveButton, bool copyButton, string text, string headerText = "") : this()
+        //{
+        //    Titel = titel;
+        //    ShowCloseButton = closeButton;
+        //    ShowSaveButton = saveButton;
+        //    ShowCopyButton = copyButton;
+        //    Text = text;
+        //    HeaderText = headerText;
+        //}
 
-        public DelegateCommand<ICloseable> CloseCommand { get; private set; }
-        public DelegateCommand<ICloseable> SaveCommand { get; private set; }
+        public DelegateCommand<ICloseable> CloseCommand { get; }
+        public DelegateCommand<ICloseable> SaveCommand { get; }
 
-        public DelegateCommand CopyCommand { get; private set; }
+        public DelegateCommand CopyCommand { get; }
 
         public void Close(ICloseable window)
         {
@@ -52,10 +53,7 @@ namespace Vortragsmanager.Views
 
         public string Titel
         {
-            get
-            {
-                return _titel;
-            }
+            get => _titel;
             set
             {
                 _titel = value;
@@ -67,10 +65,7 @@ namespace Vortragsmanager.Views
 
         public bool ShowCloseButton
         {
-            get
-            {
-                return _showCloseButton;
-            }
+            get => _showCloseButton;
             set
             {
                 _showCloseButton = value;
@@ -84,10 +79,7 @@ namespace Vortragsmanager.Views
 
         public bool ShowSaveButton
         {
-            get
-            {
-                return _showSaveButton;
-            }
+            get => _showSaveButton;
             set
             {
                 _showSaveButton = value;
@@ -95,28 +87,33 @@ namespace Vortragsmanager.Views
             }
         }
 
-        private bool _showCopyButton;
+        public bool ShowCopyButton { get; set; }
 
-        public bool ShowCopyButton
+        private string _headerText;
+
+        public string HeaderText
         {
-            get
-            {
-                return _showCopyButton;
-            }
-            set
-            {
-                _showCopyButton = value;
+            get => _headerText;
+            set 
+            { 
+                _headerText = value;
+                SetHeaderTextVisible(!string.IsNullOrWhiteSpace(_headerText));
             }
         }
+
+        private void SetHeaderTextVisible(bool visible)
+        {
+            HeaderTextVisible = visible ? new GridLength(50) : new GridLength(0);
+        }
+
+        public GridLength HeaderTextVisible { get; private set; }
+
 
         private string _text;
 
         public string Text
         {
-            get
-            {
-                return _text;
-            }
+            get => _text;
             set
             {
                 _text = value;

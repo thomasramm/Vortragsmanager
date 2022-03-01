@@ -1,12 +1,12 @@
 ﻿using System.IO;
-using System.Windows;
+using Vortragsmanager.Interface;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.Windows
 {
     /// <summary>
     /// Interaktionslogik für BuchungLöschenCommandDialog.xaml
     /// </summary>
-    public partial class SetupWizardDialog : Window, Datamodels.ICloseable
+    public partial class SetupWizardDialog : ICloseable
     {
         public SetupWizardDialog()
         {

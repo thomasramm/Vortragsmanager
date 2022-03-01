@@ -1,11 +1,11 @@
-﻿using System.Windows;
+﻿using Vortragsmanager.Interface;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.Windows
 {
     /// <summary>
     /// Interaction logic for KalendereintragVerschieben.xaml
     /// </summary>
-    public partial class KalendereintragVerschieben : Window, Datamodels.ICloseable
+    public partial class KalendereintragVerschieben : ICloseable
     {
         public KalendereintragVerschieben()
         {

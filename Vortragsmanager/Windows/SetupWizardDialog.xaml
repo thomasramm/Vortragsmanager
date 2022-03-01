@@ -1,29 +1,28 @@
-﻿<Window x:Class="Vortragsmanager.Views.SetupWizardDialog"
+﻿<Window x:Class="Vortragsmanager.Windows.SetupWizardDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Vortragsmanager.Views"
-        xmlns:core="clr-namespace:Vortragsmanager.Core"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxco="http://schemas.devexpress.com/winfx/2008/xaml/controls"
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:helper="clr-namespace:Vortragsmanager.Helper"
+        xmlns:windows="clr-namespace:Vortragsmanager.Windows"
         mc:Ignorable="d"
         Title="Einrichtungsassistent" Height="455" Width="800"
-        x:Name="SetupWizardWindow"
-        Icon="{dx:SvgImageSource Uri='/Images/AddDatasource.svg'}"
+        Icon="/Images/AddDatasource_64x64.png"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
         Background="#333333"
         dx:ThemeManager.Theme="MetropolisDark"
         WindowStyle="None"
-        core:DialogCloser.DialogResult="{Binding DialogResult}">
+        helper:DialogCloser.DialogResult="{Binding DialogResult}">
     <Window.DataContext>
-        <local:SetupWizardDialogViewModel />
+        <windows:SetupWizardDialogViewModel />
     </Window.DataContext>
     <Window.Resources>
-        <Border x:Key="side" Background="Orange" BorderBrush="White" BorderThickness="1">
+        <Border x:Key="Side" Background="Orange" BorderBrush="White" BorderThickness="1">
             <Image Source="/Images/Logo2_128x128.png" Margin="3" Width="150" />
         </Border>
     </Window.Resources>
@@ -38,7 +37,7 @@
             <dxco:WelcomeWizardPage Header="Einrichtungsassistent"
                                     Title="Willkommen beim Vortragsmanager DeLuxe 1.0"
                                     Foreground="White"
-                                    SideContent="{StaticResource ResourceKey=side}">
+                                    SideContent="{StaticResource ResourceKey=Side}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50" />
@@ -52,8 +51,8 @@
                     <Grid.Resources>
                         <Style x:Key="FirstSelection" TargetType="RadioButton">
                             <Style.Triggers>
-                                <Trigger Property="IsChecked" Value="False">
-                                    <Setter Property="Opacity" Value="0.5"/>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Foreground" Value="Orange"/>
                                 </Trigger>
                             </Style.Triggers>
                             <Setter Property="GroupName" Value="Start" />
@@ -94,12 +93,6 @@
                                     </Style.Resources>
                                 </Style>
                             </Style.Resources>
-                        </Style>
-
-                        <Style x:Key="Group2" TargetType="dxlc:LayoutGroup">
-                            <Setter Property="Orientation" Value="Vertical"/>
-                            <Setter Property="View" Value="Group" />
-                            <Setter Property="Width" Value="100"/>
                         </Style>
                     </Grid.Resources>
                     <TextBlock Grid.Row="0" Grid.ColumnSpan="2"
@@ -154,7 +147,7 @@
             </dxco:WelcomeWizardPage>
             <dxco:WizardPage Header="Import deiner Daten aus Excel" Title="Willkommen beim Vortragsmanager DeLuxe"
                                     Foreground="White"
-                                    SideContent="{StaticResource ResourceKey=side}">
+                                    SideContent="{StaticResource ResourceKey=Side}">
                 <Grid Margin="16">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="{Binding VplanungCheckedHeight}" />
@@ -189,7 +182,7 @@
 &#13;* Die Importe sind voneinander unabhängig, du kannst auch einen 
 &#13;  einzelnen Schritt überspringen falls du diese Information nicht hast.
 &#13;* Die Exceldateien dürfen nur eine Überschrift haben und mehrere Zellen dürfen nicht miteinander verbunden sein."/>
-                    <dxlc:LayoutControl Grid.Row="1" Grid.ColumnSpan="2">
+                    <dxlc:LayoutControl Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0">
                         <dxlc:LayoutGroup Header="Datenbank Datei auswählen" View="GroupBox" Orientation="Horizontal">
                             <dxlc:LayoutItem>
                                 <dxe:ButtonEdit Text="{Binding ImportFile}"
@@ -212,7 +205,7 @@
             <dxco:WizardPage Header="Versammlungen und Koordinatoren" Title="Import deiner Daten"
                              ShowSideContent="True"
                              Foreground="White"
-                             SideContent="{StaticResource ResourceKey=side}">
+                             SideContent="{StaticResource ResourceKey=Side}">
                 <dxlc:LayoutControl>
                     <dxlc:LayoutGroup Orientation="Vertical">
                         <dxlc:LayoutGroup Header="Excel Datei auswählen" View="GroupBox" Orientation="Vertical">
@@ -248,14 +241,14 @@
                         </dxlc:LayoutItem>
                     </dxlc:LayoutGroup>
                     <dxlc:LayoutGroup Header="importierte Versammlungen" View="GroupBox" Width="200" Padding="-12">
-                        <ListBox ItemsSource="{Binding ImportierteKoordinatorenliste}"></ListBox>
+                        <ListBox ItemsSource="{Binding ImportierteKoordinatorenliste}" />
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutControl>
             </dxco:WizardPage>
             <dxco:WizardPage Header="Wähle deine Versammlung" Title="Import deiner Daten"
                              ShowSideContent="True"
                              Foreground="White"
-                             SideContent="{StaticResource ResourceKey=side}">
+                             SideContent="{StaticResource ResourceKey=Side}">
                 <Grid Margin="6">
                     <TextBlock Text="Tipp: Du kannst die Anfangsbuchstaben deiner Versammlung eingeben, um deine Versammlung in der Liste schneller zu finden. Hast du deine eigene Versammlung nicht importiert, entferne den Haken." TextWrapping="Wrap"
                            Margin="10" />
@@ -276,7 +269,7 @@
             </dxco:WizardPage>
             <dxco:WizardPage Header="Redner" Title="Import deiner Daten" 
                              Foreground="White" 
-                             SideContent="{StaticResource ResourceKey=side}" 
+                             SideContent="{StaticResource ResourceKey=Side}" 
                              ShowSideContent="True">
                 <dxlc:LayoutControl>
                     <dxlc:LayoutGroup Orientation="Vertical">
@@ -317,7 +310,7 @@
             <dxco:WizardPage Header="Deine Vortragsplanung" Title="Import deiner Daten"
                              ShowSideContent="True"
                              Foreground="White"
-                             SideContent="{StaticResource ResourceKey=side}">
+                             SideContent="{StaticResource ResourceKey=Side}">
                 <dxlc:LayoutControl>
                     <dxlc:LayoutGroup Orientation="Vertical">
                         <dxlc:LayoutGroup Header="Excel Datei auswählen" View="GroupBox" Orientation="Vertical">
@@ -356,7 +349,7 @@
             </dxco:WizardPage>
             <dxco:WizardPage Header="Planung deiner Redner" Title="Import deiner Daten" 
                              Foreground="White" 
-                             SideContent="{StaticResource ResourceKey=side}" 
+                             SideContent="{StaticResource ResourceKey=Side}" 
                              ShowSideContent="True">
                 <dxlc:LayoutControl>
                     <dxlc:LayoutGroup Orientation="Vertical">
@@ -398,7 +391,7 @@
                                        ShowBack="False"
                                        ShowCancel="False"
                                        Foreground="White"
-                                       SideContent="{StaticResource ResourceKey=side}">
+                                       SideContent="{StaticResource ResourceKey=Side}">
                 <TextBlock Margin="16"
                            Text="Die Daten wurden in dieses Programm importiert."
                            TextWrapping="Wrap" />

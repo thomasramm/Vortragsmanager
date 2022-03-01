@@ -61,11 +61,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,6 +77,7 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationClient" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
@@ -86,68 +89,124 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ActivityLog\AddActivities.cs" />
-    <Compile Include="ActivityLog\Symbols.cs" />
-    <Compile Include="ActivityLog\Types.cs" />
-    <Compile Include="Core\Backup.cs" />
-    <Compile Include="Core\GeoApi.cs" />
-    <Compile Include="Core\Helper.cs" />
-    <Compile Include="Core\ini.cs" />
-    <Compile Include="Core\Initialize.cs" />
-    <Compile Include="Core\IoExcel.cs" />
-    <Compile Include="Core\IoSqlite.cs" />
-    <Compile Include="Core\Log.cs" />
-    <Compile Include="Core\MyGroupBox.cs" />
-    <Compile Include="Core\Security.cs" />
-    <Compile Include="ActivityLog\Activity.cs" />
-    <Compile Include="Core\Update.cs" />
-    <Compile Include="Datamodels\AufgabenZuordnung.cs" />
-    <Compile Include="Datamodels\Busy.cs" />
-    <Compile Include="Datamodels\Templates.cs" />
-    <Compile Include="Datamodels\Event.cs" />
-    <Compile Include="Datamodels\ICloseable.cs" />
-    <Compile Include="ActivityLog\ActivityItem.xaml.cs">
+    <Compile Include="Enums\BackupAge.cs" />
+    <Compile Include="DataModels\BackupItem.cs" />
+    <Compile Include="Enums\NavigationPage.cs" />
+    <Compile Include="Helper\EnumBindingSourceExtension.cs" />
+    <Compile Include="Interface\INavigation.cs" />
+    <Compile Include="PageModels\AufgabenKalender.cs" />
+    <Compile Include="DataModels\Cancelation.cs" />
+    <Compile Include="Enums\EventStatus.cs" />
+    <Compile Include="Helper\DateCalcuation.cs" />
+    <Compile Include="Helper\EigeneKreisNameComparer.cs" />
+    <Compile Include="Converter\ObjectToStringConverter.cs" />
+    <Compile Include="Converter\StringToVersionConverter.cs" />
+    <Compile Include="Interface\IEvent.cs" />
+    <Compile Include="DataModels\Inquiry.cs" />
+    <Compile Include="DataModels\SpecialEvent.cs" />
+    <Compile Include="Enums\SpecialEventTyp.cs" />
+    <Compile Include="Enums\OutsideReason.cs" />
+    <Compile Include="DataModels\TalkSong.cs" />
+    <Compile Include="DataModels\Template.cs" />
+    <Compile Include="DataModels\DateWithConregation.cs" />
+    <Compile Include="Enums\Wochentag.cs" />
+    <Compile Include="Helper\DialogCloser.cs" />
+    <Compile Include="Converter\DoubleToIntConverter.cs" />
+    <Compile Include="DataModels\Zusammenkunftszeit.cs" />
+    <Compile Include="DataModels\Zusammenkunftszeiten.cs" />
+    <Compile Include="Enums\Parameter.cs" />
+    <Compile Include="PageModels\ConregationsViewModelCollection.cs" />
+    <Compile Include="PageModels\DashboardPageModel.cs" />
+    <Compile Include="PageModels\EinstellungenPageModel.cs" />
+    <Compile Include="PageModels\GroupConregation.cs" />
+    <Compile Include="PageModels\GroupSpeaker.cs" />
+    <Compile Include="DataModels\GroupTalk.cs" />
+    <Compile Include="PageModels\HistorieAktivitätenPageModel.cs" />
+    <Compile Include="PageModels\HistoriePageModel.cs" />
+    <Compile Include="PageModels\ListeAusgebenPageModel.cs" />
+    <Compile Include="PageModels\MeinPlanLandingPageModel.cs" />
+    <Compile Include="PageModels\MonthViewModel.cs" />
+    <Compile Include="Enums\RednerViewType.cs" />
+    <Compile Include="PageModels\Termin.cs" />
+    <Compile Include="PageModels\SpeakersViewModelCollection.cs" />
+    <Compile Include="PageModels\VerwaltungLandingPageModel.cs" />
+    <Compile Include="PageModels\VerwaltungVorträgePageModel.cs" />
+    <Compile Include="PageModels\WeekViewModel.cs" />
+    <Compile Include="Pages\HistorieAktivitätenPage.xaml.cs">
+      <DependentUpon>HistorieAktivitätenPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\ActivityAddItem.cs" />
+    <Compile Include="Helper\ActivityGetSymbols.cs" />
+    <Compile Include="Enums\ActivityTypes.cs" />
+    <Compile Include="DataModels\Backup.cs" />
+    <Compile Include="Module\GeoApi.cs" />
+    <Compile Include="Helper\Helper.cs" />
+    <Compile Include="Module\ini.cs" />
+    <Compile Include="Module\Initialize.cs" />
+    <Compile Include="Module\IoExcel.cs" />
+    <Compile Include="Module\IoSqlite.cs" />
+    <Compile Include="Module\Log.cs" />
+    <Compile Include="DataModels\Anfrage.cs" />
+    <Compile Include="Pages\HistoriePage.xaml.cs">
+      <DependentUpon>HistoriePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\AnfrageDetail.cs" />
+    <Compile Include="UserControls\MyGroupBox.cs" />
+    <Compile Include="Module\Security.cs" />
+    <Compile Include="UserControls\ActivityItemViewModel.cs" />
+    <Compile Include="Module\Update.cs" />
+    <Compile Include="DataModels\AufgabenZuordnung.cs" />
+    <Compile Include="DataModels\Busy.cs" />
+    <Compile Include="DataModels\Templates.cs" />
+    <Compile Include="DataModels\Invitation.cs" />
+    <Compile Include="Interface\ICloseable.cs" />
+    <Compile Include="UserControls\Item.cs">
       <DependentUpon>ActivityItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ActivityLog\Activities.cs" />
-    <Compile Include="MeineVerwaltung\Backups.xaml.cs">
-      <DependentUpon>Backups.xaml</DependentUpon>
+    <Compile Include="Enums\ActivityTime.cs" />
+    <Compile Include="MainWindowNavigationModel.cs" />
+    <Compile Include="PageModels\BackupsViewModel.cs" />
+    <Compile Include="PageModels\MeineRednerNeueAnfragePageModel.cs" />
+    <Compile Include="PageModels\MeineRednerKalenderPageModel.cs" />
+    <Compile Include="Pages\MeineRednerLandingPage.xaml.cs">
+      <DependentUpon>MeineRednerLandingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineVerwaltung\BackupsViewModel.cs">
-      <DependentUpon>Backups.xaml</DependentUpon>
+    <Compile Include="PageModels\MeineRednerLandingPageModel.cs" />
+    <Compile Include="Pages\HistorieSicherungPage.xaml.cs">
+      <DependentUpon>HistorieSicherungPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineVerwaltung\VorträgeView.xaml.cs">
-      <DependentUpon>VorträgeView.xaml</DependentUpon>
+    <Compile Include="PageModels\VerwaltungVorlagenPageModel.cs" />
+    <Compile Include="PageModels\VerwaltungRednerPageModel.cs" />
+    <Compile Include="Pages\VerwaltungVorträgePage.xaml.cs">
+      <DependentUpon>VerwaltungVorträgePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineVerwaltung\VorträgeViewModel.cs">
-      <DependentUpon>VorträgeView.xaml</DependentUpon>
+    <Compile Include="Pages\MeinPlanVorsitzUndLeserEinstellungenPage.xaml.cs">
+      <DependentUpon>MeinPlanVorsitzUndLeserEinstellungenPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeinPlan\SonntagEinstellungenView.xaml.cs">
-      <DependentUpon>SonntagEinstellungenView.xaml</DependentUpon>
+    <Compile Include="PageModels\MeinPlanVorsitzUndLeserEinstellungenPage.cs" />
+    <Compile Include="Pages\MeinPlanVorsitzUndLeserPage.xaml.cs">
+      <DependentUpon>MeinPlanVorsitzUndLeserPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeinPlan\SonntagEinstellungenViewModel.cs">
-      <DependentUpon>SonntagEinstellungenView.xaml</DependentUpon>
+    <Compile Include="Pages\MeinPlanLandingPage.xaml.cs">
+      <DependentUpon>MeinPlanLandingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeinPlan\Sonntag.xaml.cs">
-      <DependentUpon>Sonntag.xaml</DependentUpon>
+    <Compile Include="Pages\VerwaltungLandingPage.xaml.cs">
+      <DependentUpon>VerwaltungLandingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeinPlan\SonntagViewModel.cs">
-      <DependentUpon>Sonntag.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="PageModels\MeinPlanKalenderPageModel.cs" />
+    <Compile Include="PageModels\MeinPlanRednerSuchenPageModel.cs" />
+    <Compile Include="PageModels\MeinPlanVorsitzUndLeserPageModel.cs" />
     <Compile Include="UserControls\CalendarYearShort.xaml.cs">
       <DependentUpon>CalendarYearShort.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CalendarYearShortItem.xaml.cs">
       <DependentUpon>CalendarYearShortItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CalendarYearShortViewModel.cs">
-      <DependentUpon>CalendarYearShort.xaml</DependentUpon>
+    <Compile Include="UserControls\DashboardWeekItem.xaml.cs">
+      <DependentUpon>DashboardWeekItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\SonntagEinstellungenItem.xaml.cs">
       <DependentUpon>SonntagEinstellungenItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\DashboardViewModel.cs">
-      <DependentUpon>DashboardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\AntwortEintragenControl.cs">
       <DependentUpon>AntwortEintragenControl.xaml</DependentUpon>
@@ -167,24 +226,18 @@
     <Compile Include="UserControls\SonntagItemViewModel.cs">
       <DependentUpon>SonntagItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\VersammlungRednerViewModel.cs" />
+    <Compile Include="UserControls\SpeakerViewModel.cs" />
     <Compile Include="UserControls\ZeitItem.xaml.cs">
       <DependentUpon>ZeitItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\AntwortEintragenDialog.xaml.cs">
       <DependentUpon>AntwortEintragenDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeinPlan\AntwortEintragenView.xaml.cs">
-      <DependentUpon>AntwortEintragenView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\AntwortEintragenViewModel.cs">
       <DependentUpon>AntwortEintragenControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineVerwaltung\EinstellungenView.xaml.cs">
-      <DependentUpon>EinstellungenView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MeineVerwaltung\EinstellungenViewModel.cs">
-      <DependentUpon>EinstellungenView.xaml</DependentUpon>
+    <Compile Include="Pages\EinstellungenPage.xaml.cs">
+      <DependentUpon>EinstellungenPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\RednerEintragenDialog.cs">
       <DependentUpon>RednerEintragenDialog.xaml</DependentUpon>
@@ -201,9 +254,6 @@
     <Compile Include="Windows\RednerEintragenView.cs">
       <DependentUpon>RednerEintragenDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineVerwaltung\RednerViewModel.cs">
-      <DependentUpon>RednerView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\SetupWizardDialog.xaml.cs">
       <DependentUpon>SetupWizardDialog.xaml</DependentUpon>
     </Compile>
@@ -216,9 +266,6 @@
     <Compile Include="Windows\EreignisEintragenDialogView.cs">
       <DependentUpon>EreignisEintragenDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineVerwaltung\ListCreateViewModel.cs">
-      <DependentUpon>ListCreateView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\InfoAnRednerUndKoordinatorWindow.cs">
       <DependentUpon>InfoAnRednerUndKoordinatorWindow.xaml</DependentUpon>
     </Compile>
@@ -228,29 +275,11 @@
     <Compile Include="Windows\InfoAnRednerUndKoordinatorViewModel.cs">
       <DependentUpon>InfoAnRednerUndKoordinatorWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineRedner\ExternalQuestionViewModel.cs">
-      <DependentUpon>ExternalQuestionEdit.xaml</DependentUpon>
+    <Compile Include="Pages\SearchSpeaker.cs">
+      <DependentUpon>MeinPlanRednerSuchenPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineRedner\MeineRednerViewModel.cs">
-      <DependentUpon>MeineRednerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MeinPlan\MeinPlanViewModel.cs">
-      <DependentUpon>MeinPlanView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MeinPlan\SearchSpeaker.cs">
-      <DependentUpon>SearchSpeaker.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MeineRedner\ExternalQuestionEdit.xaml.cs">
-      <DependentUpon>ExternalQuestionEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\NavigationView.xaml.cs">
-      <DependentUpon>NavigationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\NavigatorView.xaml.cs">
-      <DependentUpon>NavigatorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MeinPlan\SearchSpeakerViewModel.cs">
-      <DependentUpon>SearchSpeaker.xaml</DependentUpon>
+    <Compile Include="Pages\MeineRednerNeueAnfragePage.xaml.cs">
+      <DependentUpon>MeineRednerNeueAnfragePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\VersammlungLöschenDialog.xaml.cs">
       <DependentUpon>VersammlungLöschenDialog.xaml</DependentUpon>
@@ -261,27 +290,37 @@
     <Compile Include="UserControls\VersammlungMaximizedControl.cs">
       <DependentUpon>VersammlungMaximizedControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\VersammlungControlViewModel.cs">
+    <Compile Include="UserControls\ConregationViewModel.cs">
       <DependentUpon>VersammlungMaximizedControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineVerwaltung\RednerView.xaml.cs">
-      <DependentUpon>RednerView.xaml</DependentUpon>
+    <Compile Include="Pages\VerwaltungRednerPage.xaml.cs">
+      <DependentUpon>VerwaltungRednerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineVerwaltung\VersammlungSettingsView.xaml.cs">
-      <DependentUpon>VersammlungSettingsView.xaml</DependentUpon>
+    <Compile Include="Pages\VerwaltungVersammlungPage.xaml.cs">
+      <DependentUpon>VerwaltungVersammlungPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineVerwaltung\ListCreateView.cs">
-      <DependentUpon>ListCreateView.xaml</DependentUpon>
+    <Compile Include="Pages\ListCreateView.cs">
+      <DependentUpon>ListeAusgebenPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineVerwaltung\VersammlungSettingsViewModel.cs">
-      <DependentUpon>VersammlungSettingsView.xaml</DependentUpon>
+    <Compile Include="Pages\VerwaltungVorlagenPage.xaml.cs">
+      <DependentUpon>VerwaltungVorlagenPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineVerwaltung\VorlagenView.xaml.cs">
-      <DependentUpon>VorlagenView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MeineVerwaltung\VorlagenViewModel.cs">
-      <DependentUpon>VorlagenView.xaml</DependentUpon>
-    </Compile>
+    <Page Include="Pages\HistorieAktivitätenPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\HistoriePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Light.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Dark.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -290,42 +329,54 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Datamodels\DataContainer.cs" />
+    <Compile Include="DataModels\DataContainer.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Datamodels\Conregation.cs" />
-    <Compile Include="Datamodels\Outside.cs" />
-    <Compile Include="Datamodels\Talk.cs" />
-    <Compile Include="Datamodels\Speaker.cs" />
-    <Compile Include="Datamodels\Messages.cs" />
-    <Compile Include="UserControls\DashboardView.xaml.cs">
-      <DependentUpon>DashboardView.xaml</DependentUpon>
+    <Compile Include="DataModels\Conregation.cs" />
+    <Compile Include="DataModels\Outside.cs" />
+    <Compile Include="DataModels\Talk.cs" />
+    <Compile Include="DataModels\Speaker.cs" />
+    <Compile Include="Enums\Messages.cs" />
+    <Compile Include="Pages\DashboardPage.xaml.cs">
+      <DependentUpon>DashboardPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeineRedner\MeineRednerView.cs">
-      <DependentUpon>MeineRednerView.xaml</DependentUpon>
+    <Compile Include="Pages\MeineRednerPlan.cs">
+      <DependentUpon>MeineRednerKalenderPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeinPlan\MeinPlanView.xaml.cs">
-      <DependentUpon>MeinPlanView.xaml</DependentUpon>
+    <Compile Include="Pages\MeinPlanKalenderPage.xaml.cs">
+      <DependentUpon>MeinPlanKalenderPage.xaml</DependentUpon>
     </Compile>
-    <Page Include="ActivityLog\ActivityItem.xaml">
+    <Page Include="UserControls\ActivityItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MeineVerwaltung\Backups.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MeineVerwaltung\VorträgeView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MeinPlan\SonntagEinstellungenView.xaml">
+    <Page Include="Pages\MeineRednerLandingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MeinPlan\Sonntag.xaml">
+    <Page Include="Pages\HistorieSicherungPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\VerwaltungVorträgePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\MeinPlanVorsitzUndLeserEinstellungenPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MeinPlanVorsitzUndLeserPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MeinPlanLandingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\VerwaltungLandingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -338,6 +389,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\CalendarYearShortItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\DashboardWeekItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -369,11 +424,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MeinPlan\AntwortEintragenView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MeineVerwaltung\EinstellungenView.xaml">
+    <Page Include="Pages\EinstellungenPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -401,31 +452,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\DashboardView.xaml">
+    <Page Include="Pages\DashboardPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MeinPlan\SearchSpeaker.xaml">
+    <Page Include="Pages\MeinPlanRednerSuchenPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MeineRedner\ExternalQuestionEdit.xaml">
+    <Page Include="Pages\MeineRednerNeueAnfragePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MeineRedner\MeineRednerView.xaml">
+    <Page Include="Pages\MeineRednerKalenderPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MeinPlan\MeinPlanView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\NavigationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\NavigatorView.xaml">
+    <Page Include="Pages\MeinPlanKalenderPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -437,19 +480,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MeineVerwaltung\RednerView.xaml">
+    <Page Include="Pages\VerwaltungRednerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MeineVerwaltung\VersammlungSettingsView.xaml">
+    <Page Include="Pages\VerwaltungVersammlungPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MeineVerwaltung\ListCreateView.xaml">
+    <Page Include="Pages\ListeAusgebenPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MeineVerwaltung\VorlagenView.xaml">
+    <Page Include="Pages\VerwaltungVorlagenPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -503,40 +546,28 @@
     <None Include="Vortragsmanager.ruleset" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Person_64x64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Kalender_64x64.png" />
+    <Resource Include="Images\Kalender_64x64_dunkel.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Zwischenablage_32x32.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Search_64x64.png" />
+    <Resource Include="Images\Search_64x64_dunkel.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Logo1.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Screenshot Downloadseite mit Hinweisen.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Logo2_128x128.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\MailAntwort_64x64.png" />
+    <Resource Include="Images\MailAntwort_64x64_dunkel.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\NewMail_64x64.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\ListePrint_64x64.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\ListeSettings_64x64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\WindowOptions_64x64.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Versammlung2_64x64.png" />
@@ -603,33 +634,11 @@
     <Resource Include="Images\Prev_32x32.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Actions_Send.svg" />
-    <Resource Include="Images\AddDataSource.svg" />
-    <Resource Include="Images\CalendarAdd.svg" />
-    <Resource Include="Images\Delete_Mülleimer.svg" />
-    <Resource Include="Images\Delete_Mülleimer_sw.svg" />
     <Resource Include="Images\MasterFilter_16x16.png" />
     <Resource Include="Images\Log_16x16.png" />
-    <Resource Include="Images\NewEmployee.svg" />
-    <Resource Include="Images\Open.svg" />
-    <Resource Include="Images\Reset.svg" />
-    <Resource Include="Images\SaveAs.svg" />
-    <Resource Include="Images\Save_green.svg" />
-    <Resource Include="Images\Travel_MapPointer.svg" />
-    <Resource Include="Images\UpdateList.svg" />
-    <Resource Include="Images\X_red.svg" />
-    <Resource Include="Images\Zwischenablage2.svg" />
     <Resource Include="Images\AgendaView_32x32.png" />
     <Resource Include="Images\Calendar_32x32.png" />
-    <Resource Include="Images\Cancel_red.svg" />
-    <Resource Include="Images\Ok_green.svg" />
     <Resource Include="Images\Technology_16x16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Add_20x20.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Add.svg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\ListeThemen_64x64.png" />
@@ -662,20 +671,26 @@
     <PackageReference Include="CalcBinding">
       <Version>2.5.2</Version>
     </PackageReference>
+    <PackageReference Include="DevExpress.Mvvm">
+      <Version>21.2.5</Version>
+    </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Accordion">
-      <Version>21.2.3</Version>
+      <Version>21.2.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Controls">
-      <Version>21.2.3</Version>
+      <Version>21.2.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.RichEdit">
-      <Version>21.2.3</Version>
+      <Version>21.2.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.DXStyle">
-      <Version>21.2.3</Version>
+      <Version>21.2.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.MetropolisDark">
-      <Version>21.2.3</Version>
+      <Version>21.2.5</Version>
+    </PackageReference>
+    <PackageReference Include="DevExpress.Wpf.Themes.Office2019White">
+      <Version>21.2.5</Version>
     </PackageReference>
     <PackageReference Include="EPPlus">
       <Version>4.5.3.3</Version>
@@ -723,8 +738,135 @@
     <Resource Include="Images\CalendarYear2_32x32.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Rollback_64x64.png" />
+    <Resource Include="Images\Zahnrad_64x64.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Home_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Verwaltung3_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icons8-ms-excel-50_W.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Verlauf_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Actions_Send_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AddDataSource_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CalendarAdd_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cancel_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Delete_White_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PersonNew_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Ok_Green_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Open_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Reset_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Save_green_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Save_Gray_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MapPointer_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\UpdateList_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ZwischenablageKopieren_64x64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Listen1_hell.png" />
+    <Resource Include="Images\Listen2_hell.png" />
+    <Resource Include="Images\Listen3_hell.png" />
+    <Resource Include="Images\Listen4_hell.png" />
+    <Resource Include="Images\Listen5_hell.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Listen1_dunkel.png" />
+    <Resource Include="Images\Listen2_dunkel.png" />
+    <Resource Include="Images\Listen3_dunkel.png" />
+    <Resource Include="Images\Listen4_dunkel.png" />
+    <Resource Include="Images\Listen5_dunkel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Kalender_64x64_hell.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Search_64x64_hell.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MailAntwort_64x64_hell.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MeineRedner_64x64_hell.png" />
+    <Resource Include="Images\MeineRedner_64x64_dunkel.png" />
+    <Resource Include="Images\MeineRednerAnfrage_64x64_dunkel.png" />
+    <Resource Include="Images\MeineRednerAnfrage_64x64_hell.png" />
+    <Resource Include="Images\Vorlagen_64x64_hell.png" />
+    <Resource Include="Images\Vorlagen_64x64_dunkel.png" />
+    <Resource Include="Images\Versammlung_dunkel_64x64.png" />
+    <Resource Include="Images\Versammlung_hell_64x64.png" />
+    <Resource Include="Images\Vortrag_dunkel.png" />
+    <Resource Include="Images\Vortrag_hell.png" />
+    <Resource Include="Images\Info_dunkel_64x64.png" />
+    <Resource Include="Images\Info_hell_64x64.png" />
+    <Resource Include="Images\SpeichernUnter_hell_64x64.png" />
+    <Resource Include="Images\SpeichernUnter_dunkel_64x64.png" />
+    <Resource Include="Images\DateiÖffnen_hell_64x64.png" />
+    <Resource Include="Images\DateiÖffnen_dunkel_64x64.png" />
+    <Resource Include="Images\Sicherung_hell_64x64.png" />
+    <Resource Include="Images\Sicherung_dunkel_64x64.png" />
+    <Resource Include="Images\Style_64x64.png" />
+    <Resource Include="Images\Changelog_hell_64x64.png" />
+    <Resource Include="Images\Changelog_dunkel_64x64.png" />
+    <Resource Include="Images\Logfile_hell_64x64.png" />
+    <Resource Include="Images\Logfile_dunkel_64x64.png" />
+    <Resource Include="Images\LogfileFolder_hell_32x32.png" />
+    <Resource Include="Images\LogfileFolder_hell_64x64.png" />
+    <Resource Include="Images\LogfileFolder_dunkel_64x64.png" />
+    <Resource Include="Images\MailAnKoordinaten_hell_64x64.png" />
+    <Resource Include="Images\MailAnKoordinaten_dunkel_64x64.png" />
+    <Resource Include="Images\ChangeLast_dunkel_64x64.png" />
+    <Resource Include="Images\ChangeLast_hell_64x64.png" />
+    <Resource Include="Images\Programmverhalten_dunkel_64x64.png" />
+    <Resource Include="Images\Programmverhalten_hell_64x64.png" />
+    <Resource Include="Images\Aktivität_dunkel_64x64.png" />
+    <Resource Include="Images\Aktivität_hell_64x64.png" />
+    <Resource Include="Images\Style_dunkel_64x64.png" />
+    <Resource Include="Images\Style_hell_64x64.png" />
+    <Resource Include="Images\Aushang_Preview.png" />
+    <Resource Include="Images\Kontaktliste_Preview.png" />
+    <Resource Include="Images\Datenexport_Preview.png" />
+    <Resource Include="Images\Rednerlist_Preview.png" />
+    <Resource Include="Images\Vortragsliste_Preview.png" />
+    <Content Include="x64\SQLite.Interop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\SQLite.Interop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

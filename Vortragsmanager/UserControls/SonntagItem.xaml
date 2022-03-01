@@ -2,21 +2,22 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Vortragsmanager.UserControls" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
              xmlns:datamodels="clr-namespace:Vortragsmanager.Datamodels"
+             xmlns:userControls="clr-namespace:Vortragsmanager.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="50" 
-             d:DesignWidth="800">
+             d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=userControls:SonntagItemViewModel}">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="vorsitzOrder" Source="{Binding Vorsitz}">
+        <CollectionViewSource x:Key="VorsitzOrder" Source="{Binding Vorsitz}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="SortOrder" Direction="Ascending"/>
                 <scm:SortDescription PropertyName="LetzterEinsatz" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
-        <CollectionViewSource x:Key="leserOrder" Source="{Binding Leser}">
+        <CollectionViewSource x:Key="LeserOrder" Source="{Binding Leser}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="SortOrder" Direction="Ascending"/>
                 <scm:SortDescription PropertyName="LetzterEinsatz" Direction="Descending"/>
@@ -24,7 +25,7 @@
         </CollectionViewSource>
     </UserControl.Resources>
     <Grid>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal">
             <Label Content="{Binding Datum}" Width="100"/>
             <Label Content="{Binding Vortragsredner}"  Width="150"/>
             <Label Content="{Binding AuswärtigeRedner}" Width="200"/>
@@ -35,7 +36,7 @@
                 <ComboBox.ItemsSource>
                     <CompositeCollection>
                         <datamodels:AufgabenZuordnung PersonName="Bitte Person auswählen..." Id="0"/>
-                        <CollectionContainer Collection="{Binding Source={StaticResource vorsitzOrder}}"/>
+                        <CollectionContainer Collection="{Binding Source={StaticResource VorsitzOrder}}"/>
                     </CompositeCollection>
                 </ComboBox.ItemsSource>
             </ComboBox>
@@ -46,7 +47,7 @@
                 <ComboBox.ItemsSource>
                     <CompositeCollection>
                         <datamodels:AufgabenZuordnung PersonName="Bitte Person auswählen..."/>
-                        <CollectionContainer Collection="{Binding Source={StaticResource leserOrder}}"/>
+                        <CollectionContainer Collection="{Binding Source={StaticResource LeserOrder}}"/>
                     </CompositeCollection>
                 </ComboBox.ItemsSource>
             </ComboBox>

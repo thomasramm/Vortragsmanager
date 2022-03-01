@@ -1,13 +1,13 @@
-﻿using System.Windows;
+﻿using Vortragsmanager.Interface;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.Windows
 {
     /// <summary>
     /// Interaktionslogik für BuchungLöschenCommandDialog.xaml
     /// </summary>
-    public partial class leerDialog : Window, Datamodels.ICloseable
+    public partial class LeerDialog : ICloseable
     {
-        public leerDialog()
+        public LeerDialog()
         {
             InitializeComponent();
         }

@@ -3,20 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Vortragsmanager.Views"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
         xmlns:uc="clr-namespace:Vortragsmanager.UserControls"
-        x:Class="Vortragsmanager.Views.RednerEintragenDialog"
+        xmlns:windows="clr-namespace:Vortragsmanager.Windows"
+        x:Class="Vortragsmanager.Windows.RednerEintragenDialog"
         mc:Ignorable="d"
         Title="Ereignis eintragen" Height="300" Width="500"
-        DataContext="{dxmvvm:ViewModelSource {x:Type local:RednerEintragenView}}"
+        d:DataContext="{d:DesignInstance Type=windows:RednerEintragenView}"
         x:Name="EreignisBearbeitenWindow">
-    <Window.Resources>
-        <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    </Window.Resources>
+    <Window.DataContext>
+        <windows:RednerEintragenView/>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
@@ -44,13 +43,13 @@
             </dxlc:LayoutItem>
         </dxlc:LayoutControl>
         <dx:SimpleButton Grid.Row="1" Content="Speichern"
-                             Glyph="{dx:SvgImageSource Uri='/Images/Ok_green.svg'}"
+                             Glyph="/Images/Ok_Green_32x32.png"
                              GlyphAlignment="Left"
                              Command="{Binding SaveCommand}"
                              CommandParameter="{Binding ElementName=EreignisBearbeitenWindow}"
                              HorizontalAlignment="Right" Width="150" Margin="5,5,160,5" />
         <dx:SimpleButton Grid.Row="1" Content="Abbrechen"
-                             Glyph="{dx:SvgImageSource Uri='/Images/Cancel_red.svg'}"
+                             Glyph="/Images/Cancel_32x32.png"
                              GlyphAlignment="Left"
                              Command="{Binding CloseCommand}"
                              CommandParameter="{Binding ElementName=EreignisBearbeitenWindow}"

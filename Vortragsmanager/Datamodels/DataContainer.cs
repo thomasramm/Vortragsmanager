@@ -1,14 +1,18 @@
 ﻿using DevExpress.Mvvm;
-using DevExpress.Mvvm.Native;
 using DevExpress.Xpf.Core;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using Vortragsmanager.Core;
+using Vortragsmanager.DataModels;
+using Vortragsmanager.Enums;
+using Vortragsmanager.Helper;
+using Vortragsmanager.Interface;
+using Vortragsmanager.Module;
+using Vortragsmanager.PageModels;
+using Vortragsmanager.UserControls;
 
 namespace Vortragsmanager.Datamodels
 {
@@ -32,22 +36,28 @@ namespace Vortragsmanager.Datamodels
 
         public string Programmversion { get; }
 
-        public string HelpToolTip => $"Handbuch öffnen (web){Environment.NewLine}Programm {Programmversion}";
-
         private static string GetVersion()
         {
-            Version version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
+            var version = System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version;
+            if (version == null)
+            {
+                return "Version ist unbekannt";
+            }
 
-            //DateTime buildDate = new DateTime(2000, 1, 1).AddDays(version.Build);
-            string v = $"Version {version.Major}.{version.Minor}.{version.Build}";
+            var v = $"Version {version.Major}.{version.Minor}.{version.Build}";
             return v;
         }
 
+        //public bool ThemeIsDark
+        //{
+        //    get => EinstellungenPageModel.ThemeIsDark;
+        //    set => EinstellungenPageModel.ThemeIsDark = value;
+        //}
     }
 
     public static class DataContainer
     {
-        private static Conregation meineVersammlung;
+        private static Conregation _meineVersammlung;
 
         public static bool IsInitialized { get; set; }
 
@@ -55,13 +65,13 @@ namespace Vortragsmanager.Datamodels
 
         public static Conregation MeineVersammlung
         {
-            get => meineVersammlung;
+            get => _meineVersammlung;
             set
             {
-                meineVersammlung = value;
+                _meineVersammlung = value;
                 if (value != null)
                     //Default Wochentag setzen:
-                    Helper.Wochentag = MeineVersammlung.Zeit.Get(DateTime.Today.Year).Tag;
+                    DateCalcuation.Wochentag = MeineVersammlung.Zeit.Get(DateTime.Today.Year).Tag;
             }
         }
 
@@ -97,7 +107,7 @@ namespace Vortragsmanager.Datamodels
 
         public static ObservableCollection<Cancelation> Absagen { get; } = new ObservableCollection<Cancelation>();
 
-        public static ObservableCollection<ActivityLog.Activity> Aktivitäten { get; } = new ObservableCollection<ActivityLog.Activity>();
+        public static ObservableCollection<ActivityItemViewModel> Aktivitäten { get; } = new ObservableCollection<ActivityItemViewModel>();
 
         public static Conregation ConregationFind(string name)
         {
@@ -166,15 +176,15 @@ namespace Vortragsmanager.Datamodels
             return ConregationFindOrAdd("Unbekannt");
         }
 
-        public static bool ConregationRemove(Conregation Versammlung)
+        public static bool ConregationRemove(Conregation versammlung)
         {
-            var redner = Redner.Where(x => x.Versammlung == Versammlung).OrderBy(x => x.Name).ToList();
+            var redner = Redner.Where(x => x.Versammlung == versammlung).OrderBy(x => x.Name).ToList();
             var unbekannteVersammlung = ConregationGetUnknown();
             var unbekannterRedner = SpeakerGetUnknown();
 
-            if (Versammlung == unbekannteVersammlung)
+            if (versammlung == unbekannteVersammlung)
             {
-                ThemedMessageBox.Show("Achtung", $"Die gewählte Versammlung kann nicht gelöscht werden. Die Versammlung 'Unbekannt' ist für das Programm notwendig!", MessageBoxButton.OK, MessageBoxImage.Information);
+                ThemedMessageBox.Show("Achtung", "Die gewählte Versammlung kann nicht gelöscht werden. Die Versammlung 'Unbekannt' ist für das Programm notwendig!", MessageBoxButton.OK, MessageBoxImage.Information);
                 return false;
             }
 
@@ -182,11 +192,11 @@ namespace Vortragsmanager.Datamodels
             var einladungen = MeinPlan
                 .Where(x => x.Status == EventStatus.Zugesagt)
                 .Cast<Invitation>()
-                .Where(x => x.AnfrageVersammlung == Versammlung)
+                .Where(x => x.AnfrageVersammlung == versammlung)
                 .ToList();
             foreach (var einladung in einladungen)
             {
-                if (einladung.Kw <= Helper.CurrentWeek)
+                if (einladung.Kw <= DateCalcuation.CurrentWeek)
                 {
                     einladung.AnfrageVersammlung = unbekannteVersammlung;
                     einladung.Ältester = unbekannterRedner;
@@ -198,17 +208,17 @@ namespace Vortragsmanager.Datamodels
             }
 
             //Anfragen löschen
-            var anfragen = OffeneAnfragen.Where(x => x.Versammlung == Versammlung).ToList();
+            var anfragen = OffeneAnfragen.Where(x => x.Versammlung == versammlung).ToList();
             foreach (var anfrage in anfragen)
             {
                 OffeneAnfragen.Remove(anfrage);
             }
 
             //Externe Vorträge in dieser Versammlung
-            var externeE = ExternerPlan.Where(x => x.Versammlung == Versammlung).ToList();
+            var externeE = ExternerPlan.Where(x => x.Versammlung == versammlung).ToList();
             foreach (var outside in externeE)
             {
-                if (outside.Kw <= Helper.CurrentWeek)
+                if (outside.Kw <= DateCalcuation.CurrentWeek)
                     outside.Versammlung = unbekannteVersammlung;
                 else
                     ExternerPlan.Remove(outside);
@@ -219,7 +229,7 @@ namespace Vortragsmanager.Datamodels
                 SpeakerRemove(r);
             }
 
-            Versammlungen.Remove(Versammlung);
+            Versammlungen.Remove(versammlung);
 
             return true;
         }
@@ -285,7 +295,7 @@ namespace Vortragsmanager.Datamodels
 
             if (redner == unbekannterRedner)
             {
-                ThemedMessageBox.Show("Achtung", $"Der gewählte Redner kann nicht gelöscht werden. Der Redner 'Unbekannt' ist für das Programm notwendig!", MessageBoxButton.OK, MessageBoxImage.Information);
+                ThemedMessageBox.Show("Achtung", "Der gewählte Redner kann nicht gelöscht werden. Der Redner 'Unbekannt' ist für das Programm notwendig!", MessageBoxButton.OK, MessageBoxImage.Information);
                 return false;
             }
 
@@ -297,7 +307,7 @@ namespace Vortragsmanager.Datamodels
                 .ToList();
             foreach (var einladung in einladungen)
             {
-                if (einladung.Kw < Helper.CurrentWeek)
+                if (einladung.Kw < DateCalcuation.CurrentWeek)
                 {
                     einladung.AnfrageVersammlung = unbekannteVersammlung;
                     einladung.Ältester = unbekannterRedner;
@@ -345,16 +355,16 @@ namespace Vortragsmanager.Datamodels
             talk.ZuletztGehalten = gehaltene;
         }
 
-        public static IEnumerable<Core.DataHelper.DateWithConregation> SpeakerGetActivities(Speaker redner)
+        public static IEnumerable<DateWithConregation> SpeakerGetActivities(Speaker redner)
         {
             if (redner == null)
                 return null;
 
             var list1 = MeinPlan.Where(x => x.Status == EventStatus.Zugesagt).Cast<Invitation>().Where(x => x.Ältester == redner && x.Kw >= 200001);
-            IEnumerable<Core.DataHelper.DateWithConregation> erg = list1.Select(x => new Core.DataHelper.DateWithConregation(Helper.CalculateWeek(x.Kw), MeineVersammlung.Name, x.Vortrag?.Vortrag?.Nummer));
+            IEnumerable<DateWithConregation> erg = list1.Select(x => new DateWithConregation(DateCalcuation.CalculateWeek(x.Kw), MeineVersammlung.Name, x.Vortrag?.Vortrag?.Nummer));
 
             if (redner.Versammlung == MeineVersammlung)
-                erg = erg.Union(ExternerPlan.Where(x => x.Ältester == redner).Select(x => new Core.DataHelper.DateWithConregation(x.Datum, x.Versammlung.Name, x.Vortrag?.Vortrag?.Nummer)));
+                erg = erg.Union(ExternerPlan.Where(x => x.Ältester == redner).Select(x => new DateWithConregation(x.Datum, x.Versammlung.Name, x.Vortrag?.Vortrag?.Nummer)));
 
             return erg;
         }
@@ -367,9 +377,9 @@ namespace Vortragsmanager.Datamodels
             return az;
         }
 
-        public static ObservableCollection<AufgabenZuordnung> AufgabenPersonZuordnung { get; private set; } = new ObservableCollection<AufgabenZuordnung>();
+        public static ObservableCollection<AufgabenZuordnung> AufgabenPersonZuordnung { get; } = new ObservableCollection<AufgabenZuordnung>();
 
-        public static ObservableCollection<AufgabenKalender> AufgabenPersonKalender { get; private set; } = new ObservableCollection<AufgabenKalender>();
+        public static ObservableCollection<AufgabenKalender> AufgabenPersonKalender { get; } = new ObservableCollection<AufgabenKalender>();
 
         public static AufgabenKalender AufgabenPersonKalenderFindOrAdd(int kw)
         {
@@ -407,19 +417,19 @@ namespace Vortragsmanager.Datamodels
         /// Sucht nach der übergebenen Vortragsnummer und gibt den entsprechenden Vortrag zurück.
         /// Es werden zuerst die gültigen Vorträge durchsucht, danach die nicht mehr gültigen.
         /// </summary>
-        /// <param name="Nummer">Nummer des gesuchten Vortrags</param>
+        /// <param name="nummer">Nummer des gesuchten Vortrags</param>
         /// <returns>Den Vortrag zur übergebenen Nummer.</returns>
-        public static Talk Find(int Nummer)
+        public static Talk Find(int nummer)
         {
-            Log.Info(nameof(TalkList.Find), $"Nummer={Nummer}");
+            Log.Info(nameof(TalkList.Find), $"Nummer={nummer}");
             foreach (var t in Vorträge.Where(x => x.Gültig))
             {
-                if (t.Nummer == Nummer)
+                if (t.Nummer == nummer)
                     return t;
             }
             foreach (var t in Vorträge.Where(x => !x.Gültig))
             {
-                if (t.Nummer == Nummer)
+                if (t.Nummer == nummer)
                     return t;
             }
             return Find(-1);

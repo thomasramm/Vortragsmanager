@@ -1,8 +1,8 @@
-﻿using DevExpress.Mvvm;
-using System.Windows;
-using Vortragsmanager.Datamodels;
+﻿using System.Windows;
+using DevExpress.Mvvm;
+using Vortragsmanager.Interface;
 
-namespace Vortragsmanager.Views
+namespace Vortragsmanager.Windows
 {
     public class InfoAnRednerUndKoordinatorViewModel : ViewModelBase
     {
@@ -13,20 +13,17 @@ namespace Vortragsmanager.Views
             CopyCommand = new DelegateCommand<int>(CopyToClipboard);
         }
 
-        public DelegateCommand<ICloseable> CloseCommand { get; private set; }
+        public DelegateCommand<ICloseable> CloseCommand { get; }
 
-        public DelegateCommand<ICloseable> SaveCommand { get; private set; }
+        public DelegateCommand<ICloseable> SaveCommand { get; }
 
-        public DelegateCommand<int> CopyCommand { get; private set; }
+        public DelegateCommand<int> CopyCommand { get; }
 
         private string _titel;
 
         public string Titel
         {
-            get
-            {
-                return _titel;
-            }
+            get => _titel;
             set
             {
                 _titel = value;
@@ -36,24 +33,19 @@ namespace Vortragsmanager.Views
 
         public void CopyToClipboard(int fenster)
         {
-            if (fenster == 1)
-                Clipboard.SetText(MailTextRedner);
-            else
-                Clipboard.SetText(MailTextKoordinator);
+            Clipboard.SetText(fenster == 1 ? MailTextRedner : MailTextKoordinator);
         }
 
         public void Schließen(ICloseable window)
         {
             Speichern = false;
-            if (window != null)
-                window.Close();
+            window?.Close();
         }
 
         public void SpeichernSchließen(ICloseable window)
         {
             Speichern = true;
-            if (window != null)
-                window.Close();
+            window?.Close();
         }
 
         public bool Speichern { get; set; }
@@ -66,10 +58,7 @@ namespace Vortragsmanager.Views
 
         public string MailTextKoordinator
         {
-            get
-            {
-                return _mailTextKoordinator;
-            }
+            get => _mailTextKoordinator;
             set
             {
                 _mailTextKoordinator = value;
@@ -84,7 +73,7 @@ namespace Vortragsmanager.Views
 
         public string MailTextRedner
         {
-            get { return _mailTextRedner; }
+            get => _mailTextRedner;
             set
             {
                 _mailTextRedner = value;
@@ -95,32 +84,26 @@ namespace Vortragsmanager.Views
             }
         }
 
-        private string _InfoAnRedner = "Info an Redner";
+        private string _infoAnRedner = "Info an Redner";
 
         public string InfoAnRednerTitel
         {
-            get
-            {
-                return _InfoAnRedner;
-            }
+            get => _infoAnRedner;
             set
             {
-                _InfoAnRedner = value;
+                _infoAnRedner = value;
                 RaisePropertyChanged();
             }
         }
 
-        private string _InfoAnKoordinator = "Info an Koordinator";
+        private string _infoAnKoordinator = "Info an Koordinator";
 
         public string InfoAnKoordinatorTitel
         {
-            get
-            {
-                return _InfoAnKoordinator;
-            }
+            get => _infoAnKoordinator;
             set
             {
-                _InfoAnKoordinator = value;
+                _infoAnKoordinator = value;
                 RaisePropertyChanged();
             }
         }
