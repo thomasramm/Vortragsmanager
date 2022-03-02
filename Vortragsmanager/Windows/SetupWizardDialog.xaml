@@ -35,7 +35,7 @@
             ShowCancel="False"
             SelectedIndex="{Binding SelectedIndex}">
             <dxco:WelcomeWizardPage Header="Einrichtungsassistent"
-                                    Title="Willkommen beim Vortragsmanager DeLuxe 1.0"
+                                    Title="Willkommen beim Vortragsmanager DeLuxe"
                                     Foreground="White"
                                     SideContent="{StaticResource ResourceKey=Side}">
                 <Grid>
