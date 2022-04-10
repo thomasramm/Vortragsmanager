@@ -194,6 +194,8 @@ namespace Vortragsmanager.PageModels
             var dialog = new RednerEintragenDialog();
             var data = (RednerEintragenView)dialog.DataContext;
             data.SelectedVersammlung = Einladung.Ältester.Versammlung;
+            dialog.InitializeSelectedConregation(Einladung.Ältester.Versammlung);
+            
             data.SelectedRedner = Einladung.Ältester;
             data.SelectedVortrag = Einladung.Vortrag;
             dialog.ShowDialog();

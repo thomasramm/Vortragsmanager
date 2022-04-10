@@ -253,5 +253,7 @@ namespace Vortragsmanager.Windows
                 RaisePropertyChanged();
             }
         }
+
+        public bool CanSave => true;
     }
 }

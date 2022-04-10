@@ -671,13 +671,22 @@
     <PackageReference Include="CalcBinding">
       <Version>2.5.2</Version>
     </PackageReference>
+    <PackageReference Include="DevExpress.DataAccess">
+      <Version>21.2.5</Version>
+    </PackageReference>
     <PackageReference Include="DevExpress.Mvvm">
+      <Version>21.2.5</Version>
+    </PackageReference>
+    <PackageReference Include="DevExpress.RichEdit.Export">
       <Version>21.2.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Accordion">
       <Version>21.2.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Controls">
+      <Version>21.2.5</Version>
+    </PackageReference>
+    <PackageReference Include="DevExpress.Wpf.ExpressionEditor">
       <Version>21.2.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.RichEdit">
@@ -687,6 +696,9 @@
       <Version>21.2.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.MetropolisDark">
+      <Version>21.2.5</Version>
+    </PackageReference>
+    <PackageReference Include="DevExpress.Wpf.Themes.MetropolisLight">
       <Version>21.2.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.Office2019White">
