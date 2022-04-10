@@ -31,6 +31,10 @@ namespace Vortragsmanager
             Log.Start();
             AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
             {
+                if (eventArgs.Exception.Message.Contains("System.Data.SQLite.SEE.License"))
+                    return;
+                if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.MetropolisDark.v21.2.Aero2"))
+                    return;
                 Log.Error("FirstChanceException", eventArgs.Exception.Message);
                 Log.Error("FirstChanceExceptionStackTrace", eventArgs.Exception.StackTrace);
             };
