@@ -97,6 +97,16 @@
                 <TextBlock Text="Vortrag absagen" VerticalAlignment="Center" Margin="5,0,0,0"/>
             </StackPanel>
         </Button>
+        <Button Command="{Binding VortragBearbeiten}"
+        HorizontalAlignment="Left"
+        Margin="160,5"
+        Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+        Width="170">
+        <StackPanel Orientation="Horizontal">
+            <Image Source="/Images/Actions_Edit_16x16.png" Width="30" Height="30" />
+            <TextBlock Text="Vortrag verschieben" VerticalAlignment="Center" Margin="5,0,0,0"/>
+        </StackPanel>
+        </Button>
         <Button  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                  Width="150"
                  HorizontalAlignment="Right"

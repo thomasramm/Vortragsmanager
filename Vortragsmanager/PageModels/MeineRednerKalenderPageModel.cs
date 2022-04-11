@@ -19,6 +19,7 @@ namespace Vortragsmanager.PageModels
             ChangeView = new DelegateCommand<RednerViewType>(ChangeCurrentView);
             ListeSenden = new DelegateCommand(ListeVersenden);
             VortragAbsagen = new DelegateCommand(Absagen);
+            VortragBearbeiten = new DelegateCommand(Bearbeiten);
 
             var z = DataContainer.Redner.Where(x => x.Versammlung == DataContainer.MeineVersammlung);
             var enumerable = z.ToList();
@@ -57,6 +58,8 @@ namespace Vortragsmanager.PageModels
         public DelegateCommand<int> ChangeYear { get; }
 
         public DelegateCommand VortragAbsagen { get; }
+
+        public DelegateCommand VortragBearbeiten { get; }
 
         public void ChangeCurrentYear(int step)
         {
@@ -204,6 +207,26 @@ namespace Vortragsmanager.PageModels
                 ActivityAddItem.Outside(SelectedTalk, data.MailTextKoordinator, data.MailTextRedner, false);
                 DataContainer.ExternerPlan.Remove(SelectedTalk);
                 Talks.Remove(SelectedTalk);
+            }
+        }
+
+        public void Bearbeiten()
+        {
+            var toEdit = SelectedTalk;
+            var dlg1 = new KalendereintragVerschieben();
+            var data = (KalendereintragVerschiebenView)dlg1.DataContext;
+            data.LadeStartDatum(SelectedTalk);
+            dlg1.ShowDialog();
+
+
+            if (data.Speichern)
+            {
+
+                if (data.ZielbuchungLöschenChecked && data.ZielBuchung != null)
+                {
+                    Talks.Remove(data.ZielBuchung);
+                }
+                ApplyFilter();
             }
         }
     }

@@ -169,7 +169,6 @@ namespace Vortragsmanager.PageModels
         {
             var verschieben = new KalendereintragVerschieben();
             var data = (KalendereintragVerschiebenView)verschieben.DataContext;
-            data.KalenderTyp = Kalenderart.Intern;
             data.LadeStartDatum(Zuteilung);
             verschieben.ShowDialog();
 
