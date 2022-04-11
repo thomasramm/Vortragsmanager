@@ -19,8 +19,6 @@ namespace Vortragsmanager.PageModels
         public HistorieAktivitätenPageModel()
         {
             Initialize();
-            Messenger.Default.Register<ActivityItemViewModel>(this, Messages.ActivityAdd, OnNewLog);
-            Messenger.Default.Register<bool>(this, Messages.NewDatabaseOpened, OnOpenDatabase);
         }
 
         private void SetFilter()
@@ -211,24 +209,5 @@ namespace Vortragsmanager.PageModels
         public string LetzterMonatHeader => $"Letzter Monat ({LetzterMonat.Count(x => x.Aktiv)})";
         public string DiesesJahrHeader => $"Dieses Jahr ({DiesesJahr.Count(x => x.Aktiv)})";
         public string ÄlterHeader => $"Älter ({Älter.Count(x => x.Aktiv)})";
-
-        private void OnNewLog(ActivityItemViewModel message)
-        {
-            message.Id = _nextId++;
-            DataContainer.Aktivitäten.Add(message);
-
-            var item = new Item(message)
-            {
-                Zeitraum = ActivityTime.Heute
-            };
-            Heute.Insert(0, item);
-            _alleUnfiltered.Add(item);
-            RaisePropertyChanged(nameof(HeuteHeader));
-        }
-
-        private void OnOpenDatabase(bool opened)
-        {
-            Initialize();
-        }
     }
 }
