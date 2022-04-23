@@ -2,10 +2,12 @@
 using System.Linq;
 using System.Windows;
 using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
 using Vortragsmanager.Interface;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace Vortragsmanager.Windows
 {
@@ -475,6 +477,11 @@ namespace Vortragsmanager.Windows
             var startDatum = DateCalcuation.CalculateWeek(StartBuchung.Kw);
             var zielKw = DateCalcuation.CalculateWeek(ZielDatum);
 
+            if  (StartBuchung.Versammlung == DataContainer.MeineVersammlung)
+            {
+                ThemedMessageBox.Show("Achtung","Bei diese Buchung handelt es sich um eine Buchung in deiner eigenen Versammlung! Bitte benutze zum Ändern deiner eigenen Buchungen den Kalender unter 'Mein Plan'.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+
             StartBuchung.Kw = zielKw;
 
             var mails = new InfoAnRednerUndKoordinatorWindow();
@@ -484,8 +491,8 @@ namespace Vortragsmanager.Windows
             //MAIL WEGEN STARTBUCHUNG
             if (StartBuchung != null)
             {
-                mailsData.InfoAnKoordinatorTitel = "Info an Redner";
-                mailsData.MailTextKoordinator = Templates.GetMailTextEreignisTauschenAnRedner(StartBuchung.Ältester, startDatum,
+                mailsData.InfoAnKoordinatorTitel = "Info an Redner & Koordinator";
+                mailsData.MailTextKoordinator = Templates.GetMailTextEreignisTauschenAnRednerUndKoordinator(StartBuchung.Versammlung,StartBuchung.Ältester, startDatum,
                     ZielDatum, StartBuchung.Vortrag.Vortrag.ToString(), StartBuchung.Versammlung.Name);
             }
 
@@ -501,8 +508,13 @@ namespace Vortragsmanager.Windows
                     ZielBuchung.Kw = startKw;
                     if (ZielBuchung != null)
                     {
-                        mailsData.InfoAnRednerTitel = "Info an Redner";
-                        mailsData.MailTextRedner = Templates.GetMailTextEreignisTauschenAnRedner(ZielBuchung.Ältester,
+                        if (ZielBuchung.Versammlung == DataContainer.MeineVersammlung)
+                        {
+                            ThemedMessageBox.Show("Achtung", "Bei diese Buchung handelt es sich um eine Buchung in deiner eigenen Versammlung! Bitte benutze zum Ändern deiner eigenen Buchungen den Kalender unter 'Mein Plan'.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        }
+
+                        mailsData.InfoAnRednerTitel = "Info an Redner & Koordinator";
+                        mailsData.MailTextRedner = Templates.GetMailTextEreignisTauschenAnRednerUndKoordinator(ZielBuchung.Versammlung,ZielBuchung.Ältester,
                             ZielDatum, startDatum, ZielBuchung.Vortrag.Vortrag.ToString(), ZielBuchung.Versammlung.Name);
                     }
 
@@ -514,8 +526,13 @@ namespace Vortragsmanager.Windows
                 {
                     if (ZielBuchung != null)
                     {
-                        mailsData.InfoAnRednerTitel = "Info an Redner";
-                        mailsData.MailTextRedner = Templates.GetMailTextAblehnenRedner(ZielBuchung);
+                        if (ZielBuchung.Versammlung == DataContainer.MeineVersammlung)
+                        {
+                            ThemedMessageBox.Show("Achtung", "Bei diese Buchung handelt es sich um eine Buchung in deiner eigenen Versammlung! Bitte benutze zum Ändern deiner eigenen Buchungen den Kalender unter 'Mein Plan'.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        }
+
+                        mailsData.InfoAnRednerTitel = "Info an Redner & Koordinator";
+                        mailsData.MailTextRedner = Templates.GetMailTextAblehnenRednerUndKoordinator(ZielBuchung);
 
 
                         ActivityAddItem.Outside(ZielBuchung, mailsData.MailTextKoordinator, mailsData.MailTextRedner, false);
@@ -532,9 +549,6 @@ namespace Vortragsmanager.Windows
             }
 
             mails.ShowDialog();
-
-            DataContainer.UpdateTalkDate(StartBuchung?.Vortrag?.Vortrag);
-            DataContainer.UpdateTalkDate(ZielBuchung?.Vortrag?.Vortrag);
 
             ActivityAddItem.BuchungVerschiebenExtern(StartBuchung, mailsData.MailTextKoordinator, startDatum, startBuchungInfo, "Buchung wurde verschoben"); // Event1
         }

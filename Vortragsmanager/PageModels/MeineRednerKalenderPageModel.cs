@@ -212,22 +212,31 @@ namespace Vortragsmanager.PageModels
 
         public void Bearbeiten()
         {
-            var toEdit = SelectedTalk;
             var dlg1 = new KalendereintragVerschieben();
             var data = (KalendereintragVerschiebenView)dlg1.DataContext;
+            var origKw = SelectedTalk.Kw;
             data.LadeStartDatum(SelectedTalk);
             dlg1.ShowDialog();
 
 
-            if (data.Speichern)
-            {
+            if (!data.Speichern) 
+                return;
+            
+            var origDataBaseItem = DataContainer.ExternerPlan.FirstOrDefault(x =>
+                x.Kw == origKw && x.Ältester.Name == data.StartName &&
+                x.Versammlung.Name == data.StartVersammlung);
 
-                if (data.ZielbuchungLöschenChecked && data.ZielBuchung != null)
-                {
-                    Talks.Remove(data.ZielBuchung);
-                }
-                ApplyFilter();
+            if (origDataBaseItem != null)
+            {
+                origDataBaseItem.Kw = SelectedTalk.Kw;
             }
+
+            if (data.ZielbuchungLöschenChecked && data.ZielBuchung != null)
+            {
+                Talks.Remove(data.ZielBuchung);
+            }
+
+            ApplyFilter();
         }
     }
 }
