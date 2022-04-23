@@ -283,18 +283,15 @@ namespace Vortragsmanager.Helper
         }
         public static void BuchungVerschiebenExtern(Outside buchung, string mailtext, DateTime datumAlt, string zielBuchung, string header)
         {
-            Conregation versammlung = null;
-            Speaker redner = null;
-            Talk vortrag = null;
-            int kw = buchung.Kw;
+            var kw = buchung.Kw;
 
             var objekt = $"{zielBuchung}{Environment.NewLine}" +
                          "Datum: " + datumAlt.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
                          + " → " + DateCalcuation.CalculateWeek(buchung.Kw).ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
 
-            redner = buchung.Ältester;
-            versammlung = buchung.Versammlung;
-            vortrag = buchung.Vortrag.Vortrag;
+            var redner = buchung.Ältester;
+            var versammlung = buchung.Versammlung;
+            var vortrag = buchung.Vortrag.Vortrag;
             objekt += $"{Environment.NewLine}Vortrag: {buchung.Vortrag.Vortrag.NumberTopicShort}";
 
             var log = new ActivityItemViewModel

@@ -7,7 +7,6 @@ using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
 using Vortragsmanager.Interface;
-using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace Vortragsmanager.Windows
 {
@@ -321,8 +320,9 @@ namespace Vortragsmanager.Windows
                     SaveExtern();
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(KalenderTyp.ToString());
             }
+            
             //Event2
             Speichern = true;
             window?.Close();
@@ -363,7 +363,7 @@ namespace Vortragsmanager.Windows
             }
             var startBuchungInfo = string.Empty;
 
-            //MAIL & TODO WEGEN ZIELBUCHUNG
+            //MAIL & AKTIVITÄT WEGEN ZIELBUCHUNG
             if (ZielBuchungBelegt)
             {
                 var headerText = string.Empty;
@@ -501,7 +501,6 @@ namespace Vortragsmanager.Windows
             //MAIL & TODO WEGEN ZIELBUCHUNG
             if (ZielBuchungBelegt)
             {
-                var headerText = string.Empty;
                 if (ZielbuchungTauschenChecked)
                 {
 
@@ -519,7 +518,7 @@ namespace Vortragsmanager.Windows
                     }
 
                     startBuchungInfo = "Die Buchung am neuen Datum wurde mit dem bisherigen Datum getauscht.";
-                    headerText = "Diese Buchung wurde verschoben";
+                    const string headerText = "Diese Buchung wurde verschoben";
                     ActivityAddItem.BuchungVerschiebenExtern(ZielBuchung, mailsData.MailTextRedner, ZielDatum, "Eine andere Buchung wurde auf das bisherige Datum verschoben.", headerText);
                 }
                 else if (ZielbuchungLöschenChecked)
@@ -534,13 +533,12 @@ namespace Vortragsmanager.Windows
                         mailsData.InfoAnRednerTitel = "Info an Redner & Koordinator";
                         mailsData.MailTextRedner = Templates.GetMailTextAblehnenRednerUndKoordinator(ZielBuchung);
 
-
                         ActivityAddItem.Outside(ZielBuchung, mailsData.MailTextKoordinator, mailsData.MailTextRedner, false);
                         DataContainer.ExternerPlan.Remove(ZielBuchung);
                     }
 
                     startBuchungInfo = "Die Buchung am neuen Datum wurde gelöscht.";
-                    headerText = "Diese Buchung wurde gelöscht";
+                    
                 }
             }
             else
