@@ -83,6 +83,7 @@
                              GlyphAlignment="Left"
                              Command="{Binding SaveCommand}"
                              CommandParameter="{Binding ElementName=EreignisBearbeitenWindow}"
+                             IsEnabled="{Binding CanSave}"
                              HorizontalAlignment="Right" Width="150" Margin="5,5,160,5" />
         <dx:SimpleButton Grid.Row="1" Content="Abbrechen"
                              Glyph="/Images/Cancel_32x32.png"

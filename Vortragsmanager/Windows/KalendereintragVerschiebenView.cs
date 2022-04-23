@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Windows;
 using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
@@ -25,6 +27,8 @@ namespace Vortragsmanager.Windows
         {
             if (ereignis is null)
                 return;
+
+            KalenderTyp = Kalenderart.Intern;
 
             StartEvent = ereignis;
 
@@ -51,6 +55,25 @@ namespace Vortragsmanager.Windows
                 if (string.IsNullOrWhiteSpace(StartVortrag))
                     StartVortrag = special.Thema;
             }
+
+            ZielDatum = DateCalcuation.CalculateWeek(ereignis.Kw);
+            StartDatum = ZielDatum.ToShortDateString();
+        }
+
+        public void LadeStartDatum(Outside ereignis)
+        {
+            if (ereignis is null)
+                return;
+
+            KalenderTyp = Kalenderart.Extern;
+
+            StartEvent = null;
+            StartBuchung = ereignis;
+
+            StartTyp = "Versammlung";
+            StartName = ereignis.Ältester.Name;
+            StartVortrag = ereignis.Vortrag.Vortrag.ToString();
+            StartVersammlung = ereignis.Versammlung.Name;
 
             ZielDatum = DateCalcuation.CalculateWeek(ereignis.Kw);
             StartDatum = ZielDatum.ToShortDateString();
@@ -121,8 +144,6 @@ namespace Vortragsmanager.Windows
             get => _zielDatum;
             set
             {
-                if (value == null)
-                    return;
                 _zielDatum = DateCalcuation.GetConregationDay(value);
                 RaisePropertyChanged();
                 LadeZielBuchung();
@@ -139,9 +160,9 @@ namespace Vortragsmanager.Windows
                 if (_zielBuchungBelegt != value)
                 {
                     if (value)
-                        WindowHeight += 200;
+                        WindowHeight += 220;
                     else
-                        WindowHeight -= 200;
+                        WindowHeight -= 220;
                 }
                 _zielBuchungBelegt = value;
                 RaisePropertyChanged();
@@ -174,8 +195,21 @@ namespace Vortragsmanager.Windows
             }
         }
 
-        private static void LadeExterneZielBuchung()
+        private void LadeExterneZielBuchung()
         {
+            var zielKw = DateCalcuation.CalculateWeek(ZielDatum);
+            var woche = DataContainer.ExternerPlan.FirstOrDefault(x => x.Kw == zielKw);
+
+            ZielBuchungBelegt = (woche != null && zielKw != StartBuchung.Kw);
+            ZielBuchung = woche;
+
+            if (woche == null)
+                return;
+
+            ZielTyp = "Versammlung";
+            ZielVersammlung = woche.Versammlung.Name;
+            ZielName = woche.Ältester.Name;
+            ZielVortrag = woche.Vortrag.Vortrag.ToString();
         }
 
         private void LadeInterneZielBuchung()
@@ -233,33 +267,68 @@ namespace Vortragsmanager.Windows
 
         private IEvent StartEvent { get; set; }
 
+        private Outside StartBuchung { get; set; }
+
+        public Outside ZielBuchung { get; set; }
+
         public Kalenderart KalenderTyp { get; set; }
 
         public bool Speichern { get; set; }
 
-        private bool _zielbuchungLöschenChecked;
+        private int _zielbuchungOptionChecked;
 
         public bool ZielbuchungLöschenChecked
         {
-            get => _zielbuchungLöschenChecked;
+            get => _zielbuchungOptionChecked == 0;
             set
             {
-                _zielbuchungLöschenChecked = value;
+                _zielbuchungOptionChecked = value ? 0 : -1;
                 RaisePropertyChanged();
             }
         }
 
         public bool ZielbuchungTauschenChecked
         {
-            get => !_zielbuchungLöschenChecked;
+            get => _zielbuchungOptionChecked == 1;
             set
             {
-                _zielbuchungLöschenChecked = !value;
+                _zielbuchungOptionChecked = value ? 1 : -1;
+                RaisePropertyChanged();
+            }
+        }
+        
+        public bool ZielbuchungBeideChecked
+        {
+            get => _zielbuchungOptionChecked == 2;
+            set
+            {
+                _zielbuchungOptionChecked = value ? 2 : -1;
                 RaisePropertyChanged();
             }
         }
 
+        public bool ZielBuchungBeideCheckboxVisible => KalenderTyp == Kalenderart.Extern;
+
         public void Save(ICloseable window)
+        {
+            switch (KalenderTyp)
+            {
+                case Kalenderart.Intern:
+                    SaveIntern();
+                    break;
+                case Kalenderart.Extern:
+                    SaveExtern();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(KalenderTyp.ToString());
+            }
+            
+            //Event2
+            Speichern = true;
+            window?.Close();
+        }
+
+        private void SaveIntern()
         {
             var startKw = StartEvent.Kw;
             var startDatum = DateCalcuation.CalculateWeek(StartEvent.Kw);
@@ -294,7 +363,7 @@ namespace Vortragsmanager.Windows
             }
             var startBuchungInfo = string.Empty;
 
-            //MAIL & TODO WEGEN ZIELBUCHUNG
+            //MAIL & AKTIVITÄT WEGEN ZIELBUCHUNG
             if (ZielBuchungBelegt)
             {
                 var headerText = string.Empty;
@@ -384,7 +453,7 @@ namespace Vortragsmanager.Windows
                     startBuchungInfo = "Die Buchung am neuen Datum wurde gelöscht.";
                     headerText = "Diese Buchung wurde gelöscht";
                 }
-                ActivityAddItem.BuchungVerschieben(ZielEvent, mailsData.MailTextRedner, ZielDatum, "Eine andere Buchung wurde auf das bisherige Datum verschoben.", headerText);
+                ActivityAddItem.BuchungVerschiebenIntern(ZielEvent, mailsData.MailTextRedner, ZielDatum, "Eine andere Buchung wurde auf das bisherige Datum verschoben.", headerText);
             }
             else
             {
@@ -399,10 +468,87 @@ namespace Vortragsmanager.Windows
             DataContainer.UpdateTalkDate(StartEvent?.Vortrag?.Vortrag);
             DataContainer.UpdateTalkDate(ZielEvent?.Vortrag?.Vortrag);
 
-            ActivityAddItem.BuchungVerschieben(StartEvent, mailsData.MailTextKoordinator, startDatum, startBuchungInfo, "Buchung wurde verschoben"); // Event1
-            //Event2
-            Speichern = true;
-            window?.Close();
+            ActivityAddItem.BuchungVerschiebenIntern(StartEvent, mailsData.MailTextKoordinator, startDatum, startBuchungInfo, "Buchung wurde verschoben"); // Event1
+        }
+
+        private void SaveExtern()
+        {
+            var startKw = StartBuchung.Kw;
+            var startDatum = DateCalcuation.CalculateWeek(StartBuchung.Kw);
+            var zielKw = DateCalcuation.CalculateWeek(ZielDatum);
+
+            if  (StartBuchung.Versammlung == DataContainer.MeineVersammlung)
+            {
+                ThemedMessageBox.Show("Achtung","Bei diese Buchung handelt es sich um eine Buchung in deiner eigenen Versammlung! Bitte benutze zum Ändern deiner eigenen Buchungen den Kalender unter 'Mein Plan'.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+
+            StartBuchung.Kw = zielKw;
+
+            var mails = new InfoAnRednerUndKoordinatorWindow();
+            var mailsData = (InfoAnRednerUndKoordinatorViewModel)mails.DataContext;
+            mailsData.DisableCancelButton();
+
+            //MAIL WEGEN STARTBUCHUNG
+            if (StartBuchung != null)
+            {
+                mailsData.InfoAnKoordinatorTitel = "Info an Redner & Koordinator";
+                mailsData.MailTextKoordinator = Templates.GetMailTextEreignisTauschenAnRednerUndKoordinator(StartBuchung.Versammlung,StartBuchung.Ältester, startDatum,
+                    ZielDatum, StartBuchung.Vortrag.Vortrag.ToString(), StartBuchung.Versammlung.Name);
+            }
+
+            var startBuchungInfo = string.Empty;
+
+            //MAIL & TODO WEGEN ZIELBUCHUNG
+            if (ZielBuchungBelegt)
+            {
+                if (ZielbuchungTauschenChecked)
+                {
+
+                    ZielBuchung.Kw = startKw;
+                    if (ZielBuchung != null)
+                    {
+                        if (ZielBuchung.Versammlung == DataContainer.MeineVersammlung)
+                        {
+                            ThemedMessageBox.Show("Achtung", "Bei diese Buchung handelt es sich um eine Buchung in deiner eigenen Versammlung! Bitte benutze zum Ändern deiner eigenen Buchungen den Kalender unter 'Mein Plan'.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        }
+
+                        mailsData.InfoAnRednerTitel = "Info an Redner & Koordinator";
+                        mailsData.MailTextRedner = Templates.GetMailTextEreignisTauschenAnRednerUndKoordinator(ZielBuchung.Versammlung,ZielBuchung.Ältester,
+                            ZielDatum, startDatum, ZielBuchung.Vortrag.Vortrag.ToString(), ZielBuchung.Versammlung.Name);
+                    }
+
+                    startBuchungInfo = "Die Buchung am neuen Datum wurde mit dem bisherigen Datum getauscht.";
+                    const string headerText = "Diese Buchung wurde verschoben";
+                    ActivityAddItem.BuchungVerschiebenExtern(ZielBuchung, mailsData.MailTextRedner, ZielDatum, "Eine andere Buchung wurde auf das bisherige Datum verschoben.", headerText);
+                }
+                else if (ZielbuchungLöschenChecked)
+                {
+                    if (ZielBuchung != null)
+                    {
+                        if (ZielBuchung.Versammlung == DataContainer.MeineVersammlung)
+                        {
+                            ThemedMessageBox.Show("Achtung", "Bei diese Buchung handelt es sich um eine Buchung in deiner eigenen Versammlung! Bitte benutze zum Ändern deiner eigenen Buchungen den Kalender unter 'Mein Plan'.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        }
+
+                        mailsData.InfoAnRednerTitel = "Info an Redner & Koordinator";
+                        mailsData.MailTextRedner = Templates.GetMailTextAblehnenRednerUndKoordinator(ZielBuchung);
+
+                        ActivityAddItem.Outside(ZielBuchung, mailsData.MailTextKoordinator, mailsData.MailTextRedner, false);
+                        DataContainer.ExternerPlan.Remove(ZielBuchung);
+                    }
+
+                    startBuchungInfo = "Die Buchung am neuen Datum wurde gelöscht.";
+                    
+                }
+            }
+            else
+            {
+                startBuchungInfo = "Das neue Datum war in der Planung offen.";
+            }
+
+            mails.ShowDialog();
+
+            ActivityAddItem.BuchungVerschiebenExtern(StartBuchung, mailsData.MailTextKoordinator, startDatum, startBuchungInfo, "Buchung wurde verschoben"); // Event1
         }
 
         public void Close(ICloseable window)

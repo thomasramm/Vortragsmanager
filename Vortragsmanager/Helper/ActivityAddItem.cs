@@ -13,7 +13,7 @@ namespace Vortragsmanager.Helper
     {
         private static void Add(ActivityItemViewModel log)
         {
-            Messenger.Default.Send(log, Messages.ActivityAdd);
+            DataContainer.Aktivitäten.Add(log);
         }
 
         public static void Outside(Outside buchung, string mailtext1, string mailtext2, bool bestätigen)
@@ -227,7 +227,7 @@ namespace Vortragsmanager.Helper
             Add(log);
         }
 
-        public static void BuchungVerschieben(IEvent buchung, string mailtext, DateTime datumAlt, string zielBuchung, string header)
+        public static void BuchungVerschiebenIntern(IEvent buchung, string mailtext, DateTime datumAlt, string zielBuchung, string header)
         {
             Conregation versammlung = null;
             Speaker redner = null;
@@ -266,6 +266,33 @@ namespace Vortragsmanager.Helper
             {
                 versammlung = anfrage.Versammlung;
             }
+
+            var log = new ActivityItemViewModel
+            {
+                Typ = ActivityTypes.BuchungVerschieben,
+                Versammlung = versammlung,
+                Redner = redner,
+                Mails = mailtext,
+                KalenderKw = kw,
+                Vortrag = vortrag,
+                Objekt = objekt,
+                Kommentar = header
+            };
+
+            Add(log);
+        }
+        public static void BuchungVerschiebenExtern(Outside buchung, string mailtext, DateTime datumAlt, string zielBuchung, string header)
+        {
+            var kw = buchung.Kw;
+
+            var objekt = $"{zielBuchung}{Environment.NewLine}" +
+                         "Datum: " + datumAlt.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
+                         + " → " + DateCalcuation.CalculateWeek(buchung.Kw).ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+
+            var redner = buchung.Ältester;
+            var versammlung = buchung.Versammlung;
+            var vortrag = buchung.Vortrag.Vortrag;
+            objekt += $"{Environment.NewLine}Vortrag: {buchung.Vortrag.Vortrag.NumberTopicShort}";
 
             var log = new ActivityItemViewModel
             {

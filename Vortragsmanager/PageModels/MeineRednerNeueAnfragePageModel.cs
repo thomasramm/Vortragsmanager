@@ -151,7 +151,10 @@ namespace Vortragsmanager.PageModels
             RaisePropertyChanged(nameof(SelectedVersammlungZeit));
 
             //Hinweis zum gewählten Redner
-            ParameterValidiert = SelectedRedner != null;
+            ParameterValidiert = SelectedRedner != null &&
+                                 SelectedVortrag != null &&
+                                 SelectedVersammlung != null;
+
             if (!_parameterValidiert)
                 return;
 

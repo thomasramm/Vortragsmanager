@@ -47,6 +47,7 @@ namespace Vortragsmanager.Windows
                     Redner = DataContainer.Redner.Where(x => x.Versammlung == _selectedVersammlung).OrderBy(x => x.Name).ToList();
                     SelectedRedner = null;
                 }
+                RaisePropertyChanged();
             }
         }
 
@@ -87,7 +88,10 @@ namespace Vortragsmanager.Windows
             {
                 _selectedVortrag = value == null ? null : Vortrag.FirstOrDefault(x => x.Vortrag.Nummer == value.Vortrag.Nummer);
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(CanSave));
             }
         }
+
+        public bool CanSave => SelectedVortrag != null;
     }
 }

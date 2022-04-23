@@ -63,19 +63,34 @@
                 </dxlc:LayoutItem>
                 <RadioButton Content="Buchung am Zieldatum löschen." Height="23" IsChecked="{Binding ZielbuchungLöschenChecked, Mode=TwoWay}" />
                 <RadioButton Content="Buchungen tauschen." Height="23" IsChecked="{Binding ZielbuchungTauschenChecked, Mode=TwoWay}" />
+                <RadioButton Content="Beide Buchungen am Zieldatum eintragen." Height="23" 
+                             IsChecked="{Binding ZielbuchungBeideChecked, Mode=TwoWay}" 
+                             Visibility="{Binding ZielBuchungBeideCheckboxVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </dxlc:LayoutGroup>
         </dxlc:LayoutControl>
-        <dx:SimpleButton Grid.Row="1" Content="Speichern"
-                             Glyph="/Images/Ok_Green_32x32.png"
-                             GlyphAlignment="Left"
-                             Command="{Binding SaveCommand}"
-                             CommandParameter="{Binding ElementName=KalendereintragVerschiebenWindow}"
-                             HorizontalAlignment="Right" Width="150" Margin="5,5,160,5" />
-        <dx:SimpleButton Grid.Row="1" Content="Abbrechen"
-                         Glyph="/Images/Cancel_32x32.png"
-                             GlyphAlignment="Left"
-                             Command="{Binding CloseCommand}"
-                             CommandParameter="{Binding ElementName=KalendereintragVerschiebenWindow}"
-                             HorizontalAlignment="Right" Width="150" Margin="5" />
+        <Button  Grid.Row="1" Grid.Column="0" 
+                 Width="150"
+                 HorizontalAlignment="Right"
+                 Margin="5,5,160,5"
+                 ToolTip="Die angezeigten Termine versenden"
+                 Command="{Binding SaveCommand}"
+                 CommandParameter="{Binding ElementName=KalendereintragVerschiebenWindow}">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/Images/Ok_Green_32x32.png" Width="24" Height="24"/>
+                <TextBlock Text="Speichern" VerticalAlignment="Center" Margin="5,0,0,0"/>
+            </StackPanel>
+        </Button>
+        <Button  Grid.Row="1" Grid.Column="0" 
+                 Width="150"
+                 HorizontalAlignment="Right"
+                 Margin="5"
+                 ToolTip="Die angezeigten Termine versenden"
+                 Command="{Binding CloseCommand}"
+                 CommandParameter="{Binding ElementName=KalendereintragVerschiebenWindow}">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/Images/Cancel_32x32.png" Width="24" Height="24"/>
+                <TextBlock Text="Abbrechen" VerticalAlignment="Center" Margin="5,0,0,0"/>
+            </StackPanel>
+        </Button>
     </Grid>
 </Window>

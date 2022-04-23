@@ -38,6 +38,9 @@ namespace Vortragsmanager.Pages
 
         private void numericEditor_Validate(object sender, DevExpress.Xpf.Editors.ValidationEventArgs e)
         {
+            if (e.Value is null)
+                return;
+
             var eingabe = e.Value.ToString();
             if (string.IsNullOrWhiteSpace(eingabe))
                 return;
