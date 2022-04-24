@@ -195,8 +195,35 @@
                                                         <ListBox Grid.Column="0" ItemsSource="{Binding Redner, Mode=OneWay}"  BorderThickness="0" FontWeight="Regular">
                                                             <ListBox.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <StackPanel Orientation="Horizontal"
-                                                                        d:DataContext="{d:DesignInstance Type=pageModels:GroupSpeaker}">
+                                                                    <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance Type=pageModels:GroupSpeaker}">
+                                                                        <StackPanel.ToolTip>
+                                                                            <Grid>
+                                                                                <dxlc:LayoutControl>
+                                                                                    <dxlc:LayoutGroup Orientation="Horizontal"
+                                                                                              View="GroupBox"
+                                                                                              Header="{Binding Name}" Margin="-12">
+                                                                                    
+                                                                                            <dxlc:LayoutGroup Orientation="Vertical">
+                                                                                                <dxlc:LayoutItem Label="Telefon:">
+                                                                                                        <Label Content="{Binding Redner.Telefon}" />
+                                                                                                </dxlc:LayoutItem>
+                                                                                                <dxlc:LayoutItem Label="Mobil:">
+                                                                                                <Label Content="{Binding Redner.Mobil}" />
+                                                                                                </dxlc:LayoutItem>
+                                                                                                <dxlc:LayoutItem Label="Info:">
+                                                                                                <Label Content="{Binding Redner.InfoPrivate}" />
+                                                                                                </dxlc:LayoutItem>
+                                                                                                <dxlc:LayoutItem>
+                                                                                                <Label Content="{Binding Redner.InfoPublic}" />
+                                                                                                </dxlc:LayoutItem>
+                                                                                            </dxlc:LayoutGroup>
+                                                                                        <Image MaxHeight="150" Source="{Binding Redner.Foto}"/>
+                                                                                        </dxlc:LayoutGroup>
+                                                                                        
+                                                                                  
+                                                                                </dxlc:LayoutControl>
+                                                                            </Grid>
+                                                                        </StackPanel.ToolTip>
                                                                         <CheckBox IsChecked="{Binding Gewählt, Mode=TwoWay}" VerticalContentAlignment="Center" />
                                                                         <Label Content="{Binding Name}" Width="170" Height="30" VerticalContentAlignment="Center"/>
                                                                         <dxg:LookUpEdit Name="lookUpEdit"

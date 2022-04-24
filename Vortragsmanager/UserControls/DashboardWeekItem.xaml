@@ -25,8 +25,15 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
+            <Grid.ToolTip >
+                <StackPanel>
+                    <Label x:Name="LabelToolTip"/>
+                    <Image Width="500" MaxHeight="500" x:Name="PhotoViewerToolTip" />
+                </StackPanel>
+                
+            </Grid.ToolTip>
             <TextBlock x:Name="MeinPlan" Grid.Row="0" Text="Vortragsredner" Foreground="{StaticResource TextColor}" VerticalAlignment="Center"/>
-        <TextBlock x:Name="MeinVorsitz" Grid.Row="1" Text="Vortragsredner" Foreground="{StaticResource TextDezentColor}" VerticalAlignment="Center"/>
+            <TextBlock x:Name="MeinVorsitz" Grid.Row="1" Text="Vorsitzender" Foreground="{StaticResource TextDezentColor}" VerticalAlignment="Center"/>
         </Grid>
         <TextBlock x:Name="MeineRedner" Grid.Column="2" Text="Extern" Foreground="{StaticResource TextColor}" VerticalAlignment="Center"/>
     </Grid>

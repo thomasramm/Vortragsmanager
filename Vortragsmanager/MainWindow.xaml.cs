@@ -35,6 +35,8 @@ namespace Vortragsmanager
                     return;
                 if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.MetropolisDark.v21.2.Aero2"))
                     return;
+                if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.Office2019White.v21.2.Aero2"))
+                    return;
                 Log.Error("FirstChanceException", eventArgs.Exception.Message);
                 Log.Error("FirstChanceExceptionStackTrace", eventArgs.Exception.StackTrace);
             };

@@ -51,16 +51,23 @@ namespace Vortragsmanager.UserControls
             {
                 case EventStatus.Ereignis:
                     MeinPlan.Text = prog.Anzeigetext;
+                    PhotoViewerToolTip.Width = 0;
+                    PhotoViewerToolTip.Source = null;
+                    LabelToolTip.Content = null;
                     break;
                 case EventStatus.Zugesagt:
                 {
                     var einladung = (Invitation) prog;
-                    MeinPlan.Text = einladung.Ältester.Name + Environment.NewLine
-                                                             + "  in " + einladung.Ältester.Versammlung.Name +
-                                                             Environment.NewLine
-                                                             + "  Nr " + einladung.Vortrag.Vortrag +
-                                                             Environment.NewLine
-                                                             + "  Tel: " + (einladung.Ältester.Mobil ?? einladung.Ältester.Telefon);
+                    MeinPlan.Text = einladung.Ältester.Name 
+                                    + Environment.NewLine
+                                    + "  in " + einladung.Ältester.Versammlung.Name 
+                                    + Environment.NewLine
+                                    + "  Nr " + einladung.Vortrag.Vortrag 
+                                    + Environment.NewLine
+                                    + "  Tel: " + (einladung.Ältester.Mobil ?? einladung.Ältester.Telefon);
+                    PhotoViewerToolTip.Width = einladung.Ältester.Foto == null ? 0 : 500;
+                    PhotoViewerToolTip.Source = einladung.Ältester.Foto;
+                    LabelToolTip.Content = einladung.Ältester.Name;
                     break;
                 }
             }

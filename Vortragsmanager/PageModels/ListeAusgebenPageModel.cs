@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using DevExpress.DataAccess.Native;
 using DevExpress.Mvvm;
 using Vortragsmanager.Module;
 using Vortragsmanager.Properties;
@@ -85,14 +84,11 @@ namespace Vortragsmanager.PageModels
         public void CreateDataExport()
         {
             var excelFile = IoExcel.Export.SpeakerConregationCoordinatorOverview(ListeÖffnen);
-            if (excelFile != null)
-            {
-                FileInfo fi = new FileInfo(excelFile);
-                var outputfolder = fi.DirectoryName;
-                Photo.SaveToFile(fi.DirectoryName);
-            }
+            if (excelFile == null) 
+                return;
+
+            var fi = new FileInfo(excelFile);
+            Photo.SaveToFile(fi.DirectoryName);
         }
-
-
     }
 }
