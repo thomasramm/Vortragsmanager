@@ -1,7 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using Vortragsmanager.Datamodels;
@@ -103,10 +105,10 @@ namespace Vortragsmanager.PageModels
                 RaisePropertyChanged(nameof(RednerSelektiert));
                 RaisePropertyChanged(nameof(Vorträge));
                 RednerAktivitätenUpdate();
+                RednerSetFoto();
             }
         }
-
-
+        
         public bool RednerSelektiert => (Redner != null);
 
         public void SpeakerDelete()
@@ -139,6 +141,31 @@ namespace Vortragsmanager.PageModels
         }
 
         #endregion Filter Redner
+
+        private void RednerSetFoto()
+        {
+            Foto = Redner.Foto;
+        }
+
+        public BitmapSource Foto
+        {
+            get
+            {
+                if (Redner?.Foto != null)
+                {
+                    return Redner.Foto;
+                }
+
+                return Helper.Helper.StyleIsDark 
+                    ? new BitmapImage(new Uri("/Images/Kamera_dunkel_64x64.png", UriKind.Relative)) 
+                    : new BitmapImage(new Uri("/Images/Kamera_hell_64x64.png", UriKind.Relative));
+            }
+            set
+            {
+                Redner.Foto = value;
+                RaisePropertyChanged();
+            }
+        }
 
         #region Vortrag
 

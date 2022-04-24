@@ -1,4 +1,6 @@
-﻿using DevExpress.Mvvm;
+﻿using System.IO;
+using DevExpress.DataAccess.Native;
+using DevExpress.Mvvm;
 using Vortragsmanager.Module;
 using Vortragsmanager.Properties;
 
@@ -13,7 +15,7 @@ namespace Vortragsmanager.PageModels
             CreateContactListCommand = new DelegateCommand(CreateContactList);
             CreateExchangeRednerListCommand = new DelegateCommand(CreateExchangeRednerList);
             CreateOverviewTalkCountCommand = new DelegateCommand(CreateOverviewTalkCount);
-            CreateSpeakerOverviewCommand = new DelegateCommand(CreateSpeakerOverview);
+            CreateDataExportCommand = new DelegateCommand(CreateDataExport);
         }
 
         public DelegateCommand CreateAushangCommand { get; }
@@ -24,7 +26,7 @@ namespace Vortragsmanager.PageModels
 
         public DelegateCommand CreateOverviewTalkCountCommand { get; }
 
-        public DelegateCommand CreateSpeakerOverviewCommand { get; }
+        public DelegateCommand CreateDataExportCommand { get; }
 
         public bool ListeÖffnen
         {
@@ -32,6 +34,16 @@ namespace Vortragsmanager.PageModels
             set
             {
                 Settings.Default.ListCreate_OpenFile = value;
+                Settings.Default.Save();
+            }
+        }
+
+        public bool FotoExport
+        {
+            get => Settings.Default.FotoExport;
+            set
+            {
+                Settings.Default.FotoExport = value;
                 Settings.Default.Save();
             }
         }
@@ -70,9 +82,15 @@ namespace Vortragsmanager.PageModels
             IoExcel.Export.OverviewTalkCount(ListeÖffnen);
         }
 
-        public void CreateSpeakerOverview()
+        public void CreateDataExport()
         {
-            IoExcel.Export.SpeakerConregationCoordinatorOverview(ListeÖffnen);
+            var excelFile = IoExcel.Export.SpeakerConregationCoordinatorOverview(ListeÖffnen);
+            if (excelFile != null)
+            {
+                FileInfo fi = new FileInfo(excelFile);
+                var outputfolder = fi.DirectoryName;
+                Photo.SaveToFile(fi.DirectoryName);
+            }
         }
 
 

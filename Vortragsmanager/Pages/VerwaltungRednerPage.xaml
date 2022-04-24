@@ -7,7 +7,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:uc="clr-namespace:Vortragsmanager.UserControls"
     xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
     x:Class="Vortragsmanager.Pages.VerwaltungRednerPage"
@@ -57,21 +56,52 @@
                 </dxa:AccordionControl.HeaderContent>
                 <dxa:AccordionItem Header="Daten des Redner" IsExpanded="True" Width="400">
                     <dxlc:LayoutControl Orientation="Vertical" IsEnabled="{Binding RednerSelektiert}">
-                        <dxlc:LayoutItem Label="Typ:">
-                            <dxe:ToggleSwitch ContentPlacement="Near"
-                                        CheckedStateContent="Ältester" UncheckedStateContent="DAG"
-                                        IsChecked="{Binding Redner.Ältester, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </dxlc:LayoutItem>
-                        <dxlc:LayoutItem Label="Aktiv:">
-                            <dxe:ToggleSwitch ContentPlacement="Near"
-                                        CheckedStateContent="Ja" UncheckedStateContent="Nein"
-                                        IsChecked="{Binding Redner.Aktiv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </dxlc:LayoutItem>
-                        <dxlc:LayoutItem Label="Einladen:">
-                            <dxe:ToggleSwitch ContentPlacement="Near"
-                                        CheckedStateContent="Ja" UncheckedStateContent="Nein"
-                                        IsChecked="{Binding Redner.Einladen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </dxlc:LayoutItem>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="2"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Content="Typ:"/>
+                            <dxe:ToggleSwitch Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                                              ContentPlacement="Near"
+                                              CheckedStateContent="Ältester" 
+                                              UncheckedStateContent="DAG"
+                                              ToggleSwitchWidth="40"
+                                              HorizontalAlignment="Right"
+                                              IsChecked="{Binding Redner.Ältester, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <Label Grid.Row="1" Grid.Column="0" Content="Aktiv:"/>
+                            <dxe:ToggleSwitch Grid.Row="1" Grid.Column="1" 
+                                              ContentPlacement="Near"
+                                              CheckedStateContent="Ja" 
+                                              UncheckedStateContent="Nein"
+                                              ToggleSwitchWidth="40"
+                                              IsChecked="{Binding Redner.Aktiv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            
+                            <Label Grid.Row="2" Grid.Column="0" Content="Einladen:"/>
+                            <dxe:ToggleSwitch Grid.Row="2" Grid.Column="1" 
+                                              ContentPlacement="Near"
+                                              CheckedStateContent="Ja" 
+                                              UncheckedStateContent="Nein"
+                                              ToggleSwitchWidth="40"
+                                              IsChecked="{Binding Redner.Einladen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <Image Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" 
+                                            x:Name="PhotoViewer" 
+                                            Stretch="Uniform"
+                                            MouseLeftButtonDown="PhotoViewer_OnMouseLeftButtonDown"
+                                            Source="{Binding Foto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            Height="66">
+                                <Image.ToolTip>
+                                    <Image Width="500" MaxHeight="500" x:Name="PhotoViewerToolTip" Source="{Binding Foto, UpdateSourceTrigger=PropertyChanged}"/>
+                                </Image.ToolTip>
+                            </Image>
+                        </Grid>
                         <dxlc:LayoutItem Label="Name:  ">
                             <TextBox Text="{Binding Redner.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </dxlc:LayoutItem>
@@ -201,7 +231,6 @@
                     Command="{Binding AddTalkCommand}"
                     Height="26" />
             </dxlc:LayoutGroup>
-
         </DockPanel>
     </Grid>
 </UserControl>
