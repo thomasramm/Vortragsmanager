@@ -100,6 +100,11 @@
                                 <Image.ToolTip>
                                     <Image Width="500" MaxHeight="500" x:Name="PhotoViewerToolTip" Source="{Binding Foto, UpdateSourceTrigger=PropertyChanged}"/>
                                 </Image.ToolTip>
+                                <Image.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Foto löschen" Command="{Binding FotoRemoveCommand}" />
+                                    </ContextMenu>
+                                </Image.ContextMenu>
                             </Image>
                         </Grid>
                         <dxlc:LayoutItem Label="Name:  ">

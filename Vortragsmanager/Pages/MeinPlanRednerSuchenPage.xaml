@@ -197,11 +197,11 @@
                                                                 <DataTemplate>
                                                                     <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance Type=pageModels:GroupSpeaker}">
                                                                         <StackPanel.ToolTip>
-                                                                            <Grid>
-                                                                                <dxlc:LayoutControl>
+                                                                            <Grid Margin="-9,-5">
+                                                                                <dxlc:LayoutControl Padding="0" Margin="0">
                                                                                     <dxlc:LayoutGroup Orientation="Horizontal"
                                                                                               View="GroupBox"
-                                                                                              Header="{Binding Name}" Margin="-12">
+                                                                                              Header="{Binding Name}" Margin="0">
                                                                                     
                                                                                             <dxlc:LayoutGroup Orientation="Vertical">
                                                                                                 <dxlc:LayoutItem Label="Telefon:">
@@ -218,9 +218,7 @@
                                                                                                 </dxlc:LayoutItem>
                                                                                             </dxlc:LayoutGroup>
                                                                                         <Image MaxHeight="150" Source="{Binding Redner.Foto}"/>
-                                                                                        </dxlc:LayoutGroup>
-                                                                                        
-                                                                                  
+                                                                                    </dxlc:LayoutGroup>
                                                                                 </dxlc:LayoutControl>
                                                                             </Grid>
                                                                         </StackPanel.ToolTip>

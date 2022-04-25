@@ -19,6 +19,7 @@ namespace Vortragsmanager.PageModels
             DeleteSpeakerCommand = new DelegateCommand(SpeakerDelete);
             AddTalkCommand = new DelegateCommand(TalkAdd);
             DeleteTalkCommand = new DelegateCommand<TalkSong>(TalkDelete);
+            FotoRemoveCommand = new DelegateCommand(RednerRemoveFoto);
 
             RednerAktivitäten = new ObservableCollection<DateWithConregation>();
 
@@ -73,6 +74,8 @@ namespace Vortragsmanager.PageModels
         public DelegateCommand<TalkSong> DeleteTalkCommand { get; }
 
         public DelegateCommand AddTalkCommand { get; }
+
+        public DelegateCommand FotoRemoveCommand { get; }
 
         #region Filter Versammlung
 
@@ -145,6 +148,11 @@ namespace Vortragsmanager.PageModels
         private void RednerSetFoto()
         {
             Foto = Redner.Foto;
+        }
+
+        private void RednerRemoveFoto()
+        {
+            Foto = null;
         }
 
         public BitmapSource Foto
