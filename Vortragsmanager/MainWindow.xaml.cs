@@ -35,6 +35,8 @@ namespace Vortragsmanager
                     return;
                 if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.MetropolisDark.v21.2.Aero2"))
                     return;
+                if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.Office2019White.v21.2.Aero2"))
+                    return;
                 Log.Error("FirstChanceException", eventArgs.Exception.Message);
                 Log.Error("FirstChanceExceptionStackTrace", eventArgs.Exception.StackTrace);
             };
@@ -86,10 +88,6 @@ namespace Vortragsmanager
             //Style Anpassungen
             Helper.Helper.GlobalSettings.RefreshTitle();
             EinstellungenPageModel.ThemeIsDark = Settings.Default.ThemeIsDark;
-#if DEBUG
-            ThemeSwitch.Visibility = Visibility.Visible; 
-#endif
-            ToggleSwitch_Changed(null, null);
         }
 
         private void HelpButton_Click(object sender, RoutedEventArgs e)
@@ -99,13 +97,6 @@ namespace Vortragsmanager
         private void ChangesButton_Click(object sender, RoutedEventArgs e)
         {
             Update.ShowChanges(true);
-        }
-
-        private void ToggleSwitch_Changed(object sender, RoutedEventArgs e)
-        {
-            HamburgerMenu.Margin = Helper.Helper.StyleIsDark == false 
-                ? new Thickness(-10, 0, -10, -10) 
-                : new Thickness(-10, -7, -10, -10);
         }
     }
 }

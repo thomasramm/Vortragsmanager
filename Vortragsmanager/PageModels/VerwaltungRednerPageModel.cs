@@ -1,7 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using Vortragsmanager.Datamodels;
@@ -17,6 +19,7 @@ namespace Vortragsmanager.PageModels
             DeleteSpeakerCommand = new DelegateCommand(SpeakerDelete);
             AddTalkCommand = new DelegateCommand(TalkAdd);
             DeleteTalkCommand = new DelegateCommand<TalkSong>(TalkDelete);
+            FotoRemoveCommand = new DelegateCommand(RednerRemoveFoto);
 
             RednerAktivitäten = new ObservableCollection<DateWithConregation>();
 
@@ -72,6 +75,8 @@ namespace Vortragsmanager.PageModels
 
         public DelegateCommand AddTalkCommand { get; }
 
+        public DelegateCommand FotoRemoveCommand { get; }
+
         #region Filter Versammlung
 
         private Conregation _selectedConregation;
@@ -103,10 +108,10 @@ namespace Vortragsmanager.PageModels
                 RaisePropertyChanged(nameof(RednerSelektiert));
                 RaisePropertyChanged(nameof(Vorträge));
                 RednerAktivitätenUpdate();
+                RednerSetFoto();
             }
         }
-
-
+        
         public bool RednerSelektiert => (Redner != null);
 
         public void SpeakerDelete()
@@ -139,6 +144,36 @@ namespace Vortragsmanager.PageModels
         }
 
         #endregion Filter Redner
+
+        private void RednerSetFoto()
+        {
+            Foto = Redner.Foto;
+        }
+
+        private void RednerRemoveFoto()
+        {
+            Foto = null;
+        }
+
+        public BitmapSource Foto
+        {
+            get
+            {
+                if (Redner?.Foto != null)
+                {
+                    return Redner.Foto;
+                }
+
+                return Helper.Helper.StyleIsDark 
+                    ? new BitmapImage(new Uri("/Images/Kamera_dunkel_64x64.png", UriKind.Relative)) 
+                    : new BitmapImage(new Uri("/Images/Kamera_hell_64x64.png", UriKind.Relative));
+            }
+            set
+            {
+                Redner.Foto = value;
+                RaisePropertyChanged();
+            }
+        }
 
         #region Vortrag
 

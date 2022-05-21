@@ -94,6 +94,7 @@
     <Compile Include="Enums\NavigationPage.cs" />
     <Compile Include="Helper\EnumBindingSourceExtension.cs" />
     <Compile Include="Interface\INavigation.cs" />
+    <Compile Include="Module\Photo.cs" />
     <Compile Include="PageModels\AufgabenKalender.cs" />
     <Compile Include="DataModels\Cancelation.cs" />
     <Compile Include="Enums\EventStatus.cs" />
@@ -871,6 +872,8 @@
     <Resource Include="Images\Datenexport_Preview.png" />
     <Resource Include="Images\Rednerlist_Preview.png" />
     <Resource Include="Images\Vortragsliste_Preview.png" />
+    <Resource Include="Images\Kamera_dunkel_64x64.png" />
+    <Resource Include="Images\Kamera_hell_64x64.png" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

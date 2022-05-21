@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Windows.Media.Imaging;
 using DevExpress.Mvvm;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
@@ -61,7 +62,7 @@ namespace Vortragsmanager.Module
             var tempFile = Path.GetTempFileName();
             SQLiteConnection.CreateFile($"{tempFile}");
             //using (SQLiteConnection db = new SQLiteConnection($"Data Source = {tempFile}; Version = 3;PRAGMA locking_mode = EXCLUSIVE;"))
-            using (SQLiteConnection db = new SQLiteConnection($"Data Source = {tempFile}; Version = 3;"))
+            using (var db = new SQLiteConnection($"Data Source = {tempFile}; Version = 3;"))
             {
                 db.Open();
                 using (var transaction = db.BeginTransaction())
@@ -197,7 +198,8 @@ namespace Vortragsmanager.Module
                 InfoPublic TEXT,
                 Einladen INTEGER,
                 JwMail TEXT,
-                Abstand INTEGER)", db);
+                Abstand INTEGER,
+                Foto BLOB)", db);
             
             ExecCommand(@"CREATE TABLE IF NOT EXISTS Speaker_Vortrag (
                 IdSpeaker INTEGER,
@@ -365,7 +367,12 @@ namespace Vortragsmanager.Module
                 UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker ADD Abstand INTEGER");
                 UpdateCommand(DataContainer.Version, db, @"UPDATE Speaker SET Abstand = 4");
             }
-            //Aktuelle Version = 17, siehe auch Helper.CurrentVersion und Initialize.Update
+
+            if (DataContainer.Version < 25)
+            {
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker ADD Foto BLOB");
+            }
+            //Aktuelle Version = 25, siehe auch Module.Update
         }
 
         private static void UpdateV12DateColumn(SQLiteConnection db, string tablename, string columname)
@@ -563,7 +570,7 @@ namespace Vortragsmanager.Module
             Log.Info(nameof(ReadRedner));
             DataContainer.Redner.Clear();
 
-            using (var cmd = new SQLiteCommand("SELECT Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic, Einladen, JwMail, Abstand FROM Speaker", db))
+            using (var cmd = new SQLiteCommand("SELECT Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic, Einladen, JwMail, Abstand, Foto FROM Speaker", db))
             using (var cmd2 = new SQLiteCommand("SELECT IdTalk, IdSong1, IdSong2 FROM Speaker_Vortrag WHERE IdSpeaker = @IdSpeaker ORDER BY IdTalk", db))
             {
                 cmd2.Parameters.Add("@IdSpeaker", System.Data.DbType.Int32);
@@ -584,7 +591,9 @@ namespace Vortragsmanager.Module
                         InfoPublic = rdr.IsDBNull(9) ? null : rdr.GetString(9),
                         Einladen = rdr.IsDBNull(10) || rdr.GetBoolean(10),
                         JwMail = rdr.IsDBNull(11) ? null : rdr.GetString(11),
-                        Abstand = rdr.GetInt32(12)
+                        Abstand = rdr.GetInt32(12),
+                        Foto = rdr.IsDBNull(13) ? null : Photo.ConvertByteArrayToBitmap((byte[])rdr[13]),
+                        //Foto = rdr.IsDBNull(13) ? null : Photo.GetBitmapImage<JpegBitmapDecoder>((byte[])rdr[13]),
                     };
                     var idConregation = rdr.IsDBNull(2) ? 0 : rdr.GetInt32(2); //Id 0 = Versammlung "unbekannt"
 
@@ -1172,8 +1181,8 @@ namespace Vortragsmanager.Module
         private static void SaveRedner(SQLiteConnection db)
         {
             Log.Info(nameof(SaveRedner));
-            var cmd = new SQLiteCommand("INSERT INTO Speaker(Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic, Einladen, JwMail, Abstand) " +
-                "VALUES (@Id, @Name, @IdConregation, @Mail, @Telefon, @Mobil, @Altester, @Aktiv, @InfoPrivate, @InfoPublic, @Einladen, @JwMail, @Abstand)", db);
+            var cmd = new SQLiteCommand("INSERT INTO Speaker(Id, Name, IdConregation, Mail, Telefon, Mobil, Altester, Aktiv, InfoPrivate, InfoPublic, Einladen, JwMail, Abstand, Foto) " +
+                "VALUES (@Id, @Name, @IdConregation, @Mail, @Telefon, @Mobil, @Altester, @Aktiv, @InfoPrivate, @InfoPublic, @Einladen, @JwMail, @Abstand, @Foto)", db);
 
             cmd.Parameters.Add("@Id", System.Data.DbType.Int32);
             cmd.Parameters.Add("@Name", System.Data.DbType.String);
@@ -1188,6 +1197,7 @@ namespace Vortragsmanager.Module
             cmd.Parameters.Add("@Einladen", System.Data.DbType.Boolean);
             cmd.Parameters.Add("@JwMail", System.Data.DbType.String);
             cmd.Parameters.Add("@Abstand", System.Data.DbType.Int32);
+            cmd.Parameters.Add("@Foto", System.Data.DbType.Binary);
 
             foreach (var red in DataContainer.Redner)
             {
@@ -1204,6 +1214,7 @@ namespace Vortragsmanager.Module
                 cmd.Parameters[10].Value = red.Einladen;
                 cmd.Parameters[11].Value = red.JwMail;
                 cmd.Parameters[12].Value = red.Abstand;
+                cmd.Parameters[13].Value = Photo.ConvertBitmapToByteArray<JpegBitmapEncoder>(red.Foto);
                 cmd.ExecuteNonQuery();
             }
             cmd.Dispose();

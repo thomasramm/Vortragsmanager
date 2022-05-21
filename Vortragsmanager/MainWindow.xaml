@@ -28,14 +28,6 @@
                 <dxb:BarButtonItem Content="Programmänderungen anzeigen" ItemClick="ChangesButton_Click" />
             </dxb:PopupMenu>
         </dxc:DropDownButton>
-        <dxe:ToggleSwitch x:Name="ThemeSwitch"
-            CheckedStateContent="Dark"
-            UncheckedStateContent="Light"
-            ContentPlacement="Both" 
-            IsChecked="{Binding ThemeIsDark}" 
-            Checked="ToggleSwitch_Changed"
-            Unchecked="ToggleSwitch_Changed"
-            Visibility="Collapsed"/>
     </dxc:ThemedWindow.HeaderItems>
     <dxwui:HamburgerMenu x:Name="HamburgerMenu"
                          Header="{Binding ElementName=_menu, Path=SelectedItem.Content}"
