@@ -17,5 +17,7 @@ rem > bundle install
 rem > bundle add webrick
 rem danach testen mit
 rem > jekyll -v
+rem 
+rem updaten per > bundle update
 
 rem Download git von https://git-scm.com/download/win
