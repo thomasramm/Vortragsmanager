@@ -27,6 +27,7 @@ Außerdem hat man rechts die Möglichkeit einen neuen Redner für die im Versamm
 * Vertrauliche Notiz die innerhalb des Programm angezeigt werden (wird aktuell noch nicht weiter benutzt)
 * Öffentliche Notiz die auf Plänen mit ausgedruckt werden (wird aktuell noch nicht weiter benutzt)
 * Terminabstand zwischen 2 Vorträgen festlegen (Standard ist 4 Wochen)
+* Foto des Reders
 
 ## Aktionen
 

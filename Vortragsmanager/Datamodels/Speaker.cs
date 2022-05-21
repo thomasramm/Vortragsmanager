@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Media.Imaging;
 
 namespace Vortragsmanager.Datamodels
 {
@@ -31,6 +32,8 @@ namespace Vortragsmanager.Datamodels
         public string InfoPrivate { get; set; }
 
         public string InfoPublic { get; set; }
+
+        public BitmapSource Foto { get; set; }
 
         public override string ToString() => $"{Name}";
     }

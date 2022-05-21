@@ -101,13 +101,14 @@
                                                                <Popup Name="myPopup"
                                                                        IsOpen="{Binding DetailView}">
                                                                     <Grid>
-                                                                        <dxlc:LayoutControl Orientation="Vertical">
-                                                                            <dxlc:LayoutGroup Orientation="Vertical"
+                                                                        <dxlc:LayoutControl Orientation="Horizontal">
+                                                                            <dxlc:LayoutGroup Orientation="Horizontal"
                                                                                               View="GroupBox"
                                                                                               Header="{Binding Tag}" Margin="-12">
-                                                                                <dxlc:LayoutItem Label="Vortrag:">
-                                                                                    <Label Content="{Binding Einladung.Vortrag.Vortrag}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />
-                                                                                </dxlc:LayoutItem>
+                                                                                <dxlc:LayoutGroup Orientation="Vertical">
+                                                                                    <dxlc:LayoutItem Label="Vortrag:">
+                                                                                        <Label Content="{Binding Einladung.Vortrag.Vortrag}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />
+                                                                                    </dxlc:LayoutItem>
                                                                                 <dxlc:LayoutItem Label="Versammlung:">
                                                                                     <Label Content="{Binding Einladung.Ältester.Versammlung.Name}" MouseLeftButtonDown="Content_MouseLeftButtonDown" />
                                                                                 </dxlc:LayoutItem>
@@ -141,6 +142,8 @@
                                                                                         </dxlc:LayoutItem>
                                                                                     </dxlc:LayoutGroup>
                                                                                 </dxlc:LayoutGroup>
+                                                                                </dxlc:LayoutGroup>
+                                                                                <Image Grid.Column="1" Height="150" Source="{Binding Einladung.Ältester.Foto}"/>
                                                                             </dxlc:LayoutGroup>
                                                                         </dxlc:LayoutControl>
                                                                         <Button VerticalAlignment="Top"
@@ -151,7 +154,7 @@
                                                                                 Content="X"
                                                                                 Padding="-1"
                                                                                 Command="{Binding ClosePopupCommand}" />
-                                                                    </Grid>
+                                                                        </Grid>
                                                                 </Popup>
                                                                 <dxc:SimpleButton Glyph="pack://application:,,,/Images/Actions_Mail2_16x16.png" Command="{Binding BuchungErinnernCommand}" BorderThickness="0.5" Width="16" Height="16" VerticalAlignment="Center" ToolTip="Erinnerungsmail nochmal versenden" DockPanel.Dock="Right"
                                                                                   Visibility="{calcBinding:Binding 'ShowActivityButtons and IsEinladung and ErinnerungsMailSenden', FalseToVisibility=Collapsed}" />

@@ -1,4 +1,5 @@
-﻿using Vortragsmanager.Datamodels;
+﻿using System.Windows.Input;
+using Vortragsmanager.Datamodels;
 using Vortragsmanager.PageModels;
 
 namespace Vortragsmanager.Pages
@@ -47,6 +48,13 @@ namespace Vortragsmanager.Pages
             if (e.CloseMode == DevExpress.Xpf.Editors.PopupCloseMode.Cancel)
                 return;
             _dataModel.NewConregation = e.EditValue as Conregation;
+        }
+
+        private void PhotoViewer_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var img = Module.Photo.LoadFromFile();
+            if (img != null)
+                _dataModel.Foto = img;
         }
     }
 }

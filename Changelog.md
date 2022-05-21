@@ -1,3 +1,7 @@
+### Version 1.2.24 (21.05.2022) ###
+* Laden, Ändern, Löschen, Exportieren von Fotos der Redner
+* Anzeige des Fotos auf Startseite, Verwaltung-Redner, Mein Kalender, Redner suchen
+
 ### Version 1.1.22 (23.04.2022) ###
 * Externe Rednerbuchungen verschieben
 * kleinere Programmverbesserungen

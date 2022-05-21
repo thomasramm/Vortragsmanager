@@ -17,7 +17,7 @@ namespace Vortragsmanager.Module
     {
         public static class File
         {
-            public static void Save(string tempName, string sugestedName, bool open)
+            public static string Save(string tempName, string sugestedName, bool open)
             {
                 Log.Info(nameof(Save), $"tempName={tempName}, sugestedName={sugestedName}");
                 var saveFileDialog1 = new SaveFileDialog
@@ -27,33 +27,36 @@ namespace Vortragsmanager.Module
                     RestoreDirectory = false,
                     FileName = sugestedName,
                 };
+                string resultFile = null;
 
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     Log.Info(nameof(Save), $"{saveFileDialog1.FileName}");
                     var fi = new FileInfo(saveFileDialog1.FileName);
-                    var filename = fi.FullName;
+                    resultFile = fi.FullName;
                     var i = 0;
                     try
                     {
-                        System.IO.File.Delete(filename);
+                        System.IO.File.Delete(resultFile);
                     }
                     catch
                     {
-                        while (System.IO.File.Exists(filename))
+                        while (System.IO.File.Exists(resultFile))
                         {
                             i++;
-                            filename = $"{fi.DirectoryName}\\{fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length)} ({i}){fi.Extension}";
+                            resultFile = $"{fi.DirectoryName}\\{fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length)} ({i}){fi.Extension}";
                         }
                     }
                     finally
                     {
-                        System.IO.File.Move(tempName, filename);
+                        System.IO.File.Move(tempName, resultFile);
                         if (open)
-                            System.Diagnostics.Process.Start(filename);
+                            System.Diagnostics.Process.Start(resultFile);
                     }
                 }
                 saveFileDialog1.Dispose();
+
+                return resultFile;
             }
         }
 
@@ -536,7 +539,7 @@ namespace Vortragsmanager.Module
                 File.Save(tempFile, "Vortragsthemen.xlsx", openReport);
             }
 
-            internal static void SpeakerConregationCoordinatorOverview(bool openReport)
+            internal static string SpeakerConregationCoordinatorOverview(bool openReport)
             {
                 Log.Info(nameof(SpeakerConregationCoordinatorOverview), "");
                 var tempFile = Path.GetTempFileName();
@@ -691,7 +694,7 @@ namespace Vortragsmanager.Module
 
                     package.SaveAs(excel);
                 }
-                File.Save(tempFile, "Vortragsredner_und_Koordinator.xlsx", openReport);
+                return File.Save(tempFile, "Vortragsredner_und_Koordinator.xlsx", openReport);
             }
 
             internal static void ExchangeRednerList(bool openReport)
