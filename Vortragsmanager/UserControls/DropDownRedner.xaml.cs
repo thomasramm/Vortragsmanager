@@ -33,7 +33,12 @@ namespace Vortragsmanager.UserControls
         public Speaker SelectedItem
         {
             get => (Speaker)GetValue(SelectedItemProperty);
-            set => SetValue(SelectedItemProperty, value);
+            set 
+            {
+                SetValue(SelectedItemProperty, value);
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(SelectedName));
+            }
         }
 
         private static void SpeakerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -89,6 +94,12 @@ namespace Vortragsmanager.UserControls
                 RaisePropertyChanged();
             }
 
+        }
+
+        public void RednerRemove(Speaker redner)
+        {
+            ListeAlle.Remove(redner);
+            ListeFilteredItems.Remove(redner);
         }
 
         // RoutedEvent

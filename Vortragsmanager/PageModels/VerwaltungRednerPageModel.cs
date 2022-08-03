@@ -16,7 +16,6 @@ namespace Vortragsmanager.PageModels
         public VerwaltungRednerPageModel()
         {
             AddSpeakerCommand = new DelegateCommand(SpeakerAdd);
-            DeleteSpeakerCommand = new DelegateCommand(SpeakerDelete);
             AddTalkCommand = new DelegateCommand(TalkAdd);
             DeleteTalkCommand = new DelegateCommand<TalkSong>(TalkDelete);
             FotoRemoveCommand = new DelegateCommand(RednerRemoveFoto);
@@ -66,8 +65,6 @@ namespace Vortragsmanager.PageModels
         }
 
         public ObservableCollection<Conregation> ListeAllerVersammlungen { get; }
-
-        public DelegateCommand DeleteSpeakerCommand { get; }
 
         public DelegateCommand AddSpeakerCommand { get; }
 
@@ -147,7 +144,7 @@ namespace Vortragsmanager.PageModels
 
         private void RednerSetFoto()
         {
-            Foto = Redner.Foto;
+            Foto = Redner?.Foto;
         }
 
         private void RednerRemoveFoto()
@@ -170,7 +167,8 @@ namespace Vortragsmanager.PageModels
             }
             set
             {
-                Redner.Foto = value;
+                if (Redner != null)
+                    Redner.Foto = value;
                 RaisePropertyChanged();
             }
         }

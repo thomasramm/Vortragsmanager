@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Windows.Forms;
+using System.Windows.Input;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.PageModels;
 
@@ -55,6 +56,24 @@ namespace Vortragsmanager.Pages
             var img = Module.Photo.LoadFromFile();
             if (img != null)
                 _dataModel.Foto = img;
+        }
+
+        private void RednerLöschen_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            //wurde der Redner gelöscht?
+            //Liste aktualisieren?
+            if (DialogResult.No == MessageBox.Show($"Soll der Redner '{_dataModel.Redner.Name}' wirklich gelöscht werden?", "Achtung!", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+                return;
+
+            if (DataContainer.SpeakerRemove(_dataModel.Redner))
+            {
+                RednerSelect.RednerRemove(_dataModel.Redner);
+                _dataModel.Redner = null;
+                if (RednerSelect.ListeFilteredItems.Count > 0)
+                {
+                    RednerSelect.SelectedItem = RednerSelect.ListeFilteredItems[0];
+                }
+            }
         }
     }
 }

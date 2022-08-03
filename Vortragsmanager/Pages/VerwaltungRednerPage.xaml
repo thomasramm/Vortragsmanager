@@ -144,9 +144,9 @@
                     <dxlc:LayoutControl Orientation="Vertical" IsEnabled="{Binding RednerSelektiert}">
                         <dxlc:LayoutItem Label="Redner löschen">
                             <dx:SimpleButton Content="Löschen"
-                                        Glyph="/Images/Delete_White_32x32.png"
-                                        Command="{Binding DeleteSpeakerCommand}"
-                                        Height="23" />
+                                             Glyph="/Images/Delete_White_32x32.png"
+                                             Click="RednerLöschen_Click"
+                                             Height="23" />
                         </dxlc:LayoutItem>
                         <dxlc:LayoutItem Label="Redner verschieben">
                             <dxe:ComboBoxEdit ItemsSource="{Binding ListeAllerVersammlungen}"
