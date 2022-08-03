@@ -1,4 +1,4 @@
-### Version 1.2.25 (xx.08.2023) ###
+### Version 1.2.25 (03.08.2023) ###
 * Sondervortrag 2023
 * maximaler Zeitraum der Rednersuche kann nun von 6 Monate bis 36 Monate eingestellt werden unter Einstellungen -> Programmverhalten (bisher 12 Monate)
 * Fehlerbehebung, Löschen von Rednern
