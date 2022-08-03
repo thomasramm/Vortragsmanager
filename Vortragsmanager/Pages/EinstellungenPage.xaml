@@ -282,7 +282,7 @@
                             <ColumnDefinition Width="75*"/>
                             <ColumnDefinition Width="25*"/>
                         </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource EinstellungenBoxBorder}"/>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource EinstellungenBoxBorder}" />
                         <Image Grid.Column="0" Source="{DynamicResource LogfileFolder}" Style="{DynamicResource EinstellungenBoxBild}" />
                         <TextBlock Grid.Column="1" Text="Log - Ordner"  Style="{DynamicResource EinstellungenBoxLabel1}"/>
                         <TextBlock Grid.Column="1" Text="Ordner in dem die täglichen Log-Dateien abgelegt werden"  Style="{DynamicResource EinstellungenBoxLabel2}"/>
@@ -291,7 +291,7 @@
                              Text="{Binding LogFolder, Mode=TwoWay}" />
                     </Grid>
 
-                    <Label Content="Listen Ausgabe" Style="{DynamicResource EinstellungenGruppe}"/>
+                    <Label Content="Zeiträume" Style="{DynamicResource EinstellungenGruppe}"/>
                     <Grid MinHeight="70" Margin="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="44"/>
@@ -306,6 +306,26 @@
                                   Margin="10,26,10,20"
                                   Grid.Column="2"
                                   MaxValue="24" MinValue="1" 
+                                  Mask="#0"
+                                  EditValueType="{x:Type sys:Int32}"
+                                  Width="75" 
+                                  HorizontalAlignment="Right" />
+                    </Grid>
+                    <Grid MinHeight="70" Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="44"/>
+                            <ColumnDefinition Width="75*"/>
+                            <ColumnDefinition Width="25*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource EinstellungenBoxBorder}"/>
+                        <Image Grid.Column="0" Source="{DynamicResource Kalender}" Style="{DynamicResource EinstellungenBoxBild}" />
+                        <TextBlock Grid.Column="1" Text="Redner suchen"  Style="{DynamicResource EinstellungenBoxLabel1}"/>
+                        <TextBlock Grid.Column="1" Text="Anzahl der Monate, für die nach freien Terminen gesucht wird (Standard: 12 Monate)"  Style="{DynamicResource EinstellungenBoxLabel2}"/>
+                        <dxe:SpinEdit EditValue="{Binding RednerSuchenAnzahlMonate, Mode=TwoWay}"
+                                  Margin="10,26,10,20"
+                                  Grid.Column="2"
+                                  MaxValue="36" 
+                                  MinValue="6" 
                                   Mask="#0"
                                   EditValueType="{x:Type sys:Int32}"
                                   Width="75" 

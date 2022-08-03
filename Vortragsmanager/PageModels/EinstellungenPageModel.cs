@@ -140,6 +140,20 @@ namespace Vortragsmanager.PageModels
             }
         }
 
+        public int RednerSuchenAnzahlMonate
+        {
+            get => Properties.Settings.Default.RednerSuchenAnzahlMonate;
+            set
+            {
+                if (value > 36)
+                    value = 36;
+                if (value < 1)
+                    value = 1;
+                Properties.Settings.Default.RednerSuchenAnzahlMonate = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public void ShowChangelog()
         {
             Update.ShowChanges(true);

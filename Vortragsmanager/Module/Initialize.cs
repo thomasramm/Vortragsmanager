@@ -245,6 +245,7 @@ namespace Vortragsmanager.Module
                 new Talk(193, "In der „schweren Zeit“ gerettet werden"),
                 new Talk(194, "Wie göttliche Weisheit uns zugutekommt"),
                 new Talk(12322, "Echte Hoffnung - wo zu finden?"),
+                new Talk(12323, "Wir können zuversichtlich in die Zukunft schauen!"),
                 new Talk(-1, "Unbekannt", false),
                 new Talk(-24, "Was Gottes Herrschaft für uns bewirken kann", false)
             };

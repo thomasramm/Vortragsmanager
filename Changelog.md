@@ -1,3 +1,8 @@
+### Version 1.2.25 (03.08.2023) ###
+* Sondervortrag 2023
+* maximaler Zeitraum der Rednersuche kann nun von 6 Monate bis 36 Monate eingestellt werden unter Einstellungen -> Programmverhalten (bisher 12 Monate)
+* Fehlerbehebung, Löschen von Rednern
+
 ### Version 1.2.24 (21.05.2022) ###
 * Laden, Ändern, Löschen, Exportieren von Fotos der Redner
 * Anzeige des Fotos auf Startseite, Verwaltung-Redner, Mein Kalender, Redner suchen

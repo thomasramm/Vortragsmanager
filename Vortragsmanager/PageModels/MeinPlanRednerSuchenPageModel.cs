@@ -319,7 +319,7 @@ namespace Vortragsmanager.PageModels
             FreieTermine.Clear();
 
             var start = DateCalcuation.GetConregationDay(DateTime.Today);
-            var ende = start.AddYears(1);
+            var ende = start.AddMonths(Settings.Default.RednerSuchenAnzahlMonate).AddDays(7);
             var datum = start;
             var month = datum.AddMonths(-1).Month;
             while (datum < ende)
@@ -349,6 +349,8 @@ namespace Vortragsmanager.PageModels
             //2 = 3 Monate
             //3 = 6 Monate
             //4 = 12 Monate
+            //5 = 24 Monate
+            //6 = Alle
             var maxTermin = DateCalcuation.GetConregationDay(DateTime.Today);
             switch (SelectedTermine)
             {
@@ -363,10 +365,15 @@ namespace Vortragsmanager.PageModels
                 case 3:
                     maxTermin = maxTermin.AddMonths(6);
                     break;
-
-                case 0:
                 case 4:
                     maxTermin = maxTermin.AddMonths(12);
+                    break;
+                case 5:
+                    maxTermin = maxTermin.AddMonths(24);
+                    break;
+                case 0:
+                case 6:
+                    maxTermin = maxTermin.AddMonths(Settings.Default.RednerSuchenAnzahlMonate);
                     break;
             }
             foreach (var t in FreieTermine)

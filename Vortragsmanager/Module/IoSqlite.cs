@@ -470,6 +470,9 @@ namespace Vortragsmanager.Module
                         case "Wochentag":
                             DateCalcuation.Wochentag = (Wochentag)int.Parse(value, Helper.Helper.German);
                             break;
+                        default:
+                            Log.Error(nameof(ReadParameter), $"Unbekannter Parameter: {key}");
+                            break;
                     }
                 }
 
