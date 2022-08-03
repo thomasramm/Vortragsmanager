@@ -159,6 +159,8 @@
                                     <ComboBoxItem Content="3 Monate" />
                                     <ComboBoxItem Content="6 Monate" />
                                     <ComboBoxItem Content="12 Monate" />
+                                    <ComboBoxItem Content="24 Monate" />
+                                    <ComboBoxItem Content="Alle Termine" />
                                 </ComboBox>
                                 <dxlc:FlowLayoutControl Margin="0,50,0,0" BreakFlowToFit="True" ItemsSource="{Binding FreieTermine}" Orientation="Horizontal">
                                     <dxlc:FlowLayoutControl.ItemTemplate>
