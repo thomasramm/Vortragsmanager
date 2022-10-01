@@ -38,7 +38,7 @@
                          AvailableViewStates="All"
                          ViewState="Inline"
                          NavigationTarget="{Binding ElementName=Service}"
-                         Margin="{StaticResource HauptfensterRand}">
+                         Margin="-10,0,-10,-10">
         <dxwui:HamburgerMenu.Items>
             <dxwui:HamburgerMenuNavigationButton Content="Startseite"
                                                          Glyph="/Images/Home_32x32.png"
@@ -79,6 +79,7 @@
                                                  ToolTip="Historie"
                                                  NavigationTargetType="{x:Type pages:HistoriePage}"/>
             <dxwui:HamburgerMenuHyperlinkButton  Content="Handbuch"
+                                                 Foreground="{DynamicResource TextColor}"
                                                  NavigateUri="https://thomasramm.github.io/Vortragsmanager/Startseite/"
                                                  Placement="Bottom"/>
         </dxwui:HamburgerMenu.Items>

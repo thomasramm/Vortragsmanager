@@ -62,6 +62,7 @@ namespace Vortragsmanager.Pages
             else
             {
                 e.IsValid = true;
+                if (AddButton != null)
                 AddButton.Foreground = System.Windows.Media.Brushes.Green;
             }
         }
