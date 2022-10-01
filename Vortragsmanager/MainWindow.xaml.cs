@@ -42,7 +42,7 @@ namespace Vortragsmanager
             };
 
 #if DEBUG
-                Settings.Default.sqlite = "demo.sqlite3";
+                Settings.Default.sqlite = @"C:\\Users\\post\\OneDrive\\Dokumente\\vortragsmanager.sqlite3";
 #endif
 
             //Erster Start nach Update?
@@ -83,7 +83,10 @@ namespace Vortragsmanager
             DataContext = Helper.Helper.GlobalSettings;
                         
             //Bereinigungs Tasks
-            Backup.CleanOldBackups();
+            if (!Backup.CleanOldBackups())
+            {
+                ThemedMessageBox.Show("Fehler", "Das Programm kann nicht auf das Backup-Archiv zugreifen. Dieser Fehler sollte dringend geprüft werden. Bitte prüfe den Zugriff auf " + Backup.GetBackupFile(), MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             //Style Anpassungen
             Helper.Helper.GlobalSettings.RefreshTitle();

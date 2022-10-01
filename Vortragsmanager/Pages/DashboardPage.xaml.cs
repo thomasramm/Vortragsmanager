@@ -16,10 +16,13 @@ namespace Vortragsmanager.Pages
             //speichern
             if (!DataContainer.IsInitialized) 
                 return;
-
-            var file = IoSqlite.SaveContainer(Settings.Default.sqlite, Settings.Default.SaveBackups);
-            Settings.Default.sqlite = file;
-            Settings.Default.Save();
+            try
+            {
+                var file = IoSqlite.SaveContainer(Settings.Default.sqlite, Settings.Default.SaveBackups);
+                Settings.Default.sqlite = file;
+                Settings.Default.Save();
+            }
+            catch { }
         }
     }
 }

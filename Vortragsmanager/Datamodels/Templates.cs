@@ -315,9 +315,9 @@ namespace Vortragsmanager.Datamodels
                 }
                 termine += Environment.NewLine;
             }
-
-            jwpubs = jwpubs.Substring(0, jwpubs.Length - 2);
-            if (mails.Length > 0)
+            if (jwpubs.Length >= 2)
+                jwpubs = jwpubs.Substring(0, jwpubs.Length - 2);
+            if (mails.Length >= 2)
             {
                 jwpubs += Environment.NewLine + "Redner ohne JwPub-Adresse:" + mails.Substring(0, mails.Length - 2);
             }

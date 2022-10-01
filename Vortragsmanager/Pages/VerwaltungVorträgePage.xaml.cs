@@ -43,9 +43,17 @@ namespace Vortragsmanager.Pages
 
             var eingabe = e.Value.ToString();
             if (string.IsNullOrWhiteSpace(eingabe))
+            {
+                e.IsValid = false;
                 return;
+            }
+            
+            if (!int.TryParse(eingabe, out int nummer))
+            {
+                e.IsValid = false;
+                return;
+            }
 
-            var nummer = int.Parse(eingabe, Helper.Helper.German);
             if (Datamodels.TalkList.Find(nummer).Nummer != -1)
             {
                 e.IsValid = false;

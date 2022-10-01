@@ -142,7 +142,6 @@
     <Compile Include="DataModels\Backup.cs" />
     <Compile Include="Module\GeoApi.cs" />
     <Compile Include="Helper\Helper.cs" />
-    <Compile Include="Module\ini.cs" />
     <Compile Include="Module\Initialize.cs" />
     <Compile Include="Module\IoExcel.cs" />
     <Compile Include="Module\IoSqlite.cs" />
