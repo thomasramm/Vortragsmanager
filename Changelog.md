@@ -1,4 +1,8 @@
-### Version 1.2.25 (03.08.2023) ###
+### Version 1.2.26 (14.11.2022) ###
+* Fehlerbehebung Excel Aushang, doppelte Wochenanzeige in der ersten Januar-Woche
+* Fehlerbehebung Rednersuche ohne gewählten Redner
+
+### Version 1.2.25 (03.08.2022) ###
 * Sondervortrag 2023
 * maximaler Zeitraum der Rednersuche kann nun von 6 Monate bis 36 Monate eingestellt werden unter Einstellungen -> Programmverhalten (bisher 12 Monate)
 * Fehlerbehebung, Löschen von Rednern
