@@ -116,6 +116,11 @@ namespace Vortragsmanager.Helper
 
             resultWoche -= (resultWoche / 53) * 53;
 
+            if (resultWoche == 0)
+            {
+                resultWoche = 1;
+            }
+
             return resultJahr * 100 + resultWoche;
         }
 
