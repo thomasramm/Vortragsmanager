@@ -176,7 +176,8 @@
                                         StretchContent="True"
                                         BreakFlowToFit="True"
                                         MaximizedElementPosition="Right"
-                                        ItemsSource="{Binding Redner}">
+                                        ItemsSource="{Binding Redner}"
+                                        d:DataContext="{d:DesignInstance Type=pageModels:GroupConregation}">
                                 <dxlc:FlowLayoutControl.ItemTemplate>
                                     <DataTemplate>
                                         <dxlc:GroupBox Header="{Binding}" Content="{Binding}">
@@ -194,10 +195,14 @@
                                                             <ColumnDefinition Width="*" />
                                                             <ColumnDefinition Width="100" />
                                                         </Grid.ColumnDefinitions>
-                                                        <ListBox Grid.Column="0" ItemsSource="{Binding Redner, Mode=OneWay}"  BorderThickness="0" FontWeight="Regular">
+                                                        <ListBox Grid.Column="0" 
+                                                                 ItemsSource="{Binding Redner, Mode=OneWay}"  
+                                                                 BorderThickness="0" FontWeight="Regular"
+                                                                 >
                                                             <ListBox.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance Type=pageModels:GroupSpeaker}">
+                                                                    <StackPanel Orientation="Horizontal" 
+                                                                                d:DataContext="{d:DesignInstance Type=pageModels:GroupSpeaker}">
                                                                         <StackPanel.ToolTip>
                                                                             <Grid Margin="-9,-5">
                                                                                 <dxlc:LayoutControl Padding="0" Margin="0">
@@ -246,7 +251,9 @@
                                                                 </DataTemplate>
                                                             </ListBox.ItemTemplate>
                                                         </ListBox>
-                                                        <Button Grid.Column="1" Margin="5" Height="60" Width="90" VerticalAlignment="Center" Command="{Binding AnfrageSendenCommand}">
+                                                        <Button Grid.Column="1" Margin="5" Height="60" Width="90" VerticalAlignment="Center" 
+                                                                Command="{Binding AnfrageSendenCommand}"
+                                                                IsEnabled="{Binding HatGewählteRedner}">
                                                             <TextBlock>Redner<LineBreak />anfragen</TextBlock>
                                                         </Button>
                                                     </Grid>

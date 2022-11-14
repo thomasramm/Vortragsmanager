@@ -120,8 +120,6 @@
     <SolidColorBrush x:Key="KalenderEvent" Color="SlateGray"/>
     <SolidColorBrush x:Key="KalenderBlocked" Color="#643c32"/>
     <SolidColorBrush x:Key="KalenderDefault" Color="#003000"/>
-
-    <Thickness x:Key="HauptfensterRand">-10</Thickness>
     <BitmapImage x:Key="Listen1" UriSource="/Images/Listen1_dunkel.png"/>
     <BitmapImage x:Key="Listen2" UriSource="/Images/Listen2_dunkel.png"/>
     <BitmapImage x:Key="Listen3" UriSource="/Images/Listen3_dunkel.png"/>

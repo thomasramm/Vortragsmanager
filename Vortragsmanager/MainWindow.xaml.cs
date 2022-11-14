@@ -33,16 +33,16 @@ namespace Vortragsmanager
             {
                 if (eventArgs.Exception.Message.Contains("System.Data.SQLite.SEE.License"))
                     return;
-                if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.MetropolisDark.v21.2.Aero2"))
+                if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.MetropolisDark.v22.1.Aero2"))
                     return;
-                if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.Office2019White.v21.2.Aero2"))
+                if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.Office2019White.v22.1.Aero2"))
                     return;
                 Log.Error("FirstChanceException", eventArgs.Exception.Message);
                 Log.Error("FirstChanceExceptionStackTrace", eventArgs.Exception.StackTrace);
             };
 
 #if DEBUG
-                Settings.Default.sqlite = "demo.sqlite3";
+                Settings.Default.sqlite = @"C:\\Users\\post\\OneDrive\\Dokumente\\vortragsmanager.sqlite3";
 #endif
 
             //Erster Start nach Update?
@@ -83,7 +83,10 @@ namespace Vortragsmanager
             DataContext = Helper.Helper.GlobalSettings;
                         
             //Bereinigungs Tasks
-            Backup.CleanOldBackups();
+            if (!Backup.CleanOldBackups())
+            {
+                ThemedMessageBox.Show("Fehler", "Das Programm kann nicht auf das Backup-Archiv zugreifen. Dieser Fehler sollte dringend geprüft werden. Bitte prüfe den Zugriff auf " + Backup.GetBackupFile(), MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             //Style Anpassungen
             Helper.Helper.GlobalSettings.RefreshTitle();

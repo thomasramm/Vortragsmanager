@@ -11,8 +11,10 @@ namespace Vortragsmanager.PageModels
     /// </summary>
     public class GroupSpeaker : ViewModelBase
     {
-        public GroupSpeaker()
+        private GroupConregation _parent;
+        public GroupSpeaker(GroupConregation parent)
         {
+            _parent = parent;
             Gewählt = true;
         }
 
@@ -26,16 +28,16 @@ namespace Vortragsmanager.PageModels
 
         public Invitation LetzterVortrag { get; set; }
 
-        //public bool InZukunft { get; set; }
-
-        //public bool InVergangenheit { get; set; }
-
         public string Name => Redner?.Name;
 
         public bool Gewählt
         {
             get { return GetProperty(() => Gewählt); }
-            set { SetProperty(() => Gewählt, value); }
+            set 
+            { 
+                SetProperty(() => Gewählt, value); 
+                _parent.RefreshGewählteRedner();
+            }
         }
 
         public string LetzterBesuch => LetzteEinladungKw == -1 ? string.Empty : DateCalcuation.CalculateWeek(LetzteEinladungKw).ToString("dd.MM.yyyy", Helper.Helper.German);

@@ -12,7 +12,7 @@ namespace Vortragsmanager.DataModels
     {
         private static string _backupFile;
 
-        private static string GetBackupFile()
+        public static string GetBackupFile()
         {
             if (_backupFile == null)
             {
@@ -47,9 +47,16 @@ namespace Vortragsmanager.DataModels
         /// </param>
         public static void Add(string fileName, string archiveName)
         {
-            using (var zipArchive = ZipFile.Open(GetBackupFile(), ZipArchiveMode.Update))
+            try
             {
-                zipArchive.CreateEntryFromFile(fileName, archiveName);
+                using (var zipArchive = ZipFile.Open(GetBackupFile(), ZipArchiveMode.Update))
+                {
+                    zipArchive.CreateEntryFromFile(fileName, archiveName);
+                }
+            }
+            catch(Exception ex)
+            {
+                Log.Error("Backup.Add()", "Kann aktuellen Stand nicht in Backup erstellen. "+ GetBackupFile() + " | " + ex.Message);
             }
         }
 
@@ -58,32 +65,48 @@ namespace Vortragsmanager.DataModels
             if (!File.Exists(GetBackupFile()))
                 return new List<BackupItem>();
 
-            using (var zipArchive = ZipFile.OpenRead(GetBackupFile()))
+            try
             {
-                return zipArchive.Entries.Select(x => new BackupItem(x.Name)).OrderByDescending(x => x.Date).ToList();
+                using (var zipArchive = ZipFile.OpenRead(GetBackupFile()))
+                {
+                    return zipArchive.Entries.Select(x => new BackupItem(x.Name)).OrderByDescending(x => x.Date).ToList();
+                }
             }
+            catch(Exception ex)
+            {
+                Log.Error("Backup.List()", "Kann Liste der Backup's nicht erstellen. " + GetBackupFile() + " | " + ex.Message);
+            }
+
+            return new List<BackupItem>();
         }
 
         public static bool Restore(string backupName, bool makeBackup = true)
         {
-            var fileName = Properties.Settings.Default.sqlite;
-            var newBackup = makeBackup? Add(fileName) : "NONE";
-            File.Delete(fileName);
-            using (var zip = ZipFile.OpenRead(GetBackupFile()))
+            try
             {
-                var datei = zip?.GetEntry(backupName);
-                datei?.ExtractToFile(fileName);
-            }
-            if (File.Exists(fileName))
-            {
-                IoSqlite.ReadContainer(fileName);
-                return true;
-            }
+                var fileName = Properties.Settings.Default.sqlite;
+                var newBackup = makeBackup ? Add(fileName) : "NONE";
+                File.Delete(fileName);
+                using (var zip = ZipFile.OpenRead(GetBackupFile()))
+                {
+                    var datei = zip?.GetEntry(backupName);
+                    datei?.ExtractToFile(fileName);
+                }
+                if (File.Exists(fileName))
+                {
+                    IoSqlite.ReadContainer(fileName);
+                    return true;
+                }
 
-            //Wenn das wiederherstellen nicht geklappt hat, dann das "frische" Backup wiederherstellen.
-            //Damit das keine Endlosschleife wird, wird das wiederherstellen des "frischen" Backup kein weiteres Backup erzeugen.
-            if (newBackup != "NONE")
-                Restore(newBackup, false);
+                //Wenn das wiederherstellen nicht geklappt hat, dann das "frische" Backup wiederherstellen.
+                //Damit das keine Endlosschleife wird, wird das wiederherstellen des "frischen" Backup kein weiteres Backup erzeugen.
+                if (newBackup != "NONE")
+                    Restore(newBackup, false);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Backup.Restore()", "Kann Backup nicht wieder herstellen. " + GetBackupFile() + " | " + ex.Message);
+            }
 
             return false;
         }
@@ -94,21 +117,32 @@ namespace Vortragsmanager.DataModels
         /// <param name="backup">Der zu entfernende Dateiname</param>
         public static void Remove(string backup)
         {
-            using(var zip = ZipFile.Open(GetBackupFile(), ZipArchiveMode.Update))
+            try
             {
-                var datei = zip?.GetEntry(backup);
-                datei?.Delete();
+                using (var zip = ZipFile.Open(GetBackupFile(), ZipArchiveMode.Update))
+                {
+                    var datei = zip?.GetEntry(backup);
+                    datei?.Delete();
+                }
+            }
+            catch (IOException ex)
+            {
+                Log.Error(nameof(CleanOldBackups), "IO Fehler bei Entfernen eins Backup aus ZIP Datei: " + GetBackupFile() + " | " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(nameof(CleanOldBackups), "Sonstiger Fehler bei Eintfernen eines Backup aus ZIP Datei: " + GetBackupFile() + " | " + ex.Message);
             }
         }
 
-        public static void CleanOldBackups()
+        public static bool CleanOldBackups()
         {
-            //Alle Backups nach Datum sortiert, beginnend mit dem Jüngsten
+            // Alle Backups nach Datum sortiert, beginnend mit dem Jüngsten
             var items = List();
             var letzteStunde = -1;
             var letzterTag = DateTime.Today;
-            var letzterMonat = DateTime.Today.Year*100 + DateTime.Today.Month;
-            foreach(var item in items)
+            var letzterMonat = DateTime.Today.Year * 100 + DateTime.Today.Month;
+            foreach (var item in items)
             {
                 //Alle behalten
                 if (item.Age == BackupAge.Heute)
@@ -132,7 +166,7 @@ namespace Vortragsmanager.DataModels
                 {
                     if (item.Date == letzterTag)
                         Remove(item.FileName);
-                    else 
+                    else
                         letzterTag = item.Date;
                     continue;
                 }
@@ -143,7 +177,7 @@ namespace Vortragsmanager.DataModels
                     if (item.Date.Month == letzterMonat)
                         Remove(item.FileName);
                     else
-                        letzterMonat = item.Date.Year*100+item.Date.Month;
+                        letzterMonat = item.Date.Year * 100 + item.Date.Month;
                     continue;
                 }
                 //Das letzte von jedem Monat in den letzten 12 Monaten
@@ -162,7 +196,7 @@ namespace Vortragsmanager.DataModels
                 //Älter als 12 Monate wird nicht mehr gespeichert.
                 Remove(item.FileName);
             }
-
+            return true;
         }
     }
 }

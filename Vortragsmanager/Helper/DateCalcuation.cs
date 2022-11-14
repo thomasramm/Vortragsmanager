@@ -116,6 +116,11 @@ namespace Vortragsmanager.Helper
 
             resultWoche -= (resultWoche / 53) * 53;
 
+            if (resultWoche == 0)
+            {
+                resultWoche = 1;
+            }
+
             return resultJahr * 100 + resultWoche;
         }
 
@@ -132,46 +137,51 @@ namespace Vortragsmanager.Helper
                 return true;
             }
 
-            test = test.Substring(0, 3) + " ";
-            if (input.Contains(test))
+            if (test.Length >= 3)
             {
-                input = input.Replace(test, "");
-                return true;
-            }
+                test = test.Substring(0, 3) + " ";
+                if (input.Contains(test))
+                {
+                    input = input.Replace(test, "");
+                    return true;
+                }
 
-            test = test.Substring(0, 3) + ".";
-            if (input.Contains(test))
-            {
-                input = input.Replace(test, "");
-                return true;
-            }
+                test = test.Substring(0, 3) + ".";
+                if (input.Contains(test))
+                {
+                    input = input.Replace(test, "");
+                    return true;
+                }
 
-            test = test.Substring(0, 3) + ",";
-            if (input.Contains(test))
-            {
-                input = input.Replace(test, "");
-                return true;
+                test = test.Substring(0, 3) + ",";
+                if (input.Contains(test))
+                {
+                    input = input.Replace(test, "");
+                    return true;
+                }
             }
-
-            test = test.Substring(0, 2) + " ";
-            if (input.Contains(test))
+            if (test.Length >= 2)
             {
-                input = input.Replace(test, "");
-                return true;
-            }
+                test = test.Substring(0, 2) + " ";
+                if (input.Contains(test))
+                {
+                    input = input.Replace(test, "");
+                    return true;
+                }
 
-            test = test.Substring(0, 2) + ".";
-            if (input.Contains(test))
-            {
-                input = input.Replace(test, "");
-                return true;
-            }
+                test = test.Substring(0, 2) + ".";
+                if (input.Contains(test))
+                {
+                    input = input.Replace(test, "");
+                    return true;
+                }
 
-            test = test.Substring(0, 2) + ",";
-            if (input.Contains(test))
-            {
-                input = input.Replace(test, "");
-                return true;
+                test = test.Substring(0, 2) + ",";
+                if (input.Contains(test))
+                {
+                    input = input.Replace(test, "");
+                    return true;
+                }
             }
 
             return false;

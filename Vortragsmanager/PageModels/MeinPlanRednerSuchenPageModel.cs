@@ -266,7 +266,7 @@ namespace Vortragsmanager.PageModels
             foreach (var r in redner)
             {
                 var gv = list.First(x => x.Versammlung == r.Versammlung);
-                var gr = new GroupSpeaker
+                var gr = new GroupSpeaker(gv)
                 {
                     Redner = r
                 };

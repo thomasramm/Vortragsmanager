@@ -212,6 +212,9 @@ namespace Vortragsmanager.PageModels
 
         public void Bearbeiten()
         {
+            if (SelectedTalk == null)
+                return;
+
             var dlg1 = new KalendereintragVerschieben();
             var data = (KalendereintragVerschiebenView)dlg1.DataContext;
             var origKw = SelectedTalk.Kw;

@@ -56,7 +56,9 @@ namespace Vortragsmanager.Module
                     {
                         if (file.Name != Properties.Settings.Default.sqlite)
                         {
-                            Backup.Add(file.FullName, file.Name.Substring(file.Name.Length - 24).Replace(".sqlite3","-00.sqlite3"));
+                            var name = file.Name.Length >= 24 ? file.Name.Substring(file.Name.Length - 24) : file.Name;
+                                name = name.Replace(".sqlite3", "-00.sqlite3");
+                            Backup.Add(file.FullName, name);
                             file.Delete();
                         }
                     }
@@ -145,7 +147,9 @@ namespace Vortragsmanager.Module
             foreach (Match m2 in m)
             {
                 var x = m2.Value.Replace("###", "").Replace("Version", "").Trim();
-                x = x.Substring(0, x.IndexOf("(", StringComparison.InvariantCulture) - 1);
+                var posKlammerAuf = x.IndexOf("(", StringComparison.InvariantCulture) - 1;
+                if (x.Length >= posKlammerAuf && posKlammerAuf >= 0)
+                    x = x.Substring(0,  posKlammerAuf);
                 var v = new Version(x);
 
                 Console.WriteLine("Found '{0}' at position {1}.", m2.Value, m2.Index);

@@ -39,7 +39,7 @@ namespace Vortragsmanager.Module
                     {
                         System.IO.File.Delete(resultFile);
                     }
-                    catch
+                    catch(IOException)
                     {
                         while (System.IO.File.Exists(resultFile))
                         {

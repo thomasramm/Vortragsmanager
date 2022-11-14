@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using DevExpress.Mvvm;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
@@ -27,5 +28,12 @@ namespace Vortragsmanager.PageModels
         public List<GroupSpeaker> Redner { get; } = new List<GroupSpeaker>();
 
         public string Name => Versammlung.Name;
+
+        public bool HatGewählteRedner => Redner.Where(x => x.Gewählt).Any();
+
+        public void RefreshGewählteRedner()
+        {
+            RaisePropertyChanged();
+        }
     }
 }

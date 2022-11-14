@@ -405,7 +405,7 @@ namespace Vortragsmanager.Datamodels
                 ausgabe += $"{r.Ältester.Name} in {r.Versammlung.Name}, ";
             }
 
-            return ausgabe.Substring(0, ausgabe.Length - 2);
+            return ausgabe.Length > 2? ausgabe.Substring(0, ausgabe.Length - 2) : ausgabe;
         }
     }
 
