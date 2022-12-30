@@ -133,7 +133,7 @@ namespace Vortragsmanager.Datamodels
             mt = mt
                 .Replace("{Datum}", $"{buchung.Datum:dd.MM.yyyy}, ")
                 .Replace("{Redner}", buchung.Ältester?.Name ?? "unbekannt")
-                .Replace("{Vortrag}", buchung.Vortrag.Vortrag.ToString())
+                .Replace("{Vortrag}", buchung.Vortrag?.Vortrag.ToString() ?? "unbekannt")
                 .Replace("{Signatur}", GetTemplate(TemplateName.Signatur).Inhalt);
 
             return mt;
@@ -150,7 +150,7 @@ namespace Vortragsmanager.Datamodels
             mt = mt
                 .Replace("{Datum}", $"{buchung.Datum:dd.MM.yyyy}, ")
                 .Replace("{Redner}", buchung.Ältester?.Name ?? "unbekannt")
-                .Replace("{Vortrag}", buchung.Vortrag.Vortrag.ToString())
+                .Replace("{Vortrag}", buchung.Vortrag?.Vortrag.ToString() ?? "unbekannt")
                 .Replace("{Redner Mail}", GetMailadresseRedner(buchung.Ältester))
                 .Replace("{Signatur}", GetTemplate(TemplateName.Signatur).Inhalt);
 
@@ -235,7 +235,7 @@ namespace Vortragsmanager.Datamodels
             mt = mt
                 .Replace("{Datum}", $"{DateCalcuation.CalculateWeek(zuteilung.Kw):dd.MM.yyyy}, ")
                 .Replace("{Redner}", zuteilung.Ältester?.Name ?? "unbekannt")
-                .Replace("{Vortrag}", zuteilung.Vortrag.Vortrag.ToString())
+                .Replace("{Vortrag}", zuteilung.Vortrag?.Vortrag.ToString() ?? "unbekannt")
                 .Replace("{Redner Mail}", GetMailadresseRedner(zuteilung.Ältester))
                 .Replace("{Signatur}", GetTemplate(TemplateName.Signatur).Inhalt);
 

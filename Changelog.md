@@ -1,3 +1,6 @@
+### Version 1.2.27 (30.12.2022) ###
+* Fehlerbehebung: Wird ein Vortrag eines Redners gelöscht, können Buchungen mit diesem Vortrag nicht mehr bearbeitet werden
+
 ### Version 1.2.26 (14.11.2022) ###
 * Fehlerbehebung Excel Aushang, doppelte Wochenanzeige in der ersten Januar-Woche
 * Fehlerbehebung Rednersuche ohne gewählten Redner
