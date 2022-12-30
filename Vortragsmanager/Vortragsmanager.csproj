@@ -672,54 +672,54 @@
       <Version>2.5.2</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.DataAccess">
-      <Version>22.1.5</Version>
+      <Version>22.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Mvvm">
-      <Version>22.1.5</Version>
+      <Version>22.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.RichEdit.Export">
-      <Version>22.1.5</Version>
+      <Version>22.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Accordion">
-      <Version>22.1.5</Version>
+      <Version>22.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Controls">
-      <Version>22.1.5</Version>
+      <Version>22.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.ExpressionEditor">
-      <Version>22.1.5</Version>
+      <Version>22.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.RichEdit">
-      <Version>22.1.5</Version>
+      <Version>22.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.DXStyle">
-      <Version>22.1.5</Version>
+      <Version>22.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.MetropolisDark">
-      <Version>22.1.5</Version>
+      <Version>22.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.MetropolisLight">
-      <Version>22.1.5</Version>
+      <Version>22.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.Office2019White">
-      <Version>22.1.5</Version>
+      <Version>22.2.3</Version>
     </PackageReference>
     <PackageReference Include="EPPlus">
       <Version>4.5.3.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
-      <Version>6.0.0</Version>
+      <Version>7.0.0</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.1</Version>
+      <Version>13.0.2</Version>
     </PackageReference>
     <PackageReference Include="System.Buffers">
       <Version>4.5.1</Version>
     </PackageReference>
     <PackageReference Include="System.Data.SQLite.Core">
-      <Version>1.0.116</Version>
+      <Version>1.0.117</Version>
     </PackageReference>
     <PackageReference Include="System.IO.Compression">
       <Version>4.3.0</Version>
