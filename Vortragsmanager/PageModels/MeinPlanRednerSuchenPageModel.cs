@@ -174,6 +174,20 @@ namespace Vortragsmanager.PageModels
             }
         }
 
+        private bool _vortragCheckOpenRequest;
+
+        public bool VortragCheckOpenRequest
+        {
+            get => _vortragCheckOpenRequest;
+
+            set
+            {
+                _vortragCheckOpenRequest = value;
+                RaisePropertyChanged();
+                ReadAvailableTalks();
+            }
+        }
+
         public bool RednerCheckCancelation
         {
             get { return GetProperty(() => RednerCheckCancelation); }
@@ -229,12 +243,27 @@ namespace Vortragsmanager.PageModels
         {
             var gewählt = new List<object>(150);
             VortragListe.Clear();
+            var anfragen = new List<Talk>();
+            if (VortragCheckOpenRequest)
+            {
+                foreach(var anfrage in DataContainer.OffeneAnfragen)
+                {
+                    foreach(var vortrag in anfrage.RednerVortrag.Values)
+                    {
+                        anfragen.Add(vortrag);
+                    }
+                }
+            }
+
             foreach (var t in TalkList.GetValid())
             {
                 if (VortragCheckFuture && t.ZuletztGehalten != -1 && t.ZuletztGehalten > DateCalcuation.CurrentWeek)
                     continue;
 
                 if (VortragCheckHistory && t.ZuletztGehalten != -1 && t.ZuletztGehalten > DateCalcuation.CurrentWeek + 100)
+                    continue;
+
+                if (anfragen.Contains(t))
                     continue;
 
                 VortragListe.Add(t);
@@ -439,6 +468,7 @@ namespace Vortragsmanager.PageModels
             Settings.Default.SearchSpeaker_RednerCheckFuture = RednerCheckFuture;
             Settings.Default.SearchSpeaker_VortragCheckFuture = VortragCheckFuture;
             Settings.Default.SearchSpeaker_VortragCheckHistory = VortragCheckHistory;
+            Settings.Default.SearchSpeaker_VortragCheckOpenRequest = VortragCheckOpenRequest;
             Settings.Default.SearchSpeaker_RednerCheckCancelation = RednerCheckCancelation;
             Settings.Default.SearchSpeaker_MaxEntfernung = MaxEntfernung;
             Settings.Default.SearchSpeaker_OffeneAnfrage = OffeneAnfrage;

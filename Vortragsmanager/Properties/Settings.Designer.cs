@@ -307,5 +307,17 @@ namespace Vortragsmanager.Properties {
                 this["sqlite"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SearchSpeaker_VortragCheckOpenRequest {
+            get {
+                return ((bool)(this["SearchSpeaker_VortragCheckOpenRequest"]));
+            }
+            set {
+                this["SearchSpeaker_VortragCheckOpenRequest"] = value;
+            }
+        }
     }
 }

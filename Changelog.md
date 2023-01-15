@@ -4,6 +4,8 @@
 * Gelöschte Vortragsthemen: 82
 * Erinnerungsmail direkt von der Startseite versenden
 * Hervorheben der aktuellen Woche in "Mein Kalender"
+* Anzeige der Vortragsnr. im Aushang
+* Rednersuche: Vortragsthemen von offenen Anfragen können in neuen Suchen ausgeblendet werden.
 
 ### Version 1.2.26 (14.11.2022) ###
 * Fehlerbehebung Excel Aushang, doppelte Wochenanzeige in der ersten Januar-Woche
