@@ -2,6 +2,8 @@
 * Fehlerbehebung: Wird ein Vortrag eines Redners gelöscht, können Buchungen mit diesem Vortrag nicht mehr bearbeitet werden
 * Geänderte Vortragsthemen: 62, 39, 34, 68, 100, 95, 93
 * Gelöschte Vortragsthemen: 82
+* Erinnerungsmail direkt von der Startseite versenden
+* Hervorheben der aktuellen Woche in "Mein Kalender"
 
 ### Version 1.2.26 (14.11.2022) ###
 * Fehlerbehebung Excel Aushang, doppelte Wochenanzeige in der ersten Januar-Woche
