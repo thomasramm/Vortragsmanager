@@ -80,7 +80,9 @@
                                                     <Border Background="{Binding Background}"
                                                             Height="24"
                                                             Margin="0"
-                                                            Width="185">
+                                                            Width="185"
+                                                            BorderThickness="1"
+                                                            BorderBrush="{Binding AktuelleWocheHervorheben}">
                                                         <Border.InputBindings>
                                                             <MouseBinding Gesture="LeftClick" Command="{Binding ClickCommand}" />
                                                         </Border.InputBindings>
@@ -97,7 +99,7 @@
                                                             </ContextMenu>
                                                         </Border.ContextMenu>
                                                             <DockPanel>
-                                                                <Label Content="{Binding Woche}" Width="14" Margin="5,0"  DockPanel.Dock="Left" />
+                                                    <Label Content="{Binding Woche}" Width="14" Margin="5,0"  DockPanel.Dock="Left" />
                                                                <Popup Name="myPopup"
                                                                        IsOpen="{Binding DetailView}">
                                                                     <Grid>

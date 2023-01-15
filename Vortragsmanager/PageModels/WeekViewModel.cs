@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Media;
 using DevExpress.Mvvm;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
@@ -263,7 +265,7 @@ namespace Vortragsmanager.PageModels
         {
             get
             {
-                var color = Helper.Helper.StyleIsDark ? Color.FromRgb(51, 51, 51) : Colors.White;
+                var color = Helper.Helper.StyleIsDark ? System.Windows.Media.Color.FromRgb(51, 51, 51) : Colors.White;
                 if (Zuteilung == null)
                     color = Colors.Tomato;
                 else switch (Zuteilung.Status)
@@ -272,7 +274,7 @@ namespace Vortragsmanager.PageModels
                         color = Colors.Orange;
                         break;
                     case EventStatus.Ereignis:
-                        color = Helper.Helper.StyleIsDark ? Colors.SlateGray : (Color)ColorConverter.ConvertFromString("#2a8dd4");
+                        color = Helper.Helper.StyleIsDark ? Colors.SlateGray : (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#2a8dd4");
                         break;
                 }
                 return new SolidColorBrush(color);
@@ -307,6 +309,16 @@ namespace Vortragsmanager.PageModels
         public bool IsEinladung => Zuteilung?.Status == EventStatus.Zugesagt;
 
         public bool IsEreignis => Zuteilung?.Status == EventStatus.Ereignis;
+
+        public SolidColorBrush AktuelleWocheHervorheben
+        {
+            get
+            {
+
+                var thisWeek = Kalenderwoche == DateCalcuation.CalculateWeek(DateTime.Today);
+                return thisWeek ? new SolidColorBrush(Colors.Red) : Background;
+            }
+        }
 
         public bool IsOffen => Zuteilung == null;
 
