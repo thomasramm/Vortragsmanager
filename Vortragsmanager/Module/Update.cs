@@ -17,7 +17,7 @@ namespace Vortragsmanager.Module
         /// Module.Update für C# Updates (Inhalte)
         /// Changelog.md
         /// </summary>
-        public static int CurrentVersion => 26;
+        public static int CurrentVersion => 27;
 
         public static void Process()
         {
@@ -66,7 +66,7 @@ namespace Vortragsmanager.Module
             }
 
             //Aktualisierte Vorträge, hier kann der Updatebefehl mehrfach genutzt werden. Einfach die neue Programmversion in der nächsten Zeile eintragen.
-            if (DataContainer.Version < 26)
+            if (DataContainer.Version < 27)
             {
                 var inhalt = "Es gibt geänderte Vortragsthemen. Du kannst die Themen jetzt aktualisieren. Damit werden individuelle Änderungen die du in der Vergangenheit an den Vortragsthemen vorgenommen hast gelöscht." + Environment.NewLine +
     "Du kannst die Änderung auch später unter 'Vorträge' -> 'Zurücksetzen' durchführen." + Environment.NewLine +

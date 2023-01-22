@@ -33,7 +33,8 @@ Du kannst die zu suchenden Redner nach folgenden Kriterien Filtern:
     3. Redner ausblenden, die in den letzten 12 Monaten bereits eingeladen wurden
     4. Vorträge ausblenden, die bereits eingeplant sind (in der Zukunft).
     5. Vorträge ausblenden, die in den letzten 12 Monaten bereits gehalten wurden.
-    6. Vorträge: <BR/>
+    6. Vorträge ausblenden, die bereits angefragt sind
+    7. Vorträge: <BR/>
     Das Auswahlfeld berücksichtigt bereits die Filter 4+5. Hier werden also nur noch die Vorträge angezeigt, die den bisherigen Suchkriterien entsprechen.
 
 ### Datumsauswahl

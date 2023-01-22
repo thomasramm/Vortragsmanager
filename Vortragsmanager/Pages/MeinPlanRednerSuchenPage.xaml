@@ -126,6 +126,10 @@
                                             <TextBlock Text="Vorträge ausblenden, die in den letzten 12 Monaten gehalten wurden."
                                                     TextWrapping="Wrap" FontWeight="Regular" />
                                         </CheckBox>
+                                        <CheckBox IsChecked="{Binding VortragCheckOpenRequest, Mode=TwoWay}">
+                                            <TextBlock Text="Vorträge ausblenden, die aktuell angefragt sind."
+                                                    TextWrapping="Wrap" FontWeight="Regular" />
+                                        </CheckBox>
                                         <dxe:ComboBoxEdit ShowSizeGrip="True"
                                                         FontWeight="Regular"
                                                         ItemsSource="{Binding VortragListe, Mode=OneWay}"

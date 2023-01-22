@@ -4,6 +4,7 @@ using System.Windows;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
+using Vortragsmanager.Windows;
 
 namespace Vortragsmanager.UserControls
 {
@@ -44,6 +45,9 @@ namespace Vortragsmanager.UserControls
 
         private void LoadMeinPlan(int week)
         {
+            BuchungErinnern.Visibility= Visibility.Collapsed;
+            BuchungErinnernNochmal.Visibility= Visibility.Collapsed;
+
             var prog = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == week);
             if (prog == null) 
                 return;
@@ -57,10 +61,10 @@ namespace Vortragsmanager.UserControls
                     break;
                 case EventStatus.Zugesagt:
                 {
-                    var einladung = (Invitation) prog;
+                    einladung = (Invitation) prog;
                     MeinPlan.Text = einladung.Ältester.Name 
                                     + Environment.NewLine
-                                    + "  in " + einladung.Ältester.Versammlung.Name 
+                                    + "  aus " + einladung.Ältester.Versammlung.Name 
                                     + Environment.NewLine
                                     + "  Nr " + einladung.Vortrag.Vortrag 
                                     + Environment.NewLine
@@ -68,10 +72,15 @@ namespace Vortragsmanager.UserControls
                     PhotoViewerToolTip.Width = einladung.Ältester.Foto == null ? 0 : 500;
                     PhotoViewerToolTip.Source = einladung.Ältester.Foto;
                     LabelToolTip.Content = einladung.Ältester.Name;
-                    break;
+                        //Buttons der Erinnerungsmail
+                        BuchungErinnern.Visibility = einladung?.ErinnerungsMailGesendet == true ? Visibility.Collapsed : Visibility.Visible;
+                        BuchungErinnernNochmal.Visibility = (BuchungErinnern.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
+                        break;
                 }
             }
         }
+
+        private Invitation einladung;
 
         private void LoadAufgaben(int week)
         {
@@ -100,6 +109,21 @@ namespace Vortragsmanager.UserControls
                 }
                 MeineRedner.Text = message.TrimEnd('\n');
             }
+        }
+
+        private void BuchungErinnern_Click(object sender, RoutedEventArgs e)
+        {
+            var mail = new InfoAnRednerUndKoordinatorWindow();
+            var data = (InfoAnRednerUndKoordinatorViewModel)mail.DataContext;
+            data.MailTextKoordinator = Templates.GetMailTextRednerErinnerung(einladung);
+            data.DisableCancelButton();
+            mail.ShowDialog();
+            ActivityAddItem.RednerErinnern(einladung, data.MailTextKoordinator);
+            einladung.ErinnerungsMailGesendet = true;
+            //Buttons der Erinnerungsmail
+            BuchungErinnern.Visibility = Visibility.Collapsed;
+            BuchungErinnernNochmal.Visibility = Visibility.Visible;
+
         }
     }
 }

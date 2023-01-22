@@ -945,7 +945,7 @@ namespace Vortragsmanager.Module
                         {
                             var v = iv.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == iv.Vortrag.Vortrag.Nummer)
                                     ?? iv.Vortrag;
-                            feldTitel = v.VortragMitLied;
+                            feldTitel = v.VortragMitNummerUndLied;
                             feldRedner = iv.Ältester?.Name;
                             feldVersammlung = iv.Ältester?.Versammlung?.Name;
                         }

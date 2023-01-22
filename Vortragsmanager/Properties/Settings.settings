@@ -74,5 +74,8 @@
     <Setting Name="sqlite" Type="System.String" Scope="User">
       <Value Profile="(Default)">vortragsmanager.sqlite3</Value>
     </Setting>
+    <Setting Name="SearchSpeaker_VortragCheckOpenRequest" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
