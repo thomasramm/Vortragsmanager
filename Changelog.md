@@ -1,4 +1,4 @@
-### Version 1.2.27 (??.??.2023) ###
+### Version 1.2.27 (22.01.2023) ###
 * Fehlerbehebung: Wird ein Vortrag eines Redners gelöscht, können Buchungen mit diesem Vortrag nicht mehr bearbeitet werden
 * Geänderte Vortragsthemen: 62, 39, 34, 68, 100, 95, 93
 * Gelöschte Vortragsthemen: 82
