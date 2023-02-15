@@ -154,7 +154,21 @@ namespace Vortragsmanager.PageModels
             }
         }
 
-        public void ShowChangelog()
+        public int RednerSuchenAbstandAnzahlMonate
+        {
+            get => Properties.Settings.Default.RednerSuchenAbstandAnzahlMonate;
+            set
+            {
+                if (value > 99)
+                    value = 99;
+                if (value < 1)
+                    value = 1;
+                Properties.Settings.Default.RednerSuchenAbstandAnzahlMonate = value;
+                RaisePropertyChanged();
+            }
+        }
+
+    public void ShowChangelog()
         {
             Update.ShowChanges(true);
         }

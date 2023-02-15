@@ -319,5 +319,17 @@ namespace Vortragsmanager.Properties {
                 this["SearchSpeaker_VortragCheckOpenRequest"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
+        public int RednerSuchenAbstandAnzahlMonate {
+            get {
+                return ((int)(this["RednerSuchenAbstandAnzahlMonate"]));
+            }
+            set {
+                this["RednerSuchenAbstandAnzahlMonate"] = value;
+            }
+        }
     }
 }

@@ -979,7 +979,7 @@ namespace Vortragsmanager.Module
                         row++;
 
                         //nächste Woche
-                        aktuelleKw = DateCalcuation.AddWeek(aktuelleKw, 1);
+                        aktuelleKw = DateCalcuation.CalculateWeek(aktuelleKw, 1);
                     }
 
                     if (Settings.Default.ListAushangAnzahlWochen < 24)

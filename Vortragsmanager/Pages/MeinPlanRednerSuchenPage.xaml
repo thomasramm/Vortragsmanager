@@ -115,8 +115,11 @@
                                                     TextWrapping="Wrap" FontWeight="Regular" />
                                         </CheckBox>
                                         <CheckBox IsChecked="{Binding RednerCheckHistory, Mode=TwoWay}">
-                                            <TextBlock Text="Redner ausblenden, die in den letzten 12 Monaten bereits eingeladen wurden."
-                                                    TextWrapping="Wrap" FontWeight="Regular" />
+                                            <TextBlock TextWrapping="Wrap" FontWeight="Regular">
+                                                <Run Text="Redner ausblenden, die in den letzten"/>
+                                                <Run Text="{Binding RednerSuchenAbstandAnzahlMonate, Mode=OneWay}"/>
+                                                <Run Text="Monaten bereits eingeladen wurden."/>
+                                            </TextBlock>
                                         </CheckBox>
                                         <CheckBox IsChecked="{Binding VortragCheckFuture, Mode=TwoWay}">
                                             <TextBlock Text="Vorträge ausblenden, die bereits eingeplant sind."

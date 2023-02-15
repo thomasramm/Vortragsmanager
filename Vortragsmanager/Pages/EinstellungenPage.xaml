@@ -331,6 +331,26 @@
                                   Width="75" 
                                   HorizontalAlignment="Right" />
                     </Grid>
+                    <Grid MinHeight="70" Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="44"/>
+                            <ColumnDefinition Width="75*"/>
+                            <ColumnDefinition Width="25*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource EinstellungenBoxBorder}"/>
+                        <Image Grid.Column="0" Source="{DynamicResource Kalender}" Style="{DynamicResource EinstellungenBoxBild}" />
+                        <TextBlock Grid.Column="1" Text="Redner suchen"  Style="{DynamicResource EinstellungenBoxLabel1}"/>
+                        <TextBlock Grid.Column="1" Text="Anzahl der Monate, die ein Redner nicht mehr eingeladen werden soll (Standard: 12 Monate, max. 99 Monate)"  Style="{DynamicResource EinstellungenBoxLabel2}"/>
+                        <dxe:SpinEdit EditValue="{Binding RednerSuchenAbstandAnzahlMonate, Mode=TwoWay}"
+                                  Margin="10,26,10,20"
+                                  Grid.Column="2"
+                                  MaxValue="99" 
+                                  MinValue="1" 
+                                  Mask="#0"
+                                  EditValueType="{x:Type sys:Int32}"
+                                  Width="75" 
+                                  HorizontalAlignment="Right" />
+                    </Grid>
                 </StackPanel>
                 <StackPanel Visibility="{Binding GruppeAktionenVisible}">
                     <Label Content="Import" Style="{DynamicResource EinstellungenGruppe}"/>

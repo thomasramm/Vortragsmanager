@@ -77,5 +77,8 @@
     <Setting Name="SearchSpeaker_VortragCheckOpenRequest" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="RednerSuchenAbstandAnzahlMonate" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">12</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
