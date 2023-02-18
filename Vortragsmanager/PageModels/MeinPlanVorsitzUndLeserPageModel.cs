@@ -114,7 +114,7 @@ namespace Vortragsmanager.PageModels
 
         private void PlanErstellen()
         {
-            IoExcel.Export.Aushang(true);
+            IoExcel.Export.Aushang(true, DateTime.Today);
         }
 
         private void SonntagCalculate()

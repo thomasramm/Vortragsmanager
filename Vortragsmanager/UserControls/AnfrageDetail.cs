@@ -53,7 +53,7 @@ namespace Vortragsmanager.UserControls
             _base.Wochen.Clear();
 
             var startDate = DateCalcuation.CurrentWeek;
-            var endDate = DateCalcuation.AddWeek(DateCalcuation.CurrentWeek, 53);
+            var endDate = DateCalcuation.CalculateWeek(DateCalcuation.CurrentWeek, 53);
             while (startDate < endDate)
             {
                 if (DataContainer.MeinPlan.All(x => x.Kw != startDate))
@@ -62,7 +62,7 @@ namespace Vortragsmanager.UserControls
                     if (Wochen.All(x => x != d))
                         Wochen.Add(d);
                 }
-                startDate = DateCalcuation.AddWeek(startDate, 1);
+                startDate = DateCalcuation.CalculateWeek(startDate, 1);
             }
         }
 

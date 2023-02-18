@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using DevExpress.Mvvm;
+using DevExpress.Pdf.Xmp;
 using DevExpress.Xpf.Core;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.Enums;
@@ -21,12 +22,13 @@ namespace Vortragsmanager.PageModels
 
         public EinstellungenPageModel()
         {
-            ExcelFileDialogCommand = new DelegateCommand(ExcelFileDialog);
+            ExcelFileDialogCommand = new DelegateCommand<string>(ExcelFileDialog);
             SearchDatabaseCommand = new DelegateCommand<string>(SearchDatabase);
             UpdateSpeakerFromExcelCommand = new DelegateCommand(UpdateSpeakerFromExcel);
             EmergencyMailCommand = new DelegateCommand<int?>(EmergencyMail);
             CalculateRouteCommand = new DelegateCommand<bool>(CalculateRoute);
             ShowChangelogCommand = new DelegateCommand(ShowChangelog);
+            OpenExcelTemplateAushangCommand = new DelegateCommand(OpenExcelTemplateAushang);
             Datenbank = Properties.Settings.Default.sqlite;
             SelectedTheme = ThemeIsDark ? "Dunkel" : "Hell";
         }
@@ -106,7 +108,7 @@ namespace Vortragsmanager.PageModels
         private string _importExcelFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Liste der Vortragskoordinatoren.xlsx";
         private static string _selectedTheme;
 
-        public DelegateCommand ExcelFileDialogCommand { get; }
+        public DelegateCommand<string> ExcelFileDialogCommand { get; }
 
         public DelegateCommand UpdateSpeakerFromExcelCommand { get; }
 
@@ -115,6 +117,8 @@ namespace Vortragsmanager.PageModels
         public DelegateCommand<bool> CalculateRouteCommand { get; }
 
         public DelegateCommand ShowChangelogCommand { get; }
+
+        public DelegateCommand OpenExcelTemplateAushangCommand { get; }
 
         public string ImportExcelFile
         {
@@ -154,15 +158,83 @@ namespace Vortragsmanager.PageModels
             }
         }
 
+        public int RednerSuchenAbstandAnzahlMonate
+        {
+            get => Properties.Settings.Default.RednerSuchenAbstandAnzahlMonate;
+            set
+            {
+                if (value > 99)
+                    value = 99;
+                if (value < 1)
+                    value = 1;
+                Properties.Settings.Default.RednerSuchenAbstandAnzahlMonate = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public void ShowChangelog()
         {
             Update.ShowChanges(true);
         }
 
-        public void ExcelFileDialog()
+        public void OpenExcelTemplateAushang()
         {
-            var fi = new FileInfo(ImportExcelFile);
-            var dir = fi.Directory != null && fi.Directory.Exists ? fi.DirectoryName : Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var template = $"{Helper.Helper.TemplateFolder}AushangExcelTemplate.xlsx";
+            var saveFileDialog1 = new SaveFileDialog
+            {
+                Filter = Properties.Resources.DateifilterExcel,
+                FilterIndex = 1,
+                RestoreDirectory = false,
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                CheckFileExists = false,
+                FileName = "AushangExcelTemplate.xlsx",
+            };
+            string resultFile = null;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                var fi = new FileInfo(saveFileDialog1.FileName);
+                resultFile = fi.FullName;
+                var i = 0;
+                try
+                {
+                    if (File.Exists(resultFile)) 
+                        File.Delete(resultFile);
+                }
+                catch (IOException)
+                {
+                    while (File.Exists(resultFile))
+                    {
+                        i++;
+                        resultFile = $"{fi.DirectoryName}\\{fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length)} ({i}){fi.Extension}";
+                    }
+                }
+                finally
+                {
+                    File.Copy(template, resultFile);
+                    System.Diagnostics.Process.Start(resultFile);
+                }
+            }
+        }
+
+        public void ExcelFileDialog(string dateiTyp)
+        {
+            string datei = string.Empty;
+            switch(dateiTyp)
+            {
+                case "ImportRednerliste":
+                    datei = ImportExcelFile;
+                    break;
+                case "Aushang":
+                    datei = ExcelTemplateAushang; 
+                    break;
+            }
+            FileInfo fi;
+            if (!string.IsNullOrEmpty(ExcelTemplateAushang))
+                fi = new FileInfo(datei);
+            else 
+                fi = new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "AushangTemplate.xlsx"));
+            var dir = fi.Directory.FullName;
 
             var openDialog = new OpenFileDialog
             {
@@ -176,10 +248,20 @@ namespace Vortragsmanager.PageModels
 
             if (openDialog.ShowDialog() == DialogResult.OK)
             {
-                ImportExcelFile = openDialog.FileName;
+                
+                switch (dateiTyp)
+                {
+                    case "ImportRednerliste":
+                        ImportExcelFile = openDialog.FileName;
+                        break;
+                    case "Aushang":
+                        ExcelTemplateAushang = openDialog.FileName;
+                        break;
+                }
             }
 
             openDialog.Dispose();
+            Properties.Settings.Default.Save();
         }
 
         public void UpdateSpeakerFromExcel()
@@ -304,6 +386,22 @@ namespace Vortragsmanager.PageModels
                     return;
                 }
                 Properties.Settings.Default.LogFolder = value;
+                Properties.Settings.Default.Save();
+                RaisePropertyChanged();
+            }
+        }
+
+        public string ExcelTemplateAushang
+        {
+            get => Properties.Settings.Default.ExcelTemplateAushang;
+            set
+            {
+                var di = new FileInfo(value);
+                if (!di.Exists)
+                {
+                    value = string.Empty;
+                }
+                Properties.Settings.Default.ExcelTemplateAushang = value;
                 Properties.Settings.Default.Save();
                 RaisePropertyChanged();
             }

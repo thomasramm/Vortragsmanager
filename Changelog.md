@@ -1,3 +1,8 @@
+### Version 1.2.29 (18.02.2023) ###
+* Rednersuche: Filter "Anzahl Monate die ein Redner nicht nochmal eingeladen werden soll" kann nun in den Einstellungen geändert werden zwischen 1 Monat und 99 Monaten. Der Wert kann unter Einstellungen-Programmverhalten geändert werden.
+* Excel Aushang: Eigene Vorlagen können für die Ausgabe benutzt werden (Einstellungen->Aussehen, Platzhalter sind im Handbuch beschrieben)
+* Excel Aushang: Das Startdatum für den Aushang kann individuell gewählt werden
+
 ### Version 1.2.27 (22.01.2023) ###
 * Fehlerbehebung: Wird ein Vortrag eines Redners gelöscht, können Buchungen mit diesem Vortrag nicht mehr bearbeitet werden
 * Geänderte Vortragsthemen: 62, 39, 34, 68, 100, 95, 93

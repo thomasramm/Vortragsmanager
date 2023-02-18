@@ -30,6 +30,7 @@
                                     ItemSpace="20"
                                     LayerSpace="20"
                                     Margin="5">
+            <!--AUSHANG-->
             <StackPanel>
                 <Button Command="{Binding CreateAushangCommand}" 
                                 Width="176" Height="76"
@@ -45,26 +46,40 @@
                 </Button>
                 <Image Source="../Images/Aushang_Preview.png" Width="175" Margin="0,10"/>
                 <Grid>
-                <Label Content="Anzahl Wochen:"
-                       Height="25"
-                       VerticalAlignment="Bottom"
-                       HorizontalAlignment="Left"
-                       />
-                <dxe:SpinEdit EditValue="{Binding ListAushangAnzahlWochen, Mode=TwoWay}"
-                              MaxValue="24" MinValue="1" 
-                              AllowDefaultButton="False"
-                              Mask="#0"
-                              EditValueType="{x:Type sys:Int32}"
-                              Width="55" 
-                              Height="25"
-                              HorizontalAlignment="Right"
-                              ToolTip="Anzahl der Wochen die Ausgegeben werden sollen (max. 24)">
-                    <dxe:SpinEdit.Buttons>
-                        <dxe:SpinButtonInfo IsDefaultButton="True" IsLeft="False" />
-                    </dxe:SpinEdit.Buttons>
-                </dxe:SpinEdit>
+                    <Label Content="Anzahl Wochen:"
+                           Height="25"
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Left"
+                           />
+                    <dxe:SpinEdit EditValue="{Binding ListAushangAnzahlWochen, Mode=TwoWay}"
+                                  MaxValue="24" MinValue="1" 
+                                  AllowDefaultButton="False"
+                                  Mask="#0"
+                                  EditValueType="{x:Type sys:Int32}"
+                                  Width="55" 
+                                  Height="25"
+                                  HorizontalAlignment="Right"
+                                  ToolTip="Anzahl der Wochen die Ausgegeben werden sollen (max. 24)">
+                        <dxe:SpinEdit.Buttons>
+                            <dxe:SpinButtonInfo IsDefaultButton="True" IsLeft="False" />
+                        </dxe:SpinEdit.Buttons>
+                    </dxe:SpinEdit>
+                </Grid>
+                <Grid>
+                    <Label Content="Ausgabe ab:"
+                           Height="25"
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Left"
+                           />
+                    <DatePicker SelectedDate="{Binding ListAushangStartDate, Mode=TwoWay}"
+                                  Width="100" 
+                                  Height="25"
+                                  HorizontalAlignment="Right"
+                                  ToolTip="Erste Woche an dem der Aushang starten soll">
+                    </DatePicker>
                 </Grid>
             </StackPanel>
+            <!--REDNERDATEN-->
             <StackPanel>
             <Button Command="{Binding CreateExchangeRednerListCommand}" 
                     Width="176" Height="76"
@@ -80,6 +95,7 @@
             </Button>
             <Image Source="../Images/Rednerlist_Preview.png" Width="175" HorizontalAlignment="Center" Margin="0,10"/>
         </StackPanel>
+            <!--KONTAKTLISTE-->
             <StackPanel>
             <Button Command="{Binding CreateContactListCommand}" 
                     Width="176" Height="76"
@@ -95,6 +111,7 @@
                 </Button>
             <Image Source="../Images/Kontaktliste_Preview.png" Width="175" Margin="0,10"/>
         </StackPanel>
+            <!--VORTRÄGE-->
             <StackPanel>
             <Button Command="{Binding CreateOverviewTalkCountCommand}" 
                     Width="176" Height="76"
@@ -110,24 +127,25 @@
                 </Button>
             <Image Source="../Images/Vortragsliste_Preview.png" Width="175" HorizontalAlignment="Center" Margin="0,10"/>
         </StackPanel>
+            <!--DATENEXPORT-->
             <StackPanel>
-            <Button Command="{Binding CreateDataExportCommand}" 
-                    Width="176" Height="76"
-                    ToolTip="Liste aller gespeicherten Vortragsredner, Versammlungen und Koordinatoren"
-                    HorizontalContentAlignment="Left">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="{StaticResource Listen5}"
-                               Width="24"
-                               Height="24"
-                               Margin="10,0,20,0"/>
-                        <Label Content="Datenexport" VerticalAlignment="Center" FontSize="14"/>
-                    </StackPanel>
-                </Button>
-            <Image Source="../Images/Datenexport_Preview.png" Width="175" HorizontalAlignment="Center" Margin="0,10"/>
-            <dxe:ToggleSwitch HorizontalAlignment="Right"
-                              CheckedStateContent="Fotos exportieren"
-                              UncheckedStateContent="Fotos nicht exportieren"
-                              IsChecked="{Binding FotoExport}" />
+                <Button Command="{Binding CreateDataExportCommand}" 
+                        Width="176" Height="76"
+                        ToolTip="Liste aller gespeicherten Vortragsredner, Versammlungen und Koordinatoren"
+                        HorizontalContentAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource Listen5}"
+                                   Width="24"
+                                   Height="24"
+                                   Margin="10,0,20,0"/>
+                            <Label Content="Datenexport" VerticalAlignment="Center" FontSize="14"/>
+                        </StackPanel>
+                    </Button>
+                <Image Source="../Images/Datenexport_Preview.png" Width="175" HorizontalAlignment="Center" Margin="0,10"/>
+                <dxe:ToggleSwitch HorizontalAlignment="Right"
+                                  CheckedStateContent="Fotos exportieren"
+                                  UncheckedStateContent="Fotos nicht exportieren"
+                                  IsChecked="{Binding FotoExport}" />
             </StackPanel>
         </dxlc:FlowLayoutControl>
         <dxe:ToggleSwitch x:Name="ToggleSwitch" 

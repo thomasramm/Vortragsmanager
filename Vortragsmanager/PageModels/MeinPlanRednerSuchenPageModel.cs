@@ -220,6 +220,8 @@ namespace Vortragsmanager.PageModels
             }
         }
 
+        public int RednerSuchenAbstandAnzahlMonate => Settings.Default.RednerSuchenAbstandAnzahlMonate;
+
         public List<GroupConregation> Redner { get; private set; }
 
         public ObservableCollection<Talk> VortragListe { get; } = new ObservableCollection<Talk>();
@@ -303,16 +305,21 @@ namespace Vortragsmanager.PageModels
 
                 gr.LetzteEinladungKw = vorträge.Count > 0 ? vorträge.Max(x => x.Kw) : -1;
 
-                if (RednerCheckFuture && gr.LetzteEinladungKw > DateCalcuation.CurrentWeek)
+                if (RednerCheckFuture 
+                    && gr.LetzteEinladungKw > DateCalcuation.CurrentWeek)
                     continue;
 
-                if (RednerCheckFuture && DataContainer.OffeneAnfragen.Any(x => x.RednerVortrag.ContainsKey(r)))
+                if (RednerCheckFuture 
+                    && DataContainer.OffeneAnfragen.Any(x => x.RednerVortrag.ContainsKey(r)))
                     continue;
 
-                if (RednerCheckHistory && vorträge.Any(x => x.Kw >= DateCalcuation.CurrentWeek - 100 && x.Kw <= DateCalcuation.CurrentWeek))
+                if (RednerCheckHistory 
+                    && vorträge.Any(x => DateTime.Today <=  DateCalcuation.CalculateWeek(x.Kw).AddMonths(RednerSuchenAbstandAnzahlMonate) 
+                    ))
                     continue;
 
-                if (RednerCheckCancelation && DataContainer.Absagen.Any(x => x.Ältester == r))
+                if (RednerCheckCancelation 
+                    && DataContainer.Absagen.Any(x => x.Ältester == r))
                     continue;
 
                 var anzahlVorträge = 0;

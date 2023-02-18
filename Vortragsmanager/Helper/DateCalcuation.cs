@@ -102,7 +102,14 @@ namespace Vortragsmanager.Helper
         /// </summary>
         /// <param name="woche">Die Startwoche im Format YYYYMM</param>
         /// <param name="add">Die Anzahl Wochen die hinzu addiert werden sollen</param>
-        /// <returns>Die Zielwoche im Format YYYYMM</returns>
+        /// <returns>Die Zielwoche im Format YYYYMM</returns>      
+        internal static int CalculateWeek(int woche, int add)
+        {
+            if (add > 0) return AddWeek(woche, add);
+            if (add < 0) return SubstractWeek(woche, add*-1);
+            return woche;
+        }
+
         internal static int AddWeek(int woche, int add)
         {
             var baseJahr = woche / 100;
@@ -119,6 +126,26 @@ namespace Vortragsmanager.Helper
             if (resultWoche == 0)
             {
                 resultWoche = 1;
+            }
+
+            return resultJahr * 100 + resultWoche;
+        }
+
+        internal static int SubstractWeek(int woche, int substract)
+        {
+            var baseJahr = woche / 100;
+            var baseWoche = woche - baseJahr * 100;
+
+            var addJahr = substract / 53;
+            var addWoche = substract - addJahr * 53;
+
+            var resultJahr = baseJahr - addJahr;
+            var resultWoche = baseWoche - addWoche;
+
+            if (baseWoche <= addWoche)
+            {
+                resultWoche = 53 + baseWoche - addWoche;
+                resultJahr -= 1;
             }
 
             return resultJahr * 100 + resultWoche;

@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
 using Vortragsmanager.Module;
 using Vortragsmanager.Properties;
 
@@ -61,9 +63,31 @@ namespace Vortragsmanager.PageModels
             }
         }
 
+        private DateTime _listAushangStartDate = DateTime.Today;
+        public DateTime ListAushangStartDate
+        {
+            get => _listAushangStartDate;
+            set 
+            {
+                _listAushangStartDate = value;
+                RaisePropertyChanged();
+            }
+            
+        }
+
         public void CreateAushang()
         {
-            IoExcel.Export.Aushang(ListeÖffnen);
+            var template = Settings.Default.ExcelTemplateAushang;
+            if (string.IsNullOrEmpty(template))
+                IoExcel.Export.Aushang(ListeÖffnen, ListAushangStartDate);
+            else
+            {
+                if (File.Exists(template))
+                    IoExcel.Export.AushangTemplate(ListeÖffnen, template, ListAushangStartDate);
+                else
+                    ThemedMessageBox.Show("Vorlage nicht gefunden", $"Die Vorlagendatei\n{template}\n wurde nicht gefunden. Bitte prüfe den Pfad in den Einstellungen.", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+
+            }
         }
 
         public void CreateContactList()
