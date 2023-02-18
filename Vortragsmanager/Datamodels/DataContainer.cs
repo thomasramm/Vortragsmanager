@@ -392,20 +392,28 @@ namespace Vortragsmanager.Datamodels
             return ergebnis;
         }
 
-        public static string GetRednerAuswärts(int kw)
+        public static (string, string, string) GetRednerAuswärts(int kw)
         {
             Log.Info(nameof(GetRednerAuswärts), kw);
             var e = DataContainer.ExternerPlan.Where(x => x.Kw == kw).ToList();
             if (e.Count == 0)
-                return "";
+                return ("", "", "");
 
             var ausgabe = "Redner Auswärts: ";
+            var name = string.Empty;
+            var ort = string.Empty;
             foreach (var r in e)
             {
                 ausgabe += $"{r.Ältester.Name} in {r.Versammlung.Name}, ";
+                name += r.Ältester.Name + ", ";
+                ort += r.Versammlung.Name + ", ";
             }
 
-            return ausgabe.Length > 2? ausgabe.Substring(0, ausgabe.Length - 2) : ausgabe;
+            ausgabe = ausgabe.Length > 2? ausgabe.Substring(0, ausgabe.Length - 2) : ausgabe;
+            name = name.Length > 2 ? name.Substring(0, name.Length - 2) : name;
+            ort = ort.Length > 2 ? ort.Substring(0, ort.Length - 2) : ort;
+
+            return (ausgabe, name, ort);
         }
     }
 

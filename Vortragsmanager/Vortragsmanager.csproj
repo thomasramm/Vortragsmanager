@@ -549,6 +549,9 @@
     <None Include="Templates\AushangExcel.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Templates\AushangExcelTemplate.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\demo.sqlite3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -331,5 +331,17 @@ namespace Vortragsmanager.Properties {
                 this["RednerSuchenAbstandAnzahlMonate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ExcelTemplateAushang {
+            get {
+                return ((string)(this["ExcelTemplateAushang"]));
+            }
+            set {
+                this["ExcelTemplateAushang"] = value;
+            }
+        }
     }
 }

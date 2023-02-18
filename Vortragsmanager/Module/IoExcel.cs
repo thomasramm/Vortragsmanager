@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using DevExpress.CodeParser;
 using DevExpress.Xpf.Core;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
@@ -54,6 +55,11 @@ namespace Vortragsmanager.Module
                             System.Diagnostics.Process.Start(resultFile);
                     }
                 }
+                else
+                {
+                    System.IO.File.Delete(tempName);
+                }
+
                 saveFileDialog1.Dispose();
 
                 return resultFile;
@@ -915,7 +921,7 @@ namespace Vortragsmanager.Module
                 File.Save(tempFile, "Kontaktdaten.xlsx", openReport);
             }
 
-            internal static void Aushang(bool openReport)
+            internal static void Aushang(bool openReport, DateTime startDatum)
             {
                 Log.Info(nameof(Aushang), "");
                 //laden der Excel-Datei
@@ -929,7 +935,7 @@ namespace Vortragsmanager.Module
                     var worksheet = package.Workbook.Worksheets["Aushang"];                  
 
                     var row = 1;
-                    var aktuelleKw = DateCalcuation.CalculateWeek(DateTime.Today);
+                    var aktuelleKw = DateCalcuation.CalculateWeek(startDatum);
                     for (var i = 0; i < Settings.Default.ListAushangAnzahlWochen; i++)
                     {
                         var feldTitel = string.Empty;
@@ -962,7 +968,7 @@ namespace Vortragsmanager.Module
                         var feldVorsitz = sonntagEinteilung?.Vorsitz?.PersonName;
                         var feldLeser = sonntagEinteilung?.Leser?.PersonName;
 
-                        var feldAuswärtz = DataContainer.GetRednerAuswärts(aktuelleKw);
+                        var (feldAuswärts, feldAuswärtsName, feldAuswärtsOrt) = DataContainer.GetRednerAuswärts(aktuelleKw);
                         var feldDatum = DateCalcuation.CalculateWeek(aktuelleKw);
 
                         //Felder in Excel füllen
@@ -974,7 +980,7 @@ namespace Vortragsmanager.Module
                         worksheet.Cells[row, 4].Value = feldVersammlung; //Vortragsredner, Versammlung
                         worksheet.Cells[row, 6].Value = feldLeser;
                         row++;
-                        worksheet.Cells[row, 2].Value = feldAuswärtz;//auswärts
+                        worksheet.Cells[row, 2].Value = feldAuswärts;//auswärts
                         row++;
                         row++;
 
@@ -993,6 +999,102 @@ namespace Vortragsmanager.Module
                     package.SaveAs(excel);
                 }
                 File.Save(tempFile, "Aushang.xlsx", openReport);
+            }
+
+            internal static void AushangTemplate(bool openReport, string template, DateTime startDatum)
+            {
+                Log.Info(nameof(AushangTemplate), template);
+                var tempFile = Path.GetTempFileName();
+                System.IO.File.Copy(template, tempFile, true);
+                var excel = new FileInfo(tempFile);
+
+                using (var package = new ExcelPackage(excel))
+                {
+                    var worksheet = package.Workbook.Worksheets[1];
+
+                    var aktuelleKw = DateCalcuation.CalculateWeek(startDatum);
+                    for (var i = 1; i < 54; i++)
+                    {
+                        var feldThema = string.Empty;
+                        var feldName = string.Empty;
+                        var feldVersammlung = string.Empty;
+
+                        var evt = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == aktuelleKw);
+                        if (evt == null)
+                        {
+                            feldThema = "Plannung noch offen";
+                        }
+                        else if (evt is Invitation iv)
+                        {
+                            var v = iv.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == iv.Vortrag.Vortrag.Nummer)
+                                    ?? iv.Vortrag;
+                            feldThema = v.VortragMitNummerUndLied;
+                            feldName = iv.Ältester?.Name;
+                            feldVersammlung = iv.Ältester?.Versammlung?.Name;
+                        }
+                        else if (evt is SpecialEvent se)
+                        {
+                            feldThema = se.Name ?? se.Typ.ToString();
+                            if (se.Vortrag != null)
+                                feldThema += ":" + se.Vortrag.Vortrag.Thema;
+                            feldName = se.Vortragender;
+                            feldVersammlung = se.Thema;
+                        }
+
+                        var sonntagEinteilung = DataContainer.AufgabenPersonKalender.FirstOrDefault(x => x.Kw == aktuelleKw);
+                        var feldVorsitz = sonntagEinteilung?.Vorsitz?.PersonName;
+                        var feldLeser = sonntagEinteilung?.Leser?.PersonName;
+
+                        var (feldAuswärts, feldAuswärtsName, feldAuswärtsOrt) = DataContainer.GetRednerAuswärts(aktuelleKw);
+                        var feldDatum = DateCalcuation.CalculateWeek(aktuelleKw).ToString("dd/MM/yyyy");
+
+                        SearchAndReplace(worksheet, $"{{Datum_{i:00}}}", feldDatum);
+                        SearchAndReplace(worksheet, $"{{Thema_{i:00}}}", feldThema);
+                        SearchAndReplace(worksheet, $"{{Name_{i:00}}}", feldName);
+                        SearchAndReplace(worksheet, $"{{Versammlung_{i:00}}}", feldVersammlung);
+
+                        SearchAndReplace(worksheet, $"{{Vorsitz_{i:00}}}", feldVorsitz);
+                        SearchAndReplace(worksheet, $"{{Leser_{i:00}}}", feldLeser);
+
+                        SearchAndReplace(worksheet, $"{{Auswärts_{i:00}}}", feldAuswärts);
+                        SearchAndReplace(worksheet, $"{{Auswärts_Name_{i:00}}}", feldAuswärtsName);
+                        SearchAndReplace(worksheet, $"{{Auswärts_Ort_{i:00}}}", feldAuswärtsOrt);
+
+                        //nächste Woche
+                        aktuelleKw = DateCalcuation.CalculateWeek(aktuelleKw, 1);
+                    }
+
+                    //am Ende, dadurch wird wieder nach oben gescrollt...
+                    worksheet.Select("A1");
+                    package.SaveAs(excel);
+                }
+                File.Save(tempFile, "Aushang.xlsx", openReport);
+            }
+            private static decimal GetExcelDecimalValueForDate(DateTime date)
+            {
+                DateTime start = new DateTime(1900, 1, 1);
+                TimeSpan diff = date - start;
+                return diff.Days + 2;
+            }
+
+            internal static void SearchAndReplace(ExcelWorksheet worksheet, string search, string replace)
+            {
+                var query = from cell in worksheet.Cells["A:Z"]
+                            where cell.Value?.ToString().Contains(search) == true
+                            && string.IsNullOrEmpty(cell.Formula)
+                            select cell;
+
+                foreach (var cell in query)
+                {
+                    var format = cell.Style.Numberformat;
+                    //Sonderfall für Datumszellen.
+                    if (cell.Text == search && search.Contains("Datum"))
+                    {
+                        cell.Value = GetExcelDecimalValueForDate(DateTime.Parse(replace));
+                    }
+                    else
+                        cell.Value = cell.Value.ToString().Replace(search, replace);
+                }
             }
         }
     }

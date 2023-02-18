@@ -22,18 +22,37 @@ Für das Wiederherstellen dieser Sicherungen, sieh unter [Historie -> Sicherung]
 
 ![Aussehen](images/EinstellungenAussehen.png)
 
-## App-Design
+### App-Design
 Hier kannst du die Farbeinstellung des Programm ändern:
 * Dunkel: Das klassische Programmaussehen mit Schwarzem Hintergrund und Orangen Elementen.
 * Hell: Ein weißer Programmhintergrund mit Blauen Elementen
 
 ![Design Hell](images/EinstellungenAussehenHell.png)
 
-## Aktivitätsbuttons
+### Aktivitätsbuttons
 im Bereich [Mein Plan](MeinPlanKalender.md) werden im Kalender kleine Buttons angezeigt, über die Aktionen durchgeführt werden können (Alternativ mit der rechten Maustaste auf ein Element klicken).
 
-## Zusammenkunftszeiten
+### Zusammenkunftszeiten
 Hier legst du den Wochentag deiner eigenen Versammlung fest. Dies Verändert die Datumsanzeige deiner Planungen auf den jeweiligen Tag.
+
+## Excel Vorlagen
+
+### Aushang
+Hier kannst du den Pfad zu deiner eigenen Vorlage für den Aushang hinterlegen. Möchtest du die Standard-Vorlage benutzen, dann lass das Feld einfach leer.
+In deiner Excel-Vorlage kannst du folgende Platzhalter einsetzen.
+* \{Datum_01} = Das Datum der Woche
+* \{Thema_01} = Vortragsthema
+* \{Name_01} = Name des Redner
+* \{Versammlung_01} = Versammlung des Redner
+* \{Vorsitz_01} = Name des Vorsitzenden
+* \{Leser_01} = Name des eingeteilten Leser
+* \{Auswärts_01} = Kombination von Name+Ort erzeugt: "Redner Auswärts: NAME in VERSAMMLUNG, NAME2 in VERSAMMLUNG2"
+* \{Auswärts_Name_01} = NAME, NAME2
+* \{Auswärts_Ort_01} = ORT, ORT2
+
+Werden weitere Platzhalter benötigt, gebt mir Bescheid.
+Die Zahl 01 wird für jede Woche um 1 hochgezählt, Die Zuerst Ausgegebene Woche hat die 01, die nächste 02 usw.
+Maximal sind 53 Ausgabewochen möglich (= 1 Jahr)
 
 # Programmverhalten
 
