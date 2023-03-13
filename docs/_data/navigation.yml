@@ -73,9 +73,13 @@ lmenu:
     url: /Einstellungen/
     children:
       - title: Datei
+        url: /Einstellungen/#datei
       - title: Aussehen
+        url: /Einstellungen/#aussehen
       - title: Programmverhalten
+        url: /Einstellungen/#programmverhalten
       - title: Aktionen
+        url: /Einstellungen/#aktionen
 
   - title: Historie
     url: /HistorieSicherung/
