@@ -12,7 +12,8 @@ Außerdem kann für die erste Liste "Aushang" eingestellt werden, wieviele Woche
 Folgende Listen können ausgegeben werden:
 
 Aushang für die Versammlung
-:   Vorträge mit Redner, Auswärtige Einladungen sowie angabe des Vorsitzes und Lesers. Diese beiden Felder werden jedoch leer mit Ausgegeben und manuell gefüllt werden, eine Planung im Vortragsmanager ist noch nicht möglich (kommt aber noch).
+:   Vorträge mit Redner, Auswärtige Einladungen sowie angabe des Vorsitzes und Lesers.
+:   In den Einstellungen kannst du für diese Liste auch ein Template angeben, das du selber durch Platzhalter individuell konfigurieren kannst. Ein Beispieltemplate (im Stil des aktuellen Aushang) wird im Programm mitgeliefert. Die möglichen Platzhalter findest du im Kapitel [Einstellungen](Einstellungen.md#aushang) unter [Aushang](Einstellungen.md#aushang)
 
 Kontaktliste deiner Vortragsplanung
 :   Liste deiner geplanten Vorträge inkl. der Kontaktdaten der Koordinatoren und Redner (sofern gespeichert).
