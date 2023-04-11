@@ -1,4 +1,4 @@
-### Version 1.2.30 (??.04.2023) ###
+### Version 1.2.32 (11.04.2023) ###
 * Excel Aushang Template: Neuer Platzhalter Auswärts_Nr. Siehe Handbuch unter [Einstellungen]
  
 ### Version 1.2.29 (18.02.2023) ###
