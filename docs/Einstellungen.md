@@ -47,6 +47,7 @@ In deiner Excel-Vorlage kannst du folgende Platzhalter einsetzen.
 * \{Vorsitz_01} = Name des Vorsitzenden
 * \{Leser_01} = Name des eingeteilten Leser
 * \{Auswärts_01} = Kombination von Name+Ort erzeugt: "Redner Auswärts: NAME in VERSAMMLUNG, NAME2 in VERSAMMLUNG2"
+* \{Auswärts_Nr_01} = Kombination von Name+Ort+Vortragsnummer. erzeugt: "NAME in VERSAMMLUNG (NR), NAME2 in VERSAMMLUNG2 (NR2)"
 * \{Auswärts_Name_01} = NAME, NAME2
 * \{Auswärts_Ort_01} = ORT, ORT2
 

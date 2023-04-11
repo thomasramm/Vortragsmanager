@@ -881,35 +881,42 @@ namespace Vortragsmanager.Module
                         var row = 2;
                         while (startDate < endDate)
                         {
-                            var kw = DateCalcuation.CalculateWeek(startDate);
-                            sheet.Cells[row, 1].Value = startDate;
-                            var einladung = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == kw);
-                            if (einladung is null)
+                            try
                             {
+                                var kw = DateCalcuation.CalculateWeek(startDate);
+                                sheet.Cells[row, 1].Value = startDate;
+                                var einladung = DataContainer.MeinPlan.FirstOrDefault(x => x.Kw == kw);
+                                if (einladung is null)
+                                {
+                                }
+                                //ToDo: in die Kontaktliste SpecialEvents eintragen
+                                else if (einladung is SpecialEvent special)
+                                {
+                                    sheet.Cells[row, 2].Value = special.Vortrag?.Vortrag.Thema ?? special.Anzeigetext;
+                                    sheet.Cells[row, 3].Value = special.Vortragender ?? special.Thema;
+                                    sheet.Cells[row, 4].Value = special.Name ?? special.Typ.ToString();
+                                }
+                                else if (einladung is Invitation details)
+                                {
+                                    sheet.Cells[row, 2].Value = details.Vortrag.Vortrag.Thema;
+                                    sheet.Cells[row, 3].Value = details.Ältester.Name;
+                                    sheet.Cells[row, 4].Value = details.Ältester.Versammlung.Name;
+                                    sheet.Cells[row, 5].Value = details.Ältester.Telefon;
+                                    sheet.Cells[row, 6].Value = details.Ältester.Mobil;
+                                    sheet.Cells[row, 7].Value = details.Ältester.Mail;
+                                    sheet.Cells[row, 8].Value = details.Ältester.JwMail;
+                                    sheet.Cells[row, 9].Value = details.Ältester.Versammlung.Koordinator;
+                                    sheet.Cells[row, 10].Value = details.Ältester.Versammlung.KoordinatorTelefon;
+                                    sheet.Cells[row, 11].Value = details.Ältester.Versammlung.KoordinatorMobil;
+                                    sheet.Cells[row, 12].Value = details.Ältester.Versammlung.KoordinatorMail;
+                                    sheet.Cells[row, 13].Value = details.Ältester.Versammlung.KoordinatorJw;
+                                }
                             }
-                            //ToDo: in die Kontaktliste SpecialEvents eintragen
-                            else if (einladung is SpecialEvent special)
+                            catch(Exception ex)
                             {
-                                sheet.Cells[row, 2].Value = special.Vortrag?.Vortrag.Thema ?? special.Anzeigetext;
-                                sheet.Cells[row, 3].Value = special.Vortragender ?? special.Thema;
-                                sheet.Cells[row, 4].Value = special.Name ?? special.Typ.ToString();
+                                Log.Error(nameof(ContactList), ex.Message);
                             }
-                            else if (einladung is Invitation details)
-                            {
-                                sheet.Cells[row, 2].Value = details.Vortrag.Vortrag.Thema;
-                                sheet.Cells[row, 3].Value = details.Ältester.Name;
-                                sheet.Cells[row, 4].Value = details.Ältester.Versammlung.Name;
-                                sheet.Cells[row, 5].Value = details.Ältester.Telefon;
-                                sheet.Cells[row, 6].Value = details.Ältester.Mobil;
-                                sheet.Cells[row, 7].Value = details.Ältester.Mail;
-                                sheet.Cells[row, 8].Value = details.Ältester.JwMail;
-                                sheet.Cells[row, 9].Value = details.Ältester.Versammlung.Koordinator;
-                                sheet.Cells[row, 10].Value = details.Ältester.Versammlung.KoordinatorTelefon;
-                                sheet.Cells[row, 11].Value = details.Ältester.Versammlung.KoordinatorMobil;
-                                sheet.Cells[row, 12].Value = details.Ältester.Versammlung.KoordinatorMail;
-                                sheet.Cells[row, 13].Value = details.Ältester.Versammlung.KoordinatorJw;
-                            }
-                            
+
                             row++;
                             startDate = startDate.AddDays(7);
                         }
@@ -968,7 +975,7 @@ namespace Vortragsmanager.Module
                         var feldVorsitz = sonntagEinteilung?.Vorsitz?.PersonName;
                         var feldLeser = sonntagEinteilung?.Leser?.PersonName;
 
-                        var (feldAuswärts, feldAuswärtsName, feldAuswärtsOrt) = DataContainer.GetRednerAuswärts(aktuelleKw);
+                        var (feldAuswärts, feldAuswärtsName, feldAuswärtsOrt, feldAuswärtsNr) = DataContainer.GetRednerAuswärts(aktuelleKw);
                         var feldDatum = DateCalcuation.CalculateWeek(aktuelleKw);
 
                         //Felder in Excel füllen
@@ -1045,7 +1052,7 @@ namespace Vortragsmanager.Module
                         var feldVorsitz = sonntagEinteilung?.Vorsitz?.PersonName;
                         var feldLeser = sonntagEinteilung?.Leser?.PersonName;
 
-                        var (feldAuswärts, feldAuswärtsName, feldAuswärtsOrt) = DataContainer.GetRednerAuswärts(aktuelleKw);
+                        var (feldAuswärts, feldAuswärtsName, feldAuswärtsOrt, feldAuswärtsNr) = DataContainer.GetRednerAuswärts(aktuelleKw);
                         var feldDatum = DateCalcuation.CalculateWeek(aktuelleKw).ToString("dd/MM/yyyy");
 
                         SearchAndReplace(worksheet, $"{{Datum_{i:00}}}", feldDatum);
@@ -1059,6 +1066,7 @@ namespace Vortragsmanager.Module
                         SearchAndReplace(worksheet, $"{{Auswärts_{i:00}}}", feldAuswärts);
                         SearchAndReplace(worksheet, $"{{Auswärts_Name_{i:00}}}", feldAuswärtsName);
                         SearchAndReplace(worksheet, $"{{Auswärts_Ort_{i:00}}}", feldAuswärtsOrt);
+                        SearchAndReplace(worksheet, $"{{Auswärts_Nr_{i:00}}}", feldAuswärtsNr);
 
                         //nächste Woche
                         aktuelleKw = DateCalcuation.CalculateWeek(aktuelleKw, 1);

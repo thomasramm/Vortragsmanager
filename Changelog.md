@@ -1,3 +1,6 @@
+### Version 1.2.32 (11.04.2023) ###
+* Excel Aushang Template: Neuer Platzhalter Auswärts_Nr. Siehe Handbuch unter [Einstellungen]
+ 
 ### Version 1.2.29 (18.02.2023) ###
 * Rednersuche: Filter "Anzahl Monate die ein Redner nicht nochmal eingeladen werden soll" kann nun in den Einstellungen geändert werden zwischen 1 Monat und 99 Monaten. Der Wert kann unter Einstellungen-Programmverhalten geändert werden.
 * Excel Aushang: Eigene Vorlagen können für die Ausgabe benutzt werden (Einstellungen->Aussehen, Platzhalter sind im Handbuch beschrieben)
