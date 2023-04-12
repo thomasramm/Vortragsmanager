@@ -161,7 +161,7 @@ namespace Vortragsmanager.Module
                 new Talk(109, "Das Königreich Gottes ist nah"),
                 new Talk(110, "Gott steht in einer glücklichen Familie an erster Stelle"),
                 new Talk(111, "Was wird durch die Heilung der Völker erreicht?"),
-                new Talk(112, "In einer gesetzlosen Welt Liebe zeigen"),
+                new Talk(112, "In einer gesetzlosen Welt Liebe zeigen", false), //Vortrag des KA
                 new Talk(113, "Wie können Jugendliche glücklich und erfolgreich sein?"),
                 new Talk(114, "Für die Wunder der Schöpfung dankbar sein"),
                 new Talk(115, "Wie man Satans Fallen meidet"),
@@ -180,7 +180,7 @@ namespace Vortragsmanager.Module
                 new Talk(128, "Ist die Hölle wirklich ein Ort feuriger Qual?"),
                 new Talk(129, "Ist die Dreieinigkeit eine biblische Lehre?"),
                 new Talk(130, "Die Erde wird für immer bestehen"),
-                new Talk(131, "Gibt es wirklich einen Teufel?"),
+                new Talk(131, "Gibt es wirklich einen Teufel?", false), //Vortrag des Kreisaufseher
                 new Talk(132, "Die Auferstehung - der Sieg über den Tod"),
                 new Talk(133, "Der Ursprung des Menschen - ist es wichtig, was man glaubt?"),
                 new Talk(134, "Sollten Christen den Sabbat halten?"),

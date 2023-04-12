@@ -1,3 +1,7 @@
+### Version 1.2.?? (??.04.2023) ###
+* Vorträge 112 und 131 gesperrt
+
+
 ### Version 1.2.32 (11.04.2023) ###
 * Excel Aushang Template: Neuer Platzhalter Auswärts_Nr. Siehe Handbuch unter [Einstellungen]
  

@@ -7,6 +7,8 @@ using Vortragsmanager.Converter;
 using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Windows;
+using System.Linq;
+using Vortragsmanager.Helper;
 
 namespace Vortragsmanager.Module
 {
@@ -17,32 +19,15 @@ namespace Vortragsmanager.Module
         /// Module.Update für C# Updates (Inhalte)
         /// Changelog.md
         /// </summary>
-        public static int CurrentVersion => 27;
+        public static int CurrentVersion => 28;
 
         public static void Process()
         {
             Log.Info(nameof(Process));
 
-            if (DataContainer.Version < 3)
-            {
-                TalkList.Add(56, "Wessen Führung kannst du vertrauen?");
-                TalkList.Add(-1, "Unbekannt", false);
-            }
-
-            if (DataContainer.Version < 11)
-            {
-                // => IoSqlite.UpdateDatabase(); -- Bestehender Vortrag 24 auf -24 geändert
-                TalkList.Add(24, "„Eine besonders kostbare Perle“ – habe ich sie gefunden?");
-            }
-
             if (DataContainer.Version < 15)
             {
                 DataContainer.AufgabenPersonZuordnung.Add(new AufgabenZuordnung(-1) { PersonName = "Nicht Vorgesehen", IsVorsitz = true, IsLeser = true, Häufigkeit = 1 });
-            }
-
-            if (DataContainer.Version < 16)
-            {
-                TalkList.Reset();
             }
 
             if (DataContainer.Version < 23)
@@ -66,7 +51,7 @@ namespace Vortragsmanager.Module
             }
 
             //Aktualisierte Vorträge, hier kann der Updatebefehl mehrfach genutzt werden. Einfach die neue Programmversion in der nächsten Zeile eintragen.
-            if (DataContainer.Version < 27)
+            if (DataContainer.Version < 28)
             {
                 var inhalt = "Es gibt geänderte Vortragsthemen. Du kannst die Themen jetzt aktualisieren. Damit werden individuelle Änderungen die du in der Vergangenheit an den Vortragsthemen vorgenommen hast gelöscht." + Environment.NewLine +
     "Du kannst die Änderung auch später unter 'Vorträge' -> 'Zurücksetzen' durchführen." + Environment.NewLine +
@@ -79,9 +64,38 @@ namespace Vortragsmanager.Module
                 }
             }
 
+            //Vorträge die nicht mehr gehalten werden sollen
+            if (DataContainer.Version < 28)
+            {
+                FindFutureTalk(112, new DateTime(2023,6,1));
+                FindFutureTalk(131, new DateTime(2023,9,1));
+            }
+
             //auf aktuellste Version setzen = 25 (siehe oben)
             //siehe auch IoSqlite.UpdateDatabase
             DataContainer.Version = CurrentVersion;
+        }
+
+        private static void FindFutureTalk(int nr, DateTime sperrdatum)
+        {
+            var list = DataContainer.MeinPlan.Where(x => x.Vortrag?.Vortrag.Nummer == nr && x.Kw >= DateCalcuation.CalculateWeek(sperrdatum)).ToList();
+            if (list.Count == 0) 
+            { 
+                return; 
+            }
+
+            var datum = string.Empty;
+            foreach (var item in list)
+            {
+                datum += DateCalcuation.CalculateWeek(item.Kw).ToShortDateString() + ", ";
+            }
+            if (datum.Length > 2) 
+            {
+                datum = datum.TrimEnd(new[]{',', ' '});
+            }
+
+            var inhalt = $"Der Vortrag Nr. {nr} sollte nicht mehr gehalten werden, ist aber bei dir am {datum} eingeplant. Du musst ihn evtl. umplanen";
+            ThemedMessageBox.Show("Achtung", inhalt, System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
         }
 
         public static void ShowChanges(bool force = false)
