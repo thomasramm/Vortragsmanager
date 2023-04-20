@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Interface;
 
-namespace Vortragsmanager.Datamodels
+namespace Vortragsmanager.DataModels
 {
     public class Inquiry : IEvent
     {

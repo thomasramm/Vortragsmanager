@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
 using DevExpress.Mvvm;
-using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;

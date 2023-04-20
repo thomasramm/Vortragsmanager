@@ -1,5 +1,5 @@
 ﻿using System;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Module;
 

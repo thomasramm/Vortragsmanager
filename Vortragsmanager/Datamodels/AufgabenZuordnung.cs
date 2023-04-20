@@ -1,4 +1,4 @@
-﻿namespace Vortragsmanager.Datamodels
+﻿namespace Vortragsmanager.DataModels
 {
     public class AufgabenZuordnung
     {

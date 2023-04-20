@@ -1,4 +1,4 @@
-﻿using Vortragsmanager.Datamodels;
+﻿using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 
 namespace Vortragsmanager.Interface

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Windows;
 
 namespace Vortragsmanager.Module

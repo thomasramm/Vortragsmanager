@@ -1,6 +1,4 @@
-﻿using Vortragsmanager.DataModels;
-
-namespace Vortragsmanager.Datamodels
+﻿namespace Vortragsmanager.DataModels
 {
     public class Conregation
     {

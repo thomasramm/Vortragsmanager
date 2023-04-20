@@ -1,6 +1,5 @@
-﻿using Vortragsmanager.Datamodels;
+﻿using Vortragsmanager.DataModels;
 using Vortragsmanager.Module;
-using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.Pages
 {
@@ -18,9 +17,9 @@ namespace Vortragsmanager.Pages
                 return;
             try
             {
-                var file = IoSqlite.SaveContainer(Settings.Default.sqlite, Settings.Default.SaveBackups);
-                Settings.Default.sqlite = file;
-                Settings.Default.Save();
+                var file = IoSqlite.SaveContainer(Helper.Helper.GlobalSettings.sqlite, Helper.Helper.GlobalSettings.SaveBackups);
+                Helper.Helper.GlobalSettings.sqlite = file;
+                Helper.Helper.GlobalSettings.Save();
             }
             catch { }
         }

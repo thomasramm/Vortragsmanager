@@ -1,6 +1,6 @@
 ﻿using Vortragsmanager.Helper;
 
-namespace Vortragsmanager.Datamodels
+namespace Vortragsmanager.DataModels
 {
     public class Talk
     {

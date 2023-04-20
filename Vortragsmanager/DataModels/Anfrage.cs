@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using DevExpress.Mvvm;
-using Vortragsmanager.Datamodels;
 using Vortragsmanager.Helper;
 using Vortragsmanager.UserControls;
 using Vortragsmanager.Windows;

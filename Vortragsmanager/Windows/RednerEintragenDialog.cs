@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using Vortragsmanager.Interface;
-using Vortragsmanager.UserControls;
 
 namespace Vortragsmanager.Windows
 {
@@ -17,12 +16,12 @@ namespace Vortragsmanager.Windows
             _dataModel = (RednerEintragenView)DataContext;
         }
 
-        public void InitializeSelectedConregation(Datamodels.Conregation versammlung)
+        public void InitializeSelectedConregation(DataModels.Conregation versammlung)
         {
             FilterVersammlung.VersammlungenFilter.Text = versammlung.Name;
         }
 
-        private void DropDownVersammlung_ConregationChanged(object sender, RoutedPropertyChangedEventArgs<Datamodels.Conregation> e)
+        private void DropDownVersammlung_ConregationChanged(object sender, RoutedPropertyChangedEventArgs<DataModels.Conregation> e)
         {
             if (e.NewValue != e.OldValue)
             {

@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Forms;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Interface;
 using Vortragsmanager.Module;
@@ -192,7 +192,7 @@ namespace Vortragsmanager.Windows
                         File.Copy(quelle, ziel, true);
                         IoSqlite.ReadContainer(ziel);
                         Initialize.DemoAktualisieren();
-                        Properties.Settings.Default.sqlite = ziel;
+                        Helper.Helper.GlobalSettings.sqlite = ziel;
 
                         IsFinished = true;
                         DialogResult = true;
@@ -265,7 +265,8 @@ namespace Vortragsmanager.Windows
         public void VortragsmanagerdateiLaden()
         {
             IoSqlite.ReadContainer(ImportFile);
-            Properties.Settings.Default.sqlite = ImportFile;
+            Helper.Helper.GlobalSettings.sqlite = ImportFile;
+            Helper.Helper.GlobalSettings.Save();
             IsFinished = true;
             DialogResult = true;
         }
