@@ -110,10 +110,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converter\ListToStringConverter.cs" />
+    <Compile Include="Converter\NumberToBadgeConverter.cs" />
     <Compile Include="Enums\BackupAge.cs" />
     <Compile Include="DataModels\BackupItem.cs" />
     <Compile Include="Enums\NavigationPage.cs" />
     <Compile Include="Helper\EnumBindingSourceExtension.cs" />
+    <Compile Include="Helper\FilteredObservableCollection.cs" />
     <Compile Include="Interface\INavigation.cs" />
     <Compile Include="Module\Photo.cs" />
     <Compile Include="PageModels\AufgabenKalender.cs" />

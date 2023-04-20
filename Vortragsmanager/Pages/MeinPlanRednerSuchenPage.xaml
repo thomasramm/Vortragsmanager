@@ -11,14 +11,21 @@
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:pageModels="clr-namespace:Vortragsmanager.PageModels"
+    xmlns:converter="clr-namespace:Vortragsmanager.Converter"
     x:Class="Vortragsmanager.Pages.MeinPlanRednerSuchenPage"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type=pageModels:MeinPlanRednerSuchenPageModel}"
-    d:DesignHeight="450" d:DesignWidth="800">
+    d:DesignHeight="850" d:DesignWidth="800"
+             x:Name="MeinPlanRednerSucheMainWindow">
     <UserControl.Resources>
         <dxmvvm:ObjectToObjectConverter x:Key="AccordionPanelWidthConverter" DefaultTarget="Auto">
             <dxmvvm:MapItem Source="True" Target="300" />
         </dxmvvm:ObjectToObjectConverter>
+        <converter:ListToStringConverter x:Key="ListToStringConverter" MaxItems="100"/>
+        <converter:ListToStringConverter x:Key="VersammlungenToStringConverter" MaxItems="3" Einheit="Versammlungen" />
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed" />
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityInverseConverter" TrueValue="Collapsed" FalseValue="Visible" />
+        <converter:NumberToBadgeConverter x:Key="NumberToBadgeConverter" DefaultStyle="{StaticResource BadgeStyle}"/>
 
         <ControlTemplate x:Key="GridTemplate">
             <dxg:GridControl x:Name="PART_GridControl">
@@ -46,119 +53,431 @@
             <RowDefinition Height="{Binding Modul1Visible}" />
             <RowDefinition Height="{Binding Modul2Visible}" />
         </Grid.RowDefinitions>
-        <dxdo:DockLayoutManager Grid.Row="0">
-            <dxdo:LayoutGroup>
-                <dxdo:LayoutPanel ItemWidth="{Binding ElementName=Accordion, Path=IsExpanded, Converter={StaticResource AccordionPanelWidthConverter}}"
-                        ShowCaption="False"
-                        AllowSizing="False">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1*" />
-                            <RowDefinition Height="50" />
-                        </Grid.RowDefinitions>
-                        <dxa:AccordionControl
-                            x:Name="Accordion"
-                            Grid.Row="0"
-                                SelectionMode="None"
-                                CollapsedItemClickAction="ShowItems"
-                                SummaryItemHeader="Filter"
-                                SummaryItemGlyph="pack://application:,,,/Images/Technology_16x16.png"
-                                AutoExpandAllItems="True"
-                                IsCollapseButtonVisible="False"
-                                ShowSearchControl="False"
-                                Margin="1"
-                                ViewMode="Accordion">
-                            <dxa:AccordionControl.Items>
-                                <dxa:AccordionItem Header="Versammlung">
-                                    <dxlc:LayoutControl Orientation="Vertical" Margin="0">
-                                        <dxlc:LayoutItem Label="Kreis" FontWeight="Regular">
-                                            <dxe:ComboBoxEdit
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" MinWidth="300" />
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!-- SUCHE UND FILTER -->
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <!-- Button SUCHEN -->
+            <Button Command="{Binding RednerSuchenCommand}"
+                                Grid.Row="0"
+                                Height="30"
+                                VerticalAlignment="Center"
+                                Margin="10,0">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource RednerSuchen}" Margin="0,5"/>
+                    <Label Content="Redner suchen" 
+                                       Foreground="{StaticResource TextHighlight}"
+                                       VerticalAlignment="Center" 
+                                       Padding="0" 
+                                       Margin="5,0"/>
+                </StackPanel>
+            </Button>
+            <!-- FILTER -->
+            <Border BorderThickness="0.5" 
+                    Style="{DynamicResource EinstellungenBoxBorder}"
+                    BorderBrush="{DynamicResource Border}" 
+                    Margin="10" 
+                    Grid.Row="1" 
+                    CornerRadius="15">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Auto">
+                    <StackPanel Grid.Row="1" 
+                                    Orientation="Vertical" 
+                                    Margin="10,10,10,0">
+                        <TextBlock Text="Filter" FontWeight="Bold" FontSize="14"/>
+                        <Separator Margin="0,10,0,0"/>
+                        <!-- VERSAMMLUNGEN -->
+                        <Border MouseDown="Filter1MouseDown" Background="Transparent">
+                            <Grid Height="75">
+                            <TextBlock Text="Versammlungen" 
+                                   FontSize="14" 
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   >
+                            <dx:Badge.Badge>
+                                <dx:Badge Content="{Binding SelectedVersammlungen.Count}" FontSize="10" Margin="20,0,0,0" BadgeKind="Warning"/>
+                            </dx:Badge.Badge>
+                            </TextBlock>
+                            <Expander ExpandDirection="Down" 
+                                  x:Name="VersammlungenExpander"
+                                  IsExpanded="False"                              
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Right"/>
+                        </Grid>
+                        </Border>
+                        <StackPanel Margin="0" 
+                                Visibility="{Binding IsExpanded, ElementName=VersammlungenExpander, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="Einschränken auf Versammlungen in den Kreisen:"  />
+                            <dxe:ComboBoxEdit Margin="20,0,0,0" ItemsSource="{Binding Kreise}"
+                                          EditValue="{Binding SelectedKreise, Mode=TwoWay}"
+                                          ValidateOnTextInput="True"
+                                          ValidateOnEnterKeyPressed="True"
+                                          ImmediatePopup="True">
+                                <dxe:ComboBoxEdit.StyleSettings>
+                                    <dxe:CheckedTokenComboBoxStyleSettings NewTokenPosition="Far" NewTokenText="Add"/>
+                                </dxe:ComboBoxEdit.StyleSettings>
+                            </dxe:ComboBoxEdit>
+                            <!-- MAX Entfernung -->
+                            <TextBlock Text="max. Entfernung" Margin="0,20,0,0"/>
+                            <dxe:SpinEdit   Margin="20,0,0,0"
+                                        EditValue="{Binding MaxEntfernung, Mode=TwoWay}"
+                                        HorizontalAlignment="Left"                
+                                        MinValue="0"
+                                        IsFloatValue="False"
+                                        Increment="10"
+                                        EditValueType="{x:Type sys:Int32}"
+                                        DisplayFormatString="0 km" />
+                            <!-- offene Anfragen nochmal anfragen -->
+                            <TextBlock Text="Versammlungen mit offenen Anfragen durchsuchen" Margin="0,20,0,0"/>
+                            <dxe:ToggleSwitch IsChecked="{Binding OffeneAnfrage,Mode=TwoWay}" 
+                                                  CornerRadius="10"
+                                                  Margin="20,0,0,0"
+                                                  HorizontalAlignment="Left"
+                                                  ToggleSwitchHeight="18"/>
+                            <TextBlock Text="einzelne Versammlungen auswählen" Margin="0,20,0,0"/>
+                            <dxe:ComboBoxEdit Margin="20,0,0,0" 
+                                         ItemsSource="{Binding Versammlungen}"
+                                         EditValue="{Binding SelectedVersammlungen, Mode=TwoWay}"
+                                         DisplayMember="Name"
+                                         IsTextEditable="False"
+                                         ShowCustomItems="True">
+                                <dxe:ComboBoxEdit.StyleSettings>
+                                    <dxe:CheckedComboBoxStyleSettings/>
+                                </dxe:ComboBoxEdit.StyleSettings>
+                            </dxe:ComboBoxEdit>
+                        </StackPanel>
+                        <Separator />
+                        <Border MouseDown="Filter2MouseDown" Background="Transparent">
+                            <Grid Height="75">
+                            <TextBlock Text="Redner" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center" 
+                                   FontSize="14"/>
+                            <Expander ExpandDirection="Down" 
+                                  x:Name="RednerExpander"
+                                  IsExpanded="False"                              
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Right"/>
+                        </Grid>
+                        </Border>
+                        <StackPanel Margin="0" 
+                                Visibility="{Binding IsExpanded, ElementName=RednerExpander, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <CheckBox IsChecked="{Binding RednerCheckCancelation, Mode=TwoWay}">
+                                <TextBlock Text="Keine Redner suchen, für die in der Zukunft bereits eine Absage erteilt wurde."
+                                                        TextWrapping="Wrap" FontWeight="Regular"
+                                                        ToolTip="Wurde ein Redner für ein Zukünftiges Datum angefragt, aber abgesagt, dann diesen Redner nicht noch einmal anfragen." />
+                            </CheckBox>
+                            <CheckBox IsChecked="{Binding RednerCheckFuture, Mode=TwoWay}">
+                                <TextBlock Text="Keine Redner suchen, die in der Zukunft bereits eingeladen sind."
+                                                        TextWrapping="Wrap" FontWeight="Regular" />
+                            </CheckBox>
+                            <CheckBox IsChecked="{Binding RednerCheckHistory, Mode=TwoWay}">
+                                <TextBlock TextWrapping="Wrap" FontWeight="Regular">
+                                                    <Run Text="Keine Redner suchen, die in den letzten"/>
+                                                    <Run Text="{Binding RednerSuchenAbstandAnzahlMonate, Mode=OneWay}"/>
+                                                    <Run Text="Monaten bereits eingeladen wurden."/>
+                                </TextBlock>
+                            </CheckBox>
+                        </StackPanel>
+                        <Separator />
+                        <Border MouseDown="Filter3MouseDown" Background="Transparent">
+                            <Grid Height="75">
+                                <TextBlock Text="Vortragsthemen" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center" 
+                                   FontSize="14">
+                             <dx:Badge.Badge>
+                                <dx:Badge Content="{Binding VortragListeSelected.Count}" FontSize="10" Margin="20,0,0,0" BadgeKind="Warning"/>
+                            </dx:Badge.Badge>
+                                </TextBlock>
+                                <Expander ExpandDirection="Down" 
+                                  x:Name="VortragExpander"
+                                  IsExpanded="False"                              
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Right"/>
+                            </Grid>
+                        </Border>
+                        <StackPanel Visibility="{Binding IsExpanded, ElementName=VortragExpander, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <CheckBox IsChecked="{Binding VortragCheckFuture, Mode=TwoWay}">
+                                <TextBlock Text="Keine Vorträge suchen, die bereits eingeplant sind."
+                                                    TextWrapping="Wrap" FontWeight="Regular" />
+                            </CheckBox>
+                            <CheckBox IsChecked="{Binding VortragCheckHistory, Mode=TwoWay}">
+                                <TextBlock Text="Keine Vorträge suchen, die in den letzten 12 Monaten gehalten wurden."
+                                                    TextWrapping="Wrap" FontWeight="Regular" />
+                            </CheckBox>
+                            <CheckBox IsChecked="{Binding VortragCheckOpenRequest, Mode=TwoWay}">
+                                <TextBlock Text="Keine Vorträge suchen, die aktuell bereits angefragt sind."
+                                                    TextWrapping="Wrap" FontWeight="Regular" />
+                            </CheckBox>
+                            <TextBlock Text="Einzelne Vorträge wählen: ( | Datum der letzten Einladung )" FontStyle="Italic"
+                                                        Margin="0,10,0,0"/>
+                            <dxe:ComboBoxEdit FontWeight="Regular"
+                                        ItemsSource="{Binding VortragListe, Mode=OneWay}"
+                                        EditValue="{Binding VortragListeSelected, Mode=TwoWay}"
+                                        DisplayMember="NumberTopicDate"
+                                        ValueMember="Nummer"
+                                        IsTextEditable="False"
+                                        ShowCustomItems="True">
+                                <dxe:ComboBoxEdit.StyleSettings>
+                                    <dxe:CheckedComboBoxStyleSettings/>
+                                </dxe:ComboBoxEdit.StyleSettings>
+                            </dxe:ComboBoxEdit>
+                        </StackPanel>
+                        <Separator />
+                        <Border MouseDown="Filter4MouseDown" Background="Transparent">
+                            <Grid Height="75">
+                                <TextBlock Text="Termine" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center" 
+                                   FontSize="14">
+                             <dx:Badge.Badge>
+                                <dx:Badge Content="{Binding FreieTermineSelectedCount}" 
+                                          FontSize="10" 
+                                          Margin="20,0,0,0" 
+                                          Background="{Binding FreieTermineSelectedCount, Converter={StaticResource NumberToBadgeConverter}}">
+                                    
+                                </dx:Badge>
+                            </dx:Badge.Badge>
+                                </TextBlock>
+                                <Expander ExpandDirection="Down" 
+                                  x:Name="TerminExpander"
+                                  IsExpanded="False"                              
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Right"/>
+                            </Grid>
+                        </Border>
+                        <StackPanel Visibility="{Binding IsExpanded, ElementName=TerminExpander, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="Anzuzeigende Termine:" FontStyle="Italic"/>
+                            <ComboBox VerticalAlignment="Top" Height="30" SelectedIndex="{Binding SelectedTermine, Mode=TwoWay}">
+                                <ComboBoxItem Content="nächster freier Termin" />
+                                <ComboBoxItem Content="1 Monat" />
+                                <ComboBoxItem Content="3 Monate" />
+                                <ComboBoxItem Content="6 Monate" />
+                                <ComboBoxItem Content="12 Monate" />
+                                <ComboBoxItem Content="24 Monate" />
+                                <ComboBoxItem Content="Benutzerdefiniert" />
+                            </ComboBox>
+                            <dxlc:FlowLayoutControl Margin="0,0,0,0" BreakFlowToFit="True" ItemsSource="{Binding FreieTermine}" Orientation="Horizontal">
+                                <dxlc:FlowLayoutControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Content="{Binding Titel}" 
+                                                  IsChecked="{Binding IsChecked}" 
+                                                  Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                  dxlc:FlowLayoutControl.IsFlowBreak="{Binding IsFirstDateOfMonth,Mode=OneWay}"
+                                                  Checked="Termin_CheckedChanged" Unchecked="Termin_CheckedChanged"/>
+                                    </DataTemplate>
+                                </dxlc:FlowLayoutControl.ItemTemplate>
+                            </dxlc:FlowLayoutControl>
+                        </StackPanel>
+                        <Separator/>
+                        <!--<TextBlock Text="zu durchsuchende Versammlungen" FontStyle="Italic"/>
+                <Grid Margin="0,10">
+                    <TextBlock Text="Filter auf Kreis" HorizontalAlignment="Left" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedKreise, Mode=OneWay, Converter={StaticResource ListToStringConverter}}" 
+                                       Margin="10,20,0,0"/>
+                    <TextBlock Text="ändern"
+                                           HorizontalAlignment="Right" 
+                                           VerticalAlignment="Bottom"
+                                           TextDecorations="Underline"
+                                           Foreground="{DynamicResource TextHighlight}"
+                                           MouseDown="Filter1MouseDown"/>
+                    <Popup Name="Filter1Popup"
+                                       Placement="Right"      
+                                       VerticalAlignment="Bottom">
+                        <Border BorderThickness="1" Width="100">
+                            <dxe:ListBoxEdit
                                         ItemsSource="{Binding Kreise}"
                                         EditValue="{Binding SelectedKreise, Mode=TwoWay}">
-                                                <dxe:ComboBoxEdit.StyleSettings>
-                                                    <dxe:CheckedComboBoxStyleSettings />
-                                                </dxe:ComboBoxEdit.StyleSettings>
-                                            </dxe:ComboBoxEdit>
-                                        </dxlc:LayoutItem>
-                                        <dxlc:LayoutItem Label="max. Entfernung" FontWeight="Regular">
-                                            <dxe:SpinEdit EditValue="{Binding MaxEntfernung, Mode=TwoWay}"
+                                <dxe:ListBoxEdit.StyleSettings>
+                                    <dxe:CheckedListBoxEditStyleSettings/>
+                                </dxe:ListBoxEdit.StyleSettings>
+                            </dxe:ListBoxEdit>
+                        </Border>
+                    </Popup>
+                </Grid>
+                <Grid Margin="0,10">
+                    <TextBlock Text="max. Entfernung" HorizontalAlignment="Left" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding MaxEntfernung, Mode=OneWay, StringFormat={}{0} km}" 
+                                       Margin="10,20,0,0"/>
+                    <TextBlock Text="ändern"
+                                           HorizontalAlignment="Right" 
+                                           VerticalAlignment="Bottom"
+                                           TextDecorations="Underline"
+                                           Foreground="{DynamicResource TextHighlight}"
+                                           MouseDown="Filter2MouseDown"/>
+                    <Popup Name="Filter2Popup"
+                                       Placement="Right"      
+                                       VerticalAlignment="Bottom">
+                        <Border Width="100" Height="75">
+                            <dxe:SpinEdit   EditValue="{Binding MaxEntfernung, Mode=TwoWay}"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Center"
                                                         MinValue="0"
                                                         IsFloatValue="False"
                                                         Increment="10"
                                                         EditValueType="{x:Type sys:Int32}"
                                                         DisplayFormatString="0 km" />
-                                        </dxlc:LayoutItem>
-                                        <dxlc:LayoutItem Label="offene Anfrage" FontWeight="Regular" ToolTip="Versammlungen für die bereits offene Anfragen ausstehen werden normalerweise nicht nochmal angefragt.">
-                                            <CheckBox IsChecked="{Binding OffeneAnfrage, Mode=TwoWay}" />
-                                        </dxlc:LayoutItem>
-                                        <dxlc:LayoutItem Label="Versammlungen" FontWeight="Regular">
-                                            <dxe:ComboBoxEdit ItemsSource="{Binding Versammlungen}"
-                                                            EditValue="{Binding SelectedVersammlungen, Mode=TwoWay}"
-                                                            FontWeight="Regular"
-                                                            DisplayMember="Name">
-                                                <dxe:ComboBoxEdit.StyleSettings>
-                                                    <dxe:CheckedComboBoxStyleSettings />
-                                                </dxe:ComboBoxEdit.StyleSettings>
-                                            </dxe:ComboBoxEdit>
-                                        </dxlc:LayoutItem>
-                                    </dxlc:LayoutControl>
-                                </dxa:AccordionItem>
-                                <dxa:AccordionItem Header="Redner + Vortrags-Filter">
-                                    <StackPanel>
-                                        <CheckBox IsChecked="{Binding RednerCheckCancelation, Mode=TwoWay}">
-                                            <TextBlock Text="Redner ausblenden, für die bereits eine Absage erteilt wurde."
-                                                    TextWrapping="Wrap" FontWeight="Regular"
-                                                    ToolTip="Wurde ein Redner für ein Zukünftiges Datum angefragt, aber abgesagt, dann diesen Redner nicht noch einmal anfragen." />
-                                        </CheckBox>
-                                        <CheckBox IsChecked="{Binding RednerCheckFuture, Mode=TwoWay}">
-                                            <TextBlock Text="Redner ausblenden, die bereits eingeladen sind."
+                        </Border>
+                    </Popup>
+                </Grid>
+                <Grid Margin="0,10">
+                    <TextBlock Text="Versammlungen mit offenen Anfragen durchsuchen" 
+                                           HorizontalAlignment="Left" 
+                                           FontWeight="Bold"/>
+
+                    <dxe:ToggleSwitch IsChecked="{Binding OffeneAnfrage,Mode=TwoWay}" 
+                                                  CornerRadius="10"
+                                                  Margin="10,20,0,0"
+                                                  HorizontalAlignment="Left"
+                                                  ToggleSwitchHeight="18">
+
+                    </dxe:ToggleSwitch>
+                </Grid>
+                <Grid Margin="0,10">
+                    <TextBlock Text="einzelne Versammlungen auswählen" HorizontalAlignment="Left" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedVersammlungen, Mode=OneWay, Converter={StaticResource VersammlungenToStringConverter}}" 
+                                       Margin="10,20,50,0"/>
+                    <TextBlock Text="ändern"
+                                           HorizontalAlignment="Right" 
+                                           VerticalAlignment="Bottom"
+                                           TextDecorations="Underline"
+                                           Foreground="{DynamicResource TextHighlight}"
+                                           MouseDown="Filter3MouseDown"/>
+                    <Popup Name="Filter3Popup"
+                                       Placement="Right"      
+                                       VerticalAlignment="Bottom">
+                        <Border BorderThickness="1" Width="300">
+                            <dxe:ListBoxEdit ItemsSource="{Binding Versammlungen}"
+                                                         EditValue="{Binding SelectedVersammlungen, Mode=TwoWay}"
+                                                         DisplayMember="Name">
+                                <dxe:ListBoxEdit.StyleSettings>
+                                    <dxe:CheckedListBoxEditStyleSettings/>
+                                </dxe:ListBoxEdit.StyleSettings>
+                            </dxe:ListBoxEdit>
+                        </Border>
+                    </Popup>
+                </Grid>
+                <Separator Margin="0,10"/>-->
+                        <!-- FILTER REDNER -->
+                        <!--<Grid Margin="0,10">
+                    <TextBlock Text="Redner filtern" HorizontalAlignment="Left" FontWeight="Bold"/>
+                    <StackPanel Margin="10,20,50,0" Orientation="Vertical">
+                        <TextBlock Height="20" Text="Redner mit Absagen" Visibility="{Binding RednerCheckCancelation, Converter={StaticResource BoolToVisibilityInverseConverter}}"/>
+                        <TextBlock Height="20" Text="Redner die schon eingeladen sind." Visibility="{Binding RednerCheckFuture, Converter={StaticResource BoolToVisibilityInverseConverter}}"/>
+                        <TextBlock Height="20" Text="Redner die vor kurzem da waren." Visibility="{Binding RednerCheckHistory, Converter={StaticResource BoolToVisibilityInverseConverter}}"/>
+                    </StackPanel>
+                    <TextBlock Text="ändern"
+                                           HorizontalAlignment="Right" 
+                                           VerticalAlignment="Bottom"
+                                           TextDecorations="Underline"
+                                           Foreground="{DynamicResource TextHighlight}"
+                                           MouseDown="Filter4MouseDown"/>
+                    <Popup Name="Filter4Popup"
+                                       Placement="Right"      
+                                       VerticalAlignment="Bottom">
+                        <Border BorderThickness="1" Width="300">
+                            <StackPanel>
+                                <CheckBox IsChecked="{Binding RednerCheckCancelation, Mode=TwoWay}">
+                                    <TextBlock Text="Redner ausblenden, für die bereits eine Absage erteilt wurde."
+                                                        TextWrapping="Wrap" FontWeight="Regular"
+                                                        ToolTip="Wurde ein Redner für ein Zukünftiges Datum angefragt, aber abgesagt, dann diesen Redner nicht noch einmal anfragen." />
+                                </CheckBox>
+                                <CheckBox IsChecked="{Binding RednerCheckFuture, Mode=TwoWay}">
+                                    <TextBlock Text="Redner ausblenden, die bereits eingeladen sind."
+                                                        TextWrapping="Wrap" FontWeight="Regular" />
+                                </CheckBox>
+                                <CheckBox IsChecked="{Binding RednerCheckHistory, Mode=TwoWay}">
+                                    <TextBlock TextWrapping="Wrap" FontWeight="Regular">
+                                                    <Run Text="Redner ausblenden, die in den letzten"/>
+                                                    <Run Text="{Binding RednerSuchenAbstandAnzahlMonate, Mode=OneWay}"/>
+                                                    <Run Text="Monaten bereits eingeladen wurden."/>
+                                    </TextBlock>
+                                </CheckBox>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
+                </Grid>-->
+                        <!--<Separator Margin="0,10"/>-->
+                        <!-- FILTER VORTRAG -->
+                        <!--<Grid  Margin="0,10">
+                    <TextBlock Text="Vorträge filtern" HorizontalAlignment="Left" FontWeight="Bold"/>
+                    <StackPanel Margin="10,20,50,0" Orientation="Vertical">
+                        <TextBlock Height="20" Text="demnächst geplante Vorträge" Visibility="{Binding VortragCheckFuture, Converter={StaticResource BoolToVisibilityInverseConverter}}"/>
+                        <TextBlock Height="20" Text="vor kurzem gehaltene Vorträge" Visibility="{Binding VortragCheckHistory, Converter={StaticResource BoolToVisibilityInverseConverter}}"/>
+                        <TextBlock Height="20" Text="bereits angefragte Vorträge" Visibility="{Binding VortragCheckOpenRequest, Converter={StaticResource BoolToVisibilityInverseConverter}}"/>
+                        <TextBlock Margin="0,0,50,0">
+                                        <Run Text="gewählte Vorträge: "/>
+                                        <Run Text="{Binding VortragListeSelected, Mode=OneWay, Converter={StaticResource ListToStringConverter}}" />
+                        </TextBlock>
+                    </StackPanel>
+                    <TextBlock Text="ändern"
+                                           HorizontalAlignment="Right" 
+                                           VerticalAlignment="Bottom"
+                                           TextDecorations="Underline"
+                                           Foreground="{DynamicResource TextHighlight}"
+                                           MouseDown="Filter5MouseDown"/>
+                    <Popup Name="Filter5Popup"
+                                       Placement="Right"      
+                                       VerticalAlignment="Bottom">
+                        <Border BorderThickness="1" Width="500" 
+                                            >
+                            <StackPanel Margin="10">
+                                <CheckBox IsChecked="{Binding VortragCheckFuture, Mode=TwoWay}">
+                                    <TextBlock Text="Vorträge ausblenden, die bereits eingeplant sind."
                                                     TextWrapping="Wrap" FontWeight="Regular" />
-                                        </CheckBox>
-                                        <CheckBox IsChecked="{Binding RednerCheckHistory, Mode=TwoWay}">
-                                            <TextBlock TextWrapping="Wrap" FontWeight="Regular">
-                                                <Run Text="Redner ausblenden, die in den letzten"/>
-                                                <Run Text="{Binding RednerSuchenAbstandAnzahlMonate, Mode=OneWay}"/>
-                                                <Run Text="Monaten bereits eingeladen wurden."/>
-                                            </TextBlock>
-                                        </CheckBox>
-                                        <CheckBox IsChecked="{Binding VortragCheckFuture, Mode=TwoWay}">
-                                            <TextBlock Text="Vorträge ausblenden, die bereits eingeplant sind."
+                                </CheckBox>
+                                <CheckBox IsChecked="{Binding VortragCheckHistory, Mode=TwoWay}">
+                                    <TextBlock Text="Vorträge ausblenden, die in den letzten 12 Monaten gehalten wurden."
                                                     TextWrapping="Wrap" FontWeight="Regular" />
-                                        </CheckBox>
-                                        <CheckBox IsChecked="{Binding VortragCheckHistory, Mode=TwoWay}">
-                                            <TextBlock Text="Vorträge ausblenden, die in den letzten 12 Monaten gehalten wurden."
+                                </CheckBox>
+                                <CheckBox IsChecked="{Binding VortragCheckOpenRequest, Mode=TwoWay}">
+                                    <TextBlock Text="Vorträge ausblenden, die aktuell angefragt sind."
                                                     TextWrapping="Wrap" FontWeight="Regular" />
-                                        </CheckBox>
-                                        <CheckBox IsChecked="{Binding VortragCheckOpenRequest, Mode=TwoWay}">
-                                            <TextBlock Text="Vorträge ausblenden, die aktuell angefragt sind."
-                                                    TextWrapping="Wrap" FontWeight="Regular" />
-                                        </CheckBox>
-                                        <dxe:ComboBoxEdit ShowSizeGrip="True"
-                                                        FontWeight="Regular"
-                                                        ItemsSource="{Binding VortragListe, Mode=OneWay}"
-                                                        EditValue="{Binding VortragListeSelected, Mode=TwoWay}"
-                                                        DisplayMember="NumberTopicDate"
-                                                        ValueMember="Nummer">
-                                            <dxe:ComboBoxEdit.StyleSettings>
-                                                <dxe:CheckedComboBoxStyleSettings />
-                                            </dxe:ComboBoxEdit.StyleSettings>
-                                        </dxe:ComboBoxEdit>
-                                    </StackPanel>
-                                </dxa:AccordionItem>
-                            </dxa:AccordionControl.Items>
-                        </dxa:AccordionControl>
-                        <Button Content="Redner suchen"
-                                Foreground="{StaticResource TextHighlight}"
-                                Command="{Binding RednerSuchenCommand}"
-                                Grid.Row="1"
-                                Height="30"
-                                VerticalAlignment="Center"
-                                Margin="10,0" />
-                    </Grid>
-                </dxdo:LayoutPanel>
-                <dxdo:LayoutPanel ShowCaption="False">
-                    <dxa:AccordionControl ViewMode="Accordion">
-                        <dxa:AccordionItem Header="Datum" IsExpanded="True">
+                                </CheckBox>
+                                <TextBlock Text="Einzelne Vorträge abwählen:"
+                                                        Margin="0,10,0,0"/>
+                                <dxe:ListBoxEdit FontWeight="Regular"
+                                                         ItemsSource="{Binding VortragListe, Mode=OneWay}"
+                                                         EditValue="{Binding VortragListeSelected, Mode=TwoWay}"
+                                                         DisplayMember="NumberTopicDate"
+                                                         ValueMember="Nummer"
+                                                            MaxHeight="{Binding ElementName=MeinPlanRednerSucheMainWindow, Path=ActualHeight}"
+                                                             >
+
+                                    <dxe:ListBoxEdit.StyleSettings>
+                                        <dxe:CheckedListBoxEditStyleSettings/>
+                                    </dxe:ListBoxEdit.StyleSettings>
+                                </dxe:ListBoxEdit>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
+                </Grid>
+                <Separator Margin="0,10"/>-->
+                        <!-- FILTER DATUM -->
+                        <!--<Grid Margin="0,10">
+                    <TextBlock Text="Termine" HorizontalAlignment="Left" FontWeight="Bold"/>
+                    <TextBlock Margin="20,20,50,0">
+                                        <Run Text="gewählte Termine: "/>
+                                        <Run Text="{Binding FreieTermine, Mode=OneWay, Converter={StaticResource ListToStringConverter}}" />
+                    </TextBlock>
+                    <TextBlock Text="ändern"
+                                           HorizontalAlignment="Right" 
+                                           VerticalAlignment="Bottom"
+                                           TextDecorations="Underline"
+                                           Foreground="{DynamicResource TextHighlight}"
+                                           MouseDown="Filter6MouseDown"/>
+                    <Popup Name="Filter6Popup"
+                                       Placement="Right"      
+                                       VerticalAlignment="Bottom">
+                        <Border BorderThickness="1" Width="500">
                             <Grid>
                                 <ComboBox VerticalAlignment="Top" Height="30" SelectedIndex="{Binding SelectedTermine, Mode=TwoWay}">
                                     <ComboBoxItem Content="nächster freier Termin" />
@@ -177,68 +496,80 @@
                                     </dxlc:FlowLayoutControl.ItemTemplate>
                                 </dxlc:FlowLayoutControl>
                             </Grid>
-                        </dxa:AccordionItem>
-                        <dxa:AccordionItem Header="Vorträge" IsExpanded="True">
-                            <dxlc:FlowLayoutControl Orientation="Vertical"
+                        </Border>
+                    </Popup>
+                </Grid>-->
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+        <GridSplitter Grid.Column="1" 
+              Grid.Row="0" 
+              HorizontalAlignment="Left" 
+              
+              Width="1"/>
+        <!-- SUCHERGEBNISSE -->
+        <dxlc:FlowLayoutControl Grid.Row="0" Grid.Column="2"
+                        Orientation="Vertical"
                                         StretchContent="True"
                                         BreakFlowToFit="True"
                                         MaximizedElementPosition="Right"
                                         ItemsSource="{Binding Redner}"
                                         d:DataContext="{d:DesignInstance Type=pageModels:GroupConregation}">
-                                <dxlc:FlowLayoutControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <dxlc:GroupBox Header="{Binding}" Content="{Binding}">
-                                            <dxlc:GroupBox.HeaderTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Margin="1">
+                        <dxlc:FlowLayoutControl.ItemTemplate>
+                            <DataTemplate>
+                                <dxlc:GroupBox Header="{Binding}" Content="{Binding}">
+                                    <dxlc:GroupBox.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Margin="1">
                                                         <Run Text="{Binding Versammlung, Mode=OneWay}" FontSize="14" FontWeight="Black" />
-                                                    </TextBlock>
-                                                </DataTemplate>
-                                            </dxlc:GroupBox.HeaderTemplate>
-                                            <dxlc:GroupBox.ContentTemplate>
-                                                <DataTemplate>
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*" />
-                                                            <ColumnDefinition Width="100" />
-                                                        </Grid.ColumnDefinitions>
-                                                        <ListBox Grid.Column="0" 
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </dxlc:GroupBox.HeaderTemplate>
+                                    <dxlc:GroupBox.ContentTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="100" />
+                                                </Grid.ColumnDefinitions>
+                                                <ListBox Grid.Column="0" 
                                                                  ItemsSource="{Binding Redner, Mode=OneWay}"  
                                                                  BorderThickness="0" FontWeight="Regular"
                                                                  >
-                                                            <ListBox.ItemTemplate>
-                                                                <DataTemplate>
-                                                                    <StackPanel Orientation="Horizontal" 
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal" 
                                                                                 d:DataContext="{d:DesignInstance Type=pageModels:GroupSpeaker}">
-                                                                        <StackPanel.ToolTip>
-                                                                            <Grid Margin="-9,-5">
-                                                                                <dxlc:LayoutControl Padding="0" Margin="0">
-                                                                                    <dxlc:LayoutGroup Orientation="Horizontal"
+                                                                <StackPanel.ToolTip>
+                                                                    <Grid Margin="-9,-5">
+                                                                        <dxlc:LayoutControl Padding="0" Margin="0">
+                                                                            <dxlc:LayoutGroup Orientation="Horizontal"
                                                                                               View="GroupBox"
                                                                                               Header="{Binding Name}" Margin="0">
-                                                                                    
-                                                                                            <dxlc:LayoutGroup Orientation="Vertical">
-                                                                                                <dxlc:LayoutItem Label="Telefon:">
-                                                                                                        <Label Content="{Binding Redner.Telefon}" />
-                                                                                                </dxlc:LayoutItem>
-                                                                                                <dxlc:LayoutItem Label="Mobil:">
-                                                                                                <Label Content="{Binding Redner.Mobil}" />
-                                                                                                </dxlc:LayoutItem>
-                                                                                                <dxlc:LayoutItem Label="Info:">
-                                                                                                <Label Content="{Binding Redner.InfoPrivate}" />
-                                                                                                </dxlc:LayoutItem>
-                                                                                                <dxlc:LayoutItem>
-                                                                                                <Label Content="{Binding Redner.InfoPublic}" />
-                                                                                                </dxlc:LayoutItem>
-                                                                                            </dxlc:LayoutGroup>
-                                                                                        <Image MaxHeight="150" Source="{Binding Redner.Foto}"/>
-                                                                                    </dxlc:LayoutGroup>
-                                                                                </dxlc:LayoutControl>
-                                                                            </Grid>
-                                                                        </StackPanel.ToolTip>
-                                                                        <CheckBox IsChecked="{Binding Gewählt, Mode=TwoWay}" VerticalContentAlignment="Center" />
-                                                                        <Label Content="{Binding Name}" Width="170" Height="30" VerticalContentAlignment="Center"/>
-                                                                        <dxg:LookUpEdit Name="lookUpEdit"
+
+                                                                                <dxlc:LayoutGroup Orientation="Vertical">
+                                                                                    <dxlc:LayoutItem Label="Telefon:">
+                                                                                        <Label Content="{Binding Redner.Telefon}" />
+                                                                                    </dxlc:LayoutItem>
+                                                                                    <dxlc:LayoutItem Label="Mobil:">
+                                                                                        <Label Content="{Binding Redner.Mobil}" />
+                                                                                    </dxlc:LayoutItem>
+                                                                                    <dxlc:LayoutItem Label="Info:">
+                                                                                        <Label Content="{Binding Redner.InfoPrivate}" />
+                                                                                    </dxlc:LayoutItem>
+                                                                                    <dxlc:LayoutItem>
+                                                                                        <Label Content="{Binding Redner.InfoPublic}" />
+                                                                                    </dxlc:LayoutItem>
+                                                                                </dxlc:LayoutGroup>
+                                                                                <Image MaxHeight="150" Source="{Binding Redner.Foto}"/>
+                                                                            </dxlc:LayoutGroup>
+                                                                        </dxlc:LayoutControl>
+                                                                    </Grid>
+                                                                </StackPanel.ToolTip>
+                                                                <CheckBox IsChecked="{Binding Gewählt, Mode=TwoWay}" VerticalContentAlignment="Center" />
+                                                                <Label Content="{Binding Name}" Width="170" Height="30" VerticalContentAlignment="Center"/>
+                                                                <dxg:LookUpEdit Name="lookUpEdit"
                                                                                         VerticalAlignment="Center"
                                                                                         AutoPopulateColumns="False"
                                                                                         PopupContentTemplate="{StaticResource GridTemplate}"
@@ -252,30 +583,27 @@
                                                                                         AutoComplete="False"
                                                                                         IncrementalFiltering="False"
                                                                                         Width="300"/>
-                                                                        <Label Content="{Binding LetzterBesuch}" Width="80" Height="30" Margin="10,0,0,0" ToolTip="letzter Besuch" VerticalContentAlignment="Center" />
-                                                                        <Label Content="{Binding InfoPrivate}" Height="40" Margin="10,0,0,0" ToolTip="{Binding InfoPrivate}" VerticalContentAlignment="Center" />
-                                                                    </StackPanel>
-                                                                </DataTemplate>
-                                                            </ListBox.ItemTemplate>
-                                                        </ListBox>
-                                                        <Button Grid.Column="1" Margin="5" Height="60" Width="90" VerticalAlignment="Center" 
+                                                                <Label Content="{Binding LetzterBesuch}" Width="80" Height="30" Margin="10,0,0,0" ToolTip="letzter Besuch" VerticalContentAlignment="Center" />
+                                                                <Label Content="{Binding InfoPrivate}" Height="40" Margin="10,0,0,0" ToolTip="{Binding InfoPrivate}" VerticalContentAlignment="Center" />
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                                <Button Grid.Column="1" Margin="5" Height="60" Width="90" VerticalAlignment="Center" 
                                                                 Command="{Binding AnfrageSendenCommand}"
                                                                 IsEnabled="{Binding HatGewählteRedner}">
-                                                            <TextBlock>Redner<LineBreak />anfragen</TextBlock>
-                                                        </Button>
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </dxlc:GroupBox.ContentTemplate>
-                                        </dxlc:GroupBox>
-                                    </DataTemplate>
-                                </dxlc:FlowLayoutControl.ItemTemplate>
-                            </dxlc:FlowLayoutControl>
-                        </dxa:AccordionItem>
-                    </dxa:AccordionControl>
-                </dxdo:LayoutPanel>
-            </dxdo:LayoutGroup>
-        </dxdo:DockLayoutManager>
-        <dxdo:DockLayoutManager Grid.Row="1">
+                                                    <TextBlock>Redner<LineBreak />anfragen</TextBlock>
+                                                </Button>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </dxlc:GroupBox.ContentTemplate>
+                                </dxlc:GroupBox>
+                            </DataTemplate>
+                        </dxlc:FlowLayoutControl.ItemTemplate>
+                    </dxlc:FlowLayoutControl>
+
+
+        <dxdo:DockLayoutManager Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
             <dxdo:LayoutGroup>
                 <dxdo:LayoutPanel ShowCaption="False">
                     <Grid>

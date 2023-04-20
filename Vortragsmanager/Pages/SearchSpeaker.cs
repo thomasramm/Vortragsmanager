@@ -27,7 +27,35 @@
             foreach (var t in data.FreieTermine)
             {
                 t.IsChecked = (t.Datum == date);
+                t.IsVisible = t.IsChecked;
             }
+        }
+
+        private void Filter1MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            VersammlungenExpander.IsExpanded = !VersammlungenExpander.IsExpanded;
+        }
+
+        private void Filter2MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            RednerExpander.IsExpanded = !RednerExpander.IsExpanded;
+        }
+
+        private void Filter3MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            VortragExpander.IsExpanded = !VortragExpander.IsExpanded;
+        }
+
+        private void Filter4MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            TerminExpander.IsExpanded= !TerminExpander.IsExpanded;
+        }
+
+
+        private void Termin_CheckedChanged(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var data = (PageModels.MeinPlanRednerSuchenPageModel)DataContext;
+            data.FreieTermineCalculateBatch();
         }
     }
 }

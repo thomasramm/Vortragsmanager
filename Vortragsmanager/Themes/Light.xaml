@@ -107,6 +107,7 @@
     <Style x:Key="NavimenuHeader2" TargetType="Border">
         <Setter Property="Background" Value="#005A9E"/>
     </Style>
+    <SolidColorBrush x:Key="BadgeStyle" Color="#106EBE" />
     <SolidColorBrush x:Key="TextColor" Color="Black"/>
     <SolidColorBrush x:Key="TextDezentColor" Color="#444"/>
     <SolidColorBrush x:Key="TextHighlight" Color="#004578"/>

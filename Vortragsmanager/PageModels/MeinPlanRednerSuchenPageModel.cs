@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using DevExpress.Mvvm;
@@ -350,12 +351,31 @@ namespace Vortragsmanager.PageModels
 
         public ObservableCollection<Termin> FreieTermine { get; } = new ObservableCollection<Termin>();
 
+
+        public void FreieTermineCalculateBatch()
+        {
+            FreieTermineSelectedCount = FreieTermine.Count(x => x.IsChecked);
+        }
+
+        private int _freieTermineSelected;
+        public int FreieTermineSelectedCount
+        {
+            get => _freieTermineSelected;
+            set
+            {
+                _freieTermineSelected= value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         public void ReadTermine()
         {
             FreieTermine.Clear();
 
             var start = DateCalcuation.GetConregationDay(DateTime.Today);
-            var ende = start.AddMonths(Settings.Default.RednerSuchenAnzahlMonate).AddDays(7);
+            var anzahlMonateMax = Math.Max(Settings.Default.RednerSuchenAnzahlMonate, 24);
+            var ende = start.AddMonths(anzahlMonateMax).AddDays(7);
             var datum = start;
             var month = datum.AddMonths(-1).Month;
             while (datum < ende)
@@ -386,7 +406,7 @@ namespace Vortragsmanager.PageModels
             //3 = 6 Monate
             //4 = 12 Monate
             //5 = 24 Monate
-            //6 = Alle
+            //6 = Benutzerdefiniert
             var maxTermin = DateCalcuation.GetConregationDay(DateTime.Today);
             switch (SelectedTermine)
             {
@@ -416,9 +436,13 @@ namespace Vortragsmanager.PageModels
             {
                 //t.Aktiv = (t.Datum <= maxTermin);
                 t.IsChecked = t.Datum <= maxTermin;
+                t.IsVisible = t.IsChecked;
+
                 if (SelectedTermine == 0)
                     maxTermin = DateTime.Today;
             }
+
+            FreieTermineCalculateBatch();
         }
 
         #endregion Freie Termine & Redner suchen

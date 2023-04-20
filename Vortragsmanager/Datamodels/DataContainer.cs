@@ -406,7 +406,7 @@ namespace Vortragsmanager.Datamodels
             foreach (var r in e)
             {
                 ausgabe += $"{r.Ältester.Name} in {r.Versammlung.Name}, ";
-                ausgabeNr = $"{r.Ältester.Name} in {r.Versammlung.Name} ({r.Vortrag.Vortrag.Nummer}), ";
+                ausgabeNr += $"{r.Ältester.Name} in {r.Versammlung.Name} ({r.Vortrag.Vortrag.Nummer}), ";
                 name += r.Ältester.Name + ", ";
                 ort += r.Versammlung.Name + ", ";
             }

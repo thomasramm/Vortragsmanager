@@ -10,6 +10,7 @@ namespace Vortragsmanager.PageModels
     public class Termin : ViewModelBase
     {
         private bool _isChecked = true;
+        private bool _isVisible = true;
 
         public Termin(DateTime datum, int kw)
         {
@@ -27,6 +28,16 @@ namespace Vortragsmanager.PageModels
             set
             {
                 _isChecked = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set
+            {
+                _isVisible = value;
                 RaisePropertyChanged();
             }
         }

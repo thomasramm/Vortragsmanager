@@ -109,6 +109,7 @@
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Margin" Value="10"/>
 </Style>
+    <SolidColorBrush x:Key="BadgeStyle" Color="Orange" />
     <SolidColorBrush x:Key="TextColor" Color="White"/>
     <SolidColorBrush x:Key="TextDezentColor" Color="LightGray"/>
     <SolidColorBrush x:Key="TextHighlight" Color="Orange"/>
