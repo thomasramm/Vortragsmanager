@@ -402,11 +402,11 @@ namespace Vortragsmanager.Datamodels
             var ausgabe = "Redner Auswärts: ";
             var name = string.Empty;
             var ort = string.Empty;
-            var ausgabeNr = string.Empty;
+            var ausgabeNr = ausgabe;
             foreach (var r in e)
             {
                 ausgabe += $"{r.Ältester.Name} in {r.Versammlung.Name}, ";
-                ausgabeNr = $"{r.Ältester.Name} in {r.Versammlung.Name} ({r.Vortrag.Vortrag.Nummer}), ";
+                ausgabeNr += $"{r.Ältester.Name} in {r.Versammlung.Name} ({r.Vortrag.Vortrag.Nummer}), ";
                 name += r.Ältester.Name + ", ";
                 ort += r.Versammlung.Name + ", ";
             }
