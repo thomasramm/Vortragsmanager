@@ -110,6 +110,15 @@ namespace Vortragsmanager.DataModels
             return false;
         }
 
+        public static bool RestoreLastBackup()
+        {
+            var last = List().OrderByDescending(x => x.Date).FirstOrDefault();
+            if (last == null)
+                return false;
+
+            return Restore(last.FileName, false);
+        }
+
         /// <summary>
         /// Entfernt ein Backup
         /// </summary>

@@ -66,9 +66,12 @@ namespace Vortragsmanager
 
             if (File.Exists(filename))
                 IoSqlite.ReadContainer(filename);
-            else
+            //versuche das letzte Backup zu lesen
+            else if (!Backup.RestoreLastBackup())
+            {
+                //neue leere DB erstellen
                 Initialize.NewDatabase();
-
+            }
             if (!DataContainer.IsInitialized)
             {
                 ThemedMessageBox.Show("Fehler", "Vortragsmanager ist nicht initialisiert. Das Programm wird beendet", MessageBoxButton.OK, MessageBoxImage.Error);
