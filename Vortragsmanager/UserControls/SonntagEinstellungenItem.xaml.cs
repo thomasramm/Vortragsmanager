@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 
 namespace Vortragsmanager.UserControls
 {

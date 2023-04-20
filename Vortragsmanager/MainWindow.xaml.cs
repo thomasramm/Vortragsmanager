@@ -5,11 +5,9 @@ using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
-using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Module;
 using Vortragsmanager.PageModels;
-using Vortragsmanager.Properties;
 
 namespace Vortragsmanager
 {
@@ -27,8 +25,7 @@ namespace Vortragsmanager
                 typeof(FrameworkElement),
                 new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
-            //Logging
-            Log.Start();
+            //Exceptions der Module SQLite und DevExpress abfangen
             AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
             {
                 if (eventArgs.Exception.Message.Contains("System.Data.SQLite.SEE.License"))
@@ -41,12 +38,15 @@ namespace Vortragsmanager
                 Log.Error("FirstChanceExceptionStackTrace", eventArgs.Exception.StackTrace);
             };
 
-#if DEBUG
-                Settings.Default.sqlite = @"C:\\Users\\post\\OneDrive\\Dokumente\\vortragsmanager.sqlite3";
-#endif
+
+            //Programmeinstellungen
+            //Daten einlesen, Datenklassen bereitstellen
+            Helper.Helper.GlobalSettings = new MyGloabalSettings();
+            Helper.Helper.GlobalSettings.Read();
+            Log.Start();
 
             //Erster Start nach Update?
-            if (!Settings.Default.HideChangelog)
+            if (!Helper.Helper.GlobalSettings.HideChangelog)
             {
                 Update.ShowChanges();
             }
@@ -55,14 +55,14 @@ namespace Vortragsmanager
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length >= 2 && File.Exists(args[1]))
             {
-                Settings.Default.sqlite = args[1];
+                Helper.Helper.GlobalSettings.sqlite = args[1];
             }
-            else if (Settings.Default.sqlite == "vortragsmanager.sqlite3" || Settings.Default.sqlite == "demo.sqlite3")
+            else if (Helper.Helper.GlobalSettings.sqlite == "vortragsmanager.sqlite3" || Helper.Helper.GlobalSettings.sqlite == "demo.sqlite3")
             {
-                Settings.Default.sqlite = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + Settings.Default.sqlite;
+                Helper.Helper.GlobalSettings.sqlite = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + Helper.Helper.GlobalSettings.sqlite;
             }
-            Settings.Default.Save();
-            var filename = Settings.Default.sqlite;
+            Helper.Helper.GlobalSettings.Save();
+            var filename = Helper.Helper.GlobalSettings.sqlite;
 
             if (File.Exists(filename))
                 IoSqlite.ReadContainer(filename);
@@ -78,8 +78,6 @@ namespace Vortragsmanager
             //UI erstellen
             InitializeComponent();
 
-            //Daten einlesen, Datenklassen bereitstellen
-            Helper.Helper.GlobalSettings = new MyGloabalSettings();
             DataContext = Helper.Helper.GlobalSettings;
                         
             //Bereinigungs Tasks
@@ -90,7 +88,7 @@ namespace Vortragsmanager
 
             //Style Anpassungen
             Helper.Helper.GlobalSettings.RefreshTitle();
-            EinstellungenPageModel.ThemeIsDark = Settings.Default.ThemeIsDark;
+            EinstellungenPageModel.ThemeIsDark = Helper.Helper.GlobalSettings.ThemeIsDark;
         }
 
         private void HelpButton_Click(object sender, RoutedEventArgs e)

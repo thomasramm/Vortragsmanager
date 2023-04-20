@@ -1,9 +1,8 @@
 ﻿using System;
-using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
 
-namespace Vortragsmanager.Datamodels
+namespace Vortragsmanager.DataModels
 {
     public class Outside
     {

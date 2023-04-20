@@ -4,7 +4,7 @@ using System.Linq;
 using Vortragsmanager.Helper;
 using Vortragsmanager.Module;
 
-namespace Vortragsmanager.Datamodels
+namespace Vortragsmanager.DataModels
 {
     public static class Templates
     {

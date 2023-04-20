@@ -110,6 +110,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataModels\MyGloabalSettings.cs" />
     <Compile Include="Enums\BackupAge.cs" />
     <Compile Include="DataModels\BackupItem.cs" />
     <Compile Include="Enums\NavigationPage.cs" />

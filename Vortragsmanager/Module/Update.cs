@@ -4,7 +4,6 @@ using System.Net;
 using System.Text.RegularExpressions;
 using DevExpress.Xpf.Core;
 using Vortragsmanager.Converter;
-using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Windows;
 using System.Linq;
@@ -33,13 +32,13 @@ namespace Vortragsmanager.Module
             if (DataContainer.Version < 23)
             {
                 //Neues Backup System, alle VdL Dateien des aktuellen Ordner einlesen
-                var di = new FileInfo(Properties.Settings.Default.sqlite).Directory;
+                var di = new FileInfo(Helper.Helper.GlobalSettings.sqlite).Directory;
                 if (di != null)
                 {
                     var files = di.GetFiles("*_????-??-??-??-??.sqlite3", SearchOption.TopDirectoryOnly);
                     foreach (var file in files)
                     {
-                        if (file.Name != Properties.Settings.Default.sqlite)
+                        if (file.Name != Helper.Helper.GlobalSettings.sqlite)
                         {
                             var name = file.Name.Length >= 24 ? file.Name.Substring(file.Name.Length - 24) : file.Name;
                                 name = name.Replace(".sqlite3", "-00.sqlite3");
@@ -100,9 +99,9 @@ namespace Vortragsmanager.Module
 
         public static void ShowChanges(bool force = false)
         {
-            var oldVersion = StringToVersionConverter.Convert(Properties.Settings.Default.LastChangelog);
+            var oldVersion = StringToVersionConverter.Convert(Helper.Helper.GlobalSettings.LastChangelog);
             string fileContent;
-            var pathToChangelog = Properties.Settings.Default.ChangelogPfad;
+            var pathToChangelog = Helper.Helper.GlobalSettings.ChangelogPfad;
             var aktuelleVersion = System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version ?? new Version(1,0);
             var header = $"Aktuelle Version {aktuelleVersion.Major}.{aktuelleVersion.Minor}.{aktuelleVersion.Build}";
 
@@ -136,7 +135,7 @@ namespace Vortragsmanager.Module
                 fileContent = "Fehler beim Abrufen der Änderungsliste (Changelog) aus dem Internet." + Environment.NewLine
                     + "Bitte die Änderungshinweise manuell aufrufen." + Environment.NewLine
                     + Environment.NewLine
-                    + Properties.Settings.Default.ChangelogPfad;
+                    + Helper.Helper.GlobalSettings.ChangelogPfad;
             }
 
             //Dialog anzeigen
@@ -150,8 +149,8 @@ namespace Vortragsmanager.Module
             dlgMdl.Text = fileContent;
             dlg.ShowDialog();
 
-            Properties.Settings.Default.LastChangelog = aktuelleVersion.ToString();
-            Properties.Settings.Default.Save();
+            Helper.Helper.GlobalSettings.LastChangelog = aktuelleVersion.ToString();
+            Helper.Helper.GlobalSettings.Save();
         }
 
         private static int FindVersion(string fileContent, Version oldVersion)

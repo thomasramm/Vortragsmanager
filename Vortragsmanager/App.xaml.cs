@@ -1,7 +1,6 @@
 ﻿using System.Windows;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Module;
-using Vortragsmanager.Properties;
 
 namespace Vortragsmanager
 {
@@ -15,12 +14,12 @@ namespace Vortragsmanager
             if (DataContainer.IsInitialized)
             {
                 Log.Info("ApplicationExit", "Save");
-                var file = IoSqlite.SaveContainer(Settings.Default.sqlite, Settings.Default.SaveBackups);
-                Settings.Default.sqlite = file;
+                var file = IoSqlite.SaveContainer(Helper.Helper.GlobalSettings.sqlite, Helper.Helper.GlobalSettings.SaveBackups);
+                Helper.Helper.GlobalSettings.sqlite = file;
             }
 
             //Alle Programm-Einstellungen die irgendwann gemacht wurden, bei Programmende speichern
-            Settings.Default.Save();
+            Helper.Helper.GlobalSettings.Save();
         }
     }
 }

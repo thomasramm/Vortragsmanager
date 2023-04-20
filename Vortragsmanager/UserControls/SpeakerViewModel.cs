@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows.Media;
 using DevExpress.Mvvm;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Interface;
 

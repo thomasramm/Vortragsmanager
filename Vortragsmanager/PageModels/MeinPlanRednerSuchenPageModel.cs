@@ -4,11 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using DevExpress.Mvvm;
-using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
-using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.PageModels
 {
@@ -33,13 +31,13 @@ namespace Vortragsmanager.PageModels
             SelectedTermine = 2;
             Modul1Visible = new GridLength(1, GridUnitType.Star);
             Modul2Visible = new GridLength(0);
-            RednerCheckHistory = Settings.Default.SearchSpeaker_RednerCheckHistory;
-            RednerCheckFuture = Settings.Default.SearchSpeaker_RednerCheckFuture;
-            RednerCheckCancelation = Settings.Default.SearchSpeaker_RednerCheckCancelation;
-            VortragCheckFuture = Settings.Default.SearchSpeaker_VortragCheckFuture;
-            VortragCheckHistory = Settings.Default.SearchSpeaker_VortragCheckHistory;
-            MaxEntfernung = Settings.Default.SearchSpeaker_MaxEntfernung;
-            OffeneAnfrage = Settings.Default.SearchSpeaker_OffeneAnfrage;
+            RednerCheckHistory = Helper.Helper.GlobalSettings.SearchSpeaker_RednerCheckHistory;
+            RednerCheckFuture = Helper.Helper.GlobalSettings.SearchSpeaker_RednerCheckFuture;
+            RednerCheckCancelation = Helper.Helper.GlobalSettings.SearchSpeaker_RednerCheckCancelation;
+            VortragCheckFuture = Helper.Helper.GlobalSettings.SearchSpeaker_VortragCheckFuture;
+            VortragCheckHistory = Helper.Helper.GlobalSettings.SearchSpeaker_VortragCheckHistory;
+            MaxEntfernung = Helper.Helper.GlobalSettings.SearchSpeaker_MaxEntfernung;
+            OffeneAnfrage = Helper.Helper.GlobalSettings.SearchSpeaker_OffeneAnfrage;
             ReadSelectedKreis();
 
             Modul1Visible = new GridLength(1, GridUnitType.Star);
@@ -50,7 +48,7 @@ namespace Vortragsmanager.PageModels
 
         public void ReadSelectedKreis()
         {
-            var selKreis = Settings.Default.SearchSpeaker_Kreis;
+            var selKreis = Helper.Helper.GlobalSettings.SearchSpeaker_Kreis;
             var kreis = selKreis.Split(';');
             if (!string.IsNullOrEmpty(selKreis))
             {
@@ -75,7 +73,7 @@ namespace Vortragsmanager.PageModels
             {
                 s += k + ";";
             }
-            Settings.Default.SearchSpeaker_Kreis = s.TrimEnd(';');
+            Helper.Helper.GlobalSettings.SearchSpeaker_Kreis = s.TrimEnd(';');
         }
 
         #region Freie Termine & Redner suchen
@@ -220,7 +218,7 @@ namespace Vortragsmanager.PageModels
             }
         }
 
-        public int RednerSuchenAbstandAnzahlMonate => Settings.Default.RednerSuchenAbstandAnzahlMonate;
+        public int RednerSuchenAbstandAnzahlMonate => Helper.Helper.GlobalSettings.RednerSuchenAbstandAnzahlMonate;
 
         public List<GroupConregation> Redner { get; private set; }
 
@@ -355,7 +353,7 @@ namespace Vortragsmanager.PageModels
             FreieTermine.Clear();
 
             var start = DateCalcuation.GetConregationDay(DateTime.Today);
-            var ende = start.AddMonths(Settings.Default.RednerSuchenAnzahlMonate).AddDays(7);
+            var ende = start.AddMonths(Helper.Helper.GlobalSettings.RednerSuchenAnzahlMonate).AddDays(7);
             var datum = start;
             var month = datum.AddMonths(-1).Month;
             while (datum < ende)
@@ -409,7 +407,7 @@ namespace Vortragsmanager.PageModels
                     break;
                 case 0:
                 case 6:
-                    maxTermin = maxTermin.AddMonths(Settings.Default.RednerSuchenAnzahlMonate);
+                    maxTermin = maxTermin.AddMonths(Helper.Helper.GlobalSettings.RednerSuchenAnzahlMonate);
                     break;
             }
             foreach (var t in FreieTermine)
@@ -471,14 +469,14 @@ namespace Vortragsmanager.PageModels
         private void LoadModul2(GroupConregation inhalt)
         {
             Modul1Visible = new GridLength(0);
-            Settings.Default.SearchSpeaker_RednerCheckHistory = RednerCheckHistory;
-            Settings.Default.SearchSpeaker_RednerCheckFuture = RednerCheckFuture;
-            Settings.Default.SearchSpeaker_VortragCheckFuture = VortragCheckFuture;
-            Settings.Default.SearchSpeaker_VortragCheckHistory = VortragCheckHistory;
-            Settings.Default.SearchSpeaker_VortragCheckOpenRequest = VortragCheckOpenRequest;
-            Settings.Default.SearchSpeaker_RednerCheckCancelation = RednerCheckCancelation;
-            Settings.Default.SearchSpeaker_MaxEntfernung = MaxEntfernung;
-            Settings.Default.SearchSpeaker_OffeneAnfrage = OffeneAnfrage;
+            Helper.Helper.GlobalSettings.SearchSpeaker_RednerCheckHistory = RednerCheckHistory;
+            Helper.Helper.GlobalSettings.SearchSpeaker_RednerCheckFuture = RednerCheckFuture;
+            Helper.Helper.GlobalSettings.SearchSpeaker_VortragCheckFuture = VortragCheckFuture;
+            Helper.Helper.GlobalSettings.SearchSpeaker_VortragCheckHistory = VortragCheckHistory;
+            Helper.Helper.GlobalSettings.SearchSpeaker_VortragCheckOpenRequest = VortragCheckOpenRequest;
+            Helper.Helper.GlobalSettings.SearchSpeaker_RednerCheckCancelation = RednerCheckCancelation;
+            Helper.Helper.GlobalSettings.SearchSpeaker_MaxEntfernung = MaxEntfernung;
+            Helper.Helper.GlobalSettings.SearchSpeaker_OffeneAnfrage = OffeneAnfrage;
             SaveSelectedKreis();
 
             Modul2Visible = new GridLength(1, GridUnitType.Star);

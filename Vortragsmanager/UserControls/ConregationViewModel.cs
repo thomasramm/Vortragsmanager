@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Media;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
-using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Interface;
 using Vortragsmanager.Module;

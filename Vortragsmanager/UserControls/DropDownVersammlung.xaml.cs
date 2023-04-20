@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 
 namespace Vortragsmanager.UserControls
 {

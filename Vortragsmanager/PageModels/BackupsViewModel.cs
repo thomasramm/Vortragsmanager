@@ -6,7 +6,6 @@ using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
-using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.PageModels
 {
@@ -114,11 +113,11 @@ namespace Vortragsmanager.PageModels
 
         public bool MakeBackups
         {
-            get => Settings.Default.SaveBackups;
+            get => Helper.Helper.GlobalSettings.SaveBackups;
             set
             {
-                Settings.Default.SaveBackups = value;
-                Settings.Default.Save();
+                Helper.Helper.GlobalSettings.SaveBackups = value;
+                Helper.Helper.GlobalSettings.Save();
             }
         }
 

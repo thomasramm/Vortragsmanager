@@ -1,5 +1,5 @@
 ﻿using DevExpress.Mvvm;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 
 namespace Vortragsmanager.PageModels
 {

@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using DevExpress.Mvvm;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Helper;
 using Vortragsmanager.Module;
 using Vortragsmanager.UserControls;
@@ -104,7 +104,7 @@ namespace Vortragsmanager.PageModels
         {
             Wochen.Clear();
             var tag = DateCalcuation.GetConregationDay(Monat);
-            var nMonat = Monat.AddMonths(Properties.Settings.Default.SonntagAnzeigeMonate);
+            var nMonat = Monat.AddMonths(Helper.Helper.GlobalSettings.SonntagAnzeigeMonate);
             while (tag < nMonat)
             {
                 Wochen.Add(new SonntagItem(tag));

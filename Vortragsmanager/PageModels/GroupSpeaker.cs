@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using DevExpress.Mvvm;
-using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Helper;
 
