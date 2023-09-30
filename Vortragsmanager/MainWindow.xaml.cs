@@ -24,17 +24,17 @@ namespace Vortragsmanager
             LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
             //Exceptions der Module SQLite und DevExpress abfangen
-            ////AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
-            ////{
-            ////    if (eventArgs.Exception.Message.Contains("System.Data.SQLite.SEE.License"))
-            ////        return;
-            ////    if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.MetropolisDark"))
-            ////        return;
-            ////    if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.Office2019White"))
-            ////        return;
-            ////    Log.Error("FirstChanceException", eventArgs.Exception.Message);
-            ////    Log.Error("FirstChanceExceptionStackTrace", eventArgs.Exception.StackTrace);
-            ////};
+            AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
+            {
+                if (eventArgs.Exception.Message.Contains("System.Data.SQLite.SEE.License"))
+                    return;
+                if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.MetropolisDark"))
+                    return;
+                if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.Office2019White"))
+                    return;
+                Log.Error("FirstChanceException", eventArgs.Exception.Message);
+                Log.Error("FirstChanceExceptionStackTrace", eventArgs.Exception.StackTrace);
+            };
 
             //Programmeinstellungen
             Helper.Helper.GlobalSettings = new MyGloabalSettings();

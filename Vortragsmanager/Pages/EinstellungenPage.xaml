@@ -154,7 +154,7 @@
                                Width="24" 
                                HorizontalAlignment="Left" 
                                Margin="10"/>
-                        <TextBlock Grid.Column="1" Text="Wizard starten" Style="{DynamicResource EinstellungenBoxLabel}"/>
+                        <TextBlock Grid.Column="1" Text="Wizard starten: Nochmal von vorne, bei 0 anfangen..." Style="{DynamicResource EinstellungenBoxLabel}"/>
                         <dx:SimpleButton Grid.Column="2" Content="Wizard"
                      VerticalAlignment="Center"
                      Height="30"

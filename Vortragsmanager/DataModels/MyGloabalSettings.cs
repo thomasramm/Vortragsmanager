@@ -145,8 +145,10 @@ namespace Vortragsmanager.DataModels
             try
             {
                 XmlSerializer xs = new XmlSerializer(typeof(MyGloabalSettings));
-                TextWriter tw = new StreamWriter(Helper.Helper.AppFolderPath + "Settings.xml");
-                xs.Serialize(tw, Helper.Helper.GlobalSettings);
+                using (TextWriter tw = new StreamWriter(Helper.Helper.AppFolderPath + "Settings.xml"))
+                {
+                    xs.Serialize(tw, Helper.Helper.GlobalSettings);
+                }
             }
             catch(Exception ex)
             {
