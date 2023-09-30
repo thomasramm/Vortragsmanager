@@ -1,5 +1,4 @@
-﻿using Vortragsmanager.Datamodels;
-using Vortragsmanager.Helper;
+﻿using Vortragsmanager.Helper;
 
 namespace Vortragsmanager.DataModels
 {

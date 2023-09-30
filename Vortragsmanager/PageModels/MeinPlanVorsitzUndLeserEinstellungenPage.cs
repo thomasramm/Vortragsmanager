@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using DevExpress.Mvvm;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.UserControls;
 
 namespace Vortragsmanager.PageModels
@@ -32,11 +32,11 @@ namespace Vortragsmanager.PageModels
 
         public int MonateAnzahlAnzeige
         {
-            get => Properties.Settings.Default.SonntagAnzeigeMonate;
+            get => Helper.Helper.GlobalSettings.SonntagAnzeigeMonate;
             set
             {
-                Properties.Settings.Default.SonntagAnzeigeMonate = value;
-                Properties.Settings.Default.Save();
+                Helper.Helper.GlobalSettings.SonntagAnzeigeMonate = value;
+                Helper.Helper.GlobalSettings.Save();
                 RaisePropertyChanged();
             }
         }

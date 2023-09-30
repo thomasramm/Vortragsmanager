@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using DevExpress.Mvvm;
-using Vortragsmanager.Datamodels;
-using static Vortragsmanager.Datamodels.Templates;
+using Vortragsmanager.DataModels;
+using static Vortragsmanager.DataModels.Templates;
 
 namespace Vortragsmanager.PageModels
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
 using Vortragsmanager.Windows;

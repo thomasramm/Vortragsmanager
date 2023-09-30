@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Interface;
 using Vortragsmanager.UserControls;
 

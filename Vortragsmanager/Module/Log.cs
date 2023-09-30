@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Vortragsmanager.DataModels;
 
 namespace Vortragsmanager.Module
 {
@@ -11,19 +12,19 @@ namespace Vortragsmanager.Module
 
         public static void Start()
         {
-            Level = (LogLevel)Properties.Settings.Default.LogLevel;
-            var di = new DirectoryInfo(Properties.Settings.Default.LogFolder);
+            Level = (LogLevel)Helper.Helper.GlobalSettings.LogLevel;
+            var di = new DirectoryInfo(Helper.Helper.GlobalSettings.LogFolder);
             if (!di.Exists)
-                Properties.Settings.Default.LogFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                Helper.Helper.GlobalSettings.LogFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-            File = Properties.Settings.Default.LogFolder.TrimEnd('\\')
+            File = Helper.Helper.GlobalSettings.LogFolder.TrimEnd('\\')
                 + $"\\vortragsmanager_{DateTime.Today:yyyy-MM-dd}.log";
         }
 
         public static void Start(LogLevel level)
         {
-            Properties.Settings.Default.LogLevel = (int)level;
-            Properties.Settings.Default.Save();
+            Helper.Helper.GlobalSettings.LogLevel = (int)level;
+            Helper.Helper.GlobalSettings.Save();
             Start();
         }
 

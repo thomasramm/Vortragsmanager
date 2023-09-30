@@ -54,7 +54,7 @@ namespace Vortragsmanager.Pages
                 return;
             }
 
-            if (Datamodels.TalkList.Find(nummer).Nummer != -1)
+            if (DataModels.TalkList.Find(nummer).Nummer != -1)
             {
                 e.IsValid = false;
                 AddButton.Foreground = System.Windows.Media.Brushes.Red;

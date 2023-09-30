@@ -16,7 +16,7 @@ namespace Vortragsmanager.Pages
             _model = (MeineRednerNeueAnfragePageModel)DataContext;
         }
 
-        private void DropDownVersammlung_ConregationChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<Datamodels.Conregation> e)
+        private void DropDownVersammlung_ConregationChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<DataModels.Conregation> e)
         {
             _model.SelectedVersammlung = e.NewValue;
         }

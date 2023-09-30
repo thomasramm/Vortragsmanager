@@ -2,11 +2,10 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using DevExpress.CodeParser;
 using DevExpress.Xpf.Core;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
 using Vortragsmanager.Properties;
@@ -943,7 +942,7 @@ namespace Vortragsmanager.Module
 
                     var row = 1;
                     var aktuelleKw = DateCalcuation.CalculateWeek(startDatum);
-                    for (var i = 0; i < Settings.Default.ListAushangAnzahlWochen; i++)
+                    for (var i = 0; i < Helper.Helper.GlobalSettings.ListAushangAnzahlWochen; i++)
                     {
                         var feldTitel = string.Empty;
                         var feldRedner = string.Empty;
@@ -995,8 +994,8 @@ namespace Vortragsmanager.Module
                         aktuelleKw = DateCalcuation.CalculateWeek(aktuelleKw, 1);
                     }
 
-                    if (Settings.Default.ListAushangAnzahlWochen < 24)
-                        worksheet.Cells[row, 1, row + (24 - Settings.Default.ListAushangAnzahlWochen)*4, 6].Clear();
+                    if (Helper.Helper.GlobalSettings.ListAushangAnzahlWochen < 24)
+                        worksheet.Cells[row, 1, row + (24 - Helper.Helper.GlobalSettings.ListAushangAnzahlWochen)*4, 6].Clear();
 
                     worksheet.Select("A1");
 

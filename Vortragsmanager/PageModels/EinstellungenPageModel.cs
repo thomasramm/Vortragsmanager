@@ -5,18 +5,19 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using DevExpress.Mvvm;
-using DevExpress.Pdf.Xmp;
+using DevExpress.Xpf.Controls.Native;
 using DevExpress.Xpf.Core;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
+using Vortragsmanager.Interface;
 using Vortragsmanager.Module;
 using Vortragsmanager.Windows;
 using Application = System.Windows.Application;
 
 namespace Vortragsmanager.PageModels
 {
-    public class EinstellungenPageModel : ViewModelBase
+    public class EinstellungenPageModel : ViewModelBase, INavigation
     {
         private string _datenbank;
 
@@ -29,8 +30,28 @@ namespace Vortragsmanager.PageModels
             CalculateRouteCommand = new DelegateCommand<bool>(CalculateRoute);
             ShowChangelogCommand = new DelegateCommand(ShowChangelog);
             OpenExcelTemplateAushangCommand = new DelegateCommand(OpenExcelTemplateAushang);
-            Datenbank = Properties.Settings.Default.sqlite;
+            WizardCommand = new DelegateCommand(Wizard);
+            Datenbank = Helper.Helper.GlobalSettings.sqlite;
             SelectedTheme = ThemeIsDark ? "Dunkel" : "Hell";
+        }
+
+        public INavigationService Service => ServiceContainer.GetService<INavigationService>();
+
+        public void NavigateTo(NavigationPage page, string parameter)
+        {
+            Service?.Navigate(page.ToString(), parameter, this);
+        }
+
+        public void NavigateTo(NavigationPage page, object parameter)
+        {
+            Service?.Navigate(page.ToString(), parameter, this);
+        }
+
+        private void Wizard()
+        {
+            Initialize.LoadWizard();
+            Helper.Helper.GlobalSettings.RefreshTitle();
+            NavigateTo(NavigationPage.DashboardPage, null);
         }
 
         protected override void OnParameterChanged(object parameter)
@@ -110,6 +131,8 @@ namespace Vortragsmanager.PageModels
 
         public DelegateCommand<string> ExcelFileDialogCommand { get; }
 
+        public DelegateCommand WizardCommand { get; }
+
         public DelegateCommand UpdateSpeakerFromExcelCommand { get; }
 
         public DelegateCommand<int?> EmergencyMailCommand { get; }
@@ -132,42 +155,42 @@ namespace Vortragsmanager.PageModels
 
         public int ListAushangAnzahlWochen
         {
-            get => Properties.Settings.Default.ListAushangAnzahlWochen;
+            get => Helper.Helper.GlobalSettings.ListAushangAnzahlWochen;
             set
             {
                 if (value > 24)
                     value = 24;
                 if (value < 1)
                     value = 1;
-                Properties.Settings.Default.ListAushangAnzahlWochen = value;
+                Helper.Helper.GlobalSettings.ListAushangAnzahlWochen = value;
                 RaisePropertyChanged();
             }
         }
 
         public int RednerSuchenAnzahlMonate
         {
-            get => Properties.Settings.Default.RednerSuchenAnzahlMonate;
+            get => Helper.Helper.GlobalSettings.RednerSuchenAnzahlMonate;
             set
             {
                 if (value > 36)
                     value = 36;
                 if (value < 1)
                     value = 1;
-                Properties.Settings.Default.RednerSuchenAnzahlMonate = value;
+                Helper.Helper.GlobalSettings.RednerSuchenAnzahlMonate = value;
                 RaisePropertyChanged();
             }
         }
 
         public int RednerSuchenAbstandAnzahlMonate
         {
-            get => Properties.Settings.Default.RednerSuchenAbstandAnzahlMonate;
+            get => Helper.Helper.GlobalSettings.RednerSuchenAbstandAnzahlMonate;
             set
             {
                 if (value > 99)
                     value = 99;
                 if (value < 1)
                     value = 1;
-                Properties.Settings.Default.RednerSuchenAbstandAnzahlMonate = value;
+                Helper.Helper.GlobalSettings.RednerSuchenAbstandAnzahlMonate = value;
                 RaisePropertyChanged();
             }
         }
@@ -261,7 +284,7 @@ namespace Vortragsmanager.PageModels
             }
 
             openDialog.Dispose();
-            Properties.Settings.Default.Save();
+            Helper.Helper.GlobalSettings.Save();
         }
 
         public void UpdateSpeakerFromExcel()
@@ -301,8 +324,8 @@ namespace Vortragsmanager.PageModels
                 {
                     Datenbank = openDialog.FileName;
                     IoSqlite.ReadContainer(openDialog.FileName);
-                    Properties.Settings.Default.sqlite = openDialog.FileName;
-                    Properties.Settings.Default.Save();
+                    Helper.Helper.GlobalSettings.sqlite = openDialog.FileName;
+                    Helper.Helper.GlobalSettings.Save();
                 }
 
                 openDialog.Dispose();
@@ -322,8 +345,8 @@ namespace Vortragsmanager.PageModels
                 {
                     Datenbank = saveDialog.FileName;
                     IoSqlite.SaveContainer(saveDialog.FileName, SaveBackup);
-                    Properties.Settings.Default.sqlite = saveDialog.FileName;
-                    Properties.Settings.Default.Save();
+                    Helper.Helper.GlobalSettings.sqlite = saveDialog.FileName;
+                    Helper.Helper.GlobalSettings.Save();
                 }
 
                 saveDialog.Dispose();
@@ -334,40 +357,40 @@ namespace Vortragsmanager.PageModels
 
         public bool SaveBackup
         {
-            get => Properties.Settings.Default.SaveBackups;
+            get => Helper.Helper.GlobalSettings.SaveBackups;
             set
             {
-                Properties.Settings.Default.SaveBackups = value;
-                Properties.Settings.Default.Save();
+                Helper.Helper.GlobalSettings.SaveBackups = value;
+                Helper.Helper.GlobalSettings.Save();
                 RaisePropertyChanged();
             }
         }
 
         public bool ShowChangelogState
         {
-            get => !Properties.Settings.Default.HideChangelog;
+            get => !Helper.Helper.GlobalSettings.HideChangelog;
             set
             {
-                Properties.Settings.Default.HideChangelog = !value;
-                Properties.Settings.Default.Save();
+                Helper.Helper.GlobalSettings.HideChangelog = !value;
+                Helper.Helper.GlobalSettings.Save();
                 RaisePropertyChanged();
             }
         }
 
         public bool ShowActivityButtons
         {
-            get => Properties.Settings.Default.ShowActivityButtons;
+            get => Helper.Helper.GlobalSettings.ShowActivityButtons;
             set
             {
-                Properties.Settings.Default.ShowActivityButtons = value;
-                Properties.Settings.Default.Save();
+                Helper.Helper.GlobalSettings.ShowActivityButtons = value;
+                Helper.Helper.GlobalSettings.Save();
                 RaisePropertyChanged();
             }
         }
 
         public int SelectedLogLevel
         {
-            get => Properties.Settings.Default.LogLevel;
+            get => Helper.Helper.GlobalSettings.LogLevel;
             set
             {
                 Log.Start((LogLevel)value);
@@ -377,7 +400,7 @@ namespace Vortragsmanager.PageModels
 
         public string LogFolder
         {
-            get => Properties.Settings.Default.LogFolder;
+            get => Helper.Helper.GlobalSettings.LogFolder;
             set
             {
                 var di = new DirectoryInfo(value);
@@ -385,15 +408,15 @@ namespace Vortragsmanager.PageModels
                 {
                     return;
                 }
-                Properties.Settings.Default.LogFolder = value;
-                Properties.Settings.Default.Save();
+                Helper.Helper.GlobalSettings.LogFolder = value;
+                Helper.Helper.GlobalSettings.Save();
                 RaisePropertyChanged();
             }
         }
 
         public string ExcelTemplateAushang
         {
-            get => Properties.Settings.Default.ExcelTemplateAushang;
+            get => Helper.Helper.GlobalSettings.ExcelTemplateAushang;
             set
             {
                 var di = new FileInfo(value);
@@ -401,8 +424,8 @@ namespace Vortragsmanager.PageModels
                 {
                     value = string.Empty;
                 }
-                Properties.Settings.Default.ExcelTemplateAushang = value;
-                Properties.Settings.Default.Save();
+                Helper.Helper.GlobalSettings.ExcelTemplateAushang = value;
+                Helper.Helper.GlobalSettings.Save();
                 RaisePropertyChanged();
             }
         }
@@ -482,11 +505,11 @@ namespace Vortragsmanager.PageModels
 
         public static bool ThemeIsDark
         {
-            get => Properties.Settings.Default.ThemeIsDark;
+            get => Helper.Helper.GlobalSettings.ThemeIsDark;
             set
             {
-                Properties.Settings.Default.ThemeIsDark = value;
-                Properties.Settings.Default.Save();
+                Helper.Helper.GlobalSettings.ThemeIsDark = value;
+                Helper.Helper.GlobalSettings.Save();
                 var theme = value ? "MetropolisDark" : "Office2019White";
                 var dict = value ? "Dark.xaml" : "Light.xaml";
                 ApplyResources(dict);

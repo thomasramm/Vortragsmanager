@@ -3,7 +3,7 @@ using System.IO;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using Vortragsmanager.Module;
-using Vortragsmanager.Properties;
+using Vortragsmanager.DataModels;
 
 namespace Vortragsmanager.PageModels
 {
@@ -31,34 +31,34 @@ namespace Vortragsmanager.PageModels
 
         public bool ListeÖffnen
         {
-            get => Settings.Default.ListCreate_OpenFile;
+            get => Helper.Helper.GlobalSettings.ListCreate_OpenFile;
             set
             {
-                Settings.Default.ListCreate_OpenFile = value;
-                Settings.Default.Save();
+                Helper.Helper.GlobalSettings.ListCreate_OpenFile = value;
+                Helper.Helper.GlobalSettings.Save();
             }
         }
 
         public bool FotoExport
         {
-            get => Settings.Default.FotoExport;
+            get => Helper.Helper.GlobalSettings.FotoExport;
             set
             {
-                Settings.Default.FotoExport = value;
-                Settings.Default.Save();
+                Helper.Helper.GlobalSettings.FotoExport = value;
+                Helper.Helper.GlobalSettings.Save();
             }
         }
 
         public int ListAushangAnzahlWochen
         {
-            get => Settings.Default.ListAushangAnzahlWochen;
+            get => Helper.Helper.GlobalSettings.ListAushangAnzahlWochen;
             set
             {
                 if (value > 24)
                     value = 24;
                 if (value < 1)
                     value = 1;
-                Settings.Default.ListAushangAnzahlWochen = value;
+                Helper.Helper.GlobalSettings.ListAushangAnzahlWochen = value;
                 RaisePropertyChanged();
             }
         }
@@ -77,7 +77,7 @@ namespace Vortragsmanager.PageModels
 
         public void CreateAushang()
         {
-            var template = Settings.Default.ExcelTemplateAushang;
+            var template = Helper.Helper.GlobalSettings.ExcelTemplateAushang;
             if (string.IsNullOrEmpty(template))
                 IoExcel.Export.Aushang(ListeÖffnen, ListAushangStartDate);
             else

@@ -16,9 +16,8 @@ namespace Vortragsmanager.DataModels
         {
             if (_backupFile == null)
             {
-                var folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create) + @"\Vortragsmanager DeLuxe\";
-                Directory.CreateDirectory(folder);
-                _backupFile = folder + "backup.zip";
+              
+                _backupFile = Helper.Helper.AppFolderPath + "backup.zip";
             }
             return _backupFile;
         }
@@ -84,7 +83,7 @@ namespace Vortragsmanager.DataModels
         {
             try
             {
-                var fileName = Properties.Settings.Default.sqlite;
+                var fileName = Helper.Helper.GlobalSettings.sqlite;
                 var newBackup = makeBackup ? Add(fileName) : "NONE";
                 File.Delete(fileName);
                 using (var zip = ZipFile.OpenRead(GetBackupFile()))
@@ -109,6 +108,15 @@ namespace Vortragsmanager.DataModels
             }
 
             return false;
+        }
+
+        public static bool RestoreLastBackup()
+        {
+            var last = List().OrderByDescending(x => x.Date).FirstOrDefault();
+            if (last == null)
+                return false;
+
+            return Restore(last.FileName, false);
         }
 
         /// <summary>

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using DevExpress.Mvvm;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Interface;
 using Vortragsmanager.UserControls;

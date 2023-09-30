@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
 using DevExpress.Mvvm;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Interface;
 
@@ -234,10 +234,10 @@ namespace Vortragsmanager.Windows
         {
             if (SelectedEreignis.ToString(CultureInfo.InvariantCulture) == "Dienstwoche")
             {
-                if (VortragName != Properties.Settings.Default.NameKreisaufseher)
+                if (VortragName != Helper.Helper.GlobalSettings.NameKreisaufseher)
                 {
-                    Properties.Settings.Default.NameKreisaufseher = VortragName;
-                    Properties.Settings.Default.Save();
+                    Helper.Helper.GlobalSettings.NameKreisaufseher = VortragName;
+                    Helper.Helper.GlobalSettings.Save();
                 }
             }
         }

@@ -1,5 +1,5 @@
 ﻿using DevExpress.Xpf.Grid;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 
 namespace Vortragsmanager.Pages
 {

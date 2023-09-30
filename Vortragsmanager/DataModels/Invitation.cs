@@ -2,7 +2,7 @@
 using Vortragsmanager.Enums;
 using Vortragsmanager.Interface;
 
-namespace Vortragsmanager.Datamodels
+namespace Vortragsmanager.DataModels
 {
     public class Invitation : IEvent
     {

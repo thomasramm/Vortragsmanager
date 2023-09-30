@@ -18,7 +18,7 @@ namespace Vortragsmanager.Pages
             DataContext = new ConregationsViewModelCollection(parentModel);
         }
 
-        //public void SelectConregation(Datamodels.Conregation versammlung)
+        //public void SelectConregation(DataModels.Conregation versammlung)
         //{
         //    var boxList = Lc.Children;
         //    foreach (var box in boxList)
