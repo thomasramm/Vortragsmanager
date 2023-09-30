@@ -72,8 +72,8 @@ namespace Vortragsmanager.UserControls
                     {
                         ListeFilteredItems.Add(ListeAlle[i]);
                         newCount++;
-                        if (newCount == 10)
-                            break;
+                        //if (newCount == 10)
+                        //    break;
                     }
                 }
             }

@@ -1,8 +1,10 @@
 ### Version 1.2.?? (??.04.2023) ###
 * Vorträge 112 und 131 gesperrt
+* Vorträge 104,107,111 aktualisiert
 * Programmeinstellungen wurden bei bestimmten Windows-Konfigurationen bei jedem Update zurückgesetzt und mussten neu vorgenommen werden. Dies ist nun behoben (erst ab dem nächsten Update wirksam, diesmal müssen diese evtl. nochmal neu eingestellt werden.).
 * Excel Aushang Template: Bug bei Platzhalter Auswärts_Nr. behoben.
 * Erweiterte Prüfung bei Programmstart: Ist die Vortragsmanager Datei nicht vorhanden wird das letzte Backup (sofern vorhanden) geöffnet.
+* In der Verwaltung ist die Liste der Redner im Dropdown für das Auswahlfled nicht mehr auf 10 beschränkt.
 
 ### Version 1.2.32 (11.04.2023) ###
 * Excel Aushang Template: Neuer Platzhalter Auswärts_Nr. Siehe Handbuch unter [Einstellungen]
