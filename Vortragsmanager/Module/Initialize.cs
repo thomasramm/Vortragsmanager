@@ -153,14 +153,14 @@ namespace Vortragsmanager.Module
                 new Talk(101, "Jehova – der „große Schöpfer“"),
                 new Talk(102, "Den Prophezeiungen der Bibel Aufmerksamkeit schenken"),
                 new Talk(103, "Wie man im Dienst für Gott Freude finden kann"),
-                new Talk(104, "Als Eltern mit feuerfestem Material bauen"),
+                new Talk(104, "Wie können Eltern mit feuerfestem Material bauen?"),
                 new Talk(105, "In allen unseren Prüfungen Trost finden"),
                 new Talk(106, "Die Zerstörung der Erde wird von Gott bestraft"),
-                new Talk(107, "In einer schlechten Welt ein gutes Gewissen behalten"),
+                new Talk(107, "Was bringt mir ein gut geschultes Gewissen?"),
                 new Talk(108, "Die Angst vor der Zukunft überwinden"),
                 new Talk(109, "Das Königreich Gottes ist nah"),
                 new Talk(110, "Gott steht in einer glücklichen Familie an erster Stelle"),
-                new Talk(111, "Was wird durch die Heilung der Völker erreicht?"),
+                new Talk(111, "Kann die Menschheit vollständig geheilt werden?"),
                 new Talk(112, "In einer gesetzlosen Welt Liebe zeigen", false), //Vortrag des KA
                 new Talk(113, "Wie können Jugendliche glücklich und erfolgreich sein?"),
                 new Talk(114, "Für die Wunder der Schöpfung dankbar sein"),
@@ -181,7 +181,7 @@ namespace Vortragsmanager.Module
                 new Talk(129, "Ist die Dreieinigkeit eine biblische Lehre?"),
                 new Talk(130, "Die Erde wird für immer bestehen"),
                 new Talk(131, "Gibt es wirklich einen Teufel?", false), //Vortrag des Kreisaufseher
-                new Talk(132, "Die Auferstehung - der Sieg über den Tod"),
+                new Talk(132, "Die Auferstehung - der Sieg über den Tod", false), //Eersetzt durch 123-24
                 new Talk(133, "Der Ursprung des Menschen - ist es wichtig, was man glaubt?"),
                 new Talk(134, "Sollten Christen den Sabbat halten?"),
                 new Talk(135, "Die Heiligkeit von Leben und Blut"),
@@ -246,6 +246,7 @@ namespace Vortragsmanager.Module
                 new Talk(194, "Wie göttliche Weisheit uns zugutekommt"),
                 new Talk(12322, "Echte Hoffnung - wo zu finden?"),
                 new Talk(12323, "Wir können zuversichtlich in die Zukunft schauen!"),
+                new Talk(12324, "Die Auferstehung – der Sieg über den Tod"),
                 new Talk(-1, "Unbekannt", false),
                 new Talk(-24, "Was Gottes Herrschaft für uns bewirken kann", false)
             };
