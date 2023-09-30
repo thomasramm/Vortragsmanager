@@ -381,6 +381,8 @@ namespace Vortragsmanager.DataModels
 
         public static bool IsInitialized { get; set; }
 
+        public static bool IsDemo {  get; set; }
+
         public static Conregation MeineVersammlung
         {
             get => _meineVersammlung;

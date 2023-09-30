@@ -203,6 +203,10 @@ namespace Vortragsmanager.Windows
                         DataContainer.Versammlungen.Add(con);
                         DataContainer.MeineVersammlung = con;
                         DataContainer.IsInitialized = true;
+                        DataContainer.IsDemo = false;
+                        Helper.Helper.GlobalSettings.sqlite = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\vortragsmanager.sqlite3";
+                        IoSqlite.SaveContainer(Helper.Helper.GlobalSettings.sqlite, false);
+
                         IsFinished = true;
                         DialogResult = true;
                     }

@@ -9,6 +9,7 @@
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:navigation="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/navigation"
     xmlns:vortragsmanager="clr-namespace:Vortragsmanager"
+    xmlns:help="clr-namespace:Vortragsmanager.DataModels"
     xmlns:pages="clr-namespace:Vortragsmanager.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -16,10 +17,7 @@
     Width="1400" 
     Height="700"
     Title="{Binding Titel, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-    d:DataContext="{d:DesignInstance Type=vortragsmanager:MainWindowNavigationModel}">
-    <Window.DataContext>
-        <vortragsmanager:MainWindowNavigationModel/>
-    </Window.DataContext>
+    d:DataContext="{d:DesignInstance Type=help:MyGloabalSettings}">
     <dxc:ThemedWindow.HeaderItems>
         <dxc:DropDownButton Content="Hilfe">
             <dxb:PopupMenu>

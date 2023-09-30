@@ -20,9 +20,9 @@ namespace Vortragsmanager.Module
             TalkList.Clear();
         }
 
-        public static void NewDatabase()
+        public static void LoadWizard()
         {
-            Log.Info(nameof(NewDatabase));
+            Log.Info(nameof(LoadWizard));
             Reset();
             LoadTalks();
             Templates.Load();
@@ -256,6 +256,8 @@ namespace Vortragsmanager.Module
 
         public static void DemoAktualisieren()
         {
+            DataContainer.IsDemo = true;
+
             var yeardiff = DateTime.Today.Year - 2021; //in 2022 ist das ergebnis +1, also addYear(1)
             var kwdiff = yeardiff * 100;
 

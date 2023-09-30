@@ -5,17 +5,19 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using DevExpress.Mvvm;
+using DevExpress.Xpf.Controls.Native;
 using DevExpress.Xpf.Core;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
+using Vortragsmanager.Interface;
 using Vortragsmanager.Module;
 using Vortragsmanager.Windows;
 using Application = System.Windows.Application;
 
 namespace Vortragsmanager.PageModels
 {
-    public class EinstellungenPageModel : ViewModelBase
+    public class EinstellungenPageModel : ViewModelBase, INavigation
     {
         private string _datenbank;
 
@@ -28,8 +30,28 @@ namespace Vortragsmanager.PageModels
             CalculateRouteCommand = new DelegateCommand<bool>(CalculateRoute);
             ShowChangelogCommand = new DelegateCommand(ShowChangelog);
             OpenExcelTemplateAushangCommand = new DelegateCommand(OpenExcelTemplateAushang);
+            WizardCommand = new DelegateCommand(Wizard);
             Datenbank = Helper.Helper.GlobalSettings.sqlite;
             SelectedTheme = ThemeIsDark ? "Dunkel" : "Hell";
+        }
+
+        public INavigationService Service => ServiceContainer.GetService<INavigationService>();
+
+        public void NavigateTo(NavigationPage page, string parameter)
+        {
+            Service?.Navigate(page.ToString(), parameter, this);
+        }
+
+        public void NavigateTo(NavigationPage page, object parameter)
+        {
+            Service?.Navigate(page.ToString(), parameter, this);
+        }
+
+        private void Wizard()
+        {
+            Initialize.LoadWizard();
+            Helper.Helper.GlobalSettings.RefreshTitle();
+            NavigateTo(NavigationPage.DashboardPage, null);
         }
 
         protected override void OnParameterChanged(object parameter)
@@ -108,6 +130,8 @@ namespace Vortragsmanager.PageModels
         private static string _selectedTheme;
 
         public DelegateCommand<string> ExcelFileDialogCommand { get; }
+
+        public DelegateCommand WizardCommand { get; }
 
         public DelegateCommand UpdateSpeakerFromExcelCommand { get; }
 

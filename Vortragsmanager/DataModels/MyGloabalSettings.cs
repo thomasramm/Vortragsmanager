@@ -30,8 +30,10 @@ namespace Vortragsmanager.DataModels
         {
             var fi = new FileInfo(Helper.Helper.GlobalSettings.sqlite);
             Titel = "Vortragsmanager DeLuxe | " + fi.Name;
+            if (DataContainer.IsDemo)
+                Titel += "   ~~~~~ DEMODATEI ~~~~~ ÄNDERUNGEN WERDEN NICHT GESPEICHERT! ~~~~~";
 
-            RaisePropertyChanged(Titel);
+            RaisePropertyChanged(nameof(Titel));
         }
 
         [XmlIgnore]
