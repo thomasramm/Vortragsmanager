@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Media;
 using DevExpress.Mvvm;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
 using Vortragsmanager.Interface;
@@ -324,7 +322,7 @@ namespace Vortragsmanager.PageModels
 
         public bool DetailView { get; set; }
 
-        public bool ShowActivityButtons => Properties.Settings.Default.ShowActivityButtons;
+        public bool ShowActivityButtons => Helper.Helper.GlobalSettings.ShowActivityButtons;
 
         public bool ErinnerungsMailSenden => Einladung?.ErinnerungsMailGesendet ?? false;
 

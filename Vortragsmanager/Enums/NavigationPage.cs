@@ -3,7 +3,7 @@ namespace Vortragsmanager.Enums
 {
     public enum NavigationPage
     {
-        DashboardView,
+        DashboardPage,
         MeinPlanLandingPage,
         MeinPlanVorsitzUndLeserPage,
         MeineRednerLandingPage,

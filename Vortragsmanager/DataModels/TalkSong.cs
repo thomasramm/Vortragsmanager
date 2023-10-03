@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vortragsmanager.Datamodels
+namespace Vortragsmanager.DataModels
 {
     public class TalkSong : IComparable<TalkSong>
     {

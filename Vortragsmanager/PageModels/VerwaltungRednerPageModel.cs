@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
-using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
 
 namespace Vortragsmanager.PageModels

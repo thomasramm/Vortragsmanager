@@ -479,15 +479,9 @@
                                        VerticalAlignment="Bottom">
                         <Border BorderThickness="1" Width="500">
                             <Grid>
-                                <ComboBox VerticalAlignment="Top" Height="30" SelectedIndex="{Binding SelectedTermine, Mode=TwoWay}">
-                                    <ComboBoxItem Content="nächster freier Termin" />
-                                    <ComboBoxItem Content="1 Monat" />
-                                    <ComboBoxItem Content="3 Monate" />
-                                    <ComboBoxItem Content="6 Monate" />
-                                    <ComboBoxItem Content="12 Monate" />
-                                    <ComboBoxItem Content="24 Monate" />
-                                    <ComboBoxItem Content="Alle Termine" />
-                                </ComboBox>
+                                <ComboBox VerticalAlignment="Top" Height="30" 
+                                          SelectedItem="{Binding SelectedTerminName, Mode=TwoWay}"
+                                          ItemsSource="{Binding TerminauswahlCollection}"/>
                                 <dxlc:FlowLayoutControl Margin="0,50,0,0" BreakFlowToFit="True" ItemsSource="{Binding FreieTermine}" Orientation="Horizontal">
                                     <dxlc:FlowLayoutControl.ItemTemplate>
                                         <DataTemplate>

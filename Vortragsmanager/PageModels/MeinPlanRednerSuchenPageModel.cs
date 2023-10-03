@@ -5,11 +5,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using DevExpress.Mvvm;
-using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
-using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.PageModels
 {
@@ -28,19 +26,20 @@ namespace Vortragsmanager.PageModels
         private void LoadModul1()
         {
             RednerSuchenCommand = new DelegateCommand(ReadData);
+            TerminauswahlCollectionInitialize();
 
             Kreise = new ObservableCollection<int>(DataContainer.Versammlungen.Select(x => x.Kreis).Where(x => x > 0).Distinct());
             ReadTermine();
             SelectedTermine = 2;
             Modul1Visible = new GridLength(1, GridUnitType.Star);
             Modul2Visible = new GridLength(0);
-            RednerCheckHistory = Settings.Default.SearchSpeaker_RednerCheckHistory;
-            RednerCheckFuture = Settings.Default.SearchSpeaker_RednerCheckFuture;
-            RednerCheckCancelation = Settings.Default.SearchSpeaker_RednerCheckCancelation;
-            VortragCheckFuture = Settings.Default.SearchSpeaker_VortragCheckFuture;
-            VortragCheckHistory = Settings.Default.SearchSpeaker_VortragCheckHistory;
-            MaxEntfernung = Settings.Default.SearchSpeaker_MaxEntfernung;
-            OffeneAnfrage = Settings.Default.SearchSpeaker_OffeneAnfrage;
+            RednerCheckHistory = Helper.Helper.GlobalSettings.SearchSpeaker_RednerCheckHistory;
+            RednerCheckFuture = Helper.Helper.GlobalSettings.SearchSpeaker_RednerCheckFuture;
+            RednerCheckCancelation = Helper.Helper.GlobalSettings.SearchSpeaker_RednerCheckCancelation;
+            VortragCheckFuture = Helper.Helper.GlobalSettings.SearchSpeaker_VortragCheckFuture;
+            VortragCheckHistory = Helper.Helper.GlobalSettings.SearchSpeaker_VortragCheckHistory;
+            MaxEntfernung = Helper.Helper.GlobalSettings.SearchSpeaker_MaxEntfernung;
+            OffeneAnfrage = Helper.Helper.GlobalSettings.SearchSpeaker_OffeneAnfrage;
             ReadSelectedKreis();
 
             Modul1Visible = new GridLength(1, GridUnitType.Star);
@@ -51,7 +50,7 @@ namespace Vortragsmanager.PageModels
 
         public void ReadSelectedKreis()
         {
-            var selKreis = Settings.Default.SearchSpeaker_Kreis;
+            var selKreis = Helper.Helper.GlobalSettings.SearchSpeaker_Kreis;
             var kreis = selKreis.Split(';');
             if (!string.IsNullOrEmpty(selKreis))
             {
@@ -76,7 +75,7 @@ namespace Vortragsmanager.PageModels
             {
                 s += k + ";";
             }
-            Settings.Default.SearchSpeaker_Kreis = s.TrimEnd(';');
+            Helper.Helper.GlobalSettings.SearchSpeaker_Kreis = s.TrimEnd(';');
         }
 
         #region Freie Termine & Redner suchen
@@ -221,7 +220,7 @@ namespace Vortragsmanager.PageModels
             }
         }
 
-        public int RednerSuchenAbstandAnzahlMonate => Settings.Default.RednerSuchenAbstandAnzahlMonate;
+        public int RednerSuchenAbstandAnzahlMonate => Helper.Helper.GlobalSettings.RednerSuchenAbstandAnzahlMonate;
 
         public List<GroupConregation> Redner { get; private set; }
 
@@ -398,6 +397,38 @@ namespace Vortragsmanager.PageModels
             set { SetProperty(() => SelectedTermine, value, ChangeSelectedTermine); }
         }
 
+        public string SelectedTerminName
+        {
+            get { return GetProperty(() => SelectedTerminName); }
+            set { SetProperty(() => SelectedTerminName, value, ChangeSelectedTermine); }
+        }
+        /*<ComboBoxItem Content="nächster freier Termin" />
+                                <ComboBoxItem Content="1 Monat" />
+                                <ComboBoxItem Content="3 Monate" />
+                                <ComboBoxItem Content="6 Monate" />
+                                <ComboBoxItem Content="12 Monate" />
+                                <ComboBoxItem Content="24 Monate" />
+                                <ComboBoxItem Content="Alle Termine" />*/
+        private void TerminauswahlCollectionInitialize()
+        {
+            TerminauswahlCollection = new List<string>
+            {
+                "nächster freier Termin",
+                "1 Monat"
+            };
+            if (Helper.Helper.GlobalSettings.RednerSuchenAnzahlMonate >= 3)
+                TerminauswahlCollection.Add("3 Monate");
+            if (Helper.Helper.GlobalSettings.RednerSuchenAnzahlMonate >= 6)
+                TerminauswahlCollection.Add("6 Monate");
+            if (Helper.Helper.GlobalSettings.RednerSuchenAnzahlMonate >= 12)
+                TerminauswahlCollection.Add("12 Monate");
+            if (Helper.Helper.GlobalSettings.RednerSuchenAnzahlMonate >= 24)
+                TerminauswahlCollection.Add("24 Monate");
+            TerminauswahlCollection.Add("Alle Termine");
+        }
+
+        public List<string> TerminauswahlCollection { get; private set; }
+
         private void ChangeSelectedTermine()
         {
             //0 = nächster
@@ -408,28 +439,30 @@ namespace Vortragsmanager.PageModels
             //5 = 24 Monate
             //6 = Benutzerdefiniert
             var maxTermin = DateCalcuation.GetConregationDay(DateTime.Today);
-            switch (SelectedTermine)
+            switch (SelectedTerminName)
             {
-                case 1:
+                case "nächster":
+                    maxTermin = FreieTermine.Min(x => x.Datum);
+                    break;
+                case "1 Monat":
                     maxTermin = maxTermin.AddMonths(1);
                     break;
 
-                case 2:
+                case "3 Monate":
                     maxTermin = maxTermin.AddMonths(3);
                     break;
 
-                case 3:
+                case "6 Monate":
                     maxTermin = maxTermin.AddMonths(6);
                     break;
-                case 4:
+                case "12 Monate":
                     maxTermin = maxTermin.AddMonths(12);
                     break;
-                case 5:
+                case "24 Monate":
                     maxTermin = maxTermin.AddMonths(24);
                     break;
-                case 0:
-                case 6:
-                    maxTermin = maxTermin.AddMonths(Settings.Default.RednerSuchenAnzahlMonate);
+                case "Alle Termine":
+                    maxTermin = FreieTermine.Max(x => x.Datum);
                     break;
             }
             foreach (var t in FreieTermine)
@@ -495,14 +528,14 @@ namespace Vortragsmanager.PageModels
         private void LoadModul2(GroupConregation inhalt)
         {
             Modul1Visible = new GridLength(0);
-            Settings.Default.SearchSpeaker_RednerCheckHistory = RednerCheckHistory;
-            Settings.Default.SearchSpeaker_RednerCheckFuture = RednerCheckFuture;
-            Settings.Default.SearchSpeaker_VortragCheckFuture = VortragCheckFuture;
-            Settings.Default.SearchSpeaker_VortragCheckHistory = VortragCheckHistory;
-            Settings.Default.SearchSpeaker_VortragCheckOpenRequest = VortragCheckOpenRequest;
-            Settings.Default.SearchSpeaker_RednerCheckCancelation = RednerCheckCancelation;
-            Settings.Default.SearchSpeaker_MaxEntfernung = MaxEntfernung;
-            Settings.Default.SearchSpeaker_OffeneAnfrage = OffeneAnfrage;
+            Helper.Helper.GlobalSettings.SearchSpeaker_RednerCheckHistory = RednerCheckHistory;
+            Helper.Helper.GlobalSettings.SearchSpeaker_RednerCheckFuture = RednerCheckFuture;
+            Helper.Helper.GlobalSettings.SearchSpeaker_VortragCheckFuture = VortragCheckFuture;
+            Helper.Helper.GlobalSettings.SearchSpeaker_VortragCheckHistory = VortragCheckHistory;
+            Helper.Helper.GlobalSettings.SearchSpeaker_VortragCheckOpenRequest = VortragCheckOpenRequest;
+            Helper.Helper.GlobalSettings.SearchSpeaker_RednerCheckCancelation = RednerCheckCancelation;
+            Helper.Helper.GlobalSettings.SearchSpeaker_MaxEntfernung = MaxEntfernung;
+            Helper.Helper.GlobalSettings.SearchSpeaker_OffeneAnfrage = OffeneAnfrage;
             SaveSelectedKreis();
 
             Modul2Visible = new GridLength(1, GridUnitType.Star);

@@ -58,7 +58,7 @@ namespace Vortragsmanager.UserControls
                 _zeit.Tag = value;
                 RaisePropertyChanged(nameof(Wochentag));
                 if (_myConregation)
-                    DateCalcuation.Wochentag = Datamodels.DataContainer.MeineVersammlung.Zeit.Get(DateTime.Today.Year).Tag;
+                    DateCalcuation.Wochentag = DataModels.DataContainer.MeineVersammlung.Zeit.Get(DateTime.Today.Year).Tag;
             }
         }
 

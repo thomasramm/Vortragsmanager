@@ -1,6 +1,6 @@
 ﻿using Vortragsmanager.Enums;
 
-namespace Vortragsmanager.Datamodels
+namespace Vortragsmanager.DataModels
 {
     public class Cancelation
     {

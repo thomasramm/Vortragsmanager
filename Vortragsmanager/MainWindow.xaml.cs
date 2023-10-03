@@ -5,11 +5,9 @@ using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
-using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Module;
 using Vortragsmanager.PageModels;
-using Vortragsmanager.Properties;
 
 namespace Vortragsmanager
 {
@@ -21,76 +19,92 @@ namespace Vortragsmanager
     {
         public MainWindow()
         {
-            //Spracheinstellungen immer auf DEUTSCH
+            //Spracheinstellungen
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("de-DE");
-            LanguageProperty.OverrideMetadata(
-                typeof(FrameworkElement),
-                new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+            LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
-            //Logging
-            Log.Start();
+            //Exceptions der Module SQLite und DevExpress abfangen
             AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
             {
                 if (eventArgs.Exception.Message.Contains("System.Data.SQLite.SEE.License"))
                     return;
-                if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.MetropolisDark.v22.2.Aero2"))
+                if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.MetropolisDark"))
                     return;
-                if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.Office2019White.v22.2.Aero2"))
+                if (eventArgs.Exception.Message.Contains("DevExpress.Xpf.Themes.Office2019White"))
                     return;
                 Log.Error("FirstChanceException", eventArgs.Exception.Message);
                 Log.Error("FirstChanceExceptionStackTrace", eventArgs.Exception.StackTrace);
             };
 
-#if DEBUG
-                Settings.Default.sqlite = @"C:\\Users\\post\\OneDrive\\Dokumente\\vortragsmanager.sqlite3";
-#endif
+            //Programmeinstellungen
+            Helper.Helper.GlobalSettings = new MyGloabalSettings();
+            Helper.Helper.GlobalSettings.Read();
+            Log.Start();
 
-            //Erster Start nach Update?
-            if (!Settings.Default.HideChangelog)
+            //Erster Start nach Update? Zeige Changelog
+            if (!Helper.Helper.GlobalSettings.HideChangelog)
             {
                 Update.ShowChanges();
             }
 
             //Datei öffnen
-            string[] args = Environment.GetCommandLineArgs();
-            if (args.Length >= 2 && File.Exists(args[1]))
-            {
-                Settings.Default.sqlite = args[1];
-            }
-            else if (Settings.Default.sqlite == "vortragsmanager.sqlite3" || Settings.Default.sqlite == "demo.sqlite3")
-            {
-                Settings.Default.sqlite = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + Settings.Default.sqlite;
-            }
-            Settings.Default.Save();
-            var filename = Settings.Default.sqlite;
+            OpenFileOrLoadWzard();
 
-            if (File.Exists(filename))
+            //UI erstellen
+            InitializeComponent();
+            DataContext = Helper.Helper.GlobalSettings;
+            Helper.Helper.GlobalSettings.RefreshTitle();
+            EinstellungenPageModel.ThemeIsDark = Helper.Helper.GlobalSettings.ThemeIsDark;
+
+            //Bereinigungs Tasks
+            if (!Backup.CleanOldBackups())
+            {
+                ThemedMessageBox.Show("Fehler", "Das Programm kann nicht auf das Backup-Archiv zugreifen. Dieser Fehler sollte dringend geprüft werden. Bitte prüfe den Zugriff auf " + Backup.GetBackupFile(), MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void OpenFileOrLoadWzard()
+        {
+            var filename = GetFileName();
+
+            try
+            {
                 IoSqlite.ReadContainer(filename);
-            else
-                Initialize.NewDatabase();
+            }
+            catch
+            {
+                if (!Backup.RestoreLastBackup())
+                    DataContainer.IsDemo = true;
+            }
+
+            if (DataContainer.IsDemo)
+            {
+                Initialize.LoadWizard();
+            }
 
             if (!DataContainer.IsInitialized)
             {
                 ThemedMessageBox.Show("Fehler", "Vortragsmanager ist nicht initialisiert. Das Programm wird beendet", MessageBoxButton.OK, MessageBoxImage.Error);
                 Close();
             }
+        }
 
-            //UI erstellen
-            InitializeComponent();
-
-            //Daten einlesen, Datenklassen bereitstellen
-            Helper.Helper.GlobalSettings = new MyGloabalSettings();
-            DataContext = Helper.Helper.GlobalSettings;
-                        
-            //Bereinigungs Tasks
-            if (!Backup.CleanOldBackups())
+        private string GetFileName()
+        {
+            //Doppelklick auf Datei im Windows Explorer
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length >= 2 && File.Exists(args[1]))
             {
-                ThemedMessageBox.Show("Fehler", "Das Programm kann nicht auf das Backup-Archiv zugreifen. Dieser Fehler sollte dringend geprüft werden. Bitte prüfe den Zugriff auf " + Backup.GetBackupFile(), MessageBoxButton.OK, MessageBoxImage.Error);
+                Helper.Helper.GlobalSettings.sqlite = args[1];
+            }
+            //Datei, eingetragen in den Settings, aber ohne Pfad.
+            else if (Helper.Helper.GlobalSettings.sqlite == "vortragsmanager.sqlite3" || Helper.Helper.GlobalSettings.sqlite == "demo.sqlite3")
+            {
+                Helper.Helper.GlobalSettings.sqlite = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\" + Helper.Helper.GlobalSettings.sqlite;
             }
 
-            //Style Anpassungen
-            Helper.Helper.GlobalSettings.RefreshTitle();
-            EinstellungenPageModel.ThemeIsDark = Settings.Default.ThemeIsDark;
+            Helper.Helper.GlobalSettings.Save();
+            return Helper.Helper.GlobalSettings.sqlite;
         }
 
         private void HelpButton_Click(object sender, RoutedEventArgs e)

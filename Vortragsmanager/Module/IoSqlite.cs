@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
 using DevExpress.Mvvm;
-using Vortragsmanager.Datamodels;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
@@ -18,6 +17,9 @@ namespace Vortragsmanager.Module
     {
         public static void ReadContainer(string file)
         {
+            if (!File.Exists(file))
+                throw new FileNotFoundException();
+
             Log.Info(nameof(ReadContainer), file);
             using (SQLiteConnection db = new SQLiteConnection($"Data Source = {file}; Version = 3;"))
             {
@@ -469,6 +471,9 @@ namespace Vortragsmanager.Module
 
                         case "Wochentag":
                             DateCalcuation.Wochentag = (Wochentag)int.Parse(value, Helper.Helper.German);
+                            break;
+                        case "IsDemo":
+                            DataContainer.IsDemo = bool.Parse(value);
                             break;
                         default:
                             Log.Error(nameof(ReadParameter), $"Unbekannter Parameter: {key}");
@@ -1285,6 +1290,10 @@ namespace Vortragsmanager.Module
 
             cmd.Parameters[0].Value = "IsInitialized";
             cmd.Parameters[1].Value = DataContainer.IsInitialized;
+            cmd.ExecuteNonQuery();
+
+            cmd.Parameters[0].Value = "IsDemo";
+            cmd.Parameters[1].Value = DataContainer.IsDemo;
             cmd.ExecuteNonQuery();
 
             cmd.Parameters[0].Value = "MeineVersammlung";

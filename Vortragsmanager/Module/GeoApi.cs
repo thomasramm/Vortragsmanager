@@ -3,7 +3,7 @@ using System.Net;
 using System.Windows;
 using DevExpress.Xpf.Core;
 using Newtonsoft.Json.Linq;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 
 namespace Vortragsmanager.Module
 {

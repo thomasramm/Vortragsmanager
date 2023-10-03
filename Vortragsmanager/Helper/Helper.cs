@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using DevExpress.Mvvm;
-using Vortragsmanager.Datamodels;
+using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 
 namespace Vortragsmanager.Helper
@@ -33,6 +34,16 @@ namespace Vortragsmanager.Helper
             return liste.All(x => x != u);
         }
 
-        public static bool StyleIsDark => Properties.Settings.Default.ThemeIsDark;
+        public static bool StyleIsDark => Helper.GlobalSettings.ThemeIsDark;
+
+        public static string AppFolderPath
+        {
+            get
+            {
+                var folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, Environment.SpecialFolderOption.Create) + @"\Vortragsmanager DeLuxe\";
+                Directory.CreateDirectory(folder);
+                return folder;
+            }
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media.Imaging;
 
-namespace Vortragsmanager.Datamodels
+namespace Vortragsmanager.DataModels
 {
     public class Speaker
     {

@@ -2,17 +2,16 @@
 using System.Linq;
 using DevExpress.Mvvm;
 using Vortragsmanager.Module;
-using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.PageModels
 {
     public class VerwaltungVorträgePageModel : ViewModelBase
     {
-        public ObservableCollection<Datamodels.Talk> Talks { get; }
+        public ObservableCollection<DataModels.Talk> Talks { get; }
 
         public VerwaltungVorträgePageModel()
         {
-            Talks = new ObservableCollection<Datamodels.Talk>(Datamodels.TalkList.Get());
+            Talks = new ObservableCollection<DataModels.Talk>(DataModels.TalkList.Get());
             ResetCommand = new DelegateCommand(Reset);
             CreateOverviewTalkCountCommand = new DelegateCommand(CreateOverviewTalkCount);
             AddThemaCommand = new DelegateCommand(AddThema);
@@ -27,17 +26,17 @@ namespace Vortragsmanager.PageModels
 
         public bool ListeÖffnen
         {
-            get => Settings.Default.ListCreate_OpenFile;
+            get => Helper.Helper.GlobalSettings.ListCreate_OpenFile;
             set
             {
-                Settings.Default.ListCreate_OpenFile = value;
-                Settings.Default.Save();
+                Helper.Helper.GlobalSettings.ListCreate_OpenFile = value;
+                Helper.Helper.GlobalSettings.Save();
             }
         }
 
         public void Reset()
         {
-            Datamodels.TalkList.Reset();
+            DataModels.TalkList.Reset();
         }
 
         public void CreateOverviewTalkCount()
@@ -51,9 +50,9 @@ namespace Vortragsmanager.PageModels
             {
                 return;
             }
-            var newTalk = new Datamodels.Talk(NewTalkNumber, "Neues Vortragsthema");
+            var newTalk = new DataModels.Talk(NewTalkNumber, "Neues Vortragsthema");
             Talks.Add(newTalk);
-            Datamodels.TalkList.Add(newTalk);
+            DataModels.TalkList.Add(newTalk);
         }
 
         private int _newTalkNumber;
