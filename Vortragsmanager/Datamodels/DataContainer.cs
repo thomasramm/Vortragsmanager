@@ -401,22 +401,6 @@ namespace Vortragsmanager.DataModels
 
         public static ObservableCollection<Speaker> Redner { get; } = new ObservableCollection<Speaker>();
 
-            var ausgabe = "Redner Auswärts: ";
-            var name = string.Empty;
-            var ort = string.Empty;
-            var ausgabeNr = string.Empty;
-            foreach (var r in e)
-            {
-                ausgabe += $"{r.Ältester.Name} in {r.Versammlung.Name}, ";
-                ausgabeNr += $"{r.Ältester.Name} in {r.Versammlung.Name} ({r.Vortrag.Vortrag.Nummer}), ";
-                name += r.Ältester.Name + ", ";
-                ort += r.Versammlung.Name + ", ";
-            }
-
-            ausgabe = ausgabe.Length > 2? ausgabe.Substring(0, ausgabe.Length - 2) : ausgabe;
-            ausgabeNr = ausgabeNr.Length > 2 ? ausgabeNr.Substring(0, ausgabeNr.Length - 2) : ausgabeNr;
-            name = name.Length > 2 ? name.Substring(0, name.Length - 2) : name;
-            ort = ort.Length > 2 ? ort.Substring(0, ort.Length - 2) : ort;
         public static ObservableCollection<Conregation> Versammlungen
         {
             get;

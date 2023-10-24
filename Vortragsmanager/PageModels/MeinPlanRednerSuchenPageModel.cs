@@ -8,6 +8,7 @@ using DevExpress.Mvvm;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
+using Vortragsmanager.Properties;
 
 namespace Vortragsmanager.PageModels
 {
