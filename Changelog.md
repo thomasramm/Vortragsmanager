@@ -1,3 +1,6 @@
+### Version 1.2.34 ###
+* Leser und Vorsitz -Personen können gelöscht werden.
+
 ### Version 1.2.33 (30.09.2023) ###
 * Vorträge 112 und 131 gesperrt
 * Vorträge 104,107,111 aktualisiert
