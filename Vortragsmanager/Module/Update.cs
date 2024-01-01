@@ -18,7 +18,7 @@ namespace Vortragsmanager.Module
         /// Module.Update für C# Updates (Inhalte)
         /// Changelog.md
         /// </summary>
-        public static int CurrentVersion => 29;
+        public static int CurrentVersion => 30;
 
         public static void Process()
         {
@@ -49,8 +49,16 @@ namespace Vortragsmanager.Module
                 }
             }
 
+            //Vorträge die nicht mehr gehalten werden sollen
+            if (DataContainer.Version < 29)
+            {
+                FindFutureTalk(112, new DateTime(2023,6,1));
+                FindFutureTalk(131, new DateTime(2023,9,1));
+                FindFutureTalk(132, new DateTime(2023,9,1));
+            }
+
             //Aktualisierte Vorträge, hier kann der Updatebefehl mehrfach genutzt werden. Einfach die neue Programmversion in der nächsten Zeile eintragen.
-            if (DataContainer.Version < 28)
+            if (DataContainer.Version < 30)
             {
                 var inhalt = "Es gibt geänderte Vortragsthemen. Du kannst die Themen jetzt aktualisieren. Damit werden individuelle Änderungen die du in der Vergangenheit an den Vortragsthemen vorgenommen hast gelöscht." + Environment.NewLine +
     "Du kannst die Änderung auch später unter 'Vorträge' -> 'Zurücksetzen' durchführen." + Environment.NewLine +
@@ -61,14 +69,6 @@ namespace Vortragsmanager.Module
                 {
                     TalkList.Reset();
                 }
-            }
-
-            //Vorträge die nicht mehr gehalten werden sollen
-            if (DataContainer.Version < 29)
-            {
-                FindFutureTalk(112, new DateTime(2023,6,1));
-                FindFutureTalk(131, new DateTime(2023,9,1));
-                FindFutureTalk(132, new DateTime(2023,9,1));
             }
 
             //auf aktuellste Version setzen = 25 (siehe oben)
