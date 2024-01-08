@@ -6,6 +6,7 @@ using DevExpress.Mvvm;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
+using Vortragsmanager.Properties;
 using Vortragsmanager.Windows;
 
 namespace Vortragsmanager.PageModels
@@ -37,6 +38,8 @@ namespace Vortragsmanager.PageModels
                 Redner.Add(box);
             }
             //Talks = Core.DataContainer.ExternerPlan;//.Where(x => x.Datum.Year == CurrentYear);
+            //Laden der Optionen
+            
             ChangeCurrentYear(0);
         }
 
@@ -80,6 +83,12 @@ namespace Vortragsmanager.PageModels
             {
                 list = list.Where(x => x.Kw >= DateCalcuation.CurrentWeek).ToList();
                 listIntern = listIntern.Where(x => x.Kw >= DateCalcuation.CurrentWeek);
+            }
+
+            if (OneYearOnly)
+            {
+                list = list.Where(x => x.Datum.Year == CurrentYear).ToList();
+                listIntern = listIntern.Where(x => x.Kw < CurrentYear*100).ToList();
             }
 
             foreach (var item in listIntern)
@@ -160,8 +169,26 @@ namespace Vortragsmanager.PageModels
 
         public bool History
         {
-            get { return GetProperty(() => History); }
-            set { SetProperty(() => History, value, ApplyFilter); }
+            get => Helper.Helper.GlobalSettings.MeineRednerHistory;
+            set
+            {
+                Helper.Helper.GlobalSettings.MeineRednerHistory = value;
+                Helper.Helper.GlobalSettings.Save();
+                RaisePropertiesChanged();
+                ApplyFilter();
+            }
+        }
+
+        public bool OneYearOnly
+        {
+            get => Helper.Helper.GlobalSettings.MeineRednerOneYearOnly;
+            set
+            {
+                Helper.Helper.GlobalSettings.MeineRednerOneYearOnly = value;
+                Helper.Helper.GlobalSettings.Save();
+                RaisePropertiesChanged();
+                ApplyFilter();
+            }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822")]

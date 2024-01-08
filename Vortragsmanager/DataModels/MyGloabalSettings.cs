@@ -96,6 +96,11 @@ namespace Vortragsmanager.DataModels
 
         public bool ThemeIsDark { get; set; } = true;
 
+        public bool MeineRednerHistory { get; set; } = false;
+
+        public bool MeineRednerOneYearOnly { get; set; } = false;
+
+
         public void Read()
         {
             var configFile = Helper.Helper.AppFolderPath + "Settings.xml";

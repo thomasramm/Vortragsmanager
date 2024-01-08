@@ -53,6 +53,8 @@
                 </StackPanel>
                 <CheckBox Content="Historische Einträge" 
                           IsChecked="{Binding History, Mode=TwoWay}" />
+                <CheckBox Content="Nur gewähltes Jahr" 
+                          IsChecked="{Binding OneYearOnly, Mode=TwoWay}" />
                 <Label Content="Redner" Margin="0,10,0,0" FontSize="16" FontWeight="DemiBold"/>
             </StackPanel>
             <ScrollViewer Grid.Row="2" 

@@ -1,6 +1,8 @@
 ### Version 1.2.34 ###
 * Leser und Vorsitz -Personen können gelöscht werden.
 * Vorträge 42, 70, 108 aktualisiert.
+* Meine Redner: neuer Filter "nur gewähltes Jahr anzeigen"
+* Excel Kontaktliste: Einträge am 31.12. wurden nicht ausgegeben
 
 ### Version 1.2.33 (30.09.2023) ###
 * Vorträge 112 und 131 gesperrt

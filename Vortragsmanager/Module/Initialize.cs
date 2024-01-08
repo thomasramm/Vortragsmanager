@@ -244,9 +244,9 @@ namespace Vortragsmanager.Module
                 new Talk(192, "Bin ich auf dem Weg zum ewigen Leben?"),
                 new Talk(193, "In der „schweren Zeit“ gerettet werden"),
                 new Talk(194, "Wie göttliche Weisheit uns zugutekommt"),
-                new Talk(12322, "Echte Hoffnung - wo zu finden?"),
-                new Talk(12323, "Wir können zuversichtlich in die Zukunft schauen!"),
-                new Talk(12324, "Die Auferstehung – der Sieg über den Tod"),
+                new Talk(12322, "Echte Hoffnung - wo zu finden?"), //ToDo: wurde zu Vortrag #62
+                new Talk(12323, "Wir können zuversichtlich in die Zukunft schauen!"), //wurde zu Vortrag #108
+                new Talk(12324, "Die Auferstehung – der Sieg über den Tod"), //wird zu Vortrag #132
                 new Talk(-1, "Unbekannt", false),
                 new Talk(-24, "Was Gottes Herrschaft für uns bewirken kann", false)
             };
