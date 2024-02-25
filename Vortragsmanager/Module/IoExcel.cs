@@ -878,7 +878,7 @@ namespace Vortragsmanager.Module
                         while ((int)startDate.DayOfWeek != (int)DateCalcuation.Wochentag)
                             startDate = startDate.AddDays(1);
                         var row = 2;
-                        while (startDate < endDate)
+                        while (startDate <= endDate)
                         {
                             try
                             {

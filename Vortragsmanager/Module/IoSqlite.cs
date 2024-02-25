@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
 using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
@@ -374,7 +375,32 @@ namespace Vortragsmanager.Module
             {
                 UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Speaker ADD Foto BLOB");
             }
-            //Aktuelle Version = 25, siehe auch Module.Update
+
+            if (DataContainer.Version < 30)
+            {
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Invitation SET IdVortrag = -1 WHERE IdVortrag IS NULL AND Datum < " + DateCalcuation.CurrentWeek);
+
+                using (var cmd = new SQLiteCommand("SELECT DISTINCT Datum FROM Invitation WHERE IdVortrag IS NULL ORDER BY Datum", db))
+                {
+                    SQLiteDataReader rdr = cmd.ExecuteReader();
+                    var wochen = string.Empty;
+
+                    while (rdr.Read())
+                    {
+                        var kw = rdr.GetInt32(0);
+                        var datum = DateCalcuation.CalculateWeek(kw);
+                        wochen += datum.ToShortDateString() + ", ";
+                    }
+
+                    rdr.Close();
+
+                    if (!string.IsNullOrEmpty(wochen))
+                        ThemedMessageBox.Show("ACHTUNG!", "Durch einen Programmfehler ist leider bei einigen Einladungen das Vortragsthema verloren gegangen!\n\nDu kannst den Vortrag herausfinden, indem du unter [Historie] -> [Aktivitäten] -> [Mein Plan] -> nach der jeweiligen Versammlung des eingeladenen Redners filterst und dir die Aktivitäten Historie anschaust.\n\nBitte prüfe die Einladungen für folgende Wochen:\n" + wochen, System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                }
+
+                UpdateCommand(DataContainer.Version, db, @"UPDATE Invitation SET IdVortrag = -1 WHERE IdVortrag IS NULL");
+            }
+            //Aktuelle Version = 30, siehe auch Module.Update
         }
 
         private static void UpdateV12DateColumn(SQLiteConnection db, string tablename, string columname)
@@ -659,7 +685,7 @@ namespace Vortragsmanager.Module
                     if (!(idVortrag is null))
                     {
                         i.Vortrag = i.Ältester.Vorträge.FirstOrDefault(x => x.Vortrag.Nummer == idVortrag);
-                        if (!(i.Vortrag is null))
+                        if (i.Vortrag is null)
                             i.Vortrag = new TalkSong(TalkList.Find((int)idVortrag), -1, -1);
                     }
                     if (!(idConregation is null))

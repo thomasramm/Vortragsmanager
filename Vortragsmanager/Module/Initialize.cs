@@ -91,7 +91,7 @@ namespace Vortragsmanager.Module
                 new Talk(39, "Jesus Christus hat die Welt besiegt – wie und wann?"),
                 new Talk(40, "Was die nahe Zukunft bringt"), //Dieser Vortrag sollte nicht mehr gehalten werden -> Neue Disposition
                 new Talk(41, "„Bleibt stehen und seht, wie Jehova euch rettet“"),
-                new Talk(42, "Wie wirkt sich Gottes Königreich auf unser Leben aus?"),
+                new Talk(42, "Kann Liebe Hass besiegen?"),
                 new Talk(43, "Tue ich, was Gott von mir erwartet?"),
                 new Talk(44, "Was bringen uns die Lehren Jesu?"),
                 new Talk(45, "Den „Weg zum Leben“ gehen"),
@@ -119,7 +119,7 @@ namespace Vortragsmanager.Module
                 new Talk(67, "Über Gottes Wort und die Schöpfung intensiv nachdenken"),
                 new Talk(68, "Vergeben wir einander weiterhin großzügig"),
                 new Talk(69, "Warum ist es wichtig, dass wir selbstlose Liebe zeigen?"),
-                new Talk(70, "Voll und ganz auf Jehova vertrauen", false), //Dieser Vortrag sollte nicht mehr gehalten werden
+                new Talk(70, "Warum Gott unser ganzes Vertrauen verdient", true), //Dieser Vortrag wurde ersetzt
                 new Talk(71, "Warum wir „wach bleiben“ müssen"),
                 new Talk(72, "Liebe – das Kennzeichen wahrer Christen"),
                 new Talk(73, "„Ein weises Herz bekommen“ – wie?"),
@@ -157,7 +157,7 @@ namespace Vortragsmanager.Module
                 new Talk(105, "In allen unseren Prüfungen Trost finden"),
                 new Talk(106, "Die Zerstörung der Erde wird von Gott bestraft"),
                 new Talk(107, "Was bringt mir ein gut geschultes Gewissen?"),
-                new Talk(108, "Die Angst vor der Zukunft überwinden"),
+                new Talk(108, "Wir können zuversichtlich in die Zukunft schauen!"),
                 new Talk(109, "Das Königreich Gottes ist nah"),
                 new Talk(110, "Gott steht in einer glücklichen Familie an erster Stelle"),
                 new Talk(111, "Kann die Menschheit vollständig geheilt werden?"),
@@ -244,9 +244,9 @@ namespace Vortragsmanager.Module
                 new Talk(192, "Bin ich auf dem Weg zum ewigen Leben?"),
                 new Talk(193, "In der „schweren Zeit“ gerettet werden"),
                 new Talk(194, "Wie göttliche Weisheit uns zugutekommt"),
-                new Talk(12322, "Echte Hoffnung - wo zu finden?"),
-                new Talk(12323, "Wir können zuversichtlich in die Zukunft schauen!"),
-                new Talk(12324, "Die Auferstehung – der Sieg über den Tod"),
+                new Talk(12322, "Echte Hoffnung - wo zu finden?"), //ToDo: wurde zu Vortrag #62
+                new Talk(12323, "Wir können zuversichtlich in die Zukunft schauen!"), //wurde zu Vortrag #108
+                new Talk(12324, "Die Auferstehung – der Sieg über den Tod"), //wird zu Vortrag #132
                 new Talk(-1, "Unbekannt", false),
                 new Talk(-24, "Was Gottes Herrschaft für uns bewirken kann", false)
             };

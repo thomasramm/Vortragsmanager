@@ -7,7 +7,7 @@
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:converter="clr-namespace:Vortragsmanager.Converter"
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="700"
+             d:DesignHeight="30" d:DesignWidth="730"
              d:DataContext="{d:DesignInstance Type=local:SonntagEinstellungenItem}">
     <UserControl.Resources>
         <converter:DoubleToIntConverter x:Key="DoubleConverter" />
@@ -33,6 +33,7 @@
                             Precision="Full"
                             EditValue="{Binding Person.Häufigkeit, Converter={StaticResource DoubleConverter}}"
                             />
+            
         </StackPanel>
     </Grid>
 </UserControl>

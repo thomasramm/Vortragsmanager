@@ -30,15 +30,20 @@
         </StackPanel>
         <ListBox Grid.Row="1" Grid.Column="0"
                  ItemsSource="{Binding Personen, Mode=OneWay}"
+                 SelectedItem="{Binding SelectedPerson, Mode=TwoWay}"
                  BorderThickness="0"
                  MaxWidth="680"
                  HorizontalAlignment="Left"/>
-        <Button Grid.Row="2" Grid.Column="0"
-                Content="Person hinzufügen" 
-                Command="{Binding ButtonNewCommand}" 
-                Width="150" 
-                HorizontalAlignment="Left" 
-                Margin="10,5,0,0"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Margin="10,5,0,0">
+            <Button Content="Person hinzufügen" 
+                    Command="{Binding ButtonNewCommand}" 
+                    Width="150" />
+            <Button Grid.Row="2" Grid.Column="0"
+                    Content="Person löschen" 
+                    Command="{Binding ButtonDeleteCommand}" 
+                    Margin="10,0,0,0"
+                    Width="150" />
+        </StackPanel>
         <!-- Sonstige Einstellungen -->
         <Label Grid.Column="1" 
                Grid.Row="0" 

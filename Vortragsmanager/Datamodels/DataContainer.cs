@@ -1,12 +1,9 @@
-﻿using DevExpress.Mvvm;
-using DevExpress.Xpf.Core;
+﻿using DevExpress.Xpf.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Xml.Serialization;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
 using Vortragsmanager.Interface;
@@ -381,7 +378,7 @@ namespace Vortragsmanager.DataModels
 
         public static bool IsInitialized { get; set; }
 
-        public static bool IsDemo {  get; set; }
+        public static bool IsDemo { get; set; }
 
         public static Conregation MeineVersammlung
         {
