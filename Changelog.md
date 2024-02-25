@@ -1,8 +1,9 @@
-### Version 1.2.34 ###
+### Version 1.2.34 (25.02.2024) ###
 * Leser und Vorsitz -Personen können gelöscht werden.
 * Vorträge 42, 70, 108 aktualisiert.
 * Meine Redner: neuer Filter "nur gewähltes Jahr anzeigen"
 * Excel Kontaktliste: Einträge am 31.12. wurden nicht ausgegeben
+* Bug behoben: Wenn ein Vortrag von einem Redner gelöscht wird, er aber noch Einladungen zu diesem Thema hat, wurde der Vortrag nicht mehr gespeichert. Diese Vorträge wurden erstmal auf "Unbekannt" gesetzt. Du kannst den Fehler beheben, indem du unter  [Historie] -> [Aktivitäten] -> [Mein Plan] -> nach der jeweiligen Versammlung des eingeladenen Redners filterst und dir die Aktivitäten Historie anschaust. Sollte es bei dir zu diesem Fehler gekommen sein, wirst du beim Update darauf hingewiesen und die betroffenen Wochen werden dir angezeigt.
 
 ### Version 1.2.33 (30.09.2023) ###
 * Vorträge 112 und 131 gesperrt

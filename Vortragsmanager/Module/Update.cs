@@ -69,6 +69,8 @@ namespace Vortragsmanager.Module
                 {
                     TalkList.Reset();
                 }
+
+
             }
 
             //auf aktuellste Version setzen = 25 (siehe oben)
