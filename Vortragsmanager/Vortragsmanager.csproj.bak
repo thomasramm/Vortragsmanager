@@ -59,6 +59,27 @@
     </CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -89,6 +110,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataModels\MyGloabalSettings.cs" />
     <Compile Include="Enums\BackupAge.cs" />
     <Compile Include="DataModels\BackupItem.cs" />
     <Compile Include="Enums\NavigationPage.cs" />
@@ -164,7 +186,6 @@
       <DependentUpon>ActivityItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\ActivityTime.cs" />
-    <Compile Include="MainWindowNavigationModel.cs" />
     <Compile Include="PageModels\BackupsViewModel.cs" />
     <Compile Include="PageModels\MeineRednerNeueAnfragePageModel.cs" />
     <Compile Include="PageModels\MeineRednerKalenderPageModel.cs" />
@@ -528,6 +549,9 @@
     <None Include="Templates\AushangExcel.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Templates\AushangExcelTemplate.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\demo.sqlite3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -672,48 +696,48 @@
       <Version>2.5.2</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.DataAccess">
-      <Version>21.2.5</Version>
+      <Version>23.1.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Mvvm">
-      <Version>21.2.5</Version>
+      <Version>23.1.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.RichEdit.Export">
-      <Version>21.2.5</Version>
+      <Version>23.1.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Accordion">
-      <Version>21.2.5</Version>
+      <Version>23.1.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Controls">
-      <Version>21.2.5</Version>
+      <Version>23.1.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.ExpressionEditor">
-      <Version>21.2.5</Version>
+      <Version>23.1.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.RichEdit">
-      <Version>21.2.5</Version>
+      <Version>23.1.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.DXStyle">
-      <Version>21.2.5</Version>
+      <Version>23.1.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.MetropolisDark">
-      <Version>21.2.5</Version>
+      <Version>23.1.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.MetropolisLight">
-      <Version>21.2.5</Version>
+      <Version>23.1.5</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.Office2019White">
-      <Version>21.2.5</Version>
+      <Version>23.1.5</Version>
     </PackageReference>
     <PackageReference Include="EPPlus">
       <Version>4.5.3.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
-      <Version>6.0.0</Version>
+      <Version>7.0.4</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.1</Version>
+      <Version>13.0.3</Version>
     </PackageReference>
     <PackageReference Include="System.Buffers">
       <Version>4.5.1</Version>
@@ -725,7 +749,7 @@
       <Version>4.3.0</Version>
     </PackageReference>
     <PackageReference Include="System.Memory">
-      <Version>4.5.4</Version>
+      <Version>4.5.5</Version>
     </PackageReference>
     <PackageReference Include="System.Numerics.Vectors">
       <Version>4.5.0</Version>
@@ -874,10 +898,10 @@
     <Resource Include="Images\Kamera_dunkel_64x64.png" />
     <Resource Include="Images\Kamera_hell_64x64.png" />
     <Content Include="x64\SQLite.Interop.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="x86\SQLite.Interop.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup />

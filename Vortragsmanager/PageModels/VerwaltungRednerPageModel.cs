@@ -57,7 +57,7 @@ namespace Vortragsmanager.PageModels
             get
             {
                 if (Redner?.Vorträge != null)
-                    return new ObservableCollection<TalkSong>(Redner?.Vorträge);
+                    return new ObservableCollection<TalkSong>(Redner?.Vorträge.OrderBy(x => x.Vortrag.Nummer));
 
                 return null;
             }
