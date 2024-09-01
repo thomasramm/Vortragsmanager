@@ -28,7 +28,7 @@
                                         GetIsEditorActivationAction="TableView_GetIsEditorActivationAction"/>
                 </dxg:GridControl.View>
                 <dxg:GridColumn FieldName="Nummer" IsSmart="True" AllowEditing="False" ReadOnly="True" Header="Nr" Width="40" AllowResizing="False" FixedWidth="True"/>
-                <dxg:GridColumn FieldName="Thema" IsSmart="True" AllowEditing="True" Width="120*" AllowedSortOrders="All" />
+                <dxg:GridColumn FieldName="Thema" IsSmart="True" AllowEditing="True" Width="120" AllowedSortOrders="All" />
                 <dxg:GridColumn FieldName="Gültig" IsSmart="True" AllowEditing="True" Width="50" AllowResizing="False" FixedWidth="True">
                     <dxg:GridColumn.EditSettings>
                         <dxe:CheckEditSettings/>
