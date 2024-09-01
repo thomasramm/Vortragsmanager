@@ -18,7 +18,7 @@ namespace Vortragsmanager.Module
         /// Module.Update für C# Updates (Inhalte)
         /// Changelog.md
         /// </summary>
-        public static int CurrentVersion => 30;
+        public static int CurrentVersion => 31;
 
         public static void Process()
         {
@@ -73,7 +73,7 @@ namespace Vortragsmanager.Module
 
             }
 
-            //auf aktuellste Version setzen = 25 (siehe oben)
+            //auf aktuellste Version setzen = 31 (siehe oben)
             //siehe auch IoSqlite.UpdateDatabase
             DataContainer.Version = CurrentVersion;
         }

@@ -58,6 +58,20 @@
                                         Height="24" />
                 </Grid>
             </dxlc:LayoutItem>
+            <dxlc:LayoutItem Label="Letzte Aktualisierung">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="110" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding Aktualisierung, Mode=OneWay, StringFormat=d}" Grid.Column="0" />
+                    <dx:SimpleButton Content="Heute"
+                         Glyph="/Images/CalendarDay_32x32.png"
+                         Command="{Binding UpdateChangingdateCommand}"
+                         Grid.Column="1"
+                         Height="24" />
+                </Grid>
+            </dxlc:LayoutItem>
 
             <dxlc:LayoutItem>
                     <dx:SimpleButton Content="Versammlung löschen"

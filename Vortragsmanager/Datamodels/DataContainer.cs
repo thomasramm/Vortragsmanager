@@ -233,6 +233,8 @@ namespace Vortragsmanager.DataModels
                     Id = Redner.Count > 0 ? Redner.Select(x => x.Id).Max() + 1 : 1
                 };
                 Redner.Add(s);
+                if (versammlung != null)
+                    versammlung.Aktualisierung = DateTime.Now;
             }
             return s;
         }
@@ -340,6 +342,8 @@ namespace Vortragsmanager.DataModels
             foreach (var absage in absagen)
                 Absagen.Remove(absage);
 
+            if (redner.Versammlung != null)
+                redner.Versammlung.Aktualisierung = DateTime.Now;
             Redner.Remove(redner);
 
             return true;

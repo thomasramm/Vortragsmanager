@@ -1,40 +1,182 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Media.Imaging;
 
 namespace Vortragsmanager.DataModels
 {
     public class Speaker
     {
+        public bool flagIsUpdateDoneByUser;
+
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        string name;
+        public string Name { get => name; set
+            {
+                if (name == value)
+                {
+                    return;
+                }
+
+                name = value;
+                if (Versammlung != null)
+                    ManualUpdateData();
+            }
+        }
 
         public Conregation Versammlung { get; set; }
 
         public List<TalkSong> Vorträge { get; } = new List<TalkSong>();
 
-        public string Mail { get; set; }
+        string mail;
+        public string Mail { get => mail; set
+            {
+                if (mail == value)
+                {
+                    return;
+                }
 
-        public string JwMail { get; set; }
+                mail = value;
+                ManualUpdateData();
+            }
+        }
 
-        public string Telefon { get; set; }
+        string jwMail;
+        public string JwMail { get => jwMail; set
+            {
+                if (jwMail == value)
+                {
+                    return;
+                }
 
-        public string Mobil { get; set; }
+                jwMail = value;
+                ManualUpdateData();
+            }
+        }
 
-        public bool Ältester { get; set; } = true;
+        string telefon;
+        public string Telefon { get => telefon; set
+            {
+                if (telefon == value)
+                {
+                    return;
+                }
 
-        public bool Aktiv { get; set; } = true;
+                telefon = value;
+                ManualUpdateData();
+            }
+        }
 
-        public bool Einladen { get; set; } = true;
+        string mobil;
+        public string Mobil { get => mobil; set
+            {
+                if (mobil == value)
+                {
+                    return;
+                }
 
-        public int Abstand { get; set; } = 4;
+                mobil = value;
+                ManualUpdateData();
+            }
+        }
 
-        public string InfoPrivate { get; set; }
+        bool ältester = true;
+        public bool Ältester { get => ältester; set
+            {
+                if (ältester == value)
+                {
+                    return;
+                }
 
-        public string InfoPublic { get; set; }
+                ältester = value;
+                ManualUpdateData();
+            }
+        }
+        bool aktiv = true;
+        public bool Aktiv { get => aktiv; set
+            {
+                if (aktiv == value)
+                {
+                    return;
+                }
+
+                aktiv = value;
+                ManualUpdateData();
+            }
+        }
+        bool einladen = true;
+        public bool Einladen { get => einladen; set
+            {
+                if (einladen == value)
+                {
+                    return;
+                }
+
+                einladen = value;
+                ManualUpdateData();
+            }
+        }
+        int abstand = 4;
+        public int Abstand { get => abstand; set
+            {
+                if (abstand == value)
+                {
+                    return;
+                }
+
+                abstand = value;
+                ManualUpdateData();
+            }
+        }
+        string infoPrivate;
+        public string InfoPrivate { get => infoPrivate; set
+            {
+                if (infoPrivate == value)
+                {
+                    return;
+                }
+
+                infoPrivate = value;
+                ManualUpdateData();
+            }
+        }
+
+        string infoPublic;
+        public string InfoPublic { get => infoPublic; set
+            {
+                if (infoPublic == value)
+                {
+                    return;
+                }
+
+                infoPublic = value;
+                ManualUpdateData();
+            }
+        }
 
         public BitmapSource Foto { get; set; }
 
         public override string ToString() => $"{Name}";
+
+        public void TalkRemove(TalkSong talk)
+        {
+            Vorträge.Remove(talk);
+            ManualUpdateData();
+        }
+
+        public void TalkAdd(TalkSong talk)
+        {
+            Vorträge.Add(talk);
+            ManualUpdateData();
+        }
+
+        private void ManualUpdateData()
+        {
+            if (!flagIsUpdateDoneByUser)
+                return;
+
+            if (Versammlung != null)
+                Versammlung.Aktualisierung = DateTime.Now;
+        }
     }
 }
