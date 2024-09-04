@@ -696,37 +696,37 @@
       <Version>2.5.2</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.DataAccess">
-      <Version>23.1.5</Version>
+      <Version>23.2.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Mvvm">
-      <Version>23.1.5</Version>
+      <Version>23.2.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.RichEdit.Export">
-      <Version>23.1.5</Version>
+      <Version>23.2.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Accordion">
-      <Version>23.1.5</Version>
+      <Version>23.2.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Controls">
-      <Version>23.1.5</Version>
+      <Version>23.2.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.ExpressionEditor">
-      <Version>23.1.5</Version>
+      <Version>23.2.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.RichEdit">
-      <Version>23.1.5</Version>
+      <Version>23.2.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.DXStyle">
-      <Version>23.1.5</Version>
+      <Version>23.2.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.MetropolisDark">
-      <Version>23.1.5</Version>
+      <Version>23.2.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.MetropolisLight">
-      <Version>23.1.5</Version>
+      <Version>23.2.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.Office2019White">
-      <Version>23.1.5</Version>
+      <Version>23.2.6</Version>
     </PackageReference>
     <PackageReference Include="EPPlus">
       <Version>4.5.3.3</Version>

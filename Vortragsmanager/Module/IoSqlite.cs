@@ -155,7 +155,8 @@ namespace Vortragsmanager.Module
                 KoordinatorMobil TEXT,
                 KoordinatorMail TEXT,
                 KoordinatorJw TEXT,
-                Zoom TEXT)", db);
+                Zoom TEXT,
+                Aktualisierung DATETIME)", db);
             
             ExecCommand(@"CREATE TABLE IF NOT EXISTS Conregation_Zusammenkunftszeiten (
                     IdConregation INTEGER,
@@ -400,7 +401,12 @@ namespace Vortragsmanager.Module
 
                 UpdateCommand(DataContainer.Version, db, @"UPDATE Invitation SET IdVortrag = -1 WHERE IdVortrag IS NULL");
             }
-            //Aktuelle Version = 30, siehe auch Module.Update
+
+            if (DataContainer.Version < 31)
+            {
+                UpdateCommand(DataContainer.Version, db, @"ALTER TABLE Conregation ADD Aktualisierung DATETIME");
+            }
+            //Aktuelle Version = 31, siehe auch Module.Update
         }
 
         private static void UpdateV12DateColumn(SQLiteConnection db, string tablename, string columname)
@@ -521,7 +527,7 @@ namespace Vortragsmanager.Module
             DataContainer.Versammlungen.Clear();
 
             var vers = int.Parse(ReadParameter(Parameter.MeineVersammlung, db), Helper.Helper.German);
-            using (var cmd1 = new SQLiteCommand("SELECT Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Entfernung, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw, Zoom FROM Conregation", db))
+            using (var cmd1 = new SQLiteCommand("SELECT Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Entfernung, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw, Zoom, Aktualisierung FROM Conregation", db))
             using (var cmd2 = new SQLiteCommand("SELECT Jahr, Tag, Zeit FROM Conregation_Zusammenkunftszeiten WHERE IdConregation = @Id", db))
             {
                 cmd2.Parameters.Add("@Id", System.Data.DbType.Int32);
@@ -546,7 +552,9 @@ namespace Vortragsmanager.Module
                         KoordinatorMail = rdr.IsDBNull(11) ? null : rdr.GetString(11),
                         KoordinatorJw = rdr.IsDBNull(12) ? null : rdr.GetString(12),
                         Zoom = rdr.IsDBNull(13) ? null : rdr.GetString(13),
+                        Aktualisierung = rdr.IsDBNull(14) ? DateTime.MinValue : rdr.GetDateTime(14),
                     };
+
                     DataContainer.Versammlungen.Add(c);
 
                     //Vorträge zuordnen
@@ -648,6 +656,9 @@ namespace Vortragsmanager.Module
                     rdr2.Close();
                     r.Vorträge.Sort();
                     DataContainer.Redner.Add(r);
+
+                    //Alle weiteren Änderungen am Redner verursachen ein Update in der Versammlung "Aktualisierung=Heute()"
+                    r.flagIsUpdateDoneByUser = true;
                 }
 
                 rdr.Close();
@@ -1012,8 +1023,8 @@ namespace Vortragsmanager.Module
         private static void SaveVersammlungen(SQLiteConnection db)
         {
             Log.Info(nameof(SaveVersammlungen));
-            SQLiteCommand conregationInsertCommand = new SQLiteCommand("INSERT INTO Conregation(Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Entfernung, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw, Zoom) " +
-                "VALUES (@Id, @Kreis, @Name, @Anschrift1, @Anschrift2, @Anreise, @Entfernung, @Telefon, @Koordinator, @KoordinatorTelefon, @KoordinatorMobil, @KoordinatorMail, @KoordinatorJw, @Zoom)", db);
+            SQLiteCommand conregationInsertCommand = new SQLiteCommand("INSERT INTO Conregation(Id, Kreis, Name, Anschrift1, Anschrift2, Anreise, Entfernung, Telefon, Koordinator, KoordinatorTelefon, KoordinatorMobil, KoordinatorMail, KoordinatorJw, Zoom, Aktualisierung) " +
+                "VALUES (@Id, @Kreis, @Name, @Anschrift1, @Anschrift2, @Anreise, @Entfernung, @Telefon, @Koordinator, @KoordinatorTelefon, @KoordinatorMobil, @KoordinatorMail, @KoordinatorJw, @Zoom, @Aktualisierung)", db);
 
             conregationInsertCommand.Parameters.Add("@Id", System.Data.DbType.Int32);
             conregationInsertCommand.Parameters.Add("@Kreis", System.Data.DbType.Int32);
@@ -1029,6 +1040,7 @@ namespace Vortragsmanager.Module
             conregationInsertCommand.Parameters.Add("@KoordinatorMail", System.Data.DbType.String);
             conregationInsertCommand.Parameters.Add("@KoordinatorJw", System.Data.DbType.String);
             conregationInsertCommand.Parameters.Add("@Zoom", System.Data.DbType.String);
+            conregationInsertCommand.Parameters.Add("@Aktualisierung", System.Data.DbType.DateTime);
 
             foreach (var vers in DataContainer.Versammlungen)
             {
@@ -1046,6 +1058,7 @@ namespace Vortragsmanager.Module
                 conregationInsertCommand.Parameters[11].Value = vers.KoordinatorMail;
                 conregationInsertCommand.Parameters[12].Value = vers.KoordinatorJw;
                 conregationInsertCommand.Parameters[13].Value = vers.Zoom;
+                conregationInsertCommand.Parameters[14].Value = vers.Aktualisierung;
                 conregationInsertCommand.ExecuteNonQuery();
             }
             conregationInsertCommand.Dispose();

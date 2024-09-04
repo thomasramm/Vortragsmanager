@@ -57,7 +57,7 @@ namespace Vortragsmanager.PageModels
             get
             {
                 if (Redner?.Vorträge != null)
-                    return new ObservableCollection<TalkSong>(Redner?.Vorträge);
+                    return new ObservableCollection<TalkSong>(Redner?.Vorträge.OrderBy(x => x.Vortrag.Nummer));
 
                 return null;
             }
@@ -176,7 +176,7 @@ namespace Vortragsmanager.PageModels
 
         public void TalkDelete(TalkSong talk)
         {
-            Redner.Vorträge.Remove(talk);
+            Redner.TalkRemove(talk);
             RaisePropertyChanged(nameof(Vorträge));
         }
 
@@ -198,7 +198,9 @@ namespace Vortragsmanager.PageModels
                 if (neuerV == null)
                     continue;
                 if (!Redner.Vorträge.Select(x => x.Vortrag).Contains(neuerV))
-                    Redner.Vorträge.Add(new TalkSong(neuerV));
+                {
+                    Redner.TalkAdd(new TalkSong(neuerV));
+                }
             }
             NeueVorträgeListe = string.Empty;
             RaisePropertyChanged(nameof(Vorträge));
