@@ -31,6 +31,7 @@ namespace Vortragsmanager.UserControls
             NewPersonCommand = new DelegateCommand(NewPerson);
             CalculateDistanceCommand = new DelegateCommand(CalculateDistance);
             AddZeitCommand = new DelegateCommand(AddZusammenkunftszeit);
+            UpdateChangingdateCommand = new DelegateCommand(UpdateChangingdate);
 
             _zusammenkunftszeitenItems = new ObservableCollection<ZeitItem>();
             var zeitItems = new List<Zusammenkunftszeit>(1)
@@ -53,6 +54,8 @@ namespace Vortragsmanager.UserControls
         public DelegateCommand NewPersonCommand { get; }
 
         public DelegateCommand CalculateDistanceCommand { get; }
+
+        public DelegateCommand UpdateChangingdateCommand { get; }
 
         public DelegateCommand AddZeitCommand { get; }
 
@@ -109,6 +112,19 @@ namespace Vortragsmanager.UserControls
             }
         }
 
+        public DateTime Aktualisierung
+        {
+            get => Versammlung.Aktualisierung;
+            set
+            {
+                if (value != null)
+                {
+                    Versammlung.Aktualisierung = (DateTime)value;
+                }
+                RaisePropertyChanged();
+            }
+        }
+
         private readonly ObservableCollection<ZeitItem> _zusammenkunftszeitenItems;
         public ObservableCollection<ZeitItem> ZusammenkunftszeitenItems => _zusammenkunftszeitenItems;
 
@@ -120,6 +136,11 @@ namespace Vortragsmanager.UserControls
             // In beide Listen eintragen.
             var newItem = Versammlung.Zeit.Add(nextYear, lastItem.Tag, lastItem.Zeit);
             _zusammenkunftszeitenItems.Add(new ZeitItem(newItem, _zusammenkunftszeitenItems, Versammlung.Zeit, _myConregation));
+        }
+
+        public void UpdateChangingdate()
+        {
+            Aktualisierung = DateTime.Now;
         }
 
         public bool EigeneVersammlung
