@@ -1,6 +1,7 @@
 ### Version 1.2.35 (xx.xx.2024) ###
 * Neue Vorträge eines Redners werden nach dem Hinzufügen sofort nach der Nummer einsortiert.
 * Bei einer Änderung der Redner- oder Versammlungsdaten wird das Datum "Letzte Änderung" aktualisiert.
+* Anzeigefehler bei Verwaltung->Vorträge, die Spalte mit dem Thema war zu schmal.
 
 ### Version 1.2.34 (25.02.2024) ###
 * Leser und Vorsitz -Personen können gelöscht werden.
