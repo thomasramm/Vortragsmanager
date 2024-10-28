@@ -51,17 +51,19 @@ namespace Vortragsmanager.UserControls
             Log.Info(nameof(LadeFreieTermine));
             _base.Wochen.Clear();
 
-            var startDate = DateCalcuation.CurrentWeek;
-            var endDate = DateCalcuation.CalculateWeek(DateCalcuation.CurrentWeek, 53);
+            var startDate = DateCalcuation.GetConregationDay(DateTime.Today);
+            var endDate = startDate.AddYears(1);
+            //var startDate = DateCalcuation.CurrentWeek;
+            //var endDate = DateCalcuation.AddWeek(DateCalcuation.CurrentWeek, 53);
             while (startDate < endDate)
             {
-                if (DataContainer.MeinPlan.All(x => x.Kw != startDate))
+                var currentWeek = DateCalcuation.CalculateWeek(startDate);
+                if (DataContainer.MeinPlan.All(x => x.Kw != currentWeek))
                 {
-                    var d = DateCalcuation.CalculateWeek(startDate);
-                    if (Wochen.All(x => x != d))
-                        Wochen.Add(d);
+                    if (Wochen.All(x => x != startDate))
+                        Wochen.Add(startDate);
                 }
-                startDate = DateCalcuation.CalculateWeek(startDate, 1);
+                startDate = startDate.AddDays(7);
             }
         }
 

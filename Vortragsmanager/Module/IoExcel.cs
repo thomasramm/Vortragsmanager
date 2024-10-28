@@ -941,9 +941,9 @@ namespace Vortragsmanager.Module
                     var worksheet = package.Workbook.Worksheets["Aushang"];                  
 
                     var row = 1;
-                    var aktuelleKw = DateCalcuation.CalculateWeek(startDatum);
                     for (var i = 0; i < Helper.Helper.GlobalSettings.ListAushangAnzahlWochen; i++)
                     {
+                        var aktuelleKw = DateCalcuation.CalculateWeek(startDatum);
                         var feldTitel = string.Empty;
                         var feldRedner = string.Empty;
                         var feldVersammlung = string.Empty;
@@ -991,7 +991,7 @@ namespace Vortragsmanager.Module
                         row++;
 
                         //nächste Woche
-                        aktuelleKw = DateCalcuation.CalculateWeek(aktuelleKw, 1);
+                        startDatum = startDatum.AddDays(7);
                     }
 
                     if (Helper.Helper.GlobalSettings.ListAushangAnzahlWochen < 24)
@@ -1018,9 +1018,10 @@ namespace Vortragsmanager.Module
                 {
                     var worksheet = package.Workbook.Worksheets[1];
 
-                    var aktuelleKw = DateCalcuation.CalculateWeek(startDatum);
+                    
                     for (var i = 1; i < 54; i++)
                     {
+                        var aktuelleKw = DateCalcuation.CalculateWeek(startDatum);
                         var feldThema = string.Empty;
                         var feldName = string.Empty;
                         var feldVersammlung = string.Empty;
@@ -1068,7 +1069,7 @@ namespace Vortragsmanager.Module
                         SearchAndReplace(worksheet, $"{{Auswärts_Nr_{i:00}}}", feldAuswärtsNr);
 
                         //nächste Woche
-                        aktuelleKw = DateCalcuation.CalculateWeek(aktuelleKw, 1);
+                        startDatum = startDatum.AddDays(7);
                     }
 
                     //am Ende, dadurch wird wieder nach oben gescrollt...

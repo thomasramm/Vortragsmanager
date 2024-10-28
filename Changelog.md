@@ -1,3 +1,6 @@
+### Version 1.3.36 (28.10.2024) ###
+* Bug behoben: die erste Januar-Woche wurde unter Umständen im Aushang nicht mit ausgegeben.
+
 ### Version 1.3.35 (04.09.2024) ###
 * Neue Vorträge eines Redners werden nach dem Hinzufügen sofort nach der Nummer einsortiert.
 * Bei einer Änderung der Redner- oder Versammlungsdaten wird das Datum "Letzte Änderung" aktualisiert.
