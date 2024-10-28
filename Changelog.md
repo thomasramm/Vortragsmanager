@@ -1,4 +1,4 @@
-### Version 1.3.26 (28.10.2024) ###
+### Version 1.3.36 (28.10.2024) ###
 * Bug behoben: die erste Januar-Woche wurde unter Umständen im Aushang nicht mit ausgegeben.
 
 ### Version 1.3.35 (04.09.2024) ###
