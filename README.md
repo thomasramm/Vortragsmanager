@@ -1,4 +1,4 @@
-# Vortragsmanager DeLuxe 1.2
+# Vortragsmanager DeLuxe 1.3
 
 Als Vortragskoordinator sehe ich die größte Herausforderung darin, darauf zu achten, dass Redner nicht in zu kurzen Abständen eingeladen werden, am schlimmsten noch mit dem gleichen Vortrag wie beim letzten mal.
 Da andere Programme meine Wünsche nicht so recht erfüllen konnten, 
