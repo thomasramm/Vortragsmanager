@@ -147,11 +147,11 @@ namespace Vortragsmanager.UserControls
             }
 
             //Vorhandene Abwesenheiten eintragen
-            foreach(var busy in DataContainer.Abwesenheiten.Where(x => x.Kw/100 == _year && x.Redner == Person))
+            foreach(var busy in DataContainer.Abwesenheiten.Where(x => x.Kw/100 >= _year-1 && x.Redner == Person))
             {
                 var datum = DateCalcuation.CalculateWeek(busy.Kw);
-                var item = _calendar[datum];
-                item.SetAbwesenheit(busy);
+                var item = _calendar.ContainsKey(datum) ? _calendar[datum] : null;
+                item?.SetAbwesenheit(busy);
             }
 
             //Urlaub

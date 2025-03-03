@@ -1,3 +1,7 @@
+### Version 1.3.42 (03.03.2025) ###
+* Bug behoben: Kalenderwechsel bei Abwesenheit führt zu Absturz wenn erste Kalenderwoche des folgejahres gewählt wurde.
+* Bug behoben: Bei der Ansicht der Rednereinladung führte der Filter "Nur aktuelles Jahr" manchmal dazu das eigene Vorträge nicht angezeigt wurden.
+
 ### Version 1.3.36 (28.10.2024) ###
 * Bug behoben: die erste Januar-Woche wurde unter Umständen im Aushang nicht mit ausgegeben.
 

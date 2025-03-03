@@ -88,7 +88,7 @@ namespace Vortragsmanager.PageModels
             if (OneYearOnly)
             {
                 list = list.Where(x => x.Datum.Year == CurrentYear).ToList();
-                listIntern = listIntern.Where(x => x.Kw < CurrentYear*100).ToList();
+                listIntern = listIntern.Where(x => x.Kw < (CurrentYear+1)*100).ToList();
             }
 
             foreach (var item in listIntern)
