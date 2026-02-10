@@ -1,4 +1,4 @@
-### Version 1.3.44 (10.02.2026) ###
+### Version 1.3.46 (10.02.2026) ###
 * Die Vorträge Nr. 59 und 122 sollen nicht mehr gehalten werden.
 * Die Vorträge Nr. 47, 112 und 131 können wieder verwendet werden.
 * Folgende Vortragsnummern wurden ersetzt: #12322 -> #62, #12323 -> #108, #12324 -> #132, #-24 -> #-1. 
