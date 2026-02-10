@@ -38,7 +38,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
+    <OutputPath>bin\AnyCPU\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -48,7 +48,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
+    <OutputPath>bin\AnyCPU\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -61,7 +61,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>bin\AnyCPU\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -71,7 +71,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
+    <OutputPath>bin\AnyCPU\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -696,37 +696,37 @@
       <Version>2.5.2</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.DataAccess">
-      <Version>23.1.5</Version>
+      <Version>24.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Mvvm">
-      <Version>23.1.5</Version>
+      <Version>24.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.RichEdit.Export">
-      <Version>23.1.5</Version>
+      <Version>24.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Accordion">
-      <Version>23.1.5</Version>
+      <Version>24.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Controls">
-      <Version>23.1.5</Version>
+      <Version>24.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.ExpressionEditor">
-      <Version>23.1.5</Version>
+      <Version>24.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.RichEdit">
-      <Version>23.1.5</Version>
+      <Version>24.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.DXStyle">
-      <Version>23.1.5</Version>
+      <Version>24.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.MetropolisDark">
-      <Version>23.1.5</Version>
+      <Version>24.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.MetropolisLight">
-      <Version>23.1.5</Version>
+      <Version>24.2.3</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.Office2019White">
-      <Version>23.1.5</Version>
+      <Version>24.2.3</Version>
     </PackageReference>
     <PackageReference Include="EPPlus">
       <Version>4.5.3.3</Version>
