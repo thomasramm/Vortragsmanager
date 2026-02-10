@@ -48,40 +48,11 @@ namespace Vortragsmanager.DataModels
             return null;
         }
 
-        public static Conregation ConregationFind(string name, int kreis)
+        public static Conregation ConregationFindOrAdd(string name, int? kreis = null)
         {
-            Log.Info(nameof(ConregationFind), $"name={name}, kreis={kreis}");
-            foreach (var c in Versammlungen)
-            {
-                if (c.Name == name && c.Kreis == kreis)
-                    return c;
-            }
+            int kreisNr = kreis ?? MeineVersammlung.Kreis;
 
-            return null;
-        }
-
-        public static Conregation ConregationFindOrAdd(string name)
-        {
             var c = ConregationFind(name);
-
-            if (c == null)
-            {
-                Log.Info(nameof(ConregationFindOrAdd), $"add={name}");
-                c = new Conregation
-                {
-                    Name = name,
-                    Kreis = MeineVersammlung.Kreis,
-                    Id = Versammlungen.Count > 0 ? Versammlungen.Select(x => x.Id).Max() + 1 : 1
-                };
-                Versammlungen.Add(c);
-            }
-
-            return c;
-        }
-
-        public static Conregation ConregationFindOrAdd(string name, int kreis)
-        {
-            var c = ConregationFind(name, kreis);
 
             if (c == null)
             {
@@ -89,7 +60,7 @@ namespace Vortragsmanager.DataModels
                 c = new Conregation
                 {
                     Name = name,
-                    Kreis = kreis,
+                    Kreis = kreisNr,
                     Id = Versammlungen.Count > 0 ? Versammlungen.Select(x => x.Id).Max() + 1 : 1
                 };
                 Versammlungen.Add(c);
@@ -98,7 +69,8 @@ namespace Vortragsmanager.DataModels
             return c;
         }
 
-        public static Conregation ConregationGetUnknown() { return ConregationFindOrAdd("Unbekannt"); }
+        public static Conregation ConregationGetUnknown()
+        { return ConregationFindOrAdd("Unbekannt"); }
 
         public static bool ConregationRemove(Conregation versammlung)
         {
@@ -418,7 +390,8 @@ namespace Vortragsmanager.DataModels
         /// Fügt einen neuen Vortrag ohne Prüfung zur Liste hinzu.
         /// </summary>
         /// <param name="talk"></param>
-        public static void Add(Talk talk) { Vorträge.Add(talk); }
+        public static void Add(Talk talk)
+        { Vorträge.Add(talk); }
 
         /// <summary>
         /// Prüft ob die Vortragsnummer bereits existiert und fügt den Vortrag zur Liste hinzu.
@@ -438,7 +411,8 @@ namespace Vortragsmanager.DataModels
         /// <summary>
         /// Löscht alle Vorträge aus der Liste
         /// </summary>
-        public static void Clear() { Vorträge.Clear(); }
+        public static void Clear()
+        { Vorträge.Clear(); }
 
         /// <summary>
         /// Sucht nach der übergebenen Vortragsnummer und gibt den entsprechenden Vortrag zurück. Es werden zuerst die

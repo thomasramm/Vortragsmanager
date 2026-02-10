@@ -1,10 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
-using DevExpress.Xpf.Core;
+﻿using DevExpress.Xpf.Core;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
+using System;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using Vortragsmanager.DataModels;
 using Vortragsmanager.Enums;
 using Vortragsmanager.Helper;
@@ -39,7 +40,7 @@ namespace Vortragsmanager.Module
                     {
                         System.IO.File.Delete(resultFile);
                     }
-                    catch(IOException)
+                    catch (IOException)
                     {
                         while (System.IO.File.Exists(resultFile))
                         {
@@ -72,21 +73,25 @@ namespace Vortragsmanager.Module
 
             using (ExcelPackage package = new ExcelPackage(fi))
             {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets["Redner"];
+                ExcelWorksheet worksheet = package.Workbook.Worksheets["Redner"]
+                    ?? package.Workbook.Worksheets[0];
+
                 var row = 2;
                 var id = DataContainer.Redner.Count > 0 ? DataContainer.Redner.Select(x => x.Id).Max() + 1 : 1;
                 while (true)
                 {
-                    var vers = worksheet.Cells[row, 1].Value;
-                    var name = worksheet.Cells[row, 2].Value;
-                    var vort = worksheet.Cells[row, 3].Value;
+                    var vers = worksheet.Cells[row, 2].Value;
 
                     if (vers == null)
                         break;
 
                     //Versammlung
-                    var rednerVersammlung = DataContainer.ConregationFindOrAdd(vers.ToString());
+                    var kreis = worksheet.Cells[row, 1].Value;
+                    int? kreisNr = int.Parse(kreis.ToString());
+                    var rednerVersammlung = DataContainer.ConregationFindOrAdd(vers.ToString(), kreisNr);
 
+                    //Redner
+                    var name = worksheet.Cells[row, 3].Value;
                     var s = DataContainer.SpeakerFind(name.ToString(), rednerVersammlung);
                     if (s == null)
                     {
@@ -101,6 +106,7 @@ namespace Vortragsmanager.Module
                     }
 
                     //Vorträge
+                    var vort = worksheet.Cells[row, 8].Value;
                     var meineVotrgäge = vort.ToString().Split(new[] { ';', ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var v in meineVotrgäge)
                     {
@@ -110,9 +116,92 @@ namespace Vortragsmanager.Module
                             s.Vorträge.Add(new TalkSong(t));
                     }
 
+                    //Eigenschaften
+                    var dag = worksheet.Cells[row, 4].Value.ToString();
+                    s.Ältester = "Ja,X".IndexOf(dag, StringComparison.OrdinalIgnoreCase) < 0;
+
+                    var aktiv = worksheet.Cells[row, 5].Value.ToString();
+                    s.Aktiv = "Ja, X".IndexOf(aktiv, StringComparison.OrdinalIgnoreCase) >= 0;
+
+                    var einladen = worksheet.Cells[row, 6].Value.ToString();
+                    s.Einladen = "Ja, X".IndexOf(aktiv, StringComparison.OrdinalIgnoreCase) >= 0;
+
+                    SetIfNotEmpty(worksheet.Cells[row, 9].Value?.ToString(), v => s.Mail = v);
+                    SetIfNotEmpty(worksheet.Cells[row, 10].Value?.ToString(), v => s.JwMail = v);
+                    SetIfNotEmpty(worksheet.Cells[row, 11].Value?.ToString(), v => s.Telefon = v);
+                    SetIfNotEmpty(worksheet.Cells[row, 12].Value?.ToString(), v => s.Mobil = v);
+                    SetIfNotEmpty(worksheet.Cells[row, 13].Value?.ToString(), v => s.InfoPrivate = v);
+                    SetIfNotEmpty(worksheet.Cells[row, 14].Value?.ToString(), v => s.InfoPublic = v);
+
                     row++;
                 }
             } // the using statement automatically calls Dispose() which closes the package.
+        }
+
+        public static void UpdateCoordinators(string file)
+        {
+            Log.Info(nameof(UpdateCoordinators), file);
+            var fi = new FileInfo(file);
+
+            using (ExcelPackage package = new ExcelPackage(fi))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets["Koordinatoren"];
+
+                if (worksheet is null)
+                    return;
+
+                var row = 3;
+                while (true)
+                {
+                    var versammlung = worksheet.Cells[row, 2].Value;
+                    if (versammlung == null)
+                        break;
+
+                    //Versammlung
+                    Conregation s = DataContainer.ConregationFindOrAdd(versammlung.ToString());
+
+                    var kreis = worksheet.Cells[row, 1].Value?.ToString();
+                    if (int.TryParse(kreis, out int kreisNr))
+                    {
+                        s.Kreis = kreisNr;
+                    }
+
+                    //Alle Informationen auslesen und überschreiben falls in Excel gepflegt.
+                    SetIfNotEmpty(worksheet.Cells[row, 3].Value?.ToString(), v => s.Anschrift1 = v);
+                    SetIfNotEmpty(worksheet.Cells[row, 4].Value?.ToString(), v => s.Anschrift2 = v);
+                    SetIfNotEmpty(worksheet.Cells[row, 5].Value?.ToString(), v => s.Anreise = v);
+
+                    var zeit = worksheet.Cells[row, 6].Value?.ToString();
+                    if (!string.IsNullOrEmpty(zeit))
+                    {
+                        var match = Regex.Match(zeit, @"^^(?<tag>\w+)\s+(?<zeit>.*)");
+                        if (match.Success)
+                        {
+                            if (Enum.TryParse<Wochentag>(match.Groups["tag"].Value, true, out var wtag))
+                            {
+                                string uhrzeit = match.Groups["zeit"].Value;
+                                s.Zeit.Set(DateTime.Today.Year, wtag, uhrzeit);
+                            }
+                        }
+                    }
+                    SetIfNotEmpty(worksheet.Cells[row, 7].Value?.ToString(), v => s.Telefon = v);
+                    SetIfNotEmpty(worksheet.Cells[row, 8].Value?.ToString(), v => s.Zoom = v);
+                    SetIfNotEmpty(worksheet.Cells[row, 9].Value?.ToString(), v => s.Entfernung = int.Parse(v));
+                    SetIfNotEmpty(worksheet.Cells[row, 10].Value?.ToString(), v => s.Koordinator = v);
+                    SetIfNotEmpty(worksheet.Cells[row, 11].Value?.ToString(), v => s.KoordinatorTelefon = v);
+                    SetIfNotEmpty(worksheet.Cells[row, 12].Value?.ToString(), v => s.KoordinatorMobil = v);
+                    SetIfNotEmpty(worksheet.Cells[row, 13].Value?.ToString(), v => s.KoordinatorMail = v);
+                    SetIfNotEmpty(worksheet.Cells[row, 14].Value?.ToString(), v => s.KoordinatorJw = v);
+
+                    row++;
+                }
+            } // the using statement automatically calls Dispose() which closes the package.
+        }
+
+        private static void SetIfNotEmpty(string value, Action<string> setter)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+                setter(value);
         }
 
         internal static class Import
@@ -151,7 +240,7 @@ namespace Vortragsmanager.Module
                             var koordHandy = ObjectToStringConverter.Convert(worksheet.Cells[row, 11].Value);
                             var koordMail = ObjectToStringConverter.Convert(worksheet.Cells[row, 12].Value);
                             var koordJw = ObjectToStringConverter.Convert(worksheet.Cells[row, 13].Value);
-                            
+
                             if (string.IsNullOrEmpty(kreis))
                                 kreis = "-1";
 
@@ -262,7 +351,7 @@ namespace Vortragsmanager.Module
                             var vortragNummern = vortrag.Split(',', ';', ' ');
                             foreach (var nummer in vortragNummern)
                             {
-                                if (!int.TryParse(nummer, out var nr)) 
+                                if (!int.TryParse(nummer, out var nr))
                                     continue;
 
                                 var t = TalkList.Find(nr);
@@ -305,7 +394,6 @@ namespace Vortragsmanager.Module
                             var rednerJwpub = ObjectToStringConverter.Convert(worksheet.Cells[row, 8].Value);
                             var rednerTelefon = ObjectToStringConverter.Convert(worksheet.Cells[row, 9].Value);
                             row++;
-
 
                             if (string.IsNullOrWhiteSpace(datum) || datum.StartsWith("Datum", true, Helper.Helper.German))
                                 break;
@@ -911,7 +999,7 @@ namespace Vortragsmanager.Module
                                     sheet.Cells[row, 13].Value = details.Ältester.Versammlung.KoordinatorJw;
                                 }
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
                                 Log.Error(nameof(ContactList), ex.Message);
                             }
@@ -938,7 +1026,7 @@ namespace Vortragsmanager.Module
 
                 using (var package = new ExcelPackage(excel))
                 {
-                    var worksheet = package.Workbook.Worksheets["Aushang"];                  
+                    var worksheet = package.Workbook.Worksheets["Aushang"];
 
                     var row = 1;
                     for (var i = 0; i < Helper.Helper.GlobalSettings.ListAushangAnzahlWochen; i++)
@@ -995,7 +1083,7 @@ namespace Vortragsmanager.Module
                     }
 
                     if (Helper.Helper.GlobalSettings.ListAushangAnzahlWochen < 24)
-                        worksheet.Cells[row, 1, row + (24 - Helper.Helper.GlobalSettings.ListAushangAnzahlWochen)*4, 6].Clear();
+                        worksheet.Cells[row, 1, row + (24 - Helper.Helper.GlobalSettings.ListAushangAnzahlWochen) * 4, 6].Clear();
 
                     worksheet.Select("A1");
 
@@ -1018,7 +1106,6 @@ namespace Vortragsmanager.Module
                 {
                     var worksheet = package.Workbook.Worksheets[1];
 
-                    
                     for (var i = 1; i < 54; i++)
                     {
                         var aktuelleKw = DateCalcuation.CalculateWeek(startDatum);
@@ -1078,6 +1165,7 @@ namespace Vortragsmanager.Module
                 }
                 File.Save(tempFile, "Aushang.xlsx", openReport);
             }
+
             private static decimal GetExcelDecimalValueForDate(DateTime date)
             {
                 DateTime start = new DateTime(1900, 1, 1);
