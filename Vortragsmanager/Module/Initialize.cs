@@ -37,7 +37,7 @@ namespace Vortragsmanager.Module
         public static void LoadTalks()
         {
             var myTalks = LoadDefaultTalks();
-            
+
             TalkList.Clear();
             foreach (var t in myTalks)
             {
@@ -51,7 +51,7 @@ namespace Vortragsmanager.Module
             var v = new List<Talk>(200)
             {
                 new Talk(1, "Wie gut kenne ich Gott?"),
-                new Talk(2, "Die „letzten Tage“ - Wer wird sie überleben?"),
+                new Talk(2, "Die „letzten Tage“ - wer wird sie überleben?"),
                 new Talk(3, "Mit Jehovas vereinter Organisation in Richtung Ewigkeit"),
                 new Talk(4, "Sichtbare Belege für die Existenz Gottes"),
                 new Talk(5, "Wie kann man als Familie glücklich sein?"),
@@ -96,7 +96,7 @@ namespace Vortragsmanager.Module
                 new Talk(44, "Was bringen uns die Lehren Jesu?"),
                 new Talk(45, "Den „Weg zum Leben“ gehen"),
                 new Talk(46, "Bleiben wir zuversichtlich bis zum Ende"),
-                new Talk(47, "Glaubt an die gute Botschaft", false), //Dieser Vortrag sollte nicht mehr gehalten werden
+                new Talk(47, "Glaubt an die gute Botschaft", true),
                 new Talk(48, "Als Christ Loyalität beweisen"),
                 new Talk(49, "Eine gereinigte Erde – wer wird darauf leben?"),
                 new Talk(50, "Wie man gute Entscheidungen trifft"),
@@ -108,7 +108,7 @@ namespace Vortragsmanager.Module
                 new Talk(56, "Wessen Führung kann man vertrauen?"),
                 new Talk(57, "Unter Verfolgung standhaft bleiben"),
                 new Talk(58, "Woran erkennt man echte Christen?"),
-                new Talk(59, "Man erntet, was man sät"),
+                new Talk(59, "Man erntet, was man sät", false),
                 new Talk(60, "Was gibt meinem Leben Sinn?"),
                 new Talk(61, "Wessen Versprechen kann man vertrauen?"),
                 new Talk(62, "Echte Hoffnung – wo zu finden?"),
@@ -132,7 +132,7 @@ namespace Vortragsmanager.Module
                 new Talk(80, "Wissenschaft oder Bibel – worauf sollte man seine Hoffnung setzen?"),
                 new Talk(81, "Kann ich ein Bibellehrer sein?"),
                 new Talk(82, "Jehova und Christus - sind sie Teil einer Dreieinigkeit?", false),
-                new Talk(83, "Die Zeit des Gerichts für die Religion"),
+                new Talk(83, "Müssen Christen die Zehn Gebote halten?"),
                 new Talk(84, "Dem entgehen, was dieser Welt bevorsteht"),
                 new Talk(85, "Eine gute Botschaft in einer gewalttätigen Welt"),
                 new Talk(86, "Welche Gebete erhört Gott?"),
@@ -161,17 +161,17 @@ namespace Vortragsmanager.Module
                 new Talk(109, "Das Königreich Gottes ist nah"),
                 new Talk(110, "Gott steht in einer glücklichen Familie an erster Stelle"),
                 new Talk(111, "Kann die Menschheit vollständig geheilt werden?"),
-                new Talk(112, "In einer gesetzlosen Welt Liebe zeigen", false), //Vortrag des KA
+                new Talk(112, "In einer gesetzlosen Welt Liebe zeigen"),
                 new Talk(113, "Wie können Jugendliche glücklich und erfolgreich sein?"),
                 new Talk(114, "Für die Wunder der Schöpfung dankbar sein"),
-                new Talk(115, "Wie man Satans Fallen meidet"),
+                new Talk(115, "Schützen wir uns vor den hinterhältigen Angriffen des Teufels"),
                 new Talk(116, "Bei seinem Umgang wählerisch sein"),
                 new Talk(117, "Wie man das Böse mit dem Guten besiegen kann"),
                 new Talk(118, "Jugendlichen gegenüber so eingestellt sein wie Jehova"),
                 new Talk(119, "Warum es gut ist, als Christ kein Teil der Welt zu sein"),
                 new Talk(120, "Warum man sich jetzt Gottes Herrschaft unterordnen sollte"),
                 new Talk(121, "Ein geeintes Volk wird gerettet"),
-                new Talk(122, "Weltfrieden - woher zu erwarten?"),
+                new Talk(122, "Weltfrieden - woher zu erwarten?", false),
                 new Talk(123, "Warum Christen anders sein müssen"),
                 new Talk(124, "Stammt die Bibel wirklich von Gott?"),
                 new Talk(125, "Warum die Menschheit ein Lösegeld benötigt"),
@@ -180,8 +180,8 @@ namespace Vortragsmanager.Module
                 new Talk(128, "Ist die Hölle wirklich ein Ort feuriger Qual?"),
                 new Talk(129, "Ist die Dreieinigkeit eine biblische Lehre?"),
                 new Talk(130, "Die Erde wird für immer bestehen"),
-                new Talk(131, "Gibt es wirklich einen Teufel?", false), //Vortrag des Kreisaufseher
-                new Talk(132, "Die Auferstehung - der Sieg über den Tod", false), //Eersetzt durch 123-24
+                new Talk(131, "Gibt es wirklich einen Teufel?"),
+                new Talk(132, "Die Auferstehung - der Sieg über den Tod"),
                 new Talk(133, "Der Ursprung des Menschen - ist es wichtig, was man glaubt?"),
                 new Talk(134, "Sollten Christen den Sabbat halten?"),
                 new Talk(135, "Die Heiligkeit von Leben und Blut"),
@@ -196,7 +196,7 @@ namespace Vortragsmanager.Module
                 new Talk(144, "Eine loyale Versammlung unter der Führung Christi"),
                 new Talk(145, "Wer ist wie Jehova, unser Gott?"),
                 new Talk(146, "Bildung zur Ehre Jehovas nutzen"),
-                new Talk(147, "Auf die rettende Macht Jehovas vertrauen"),
+                new Talk(147, "Vertrauen wir auf die rettende Macht Jehovas"),
                 new Talk(148, "Das Leben so sehen, wie Gott es sieht"),
                 new Talk(149, "Unseren Weg mit Gott gehen"),
                 new Talk(150, "Ist die heutige Welt zum Untergang verurteilt?"),
@@ -244,11 +244,7 @@ namespace Vortragsmanager.Module
                 new Talk(192, "Bin ich auf dem Weg zum ewigen Leben?"),
                 new Talk(193, "In der „schweren Zeit“ gerettet werden"),
                 new Talk(194, "Wie göttliche Weisheit uns zugutekommt"),
-                new Talk(12322, "Echte Hoffnung - wo zu finden?"), //ToDo: wurde zu Vortrag #62
-                new Talk(12323, "Wir können zuversichtlich in die Zukunft schauen!"), //wurde zu Vortrag #108
-                new Talk(12324, "Die Auferstehung – der Sieg über den Tod"), //wird zu Vortrag #132
-                new Talk(-1, "Unbekannt", false),
-                new Talk(-24, "Was Gottes Herrschaft für uns bewirken kann", false)
+                new Talk(-1, "Unbekannt", false)
             };
 
             return v;
