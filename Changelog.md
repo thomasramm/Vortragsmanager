@@ -1,5 +1,14 @@
+### Version 1.3.44 (10.02.2026) ###
+* Die Vorträge Nr. 59 und 122 sollen nicht mehr gehalten werden.
+* Die Vorträge Nr. 47, 112 und 131 können wieder verwendet werden.
+* Folgende Vortragsnummern wurden ersetzt: #12322 -> #62, #12323 -> #108, #12324 -> #132, #-24 -> #-1. 
+  Das System mit den Nummern 123+Jahr wird nicht mehr benutzt. Zu jedem Sondervortrag gibt es die "original" Vortragsnummer, die für den Sondervortrag benutzt werden kann.
+* Beim Datenimport (Einstellungen->Aktionen->Redner) werden nun auch Versammlungsinformationen und Koordinator-Informationen importiert bzw. aktualisiert.
+  Bei gleichem Versammlungsnamen werden die vorhandenen Daten aktualisiert. Wird die Versammlung nicht gefunden, wird sie neu importiert.
+  Für das Datenformat einfach unter "Liste ausgeben" -> "Datenexport" ausführen.
+
 ### Version 1.3.43 (03.03.2025) ###
-* Bug behoben: Kalenderwechsel bei Abwesenheit führt zu Absturz wenn erste Kalenderwoche des folgejahres gewählt wurde.
+* Bug behoben: Kalenderwechsel bei Abwesenheit führt zu Absturz wenn erste Kalenderwoche des Folgejahres gewählt wurde.
 * Bug behoben: Bei der Ansicht der Rednereinladung führte der Filter "Nur aktuelles Jahr" manchmal dazu das eigene Vorträge nicht angezeigt wurden.
 * Bug behoben: Breite des Feld Vortragsnummer in der Verwaltung vergrößert.
 

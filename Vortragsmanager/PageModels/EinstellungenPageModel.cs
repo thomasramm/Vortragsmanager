@@ -289,6 +289,7 @@ namespace Vortragsmanager.PageModels
 
         public void UpdateSpeakerFromExcel()
         {
+            IoExcel.UpdateCoordinators(ImportExcelFile);
             IoExcel.UpdateSpeakers(ImportExcelFile);
         }
 
