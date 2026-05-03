@@ -1,3 +1,6 @@
+### Version 1.3.47 (04.05.2026) ###
+* Folgende Vorträge sollen ab September nicht mehr gehalten werden: 84, 85, 87, 92, 94, 97, 105, 106, 109, 117, 119, 120, 124, 126, 139, 141, 144, 145, 148, 149, 151, 154, 155, 157, 158, 163, 164, 165, 167 und 168.
+
 ### Version 1.3.46 (10.02.2026) ###
 * Die Vorträge Nr. 59 und 122 sollen nicht mehr gehalten werden.
 * Die Vorträge Nr. 47, 112 und 131 können wieder verwendet werden.
@@ -20,7 +23,6 @@
 * Bei einer Änderung der Redner- oder Versammlungsdaten wird das Datum "Letzte Änderung" aktualisiert.
 * Anzeigefehler bei Verwaltung->Vorträge, die Spalte mit dem Thema war zu schmal.
 * Anzeigefehler bei Verwaltung->Vorträge, die Spalte mit dem Thema war zu schmal.
-
 
 ### Version 1.2.34 (25.02.2024) ###
 * Leser und Vorsitz -Personen können gelöscht werden.

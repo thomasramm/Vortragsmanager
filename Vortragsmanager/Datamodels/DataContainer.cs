@@ -423,15 +423,15 @@ namespace Vortragsmanager.DataModels
         public static Talk Find(int nummer)
         {
             Log.Info(nameof(TalkList.Find), $"Nummer={nummer}");
-            foreach (var t in Vorträge.Where(x => x.Gültig))
+            var gefunden = Vorträge.FirstOrDefault(x => x.Gültig && x.Nummer == nummer);
+            if (gefunden != null)
             {
-                if (t.Nummer == nummer)
-                    return t;
+                return gefunden;
             }
-            foreach (var t in Vorträge.Where(x => !x.Gültig))
+            gefunden = Vorträge.FirstOrDefault(x => !x.Gültig && x.Nummer == nummer);
+            if (gefunden != null)
             {
-                if (t.Nummer == nummer)
-                    return t;
+                return gefunden;
             }
             return Find(-1);
         }
