@@ -21,7 +21,7 @@ namespace Vortragsmanager.Module
         /// Module.Update für C# Updates (Inhalte)
         /// Changelog.md
         /// </summary>
-        public static int CurrentVersion => 32;
+        public static int CurrentVersion => 33;
 
         public static void Process()
         {
@@ -124,13 +124,53 @@ namespace Vortragsmanager.Module
                 }
             }
 
-            //auf aktuellste Version setzen = 32 (siehe oben)
+            //Deaktivierte Vorträge, nicht mehr halten ab DJ 2027
+            if (DataContainer.Version < 33)
+            {
+                FindFutureTalk(84, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(85, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(87, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(92, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(94, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(97, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(105, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(106, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(109, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(117, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(119, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(120, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(124, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(126, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(139, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(141, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(144, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(145, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(148, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(149, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(151, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(154, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(155, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(157, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(158, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(163, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(164, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(165, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(167, new DateTime(2026, 9, 1), true);
+                FindFutureTalk(168, new DateTime(2026, 9, 1), true);
+            }
+            //auf aktuellste Version setzen = 33 (siehe oben)
             //siehe auch IoSqlite.UpdateDatabase
             DataContainer.Version = CurrentVersion;
         }
 
-        private static void FindFutureTalk(int nr, DateTime sperrdatum)
+        private static void FindFutureTalk(int nr, DateTime sperrdatum, bool deaktivate = false)
         {
+            if (deaktivate)
+            {
+                var vortrag = TalkList.Find(nr);
+                vortrag.Gültig = false;
+            }
+
             var list = DataContainer.MeinPlan.Where(x => x.Vortrag?.Vortrag.Nummer == nr && x.Kw >= DateCalcuation.CalculateWeek(sperrdatum)).ToList();
             if (list.Count == 0)
             {
@@ -147,7 +187,7 @@ namespace Vortragsmanager.Module
                 datum = datum.TrimEnd(new[] { ',', ' ' });
             }
 
-            var inhalt = $"Der Vortrag Nr. {nr} sollte nicht mehr gehalten werden, ist aber bei dir am {datum} eingeplant. Du musst ihn evtl. umplanen";
+            var inhalt = $"Der Vortrag Nr. {nr} sollte nach {sperrdatum} nicht mehr gehalten werden, ist aber bei dir am {datum} eingeplant. Du musst ihn evtl. umplanen";
             ThemedMessageBox.Show("Achtung", inhalt, System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
         }
 
