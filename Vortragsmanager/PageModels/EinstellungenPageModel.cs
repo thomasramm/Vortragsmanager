@@ -27,7 +27,6 @@ namespace Vortragsmanager.PageModels
             SearchDatabaseCommand = new DelegateCommand<string>(SearchDatabase);
             UpdateSpeakerFromExcelCommand = new DelegateCommand(UpdateSpeakerFromExcel);
             EmergencyMailCommand = new DelegateCommand<int?>(EmergencyMail);
-            CalculateRouteCommand = new DelegateCommand<bool>(CalculateRoute);
             ShowChangelogCommand = new DelegateCommand(ShowChangelog);
             OpenExcelTemplateAushangCommand = new DelegateCommand(OpenExcelTemplateAushang);
             WizardCommand = new DelegateCommand(Wizard);
@@ -136,8 +135,6 @@ namespace Vortragsmanager.PageModels
         public DelegateCommand UpdateSpeakerFromExcelCommand { get; }
 
         public DelegateCommand<int?> EmergencyMailCommand { get; }
-
-        public DelegateCommand<bool> CalculateRouteCommand { get; }
 
         public DelegateCommand ShowChangelogCommand { get; }
 
@@ -480,28 +477,6 @@ namespace Vortragsmanager.PageModels
 
             dialog.ShowDialog();
             ActivityAddItem.SendMail(data.Text, maxEntfernung);
-        }
-
-        public static void CalculateRoute(bool alle)
-        {
-            var start = DataContainer.MeineVersammlung;
-            var end = DataContainer.Versammlungen.Where(x => x != start);
-            if (!alle)
-                end = end.Where(x => x.Entfernung == 0);
-            var erfolgreich = 0;
-            var fehler = 0;
-            foreach (var ziel in end)
-            {
-                var km = GeoApi.GetDistance(start, ziel);
-                if (km != null)
-                {
-                    ziel.Entfernung = (int)km;
-                    erfolgreich++;
-                }
-                else
-                    fehler++;
-            }
-            ThemedMessageBox.Show("Entfernungsberechnung", $"Es wurden {erfolgreich} Entfernungen berechnet und eingetragen. {fehler} Berechnungen haben nicht geklappt, es wurde die Entfernung 0km eingetragen.");
         }
 
         public static bool ThemeIsDark

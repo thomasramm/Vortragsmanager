@@ -21,7 +21,7 @@ namespace Vortragsmanager.Module
         /// Module.Update für C# Updates (Inhalte)
         /// Changelog.md
         /// </summary>
-        public static int CurrentVersion => 33;
+        public static int CurrentVersion => 34;
 
         public static void Process()
         {
@@ -58,20 +58,6 @@ namespace Vortragsmanager.Module
                 FindFutureTalk(112, new DateTime(2023, 6, 1));
                 FindFutureTalk(131, new DateTime(2023, 9, 1));
                 FindFutureTalk(132, new DateTime(2023, 9, 1));
-            }
-
-            //Aktualisierte Vorträge, hier kann der Updatebefehl mehrfach genutzt werden. Einfach die neue Programmversion in der nächsten Zeile eintragen.
-            if (DataContainer.Version < 32)
-            {
-                var inhalt = "Es gibt geänderte Vortragsthemen. Du kannst die Themen jetzt aktualisieren. Damit werden individuelle Änderungen die du in der Vergangenheit an den Vortragsthemen vorgenommen hast gelöscht." + Environment.NewLine +
-    "Du kannst die Änderung auch später unter 'Vorträge' -> 'Zurücksetzen' durchführen." + Environment.NewLine +
-    "Sollen die Vortragsthemen nun aktualisiert werden? (Empfohlen)" + Environment.NewLine +
-    "Wenn nicht, musst du die Themenänderungen selber unter 'Vorträge' einpflegen.";
-                var result = ThemedMessageBox.Show("Achtung", inhalt, System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
-                if (result == System.Windows.MessageBoxResult.Yes)
-                {
-                    TalkList.Reset();
-                }
             }
 
             if (DataContainer.Version < 32)
@@ -157,6 +143,20 @@ namespace Vortragsmanager.Module
                 FindFutureTalk(165, new DateTime(2026, 9, 1), true);
                 FindFutureTalk(167, new DateTime(2026, 9, 1), true);
                 FindFutureTalk(168, new DateTime(2026, 9, 1), true);
+            }
+
+            //Aktualisierte Vorträge, hier kann der Updatebefehl mehrfach genutzt werden. Einfach die neue Programmversion in der nächsten Zeile eintragen.
+            if (DataContainer.Version < 33)
+            {
+                var inhalt = "Es gibt geänderte Vortragsthemen. Du kannst die Themen jetzt aktualisieren. Damit werden individuelle Änderungen die du in der Vergangenheit an den Vortragsthemen vorgenommen hast gelöscht." + Environment.NewLine +
+    "Du kannst die Änderung auch später unter 'Vorträge' -> 'Zurücksetzen' durchführen." + Environment.NewLine +
+    "Sollen die Vortragsthemen nun aktualisiert werden? (Empfohlen)" + Environment.NewLine +
+    "Wenn nicht, musst du die Themenänderungen selber unter 'Vorträge' einpflegen.";
+                var result = ThemedMessageBox.Show("Achtung", inhalt, System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
+                if (result == System.Windows.MessageBoxResult.Yes)
+                {
+                    TalkList.Reset();
+                }
             }
             //auf aktuellste Version setzen = 33 (siehe oben)
             //siehe auch IoSqlite.UpdateDatabase

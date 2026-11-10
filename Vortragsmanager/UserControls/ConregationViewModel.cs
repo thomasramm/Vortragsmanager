@@ -29,7 +29,6 @@ namespace Vortragsmanager.UserControls
             RednerListe = new SpeakersViewModelCollection(parentModel, versammlung);
             DeleteCommand = new DelegateCommand<object>(Delete);
             NewPersonCommand = new DelegateCommand(NewPerson);
-            CalculateDistanceCommand = new DelegateCommand(CalculateDistance);
             AddZeitCommand = new DelegateCommand(AddZusammenkunftszeit);
             UpdateChangingdateCommand = new DelegateCommand(UpdateChangingdate);
 
@@ -52,8 +51,6 @@ namespace Vortragsmanager.UserControls
         public DelegateCommand<object> DeleteCommand { get; }
 
         public DelegateCommand NewPersonCommand { get; }
-
-        public DelegateCommand CalculateDistanceCommand { get; }
 
         public DelegateCommand UpdateChangingdateCommand { get; }
 
@@ -90,13 +87,6 @@ namespace Vortragsmanager.UserControls
             var rednerModel = new SpeakerViewModel(_parentModel, redner);
             RednerListe.Add(rednerModel);
             rednerModel.NavigateToEditor();
-        }
-
-        public void CalculateDistance()
-        {
-            var start = DataContainer.MeineVersammlung;
-            var end = Versammlung;
-            Entfernung = GeoApi.GetDistance(start, end);
         }
 
         public int? Entfernung
