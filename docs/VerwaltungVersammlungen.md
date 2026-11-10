@@ -28,8 +28,7 @@ im Rechten Bereich die Redner die zu der Versammlung angelegt wurden.
 
 Die Oberste Funktion "Eigene Versammlung" Ja / Nein kann nur einmal auf Ja gesetzt werden. Du legst deine eigene Versammlung ganz normal wie jede andere Versammlung auch an, aktivierst aber diesen Schalter.
 
-Die Entfernung (km) kannst du entweder selber eingeben, oder mit **Berechnen** durch Google berechnen lassen. Bei deiner eigenen Versammlung gibst du hier einfach eine 0 ein.
-Lässt du das Feld leer, kannst du auch im Bereich [Programm](Einstellungen.md) die Entfernung für alle Versammlungen mit einem Klick berechnen lassen.
+Die Entfernung (km) kannst du selber eingeben, Bei deiner eigenen Versammlung gibst du hier einfach eine 0 ein.
 
 ### Koordinator
 

@@ -1,3 +1,9 @@
+### Version 1.3.48 (10.11.2027) ###
+* Geänderte Vortragsthemen: 57, 63, 103, 112, 122, 123, 130, 131 und 166
+* Die Berechnungsmöglichkeit der Entfernungen zwischen den Versammlungen wurde entfernt. 
+  Die Berechnung wurde seit Jahren von keinem Benutzer mehr benutzt. 
+  Die Entfernungen können weiterhin manuell in den Versammlungsdaten eingetragen werden.
+
 ### Version 1.3.47 (04.05.2026) ###
 * Folgende Vorträge sollen ab September nicht mehr gehalten werden: 84, 85, 87, 92, 94, 97, 105, 106, 109, 117, 119, 120, 124, 126, 139, 141, 144, 145, 148, 149, 151, 154, 155, 157, 158, 163, 164, 165, 167 und 168.
 

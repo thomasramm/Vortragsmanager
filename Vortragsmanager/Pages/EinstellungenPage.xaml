@@ -12,7 +12,7 @@
     x:Class="Vortragsmanager.Pages.EinstellungenPage"
     DataContext="{dxmvvm:ViewModelSource pageModels:EinstellungenPageModel}"
     mc:Ignorable="d"
-    d:DesignHeight="1700"
+    d:DesignHeight="2700"
     d:DesignWidth="800" Foreground="White">
     <UserControl.Resources>
         <Style TargetType="dxe:SpinButtonInfo">
@@ -473,34 +473,6 @@
                                          VerticalAlignment="Top"
                                          Height="25"
                                          Margin="10,75,10,0" />
-                    </Grid>
-                    <Label Content="Entfernungen" Style="{DynamicResource EinstellungenGruppe}" />
-                    <Grid MinHeight="120" Margin="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="44" />
-                            <ColumnDefinition Width="75*" />
-                            <ColumnDefinition Width="25*" />
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource EinstellungenBoxBorder}" />
-                        <Image Grid.Column="0" Source="/Images/MapPointer_32x32.png" Style="{DynamicResource EinstellungenBoxBild}" />
-
-                        <TextBlock Grid.Column="1" Text="Entfernungen berechnen"  Style="{DynamicResource EinstellungenBoxLabel1}" VerticalAlignment="Top" Margin="0,20" />
-                        <TextBlock Grid.Column="1" Text="Berechnet die Wegstrecke zwischen deiner und der anderen Versammlung. Du kannst entweder nur die Entfernungen von neu angelegten Versammlungen berechnen, oder alle Entfernungen löschen und alle neu bereichnen."
-                                   Style="{DynamicResource EinstellungenBoxLabel2}"
-                                   Margin="0,50,0,0" />
-                        <dx:SimpleButton Grid.Column="2"
-                                         Margin="10,30,10,30"
-                                         VerticalAlignment="Top"
-                                         Height="25"
-                                         Content="Fehlende Entfernungen"
-                                         Command="{Binding CalculateRouteCommand}"
-                                         CommandParameter="False" />
-                        <dx:SimpleButton Grid.Column="2"
-                                     VerticalAlignment="Top"
-                                     Margin="10,70,10,0"
-                                     Height="25" Content="Alle neu berechnen"
-                                     Command="{Binding CalculateRouteCommand}"
-                                     CommandParameter="True" />
                     </Grid>
                 </StackPanel>
             </StackPanel>

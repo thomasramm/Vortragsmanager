@@ -163,7 +163,6 @@
     <Compile Include="Helper\ActivityGetSymbols.cs" />
     <Compile Include="Enums\ActivityTypes.cs" />
     <Compile Include="DataModels\Backup.cs" />
-    <Compile Include="Module\GeoApi.cs" />
     <Compile Include="Helper\Helper.cs" />
     <Compile Include="Module\Initialize.cs" />
     <Compile Include="Module\IoExcel.cs" />
@@ -175,7 +174,6 @@
     </Compile>
     <Compile Include="UserControls\AnfrageDetail.cs" />
     <Compile Include="UserControls\MyGroupBox.cs" />
-    <Compile Include="Module\Security.cs" />
     <Compile Include="UserControls\ActivityItemViewModel.cs" />
     <Compile Include="Module\Update.cs" />
     <Compile Include="DataModels\AufgabenZuordnung.cs" />
@@ -697,43 +695,43 @@
       <Version>2.5.2</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.DataAccess">
-      <Version>25.2.4</Version>
+      <Version>26.1.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Mvvm">
-      <Version>25.2.4</Version>
+      <Version>26.1.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.RichEdit.Export">
-      <Version>25.2.4</Version>
+      <Version>26.1.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Accordion">
-      <Version>25.2.4</Version>
+      <Version>26.1.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Controls">
-      <Version>25.2.4</Version>
+      <Version>26.1.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.ExpressionEditor">
-      <Version>25.2.4</Version>
+      <Version>26.1.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.RichEdit">
-      <Version>25.2.4</Version>
+      <Version>26.1.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.DXStyle">
-      <Version>25.2.4</Version>
+      <Version>26.1.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.MetropolisDark">
-      <Version>25.2.4</Version>
+      <Version>26.1.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.MetropolisLight">
-      <Version>25.2.4</Version>
+      <Version>26.1.6</Version>
     </PackageReference>
     <PackageReference Include="DevExpress.Wpf.Themes.Office2019White">
-      <Version>25.2.4</Version>
+      <Version>26.1.6</Version>
     </PackageReference>
     <PackageReference Include="EPPlus">
       <Version>4.5.3.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
-      <Version>10.0.102</Version>
+      <Version>11.0.100</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
